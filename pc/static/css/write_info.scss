@@ -1,0 +1,248 @@
+@import "module.scss";
+*{
+	font: 12px/1.5 "microsoft yahei","微软雅黑",宋体,sans-serif;
+	box-sizing:border-box;
+}
+.layui-layer-content{background: #fff;}
+ // 头部start
+  .content{
+ 	width: 1020px;height:100%;margin:0 auto;position:relative;padding-left:20px;
+ }
+ body{
+ 	background:url(../images/login_bg.jpg) no-repeat 100%;background-position:center 10px;
+ 	background-color: #F8F8F8;
+ }
+
+	#tx{
+			width: 125px;min-height:50px;
+			@include f_r;
+			position: relative;
+			margin-top: 16px;
+			&:hover{
+				.icon-xiajiantou{
+					transform: rotate(180deg);
+				}
+				.accout_list{
+					display: block;opacity:1;top:30px;
+				}
+			}
+			img {
+				vertical-align: middle;
+				border-radius: 100%;
+			}
+			span {
+				vertical-align: middle;margin-left: 10px;margin-top: 10px;
+				color: $c_cd;
+				display: inline-block;
+				@include txt_hide(60px)
+			}
+			.icon-xiajiantou {
+				color: #000;margin-top: 10px;
+				vertical-align: baseline;
+				font-size: 10px;transition: all 0.5s ease 0s;position:absolute;top:6px;
+			}
+			.icon-orcile {
+				position: absolute;
+				top: -15px;
+				left: 26px;
+				line-height: initial;
+				color: $c_f80;
+				font-size: 28px;
+			}
+			.accout_list {
+				position:absolute;
+				overflow: hidden;border:1px solid #E0E0E0;
+				top: 10px;width:115px;
+				display: block;
+				margin-top: 12px;
+				margin-bottom: 0px;
+				padding-top: 0px;
+				padding-bottom: 0px;
+				z-index: 999;
+				display: none;opacity:0;
+				li {
+					cursor: pointer;
+					margin: 0px;
+					font-size: 12px;
+					position: relative;
+					width: 100%;
+					line-height: 34px;
+					background-color: #fff;
+					color: white;
+					text-align: center;
+					a{color:#5C91D9;display:block;}
+					span {
+						top: 50%;
+						margin-top: -9px;
+						right: 10px;
+						text-align: center;
+						border-radius: 50%;
+						position: absolute;
+						width: 18px;
+						height: 18px;
+						line-height: 18px;
+						background-color: #f80;
+						color: white;
+					}
+					a{
+						line-height: 34px;
+					}
+					&:hover {
+						background-color: $c_4c;
+						a{
+							color:#FFF;
+						}
+					}
+				}
+			}
+		}
+
+ .header{
+ 	width: 100%;height:65px;background-color:#FFF;padding-top:0px;
+ 	img{
+ 		float: left;
+ 	}
+ 	ul.dh{
+ 		position:relative;float:left;margin-left:92px;
+ 		li{
+ 			float: left;
+ 			a{
+ 				color: #333;@include fz18;display:block;line-height:65px;width:100px;text-align:center;text-decoration:none;
+ 			}
+ 			a:hover,a.active{
+ 				color:$c_5c;
+ 			}
+ 		}
+ 		li.active{
+ 			a{
+ 				border-bottom:3px solid $c_5c;color:$c_5c;
+ 			}
+ 		}
+ 	}
+ }
+ // 头部end
+
+// 主体start
+	.main{
+		position:relative;
+		width: 740px;background-color:#FFF;border-radius:5px;padding:30px;margin:35px auto;
+		h1{
+			@include fz20;color:#333;position:absolute;top:15px;
+		}
+		.form{
+			width:330px;margin:0px auto;
+			.ControlsWrap{
+				cursor: pointer;width: 160px ;margin-right: 6px ;margin-top:0px !important;vertical-align:bottom;
+			}
+			.o_txt{
+				width:100%;height:40px;line-height:40px;color:$c_33;padding-left:20px;
+				border:1px solid #e0e0e0;border-radius:5px;
+				background:white url(../images/bitian.png) no-repeat 5px 14px;
+				margin-bottom: 15px;@include fz14;
+			}
+			.o_txt:focus{
+				border:1px solid $c_5c;box-shadow: 0px 0px 3px $c_5c;
+			}
+			label{
+				@include fz14;color:#888;line-height:40px;margin-left:12px;
+			}
+			p{
+				@include fz14;color:#888;
+			}
+			p.notice{
+				color:#ff6666;cursor:pointer;
+				i{
+					@include fz20;
+				}
+				span{
+					float: right;line-height:30px;@include fz14;cursor:pointer;display:none;
+				}
+			}
+			.checkbox{
+				display: inline-block;height:40px;line-height:38px;border-radius:5px;text-align:center;
+				color:#888;border:1px solid #e0e0e0;width:60px;background-color:#fff;margin:0px 0px 0px 8px;
+				@include fz14;cursor: pointer;
+				i{
+					margin-right: 5px;
+				}
+				.icon-nan{
+					color:$c_5c;
+				}
+				.icon-nv{
+					color:$c_f80;
+				}
+			}
+			button.active{
+				border-color:$c_5c;color:$c_5c;
+			}
+			.scyyzz{
+				margin-top:8px;
+				img{
+					cursor: pointer;
+				}
+			}
+			dl{
+				display: none;
+				dt,dd{
+					line-height: 22px;
+				}
+				dd{
+					color:#888;
+				}
+			}
+			.o_btn{
+				margin-top:25px;
+				width:280px;height:50px;background-color:$c_5c;color:#FFF;text-align:center;
+				@include fz18;line-height:50px;border-radius:5px;border:none;cursor:pointer;
+			}
+			.o_btn:hover{
+				background-color:$c_4c;
+			}
+		}
+	}
+// 主体end
+
+// 尾部start
+.footer{
+	width:100%;background-color:#F8F8F8;text-align:center;margin-top:-10px;height:148px;
+	ul{
+		display: inline-block;padding-top:20px;margin-bottom:15px;border-top:1px solid #E4E4E4;width:1020px;color:#888;
+		li{
+			display: inline-block;color:$c_33;margin:0px 10px;vertical-align:middle;
+			a{
+				@include fz14;
+			}
+			a:hover{
+				text-decoration: underline;
+			}
+		}
+	}
+	p{
+			color:#888;@include fz14;
+		}
+}
+// 尾部end
+
+#scyyzz,.swfupload{
+	cursor:pointer;display:block;
+}
+#scyyzz{
+	width:284px;height:177px;background:url(../images/scyyzz.png);
+}
+#area{
+	width:100% !important;
+}
+.uploadify-queue-item{
+	margin-top: 10px;
+	*{
+		display: inline-block;
+	}
+	.uploadify-progress{
+		width:50%;height:10px;background-color:#CCC;
+border-radius:5px;overflow:hidden;margin:0px 10px;
+	}
+	.uploadify-progress-bar{
+		display: block;
+		background-color: #5C91D9;height:100%;
+	}
+}

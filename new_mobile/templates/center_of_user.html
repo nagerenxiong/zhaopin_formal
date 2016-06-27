@@ -1,0 +1,201 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/static/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/static/css/user_company.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/static/css/zsc_common.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+
+var initTime=null;
+$(document).ready(function()
+{
+    var oLingQuSave=false;
+    $(".lingqu").click(function(){
+        if(oLingQuSave){
+            return false;
+        }
+        oLingQuSave=true;
+        $.post("?act=lingqu_save",{"money":500},function(data){
+            if(data.trim()=="ok"){
+                alert(["领取成功！"]);
+                window.location.href=location.href;
+            }else
+            {
+                alert([data]);
+            }
+        });
+    });
+    touchFn();
+    initTime=setTimeout(touchendImg,3000);
+});
+/*slide_img*/
+function touchFn(){
+    var init = {x:0,sx:0,ex:0};
+    if($('.banner ul li').length>=3){
+        //if($('.banner ul li').length==3){
+            $('.banner ul li:eq(0)').attr('class','prev');
+            $('.banner ul li:eq(1)').attr('class','hover');
+            $('.banner ul li:eq(2)').attr('class','next');
+        /*}else{
+            $('.banner ul li:eq(1)').attr('class','prev');
+            $('.banner ul li:eq(2)').attr('class','hover');
+            $('.banner ul li:eq(3)').attr('class','next');
+        }*/
+        $('.banner ul').live({
+            touchstart:function(){
+                clearTimeout(initTime);
+                init.sx = event.targetTouches[0].pageX;
+                init.ex = init.sx;
+            },
+            touchmove:function(){
+                clearTimeout(initTime);
+                event.preventDefault();//阻止触摸时浏览器的缩放、滚动条滚动
+                init.ex = event.targetTouches[0].pageX;
+            },
+            touchend:function (){
+                clearTimeout(initTime);
+                var changeX = init.sx - init.ex;
+                if(init.sx>init.ex&&Math.abs(changeX)>Math.abs(init.x)) {
+                    var oCloneLi=$('.banner ul li:first-child').clone(true);
+                    oCloneLi.insertAfter($('.banner ul li:last-child'));
+                    var nIndex=$('.banner ul .hover').index();
+                    $('.banner ul li').removeAttr('class');
+                    $('.banner ul li:eq('+nIndex+')').attr('class','prev');
+                    $('.banner ul li:eq('+(nIndex+1)+')').attr('class','hover');
+                    $('.banner ul li:eq('+(nIndex+2)+')').attr('class','next');
+                    $('.banner ul li:first-child').remove();
+                }else if(init.sx<init.ex&&Math.abs(init.ex-init.sx)>Math.abs(init.x)) {
+                    var oCloneLi=$('.banner ul li:last-child').clone(true);
+                    oCloneLi.insertBefore($('.banner ul li:eq(0)'));
+                    var nIndex=$('.banner ul .hover').index();
+                    $('.banner ul li').removeAttr('class');
+                    $('.banner ul li:eq('+nIndex+')').attr('class','next');
+                    $('.banner ul li:eq('+(nIndex-1)+')').attr('class','hover');
+                    $('.banner ul li:eq('+(nIndex-2)+')').attr('class','prev');
+                    $('.banner ul li:last-child').remove();
+                }
+                initTime=setTimeout(touchendImg,3000);
+            }
+        });
+    }else if($('.banner ul li').length==2){
+        $('.banner ul li').css('width','100%');
+        $('.banner ul li:eq(0)').css('left','-100%');
+        $('.banner ul li:eq(1)').css('left','100%');
+    }else if($('.banner ul li').length==1){
+        $('.banner ul li:eq(0)').attr('class','hover');
+    }
+}
+
+function touchendImg(){
+    clearTimeout(initTime);
+    var oCloneLi=$('.banner ul li:first-child').clone(true);
+    oCloneLi.insertAfter($('.banner ul li:last-child'));
+    var nIndex=$('.banner ul .hover').index();
+    $('.banner ul li').removeAttr('class');
+    $('.banner ul li:eq('+nIndex+')').attr('class','prev');
+    $('.banner ul li:eq('+(nIndex+1)+')').attr('class','hover');
+    $('.banner ul li:eq('+(nIndex+2)+')').attr('class','next');
+    $('.banner ul li:first-child').remove();
+    initTime=setTimeout(touchendImg,3000);
+}
+</script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+
+</script><div class="zsp_user_center_main">
+
+	<div class="zsp_uc_tit" style="margin-bottom:0;">
+    	<div class="zsp_uc_img_fang" style="margin-top:8px;">
+        	<img src="/static/new_mobile/static/images/morenimg_com.jpg">
+        </div>
+        <div class="zsp_uc_info_main">
+            <div class="zsp_uc_info_other">
+                <span style="font-size:16px; line-height:20px;">仿佛仿佛分</span>
+            </div>
+            
+            <div class="zsp_uc_info_other" style="margin-bottom:10px;">
+                <span style="color:rgba(255,255,255,0.5);">仿佛</span>
+            </div>
+            
+            <div class="zsp_uc_info_other">
+                <span>计算机系统/维修</span>
+            </div>
+            
+            <div class="zsp_uc_info_other" style="margin-bottom:10px;">
+                <span>上海市/卢湾区&nbsp;&nbsp;倒伏仿佛分</span>
+            </div>
+            
+            
+            <a href="#" class="zsp_uc_info_edit_but">[编辑公司信息]</a>
+        </div>
+        <!--zsp_uc_info_main -->
+    </div>
+	<!--zsp_uc_tit -->
+    
+    
+    <div class="zsp_uc_list_box">        
+        
+    	<a href="#" class="zsp_uc_list_9">
+        	<!--<div class="zsp_red_text">发职位得现金红包</div>-->
+        	<div class="zsp_uc_list_text">
+            	<!--<span>10</span> -->
+                <strong>发职位</strong>
+            </div>
+        </a>
+    	<a href="#" class="zsp_uc_list_10">
+        	<div class="zsp_uc_list_text">
+            	<!--<span>10</span> -->
+                <strong>贴红包</strong>
+            </div>
+        </a>
+    	<a href="#" class="zsp_uc_list_11">
+        	<div class="zsp_uc_list_text">
+            	<!--<span>10</span> -->
+                <strong>挂悬赏</strong>
+            </div>
+        </a>
+    	<a href="#" class="zsp_uc_list_12">
+        	<div class="zsp_uc_list_text">
+            	<!--<span>10</span> -->
+                <strong>职位管理</strong>
+            </div>
+        </a>
+    	<a href="#" class="zsp_uc_list_13">
+        	<div class="zsp_uc_list_text">
+                                <strong>应聘人选</strong>
+            </div>
+        </a>
+    	<a href="#" class="zsp_uc_list_14">
+            <div class="zsp_red_dotted"></div>
+        	<div class="zsp_uc_list_text">
+            	<!--<span>10</span> -->
+                <strong>私有人才库</strong>
+            </div>
+        </a>
+        
+    </div>
+    <div class="zsp_recommend_withdrawal_box" style="padding-right:0;">
+    <a href="#"><strong>￥0.00</strong><span>余额</span></a>
+    <a href="#"><strong>0张</strong><span>代金券</span></a>
+    <a href="#"><strong>0</strong><span>积分</span></a>
+    </div>
+</div>
+
+<div class="banner">
+    <img src="/static/new_mobile/static/images/weixin_banner-1113-6.gif">
+	<ul>
+    	
+    	
+    	
+    	<li class="prev"><a href="#" target="_blank"><img src="/static/new_mobile/static/images/weixin_banner-1113-6.gif"></a></li><li class="hover"><a href="#" target="_blank"><img src="/static/new_mobile/static/images/huodong_pc-y-zc_wap_banner_1.jpg"></a></li><li class="next"><a href="#" target="_blank"><img src="./用户中心_files/weixin_banner-1113-6.gif"></a></li><li><a href="#" target="_blank"><img src="./用户中心_files/huodong_pc-y-zc_wap_banner_1.jpg"></a></li>
+    </ul>
+</div>
+</body></html>

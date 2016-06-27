@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{{ title }}</title>
+<meta name="description" content="怀才当遇提供专业的人才经纪人服务与互联网领域垂直招聘服务,通过创新独特的结构和模式,以及个性化的优质服务,为您提供职业规划、个性化定制职业形象,帮助用户快速提升职场价值.找工作、找人才、找人才经纪人服务就来怀才当遇网！" />
+<meta name="keywords" content="怀才当遇,怀才不遇,怀才当遇招聘,人才经纪人,互联网招聘,移动互联网招聘,微信招聘,微博招聘,高薪职位,互联网圈子,社交招聘,社会招聘" />
+<link rel="stylesheet" type="text/css" href="/static/css/style_cjydy.css">
+    <!-- <script src="{{ STATIC_URL }}js/jq.js" ></script> -->
+    <script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/reset.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/uploadify.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/basic.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="/static/css/kongjian.css">
+<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.uploadify.js" ></script>
+<style type="text/css">
+    *{box-sizing: content-box;}
+    .qbhy_div{margin:10px 0 0;padding:0;}
+    .qbhy_ul li{margin-left: 0;}
+    .uploadify{float: left;}
+</style>
+</head>
+<body>
+<div class="re_banner">
+	<div class="tmbj">
+    	<div class="bsbj" style="background: white;">
+        	<div class="grws2 qyxxyz" >
+            	<div class="grnkys2" style="margin: 0 auto;width: 100%;">
+                <h1>企业信息验证</h1>
+                <form action="" class="mt30">
+                	<ul>
+                    	<li>
+                        	<input name="pc_name" type="text" class="grxxk6" placeholder="企业真实名称">
+                        </li>
+                        <li class="mt10">
+                            <input name="lxr_name" class="grxxk6" id="user_name" placeholder="联系人姓名" type="text">
+                        </li>
+                        <li style="margin-top:20px;">
+                            <p class="scyyzaz">上传营业执照</p>
+                        </li>
+                        <li style="margin-top: 10px;margin-bottom: 10px;overflow:hidden">
+                            <!-- <input style="width: 250px;" name="" type="text" class="grxxk6  mt10" placeholder="企业营业执照副本">
+                            <input class="scsc" type="button" value="上传" /> -->
+                            <span id="btn_fileupload"></span>
+                            <input type="hidden" name="business_license" id="business_license">
+                        </li>
+                        <li class="grxxk10 mt10" style="position: relative;">
+                            <input style="width: 160px;float: left;" name="" id="phone" type="text" class="grxxk6 " placeholder="企业座机号码">
+                            <input type="text" name="" id="workAddr" readonly="true" onclick="showArea(this, 1)" style="width: 142px;float: right;"
+                                   class="grxxk7" placeholder="企业所在区域">
+                            <input type="hidden" name="location" id="location" />
+{#                            <input style="width: 160px;float: right" name="" type="button" class="grxxk7" value="企业所在区域">#}
+{#                            <em></em>#}
+{#                            <ul class="slide" style="right: 50px;">#}
+{#                                <li>111</li>#}
+{#                                <li>111</li>#}
+{#                                <li>1111</li>#}
+{#                            </ul>#}
+                            <div style="clear: both"></div>
+                        </li>
+                       
+
+                        
+                    </ul>
+                    <p  class="example">例：010-88436790</p>
+                    <div class="xiayibu">
+                        <input type="button" style="width:100px;" value="确认" onclick="saveLeadCompany()" />
+                        
+                    </div>
+                    </form>
+                </div>
+            
+            	
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $('#btn_fileupload').uploadify({
+        buttonText: '上传文件',
+        'onUploadSuccess' : function(file, data, response) {
+            $(":hidden[name=business_license]").val(data.save_name)
+        },
+        'onUploadStart': function (file) {
+            $("#btn_fileupload").uploadify("settings", "formData", { 'fileType': 4 });
+        }
+    });
+    //保存企业引导数据
+    function saveLeadCompany(){
+        var pc_name = $('input[name="pc_name"]').val();
+        if($.trim(pc_name) == ''){
+            window.alert('请填写企业名称');
+            return;
+        }
+        var user_name = $('#user_name').val();
+        if($.trim(user_name) == ''){
+            window.alert('请填写联系人姓名');
+            return;
+        }
+{#        var bl_number = $('input[name="bl_number"]').val();#}
+{#        if(bl_number == ''){#}
+{#            window.alert('请填写企业营业执照编号');#}
+{#            return;#}
+{#        }else if(!/^\d{6}[123]\d{7}[1-9]$/.test(bl_number)){#}
+{#            window.alert('你输入的营业执照编号格式不正确，请重新输入');#}
+{#            return;#}
+{#        }#}
+        var business_license = $('#business_license').val();
+        if(business_license == ''){
+            window.alert('请上传企业营业执照副本');
+            return;
+        }else if(!/[.](jpg|jpeg|png|gif)$/.test(business_license)){
+            window.alert('你上传的副本格式不对，请重新上传');
+            return;
+        }
+        var phone = $('#phone').val();
+        if(phone == ''){
+            window.alert('请填写企业座机号码');
+            return;
+        }else if(!/^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$/.test(phone)){
+            window.alert('你输入的座机号码格式不正确，请重新输入');
+            return;
+        }
+        var location = $('#location').val();
+        if(location == ''){
+            window.alert('请填写企业所在区域');
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/system/saveLeadCompany",
+            data: {"pc_name": pc_name, "user_name": user_name, "business_license": business_license, "phone": phone, "location": location},
+            dataType: "json",
+            success: function (data) {
+                if(data.msg == 'success'){
+                    window.alert('保存成功');
+                    window.location = '/system/new_company_index';
+                }else{
+                    window.alert(data.msg);
+                }
+            }
+        })
+    }
+{#    $(".slide").siblings('input[type="button"]').click(function(event) {#}
+{#        $(".slide").slideUp();#}
+{#            if($(this).siblings('.slide').css("display")=="none")#}
+{#        {#}
+{#            $(this).siblings('.slide').slideDown();#}
+{#        }else{#}
+{#            $(this).siblings('.slide').slideUp();#}
+{#        }#}
+{#    });#}
+{#    $(".slide li").click(function(event) {#}
+{#        $(this).parent().siblings('input[type="button"]').val($(this).text());#}
+{#        $(this).parent("").slideUp();#}
+{##}
+{#    });#}
+//IE下上传控件出错问题解决方案
+    SWFUpload.prototype.cleanUp = function (f) {  
+        try {  
+            if (this.movieElement && typeof (f.CallFunction) === "unknown") {  
+                this.debug("Removing Flash functions hooks (this should only run in IE and should prevent memory leaks)");  
+                for (var h in f) {  
+                    try {  
+                        if (typeof (f[h]) === "function" && h[0] >= 'A' && h[0] <= 'Z') {  
+                            f[h] = null;  
+                        }  
+                    } catch (e) {  
+      
+                    }  
+                }  
+            }  
+        } catch (g) {  
+      
+        }  
+      
+        window.__flash__removeCallback = function (c, b) { try { if (c) { c[b] = null; } } catch (a) { } };  
+    };  
+</script>
+
+</body>
+
+</html>

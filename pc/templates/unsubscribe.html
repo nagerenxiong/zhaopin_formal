@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>邮件退订</title>
+    <script  src="{{ STATIC_URL }}js/jquery-1.11.3.min.js"></script>
+</head>
+<body style="vertical-align: middle;">
+    <div style="width: 400px;">
+        <input type="hidden" value="{{ unsubscribe_range }}" id="unsubscribe_range" />
+        <input type="hidden" value="{{ hcdyemailr }}" id="hcdyemailr" />
+        <span>  很抱歉给您带来了困扰，是什么原因使您要退订呢？</span>
+        <br/>
+        <input type="radio" name="unsubscribe_reason" id="reason1" value="我对该内容不感兴趣" />
+        <label for="reason1">我对该内容不感兴趣</label>
+        <br/>
+        <input type="radio" name="unsubscribe_reason" id="reason2" value="该内容是垃圾邮件" />
+        <label for="reason2">该内容是垃圾邮件</label>
+        <br/>
+        <br/>
+        <span>  您确定退订该内容吗？</span>
+        <br/>
+        <input type="button" name="sureBtn" value=" 确定退订 " onclick="saveUnsubscribe()" style="cursor: pointer;padding: 2px;" />
+    </div>
+</body>
+<script type="text/javascript">
+    function saveUnsubscribe(){
+        var unsubscribe_range = $('#unsubscribe_range').val();
+        var hcdyemailr = $('#hcdyemailr').val();
+        var reasonObj = $('input[name="unsubscribe_reason"]');
+        var reason = '';
+        if(reasonObj.eq(0)[0].checked){
+            reason = reasonObj.eq(0).val();
+        }else if(reasonObj.eq(1)[0].checked){
+            reason = reasonObj.eq(1).val();
+        }
+        $.ajax({
+            type: "POST",
+            url: "/saveUnsubscribeInfo",
+            data: {"unsubscribe_range": unsubscribe_range, "hcdyemailr": hcdyemailr, 'reason': reason},
+            dataType: "json",
+            success: function (data) {
+                if(data.status == '1'){
+                    window.alert('退订成功');
+                }else if(data.status == '2'){
+                    window.alert('您已退订，无需在退订');
+                }else if(data.status == '3'){
+                    window.alert('操作不合法，请规范操作');
+                }else{
+                    window.alert('系统繁忙，请稍后再试');
+                }
+            }
+        })
+    }
+</script>
+</html>

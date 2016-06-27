@@ -1,0 +1,470 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/reset.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/basic.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style2.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/pages.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/base.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
+
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+
+<style type="text/css" media="screen">.nav2 *,.gsss *{box-sizing:content-box;}</style>
+<div class="clear">2</div><div class="clear">1</div>
+<div class="nav2 mt25">
+    {% if request.session.account_type == "3" or request.session.account_type == "5" %}
+        {% include 'jobs/system/menu_position.html' %}
+    {% else %}
+        <ul>
+            <li>
+                <a href="/position/gsss" class="nav2hover">公&nbsp;&nbsp;司<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li>
+                <a href="/position/personal/zwss">职&nbsp;&nbsp;位<i class="iconfont icon-xia1"></i></a>
+            </li>
+        </ul>
+    {% endif %}
+
+</div>
+{#<div class="nav2">#}
+{#    {% include 'jobs/system/menu_position.html' %}#}
+{#    <ul>#}
+{#        <li>#}
+{#            <a href="#">职位搜索</a>#}
+{#        </li>#}
+{#        <li>#}
+{#            <a href="#">职位发布</a>#}
+{#        </li>#}
+{#        <li>#}
+{#            <a href="#">职位过滤器</a>#}
+{#        </li>#}
+{#        <li>#}
+{#            <a href="#">职位管理</a>#}
+{#        </li>#}
+{#        <li>#}
+{#            <a href="#">企业信息管理</a>#}
+{#        </li>#}
+{#        <li>#}
+{#            <a href="#" class="nav2hover">收藏职位</a>#}
+{#        </li>#}
+{#    </ul>#}
+{#</div>#}
+{#{% include 'jobs/system/menu_tdjl.html' %}#}
+<div class="gsss mt25">
+    <div class="gsss_l">
+        <div class="qygm">
+            <div class="qygm_main">
+                <ul>
+                    <li class="gygm_li in">
+                        <h2 style="cursor: pointer"><span>公司规模</span><img src="/static/images/qygm.png" alt=""></h2>
+                        <ul>
+                            {% if companyScales %}
+                                {% for companyScale in companyScales %}
+                                    <li onclick="selectData(this, {{ companyScale.dictionary_value }})"><a href="javascript:void(0);">{{ companyScale.dictionary_name }}</a></li>
+                                {% endfor %}
+                            {% endif %}
+{#                            <li><a href="#">1-20人</a></li>#}
+{#                            <li><a href="#">21-50人</a></li>#}
+{#                            <li><a href="#">51-100人</a></li>#}
+{#                            <li><a href="#">101-500人</a></li>#}
+{#                            <li><a href="#">501-1000人</a></li>#}
+{#                            <li><a href="#">1001-2000人</a></li>#}
+{#                            <li><a href="#">2000人以上</a></li>#}
+{#                            <li><a href="#">上市公司</a></li>#}
+                        </ul>
+                    </li>
+                    <li class="gygm_li">
+                        <h2 style="cursor: pointer"><span>公司性质</span><img src="/static/images/qygm.png" alt=""></h2>
+                        <ul>
+                            {% if companyNatures %}
+                                {% for companyNature in companyNatures %}
+                                    <li onclick="selectData(this, {{ companyNature.dictionary_value }})"><a href="javascript:void(0);">{{ companyNature.dictionary_name }}</a></li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </li>
+                    <li class="gygm_li">
+                        <h2 style="cursor: pointer"><span>所属领域</span><img src="/static/images/qygm.png" alt=""></h2>
+                        <ul>
+                            {% if businesses %}
+                                {% for business in businesses %}
+                                    <li onclick="selectData(this, '{{ business.industry_value }}')"><a href="javascript:void(0);">{{ business.industry_name }}</a></li>
+                                {% endfor %}
+                            {% endif %}
+{#                            <li><a href="#">计算机/互联网/通信/电子</a></li>#}
+{#                            <li><a href="#">销售/客服/技术支持</a></li>#}
+{#                            <li><a href="#">会计/金融/银行/保险</a></li>#}
+{#                            <li><a href="#">生产/营运/采购/物流</a></li>#}
+{#                            <li><a href="#">生物/制药/医疗/护理</a></li>#}
+{#                            <li><a href="#">广告/市场/媒体/艺术</a></li>#}
+{#                            <li><a href="#">建筑/房地产</a></li>#}
+{#                            <li><a href="#">人事/行政/高级管理</a></li>#}
+{#                            <li><a href="#">咨询/法律/教育/科研</a></li>#}
+{#                            <li><a href="#">公务员/翻译/其他</a></li>#}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+            <div class="ht30"></div>
+        </div>
+        <div class="gsss_r">
+
+            {% if request.session.account_type == "1" %}
+                <div class="gsss_r_t1">
+                    <input class="ss_input" type="text" id="condition" placeholder="请输入公司名称或关键字" onkeydown="judgeEntry()" class="f_l" style="width: 545px;">
+                    <a class="ss_anniu"style="margin-left: -4px;vertical-align:bottom; height:38px!important;" href="javascript:void(0)" class="f_l" onclick="queryData()">搜索</a>
+                </div>
+            {% elif request.session.account_type == "3" or request.session.account_type == "5" %}
+                <div class="gsss_r_t1">
+                    <div class="ssxl ss_div"><span>公司</span> <img style="margin-left:5px;" src="{{ STATIC_URL }}images/h_xjt.gif">
+                        <ul style="display:none;">
+                            <li>职位</li>
+                        </ul>
+                    </div>
+                    <input class="ss_input"type="text" placeholder="请输入职位关键词:如前端开发等" id="condition" style="<!-- width: 468px; -->float:left;vertical-align: top;" onkeydown="judgeEntry()">
+                    <a class="ss_anniu" style="margin-left: -4px;vertical-align:bottom;" href="javascript:void(0);" onclick="queryData()" >搜索</a>
+                </div>
+            {% endif %}
+            <div class="gsss_r_t2" style="display:none">
+                <p>热搜关键词：</p>
+                <ul>
+                    <li><a href="#">JAVA</a></li>
+                    <li><a href="#">前端开发</a></li>
+                    <li><a href="#">后端开发</a></li>
+                    <li><a href="#">测试工程师</a></li>
+                    <li><a href="#">UI设计师</a></li>
+                    <li><a href="#">网页设计师</a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+            <div class="gsss_r_t3 " id="tag_list">
+                <p class="t3p1">已选择：</p>
+{#                <p class="t3p2"><span>公司规模：2000人以上</span><a href="#"></a></p>#}
+{#                <p class="t3p2"><span>所属领域：计算机/互联网/通信/电子</span><a href="#"></a></p>#}
+                <div class="clear"></div>
+            </div>
+
+            <div class="gsss_r_b zwt_gsss mt25">
+                <div class="gsss_clt_float"></div>
+                <div class="gsss_r_b1">
+                    <div class="gsss_r_b1l"><p>公司地点：</p>
+                        <select id="province" onchange="getCitys()">
+                            <option value="">选择省</option>
+                            {% if areaes %}
+                                {% for area in areaes %}
+                                    <option value="{{ area.dictionary_value }}">{{ area.dictionary_name }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                        <select id="city" onchange="positionSearch()">
+                            <option value="">选择市</option>
+                        </select>
+                    </div>
+
+                    <div class="content_l_t2" id="item_lb">
+{#                        <a onclick="nDivs(this, 0)" class="liebiaoqh1 lbqh1hover">图片列表</a>#}
+{#                        <a onclick="nDivs(this, 1)" class="liebiaoqh2">文章列表</a>#}
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="gsss_r_b2" id="item_lb0">
+                    <ul id="tableInfo" style="overflow: hidden;">
+
+                        <div class="clear"></div>
+                    </ul>
+                    <div class="ht10"></div>
+                    <div  id="paginInfo">
+{#                        <a href="#" class="btn_lr">上一页</a>#}
+{#                        <a href="#">1</a>#}
+{#                        <a href="#">2</a>#}
+{#                        <a href="#">3</a>#}
+{#                        <a href="#">4</a>#}
+{#                        <a href="#">5</a>#}
+{#                        <a href="#" class="btn_lr">下一页</a>#}
+                    </div>
+                    <div class="ht20"></div>
+                    <div class="clear"></div>
+                </div>
+
+
+            </div>
+
+            <div class="ht25"></div>
+
+
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <input type="hidden" id="initData" value="{{ condition }}" />
+<script type="text/javascript">
+    var loadData;
+    var pu_id = {{ pu.id }};
+    var sql = ' pc_type = 1';
+    var querySql = sql;
+    var condition = '';
+    $(function(){
+        $('#condition').val($('#initData').val());
+        if($('#initData').val() != ''){
+            condition = $.trim($('#initData').val());
+            querySql += ' and pc_name like "%' + condition + '%"';
+        }
+        loadData = new pagin("paginInfo", "V_Company", "", encodeURI(querySql), "", 10, "paginBind", "loadData");
+        
+    })
+    //动态加载页面绑定数据
+    function paginBind(dataInfo){
+        if(dataInfo[0]==null){
+            $("#tableInfo").empty(); 
+            var content='<p class="no-mes">搜索结果为空，请重新选择</p>';
+            $("#tableInfo").append(content);
+            $("#paginInfo").css("display","none");
+            return;
+         }
+         //图片列表数据加载
+        $("#tableInfo").empty();
+        $(dataInfo).each(function(i) {
+
+            // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this);
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            if($.trim(array[6]) == ""){
+                    array[6] = "null";
+                }
+            //图片列表数据加载
+            var content = '';
+            content += '<li style="width:305px;height:108px">';
+            content += '    <div class="gs_lifloat"></div>';
+            content += '    <div class="gs_li_t">';
+            content += '        <a href="/account/new_qyyl?companyId='+array[0]+'" target="_blank"><img src="'+array[6]+'" width="70" height="70" style="margin-right:10px" onerror="notfind(this, 2)"></a>';
+            content += '        <p class="gs_lip1"><a href="/account/new_qyyl?companyId='+array[0]+'" target="_blank">' + array[4] + '</a></p>';
+            content += '        <p class="gs_lip2 nowrap" title="'+array[18]+' | ' + array[20] + ' | ' +array[19]+'">'+array[18]+' | ' + array[20] + ' | ' +array[19]+'</p>';
+            content +='<p class="gs_lip2">'+array[21]+'</p>';
+            content += '        <div class="clear"></div>';
+            content += '    </div>';
+            content += '    <div class="gs_li_b">';
+            var labels = array[14];
+            var labelStr = '';
+            if(labels && labels != ''){
+                var labellist = new Array();
+                labellist = labels.split('**', 4);
+                for(var l = 0;l < labellist.length;l++){
+                    labelStr += '<p>'+labellist[l]+'</p>';
+                }
+            }
+            content += labelStr;
+            content += '    </div>';
+            content += '    <div class="ghs" style="display:none;position:absolute;width:100%;height:35px;background-color:#5c91d9;bottom:0px;left:0;text-align:right;">';
+            //判断是否关注该公司
+            var pc_id = $(this)[0];
+            var attentionState = '关注';
+            $.ajax({
+                type: "post",
+                url: "/ajax_attentionOrNot",
+                data: {"attention_pu_id": pc_id, "type": '2'},
+                dataType: "json",
+                async: false,
+                success: function(data){
+                    if(data.msg == 'yes'){
+                        attentionState = '已关注';
+                    }
+                }
+            });
+            content += '        <input type="button" onclick="collectCompany('+$(this)[0]+', this)" value="'+attentionState+'">';
+            content += '    </div>';
+            content += '</li>';
+            content = content.replace('null', '').replace('null', '');
+            $("#tableInfo").append(content);
+        })
+    }
+    //判断搜索框回车事件
+    function judgeEntry(){
+        if(event.keyCode == 13){
+            queryData();
+        }
+    }
+    //点击搜索事件
+    function queryData(){
+        var queryType = $('.ssxl').children('span:first').text();
+        condition = $.trim($('#condition').val());
+        if(!queryType || queryType == '公司'){
+            querySql = sql + ' and pc_name like "%' + condition + '%"';
+            positionSearch();
+            loadData = new pagin("paginInfo", "V_Company", "", encodeURI(querySql), "", 10, "paginBind", "loadData");
+            if(_counts <1){
+                alert("没有找到匹配的结果，换个关键词试试吧~");
+             }
+        }else{
+            window.location = '/position/zwss?condition=' + condition;
+        }
+
+    }
+    //添加查询条件
+    function selectData(obj, value){
+        $(".gsss_r_t3").css("display","block");
+        $(".gygm_li ul").slideDown(300);
+        var type = $(obj).parent().parent().children().eq(0).children().text();
+        var condition = $(obj).text();
+        $('.gsss_r_t3').children('p:last').after('<p class="t3p2"><span>'+type+'：<em style="color:#333!important;display:inline-block;font-style: normal;">'+condition+'</em></span><input type="hidden" value= "'+value+'" /><a href="javascript:void(0);" onclick="deleteThis(this)"></a></p>');
+        //判断是选择的行业还是职业相关的条件
+        if($(obj).parent().parent().hasClass('gygm_li')){
+            $(obj).parent().parent().hide();
+        }else{
+            $('.qygm_main').eq(0).children('ul').hide();
+        }
+        positionSearch();
+    }
+    //删除选择条件
+    function deleteThis(obj){
+        if($(".t3p2").length<2){
+            $(".gsss_r_t3").css("display","none");
+        }
+        $(obj).parent().remove();
+        var type = $(obj).parent().children('span').text().split('：')[0];
+        var bool = true;//判断是否是行业条件
+        for(var m = 0;m < $('.gygm_li').length;m++){
+            if($('.gygm_li').eq(m).children('h2').children('span').text() == type){
+                $('.gygm_li').attr('class', 'gygm_li');
+                $('.gygm_li').eq(m).attr('class', 'gygm_li in');
+                $('.gygm_li').eq(m).show();
+                $('.gygm_li').children('ul').css('display', 'none');
+                $('.gygm_li').eq(m).children('ul').css('display', 'block');
+                bool = false;
+                break;
+            }
+        }
+        if(bool){
+            $('.qygm_main').eq(0).children('ul').show();
+            $('.qygm_main').eq(0).css('display', 'block');
+        }
+        positionSearch();
+    }
+    //选择省后加载相应的市
+    function getCitys(){
+        var value = $('#province').val();
+        if(value == ''){
+            $('#city option:gt(0)').remove();
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "ajax_dictionary",
+            data: {"p_value": value},
+            dataType: "json",
+            success: function (data) {
+                $('#city option:gt(0)').remove();
+                for(var m = 0;m < data.length;m++){
+                    var city = data[m];
+                    $('#city').append('<option value="'+city.dictionary_value+'">'+city.dictionary_name+'</option>')
+                }
+            }
+        })
+    }
+    //进行职位搜索
+    function positionSearch(){
+        querySql = sql;
+        var objs = $('.gsss_r_t3').children('p:gt(0)');
+        for(var index = 0;index < objs.length;index++){
+            var type = objs.eq(index).children('span').text().split('：')[0];
+            var value = objs.eq(index).children().eq(1).val();
+            if(type == '公司规模'){
+                querySql += ' and scale=' + value;
+            }else if(type == '公司性质'){
+                querySql += ' and nature=' + value;
+            }else if(type == '所属领域'){
+                querySql += ' and business in (select industry_value from T_SYS_Industry where p_value="' + value + '") ';
+            }else{
+{#                querySql += ' and postaion_type=' + value;#}
+            }
+        }
+        var cityValue = $('#city').val();
+        if(cityValue != ''){
+            querySql += ' and location=' + cityValue;
+        }
+        querySql += ' and pc_name like "%' + $.trim(condition) + '%"';
+        loadData = new pagin("paginInfo", "V_Company", "", encodeURI(querySql), "", 10, "paginBind", "loadData");
+    }
+    //收藏公司(该功能改为关注)
+    function collectCompany(companyId, obj){
+        if($(obj).val() == '已关注'){
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/ajax_attentionOperate",
+            data: {"id": companyId, "type": 1, "attentionType": 2},
+            dataType: "json",
+            success: function (data) {
+                if(data.status == '0'){
+                    alert("您已达到关注人数的上限!")
+                } else if(data.msg == 'success'){
+                    $(obj).val('已关注');
+                    window.alert('关注成功');
+                }else if(data.msg == 'exist'){
+                    window.alert('你已关注该公司，无需再关注');
+                }else{
+                    window.alert(data.msg);
+                }
+            }
+        });
+    }
+    $(".ssxl").click(function() {
+        if ($(this).find('ul').css("display") == "none") {
+            $(this).find('ul').slideDown(300);
+        } else {
+            $(this).find('ul').slideUp(300);
+        }
+    });
+    $(".ssxl ul").children('li').click(function(){
+        $(".ssxl ul").slideUp(150);
+        var zw = $(".ssxl").children("span").text();
+        $(".ssxl").children("span").text($(this).text());
+        $(this).text("");
+         if(zw == '职位'){
+             $('.gsss_r_t2').css('display', 'none');
+         }else{
+             $('.gsss_r_t2').css('display', '');
+         }
+        $(this).text(zw);
+    })
+    $(".ssxl").mouseleave(function(event) {
+        $(this).find('ul').delay(200).slideUp(300);
+    });
+{#    $(".ssxl").click(function() {#}
+{#        if ($(this).find('ul').css("display") == "none") {#}
+{#            $(this).find('ul').slideDown(300);#}
+{#        } else {#}
+{#            $(this).find('ul').slideUp(300);#}
+{#        }#}
+{#    })#}
+{#    $(".ssxl").mouseleave(function(event) {#}
+{#        $(this).find('ul').delay(200).slideUp(300);#}
+{#    });#}
+{#    $('.ssxl').find('li').click(function(){#}
+{#        var selectValue = $(this).text();#}
+{#        $(this).text($('.ssxl').children('span:first').text());#}
+{#        $('.ssxl').children('span:first').text(selectValue);#}
+{#        if($('.ssxl').find('li').index($(this)) == 0){#}
+{#            window.location = '/position/personal/zwss';#}
+{#        }else{#}
+{#            window.location = '/position/zlt';#}
+{#        }#}
+{#    });#}
+//公司logo默认图片设置
+$("#tableInfo img").each(function(index, el) {
+    if($(this).attr('src')==""){
+        
+    }
+});
+</script>
+{% include 'jobs/system/new_footer.html' %}

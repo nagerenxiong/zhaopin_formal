@@ -1,0 +1,1088 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript">
+    $(function(){
+        {% if flag == 1 %}
+            $("#showqy").click();
+        {% endif %}
+
+        $('#box1').mouseover();
+        PageInit();
+    })
+</script>
+	<!-- 内容大框 -->
+	<div class="lt_content_box">
+		<!-- 菜单 -->
+		{% include 'jobs/system/menu_account.html' %}
+		<div class="clear">99</div><div class="clear">3</div>
+		<!-- 菜单 -->
+		<!-- 猎头名录数据表 -->
+		<div class="ltml_grid_box center mt25" style="min-height: 600px;">
+            <input type="hidden" id="validStatus" value="{{ request.session.validStatus }}" />
+            {% if not request.session.validStatus or request.session.validStatus == "1" %}
+                {% if request.session.headHuntValidStatus %}
+                    <div class="jsyx_alert mt10" style="margin-bottom: 10px;"> <i class="iconfont icon-gantanhao1"></i>
+                        您还没有进行企业信息验证，请先<a href="/account/new_sfyz" target="_blank">验证企业信息</a>
+                    </div>
+                {% else %}
+                    <div class="jsyx_alert mt10" style="margin-bottom: 10px;"> <i class="iconfont icon-gantanhao1"></i>
+                        您还没有进行企业信息验证，请先<a href="/scyyzz" target="_blank">验证企业信息</a>
+                    </div>
+                {% endif %}
+            {% elif request.session.validStatus == "2" %}
+                <div class="jsyx_alert mt10" style="margin-bottom: 10px;"> <i class="iconfont icon-gantanhao1"></i>
+                    您的企业信息验证正在审核中，暂时不能维护信息，请耐心等待
+                </div>
+            {% endif %}
+			<ul id="myTab" class="nav nav-tabs ltml_grid_ul">
+				<li class="active side_li">
+					<a href="#ssml" data-toggle="tab">人员审核</a>
+				</li>
+				<li class="side_li showDepartmentLi">
+					<a href="#zzjg" data-toggle="tab" id="showqy">企业组织结构</a>
+				</li>
+				<input type="hidden" id="hideresult" value="{{ result }}" />
+				<input type="hidden" id="hidedate" value="{{ date }}" />
+				<li class="dropdown ltml_type_select">
+					<a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown">
+						选择类型 <b class="caret ml10"></b>
+					</a>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+
+						<li>
+							<a href="javascript:void(0);" onclick="loadAuditData(0)" tabindex="-1" >未审核</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" onclick="loadAuditData(1)" tabindex="-1" >已审核</a>
+						</li>
+					</ul>
+				</li>
+				<li class="slider" style="left: 0px;"></li>
+			</ul>
+			<div id="myTabContent" class="tab-content ">
+				<div class="tab-pane in active" id="ssml">
+					<table class="ltml_grid">
+						<thead>
+							<tr>
+								<th width="150px">经纪人姓名
+								<th class="cur_poi" width="240">
+									申请时间
+									<a class="iconfont icon-shang fz12 time_sort " onclick="showAuditResultbyTime('asc')"></a>
+                                    <a class="iconfont icon-xiajiantou fz12 time_sort " onclick="showAuditResultbyTime('desc')"></a>
+								</th>
+								<th width="330">申请理由</th>
+								<th width="100">审核类型</th>
+								<th width="80">状态</th>
+								<th width="120">操作</th>
+							</tr>
+						</thead>
+						<tbody id="table1">
+						</tbody>
+					</table>
+					<div class="lthy_pager">
+						<div class="lthy_pager" id="page1">
+
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="zzjg" style="padding-bottom: 50px;">
+					<div class="bd_bottom1 zzjg_title">
+						<span>{{ tpc.pc_name }}</span>
+					</div>
+					<div class="c_9c t_c mt20"></div>
+					<input type="hidden" id="updateorgid" />
+					<ul class="zzjg_com_list clearfix mt10 departmentUl"></ul>
+                    <div class="zzjg_com_modal_box showDeptMemberDiv"  display="none">
+                        <dl style= "display:block">
+                            <dt class="clearfix bd_bottom1">
+                                <span class="f_l fz18 c_ea f_bold"></span>
+                            </dt>
+                            <dd>
+                                <ul class="clearfix showDeptMemberDiv">
+                                </ul>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+
+				</div>
+				<div class="left_top_border"></div>
+			</div>
+			<!-- 猎头名录数据表 -->
+		</div>
+		<!-- 内容大框 -->
+		<!-- 底部 -->
+       {% include 'jobs/system/new_footer.html' %}
+		<!-- 底部 -->
+		<!--是否确认删除部门modal-->
+		<div class="modal fade" id="is_bm_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" style="width: 300px;">
+				<div class="modal-content" >
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">删除</h4>
+					</div>
+					<div class="modal-body" style="text-align: center;color: #1d1d1d;font-size: 14PX;">是否确认删除该部门？</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary sureToDeleteDeptButton" data-dismiss="modal" style="width: 120PX;height: 40px;background-color: #5c91d9;" onclick="deleteTpcDeptById(this)">确认</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" style="width: 120px;height: 40px;background-color:#3ab4a7 ;">取消</button>
+						<input id="orgid" type="hidden" />
+						
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+		</div>
+		<!--是否确认删除部门modal-->
+		<!--是否确认删除人员modal-->
+		<div class="modal fade" id="is_ry_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" style="width: 300px;">
+				<div class="modal-content" >
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" >&times;</button>
+						<h4 class="modal-title" id="myModalLabel">删除</h4>
+					</div>
+					<div class="modal-body" style="text-align: center;color: #1d1d1d;font-size: 14PX;">是否确认删除该人员？</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" style="width: 120PX;height: 40px;background-color: #5c91d9;" onclick="delEmp()">确认</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" style="width: 120px;height: 40px;background-color:#3ab4a7 ;">取消</button>
+						<input id="empid" type="hidden" />
+						
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+		</div>
+		<!--是否确认删除人员modal-->
+		<!-- 修改个人（Modal） -->
+		<div class="modal fade" id="edit_gr_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog"  style="width: 400px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" >&times;</button>
+						<h4 class="modal-title" id="myModalLabel">修改员工</h4>
+						<form action="updateEmp" method="post">
+							{% csrf_token %}
+							<div class="modal-body">
+								<div>
+									<input type="text" name="username" id="empname"readonly="true"/>
+								</div>
+								<div style="margin-top: 10px;">
+									<select name="orgid">
+										{% for org in  selectOrg %}
+									        <option value="{{ org.id }}">{{ org.org_name }}</option>
+									    {% endfor %}
+									</select>
+								</div>
+								<div style="margin-top: 10px;">
+									<textarea name="remark" rows="" cols=""  id="remarkdd"
+                            onkeydown="countChar('remarkdd','counter2',500);"
+                            onkeyup="countChar('remarkdd','counter2',500);"></textarea><br/>
+                                   <span style="vertical-align: top;">最多输入500字，目前已经输入<span  id="counter2" style="COLOR:red;FONT-WEIGHT:bold">0</span>字</span>
+								</div>
+								<input type="hidden" name="updateid" value=""/>
+							</div>
+							<div class="modal-footer">
+								<input type="submit" class="btn btn-primary" value="保存" style="width: 120px;height: 40px;background-color: #5c91d9;color: #ffffff"/>
+							</div>
+						</form>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+
+				<!-- /.modal -->
+			</div>
+		</div>
+		<!-- 修改个人（Modal） -->
+		<!-- 修改权限（Modal） -->
+		<div class="modal fade" id="edit_qx_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<span class="modal-title" id="myModalLabel"   >修改部门</span>
+					</div>
+					<form action="updateOrg" method="post">
+						{% csrf_token %}
+                        <input type="hidden" name="changeOrgId" class="changeOrgId">
+						<div class="modal-body">
+							<div style="margin-top: 10px;">
+								<span class="m_l">部门名称</span>
+								<input type="text" name="orgname" id="xgorgname" onchange="isDeptNameUseful(this)"  class="update" style="width: 300px;" />
+							</div>
+							<div style="margin-top: 10px;">
+								<span class="m_l">部门排序</span>
+								<input type="text" name="sort" id="xgsort" onchange="changeSortedDepartment(this)"   value="" style="width: 90px;" />
+								<span class="ml15">默认数值为99，数值越小排序越前</span>
+							</div>
+							<div style="margin-top: 10px;">
+								<span class="m_l" style="vertical-align: top;">备注</span>
+								<textarea name="remark" id="xgremark" rows="" cols="" style="width: 390px"
+                                        onkeydown="countChar('xgremark','counter1',500);"
+                            onkeyup="countChar('xgremark','counter1',500);"></textarea><br/>
+                                <span style="text-align:left;">最多输入500字，目前已经输入<span  id="counter1" style="COLOR:red;FONT-WEIGHT:bold">0</span>字</span>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default hiddenChangeDeptInfoDialog" data-dismiss="modal" style="width: 120px;height: 40px;background-color: #38b7a9;">取消</button>
+							<input type="button" value="保存" id="xgbmbtn" class="btn btn-primary" onclick="changeDepartmentInfo()" style="width: 120px;height: 40px;background-color: #5c91d9;color: #ffffff"/>
+						</div>
+					</form>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+
+			<!-- /.modal -->
+		</div>
+		<!-- 修改权限（Modal） -->
+		<!-- 添加新部门（Modal） -->
+		<div class="modal fade" id="add_bm_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">添加新部门</h4>
+					</div>
+					<form action="/addOrg" method="post">
+						{% csrf_token %}
+						<div class="modal-body">
+							<div style="margin-top: 10px;">
+								<span class="m_l">部门名称</span>
+								<input type="text" name="orgName" id="add_bm_name" class="add" onchange="isDeptNameUseful(this)" value="" style="width: 300px;" maxlength="12" />
+							</div>
+							<div style="margin-top: 10px;">
+								<span class="m_l">部门排序</span>
+								<input type="text" name="sort" id="add_bm_sort" value="99" onchange="changeSortedDepartment(this)" style="width: 90px;"  />
+								<span class="ml15" style="color:#888">不能为空,默认数值为99，数值越小排序越前</span>
+							</div>
+							<div style="margin-top: 10px;">
+								<span class="m_l" style="vertical-align: top;">备注</span>
+								<textarea name="remark" rows="" id="add_bm_info" cols="" style="width: 390px"
+                            onkeydown="countChar('add_bm_info','counter',500);"
+                            onkeyup="countChar('add_bm_info','counter',500);"></textarea><br/>
+                                最多输入500字，目前已经输入<span  id="counter" style="COLOR:red;FONT-WEIGHT:bold">0</span>字
+							</div>
+						</div>
+						<div class="modal-footer" style="text-align:center!important;">							
+							<input type="button" id="add_new_bm" onclick="addNewTpcDepartment()" class="btn btn-primary" style="width: 120px;height: 40px;background-color: #5c91d9;opacity:1;color: #ffffff" value="保存"/>
+							<button type="button" class="btn-qx m-l5 removeAddNewDepartmentDialog" data-dismiss="modal">取消</button>
+
+						</div>
+					</form>
+				</div>
+
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		<!-- 添加新部门（Modal） -->
+		<!-- 退出确认 -->
+		<div class="modal fade" id="is_quit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" style="width: 300px;">
+				<div class="modal-content" >
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" >&times;</button>
+						<h4 class="modal-title" id="myModalLabel">退出确认</h4>
+					</div>
+					<div class="modal-body" style="text-align: center;color: #1d1d1d;font-size: 14PX;">是否确认该人员退出？</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default hiddenChangeDeptInfoDialog" data-dismiss="modal" style="width: 120px;height: 40px;background-color:#3ab4a7 ;color: #ffffff">取消</button>
+						<input class="levelDeptForMember" type="hidden" />
+						<button type="button" class="btn btn-primary" style="width: 120PX;height: 40px;background-color: #5c91d9;color: #ffffff" onclick="agreeForMemberLevelDept()">确认</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+		</div>
+		<!-- 退出确认 -->
+		<!-- 通过加入 -->
+		<div class="modal fade" id="is_pass_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" style="width: 300px;">
+				<div class="modal-content" >
+					<div class="modal-header">
+						<button type="button" class="close closeAgreeDialog" data-dismiss="modal" aria-hidden="true" >&times;</button>
+						<h4 class="modal-title" id="myModalLabel">通过加入</h4>
+					</div>
+					<form action="/joinOrg" method="post" class="agreeToJoinCompanyForm">
+						{% csrf_token %}
+						<div class="modal-body" style="text-align: center;color: #1d1d1d;font-size: 14px;">
+							<div style="text-align: left">
+								<label id="applyerPuName"></label>
+								<input type="hidden" name="sort" value="88" />
+								<input type="hidden" name="remark" value="默认" />
+								<input type="hidden" name="applyerPuId" id="applyerPuId" />
+                                <input type="hidden" name="tpuCompanyAuditId"  />
+							</div>
+							<div>
+								<select name="tpcOrgId" >
+									{% for org in  selectOrg %}
+									    <option value="{{ org.id }}">{{ org.org_name }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type="button" class="btn btn-primary" onclick="return agreeToJoinCompany()" style="width: 120PX;height: 40px;background-color: #5c91d9;" value="确认"/>
+						</div>
+					</form>
+				</div>
+
+				<!-- /.modal-content -->
+			</div>
+		</div>
+		<!-- 通过加入 -->
+		<!-- 拒绝 -->
+		<div class="modal fade" id="is_refuse_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" style="width: 380px;">
+				<div class="modal-content" >
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" >&times;</button>
+						<h4 class="modal-title" id="myModalLabel">拒绝</h4>
+					</div>
+					<form action="/sendMsg" class="refuseToJoinCompany" method="post">
+						{% csrf_token %}
+						<div class="modal-body" style="text-align: center;color: #1d1d1d;font-size: 14px;">
+							<input type="hidden" id="tpuCompanyAuditId" name="tpuCompanyAuditId" />
+							<dl>
+								<dt  data-toggle="modal" data-target="#info_modal">
+									<i class="iconfont icon-iconfontmoban2" style="margin-right: 10px"></i>
+									信息模板
+								</dt>
+								<dd>
+									<textarea name="messageContext"  id="info_content" placeholder="拒绝理由"></textarea>
+								</dd>
+							</dl>
+						</div>
+
+						<div class="modal-footer">
+							<input type="button" class="btn btn-primary agreeRefuseDialogButton" style="width: 120PX;height: 40px;background-color: #5c91d9;" value="确定" onclick="refuseToJoinCompany()" />
+							<button type="button" class="btn btn-primary removeRefuseDialog" style="width: 120PX;height: 40px;background-color: #3ab4a7;" data-dismiss="modal">取消</button>
+						</div>
+					</form>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+		</div>
+		<!-- 拒绝 -->
+		<!-- 拒绝 -->
+		<div class="modal fade" id="info_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" style="width: 400px;">
+				<div class="modal-content" >
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">
+							信息模板
+							<input type="text" class="rysh_search"></h4>
+
+					</div>
+					<div class="modal-body" style="text-align: center;color: #1d1d1d;font-size: 14px;">
+						<ul class="clearfix">
+                           {% for model in modelList %}
+							<li><span class="f_r">{{ model.3 }}</span><span class="f_l">{{ model.2 }}</span></li>
+						   {% endfor %}
+
+						</ul>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" style="width: 120PX;height: 40px;background-color: #5c91d9;"  id="con_btn">确认</button>
+						<button type="button" class="btn btn-primary" style="width: 120PX;height: 40px;background-color: #3ab4a7;" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+		</div>
+		<!-- 拒绝 -->
+        <input type="hidden" id="tiaojian" value="{{ tiaojian }}" />
+        <input type="hidden" id="pc_id" value="{{ tpc.id }}" />
+        <input type="hidden" id="pu_id" value="{{ tpu.id }}" />
+{#        {% if not request.session.validStatus or request.session.validStatus == "1" %}#}
+{#            <script type="text/javascript">#}
+{#                window.alert('你还没有进行企业信息验证，请先验证');#}
+{#                window.location = '/account/sfyz';#}
+{#            </script>#}
+{#        {% elif request.session.validStatus == "2" %}#}
+{#            <script type="text/javascript">#}
+{#                window.alert('你的企业信息正在验证中');#}
+{#            </script>#}
+{#        {% endif %}#}
+		<script src="{{ STATIC_URL }}js/common.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+    <script type="text/javascript">
+        var pagination1;
+        var pcSql = 'pc_id={{ tpc.id }} order by sort asc, add_date desc';
+        var sql = " auditor_id = {{ tpu.id }} order by add_date desc";
+        $(function(){
+            pagination1 = new pagin("page1","V_PU_Company_Audit","",sql,"",10,"paginBind","pagination1");
+        });
+
+        // 遍历企业中的部门
+        function tpcDepartmentBind(dataInfo) {
+        	 $(".departmentUl").empty();
+            var content="";
+            var lies = '';
+        	if(dataInfo[0]=="" || dataInfo[0]==undefined)
+        	{
+        		$(".showDeptMemberDiv dl").empty;
+        		$(".showDeptMemberDiv").html('<p style="display:block; text-align:center; width:90%; color:#999;">暂无部门信息</p>');
+        	} 
+            $(dataInfo).each(function() {
+                // 处理值为 null 的字段
+                var len = $(this).length;
+                var array = $(this);
+                for(var n = 0; n < len; n ++){
+                    if(array[n] == null){
+                        array[n] = "&nbsp;"
+                    }
+                }
+                content += '<li class="" name=' + array[0] + '>';
+                content +=  '   <span class="word nowrap allDeptNameSpan" title="'+array[3]+'"> '+array[3]+'</span>';
+                content += '     <span class="f_r">   <i class="iconfont icon-xiugaiziliao" style="display: none;" onclick="setChangeDepartmentInfoDialogInfo(this)" name=' + array[0] + '></i>';
+                // 隐藏域 name: 部门名称， class: 排序, value:备注
+                content += '        <input type="hidden" name="' + array[3] + '" class=' + array[5]+  ' value=' + array[4] + ' >';
+                content += '        <i class="iconfont icon-shanchu" style="display: none;"  onclick="isShowDeleteDialog(' + array[0]  + ', this)"></i></span>';
+                content += '</li>';
+                lies += '<li name=' + array[0] + '>' + array[3] + '</li>'
+            })
+            content += '<li id="add_bm" data-toggle="modal" data-target="#add_bm_modal" onclick="validCompany(this)" class="">';
+            content += '    <i class="iconfont icon-jiahao" style="display: none;margin-left: 0;"></i>';
+            content += '    添加新部门';
+            content += '</li>';
+            $(".departmentUl").append(content);
+            // 加载可选的部门选项
+            $(".holdDeptsUl").empty().append(lies);
+            $(".departmentUl li:first").addClass('zzjg_com_modal_box_active');
+        }
+
+        // 点击查看部门下的成员
+        $(document).on('click','.zzjg_com_list li',function(){
+            $(".zzjg_com_list li").removeClass('zzjg_com_modal_box_active');
+            $(this).addClass('zzjg_com_modal_box_active');
+            var index = $(this).index();
+            if($(".zzjg_com_list li").length-1==index)return;
+            $(".zzjg_com_modal_box ").eq(index).css('display', 'block');
+            var pcOrgId = $(this).attr("name");
+            var pcOrgName = $(this).text();
+            $.ajax({
+                async: false,
+                data: {'pcOrgId': pcOrgId},
+                type: "post",
+                url: "/ajax_showAllDeptMembers",
+                dataType: "json",
+                success: function(data) {
+                    var $showDeptMemberDiv = $(".showDeptMemberDiv");
+                    $showDeptMemberDiv.empty();
+                    var content = '';
+                    if(data.length > 0) {
+                        $(data).each(function(i) {
+                            content += '<li name=' + this.id + '>';
+                            content += '    <span class="o_name" title="' + this.userName + '">' + this.userName + '</span>';
+                            content += '    <span class="editor_bm" name=' + this.id + '>';
+                            content += '        <i title="更换部门" data-toggle="modal" data-target="#ghbm_Modal" onclick="showSwapNewDeptDialog(this)" class="xgbm iconfont icon-xiugaiziliao" style="display: inline"></i>';
+                            content += '        <input type="hidden" name=' + this.pc_org_id + ' value=' + pcOrgName + ' class=' + this.id + '>';
+                            content += '        <i title="删除" data-toggle="modal" onclick="deleteTpcFromDept(this)" data-target="#sccy_Modal" class="scry iconfont icon-shanchu" style="display: inline"></i>';
+                            content += '    </span>';
+                            content += '</li>';
+                        })
+                    }
+                    else{
+                    	content+='<p style="text-align:center;">该部门还没有成员~</p>'
+                    }
+                    $showDeptMemberDiv.append(content);
+                }
+            })
+        });
+
+        // 为删除成员弹框赋值
+        function deleteTpcFromDept(obj) {
+            var $this = $(obj);
+            var tpcEmployeeDeptId = $this.prev(":hidden").attr("class");
+            $(".sureToDeleteMemberButton").attr("name", tpcEmployeeDeptId);
+        }
+        // 确定从部门中删除成员
+        function sureToDeleteMemberFromDept(obj) {
+            var tpcEmployeeDeptId = $(obj).attr("name");
+            $.ajax({
+                async: false,
+                data: {'tpcEmployeeDeptId': tpcEmployeeDeptId},
+                type: "post",
+                url: "/ajax_deleteMemberFromDept",
+                dataType: "json",
+                success: function(data) {
+                    if(data == '1') {
+                        alert("删除成功!");
+                        $(".showDeptMemberDiv li[name=" + tpcEmployeeDeptId + "]").remove();
+                    } else {
+                        alert("删除失败!");
+                    }
+                }
+            })
+        }
+
+        // 为更换弹框赋值
+        function showSwapNewDeptDialog(obj) {
+            var $this = $(obj);
+            var orgId = $this.next(":hidden").attr("name");
+            var orgName = $this.next(":hidden").val();
+            var tpcEmployeeDeptId = $this.next(":hidden").attr("class");
+            $(".currentDeptName").text(orgName);
+            $(".currentDeptName").attr("name", orgId);
+            $(".currentDeptName").attr("id", tpcEmployeeDeptId)
+
+        }
+
+        // 根据id 删除企业部门
+        function deleteTpcDeptById(obj) {
+            var pcOrgId = $(obj).attr("name");
+            $.ajax({
+                async: false,
+                data: {'pcOrgId': pcOrgId},
+                type: "post",
+                url: "/ajax_deleteTpcDeptById",
+                dataType: "json",
+                success: function(data) {
+                    if(data == '1') {
+                        alert("删除成功!");
+                        pagination1 = new pagin("page1","T_PC_Org","",pcSql,"",1000,"tpcDepartmentBind","pagination1234567");
+                    } else {
+                        alert("删除失败!");
+                    }
+                }
+            })
+        }
+
+        // 改变部门
+        function sureToChangeMemberDept() {
+            var $currentDeptName = $(".currentDeptName");
+            var oldDeptName = $currentDeptName.val();
+            var oldDeptId = $currentDeptName.attr("name");
+            var tpcEmployeeDeptId = $currentDeptName.attr("id");
+            var newDeptId = $(".newDeptSpan").attr("name");
+            if(newDeptId == '') {
+                alert("请选择您想要加入的新部门!");
+                return false;
+            }
+            if(oldDeptId == newDeptId) {
+                alert("您已在" + oldDeptName + "部门中了!");
+                return false;
+            }
+            $.ajax({
+                async: false,
+                data: {'tpcEmployeeDeptId': tpcEmployeeDeptId, 'newDeptId': newDeptId},
+                type: "post",
+                url: "/ajax_changeNewDeptForMember",
+                dataType: "json",
+                success: function(data) {
+                    if(data == '1') {
+                        alert("更换成功!");
+                        $(".closeChangeDeptButton").click();
+                        $(".showDeptMemberDiv li[name=" + tpcEmployeeDeptId + "]").remove();
+                    } else {
+                        alert("更换失败!");
+                    }
+                }
+            })
+        }
+
+        // 点击删除按钮显示是否删除框
+        function isShowDeleteDialog(pcOrgId, obj) {
+            $.ajax({
+                async: false,
+                data: {'pcOrgId': pcOrgId},
+                type: "post",
+                url: "/ajax_showAllDeptMembers",
+                dataType: "json",
+                success: function(data) {
+                    if(data.length == 0) {
+                        $(obj).attr('data-toggle', "modal");
+                        $(obj).attr('data-target', "#is_bm_modal");
+                        $(".sureToDeleteDeptButton").attr("name", pcOrgId);
+                    } else if(data.length > 0){
+                        alert("该部门下尚有成员，不能删除!")
+                    } else {
+                        alert("删除失败!");
+                    }
+                }
+            })
+        }
+
+        // 修改部门信息弹框赋值
+        function setChangeDepartmentInfoDialogInfo(obj){
+            var $this = $(obj);
+            var $input = $this.next(":hidden");
+            $("#xgorgname").val($input.attr("name"));
+            $("#xgsort").val($input.attr("class"));
+            $("#xgremark").val($input.val());
+            $(".changeOrgId").val($this.attr("name"));
+            $("#counter1").val($input.val().length);
+            // 修改弹框弹出
+            $("#edit_qx_modal").modal('show')
+        }
+
+        // 审核记录
+        function paginBind(dataInfo){
+            $("#table1").empty();
+            $(dataInfo).each(function() {
+                // 处理值为 null 的字段
+                var len = $(this).length;
+                var array = $(this);
+                for(var n = 0; n < len; n ++){
+                    if(array[n] == null){
+                        array[n] = "&nbsp;"
+                    }
+                }
+                var content="";
+                content+='		<tr class="bg_tr" name=' + array[1] + '>';
+                content+='			<td style="cursor: pointer"  onclick="openNewHeadhuntPage(\'/system/ckjjrsy?puid='+ array[1]+'\')">';
+                content+='                 <span>'+ array[7]+'<span>';
+                content+='			</td>';
+                content+='			<td>'+array[5].substring(0,11)+'</td>';
+                content+='			<td>'
+                if(array[4].length>10){
+                    content+=    array[4].substring(0,11)+'...'
+                }else {
+                    content+=      array[4] +'</td>';
+                }
+                content+='			<td class="c_d2">';
+                if(array[6] == 1) {
+                    content += '				<span style="color: green">加入</span>';
+                }else{
+                    content += '<span style="color: red"> 退出 </span>';
+                }
+                content+='			</td>';
+                content+='			<td>';
+                if(array[3]==0){
+                    content+='未审核';
+                    content+='			  </td><td name=' + array[0] + '>';
+                     if(array[6] == 1){
+                       content+='				<input type="button" style="background-color: green" value="通过" class="c_btn" data-toggle="modal" data-target="#is_pass_modal" onclick="setJoinName('+array[1]+',' + array[0] + ',\'' + array[7] + '\')">';
+                       content+='				<input type="button" name="" value="拒绝" class="c_btn2" style="margin-left: 5px;background-color: red;color: #ffffff"data-toggle="modal"  onclick="$(\'#tpuCompanyAuditId\').val('+array[0]+');"  data-target="#is_refuse_modal" >'
+                     }else{
+                        content+='     <input type="button" style="background-color: green" onclick="$(\'.levelDeptForMember\').val('+array[0]+')" value="通过" class="c_btn1"data-toggle="modal"   data-target="#is_quit_modal">'
+                        content+='				<input type="hidden" id="quitid" />'
+                        content+='				<input type="button" name="" value="拒绝" class="c_btn2" style="margin-left: 5px;background-color: red;color: #ffffff"data-toggle="modal"  onclick="$(\'#tpuCompanyAuditId\').val('+array[0]+');"  data-target="#is_refuse_modal" >'
+                    }
+                }else if(array[3] == 1) {
+                    content+='已通过';
+                    content+='			  </td><td name=' + array[0] + '>';
+                } else {
+                    content+='已拒绝';
+                    content+='			  </td><td name=' + array[0] + '>';
+                }
+                content+='			</td>'
+                content+='		</tr>'
+                $("#table1").append(content);
+            });
+        }
+
+        // 给同意弹框赋值
+        function setJoinName(applyerPuId, tpuCompanyAuditId, applyerPuName){
+            $(":input[name=tpuCompanyAuditId]").val(tpuCompanyAuditId);
+            $("#applyerPuId").val(applyerPuId);
+            $("#applyerPuName").text(applyerPuName);
+        }
+
+        // 同意表单提交
+        function agreeToJoinCompany(){
+            if($("select[name=tpcOrgId] option").length == 0){
+                window.alert('请添加部门后再来审核');
+                return false;
+            }else if($("select[name=tpcOrgId]").val() == ''){
+                window.alert('请选择部门');
+                return false;
+            }
+            var seria = $(".agreeToJoinCompanyForm").serialize();
+            var proposerPuId = $("#applyerPuId").val();
+            var departmentName = $("select[name=tpcOrgId] option:selected").text();
+            var remark = $(":input[name=remark]").val();
+            $.ajax({
+                async: false,
+                data: seria,
+                type: "get",
+                url: "/ajax_agreeToJoinCompany",
+                dataType: "json",
+                success: function(data) {
+                    if(data == 1) {
+                        $(".closeAgreeDialog").click();
+                        alert("此用户已成功加入" + departmentName + "!");
+                        var d = new Date();
+                        var vYear = d.getFullYear();
+                        var vMon = d.getMonth() + 1;
+                        var vDay = d.getDate();
+                        var $tr =$(".bg_tr[name=" + proposerPuId + "]");
+                        $tr.find("td:eq(1)").text(vYear + '-' + vMon + '-' + vDay);
+                        $tr.find("td:eq(2)").text(remark);
+                        $tr.find("td:eq(4)").text('已审核');
+                        $tr.find("td:last").empty();
+                    } else {
+                        alert("加入" + departmentName + "失败!")
+                    }
+                }
+            })
+        }
+
+        // 拒绝加入企业
+        function refuseToJoinCompany() {
+            var seria = $(".refuseToJoinCompany").serialize();
+            var messageContext = $("#info_content").val();
+            if($.trim(messageContext) == '') {
+                alert("请您输入拒绝理由!");
+                return false;
+            }
+            $.ajax({
+                async: false,
+                data: seria,
+                type: "get",
+                url: "/ajax_refuseToJoinOrLevelCompany",
+                dataType: "json",
+                success: function (data) {
+                    if(data == '1') {
+                        var tpuCompanyAuditId = $("#tpuCompanyAuditId").val();
+                        $(".removeRefuseDialog").click();
+                        alert("处理成功!");
+                        var d = new Date();
+                        var vYear = d.getFullYear();
+                        var vMon = d.getMonth() + 1;
+                        var vDay = d.getDate();
+                        var $tr =$("td[name=" + tpuCompanyAuditId + "]").parent();
+                        $tr.find("td:eq(1)").text(vYear + '-' + vMon + '-' + vDay);
+{#                        $tr.find("td:eq(2)").text(remark);#}
+                        $tr.find("td:eq(4)").text('已拒绝');
+                        $tr.find("td:last").empty();
+                        pagination1 = new pagin("page1","V_PU_Company_Audit","",sql,"",10,"paginBind","pagination1");
+                    } else {
+                        alert("处理未成功!");
+                    }
+                }
+            })
+        }
+
+        function showAuditResultbyTime(order) {
+            var sql22 = " auditor_id = {{ tpu.id }} order by add_date " +  order;
+            pagination1 = new pagin("page1","V_PU_Company_Audit","",sql22,"",10,"paginBind","pagination1");
+            return false;
+        }
+
+
+        // 输入部门排序号
+        function changeSortedDepartment(obj){
+            var $this = $(obj);
+            var reg = /^[0-9]*$/;
+            if (!reg.test($this.val())) {
+                $this.val("");
+                alert("您输入的排序号不合法!");
+            }
+        }
+
+        // 打开新的经纪人页面
+        function openNewHeadhuntPage(path) {
+            window.open(path, '_blank');
+        }
+
+        // 判断部门名称是否可用
+        function isDeptNameUseful(obj) {
+            var deptName = $(obj).val();
+            var number = 0;
+            $(".allDeptNameSpan").each(function(){
+                if($.trim($(this).text()) == $.trim(deptName)) {
+                    number = 1;
+                    return;
+                }
+            })
+            if(number > 0) {
+                alert("该部门名称已经存在");
+                $(obj).val($(obj)[0].defaultValue);
+                return false;
+            }
+
+        }
+
+        // 增加新的部门
+        function addNewTpcDepartment() {
+            var deptName = $("#add_bm_name").val();
+            var sort = $("#add_bm_sort").val();
+            var remark = $("#add_bm_info").val();
+            if($.trim(deptName) == '') {
+                alert("请输入部门名称!");
+                return false;
+            }
+            if($.trim(sort) == '') {
+                alert("请输入排序号!");
+                return false;
+            }
+            if($.trim(remark) == '') {
+                alert("请输入备注");
+                return false;
+            }
+            $.ajax({
+                async: false,
+                data: {'deptName': deptName, 'sort': sort, 'remark': remark},
+                type: "post",
+                url: "/ajax_addNewTpcDepartment",
+                dataType: "json",
+                success: function (data) {
+                    if(data.status == '1') {
+                        alert("添加成功!");
+                         pagination1 = new pagin("page1","T_PC_Org","",pcSql,"",1000,"tpcDepartmentBind","pagination1234567");
+                        $("select[name=tpcOrgId]").append('<option value='+data.pcOrgId+'>'+deptName+'</option>');
+                        $(".removeAddNewDepartmentDialog").click();
+                    } else {
+                        alert("添加失败!")
+                    }
+                }
+            })
+        }
+        //修改部门信息
+        function changeDepartmentInfo(){
+            var deptName = $.trim($("#xgorgname").val());
+            var sort = $.trim($("#xgsort").val());
+            var remark = $.trim($("#xgremark").val());
+            var changeOrgId = $(".changeOrgId").val();
+            if(deptName == '') {
+                alert("请输入部门名称!");
+                return false;
+            }
+            if(sort == '') {
+                alert("请输入排序号!");
+                return false;
+            }
+            if(remark == '') {
+                alert("请输入备注");
+                return false;
+            }
+            $.ajax({
+                async: false,
+                data: {'changeOrgId': changeOrgId, 'deptName': deptName, 'sort': sort, 'remark': remark},
+                type: "post",
+                url: "/ajax_addNewTpcDepartment",
+                dataType: "json",
+                success: function (data) {
+                    if(data.status == '1') {
+                        alert("已成功更新此部门信息!");
+                         pagination1 = new pagin("page1","T_PC_Org","",pcSql,"",1000,"tpcDepartmentBind","pagination1234567");
+                        $("select[name=tpcOrgId]").find('option[value=' + changeOrgId + ']').text(deptName);
+                        $(".hiddenChangeDeptInfoDialog").click();
+                    } else {
+                        alert("更新部门信息失败!")
+                    }
+                }
+            })
+        }
+        // 退出确认按钮
+        function agreeForMemberLevelDept() {
+            var tpuCompanyAuditId = $(".levelDeptForMember").val();
+            $.ajax({
+                async: false,
+                data: {'tpuCompanyAuditId': tpuCompanyAuditId},
+                type: "post",
+                url: "/ajax_agreeForMemberLevelDept",
+                dataType: "json",
+                success: function (data) {
+                    if(data == '1') {
+                        alert("已成功处理此退出申请!");
+                        $(".hiddenChangeDeptInfoDialog").click();
+                         pagination1 = new pagin("page1","V_PU_Company_Audit","",sql,"",10,"paginBind","pagination1");
+                    } else {
+                        alert("处理失败!")
+                    }
+                }
+            })
+        }
+
+		$("#info_modal li").click(function(){
+			$("#info_modal li").removeClass('active');
+			$(this).addClass('active');
+		})
+		$("#con_btn").click(function(){
+			if($("#info_modal li.active")[0])
+			{
+			 $("#info_content").html( $("#info_modal li.active").children('.f_r').html());
+			 $("#info_modal").modal('hide');
+		    }
+		})
+
+
+        function delEmp() {
+            window.location.href='delEmp?empid='+document.getElementById('empid').value
+        }
+        function setOrgID(tid) {
+            document.getElementById('orgid').value=tid
+        }
+
+        function loadupdate(){
+            $('#edit_gr_modal').modal('show')
+        }
+
+        $("[name=pagehref]").click(function(){
+            hideresult= document.getElementById('hideresult').value;
+            hidedate= document.getElementById('hidedate').value;
+            if(hideresult!=''){
+                aas=this+'&result='+hideresult;
+                this.href=aas
+            }
+            if(hidedate!=''){
+                aas=this+'&date='+hidedate;
+                this.href=aas;
+            }
+        });
+
+        function setEmpInfo(id){
+            $.ajax({
+                type: "POST",
+                url: "/ajax_findEmp",
+                data: {"eid": id},
+                dataType: "json",
+                success: function (data) {
+                     $("[name=updateid]").val(data.id);
+                    $("#remarkdd").val(data.remark);
+                    $("#empname").val(data.user_name);
+                      var NowNum =data.remark.length;
+                    document.getElementById("counter2").innerHTML = NowNum;
+                }
+            });
+        }
+        function checkinput_zzjs(event){
+            if (event.length>1000) {
+              alert("内容不能太长！");
+                $("[name=introducebtn]").attr('disabled')
+            }else{
+                $("[name=introducebtn]").removeAttr('disabled')
+            }
+
+        }
+        function countChar(textareaID,spanID,maxNum){
+            //得到输入的字符的长度
+            var NowNum = document.getElementById(textareaID).value.length;
+            //判断输入的长度是否超过规定的长度
+            if(NowNum>maxNum){
+               //如果超过就截取规定长度的内容
+                document.getElementById(textareaID).value = document.getElementById(textareaID).value.substring(0,maxNum);
+            }else{
+                //得到当前的输入长度并且显示在页面上
+                document.getElementById(spanID).innerHTML = NowNum;
+            }
+        }
+        //得到当前的输入长度并且显示在页面上
+        function SetLength(textareaID,spanID){
+            var NowNum = document.getElementById(textareaID).value.length;
+
+            document.getElementById(spanID).innerHTML = NowNum;
+        }
+
+        function PageInit(){
+            SetLength('remarkdd','counter2');
+            SetLength('xgremark','counter1');
+        }
+        function validCompany(obj){
+
+            $("#add_bm_name").val('');
+            $("#add_bm_info").val('');
+            $("#counter").text(0);
+
+            $(obj).attr('data-target', '');
+            var validStatus = $('#validStatus').val();
+            if(validStatus == '' || validStatus == '1'){
+                window.alert('您还没有进行企业信息验证，请先验证企业信息');
+            }else if(validStatus == '2'){
+                window.alert('您的企业信息验证正在审核中，暂时不能维护信息，请耐心等待...');
+            }else{
+                $(obj).attr('data-target', '#add_bm_modal');
+            }
+        }
+        $(".side_li").click(function(event) {
+        	
+        	if($(this).index()==1){
+        		$(".ltml_type_select").css('display', 'none');
+                pagination1 = new pagin("page1","T_PC_Org","",pcSql,"",1000,"tpcDepartmentBind","pagination1234567");
+        	}else{
+        		$(".ltml_type_select").css('display', 'block');
+                pagination1 = new pagin("page1","V_PU_Company_Audit","",sql,"",10,"paginBind","pagination1");
+        	}
+        });
+        //加载未审核或已审核数据（0-未审核，1-已审核）
+        function loadAuditData(index){
+            var querySql = ' auditor_id=' + $('#pu_id').val();
+            if(index == 1){
+                $("#myTabDrop1").text("已审核").append('<b class="caret ml10"></b>');
+                 querySql += ' and audit_results!=0';
+            } else {
+                $("#myTabDrop1").text("未审核").append('<b class="caret ml10"></b>');
+                 querySql += ' and audit_results=' + index;
+            }
+            querySql += ' order by add_date desc';
+            pagination1 = new pagin("page1","V_PU_Company_Audit","", querySql, "",10,"paginBind","pagination1");
+        }
+
+    </script>
+        <!-- 删除模态框（Modal） -->
+    <div class="modal fade" id="sccy_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:300px">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">确认删除</h4>
+                </div>
+                <div class="modal-body t_c">是否确认删除此成员？</div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-primary sureToDeleteMemberButton" data-dismiss="modal" onclick="sureToDeleteMemberFromDept(this)" >确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+                    
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+        <!-- /.modal -->
+        <!-- 模态框（Modal） -->
+<!-- 更换部门模态框（Modal） -->
+        <!--更换部门模态框（Modal） -->
+    <div class="modal fade" id="ghbm_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:560px">
+            <div class="modal-content"  style="border: 10px solid #333;">
+                <div class="modal-header">
+                    <button type="button" class="close closeChangeDeptButton" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">更换部门</h4>
+                </div>
+                <div class="modal-body t_c">
+                	<div>
+                		<label for="">当前所属部门：</label>
+                		<span style="border:none;" class="modal_o_txt currentDeptName"></span>
+                	</div>
+                	<div class="zybm" style="position: relative;">
+                		<label for="">转移至部门：</label>
+                		<span class="modal_o_txt newDeptSpan" name="" style="cursor: pointer;position: relative;">
+                			请选择<img src="{{ STATIC_URL }}images/o_xjt.png" alt="">
+                		</span>
+                		<ul class="holdDeptsUl" style="position: absolute;display: none">
+                		</ul>
+                	</div>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                <button type="button" class="btn btn-primary" onclick="sureToChangeMemberDept()" >保存</button>
+                    
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+    <script>
+
+    	$("#ghbm_Modal .modal-body .zybm span").click(function(event) {
+    		if($(this).next().css('display') == "none"){
+    			$(this).next().slideDown(150);
+    		}
+    		else{
+    			$(this).next().slideUp(150);
+    		}
+    	});
+        $("#ghbm_Modal .modal-body .zybm").on("click","li",function(){
+            $("#ghbm_Modal .modal-body .zybm span").text($(this).text()).append('<img src="{{ STATIC_URL }}images/o_xjt.png" alt="">').attr("name", $(this).attr("name"));
+    		$(this).parent().slideUp(150);
+
+        })
+    </script>
+</body>
+</html>

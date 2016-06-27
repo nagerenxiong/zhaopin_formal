@@ -1,0 +1,276 @@
+.bitian {
+  background: url(../../images/bitian.png) no-repeat 2px center; }
+
+#sfz_pic {
+  vertical-align: top;
+  margin-right: 20px;
+  width: 160px;
+  height: 100px;
+  display: inline-block;
+  cursor: pointer; }
+
+#tx_pic {
+  vertical-align: top;
+  margin-right: 20px;
+  width: 160px;
+  height: 160px;
+  display: inline-block;
+  cursor: pointer; }
+
+.o_txt {
+  width: 335px;
+  height: 38px;
+  border-radius: 5px;
+  border: 1px solid #EEE;
+  font-size: 14px;
+  text-indent: 28px;
+  line-height: 38px; }
+
+.o_btn {
+  width: 180px;
+  height: 50px;
+  color: #FFF;
+  font-size: 14px;
+  text-align: center;
+  background-color: #5c91d9;
+  border-radius: 5px;
+  line-height: 50px;
+  border: none;
+  cursor: pointer;
+  margin-left: 143px;
+  display: block; }
+
+.hint {
+  color: #F66 !important;
+  visibility: hidden;
+  min-height: 0px; }
+
+.dib {
+  display: inline-block; }
+
+.o_btn:hover {
+  background-color: #4c83ce; }
+
+.nav2 {
+  width: 1018px !important; }
+
+.main {
+  width: 1020px;
+  margin: 0 auto;
+  background-color: #FFF;
+  margin-bottom: 0px; }
+
+.banner {
+  margin-top: 25px; }
+  .banner img {
+    vertical-align: top; }
+
+.c {
+  display: none; }
+
+div.form {
+  width: 740px;
+  margin: 40px auto;
+  padding-bottom: 40px;
+  display: block;
+  margin-bottom: 0px; }
+  div.form label {
+    margin-right: 10px;
+    display: inline-block;
+    font-size: 16px;
+    color: #999;
+    width: 128px;
+    text-align: right; }
+  div.form label.bitian {
+    text-indent: 16px;
+    margin-top: 10px;
+    vertical-align: top; }
+  div.form span.hint {
+    margin-left: 10px; }
+  div.form li {
+    margin-bottom: 18px; }
+    div.form li .dib {
+      vertical-align: top; }
+      div.form li .dib p {
+        font-size: 12px;
+        color: #999;
+        line-height: 24px; }
+      div.form li .dib .notice {
+        color: #333; }
+
+div.ddsh {
+  width: 655px;
+  margin: 60px auto;
+  height: 495px;
+  margin-bottom: 0px; }
+  div.ddsh img {
+    vertical-align: top;
+    margin-right: 20px; 
+  margin-top: 5px;}
+  div.ddsh h2 {
+    font-size: 20px;
+    color: #777; }
+  div.ddsh span {
+    color: #5C91D9;
+    margin: 0px 10px; }
+  div.ddsh .o_btn {
+    display: block;
+    color: #FFF;
+    font-size: 18px;
+    width: 280px;
+    margin-top: 42px;
+    margin-bottom: 52px;
+    margin-left: 0px; }
+  div.ddsh p {
+    font-size: 14px;
+    color: #777;
+    line-height: 24px; }
+
+div.ok {
+  margin: 50px auto;
+  padding-bottom: 65px;
+  width: 960px;
+  margin-bottom: 0px; }
+  div.ok ul {
+    font-size: 16px;
+    width: 390px;
+    margin: 0 auto; }
+    div.ok ul li {
+      margin-bottom: 20px; }
+    div.ok ul label {
+      color: #999;
+      vertical-align: top;
+      display: inline-block;
+      width: 128px;
+      text-align: right; }
+    div.ok ul span {
+      color: #333; }
+    div.ok ul .sfzzp {
+      width: 160px;
+      height: 100px;
+      display: inline-block;
+      vertical-align: bottom; }
+    div.ok ul .txzp {
+      width: 160px;
+      height: 160px;
+      display: inline-block;
+      vertical-align: bottom; }
+  div.ok p {
+    background-color: #FEFEEE;
+    font-size: 14px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    color: #333; }
+    div.ok p a {
+      color: #FF8800; }
+      div.ok p a img {
+        vertical-align: middle;
+        margin-left: 8px; }
+
+.step {
+  position: relative;
+  margin: 23px auto;
+  padding-bottom: 0px;
+  border-bottom: 2px solid #EEE;
+  text-align: center;
+  width: 980px; }
+  .step ul {
+    display: inline-block; }
+  .step li {
+    float: left;
+    text-align: center;
+    color: #333;
+    font-size: 16px;
+    height: 24px;
+    padding-top: 96px;
+    width: 326px; }
+    .step li p {
+      vertical-align: bottom; }
+  .step .step1 {
+    background: url(../../images/step1.png) no-repeat center top; }
+  .step .step2 {
+    background: url(../../images/ddsh.png) no-repeat center top; }
+  .step .step3 {
+    background: url(../../images/step3.png) no-repeat center top; }
+  .step .step1.active {
+    background: url(../../images/step1a.png) no-repeat center top; }
+  .step .step2.active {
+    background: url(../../images/ddsh1.png) no-repeat center top; }
+  .step .step3.active {
+    background: url(../../images/step3a.png) no-repeat center top; }
+  .step em {
+    background: url(../../images/s3j.png) no-repeat center -3px;
+    position: absolute;
+    bottom: -2px;
+    left: 0px;
+    display: block;
+    width: 326px;
+    height: 2px;
+    background-color: #5C91D9; }
+    .step em img {
+      position: absolute;
+      left: 50%;
+      margin-left: -5px;
+      top: -5px; }
+
+.uploader_btn {
+  width: 160px;
+  height: 100px; }
+  .uploader_btn img {
+    width: 160px;
+    height: 100px; }
+
+.uploader_btn1 {
+  width: 160px;
+  height: 160px; }
+  .uploader_btn1 img {
+    width: 160px;
+    height: 160px; }
+
+.jjr_xgzl {
+  overflow: hidden;
+  border: 10px solid #2e2e2e;
+  border-radius: 5px; }
+  .jjr_xgzl .layui-layer-title {
+    background-color: white;
+    width: 440px;
+    border-bottom: 2px solid #EEE;
+    padding: 0px;
+    margin: 0 auto;
+    font-size: 20px;
+    margin-top: 20px; }
+  .jjr_xgzl .layui-layer-content {
+    width: 440px;
+    margin: 0 auto; }
+  .jjr_xgzl .layui-layer-close {
+    top: 20px;
+    right: 15px; }
+  .jjr_xgzl h2 {
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px; }
+    .jjr_xgzl h2 img {
+      vertical-align: middle;
+      margin-right: 10px; }
+  .jjr_xgzl .btn_list {
+    text-align: center;
+    margin-top: 30px; }
+  .jjr_xgzl .success {
+    width: 120px;
+    height: 40px;
+    font-size: 16px;
+    margin-right: 30px;
+    display: inline-block;
+    margin-left: 0px;
+    line-height: 40px; }
+  .jjr_xgzl .layui-layer-close {
+    width: 19px;
+    height: 19px;
+    background: url(../../images/19_x.png) no-repeat center center; }
+  .jjr_xgzl p {
+    color: #666;
+    line-height: 24px; }
+
+/*# sourceMappingURL=new_sfyz.css.map */

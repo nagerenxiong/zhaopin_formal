@@ -1,0 +1,386 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+<style type="text/css" media="screen">
+    .menu_list{margin:10px auto;width:185px;}
+.menu_head{width:185px;height:47px;line-height:47px;padding-left:38px;font-size:14px;color:#525252;cursor:pointer;border:1px solid #e1e1e1;position:relative;font-weight:bold;background:#f8f8f8 url(../images/pro_left.png) center right no-repeat;margin:0;}
+.menu_list .current{background:#f8f8f8;background-image: url(../images/pro_down.png); background-position: center right;background-repeat: no-repeat;}
+.menu_body{width:223px;height:auto;overflow:hidden;line-height:38px;border-left:1px solid #e1e1e1;backguound:#fff;border-right:1px solid #e1e1e1;}
+.menu_body a{display:block;width:223px;height:38px;line-height:38px;padding-left:38px;color:#777777;background:#fff;text-decoration:none;border-bottom:1px solid #e1e1e1;}
+.menu_body a:hover{text-decoration:none;}
+</style>
+<!-- 内容大框 -->
+<div class="lt_content_box wdjlk">
+    <!-- 猎头会员菜单开始 -->
+    <ul class="nav nav-tabs center lthy_nav">
+        <li class="active">
+            <a href="#">找简历</a>
+        </li>
+        <li>
+            <a href="#">简历管理</a>
+        </li>
+        <li>
+            <a href="#">工作平台</a>
+        </li>
+        <li>
+            <a href="#">职位订阅器</a>
+        </li>
+    </ul>
+    <!-- 猎头会员菜单结束 -->
+    <input type="hidden" value="{{ pu.id }}" id="puid" />
+    <input type="hidden" id="forpuid" />
+    <input type="hidden" id="yqname" />
+    <div class="clear"></div>
+    <div class="center lt_jlgltb mt30 tddjl_btn_box">
+        <a href="#" class="tddjl_btn ">投递的简历</a>
+        <a href="#" class="ppdjl_btn active">匹配的简历</a>
+    </div>
+    <div class="center" style="height: auto;overflow:hidden">
+        <!-- 猎头会员搜索结果主内容开始 -->
+        <div class="dleft">
+            <div class="ssjg p9 mt25">
+                <div class="bkdw"></div>
+                <div class="biaolm m10">
+                    <div class="biaot2 fz16">
+                        <ul class="tddjl_span_box">
+                            <li class="bthover">匹配的简历</li>
+                        </ul>
+                    </div>
+                </div>
+             <ul id="show">
+                {% for position in postionList %}
+                    <li>
+                <dl class="ppdjl_dl_list">
+                    <dt class="bd_bottom1">{{ position.3 }}<i class="f_r iconfont icon-jiahao"></i><i class="f_r iconfont icon-jianhao" style="display:none"></i></dt>
+                    <input type="hidden" name="postionid" value="{{ position.0 }}" />
+                    <dd style="display:none" name="showResume" ></dd>
+                </dl>
+                </li>
+                {% endfor %}
+              </ul>
+        </div>
+        <div class="clear"></div>
+
+    </div>
+<div class="xright">
+            <!-- 侧边栏 -->
+            {% include 'jobs/recommendResume.html' %}
+
+            <!-- 侧边栏 --> </div>
+</div>
+
+<!-- 内容大框 -->
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="if_yq_Modal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:300px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">邀请</h4>
+            </div>
+            <div class="modal-body t_c">是否确认邀请？</div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="yaoqing()">确认</button>
+            </div>
+        </div>
+        <!-- /.modal-content --> </div>
+</div>
+<!-- /.modal -->
+<!-- 模态框（Modal） -->
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="if_sc_Modal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:300px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">收藏</h4>
+            </div>
+            <div class="modal-body t_c">是否确认收藏？</div>
+            <div class="modal-footer">
+                <input type="hidden" id="cancelId" />
+                <input type="hidden" id="cancelGroupId" />
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="collect()">确认</button>
+            </div>
+        </div>
+        <!-- /.modal-content --> </div>
+</div>
+<!-- /.modal -->
+<!-- 模态框（Modal） -->
+    </div>
+<!-- 模态框（Modal） -->
+
+<script type="text/javascript">
+
+    $(document).on('click','.sxtj_box span',function(){
+         $(this).parent().remove();
+    })
+    $(".cal_tree_dd li").click(function(){
+        var title=$(this).attr("data-type");
+        var content=$(this).children('span').html();
+        var p=false;
+         $(this).parent().parent().parent().collapse('hide');
+        $.each( $(".sxtj_box ul li"), function(index, val) {
+              if(title==$(val).attr('data-type'))
+              {
+                $(val).html(''+title+':'+content+'<span>X</span>');
+                p=true;
+                return false;
+              }
+        });
+        if(!p)
+        {
+            $(".sxtj_box ul").append('<li data-type="'+title+'">'+title+':'+content+'<span>X</span></li>');
+        }
+    })
+         $(".wdgz_info_list li").mouseenter(function(){
+            $(this).children('.wdgz_detail').stop().slideDown(300);
+        })
+        $(".wdgz_info_list li").mouseleave(function(){
+            $(this).stop().children('.wdgz_detail').stop().slideUp(300);
+        })
+        $(".check_b").click(function(){
+            if($(this).is(":checked")){
+            $(this).next().css('backgroundImage', 'url(../../static/images/ck_03.png)');}
+            else{
+            $(this).next().css('backgroundImage', 'url(../../static/images/ck_05.png)');}
+        })
+        $(document).on('mouseover','.panel-heading',function(){
+            $(".panel-heading").removeClass('active');
+            $(".wdgz_cal_tree_ul li").removeClass('active');
+            $(this).addClass('active');
+        })
+        $(document).on('mouseout','.panel-heading',function(){
+            $(".panel-heading").removeClass('active');
+            $(".wdgz_cal_tree_ul li").removeClass('active');
+        })
+        $(document).on('mouseover','.wdgz_cal_tree_ul li',function(){
+
+            $(".panel-heading").removeClass('active');
+            $(".wdgz_cal_tree_ul li").removeClass('active');
+            $(this).addClass('active');
+        })
+        $(document).on('mouseout','.cal_tree_dd #accordion',function(){
+
+            $(".panel-heading").removeClass('active');
+            $(".wdgz_cal_tree_ul li").removeClass('active');
+        })
+
+        $("#add_btn").click(function(){
+            $(".cyqy_table input[type=text]").val("");
+        })
+        //======= 信息模版
+        $(".icon-iconfontmoban2").click(function(){
+         $(".dialog").show();
+        })
+        $(".qx_btn").click(function(){
+             $(".dialog").hide();
+        })
+        $("#add_btn").click(function(){
+            $(".cyqy_table input[type=text]").val("");
+        })
+        $(".dialog li").click(function(){
+            $(".dialog li").removeClass('active');
+            $(this).addClass('active');
+        })
+        $(".dialog li").dblclick(function(){
+             confirms.call(this);
+        })
+        $(".modal_wdgz .re_btn").click(function(){
+            confirms.call(this);
+        })
+        function confirms(){
+            $("#letterContent").val($(".dialog li.active").children('input').val());
+            $(this).parent().parent().hide();
+        }
+        // 左边下列特效
+        $(".ppdjl_dl_list:eq(0)").addClass("active").children("dd").show();
+       $(".ppdjl_dl_list dt").click(function(){
+         var id=$(this).parent().find("[name=postionid]").val();
+            var coli =  $(this).parent().find("[name=showResume]");
+            $.ajax({
+                    type: "POST",
+                    url: "../ajax_findResumeBypo",
+                    data: {"id": id},
+                    dataType: "json",
+                    success: function (data) {
+                        coli.empty();
+                        var content =addresume(data.dataInfo);
+                        coli.append(content);
+                    }
+        })
+        $(this).parent().addClass("active").children("dd").slideToggle(300).parent().siblings(".ppdjl_dl_list ").children("dd").slideUp("slow");
+        $(this).parent().siblings(".ppdjl_dl_list ").removeClass("active");
+
+    })
+    function addresume(dataInfo){
+        var content="";
+        var num=0;
+         $(dataInfo).each(function() {
+             var _this=dataInfo[0][num];
+             if(dataInfo[0][num]==undefined){
+                 return
+             }
+             if($.trim($(_this)[4])=="")
+                $(_this)[4]="null";
+             content += "     <div class=\"jllb m10\">";
+             content += "     <div class=\"jllbnk1\">";
+             content += "         <div class=\"lbzp\">";
+             content += "             <img src=\""+$(_this)[4]+"\" width=\"80\" height=\"80\" border=\"0\" align=\"absmiddle\"></div>";
+             content += "         <div class=\"lbnr tddjl_ul_li\">";
+             content += "             <ul id='email"+$(_this)[0]+"'>";
+             content += "                 <li><b class=\"fz16 fn fb\">" + $(_this)[3] + "</b>";
+             content += "                     " + $(_this)[5];
+             content += "                     <span class=\"c_c8\"><a href=\"yrjl?jlid=" + $(_this)[0] + "\">[个人简历]</a></span>";
+             content += "                 </li>";
+             content += "                 <li>" + $(_this)[36] + "</li>";
+             content += "                 <li>";
+             content += "                    " + $(_this)[35] + "|" + $(_this)[33] + " | " + $(_this)[37] + " | "+(parseInt(new Date().getFullYear()) - $(this)[6])+ "<i class=\"iconfont icon-shijian\"></i>";
+             content += "                     <span class=\"ml15\">" + $(_this)[30] + "</span>";
+             content += "                 </li>";
+             content += "             </ul>";
+             content += "         </div>";
+             content += "         <div class=\"ppz_box f_l\">";
+             content += "             <div class=\"ppd_box1\">";
+             content += "                 <div class=\"t\">41%</div>"
+             content += "                 <div class=\"b mt10\">匹配值</div>"
+             content += "             </div>"
+             content += "         </div>"
+             content += "         <div class=\"lbkoj\">"
+             content += "             <div class=\"mpqzxx mt6 fz14\">"
+             content += "                 <i class=\"iconfont icon-xin fz16\"></i>求职中"
+             content += "             </div>";
+             content += "             <ul class=\"b\">";
+             content += "                 <li  data-toggle=\"modal\" data-target=\"#if_yq_Modal\" onclick=\"setYq(" + $(_this)[2] + ",'" + $(_this)[3] + "')\">邀请</li>";
+             content += "                 <li data-toggle=\"modal\" data-target=\"#if_sc_Modal\" onclick=\"setId(" + $(_this)[2] + ")\">收藏</li>";
+             content += "                 <li data-toggle=\"modal\" data-target=\"#zf_Modal\" onclick=\"setZf('"+$(_this)[1]+"')\" >转发</li>";
+             var source_name = '';
+             if($(_this)[1] == 1){
+                 source_name = $(_this)[3];
+             }else{
+                 source_name = $(_this)[66];
+             }
+             content += "                 <li data-toggle=\"modal\" data-target=\"#sxmessage_Modal\" onclick=\"getOperateDatass(this,'" + source_name + "', " + $(_this)[2] + ", '"+$(_this)[1]+"', "+$(_this)[0]+", '"+$(_this)[3]+"')\">私信</li>";
+             content += "             </ul>";
+             content += "         </div>";
+             content += "     </div>";
+             content += " </div>";
+             num++;
+         });
+        return content
+                        }
+
+    //邀请方法
+        function yaoqing() {
+            var forpuid = $('#forpuid').val();
+            var pname = $('#puname').val();
+            var letterContent="<a href='#id="+puid+"' target='_blank'>"+pname+"</a>邀请您加入他们公司，TA可能正在找人才哦，请尽快查看并与TA联系吧~~"
+            $.ajax({
+                    type: "POST",
+                    url: "../ajax_sendLetter",
+                    data: {"attentionId": forpuid, "letterContent": letterContent},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.msg != 'success') {
+                            window.alert(data.msg);
+                        }else{
+                            $('#send').attr('data-dismiss', 'modal');
+                            window.alert('邀请成功！')
+                        }
+                    }
+                })
+        }
+    function collect(){
+        var forpuid = $('#forpuid').val();
+        $.ajax({
+                    type: "POST",
+                    url: "../ajax_addFavorite",
+                    data: {"forpuid": forpuid},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.msg != 'success') {
+                            window.alert(data.msg);
+                        }else{
+                            window.alert('收藏成功！',1)
+                        }
+                    }
+                })
+    }
+    function setName(name,email){
+        var title=name+"*"+email;
+        $("#zftitle").val(title)
+    }
+    function sendEmail(){
+        var title=$("#zftitle").val()
+        var pathnum=title.indexOf("*")
+        pathnum=parseInt(pathnum)
+        var email=title.substring(pathnum+1,title.length);
+        var emailContent=$("#emailContent").val();
+    }
+    function setId(id){
+            $("#forpuid").val(id);
+    }
+    function setYq(id,name){
+            $("#forpuid").val(id)
+        $("#yqname").val(name);
+    }
+    function search(){
+        var name=$("#searchname").val();
+        $.ajax({
+                    type: "POST",
+                    url: "../ajax_findPerson",
+                    data: {"searchname": name},
+                    dataType: "json",
+                    success: function (data) {
+                        var newul = $("#recentContact");
+                        newul.empty();
+                        for(var i = 0;i < data.length;i++){
+                        var area = data[i];
+                        newul.append("<li><span class=\"ml25\" onclick=\"setName('"+area.fields.contact_name+"','" + area.fields.email+"')\">"+area.fields.contact_name+"</span></li>");
+                    }
+                    }
+                })
+    }
+    function countChar(textareaID,spanID,maxNum)
+                {
+                    //得到输入的字符的长度
+                var NowNum = document.getElementById(textareaID).value.length;
+                //判断输入的长度是否超过规定的长度
+                if(NowNum>maxNum)
+                {
+                   //如果超过就截取规定长度的内容
+                document.getElementById(textareaID).value = document.getElementById(textareaID).value.substring(0,maxNum);
+                }
+                else
+                {
+                    //得到当前的输入长度并且显示在页面上
+                document.getElementById(spanID).innerHTML = NowNum;
+                }
+                }
+                //得到当前的输入长度并且显示在页面上
+                function SetLength(textareaID,spanID)
+                {
+                var NowNum = document.getElementById(textareaID).value.length;
+
+                document.getElementById(spanID).innerHTML = NowNum;
+                }
+
+                function PageInit()
+                {
+                SetLength('txtF_Content','counter');
+                }
+
+            function setZf(id){
+                $("#emialshow").append($("#email"+id).html())
+            }
+</script>
+{% include 'jobs/system/new_footer.html' %}

@@ -1,0 +1,386 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/new_pocomm_seach.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style2.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css">
+
+<script>
+  $(function(){
+        BusinessulControls("businessulDiv1","{{ tri.sexpect_industry | default:"" }}","{{ tri.expect_industry | default:"" }}",
+                'width:300px;margin-top:5px;height:auto;font-size:14px;');
+        PositionControls("positionDiv1","{{ tri.sexpect_position | default:"" }}","{{ tri.expect_position | default:"" }}",
+                'width:300px;margin-top:5px;height:auto;font-size:14px;', true);
+
+    })
+</script>
+<style>
+  #PositionSearchControls{
+    display: none;
+  }
+</style>
+<script type="text/javascript" >
+       $(function () {
+                $(".ssxl").click(function() {
+            if ($(this).find('ul').css("display") == "none") {
+                $(this).find('ul').slideDown(300);
+            } else {
+            $(this).find('ul').slideUp(300);
+            }
+    });
+         $(".ssxl ul").children('li').click(function(){
+            $(".ssxl ul").slideUp(150);
+            var zw=$(".ssxl").children("span").text();
+            $(".ssxl").children("span").text($(this).text());
+            $(this).text("");
+            if(zw == '公司'){
+                $('.gsss_r_t2').css('display', '');
+                $('#heclear').css('display', 'none');
+            }else{
+                
+                $('.gsss_r_t2').css('display', 'none');
+                $('#heclear').css('display', 'block');
+            }
+            $(this).text(zw);
+         })       
+        $(".ssxl").mouseleave(function(event) {
+            $(this).find('ul').delay(200).slideUp(300);
+        });
+
+         $('.selectControlList').mouseleave(function(event) {
+          $(this).slideUp(150);
+         });
+      });
+</script>
+
+<div class="clear">3</div>
+<div class="clear">1</div>
+
+<div style="height:25px; clear:both;"></div>
+<div class="main">
+  <div class="s_condition">
+    <div class="sctop">
+    <input type="hidden"  id="edit_expect_industry" value="{{ resume.expect_industry }}">
+      <div id="businessulDiv1" class="industry" onclick="BusinessulControlsShow(3,this)"></div>
+            <input type="hidden">
+      <div id="positionDiv1" class="industry" onclick="PositionControlsShow(5,this)"></div>
+            <input type="hidden">
+      <!--<div class="industry">
+        <label>选择行业：</label>
+        <ul>
+          <li>
+            互联网/移动互联网/电子商务
+            <i class="colse"></i>
+          </li>
+          <li>
+            互联网/移动互联网/电子商务
+            <i class="colse"></i>
+          </li>
+          <li>
+            互联网/移动互联网/电子商务
+            <i class="colse"></i>
+          </li>
+        </ul> <em class="open_des"></em>
+      </div>
+      <div class="industry">
+        <label>选择职能：</label>
+        <ul>
+          <li>
+            互联网/移动互联网/电子商务
+            <i class="colse"></i>
+          </li>
+          <li>
+            互联网/移动互联网/电子商务
+            <i class="colse"></i>
+          </li>
+          <li>
+            互联网/移动互联网/电子商务
+            <i class="colse"></i>
+          </li>
+        </ul> <em class="open_des" ></em>
+      </div>-->
+    </div>
+    <div id="positionmid">
+      <!-- 搜索筛选 -->
+      <ul class="category_ds">
+        <div class="details">
+          <li id="age_scope">
+            <span>年薪范围：</span>
+            <a href="javascript:void(0);" data-value="" class="active">不限</a>
+            {% if salarys %}
+                {% for salary in salarys %}
+                    <a href="javascript:void(0);" data-value="{{ salary.dictionary_value }}">{{ salary.dictionary_name }}</a>
+                {% endfor %}
+            {% endif %}
+{#            <a href="#">5万以下</a>#}
+{#            <a href="#">5-10万</a>#}
+{#            <a href="#">10-15万</a>#}
+{#            <a href="#">5-20万</a>#}
+{#            <a href="#">20-30万</a>#}
+{#            <a href="#">30-50万</a>#}
+{#            <a href="#">50-100万</a>#}
+{#            <a href="#">100万以上</a>#}
+          </li>
+          <li id="work_ex">
+            <span class="title">工作经验：</span>
+            <a href="javascript:void(0);" data-value="" class="active">不限</a>
+            {% if workyears %}
+                {% for workyear in workyears %}
+                    <a href="javascript:void(0);" data-value="{{ workyear.dictionary_value }}">{{ workyear.dictionary_name }}</a>
+                {% endfor %}
+            {% endif %}
+{#            <a href="#">应届毕业生</a>#}
+{#            <a href="#">1年以下</a>#}
+{#            <a href="#">1-3年</a>#}
+{#            <a href="#">3-5年</a>#}
+{#            <a href="#">5-10年</a>#}
+{#            <a href="#">10年以上</a>#}
+          </li>
+          <li id="ed_re">
+            <span class="title">学历要求：</span>
+            <a href="javascript:void(0);" data-value="" class="active">不限</a>
+            {% if diplomas %}
+                {% for diploma in diplomas %}
+                    <a href="javascript:void(0);" data-value="{{ diploma.dictionary_value }}">{{ diploma.dictionary_name }}</a>
+                {% endfor %}
+            {% endif %}
+{#            <a href="#">高中及以下</a>#}
+{#            <a href="#">大专</a>#}
+{#            <a href="#">本科</a>#}
+{#            <a href="#">硕士</a>#}
+{#            <a href="#">博士</a>#}
+          </li>
+          <li id="job_nat">
+            <span class="title">工作性质：</span>
+            <a href="javascript:void(0);" data-value="" class="active">不限</a>
+            {% if worktypes %}
+                {% for worktype in worktypes %}
+                    <a href="javascript:void(0);" data-value="{{ worktype.dictionary_value }}">{{ worktype.dictionary_name }}</a>
+                {% endfor %}
+            {% endif %}
+{#            <a href="#">全职</a>#}
+{#            <a href="#">兼职</a>#}
+{#            <a href="#">实习</a>#}
+          </li>
+          <li id="re_time">
+            <span class="title">发布时间：</span>
+            <a href="javascript:void(0);" data-value="" class="active">不限</a>
+            {% if publishDates %}
+                {% for publishDate in publishDates %}
+                    <a href="javascript:void(0);" data-value="{{ publishDate.dictionary_value }}">{{ publishDate.dictionary_name }}</a>
+                {% endfor %}
+            {% endif %}
+{#            <a href="#">三天内</a>#}
+{#            <a href="#">一周内</a>#}
+{#            <a href="#">一个月内</a>#}
+          </li>
+          </div>
+
+          <li id="choice_re" class="dn">
+            <span class="title">年薪范围：</span>
+            <a href="#" class="active" id="nx">5万以下</a>
+            <span class="title">工作经验：</span>
+            <a href="#" class="active" id="gzjl">不限</a>
+            <span class="title">学历要求：</span>
+            <a href="#" class="active" id="xl">高中及以下</a>
+            <span class="title">工作性质：</span>
+            <a href="#" class="active" id="xz">全职</a>
+            <span class="title">发布时间：</span>
+            <a href="#" class="active" id="fbt">一个月内</a>
+          </li>
+  
+          <li>
+            <span class="title">工作地点：</span>
+            <div class="choice_city">
+              <p class="city_p" data-value="">选择省份
+                <img src="{{ STATIC_URL }}images/new_images/xjt.png" alt=""></p>
+              <ul class="xl_mes">
+                <li value="">不限</li>
+                {% if areaes %}
+                    {% for area in areaes %}
+                        <li value="{{ area.dictionary_value }}">{{ area.dictionary_name }}</li>
+                    {% endfor %}
+                {% endif %}
+{#                <li>江西省</li>#}
+{#                <li>浙江省</li>#}
+{#                <li>福建省</li>#}
+{#                <li>福建省</li>#}
+              </ul>
+            </div>
+            <div class="choice_city ml15">
+              <p class="city_p" data-value="">选择地市
+                <img src="{{ STATIC_URL }}images/new_images/xjt.png" alt=""></p>
+              <ul class="xl_mes">
+                <li value="">不限</li>
+{#                <li>南昌</li>#}
+{#                <li>九江</li>#}
+{#                <li>赣州</li>#}
+{#                <li>赣州</li>#}
+              </ul>
+            </div>
+          </li>
+       
+      </ul>
+      <div class="seach_des" style="width:600px!important">
+        <div class="gsss_r_t1 ">
+{#          <div class="ssxl ss_div"><span>职位</span> <img style="margin-left:5px;" src="/static/images/h_xjt.gif">#}
+{#                    <ul style="display: none;">#}
+{#                        <li>公司</li>#}
+{#                    </ul>#}
+{#                </div>#}
+          <input class="ss_input" type="text" placeholder="请输入职位关键字" id="condition" style="float:left;vertical-align: top;" onkeydown="judgeEntry(event)" maxlength="50">
+          <a class="ss_anniu" href="javascript:void(0);" onclick="queryData()">搜索</a>
+        </div>
+        <div class="gsss_r_t2">
+          <span>热搜关键词：</span>
+          <ul>
+            <li>
+              <a href="javascript:void(0);" onclick="hotJobQuery(this)">市场推广</a>
+            </li>
+            <li>
+              <a href="javascript:void(0);" onclick="hotJobQuery(this)">测试</a>
+            </li>
+            <li>
+              <a href="javascript:void(0);" onclick="hotJobQuery(this)">运营</a>
+            </li>
+            <li>
+              <a href="javascript:void(0);" onclick="hotJobQuery(this)">产品助理</a>
+            </li>
+            <li>
+              <a href="javascript:void(0);" onclick="hotJobQuery(this)">网页设计</a>
+            </li>
+          </ul>
+        </div>
+        <div style="height:40px; clear:both; display:none;" id="heclear"></div>
+      </div>
+      <div class="sh_submit">收起<i></i></div>
+    </div>
+    <div id="res_des">
+      <div class="sere_nav">
+        <div class="result_left">
+          搜索结果： 共
+          <span id="resultCount">0个</span>
+          职位
+          <div class="type_position position_select" data-key="" data-value="职位类型"><span>
+              职位类型
+            </span>
+            <ul class="selectControlList zwxl">
+              <li data-key="" >不限</li>
+              <li data-key="1" >企业直招</li>
+              <li data-key="2" >经纪人发布</li>
+            </ul>
+          </div>
+         <div class="is_reward  position_select" data-key="" data-value="是否悬赏"><span>
+              是否悬赏
+            </span>
+            <ul class="selectControlList zwxl">
+              <li data-key="" >不限</li>
+              <li data-key="1" >悬赏职位</li>
+              <li data-key="2" >非悬赏职位</li>
+            </ul>
+          </div>
+        </div>
+        <div class="page_right">
+          <i class="left_icon" onclick="pageTurn('up')" style="cursor: pointer;"></i>
+          <span>0</span>
+          /<b>0</b> <i class="right_icon" onclick="pageTurn('down')" style="cursor: pointer;"></i>
+        </div>
+      </div>
+    <div id="noSendData" class="noSendData" style="display: none;">
+        <div>
+            <p>暂无匹配的搜索结果</p>
+        </div>
+    </div>
+     <ul class="sea_list">
+    </ul>
+</div>
+  </div>
+  <div class="lthy_pager" id="paginInfo" style="margin-top:80px">
+{#        <ul class="page_number">#}
+{#        <li>首页</li>#}
+{#        <li id="paginInfo_backPage">上一页</li>#}
+{#        <li class="active">1</li>#}
+{#        <li >2</li>#}
+{#        <li >3</li>#}
+{#        <li >4</li>#}
+{#        <li >5</li>#}
+{#        <li >下一页</li>#}
+{#        <li >尾页</li>#}
+{#        </ul>#}
+       </div>
+
+</div>
+<!-- /.modal -->
+<div class="modal fade" id="message_Modal" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:690px">
+        <div class="modal-content" style="width:690px" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">发送私信</h4>
+            </div>
+            <div class="modal-body t_c">
+                <div  class="message_Modal_box">
+                    <span>某某某<label>x</label></span><span>某某某<label>x</label></span><span>某某某<label>x</label></span><span>某某某<label>x</label></span><span>某某某<label>x</label></span><span>某某某<label>x</label></span>
+                </div>
+                <div  class="modal_wdgz mt10">
+                <i class="iconfont icon-iconfontmoban2"></i><p style="display: inline;color: #666;padding-left: 5px; font-size:14px;">信息模板</p>
+                <div class="dialog" style="display:none">
+                <div class="xxmb_header">
+                    <div class="f_l">信息模版</div>
+                    <div class="f_r">
+                        <input type="text" placeholder="搜索">
+                    </div>
+                </div>
+                    <ul class="list" style="  overflow: auto; height: 244px; ">
+                        {% for tmodel in tmodels %}
+                            <li>
+                                <span style="color:#666">{{ tmodel.model_name }}</span>
+                                <span style="margin-left: 30px;color:#b5b5b5">
+                                    {% if tmodel.content|length > 20 %}
+                                        {{ tmodel.content|slice:"20" }} ...
+                                    {% else %}
+                                        {{ tmodel.content }}
+                                    {% endif %}
+                                </span>
+                                <input type="hidden" value="{{ tmodel.content }}" >
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="t_c">
+                        <input type="button" name="" class="re_btn" value="确认">
+                        <input type="button" name="" class="qx_btn ml15" value="取消"></div>
+                </div>
+            </div>
+                <div class="message_Modal_box1 mt10">
+                    <textarea name="" maxlength="1000" style="resize:none;color:#666" id="letterContent" placeholder="请输入私信内容"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" style="background:#5c91d9" id="send" onclick="sendLetter()">发送</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+<input type="hidden" id="operateIndex" />
+<input type="hidden" id="positionId" />
+<input type="hidden" id="sourceId" />
+<input type="hidden" id="initData" value="{{ condition }}" />
+<script type="text/javascript">
+  $(".type_position").select({
+        width: '120px',
+        height: '30px'
+    });
+   $(".is_reward").select({
+        width: '120px',
+        height: '30px'
+    });
+</script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/loginDialog/loginDialog.js"></script>
+<script src="{{ STATIC_URL }}appJs/system/new_seach_position.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/forwardposition.js"></script>
+{% include 'jobs/system/new_footer.html' %}
+

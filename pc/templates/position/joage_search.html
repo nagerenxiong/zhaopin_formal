@@ -1,0 +1,70 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/joinagcom.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/new_pocomm_seach.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.css">
+	<div class="clear"></div>
+	<div class="main">
+		<div class="audit_top">
+			加入经纪人公司
+		</div>
+
+		<div class="addag_seach">
+			<input class="" type="text" style="height:40px;" placeholder="搜索经纪人公司" id="condition" onkeydown="judgeEntry(event)" maxlength="50">
+			<a class="" href="javascript:void(0);" onclick="queryCompany()">搜索</a>
+		</div>
+
+        <!---热门经纪人-->
+		<div id="res_des">
+            <div class="hotagent hotCompany">
+                <div class="hotagtitle hotmar ">热门经纪人公司</div>
+                <div class="sere_nav">
+                    <div class="result_left">
+                        共<span>&nbsp;&nbsp;100家&nbsp;&nbsp;</span>公司
+                    </div>
+                    <div class="page_right">
+                      <i class="left_icon"></i>
+                      <span class="currentPage">1</span>
+                      <abc class="totalPage">/20</abc>
+                      <i class="right_icon"></i>
+                    </div>
+                </div>
+           </div>
+
+            <div class="hotagtitle seare searchCompany">搜索结果</div>
+
+               <div class="hotlist">
+                     <ul class="sea_list pchoi tpcPaginUl">
+
+                    {% comment %}       在此遍历 搜索结果{% endcomment %}
+
+                    </ul>
+                </div>
+</div>
+ <div class="lthy_pager mabt" id="paginInfo" style="margin-top:80px">
+<ul class="page_number" id="pcPaginInfo">
+</ul>
+</div>
+</div>
+<div class="clear"></div>
+
+<div class="modal fade" id="sx_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true" style="margin-top:10%">
+  <div class="modal-dialog"style="width: 300px;">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">是否加入</h4>
+      </div>
+      <div class="modal-body t_c">你只能申请加入一个企业，你确定要加入该企业吗？</div>
+      <div class="modal-footer">        
+        <button type="button" class="btn btn-primary" data-dismiss="modal" style="width:auto;height:auto" onclick="applyJoinCompany()">确定</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/joage_search.js"></script>
+{% include 'jobs/system/new_footer.html' %}

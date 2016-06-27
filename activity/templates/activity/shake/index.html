@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="user-scalable=no">
+	<title>摇摇乐</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" href="/static/activity/shake/css/style.css">
+	<script type="text/javascript" src="/static/activity/shake/js/zepto.min.js"></script>
+</head>
+<body>
+	<img src="/static/activity/shake/images/index.jpg" class="top" id="top">
+	<img src="/static/activity/shake/images/index.jpg" class="bottom" id="bottom">
+	<img src="/static/activity/shake/images/m_center.png" id="center" >
+	<div id="circle_box" >
+		<div >
+			<img src="/static/activity/shake/images/y.png" class="circle_top" >
+			<img src="/static/activity/shake/images/y.png" class="circle_bottom"></div>
+	</div>
+	<!-- 活动规则 -->
+	<div class="activity_rules_box yyl_box" id="activity_rules_box" >
+		<div class="title">
+			<span>活动规则</span>
+			<img src="/static/activity/shake/images/x.png" alt="关闭活动规则" class="close_activity"></div>
+		<div id="activity_rules_min_box">
+			一、微信摇奖活动只适用怀才当遇注册用户；
+			<br>
+			<br>
+			二、每个注册用户默认拥有1次微信摇奖机会；
+			<br>
+			<br>
+			三、每成功邀请一位好友注册怀才当遇可增加1次摇奖机会，可累加；
+			<br>
+			<br>
+			四、获得实物奖品的用户，请填写您的
+			<span class="address">收件地址</span>
+			，平台核对后，将发放奖品；
+			<br>
+			<br>
+			五、奖品会在活动结束后5个工作日内发放；
+			<br>
+			<br>
+			六、参与方式：点击怀才当遇公众号底部“活动专区”，进入活动页面；
+			<br>
+			<br>七、活动时间2016年1月30日-2016年2月22日</div>
+	</div>
+	<!-- 获奖人信息 -->
+	<div class="activity_rules_box yyl_box" id="activity_rules_box1" >
+		<div class="title">
+			<span>获奖人信息</span>
+			<img src="/static/activity/shake/images/x.png" alt="关闭活动规则" class="close_activity"></div>
+		<ul id="activity_rules_people_box" >
+		  <li><input type="text" name="accout" id="accout" placeholder="账号"></li>
+		  <li><input type="text" name="name" id="name" placeholder="联系人"></li>
+		  <li><input type="tel" name="contact" id="contact" placeholder="联系方式" pattern="(13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8}"></li>
+		  <li><input type="text" name="address" id="address" placeholder="收货地址"></li>
+		  <li>请确保填写的信息真实有效，以便我们能联系到您</li>
+		  <li class="b"><span>确定</span></li>
+		</ul>
+	</div>
+	<div class="a_count">
+		您还有1次抽奖机会
+	</div>
+	<div class="bottom_button">
+		<a href="javascript:void(0)" id="show_activity" >活动规则</a>
+		<a href="javascript:void(0)" id="share_btn">立即分享</a>
+	</div>
+	<!-- 注册 -->
+	<div id="reg_box"  class="yyl_box">
+		<div class="title">
+			注册
+		</div>
+		<div class="accout_type_box"><span class="active">我是人才</span><span>我是经纪人</span><span>我是企业HR</span></div>
+		<ul class="content">
+			<li><span class="l">手机号</span><input type="tel"></li>
+			<li><span class="l">验证码</span><input type="text"><span class="code">获取验证码</span></li>
+			<li><span class="l">密码</span><input type="password"></li>
+			<li class="login_box"><span>登陆</span></li>
+			<li id="reg_btn">注册</li>
+		</ul>
+	</div>
+	<!-- 登录 -->
+	<div id="login_box"  class="yyl_box">
+		<div class="title">
+			登陆
+		</div>
+		<ul class="content" style="margin-top:50px ">
+			<li><span class="l">账号</span><input type="tel"></li>
+			<li><span class="l">密码</span><input type="password"></li>
+			<li class="login_box"><span>注册</span></li>
+			<li id="login_btn">登陆</li>
+		</ul>
+	</div>
+	<!-- 奖品 -->
+	<div id="jp_box" class="yyl_box" >
+		<div class="title">
+			我的奖品
+		</div>
+		<ul>
+			<li>
+				<span>500元话费充值卡</span>
+				<span style="float:right">2张</span>
+			</li>
+			<li>
+				<span>500元话费充值卡</span>
+				<span style="float:right">2张</span>
+			</li>
+			<li>
+				<span>500元话费充值卡</span>
+				<span style="float:right">2张</span>
+			</li>
+		</ul>
+		<span class="close_btn"></span>
+	</div>
+	<!-- 中奖 -->
+	<div id="zj_box"  class="yyl_box" >
+		<div class="title">
+			<img src="/static/activity/shake/images/index2.png" alt="中奖了"></div>
+		<p>恭喜你中奖啦！</p>
+		<p class="zj_box_c">摇中了500元人才经纪人服务卡一张！</p>
+		<div class="b">
+			<span class="my_jp_btn">我的奖品</span>
+		</div>
+		<span class="close_btn"></span>
+	</div>
+	<!-- 没有抽奖机会 -->
+	<div id="cjjh_box"  class="yyl_box">
+		<div class="title">
+			<img src="/static/activity/shake/images/index3.png" alt="中奖了"></div>
+		<!-- 没有抽奖机会 -->
+		<p class="cjjh_box_c ">
+			抱歉！您的抽奖机会
+			<br>已用完邀请好友注册即可增加抽奖次数哦</p>
+		<div class="b">
+			<span class="my_jp_btn">我的奖品</span>
+		</div>
+		<span class="close_btn"></span>
+	</div>
+	<!-- 未中奖 -->
+	<div id="cjjh_no_box"  class="yyl_box">
+		<div class="title">
+			<img src="/static/activity/shake/images/index3.png" alt="中奖了"></div>
+		<!-- 未中奖 -->
+		<dl class="cjjh_box_c wzj_dl">
+			<dt>非常遗憾，您未中奖</dt>
+			<dd>别灰心，再试一次吧！</dd>
+		</dl>
+		<div class="b">
+			<span class="my_jp_btn">我的奖品</span>
+		</div>
+		<span class="close_btn"></span>
+	</div>
+	<!-- 分享 -->
+	<div id="share_box" class="yyl_box" >
+		<img src="/static/activity/shake/images/xs.png"  class="img1">
+		<img src="/static/activity/shake/images/share.png" class="img2">
+	</div>
+	<!-- 所有弹层背景 -->
+	<div id="dialog_background"></div>
+	<input type="button" value="点击" id="dj" style="width:200px;height:100px;position:absolute;z-index: 3">
+	<script type="text/javascript" src="/static/activity/shake/js/public.js"></script>
+</body>
+</html>

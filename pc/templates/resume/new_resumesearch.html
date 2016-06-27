@@ -1,0 +1,392 @@
+{% load i18n %}
+{% include 'jobs/system/header.html' %} 
+<script  src="{{ STATIC_URL }}js/jquery-1.11.3.min.js"></script> 
+<script type="text/javascript" src="/static/new_mobile/js/getInitial.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}appJs/resume/new_resume_search.js"></script>
+<link href="{{ STATIC_URL }}css/new_resume.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/css.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/patch.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/popup.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script> 
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script> 
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script> 
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul_old.js"></script> 
+<script type="text/javascript" src="{{ STATIC_URL }}js/position_old.js"></script> 
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script> 
+<script type="text/javascript" src="{{ STATIC_URL }}js/major.js"></script> 
+<script type="text/javascript" src="{{ STATIC_URL }}js/position_all.js"></script> 
+<script type="text/javascript" src="{{ STATIC_URL }}js/forwardresume.js"></script> 
+<script type="text/javascript" src="{{ STATIC_URL }}js/inviteDialog.js"></script> 
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script> 
+<script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script> 
+<script type="text/javascript" src="{{ STATIC_URL }}js/interview.js"></script> 
+<script type="text/javascript" src="{{ STATIC_URL }}js/isIdentityAudit.js"></script>
+<style>
+  .nav2{width:1020px!important;}
+  .modal_box h3 em{width:103%!important; height:104%!important;}
+</style>
+{% include 'jobs/system/menu_resume.html' %}
+<div class="clear">2</div>
+<div class="clear">1</div>
+<img src="/static/images/new_images/fcshow.png" alt="" class="super_nat">
+<div class="suspend_sea">
+    <div class="opa"></div>
+    <div class="conts">
+        <div class="sus_sea">
+            <input type="text" class="commsea" placeholder="请输入简历关键词，多个关键词用空格隔开" id="condition" onkeydown="judgeEntry(event)" maxlength="50">
+            <a href="javascript:void(0);" onclick="searchDataDeal('search')">搜索</a> </div>
+        <div class="conditi_top su_top">
+            <p class="ru_count cowif">共为您找到<span id="resultCount1"> 0份</span>简历</p>
+            <ul style="width:600px!important;">
+                <li>
+                    <div class="educ_claim">
+                    <p class="claim_p commcolo" data-value="" style="background: none;">学历要求 <img src="/static/images/new_images/xl.png" alt="" class="claim_img"></p>
+                        <ul class="xl_mes1 xl_comm commcolo">
+                            <li value="">学历不限</li>
+                            {% if diplomas %}
+                                {% for diploma in diplomas %}
+                                    <li value="{{ diploma.dictionary_value }}">{{ diploma.dictionary_name }}</li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="work_exen">
+                        <p class="exen_p commcolo" data-value="">工作经验 <img src="/static/images/new_images/xl.png" alt="" class="claim_img"></p>
+                        <ul class="xl_work xl_comm commcolo">
+                            <li value="">经验不限</li>
+                            {% if forWorkYs %}
+                                {% for workyear in forWorkYs %}
+                                    <li value="{{ workyear.dictionary_value }}">{{ workyear.dictionary_name }}</li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="expect_pay">
+                        <p class="pay_p commcolo" data-value="">期望年薪 <img src="/static/images/new_images/xl.png" alt="" class="claim_img"></p>
+                        <ul class="xl_expec xl_comm commcolo">
+                            <li value="">期望年薪不限</li>
+                            {% if expectPays %}
+                                {% for pay in expectPays %}
+                                    <li value="{{ pay.dictionary_value }}">{{ pay.dictionary_name }}</li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="resu_cate">
+                        <p class="resu_p commcolo" data-value="">简历类别 <img src="/static/images/new_images/xl.png" alt="" class="claim_img"></p>
+                        <ul class="xl_cate xl_comm commcolo">
+                            <li value="">类别不限</li>
+                            <li value="1">个人简历</li>
+                            <li value="2">经纪人简历</li>
+                        </ul>
+                    </div>
+                </li>
+                 <li style="width:auto!important;">
+                    <div class="resu_filtr">
+                        <p class="resu_f" data-value="" id="resume_filter">简历过滤<img src="/static/images/new_images/xl.png" alt="" class="claim_img"></p>
+                        <ul class="xl_fitl xl_comm" style="width:133px!important;">
+                           <li value="">不过滤</li>
+                            <li value="1">过滤当天看过</li>
+                            <li value="2">过滤两天内看过</li>
+                            <li value="3">过滤三天内看过</li>
+                            <li value="4">过滤七天看过</li>
+                            <li value="5">过滤一个月内看过</li>
+                        </ul>
+                    </div>
+                </li>
+{#                <li><span class="tur_time commcolo">更新时间</span></li>#}
+            </ul>
+            <div class="crit_list1 wi195 crit_add">
+                <p class="crit_top1 he30 top_add" style="width:193px">我保存的搜索条件
+                <img src="/static/images/new_images/xjt.png" alt="" class="claim_img2"></p>
+                <ul class="xl_crit xls" style="margin-top:-1px;overflow:hidden;">
+                    {% if tResumeSearches %}
+                        {% for tResumeSearch in tResumeSearches %}
+                            <li onclick="quickSearch('{{ tResumeSearch.id }}',this)" style="width:193px!important">{{ tResumeSearch.search_name }}</li>
+                        {% endfor %}
+                        {% else %}  
+                         <span class="nonezi" style="height:40px; text-align: center; width:100%; display:block; line-height:40px;">暂无保存搜索条件</span>   
+                    {% endif %}
+                </ul>
+                <!-- <div class="sh_submit">展开<i class="active"></i></div> --> 
+            </div> 
+        </div>
+    </div>
+</div>
+<div class="main">
+    <div class="resu_header">
+        <div class="resu_top">
+            <div class="sea_crit">
+                <ul>
+                    <li><span class="seain_ti">关&nbsp;&nbsp;键&nbsp;&nbsp;词</span> <span>
+                        <input name="" type="text" id="keywords" placeholder="请输入简历关键词，多个关键词用空格隔开" class="sea_in commsea">
+                        </span> </li>
+                    <li><span class="seain_ti">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别 </span> <span>
+                        <div class="bd_Ri">
+                            <div class="gender_cho gender_cho1 gencomm" style="cursor: pointer">不限<span class="pion"></span></div>
+                            <div class="gender_cho gencomm" style="cursor: pointer"> <i class="nan_icon" style="font-size:16px;"></i>男 <span class="pion"></span> </div>
+                            <div class="gender_cho gencomm" style="cursor: pointer"> <i class="nv_icon" style="font-size:16px;"></i>女 <span class="pion"></span></div>
+                        </div>
+                        </span> <span class="seain_ti" style="margin-left:10px!important;width:62px!important;">年龄要求</span> <span>
+                         <div class="bd_Ri1">
+                            <input name="" id="startAge" type="text" class="zw_btk7" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;岁">
+                            <b style="color:#888">—</b>
+                            <input name="" id="endAge" type="text" class="zw_btk7" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;岁">
+                        </div>
+                        </span> </li>
+                    <li><span class="seain_ti">所在行业</span> <span>
+                        <div id="businessulDiv" onclick="BusinessulControlsShow(3,this)">
+{#                            <dl></dl>#}
+{#                            <span style="color:#888">请选择行业</span>#}
+                        </div>
+                        <input id="businessulValue" name="businessulValue" type="hidden" value="">
+                        </span> </li>
+                    <li><span class="seain_ti">职能类别</span> <span>
+                        <div id="positionDiv" onclick="PositionControlsShow(5,this)">
+{#                            <dl>#}
+{#                            </dl>#}
+{#                            <span style="color:#888">请选择职位</span>#}
+                        </div>
+                        <input type="hidden" value="" name="positionValue" id="expectPosition">
+                        </span> </li>
+                    <li><span class="seain_ti">期望工作地区</span> <span>
+                        <input name="" class="sea_in bacimg" id="expected_area" onclick="showArea(this,3)" placeholder="请选择工作地区">
+                        <input type="hidden" value="" name="areaValue">
+                        </span> </li>
+                    <li><span class="seain_ti">目前居住地</span> <span>
+                        <input name="" class="sea_in cup ControlsWrap" id="current_area" onclick="showArea(this,1)" placeholder="请选择目前居住地">
+                        <input type="hidden" value="" name="nowLiveArea">
+                        </span> </li>
+                    <li> <span class="seain_ti">目前所在公司</span> <span>
+                        <input name="" type="text" id="company_name" class="sea_in1" placeholder="请填写公司名称">
+                        </span> <span class="choice_com">
+                        <input type="radio" name="company" value="now" checked>
+                        目前公司</span> <span class="choice_com">
+                        <input type="radio" name="company" value="all">
+                        全部经历</span> </li>
+                </ul>
+            </div>
+            <div class="crit_list">
+                <dl>
+                    <dt class="crit_top">我保存的搜索条件</dt>
+                    <dd class="cal_tree_dd1">
+                        {% if tResumeSearches %}
+                            {% for tResumeSearch in tResumeSearches %}
+                                <div class="panel-heading">
+                                    <input type="hidden" value="{{ tResumeSearch.id }}">
+                                    <i class="iconfont icon-fangxiang2 f_l" style="font-size:16px"></i>
+                                    <span class="name_span" onclick="quickSearch('{{ tResumeSearch.id }}',this)">{{ tResumeSearch.search_name }}</span>
+                                    <input type="text" id="" value="{{ tResumeSearch.search_name }}" class="edit_name_input">
+                                    <span class="f_r add_up_re_btn">
+                                        <i class="bj_icon" onclick="setOperateType(this, 'update')" data-toggle="modal" data-target="#search_Modal"></i>
+                                        <i class="colse_icon" data-toggle="modal" data-target="#if_del_Modal"></i>
+                                    </span>
+                                </div>
+                            {% endfor %}
+                            {% else %}  
+                            <span class="nonezi" style="height:40px; text-align: center; width:100%; display:block; line-height:40px;">暂无保存搜索条件</span>   
+                        {% endif %}
+                    </dd>
+                </dl>
+            </div>
+            <div class="seach_btn">
+                    <a href="#main" onclick="searchDataDeal('search')" >搜索简历</a>
+                    <span data-toggle="modal" data-target="#search_Modal" onclick="setOperateType(this, 'save')" class="savesea"></span>
+                    <span style="cursor: pointer;" class="cz" onclick="reset()">重置条件</span>
+            </div>
+        </div>
+        <div class="resu_ss">
+            <div class="sea_crit">
+                <ul>
+                    <li><span class="seain_ti">关&nbsp;&nbsp;键&nbsp;&nbsp;词</span>
+                        <span class="sqsea">
+                        <input name="" type="text" id="keywords" placeholder="请输入简历关键词，多个关键词用空格隔开" class="sea_in2 commsea">
+                        <div class="seabtn" onclick="searchDataDeal('search')"><img src="/static/images/new_images/seac.png" alt="">搜索</div>
+                        </span> </li>
+                    <li style="width:1000px!important;"><span class="seain_ti">已选条件:</span><span class="sea_resu"> </span><a href="#" class="modify_btn">修改搜索条件</a> </li>
+                </ul>
+            </div>
+            <div class="crit_list1">
+                <p class="crit_top1">我保存的搜索条件<img src="/static/images/new_images/xjt.png" alt="" class="claim_img1"></p>
+                <ul class="xl_crit xl_comm">
+                    {% if tResumeSearches %}
+                        {% for tResumeSearch in tResumeSearches %}
+                            <li onclick="quickSearch('{{ tResumeSearch.id }}',this)">{{ tResumeSearch.search_name }}</li>
+                        {% endfor %}
+                    {% else %}  
+                         <span class="nonezi" style="height:40px; text-align: center; width:100%; display:block; line-height:40px;">暂无保存搜索条件</span>    
+                    {% endif %}
+                </ul>
+                <!-- <div class="sh_submit">展开<i class="active"></i></div> --> 
+            </div>
+        </div>
+        <div class="sh_submit">收起<i></i></div>
+    </div>
+    <div style="clear:both;"></div>
+    <div class="resu_cont" id="main" style="padding-top:20px;">
+        <div class="conditi_top">
+            <p class="ru_count">共找到<span id="resultCount2"> 0份</span>简历</p>
+            <ul>
+                <li>
+                    <div class="educ_claim">
+                        <p class="claim_p" data-value="" id="diploma" style="background: none;">学历要求 <img src="/static/images/new_images/xl.png" alt="" class="claim_img"></p>
+                        <ul class="xl_mes1 xl_comm">
+                            <li value="">要求不限</li>
+                            {% if diplomas %}
+                                {% for diploma in diplomas %}
+                                    <li value="{{ diploma.dictionary_value }}">{{ diploma.dictionary_name }}</li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="work_exen">
+                        <p class="exen_p" data-value="" id="work_year">工作经验 <img src="/static/images/new_images/xl.png" alt="" class="claim_img"></p>
+                        <ul class="xl_work xl_comm">
+                            <li value="">经验不限</li>
+                            {% if forWorkYs %}
+                                {% for workyear in forWorkYs %}
+                                    <li value="{{ workyear.dictionary_value }}">{{ workyear.dictionary_name }}</li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="expect_pay">
+                        <p class="pay_p" data-value="" id="expectSalary">期望年薪 <img src="/static/images/new_images/xl.png" alt="" class="claim_img"></p>
+                        <ul class="xl_expec xl_comm">
+                            <li value="">期望年薪不限</li>
+                            {% if expectPays %}
+                                {% for pay in expectPays %}
+                                    <li value="{{ pay.dictionary_value }}">{{ pay.dictionary_name }}</li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="resu_cate">
+                        <p class="resu_p" data-value="" id="resume_source">简历类别 <img src="/static/images/new_images/xl.png" alt="" class="claim_img"></p>
+                        <ul class="xl_cate xl_comm">
+                            <li value="">类别不限</li>
+                            <li value="1">个人简历</li>
+                            <li value="2">经纪人简历</li>
+                        </ul>
+                    </div>
+                </li>
+                <li style="width:auto!important;">
+                    <div class="resu_filtr">
+                        <p class="resu_f" data-value="" id="resume_filter">简历过滤<img src="/static/images/new_images/xl.png" alt="" class="claim_img"></p>
+                        <ul class="xl_fitl xl_comm" style="width:133px!important;">
+                            <li value="">不过滤</li>
+                            <li value="1">过滤当天看过</li>
+                            <li value="2">过滤两天内看过</li>
+                            <li value="3">过滤三天内看过</li>
+                            <li value="4">过滤七天看过</li>
+                            <li value="5">过滤一个月内看过</li>
+                        </ul>
+                    </div>
+                </li>
+{#                <li><span class="tur_time">更新时间</span></li>#}
+            </ul>
+            <div class="page_right">
+                <i class="left_icon" style="cursor: pointer;" onclick="pageTurn('up')"></i>
+                <span>0</span> /<b>0</b>
+                <i class="right_icon" style="cursor: pointer;" onclick="pageTurn('down')"></i>
+            </div>
+        </div>
+        <div class="tjsx1">
+            <input name="" type="checkbox" value="" id="checkAll">
+            <label for="checkAll" class="ml5 mr5 fn" style="vertical-align: middle;">全选</label>
+            <input name="" type="button" value="批量查看简历" class="tjann1" onclick="browseResume()">
+            <div class="resucount1">每页显示&nbsp;
+                <a href="javascript: reloadPage(10);" class="active">10</a>
+                <a href="javascript: reloadPage(20);">20</a>
+                <a href="javascript: reloadPage(30);">30</a>条
+            </div>
+        </div>
+        <div class="info_list" id="Info_list">
+            <div id="noSendData_tddjl" class="noSendData" style="display:none;">
+                            <div>
+                                    <p>暂时没有符合条件的搜索结果！</p>
+                            </div>
+            </div>
+            <ul id="tableInfo">
+                
+            </ul>            
+        </div>
+        <div id="paginInfo" class="lthy_pager mabt" style="margin-top:80px"></div>
+    </div>
+</div>
+
+
+<!-- 快捷搜索名称模态框（Modal） -->
+<div class="modal fade" id="search_Modal" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:300px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">快捷搜索</h4>
+            </div>
+            <div class="modal-body t_c" style="text-align: left;">快捷搜索名称:<div><textarea name="search_name" id="searchName" maxlength="12" cols="30" rows="4" style="width: 270px;resize: none;"></textarea></div></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="sureInterview" onclick="searchDataDeal('save')">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+<!-- 删除快捷搜索条件模态框（Modal） -->
+<div class="modal fade" id="if_del_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:300px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">删除快捷搜索</h4>
+            </div>
+            <div class="modal-body t_c">确认删除该快捷搜索？</div>
+            <div class="modal-footer" style="border:none;">
+                <input type="hidden" id="cancelId" />
+                <input type="hidden" id="cancelGroupId" />
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteQuickSearch()">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+
+            </div>
+        </div>
+        <!-- /.modal-content --> </div>
+</div>
+<!-- /.modal -->
+<!-- 模态框（Modal） -->
+    <input type="hidden" id="account_type" value="{{ pu.account_type }}" />
+    <input type="hidden" id="pc_id" value="{{ request.session.pc_id }}" />
+    <input type="hidden" id="pu_id" value="{{ pu.id }}" />
+    <input type="hidden" id="searchResumeId" /><!-- 快捷搜索简历ID，用于删除 -->
+    <input type="hidden" id="sourceId" />
+    <input type="hidden" id="operateState" />
+    <input type="hidden" id="initData" value="{{ condition }}" />
+    <input type="hidden" id="queryPosition" value="{{ queryPosition }}" />
+    <input type="hidden" id="queryPositionName" value="{{ queryPositionName }}" />
+    <input type="hidden" id="industry" value="{{ industry }}" />
+    <input type="hidden" id="industry_name" value="{{ industry_name }}" />
+    <input type="hidden" id="validStatus" value="{{ pu.userValidateStatus }}" />
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script>
+
+</script>
+{% include 'jobs/system/new_footer.html' %}

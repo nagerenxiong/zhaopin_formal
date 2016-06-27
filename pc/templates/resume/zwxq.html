@@ -1,0 +1,777 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/module.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/single/zwxq.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_1441703525_8632002.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
+<style type="text/css">
+   .fenxiang a{
+    display: block!important;
+    height: 45px;
+    line-height: 45px;
+    margin-left: 10px;
+    text-indent: 20px;
+    background-repeat: no-repeat;
+    background-position: left center!important;}
+.fenxiang .word {
+    background-color: #f8f8f8;
+    color: #333;
+    cursor: default;
+    padding: 0px 8px;
+        height: 30px;
+    line-height: 30px;
+}
+
+.company_area #allmap {
+    width: 100%;
+    height: 230px;
+    display: block;
+    margin-bottom: 10px;}
+
+
+
+</style>
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/deliverResumes.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/loginDialog/loginDialog.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/report.js"></script>
+<script type="text/javascript" src="http://www.luqidong.com/demo/qrcode/js/qrcode.js"></script>
+<script  src="{{ STATIC_URL }}js/personalDeliveryResume.js" type="text/javascript"></script>
+<script type="text/javascript">
+    {% if result == '1' %}
+        $('.modal_wrap').css('display', 'block');
+        $('.dcjl').css('display', 'block');       
+    {% elif result == '2' %}
+        alert('你不能查看悬赏职位', '2');
+        window.location = '/new_search_position';
+    {% endif %}
+</script>
+ {% if request.session.account_type == "1" %}
+ <div class="clear">2</div>
+ {% else %}
+<div class="clear">3</div>
+{% endif %}
+<!-- 主体 start -->
+<div class="content">
+<!-- zwxq开始 -->
+<div id="zwxq">
+<!-- l_box开始　与　r_box是同级　是左右两个大框 -->
+    <div class="l_box">
+
+        {% if position.rewards_money > 0 %}
+            <!-- l_box_top开始　与l_box_wrap是同级 是左边头部-->
+                 <div class="l_box_top">
+                    <div class="l_box_top_l">
+                        <p>招聘：{{ position.recruit_count | default:1 }}人</p>
+                        <p>成功推荐候选人入职，推荐人获得<b style="font-weight: bold;font-size: 17px;">{{ position.rewards_money }}</b>元赏金。</p>
+                    </div>
+                     {% if pu %}
+                         {% if pu.account_type == 3 or pu.account_type == 5 %}
+                            <div class="l_box_top_r" onclick="recommend_resume('{{ position.id }}')">我要推荐</div>
+                         {% endif %}
+                     {% else %}
+                        <div class="l_box_top_r" onclick="judgeLogin()">我要推荐</div>
+                     {% endif %}
+                    <div class="p">
+                    赏金<br>￥<b style="font-weight: bold;font-size: 17px;">{{ position.rewards_money }}</b>
+                    </div>
+                    <div style="clear: both"></div>
+                    <div style="margin-top:30px;padding-left: 23px;word-break: break-all;padding-right: 20px;">{% if position.rewards_demand %}{{ position.rewards_demand|safe }}{% endif %}</div>
+                </div>
+        　　<!-- l_box_top结束 -->
+        {% endif %}
+    <!-- l_box_wrap开始 -->
+         <div class="l_box_wrap">
+        <div class="zwxq_header">
+            <h1 class="zw_name nowrap">
+                <span class="nowrap" title="{{ position.position_name|default_if_none:'' }}" style="display: inline-block;max-width:540px;vertical-align:top;">{{ position.position_name|default_if_none:'' }}</span>
+                <span class="company_name">
+                    {{ position.pc_name|default_if_none:'' }}
+                </span>
+            </h1>
+            <p class="nowrap" style="width: 72%" title="{{ position.payname|default_if_none:'' }}&nbsp;|&nbsp;{{ position.work_yearname|default_if_none:'经验不限' }}&nbsp;|&nbsp;{{ position.diplomaname|default_if_none:'学历不限' }}&nbsp;|&nbsp;{{ position.work_naturename|default_if_none:'全国' }}{% if position.work_areaname %}[&nbsp;{{ position.work_areaname }}&nbsp;]{% endif %}{{ position.last_update_date|date:'Y-m-d' }}&nbsp;发布">
+                <span class="pay">{{ position.payname|default_if_none:'' }}</span>
+                <span class="require">
+                    {{ position.work_yearname|default_if_none:'经验不限' }}&nbsp;|&nbsp;{{ position.diplomaname|default_if_none:'学历不限' }}&nbsp;|&nbsp;{{ position.work_naturename|default_if_none:'全国' }}
+                </span>
+                <span class="work_area">
+                    {% if position.work_areaname %}
+                        [&nbsp;{{ position.work_areaname }}&nbsp;]
+                    {% endif %}
+
+                    {% if position.last_update_date %}
+                        <i><img src="{{ STATIC_URL }}images/sj1.png" alt=""></i>
+                        {{ position.last_update_date|date:'Y-m-d' }}&nbsp;发布
+                    {% endif %}
+                </span>
+            </p>
+            <ul class="handle clearfix operate_info">
+                {% if pu %}
+                    {% if pu.id != position.source_id %}
+                        {% if position.position_status == 1 %}
+                            <li class="sixin" title="转发职位" onclick="new_doForwardPosition([{{ position.id }}])"  style="background:url({{STATIC_URL}}images/zfzw.png) no-repeat center center!important;"></li>  
+                                <input type="hidden" value="{{ favouriteOrNot }}"  >                    
+                                {% if favouriteOrNot %}
+                                <li class="shoucang active" onclick="favoritePosition({{ position.id }})" title="已收藏"></li>
+                                {% else %}                        
+                                <li class="shoucang" onclick="favoritePosition({{ position.id }},this)" data-original-title="收藏" title="收藏" ></li>
+                                {% endif %}
+                        {% endif %}
+                        {% if pu.userValidateStatus == 3 or pu.account_type == 1 %}
+                            {% if position.position_status == 1 %}
+                                <li class="fenxiang fenx" data-original-title="分享" title="分享" >
+                                   <div class="fenxiang bshare-custom">
+                                        <div class="word">分享到</div>
+                                        <a title="分享到QQ空间" class="bshare-qzone" href="javascript:void(0);" style="background-image:url({{ STATIC_URL }}images/qqkj.png)">QQ空间</a>
+                                        <a title="分享到新浪微博" class="bshare-sinaminiblog" href="javascript:void(0);" style="background-image:url({{ STATIC_URL }}images/xinlang.png)">新浪微博</a>
+                                        <a title="分享到微信" href="javascript:void(0);"style="background-image:url({{ STATIC_URL }}images/weixin.png)" id="weixinBtn">微信</a>
+                                        <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script>
+                                        <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+                                    </div>
+                                </li>
+                            {% endif %}
+                            <li onclick="showreport(3, {{ position.id }})" class="reportBlock jubao" data-original-title="举报" title="举报"></li>
+                        {% else %}
+                            {% if position.position_source == 2 or not position.rewards_money or positioin.rewards_money == 0 %}
+                                <!-- <li class="notValided jubao" data-original-title="举报" title="举报"></li> -->
+                            {% endif %}
+                            <li data-original-title="分享" title="分享" class="fenxiang fenx ">
+                            <div class="fenxiang bshare-custom ">
+                                <div class="word">分享到</div>
+                                <a title="分享到QQ空间" class="bshare-qzone" href="javascript:void(0);" style="background-image:url({{ STATIC_URL }}images/qqkj.png)">QQ空间</a>
+                                <a title="分享到新浪微博" class="bshare-sinaminiblog" href="javascript:void(0);" style="background-image:url({{ STATIC_URL }}images/xinlang.png)">新浪微博</a>
+                                <a title="分享到微信" href="javascript:void(0);"style="background-image:url({{ STATIC_URL }}images/weixin.png)" id="weixinBtn">微信</a>
+                                <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script>
+                                <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+                            </div>
+                          </li>
+                          <li onclick="showreport(3, {{ position.id }})" class="reportBlock jubao" data-original-title="举报" title="举报"></li>
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    <li class="sixin noLogined" title="转发职位" style="background:url({{STATIC_URL}}images/zfzw.png) no-repeat center center!important;"></li>
+                    <li class="shoucang noLogined" data-original-title="收藏" title="收藏" ></li>                  
+                    <!-- <li class="sixin noLogined" data-original-title="私信" title="私信" ></li>
+                    <li class="shoucang noLogined" data-original-title="关注" title="关注" ></li> -->
+                    {% if position.position_status == 1 %}
+                        <li data-original-title="分享" title="分享" class="fenxiang fenx ">
+                            <div class="fenxiang bshare-custom ">
+                                <div class="word">分享到</div>
+                                <a title="分享到QQ空间" class="bshare-qzone" href="javascript:void(0);" style="background-image:url({{ STATIC_URL }}images/qqkj.png)">QQ空间</a>
+                                <a title="分享到新浪微博" class="bshare-sinaminiblog" href="javascript:void(0);" style="background-image:url({{ STATIC_URL }}images/xinlang.png)">新浪微博</a>
+                                <a title="分享到微信" href="javascript:void(0);"style="background-image:url({{ STATIC_URL }}images/weixin.png)" id="weixinBtn">微信</a>
+                                <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script>
+                                <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+                            </div>
+                        </li>
+                    <li class="jubao noLogined" data-original-title="举报" title="举报" ></li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+        </div>
+        <div class="welfare">
+            <ul class="tags">
+                {{ position.labels | safe }}
+{#              <li>绩效奖金</li>#}
+{#              <li>无限美食</li>#}
+{#              <li>节日礼物</li>#}
+{#              <li>绩效奖金</li>#}
+{#              <li>无限美食</li>#}
+{#              <li>节日礼物</li>#}
+            </ul>
+            {% if pu %}
+                {% if pu.id != position.source_id %}
+                    {% if pu.account_type == 1 and not position.rewards_money %}
+                        {% if deliver_count == 0 %}
+                            <button class="btn deliver_resume_button" onclick="tdjl_confirm('{{ resume.id }}', '{{ position.id }}', '{{ position.source_id }}')" >投递简历</button>
+                        {% else %}
+                            <button class="btn" style="background-color: #e0e0e0; color:#888" onclick="alert('你已投递过此职位，无需再次投递！',4);" >&nbsp;已投递&nbsp;</button>
+                        {% endif %}
+                    {% elif pu.account_type == 3 or pu.account_type == 5 %}
+                        {% if not position.rewards_money %}
+                            <button class="btn"  onclick="recommend_resume('{{ position.id }}')" >我要推荐</button>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                {% if not position.rewards_money %}
+                    <button class="btn noLogined">投递简历</button>
+                {% endif %}
+            {% endif %}
+            <div class="clearfix"></div>
+        </div>
+        <div class="describe">
+            <h1>职位要求&emsp;</h1>
+            <dl class="safe">{{ position.demand | safe }}</dl>
+        </div>
+        <div class="describe">
+            <h1>岗位职责&emsp;</h1>
+            <dl class="safe">{{ position.position_describe | safe }}</dl>
+        </div>
+        <div class="describe else_info">
+            <h1>其他信息&emsp;</h1>
+            <dl>
+                <dt>汇报对象：</dt>
+                <dd>{{ position.report | default_if_none:'' }}</dd>
+            </dl>
+            <dl>
+                <dt>下属人数：</dt>
+                <dd>{{ position.subordinatename | default_if_none:'' }}</dd>
+            </dl>
+            <dl>
+                <dt>专业要求：</dt>
+                <dd>{{ position.majorname | default:'不限' }}</dd>
+            </dl>
+           <!--  <dl>
+                <dt>所属行业：</dt>
+                <dd>{{ position.industry_typename | default_if_none:'' }}</dd>
+            </dl>
+            <dl>
+                <dt>企业性质：</dt>
+                <dd>{{ position.naturename | default_if_none:'' }}</dd>
+            </dl>
+            <dl>
+                <dt>企业规模：</dt>
+                <dd>{{ position.scaleName | default_if_none:'' }}</dd>
+            </dl> -->
+        </div>
+        <div class="describe else_info">
+            <h1>薪酬福利&emsp;</h1>
+            <dl>
+                <dt>职位年薪：</dt>
+                <dd>{{ position.payname | default_if_none:'' }}</dd>
+            </dl>
+{#          <dl>#}
+{#              <dt>薪资构成：</dt>#}
+{#              <dd>{{ position.payname | default_if_none:'' }}</dd>#}
+{#          </dl>#}
+            <!--<dl>
+                <dt>年假福利：</dt>
+                <dd>{{ position.welfare | default_if_none:'' }}</dd>
+            </dl>-->
+{#          <dl>#}
+{#              <dt>社保福利：</dt>#}
+{#              <dd>国家标准{{ position.payname | default_if_none:'' }}</dd>#}
+{#          </dl>#}
+{#          <dl>#}
+{#              <dt>通讯交通：</dt>#}
+{#              <dd>不确定{{ position.payname | default_if_none:'' }}</dd>#}
+{#          </dl>#}
+        </div>
+       {% if position.position_status != 2 %}
+        <div class="describe interview">
+            <h1>面试评价&emsp;</h1>
+            <dl id="evaluationInfo">
+                <dt><span>综合评分：</span>
+                    {% for index in position.range %}
+                        {% if index < position.evaluationValue %}
+                            <i class="active"></i>
+                        {% else %}
+                            <i class="active"></i>
+                            <!-- <i></i> -->
+                        {% endif %}
+                    {% endfor %}
+                    <label for="">{{ position.evaluationValue|default:5.0 }}</label>
+                </dt>
+                {% if ownEvaluation %}
+                    <dd>
+                        {% if ownEvaluation.isanonymity == 1 %}
+                            <img src="" alt="" onerror="notfind(this, 1, '{{ request.session.sex }}')">
+                            <div>
+                                <p class="info clearfix">
+                                    <span class="name">匿名用户</span>
+                        {% else %}
+                            <img src="{{ pu.head_portrait }}" alt="" onerror="notfind(this, 1, '{{ request.session.sex }}')">
+                            <div>
+                                <p class="info clearfix">
+                                    <span class="name">{{ pu.user_name }}</span>
+                        {% endif %}
+
+                                {% for index in position.range %}
+                                    {% if index < ownEvaluation.evaluation_value %}
+                                        <i class="active"></i>
+                                    {% else %}
+                                        <i></i>
+                                    {% endif %}
+                                {% endfor %}
+                                <span class="f_r datetime">
+                                    {{ ownEvaluation.add_date|date:'Y-m-j ' }}
+                                </span>
+                            </p>
+                            <p style="width:560px">
+{#                                <label for="">[面试官比较专业]</label>主要针对个人的能力进行考察。#}
+                                {{ ownEvaluation.content }}
+                            </p>
+                        </div>
+                    </dd>
+                {% endif %}
+            </dl>
+            <div id="evaluationPagin"></div>
+        </div>
+            {% endif %}
+     </div>
+<!-- l_box_wrap结束 -->
+
+</div><!-- l_box结束 -->
+
+<!-- r_box开始 -->
+    <div class="r_box">
+        <div class="company_info">
+            <div class="info_top">
+                <img src="{{ request.session.file_website }}{{ position.pc_logo }}" style="cursor: pointer;" onclick="viewCompany({{ position.company_id }})" width="84" height="84" border="0" align="absmiddle" onerror="notfind(this, 2)">
+                <span class="company_name" style="cursor:pointer;" title="{{ position.pc_short_name | default:position.pc_name }}" onclick="viewCompany({{ position.company_id }})">{{ position.pc_short_name | default:position.pc_name }}
+{#                    <i class="iconfont icon-lianjie"></i>#}
+                </span>
+            </div>
+            <p class="pic" style="background: url('{{ STATIC_URL }}images/qyzy_side.png') no-repeat left 0px;">LV{{ position.pc_level|default:'0' }}</p>
+            {% if position.work_areaname %}
+            <p class="pic" style="background: url('{{ STATIC_URL }}images/qyzy_side.png') no-repeat left -37px;line-height: 23px;">{{ position.work_areaname|default:'' }}</p>
+            {% endif %}
+            {% if position.scaleName %}
+            <p class="pic" style="background: url('{{ STATIC_URL }}images/qyzy_side.png') no-repeat left -79px;line-height: 24px;">{{ position.scaleName|default:'' }}</p>
+            {% endif %}
+            {% if position.naturename %}
+            <p class="pic" title="{{ position.naturename|default:'' }}" style="background: url('{{ STATIC_URL }}images/qyzy_side.png') no-repeat left -119px;line-height: 25px;">{{ position.naturename|default:'' }}</p>
+            {% endif %}
+            {% if position.industry_typename %}
+            <p class="pic" title="{{ position.industry_typename|default:'' }}" style="background: url('{{ STATIC_URL }}images/qyzy_side.png') no-repeat left -162px;line-height: 22px;">{{ position.industry_typename|default:'' }}</p>
+            {% endif %}
+
+        </div>
+        <div class="position_man">
+            <h1>职位发布人</h1>
+            <p class="lxr"><i class="iconfont icon-ren1" style="cursor:pointer;"></i><span class="name">{{ position.contact_user_name|default:sourcePu.user_name }}</span>{% if position.contact_current_post %}<span class="position">（{{ position.contact_current_post|default:'' }}）</span>{% endif %}</p>
+            <div>
+            {% if pu %}
+                {% if pu.id != position.source_id %}
+                <span style="background-color: #5c91d9;display: inline-block;padding: 2px 5px;border-radius: 5px;color: #fff;cursor: pointer;" data-toggle="modal" data-target="#sxmessage_Modal" title="私信" onclick="getOperateDatass(this, '{{ position.contact_user_name|default:sourcePu.user_name }}', '{{ sourcePu.id }}', 3, '{{ position.id }}', '{{ position.position_name }}')">
+                                        私信
+                                    </span>
+                {% endif %}
+            {% else %}
+                <span class="noLogined" style="background-color: #5c91d9;display: inline-block;padding: 2px 5px;border-radius: 5px;color: #fff;cursor: pointer;"  title="私信" >私信</span>
+            {% endif %}
+            </div>
+        </div>
+        <div class="company_area">
+            <h1>公司位置</h1>
+            <p class="address">{{ position.address|default:'' }}</p>
+
+
+                 {% if position.address %}
+                    <div id="allmap"></div>
+                   <p class="preview" style="display:none;"><span>&emsp;{{ position.address|default:'' }}</span>
+                 {% else %}
+                    <p style="font-size: 14px;letter-spacing: 1px;text-align: center;color:#999;line-height: 100px;height:100px;margin: 0px">该公司尚未添加公司位置~</p>
+                 {% endif %}
+
+
+
+
+        </div>
+        <div class="position_else">
+            <h1>企业发布的其他职位<a href="/account/new_qyyl?param=more&companyId={{ position.company_id }}">更多>></a></h1>
+            {% if others %}
+                {% for p in others %}
+                    <p>
+                        <span class="zw_name" style="cursor: pointer;" onclick="viewPosition('{{ p.id }}')">{{ p.position_name }}</span>
+                        <span class="pay right">{{ p.payname }}</span>
+{#                        <span class="work_area right">{{ p.work_areaname }}</span>#}
+                    </p>
+                {% endfor %}
+            {% endif %}
+{#            <p>#}
+{#              <span class="zw_name">UI设计师</span>#}
+{#              <span class="pay right">8K-20K</span>#}
+{#              <span class="work_area right">南昌</span>#}
+{#          </p>#}
+{#          <p>#}
+{#              <span class="zw_name">UI设计师</span>#}
+{#              <span class="pay right">8K-20K</span>#}
+{#              <span class="work_area right">南昌</span>#}
+{#          </p>#}
+        </div>
+    </div>
+</div>
+<!-- 右侧内容 end -->
+</div>
+
+
+ <!-- 模态框（Modal） -->
+<!-- 投递简历模态框（Modal） -->
+<div class="modal fade" id="tdjl_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:680px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">投递简历</h4>
+            </div>
+            <div class="modal-body">
+                <div class="f_l content_l_b">
+                    <ul id="selectPosition">
+                        <li>
+                            <img src="{{ position.pc_logo }}" style="float:left" class="ml15 mt10" onerror="notfind(this, 2)">
+                            <div class="f_l mt10">
+                                <h2 class="f_bold nowrap" style="width:180px">{{ position.position_name }}</h2>
+                                <p class="nowrap" style="width:180px;">{{ position.pc_name }}</p>
+                                <p  class="nowrap" style="width:180px;">{{ position.industry_typename }}</p>
+                            </div>
+                            <div class="ppd_box2 f_r mt10">
+                                <div class="t">0%</div>
+                                <div>匹配值</div>
+                            </div>
+                            <div style="clear:both"></div>
+                            <p style="margin-top: 5px">【企业直招】
+                                <span style="padding-left: 0">{{ position.payname }}</span>
+                            </p>
+                           <!--  <p class="mt10">
+
+                            </p> -->
+                            <div class="gr_zwsbb2 fz1 nowrap mt10" >{{ position.work_areaname }}  |  {{ position.work_yearname | default:'经验不限' }}  |  {{ position.diplomaname | default:'学历不限'}}  |  {{ position.last_update_date|date:'Y-m-d' }}发布</div>
+                        <!--     <p></p> -->
+                            <p class="l_b_jx mt10">
+                                {% if position.labelList %}
+                                    {% for label in position.labelList %}
+                                        <span>{{ label }}</span>
+                                    {% endfor %}
+                                {% endif %}
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="f_r">
+                    <div class="fz20 f_bold" style="color:#000">选择投递的简历类型</div>
+                    <div class="fz12 mt20">提示：选择系统简历将提高您在企业方的简历匹配度</div>
+                    <div class="mt20 oh">
+                        <div class="btn68 active f_l">
+                            <i class="iconfont icon-iconfont02"></i>
+                            平台简历
+                        </div>
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" name="" value="确认投递" data-dismiss="modal" style="width:120px;height:30px;background-color: #5c91d9;color:white;border:none;border-radius: 5px" onclick="sendResume({{ position.source_id }}, {{ position.id }})"></div>
+        </div>
+        <!-- /.modal-content --> </div>
+</div>
+    <div id="qrcode1" style="display:none">
+        <img class="hcdy_img" src="/static/images/logo.jpg" alt=""/>
+    </div>
+    <script type="text/javascript">
+       window.onload =function(){
+        var qrcode = new QRCode(document.getElementById("qrcode1"), {
+            width : 175,//设置宽高
+            height : 175
+        });
+        qrcode.makeCode("http://"+window.location.host+"/mobile/personal/position_detail?position_id={{ position.id }}");
+    }
+    </script>
+
+<div class="modal_wrap" style="display: none;"></div>
+<div class="dcjl" style="display: none;">   
+      <div class="hcbtn" style="width: 386px!important;top:20%!important;">
+       <div style=" background-color: #fff;overflow: hidden; height:200px;">
+       <div style="border-bottom:1px solid #e0e0e0; height:55px"><span>提示信息</span>
+            <img src="/static/images/new_images/colseck.png" onclick="PositionClose()" class="dcclose">
+              </div>
+       <div style="font-size:18px; text-align:center; margin-top:20px;margin: 20px 10px 0px 10px;">您好，此职位已下线，看看其他职位吧</div>
+      <div class="hcdy" onclick="surezw()" style="margin-top: 30px;margin-left: 112px!important;width: 160px;height: 40px;line-height: 40px;">我知道了</div>
+      </div>
+       <em class="c_abs"></em>
+     </div>
+</div>
+
+ <input type="hidden" id="resumeId" value="{{ resume.id }}" />
+<input type="hidden" id="pu_id" value="{{ pu.id }}" />
+<input type="hidden" id="position_id" value="{{ position.id }}" />
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=dG44joucgDmPp7aWmNd9F4WU"></script>
+<script  src="{{ STATIC_URL }}js/lib/ind/layer/layer.js" type="text/javascript"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/new_forwardposition.js"></script>
+
+<script type="text/javascript">
+    {% if result == '1' %}
+        $('.modal_wrap').css('display', 'block');
+        $('.dcjl').css('display', 'block');       
+    {% elif result == '2' %}
+        alert('你不能查看悬赏职位', '2');
+        window.location = '/new_search_position';
+    {% endif %}
+    var evaluationData;
+    var file_website = '';
+    $(function(){
+        file_website = $('#file_website').val();
+        $(".safe").each(function(index, el) {
+                $(this).html($(this).html().replace(/\n/g, '<br/>'));
+            });
+        //查看面试评价进入页面时，焦点移到面试模块部分
+        if(window.location.href.indexOf('evaluation') != -1){
+            $("html,body").animate({ scrollTop: $('.interview').offset().top},500,function(){});
+        }
+        var position_id = $('#position_id').val();
+        var pu_id = $('#pu_id').val();
+        var sql = ' Evaluation_Object_ID=' + position_id + ' and Object_Type=1';
+        if(pu_id != ''){
+            sql += ' and appraiser_id !=' + pu_id;
+        }
+        evaluationData = new pagin("evaluationPagin", "V_AJ_Evaluation", "", sql, "", 6, "evaluationBind", "evaluationData");
+        if("{{ pu.account_type | default:'' }}" == "1") getMatchRate($('#resumeId').val(), position_id);
+    });
+    //加载面试评价信息
+    function evaluationBind(dataInfo){
+        $(dataInfo).each(function(i) {
+            var content = '';
+            content += '<dd>';
+
+            if($(this)[4] == 1) {
+                content += '    <img src="" alt="" onerror="notfind(this, 1, \'' + $(this)[11] + '\')">';
+                content += '    <div>';
+                content += '        <p class="info clearfix">';
+                content += '            <span class="name">匿名用户</span>';
+            } else {
+                content += '    <img src="'+ file_website + $(this)[10] + '" alt="" onerror="notfind(this, 1, \'' + $(this)[11] + '\')">';
+                content += '    <div>';
+                content += '        <p class="info clearfix">';
+                content += '            <span class="name">'+$(this)[9]+'</span>';
+            }
+
+            var value = $(this)[5];
+            for(var m = 0;m < 5;m++){
+                if(m < parseInt(value)){
+                    content += '<i class="active"></i>';
+                }else{
+                    content += '<i></i>';
+                }
+            }
+            content += '            <span class="f_r datetime">';
+            content += '                '+$(this)[8].substring(0, 10)+'';
+            content += '            </span>';
+            content += '        </p>';
+            content += '        <p style="width:560px">';
+            content += '            ' + $(this)[6];
+            content += '        </p>';
+            content += '    </div>';
+            content += '</dd>';
+            $('#evaluationInfo').append(content);
+
+        })
+    }
+
+    $("#weixinBtn").click(function(event) {
+        layer_index=layer.open({
+            type: 1,
+            area: ['280px', '260px'],
+            skin:'o_layer o_ewm',
+            title:'扫一扫分享该职位<em class="c_abs"></em>',
+            shadeClose: true, //点击遮罩关闭
+            content:$("#qrcode1")
+        });
+    });
+
+    // 审核未通过 提示信息
+    $(".notValided").click(function(){
+        doAlertToAudit("{{ pu.userValidateStatus }}")
+    });
+
+    //收藏职位
+    function favoritePosition(positionId,obj){
+        $.ajax({
+            type: "POST",
+            url: "/ajax_collectPosition",
+            data: {"positionId": positionId},
+            dataType: "json",
+            success: function (data) {
+                if(data.msg == 'success'){
+                    $(obj).addClass('active');
+                    window.alert('收藏成功',1);
+                }else if(data.msg == 'exist'){
+                    window.alert('你已收藏该职位，无需收藏！',4);
+                }else{
+                    window.alert(data.msg,2);
+                }
+            }
+        })
+    }
+    //举报用户（发布职位人）
+    function reportUser(source_id, positionId){
+        var reportContent = $('#reportContent').val();
+        if(reportContent == ""){
+            alert("请输入举报理由",4);
+            return false;
+        }
+        var report = $('#report').val();
+        $.ajax({
+            type: "POST",
+            url: "/ajax_ltjb",
+            data: {"report_type": '3', "forpuid": source_id,"report":report,"reportContent":reportContent, 'beReported_objectId': positionId},
+            dataType: "json",
+            success: function (data) {
+                if(data.status == '1') {
+                    window.alert('举报成功',1);
+                    $("#reportContent").val("");
+                } else if(data.status == '2') {
+                    alert('您今天已经举报过该职位了!',4);
+                } else {
+                    alert('发生内部错误',2)
+                }
+            }
+        });
+    }
+    //投递简历
+    function sendResume(sourceId, positionId){
+        $(".deliver_resume_button").removeAttr('data-toggle').removeAttr('data-target')
+                                   .attr('onclick', "alert('你已投递过此职位，无需再次投递！',4);");
+        var resumeId = $('#resumeId').val();
+        if(resumeId != ''){
+            $.ajax({
+                type: "POST",
+                url: "/ajax_sendResume",
+                data: {"sourceId": sourceId, "positionId": positionId, "resumeId": resumeId},
+                dataType: "json",
+                success: function (data) {
+                    if(data.msg == 'success'){
+                        window.alert('投递成功',1);
+                        loadData = new pagin("paginInfo", "V_Position_Search", "", querySql, "", 6, "paginBind", "loadData");
+                    }else if(data.msg == 'exist'){
+                        window.alert('你已投递该职位，无需投递！',4);
+                    }else{
+                        window.alert(data.msg,2);
+                    }
+                    $('.page_tc').css("display", "none");
+                }
+            })
+        }else{
+            window.alert('你还没有简历，请先完善简历',4);
+        }
+    }
+    //投递简历时加载职位
+    function loadPosition(){
+        $('#selectPosition').children().remove();
+            var html = '';
+            html += '<div class="jlxz_tc_l">';
+            html += '<img src="' + $(obj).parent().parent().children('img').attr('src') + '" onerror="notfind(this, 2)">';
+            html += '    <div class="jl_wb_sm">';
+            html += '        <h3>'+$(obj).parent().parent().children('h2').text()+'</h3>';
+            html += '        <div class="ht10"></div>';
+            html += '        <p>'+$(obj).parent().parent().children('p:eq(0)').text()+'</p>';
+            html += '        <div class="ht15"></div>';
+            html += '        <p>'+$(obj).parent().parent().children('p:eq(1)').children('span:eq(0)').text()+'</p>';
+            html += '    </div>';
+            html += '    <img src="{{ STATIC_URL }}images/jl_ppz1.png">';
+            html += '    <div class="clear"></div>';
+            html += '    <div class="jldz_gzjs">';
+            html += '        <p>【企业直招】 月薪：<font>'+$(obj).parent().parent().children('p:eq(1)').children('span:eq(1)').text()+'</font></p>';
+            html += '        <p>'+$(obj).parent().parent().children('p:eq(2)').text()+'</p>';
+            html += '        <p>'+$(obj).parent().parent().children('p:eq(3)').html()+'</p>';
+            html += '    </div>';
+            html += '</div>';
+            $('#selectPosition').append(html);
+    }
+    //推荐简历（猎头的投递简历，有多份简历）
+    function recommendResume(positionId){
+        deliverResumes(positionId,$('#pu_id'));
+    }
+    // 查看企业
+    function viewCompany(companyId){
+        window.open('/account/new_qyyl?companyId=' + companyId, '_blank');
+    }
+    //查看其它职位
+    function viewPosition(position_id){
+        window.open('/resume/zwxq?positionId=' + position_id, '_blank');
+    }
+    //======= 信息模版
+    $(".icon-iconfontmoban2").click(function(){
+        $(".dialog").show();
+    })
+    $(".qx_btn").click(function(){
+        $(".dialog").hide();
+    })
+    $(".dialog li").click(function(){
+        $(".dialog li").removeClass('active');
+        $(this).addClass('active');
+    })
+    $(".dialog li").dblclick(function(){
+         confirms.call(this);
+    })
+    $(".modal_wdgz .re_btn").click(function(){
+        confirms.call(this);
+    })
+    function confirms(){
+        $("#letterContent").val($(".dialog li.active").children('input').val());
+        $(this).parent().parent().hide();
+    }
+     $(".btn68").click(function(event) {
+       $(".btn68").removeClass('active').siblings('.is_select').css("display","none");
+       $(this).addClass('active').siblings('.is_select').css("display","block")
+   });
+    // 推荐简历页面
+    function recommend_resume(position_id) {
+        if('{{ pu.phone }}' == ''){
+            alert('您还未绑定手机，请先绑定手机', 2);
+            return false;
+        }
+        if('{{ pu.email }}' == ''){
+            alert('您还未绑定邮箱，请先绑定邮箱', 2);
+            return false;
+        }
+        if(!isIdentityHeadhunt('3,5', '2')){
+            return false;
+        }
+        window.open('/position/recommend?position_id=' + position_id, '_blank');
+    }
+    // 未登录情况
+    $(".noLogined").click(function(){
+        var loginDialog=new LoginDialog();
+        loginDialog.open();
+{#        layer.alert("您尚未登陆，点击[<a href='/index_logins'  style='color: blue'>登录</a>]即可进行相应操作!");#}
+    });
+    //未登录处理
+    function judgeLogin(){
+        var loginDialog=new LoginDialog();
+        loginDialog.open();
+    }
+    //获得匹配度
+    function getMatchRate(resume_id, position_id){
+        $.ajax({
+            type: "POST",
+            url: "/ajax_getMatchRate",
+            data: {"resume_id": resume_id, "position_id": position_id},
+            dataType: "json",
+            success: function (data) {
+                if(data.status == '1'){
+                    $('.t').text(data.rate + '%');
+                }
+            }
+        });
+    }
+    function PositionClose() {
+    $(".dcjl").hide();
+    $(".modal_wrap").hide();
+    }
+    function surezw(){
+        $(".dcjl").hide();
+        $(".modal_wrap").hide();
+        {% if request.session.account_type == '2' or request.session.account_type == '4' %}
+            window.location = '/new_company_index';
+        {% else %}
+            window.location = '/new_search_position';
+        {% endif %}
+    }
+    // 百度地图API功能
+    var map = new BMap.Map("allmap");
+    var local = new BMap.LocalSearch(map, {
+        pageCapacity: 1,
+        renderOptions:{map: map}
+    });
+    map.clearOverlays();
+    local.search($("#allmap").siblings('p.preview').children('span').eq(0).text());
+</script>
+<!-- 主体end -->
+{% include 'jobs/system/new_footer.html' %}

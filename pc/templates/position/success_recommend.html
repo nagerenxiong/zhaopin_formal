@@ -1,0 +1,653 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" href="{{STATIC_URL}}css/single/recommend.css">
+<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1458875340_227367.css">
+<link href="{{ STATIC_URL }}css/kongjian.css" media="screen" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://www.luqidong.com/demo/qrcode/js/qrcode.js"></script>
+<!-- 弹出框插件 -->
+<script  src="{{ STATIC_URL }}js/lib/ind/layer/layer.js" type="text/javascript"></script>
+<style>.xsqd{
+    width:60px; background-color: #5C91D9; color:#fff;;
+    }
+    .xsqd:hover{
+        background-color: #4c83ce;
+    }
+    </style>
+<div class="clear">3</div>
+{% if reward_money == 0 or position.rewards_money > 0 or not valid_flag %}
+    <div class="recommend_center" style="width: 860px">
+    <div class="l">
+        <h1 style="text-align: right;">
+            <img src="{{STATIC_URL}}images/xs128.png" >职位发布成功！
+        </h1>
+        <p class="a1" style="font-size: 18px;">
+            <img src="{{STATIC_URL}}images/xs123.png" style="width: 20px;height: 20px">发布悬赏招聘，坐等人才经纪人服务!
+        </p>
+        <p class="a2" style="background-color: #fff;font-size: 18px;">
+            <img src="{{STATIC_URL}}images/xs123.png"  style="width: 20px;height: 20px;">转发该职位,让更多人看到并投递，增加招聘成功率！
+        </p>
+        <div class="b">
+            <img src="{{STATIC_URL}}images/xs125.png" style="width: 20px;height: 20px;"><div>
+                任何相关问题请拨打：400-666-4846<br>
+            {% if request.session.account_type == '2' or request.session.account_type == '4' %}
+                <a href="/position/company/zwgl">返回职位列表</a>
+            {% else %}
+                <a href="/position/headhunter/zwgl">返回职位列表</a>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="r">
+        <div id="qrcode" style="width: 140px;height: 140px;margin:80px auto auto; ">
+              </div>
+              <script type="text/javascript">
+                 window.onload =function(){
+                  var qrcode = new QRCode(document.getElementById("qrcode"), {
+                      width : 140,//设置宽高
+                      height : 140
+                  });
+                  qrcode.makeCode(document.getElementById("reward_position_url").value);
+              }
+              </script>
+    </div>
+</div>
+{% else %}
+    <div class="recommend_center">
+        <div class="l">
+            <h1>
+                <img src="{{STATIC_URL}}images/xshang_03.png" width="39" height="39" >职位发布成功！
+            </h1>
+            <p class="a1">
+                <img src="{{STATIC_URL}}images/xshang_27.png" width="39" height="39">发布悬赏招聘，坐等人才经纪人服务!
+            </p>
+            <ul class="recommend_ul">
+                <li class="item1"><p class="t">悬赏发布后</p><p class="b">1小时内收到人才经纪人响应</p></li>
+                <li class="item2"><p class="t">每个悬赏</p><p class="b">平均有10个人才经纪人参与</p></li>
+                <li class="item3"><p class="t">95%以上的需求</p><p class="b">得到了圆满解决</p></li>
+                <li class="item4"><p class="t">全额退款</p><p class="b">服务期内未完成招聘，平台全额退款</p></li>
+            </ul>
+            <div class="a2">
+                <div class="a2_l">
+                    <p class="a2_l_t"><em>￥{{ reward_total_money | default:0 }}</em>{{ position.company_name|default:'' }}：{{ position.position_name|default:'' }}</p>
+                    <p class="a2_l_b"><!-- <span class="a2_l_b_l">38天完成悬赏</span> --><span class="a2_l_b_r">{{ hunt_count|default:10 }}个人才经纪人参与</span></p>
+                </div>
+                <!-- <div class="a2_r">
+                    小广告引导成为<br>人才经纪人
+                </div> -->
+                <div style="margin-top: 27px; color:#999;text-align: center;">
+                    <span class="a2_l_b_l">服务周期6个月</span>
+                </div>
+               <!--  <p class="a2_l_b"><span class="a2_l_b_l">38天完成悬赏</span><span class="a2_l_b_r">127个人才经纪人参与</span></p> -->
+
+            </div>
+            <div class="b">
+                <img src="{{STATIC_URL}}images/xs125.png"  class="b_img"><div>
+                    任何相关问题请拨打：400-666-4846<br>
+                {% if request.session.account_type == '2' or request.session.account_type == '4' %}
+                    <a href="/position/company/zwgl">返回职位列表</a>
+                {% else %}
+                    <a href="/position/headhunter/zwgl" class="b1">返回职位列表</a>
+                {% endif %}
+                   <a href="javascript:void(0)" class="button" id="recommend_btn">立即悬赏招聘</a>
+                </div>
+            </div>
+        </div>
+        <div class="r">
+            <div id="qrcode" style="width: 140px;height: 140px;margin:80px auto auto; ">
+              </div>
+              <script type="text/javascript">
+                 window.onload =function(){
+                  var qrcode = new QRCode(document.getElementById("qrcode"), {
+                      width : 140,//设置宽高
+                      height : 140
+                  });
+                  qrcode.makeCode(document.getElementById("reward_position_url").value);
+              }
+              </script>
+        </div>
+    </div>
+{% endif %}
+<div id="reward_modal"  style="display: none">
+    <div class="a1">
+        <ul class="r1">
+            <li class="r1_l">悬赏金额</li>
+            <li class="r1_r"><span id="reward_total_money">{{ reward_money | default:0 }}</span>.00 元</li>
+        </ul>
+       <span class="r3 Invo_instr">
+       <i class="iconfont icon-Question" ></i>
+            计价说明
+        <span></span>    
+        <div class="Invo_data">
+            <p>悬赏范围</p>
+            <ul>
+                <li> 年薪5-8万元（含8万元年薪） 悬赏服务费用：3999元/人</li>
+                <li> 年薪8-12万元（含12万元年薪） 悬赏服务费用：6999元/人</li>
+                <li> 年薪12-15万元（15万元年薪） 悬赏服务费用：9999元/人</li>
+                <li> 年薪15-20万元（含20万元年薪） 悬赏服务费用：11999元/人</li>
+            </ul>
+        </div>
+        </span>
+        <a href="/position/company/fbdzw?positionID={{ position.id }}" class="r4">
+            编辑职位
+        </a>
+    </div>
+    <script type="text/javascript">
+        var countMoney=$('#reward_total_money').text()*1;
+    </script>
+    <div class="a2">
+        <ul>
+            <li class="r1">招聘数量</li>
+            <li class="r2"><input type="text"  id="count_txt" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'');
+                  if (this.value * 1 > 20) {
+                        this.value = this.value.substr(0, 1)
+                    }
+             };$('#reward_total_money').text(countMoney*(this.value*1))" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'');if (this.value * 1 > 20) {
+                        this.value = this.value.substr(0, 1)
+                    }};$('#reward_total_money').text(countMoney*(this.value*1))" value="1"></li>
+            <li class="r3">
+                <img src="{{STATIC_URL}}images/xiangshang_s.png" >
+                <img src="{{STATIC_URL}}images/xiangshang_x.png" >
+            </li>
+            <li class="r4">位</li>
+        </ul>
+    </div>
+    <p class="a3">请确认您的联系方式，悬赏专员才知道怎么联系您噢</p>
+    <div class="phone_box">
+        <div style="width:100%;height: 22px;" onclick="updatePositionPhone('{{ pu.phone }}', '', '{{ position.id }}')">
+            <img src="{{STATIC_URL}}images/xshang3_03.png" ><span>{{ pu.phone }} </span>
+            <p style="color: #999;margin-left:10px; display:inline-block;">(注册号码)</p>
+        </div>
+        <div style="width:100%; margin-bottom:8px;">
+            <img src="{{STATIC_URL}}images/xshang3_06.png" ><span>使用其他号码</span>
+            <ul id="other_phone_box" style="display: none;">
+            <li><input type="text" placeholder="请输入手机号" class="phone_txt" style="width: 100px;margin-left: 30px;">
+                <a href="javascript:void(0)" class="code_btn_phone">发送验证码</a>
+                <input type="text" placeholder="验证码" class="code_txt_phone" style="margin-left: 10px;width: 60px">
+                <a href="#" class="xsqd" onclick="validPhoneAndCode('{{ position.id }}')">确定</a>
+            </li>
+        </ul>
+        </div>
+        <div style="clear: both">
+        </div>
+    </div>
+    <div class="recommend_con">
+        <p>说说您的具体要求：</p>
+        <div class="content">
+            <textarea id="rewards_demand" >
+准确的描述，让人才经纪人更容易理解您的岗位要求。
+我们为您提供以下建议：
+• 您的具体需求：对候选人的具体要求说明
+• 您的特殊要求：对候选人的特殊要求说明
+• 您的时间要求：对岗位的时间要求说明
+           </textarea>
+          <div class="numTip" style="float:right;color:#b0bec5;margin-right: 10px;margin-top: -7px; font-size:12px;">( <span>0</span> <span>)</span> </div>
+        </div>
+        <div class="con_b">
+            <span class="zzc"></span>
+            <input type="checkbox" id="agree_btn"><span>同意《职位悬赏服务协议》</span>
+        </div>
+    </div>
+    <div class="b">
+        <a href="javascript:void(0)" onclick="pay_position_recommend_money({{ position.id }})" class="pay_btn" style="display: none;">支付赏金</a>
+        <a href="javascript:void(0)" class="pay_btn_disable" >支付赏金</a>
+    </div>
+</div>
+<div id="agreement" style="display: none;">
+    <div class="t" id="agreement_con">
+本协议是你与怀才当遇网站（www.hcdyhr.com）所有者北京怀才当遇网络技术有限公司（以下简称为“怀才当遇”）之间就怀才当遇为你提供悬赏招聘服务所订立的契约，请你仔细阅读本协议，同意本协议并向怀才当遇网站支付相应的悬赏服务费成功后，本协议即构成对双方有约束力的法律文件。  <br>
+一、服务说明 <br>
+1、你应在确定悬赏职位需求，并在怀才当遇网站平台发布悬赏职位前向怀才当遇支付（充值）所对应职位的全额悬赏服务费金额。我们的悬赏服务费金额按平台相关规定支付标准如下：  <br>
+年薪5万元以上（含8万元年薪）  悬赏服务费用：3999元/人<br>
+服务费用说明：悬赏金额2000元，平台服务费1999元<br>
+年薪8万元以上（含12万元年薪）  悬赏服务费用：6999元/人<br>
+服务费用说明：悬赏金额3500元，平台服务费3499元<br>
+年薪12万以上（含15万元年薪）  悬赏服务费用：9999元/人<br>
+服务费用说明：悬赏金额5000元，平台服务费4999元<br>
+年薪15万以上（含20万元年薪）  悬赏服务费用：11999元/人<br>
+服务费用说明：悬赏金额6000元，平台服务费5999元<br>
+如您的需求为年薪20万元以上的的职位的猎聘服务，可以直接拨打400-666-4846进行咨询。<br>
+悬赏服务费金额支付成功后可以发布您需要悬赏招聘的职位信息，同时平台将会尽快与你取得联系并开始提供服务，服务时间共计 180天。  <br>
+2、通过怀才当遇悬赏招聘到的岗位候选人，在岗位候选人入职当日起计算,满 7 个自然日后，算该项招聘服务完成,你需配合确认该岗位招聘服务完成并关闭，同时确认该岗位对应的招聘悬赏服务费归属怀才当遇所有。在怀才当遇根据候选人入职事实后发出岗位确认邮件，超过 3 个工作日未收到你确认的邮件，则自动默认为岗位招聘悬赏服务费归属怀才当遇。<br>
+3、悬赏招聘类岗位，服务期为 180 天，如期满未完成该招聘服务，怀才当遇在合作 180 天后的 10 个工作日内，完成未完成岗位的全额退款,退款所产生的汇款手续费由你承担;怀才当遇不接受中途任何理由的退款申请，所有委托招聘的岗位未确认完成的款项需在180 天合作期满后一次性结清。<br>
+4、若怀才当遇履行服务期间，你因特殊原因关闭的岗位，怀才当遇不予退款，但你可以书面向怀才当遇申请，经怀才当遇同意后可以将对应岗位的悬赏服务费用金额转为你新委托招聘的岗位的悬赏服务费。如果新委托招聘的岗位的悬赏服务费用总额与关闭岗位相同，服务期自怀才当遇同意你的申请之日起重新计算；如果新委托招聘的岗位的悬赏服务费用金额高于关闭岗位的悬赏服务费用，你应当补足差额费用，服务期自怀才当遇同意你的申请并在你补足差额费用之日起重新计算；如果新委托招聘的岗位的悬赏服务费用总额低于关闭岗位的悬赏服务费用，服务期自怀才当遇同意之日起重新计算，但超出部分的悬赏服务费用不予退还。怀才当遇也可以根据实际情况驳回你的申请。<br>
+5、若怀才当遇履行服务期间,你因特殊理由，需变更委托招聘岗位的，你应当以书面形式向怀才当遇申请，怀才当遇根据实际情况有权同意或驳回该申请。怀才当遇同意你的申请的，如果变更后委托招聘的岗位的悬赏服务费用金额与变更前岗位相同，服务期自怀才当遇同意之日起重新计算，如果变更后委托招聘的岗位的悬赏服务费用总额高于变更前岗位的悬赏服务费用，你应当补足差额费用，服务期自怀才当遇同意你的申请并在你补足差额费用之日起重新计算，如果变更后委托招聘的岗位的悬赏服务费用总额低于变更变更前岗位的悬赏服务费用，服务期自怀才当遇同意之日起重新计算，但超出部分的悬赏服务费用不予退还。<br>
+6、怀才当遇提供你与求职者之间的信息互通，如你恶意隐瞒候选人入职信息或岗位招聘相关信息,怀才当遇有权追究你的违约责任，所收相关岗位招聘悬赏服务费不予退还。<br>
+7、怀才当遇提供给你的所有候选人自提供之日起十二个月内均视为怀才当遇推荐的候选人，在此期间内如你或你的关联企业雇用该候选人，则均视为怀才当遇成功推荐。 
+<br><br>
+二、服务费的支付<br>
+1.通过怀才当遇网站所提供的线上支付工具（支付宝或网银）进行支付。  <br>
+如因特殊情况，你无法完成在线支付，可选择通过转账形式付款，怀才当遇指定的转账账户信息如下: <br>
+        户  名：  北京怀才当遇网络技术有限公司<br>
+        账  号： 11050162560000000162 <br>
+        开户行： 中国建设银行股份有限公司北京光明支行营业部<br>
+2.当怀才当遇完成服务，并确认该岗位对应的招聘悬赏服务费归怀才当遇所有后5日内，由怀才当遇根据你的申请为你开具发票，并免费邮寄/快递给你。你应提供准确的开具发票所需的信息，因你提交的信息错误或其他原因，导致需重新为你开具发票，责任由你自行承担，如需邮寄/快递的，由你承担相应的邮寄/快递费用。<br>
+三、保密条款<br>
+协议各方均有义务对本协议所有内容进行保密，保密期限不限于本协议有效期限，也不因本协议解除、终止、无效或被撤销而失效，即你应对怀才当遇及服务者提供服务之全过程情况承担保密义务，而怀才当遇及服务者应对在与你合作中了解到的你的相关信息承担保密义务。  <br>
+四、争议解决<br>
+双方履行本协议发生任何争议，应当友好协商解决；协商不成，应当提交北京怀才当遇网络技术有限公司所在地人民法院裁决。 <br>
+五、其他<br>
+1.当你仔细阅读本协议并在怀才当遇网站上支付悬赏服务费成功后，即表示你与怀才当遇之间就本协议内容已达成完全一致，已确认由怀才当遇为你选择服务者开始为你提供服务，本协议即开始生效。<br>
+2.本协议于本协议项下全部服务事宜完成之日终止。
+    </div>
+    <p>请认真阅读协议后确认并同意协议</p>
+    <div class="b">
+         <a href="javascript:void(0)" class="agreement_btn" style="display: none;">确认同意协议</a>
+        <a href="javascript:void(0)" class="agreement_btn_disable" >确认同意协议</a>
+    </div>
+</div>
+
+<div id="o_pay1" class="o_pay" style="display: none;">
+    <p>发布该悬赏职位需要支付<span id="reward_cash"></span>元！您确定要发布吗？</p>
+</div>
+<div id="o_pay" class="o_pay" style="display: none;">
+    <p class="t" >请在新打开的页面上完成付款</p>
+    <span class="h">付款完成前请不要关闭此窗口，完成付款后请根据您的情况点击下面的按钮</span>
+    <div class="btn_list">
+        <button class="success l_btn" onclick="successBuy('{{ position.id }}')">已成功付款</button>
+        <button class="fail l_btn" onclick="flushPage()">失败重新支付</button>
+    </div>
+    <div class="footer">
+        <p onclick="parent_ac(this)">支付常见问题<span></span></p>
+        <dl>
+            <dt>1、网上银行已经扣款，但显示仍未充值成功，怎么办？</dt>
+            <dd>
+                请不要担心，因银行数据未及时传输，可稍后刷新页面查看，如较长时间仍未支付成功，请联系怀才当遇客服电话400-666-4846
+            </dd>
+            <dt>2、我在网上银行重复付款了，怎么办？</dt>
+            <dd>
+                因银行未及时传输数据而导致，请联系怀才当遇电话（400-666-4846）,我们在与银行核对后，根据你当时使用的支付类型，将重复支付的款项原路返回。
+            </dd>
+            <dt>
+                3、支付页面显示错误怎么办？
+            </dt>
+            <dd>
+                部分支付对浏览器兼容有限，导致无法正常显示，建议使用新版本的IE浏览器进行支付操作。
+            </dd>
+        </dl>
+    </div>
+
+</div>
+<input type="hidden"  id="reward_position_url" value="{{ reward_position_url }}">
+
+
+<script type="text/javascript">
+    // 点击确认事件
+    function validPhoneAndCode(position_id){
+        var phone = $('.phone_txt').val();
+        if(!/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/.test(phone)){
+            alert('请输入有效的手机号',2);
+            return false;
+        }
+        var phone_code = $('.code_txt_phone').val();
+        if(phone_code == ''){
+            alert('请输入验证码', 2);
+            return false;
+        }
+        updatePositionPhone(phone, phone_code, position_id);
+    }
+    // 更换悬赏职位的联系方式
+    function updatePositionPhone(phone, phone_code, position_id){
+        $.ajax({
+            type: "POST",
+            url: "/updatePositionPhone",
+            data: {"phone": phone, 'phone_code': phone_code, 'position_id': position_id},
+            dataType: "json",
+            success: function (data) {
+                if(data.status == '1'){
+                    alert('悬赏职位联系方式已更改', 1);
+                }else if(data.status == '2'){
+                    alert('请输入验证码', 2);
+                }else if(data.status == '3'){
+                    alert('验证码不对，请重新输入', 2);
+                }else if(data.status == '4'){
+                    alert('验证码失效，请重新发送验证码', 2);
+                }
+            }
+        });
+    }
+
+    // 支付悬赏金额
+    var textareaValueinit=$("#reward_modal .recommend_con .content textarea").val();
+    function pay_position_recommend_money(position_id) {
+        $("#reward_cash").text($("#reward_total_money").text());
+        var reward_count = $('#count_txt').val();
+        var rewards_demand = $('#rewards_demand').val();
+        if(rewards_demand==textareaValueinit)
+        {
+            rewards_demand="";
+        }
+        $.ajax({
+            type: "POST",
+            url: "/ajax_pay_position_recommend_money",
+            data: {"position_id": position_id, 'pep_count': reward_count, 'rewards_demand': rewards_demand},
+            dataType: "json",
+            success: function (data) {
+                if(data == 1) {
+                    paying(position_id);
+                }else if(data == 3){
+                    window.location = '/position/headhunter/zwgl';
+                }
+            }
+        });
+    }
+    function paying(position_id){
+        layer.open({
+            type: 1,
+            area: ['700px', '530px'],
+            title:"<h1>提示信息<em></em></h1>",
+            fix: true, //不固定
+            maxmin: false,
+            skin: 'qb_hint',
+            area: '507px',
+            closeBtn:"1",
+            moveOut:false,
+            btn:['立即支付'],
+            content: $("#o_pay1"),
+            success:function(layero, index){
+                $(".layui-layer-btn0").click(function(event) {
+                    var tempwindow=window.open();
+                    //加密参数
+                    $.ajax({
+                        type: "POST",
+                        url: "/ajax_encryptParamters",
+                        data: {
+                            "position_id": position_id,
+                            "trade_type": "TR-006",
+                            "reward_total_money": '0.1'    //$('#reward_total_money').text()
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            if(data.status == '1'){
+                                var code = data.result;
+                                tempwindow.location=cash_website + '/api/pay?code=' + encodeURIComponent(code);
+                                is_pay();
+                            }else if(data.status == '2'){
+                                 tempwindow.location='/account/transfer?type=phone';
+                                // window.alert('请进入账号设置绑定手机号，再购买简历');
+                            }else if(data.status == '3'){
+                                 tempwindow.location='/account/transfer?type=email';
+                                // window.alert('请进入账号设置绑定邮箱，再购买简历');
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    }
+    function is_pay(){
+        layer.open({
+            type: 1,
+            area: ['700px', '530px'],
+            title:"<h1>怀才当遇钱包提醒<em></em></h1>",
+            fix: true, //不固定
+            maxmin: false,
+            skin: 'qb_hint',
+            closeBtn:"1",
+            area: '507px',
+            content: $("#o_pay"),
+            success:function(layero, index){
+                var o_index = index;
+                $(layero).find('.success').click(function(event) {
+                    layer.close(o_index);
+                });
+                $(layero).find('.fail').click(function(event) {
+                    layer.close(o_index);
+                });
+            }
+        });
+    }
+    //支付成功（成功购买简历）
+    function successBuy(position_id){
+        $.ajax({
+            type: "POST",
+            url: "/ajax_judgeRewardsPosition",
+            data: {"position_id": position_id},
+            dataType: "json",
+            success: function (data) {
+                if(data.status == '1'){
+                    {% if request.session.account_type == '2' or request.session.account_type == '4' %}
+                        window.location = '/position/company/zwgl';
+                    {% else %}
+                        window.location = '/position/headhunter/zwgl';
+                    {% endif %}
+                }else if(data.status == '2'){
+                    window.alert('支付悬赏失败，请确认是否已付款！',2);
+                }else{
+                }
+            }
+        });
+    }
+    //刷新页面
+    function flushPage(){
+        window.location.reload();
+    }
+
+   var recommend_layer;
+    $("#recommend_btn").click(function(){
+        recommend_layer=layer.open({
+            type: 1,
+            area: ['520px', 'auto'],
+            title:"发布悬赏职位<em></em>",
+            fix: true, //不固定
+            maxmin: false,
+            skin: 'recommend_modal',
+            closeBtn:"1",
+            content: $("#reward_modal")
+        });
+        $("#agree_btn").prop('checked',false);
+        $(".agreement_btn_disable").show();
+        $(".agreement_btn").hide();
+        $(".pay_btn").hide();
+        $(".pay_btn_disable").show();
+        CountDown();
+
+    })
+        $("#agree_btn").prop('checked',false);
+        $(".agreement_btn_disable").show();
+        $(".agreement_btn").hide();
+        $("#agree_btn").prop('checked',false);
+        $(".agreement_btn_disable").show();
+        $(".agreement_btn").hide();
+      $("#rewards_demand").keydown(function(event){
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+            if(e && e.keyCode==13){ // 按 Esc 
+                $(this).val($(this).val()+"\n");
+              }
+      })
+
+        $("#agree_btn").prop('checked',false);
+        $(".agreement_btn_disable").show();
+        $(".agreement_btn").hide();
+    $(".phone_box div").click(function(){
+        $(".phone_box div img").attr('src', '/static/images/xshang3_06.png');
+        $(this).children('img').attr('src','/static/images/xshang3_03.png');
+        var index=$(".phone_box div").index(this);
+        if(index==1)
+            $("#other_phone_box").show();
+        else
+            $("#other_phone_box").hide();
+    })
+
+var count1 = 8; 
+function CountDown() {
+        setInterval(function(){
+            if(count1==0){
+                $(".agreement_btn_disable").hide();
+                $(".agreement_btn").show();
+                count1=8;
+                return;
+            }
+           $(".agreement_btn_disable").text('确认服务协议 ('+count1+'秒)');
+           count1--;
+        },1000)
+ }
+
+    var timecount=120;
+    $(".code_btn_phone").click(function(){
+        var phone=$(".phone_txt").val();
+        if(!/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/.test(phone))
+        {
+           alert('请输入有效的手机号',2);
+           return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/jobs/ajax_sms_send",
+            data: {
+                "code": "",
+                "mobile": phone,
+                "type": 'rewards'
+            },
+            dataType: "text",
+            success: function (msg) {
+                if (msg == "1") {
+                    window.alert("校验码已发送到您的手机，请注意查收！",1);
+                } else if(msg == "2") {
+                    window.alert("验证码发送失败，请重试！",4);
+                }else{
+                    window.alert("验证码输入错误！",4);
+                }
+            }
+        });
+        if(timecount<120)return;
+        var timer=setInterval(function(){
+            if(timecount==0){
+                clearInterval(timer);
+                $(".code_btn_phone").text('重新发送验证码');
+                $('.code_txt_phone').val('');
+                timecount=120;
+                return;
+
+            }
+           $(".code_btn_phone").text(timecount);
+           timecount--;
+        },1000)
+    })
+    $("#reward_modal .a2 .r3 img").click(function(){
+        var count=$("#count_txt").val();
+        var index=$("#reward_modal .a2 .r3 img").index(this);
+        if(count=="")
+        {
+            count=0;
+            if(index==0)
+            {
+                $("#count_txt").val(count+1);
+
+            }
+        }
+        else
+        {
+            if(index==0)
+            {
+                if(count*1 > 19)
+                {
+                    alert("最多招聘20人",2);
+                    return;
+                }
+                $("#count_txt").val(count*1+1);
+            }
+            else
+            {
+             var  totalcount=count*1-1;
+             if(totalcount<1)
+             {
+                totalcount=1;
+             }
+              $("#count_txt").val(totalcount);
+            }
+        }
+        var total_count = $("#count_txt").val();
+        if (total_count == ''){
+            total_count = 1;
+        }
+        $('#reward_total_money').text(parseInt(total_count) * {{ reward_money }});
+    })
+     var agreement_layer;
+    $("#reward_modal .recommend_con .con_b").click(function(){
+         agreement_layer=layer.open({
+            type: 1,
+            area: ['520px', '525px'],
+            title:"<span>职位悬赏服务协议</span><em></em>",
+            fix: true, //不固定
+            maxmin: false,
+            move:false,
+            skin: 'recommend_modal',
+            closeBtn:"1",
+            content: $("#agreement"),
+            success:function(layero, index){
+                var o_index = index;
+                $(layero).find('.success').click(function(event) {
+                    layer.close(o_index);
+                });
+                $(layero).find('.fail').click(function(event) {
+                    layer.close(o_index);
+                });
+            }
+        });
+    })
+    // $("#agreement_con").scroll(function(){
+    //      var $this =$(this),
+    //      viewH =$(this).height(),//可见高度
+    //      contentH =$(this).get(0).scrollHeight,//内容高度
+    //      scrollTop =$(this).scrollTop();//滚动高度
+    //     //if(contentH - viewH - scrollTop <= 100) { //到达底部100px时,加载新内容
+    //     if(scrollTop/(contentH -viewH)>=0.95){ //到达底部100px时,加载新内容
+    //         $(".agreement_btn_disable").hide();
+    //         $(".agreement_btn").show();
+    //     }
+    //     else
+    //     {
+    //         $(".agreement_btn_disable").show();
+    //         $(".agreement_btn").hide();  
+    //     }
+    //  });
+    
+       // 同意协议事件
+    $(".agreement_btn").click(function(){
+        $(".pay_btn_disable").hide();
+        $(".pay_btn").show();
+        $("#agree_btn").prop('checked',true);
+        $(".zzc").remove(); 
+        layer.close(agreement_layer);
+    })
+    // 支付赏金事件
+    $(".pay_btn").click(function(){
+        if($("#count_txt").val()=="")
+        {
+            alert('请输入招聘数量!',2);
+            return;
+        }
+        layer.close(recommend_layer);
+    })
+    
+    $("#reward_modal .recommend_con .content textarea").click(function(){
+         if($("#reward_modal .recommend_con .content textarea").val()==textareaValueinit)
+         {
+            $(this).addClass('active1').val('');
+         }
+    })
+    $("#reward_modal .recommend_con .content textarea").blur(function(){
+        if($("#reward_modal .recommend_con .content textarea").val()=="")
+         {
+            $(this).removeClass('active1').val(textareaValueinit);
+         }
+    })
+
+
+
+    $(function(){
+        $(".Invo_instr").hover(function(){
+            $(".layui-layer-content").css("overflow","initial");
+            $(".Invo_data").css("display","inline-block");
+
+        },function(){
+             $(".Invo_data").css("display","none");
+              $(".layui-layer-content").css("overflow","auto");
+        })
+        $('#rewards_demand').keyup(function(event) {
+           var num=$('#rewards_demand').val().length;
+           $('.numTip').find('span').eq(0).text(num);
+        });
+
+    })
+</script>
+{% include 'jobs/system/new_footer.html' %}

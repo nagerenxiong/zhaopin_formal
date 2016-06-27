@@ -1,0 +1,205 @@
+<!-- 推荐的数据 -->
+<input type="hidden" class="myUserAccountType"  value="{{ pu.account_type }}">
+<input type="hidden" class="myUserAuditResult" value="{{ pu.userValidateStatus }}" >
+<div class="f_r" style="width: 235px">
+<div class="sidebar right sidebar1">
+    <ul class="sidebar_select ">
+        {% if request.session.account_type == "1" %}
+            <li class="active">明星经纪人</li>
+            <li >推荐的企业</li>
+        {% elif request.session.account_type == "2"  or request.session.account_type == "4"%}
+            <li class="active">精英人才</li>
+            <li >明星经纪人</li>
+        {% elif request.session.account_type == "3"  or request.session.account_type == "5" %}
+            <li class="active">精英人才</li>
+            <li >推荐的企业</li>
+        {% endif %}
+        <li class="slide"></li>
+    </ul>
+    {% if request.session.account_type != "1" %}
+        <ul class="sidebar_man sidebar_company" {% if request.session.account_type == "1" %}style="display: none;"{% endif %}>
+            {% if recommendPersonals %}
+                {% for personal in recommendPersonals %}
+                    <li>
+                        <img class="left" onclick="viewResume('{{ personal.object_id }}')" style="cursor: pointer;" src="{{ request.session.file_website }}{{ personal.head_portrait | default:'null' }}" alt="" onerror="notfind(this, 1, '{{ personal.sex }}')">
+                        <div class="left">
+                            <h3>
+                                
+                                    {% if personal.attentionState == 0 %}
+                                    <span class="guanzhu right cup" onclick="attention({{ personal.pu_id }}, '1', this)">
+                                        <i class="iconfont icon-tianjiayuangong "></i>加关注
+                                    {% elif personal.attentionState == 1 %}
+                                    <span class="guanzhu right " onclick="attention({{ personal.pu_id }}, '1', this)">
+                                        <i class="iconfont icon-yiguanzhu"></i>已关注
+                                    {% elif personal.attentionState == 2 %}
+                                    <span class="guanzhu right " onclick="attention({{ personal.pu_id }}, '1', this)">
+                                        <i class="iconfont icon-hxgz"></i>已互粉
+                                    {% endif %}
+                                </span>
+                                <span class="nowrap" title="" onclick="viewResume('{{ personal.object_id }}')">{{ personal.user_name }}</span>
+                            </h3>
+                            <p class="nowrap" title="{{ personal.position_name }}"><span title="">领域:&nbsp;</span>{{ personal.position_name }}</p>
+                            <p class="nowrap" title="{{ personal.workyear_name }}"><span title="">经验:&nbsp;</span>{{ personal.workyear_name }}</p>
+                            <p class="nowrap" title="{{ personal.location }}"><span title="">地区:&nbsp;</span>{{ personal.location }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    {% endif %}
+
+    {% if request.session.account_type != "3" and request.session.account_type != "5" %}
+        <ul class="sidebar_man sidebar_company" {% if request.session.account_type != "1" %}style="display: none;"{% endif %}>
+            {% if recommendHeadhunts %}
+                {% for headhunter in recommendHeadhunts %}
+                    <li>
+                        <img class="left" onclick="headhunterView('{{ headhunter.pu_id }}')" style="cursor: pointer;" src="{{ headhunter.head_portrait | default:'null'}}" alt="" onerror="notfind(this, 3, '{{ headhunter.sex }}')">
+                        <div class="left">
+                            <h3>
+                                {% if headhunter.attentionState == 0 %}
+                                <span class="guanzhu right cup" onclick="attention({{ headhunter.pu_id }}, '1', this)">
+                                        <i class="iconfont icon-tianjiayuangong"></i>加关注
+                                    {% elif headhunter.attentionState == 1 %}
+                                    <span class="guanzhu right" onclick="attention({{ headhunter.pu_id }}, '1', this)">
+                                        <i class="iconfont icon-yiguanzhu"></i>已关注
+                                    {% elif headhunter.attentionState == 2 %}
+                                    <span class="guanzhu right" onclick="attention({{ headhunter.pu_id }}, '1', this)">
+                                        <i class="iconfont icon-hxgz"></i>已互粉
+                                    {% endif %}
+                                </span>
+                                <span class="nowrap" title="" onclick="headhunterView('{{ headhunter.pu_id }}')">{{ headhunter.real_name}}</span>
+                            </h3>
+                            <p class="nowrap" title="{{ headhunter.businessname}}"><span>行业:&nbsp;</span>{{ headhunter.businessname|default:'' }}</p>
+                            <p class="nowrap" title="{{ headhunter.positionname}}"><span>职位:&nbsp;</span>{{ headhunter.positionname|default:'' }}</p>
+                            <p class="nowrap" title="{{ headhunter.location_name}}"><span>地区:&nbsp;</span>{{ headhunter.location_name|default:'' }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    {% endif %}
+
+    {% if request.session.account_type != "2"  and request.session.account_type != "4"%}
+        <ul class="sidebar_man sidebar_company" style="display: none;">
+            {% if recommendCompanys %}
+                {% for company in recommendCompanys %}
+                    <li>
+                        <img class="left" onclick="companyView('{{ company.object_id }}')" style="width:90px;height:90px;cursor: pointer;border:1px solid #e0e0e0;" src="{{ company.pc_logo | default:'null' }}" alt="" onerror="notfind(this, 2)">
+                        <div class="left">
+                            <h3>
+                                    {% if company.attentionState == 0 %}
+                                <span class="guanzhu right cup" onclick="attention({{ company.object_id }}, '2', this)">
+                                        <i class="iconfont icon-tianjiayuangong "></i>加关注
+                                    {% elif company.attentionState == 1 %}
+                                    <span class="guanzhu right" onclick="attention({{ company.object_id }}, '2', this)">
+                                        <i class="iconfont icon-yiguanzhu"></i>已关注
+                                    {% elif company.attentionState == 2 %}
+                                    <span class="guanzhu right" onclick="attention({{ company.object_id }}, '2', this)">
+                                        <i class="iconfont icon-hxgz"></i>已互粉
+                                    {% endif %}
+                                </span>
+                                <span class="nowrap" title="" onclick="companyView('{{ company.object_id }}')">{{ company.pc_name }}</span>
+                            </h3>
+                            <p class="nowrap" title="{{ company.scale }}">规模:&nbsp;<span>{{ company.scale }}</span></p>
+                            <p class="nowrap" title="{{ company.industry_name }}">领域:&nbsp;<span>{{ company.industry_name }}</span></p>
+                            <p class="nowrap" title="{{ company.location_name }}">地区:&nbsp;<span>{{ company.location_name }}</span></p>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    {% endif %}
+</div>
+{% if request.session.account_type == "1" and myHeadhunters %}
+<div class="sidebar right sidebar2" style="margin-top:10px;">
+    <ul class="sidebar_select" style="width:100%;padding:5px 0px 0px 0px;border-bottom: 1px solid #E2E2E2;">
+        <li class="wdjjr" style="cursor:default;color:#5c91d9;">我的经纪人</li>
+        
+    </ul>
+{#    {% if request.session.account_type == "3" and request.session.account_type != "5" %}#}
+    <ul class="sidebar_man sidebar_company">
+        {% if myHeadhunters %}
+            {% for headhunter in myHeadhunters %}
+                <li>
+                    <img class="left" onclick="headhunterView('{{ headhunter.pu_id }}')" style="cursor: pointer;" src="{{ headhunter.head_portrait| default:'null' }}" alt="" onerror="notfind(this,3,'{{ headhunter.sex }}')">
+                    <div class="left">
+                        <h3>
+                            {% if headhunter.evaluation == 0 %}
+                                <span class="guanzhu right pingjia" onclick="o_show('jjrpj', '{{ headhunter.pu_id }}')">
+                                       <i class="iconfont icon-duihua1"></i>点评
+                                </span>
+                            {% else %}
+                                <span class="guanzhu right pingjia" onclick="headhunterView('{{ headhunter.pu_id }}', 'evaluation')">
+                                   查看点评
+                                </span>
+                            {% endif %}
+                            <span class="nowrap" title="" onclick="headhunterView('{{ headhunter.pu_id }}')">{{ headhunter.real_name }}</span>
+                        </h3>
+                        <p class="nowrap" title="{{ headhunter.businessname}}"><span>行业:&nbsp;</span>{{ headhunter.businessname|default:'' }}</p>
+                        <p class="nowrap" title="{{ headhunter.positionname}}"><span>职位:&nbsp;</span>{{ headhunter.positionname|default:'' }}</p>
+                        <p class="nowrap" title="{{ headhunter.location_name}}"><span>地区:&nbsp;</span>{{ headhunter.location_name|default:'' }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+{#    {% endif %}#}
+
+</div>
+{% endif %}
+</div>
+<script type="text/javascript">
+var guanzhu_go = true;
+    //关注，type类型1-关注的人，2-关注的企业
+    function attention(pu_id, type, obj){
+        if(guanzhu_go != true){
+            alert('您的操作过于频繁，请稍后再试');
+            return false;
+        }
+        if($.trim($(obj).text()) != '加关注'){
+            return;
+        }
+        var myUserAccountType = $(".myUserAccountType").val();
+        var myUserAuditResult = $(".myUserAuditResult").val();
+        if(myUserAccountType != '1' && myUserAuditResult != '3' ) {
+            doAlertToAudit(myUserAuditResult);
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/ajax_attentionOperate",
+            data: {"id": pu_id, "type": "1", "attentionType": type},
+            dataType: "json",
+            success: function (data) {
+                if(data.status == '0'){
+                    alert("您已达到关注人数的上限!")
+                } else if(data.msg == 'success'){
+                    window.alert('关注成功');
+                    guanzhu_go = false;
+                    setTimeout(function(){
+                        guanzhu_go = true;
+                    },5000);
+                    $(obj).empty();
+                    $(obj).css('cursor', 'default');
+                    $(obj).append('<i class="iconfont icon-yiguanzhu"></i>已关注');
+                } else if(data.msg == 'exist'){
+                    window.alert('你已关注，无需再关注');
+                }else{
+                    window.alert(data.msg);
+                }
+            }
+        });
+    }
+    //经纪人预览
+    function headhunterView(pu_id, type){
+        var condition = '';
+        if(type){
+            condition += '&evaluation=1';
+        }
+        window.open('/system/ckjjrsy?puid=' + pu_id + condition, '_blank');
+    }
+    //企业预览
+    function companyView(companyId){
+        window.open('/account/new_qyyl?companyId=' + companyId, '_blank');
+    }
+</script>

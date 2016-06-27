@@ -1,0 +1,78 @@
+<!-- 猎头会员英才举荐开始 -->
+<div class="yctj">
+    <div class="bkdw"></div>
+    <div class="yctj_tou">
+        <div class="yctj_tou_z cr">
+            <b class="fn c3 pl5 fz14">
+                {% if recommendPersonals %}
+                    精英人才
+                {% else %}
+                    明星经纪人
+                {% endif %}
+            </b>
+        </div>
+        <div class="yctj_tou_y"></div>
+    </div>
+    <div class="yctj_nei">
+        {% if recommendPersonals %}
+            {% for personal in recommendPersonals %}
+                <div class="yctj_nrlb">
+                    <div class="yctj_nrzp"><img src="{{ request.session.file_website }}{{ personal.head_portrait | default:'null' }}" width="92" height="92" border="0" align="absmiddle" onclick="resumeView('{{ personal.object_id }}')" onerror="notfind(this, '1', '{{ personal.sex }}')" /></div>
+                    <div class="yctj_nrwen">
+                        <b class="fz14 rc_p" style="cursor:pointer;" onclick="resumeView('{{ personal.object_id }}')">{{ personal.user_name}}</b><br />
+                        <span style="color:#777;display: inline-block; font-size:12px" >行业:</span>
+                        <span title="{{ personal.position_name|slice:'8' }}" class="nowrap" style="color:#333;vertical-align: bottom;display: inline-block;width:78px;font-size:12px">{{ personal.position_name|slice:'8' }}</span>
+                        <span style="color:#777;display: inline-block; font-size:12px">经验:</span>
+                        <span title="{{ personal.workyear_name }}" class="nowrap" style="color:#333;vertical-align: bottom;display: inline-block;width:78px;font-size:12px">{{ personal.workyear_name }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        {% elif recommendHeadhunters %}
+            {% for hunter in recommendHeadhunters %}
+                <div class="yctj_nrlb">
+                    <div class="yctj_nrzp"><img src="{{ request.session.file_website }}{{ hunter.head_portrait | default:'null' }}" width="92" height="92" border="0" align="absmiddle" onclick="headhunterView('{{ hunter.pu_id }}')"  onerror="notfind(this, '3', '{{ hunter.sex }}')" /></div>
+                    <div class="yctj_nrwen">
+                        <b class="fz14 rc_p" style="cursor:pointer;" onclick="headhunterView('{{ hunter.pu_id }}')">{{ hunter.real_name}}</b><br />
+                        <span title="{{ hunter.businessname}}">{{ hunter.businessname|slice:'8' }}..</span><br />
+                        {% if hunter.positionname %}
+                             <span title="{{ hunter.positionname}}">{{ hunter.positionname|slice:'8' }}..</span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+{#        <div class="yctj_nrlb">#}
+{#            <div class="yctj_nrzp"><img src="/static/images/mpxp.jpg" width="84" height="84" border="0" align="absmiddle" /></div>#}
+{#            <div class="yctj_nrwen">#}
+{#                <b class="fz16">某某求职者</b><br />#}
+{#                相关行业<br />#}
+{#                工作年限#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="yctj_nrlb">#}
+{#            <div class="yctj_nrzp"><img src="/static/images/mpxp.jpg" width="84" height="84" border="0" align="absmiddle" /></div>#}
+{#            <div class="yctj_nrwen">#}
+{#                <b class="fz16">某某求职者</b><br />#}
+{#                相关行业<br />#}
+{#                工作年限#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="yctj_nrlb">#}
+{#            <div class="yctj_nrzp"><img src="/static/images/mpxp.jpg" width="84" height="84" border="0" align="absmiddle" /></div>#}
+{#            <div class="yctj_nrwen">#}
+{#                <b class="fz16">某某求职者</b><br />#}
+{#                相关行业<br />#}
+{#                工作年限#}
+{#            </div>#}
+{#        </div>#}
+    </div>
+</div>
+<!-- 猎头会员英才举荐结束 -->
+<script type="text/javascript">
+    function resumeView(resumeId){
+        window.open('/resume/new_jlyl?t=yl&resumeID=' + resumeId, '_blank');
+    }
+    function headhunterView(pu_id){
+        window.open('/system/ckjjrsy?puid=' + pu_id, '_blank');
+    }
+</script>

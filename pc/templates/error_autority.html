@@ -1,0 +1,20 @@
+{% include 'jobs/system/header.html' %}
+<style type="text/css">
+	.re_bottom{margin-top: 0px;}
+</style>
+<div class="content" style="text-align: center;background-color: #f1f1f1;padding-top: 50px;padding-bottom: 80px">
+{#    {% if request.session.account_type %}#}
+{#        {% if request.session.account_type == "1" %}#}
+{#            <img src="{{ STATIC_URL }}images/404_06.png"><br><a href="/system/new_personal_index" style="display:inline-block;width:167px;height:44px;line-height: 44px;color:#fff;text-align: center;background-color: #5C91D9;font-size: 18px;border-radius: 5px;margin-top: 15px;">返回首页 ></a>#}
+{#        {% elif request.session.account_type == "3" or request.session.account_type  == "5" %}#}
+{#            <img src="{{ STATIC_URL }}images/404_06.png"><br><a href="/system/new_headhunter_index" style="display:inline-block;width:167px;height:44px;line-height: 44px;color:#fff;text-align: center;background-color: #5C91D9;font-size: 18px;border-radius: 5px;margin-top: 15px;">返回首页 ></a>#}
+{#        {% else %}#}
+{#            <img src="{{ STATIC_URL }}images/404_06.png"><br><a href="/system/new_company_index" style="display:inline-block;width:167px;height:44px;line-height: 44px;color:#fff;text-align: center;background-color: #5C91D9;font-size: 18px;border-radius: 5px;margin-top: 15px;">返回首页 ></a>#}
+{#        {% endif %}#}
+{#    {% else %}#}
+{#        <img src="{{ STATIC_URL }}images/404_06.png"><br><a href="/jobs/index.html" style="display:inline-block;width:167px;height:44px;line-height: 44px;color:#fff;text-align: center;background-color: #5C91D9;font-size: 18px;border-radius: 5px;margin-top: 15px;">返回首页 ></a>#}
+{#    {% endif %}#}
+    没权限
+
+</div>
+{% include 'jobs/system/new_footer.html' %}

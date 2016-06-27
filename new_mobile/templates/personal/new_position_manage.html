@@ -1,0 +1,546 @@
+{% include 'header.html' %}
+<link rel="stylesheet" href="/static/new_mobile/css/moneyreward.css">
+<link rel="stylesheet" href="/static/new_mobile/css/initial.scss">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="view" class="view flex flex-v">
+        <div id="wrapper" class="content1 flex-1">
+            <div id="scroller" class="content-wrap">
+                <div class="zsp_share_fidex shareCurRed">
+                    <div class="zsp_share_web_red">
+                        <div class="zsp_share_web_tit">温馨提示：</div>
+                        <div class="zsp_share_web_p" id="">
+                            1.
+                            <img src="/static/new_mobile/images/93.png">微信关注“HCDYHR”公众号</div>
+                        <div class="zsp_share_web_p">
+                            2. 转发到
+                            <img src="/static/new_mobile/images/90.png"> 朋友圈或
+                            <img src="/static/new_mobile/images/93.png">微信好友</div>
+                    </div>
+                </div>
+                {% if request.session.pu_id %} {% include 'menu_personal.html' %} {% else %} {% include 'login_Modal.html' %} {% endif %}
+                <div class="main_content">
+                    <div class="position_basic">
+                        {% if position.rewards_money == 0 %}
+                            {% if position.position_source == 1 %}
+                                <img src="/static/new_mobile/images/comany.png" alt="" class="comm_icon">
+                            {% else %}
+                                <img src="/static/new_mobile/images/agrent.png" alt="" class="comm_icon">
+                            {% endif %}
+                        {% endif %}
+                        <div class="zsp_basic_top">
+                            <div class="zsp_post_referral"><span class="zsp_post_name">{{ position.position_name }}</span>
+                                <span class="zsp_post_money">{{ position.payname|default:'' }}</span>
+                            </div>
+                            {% if request.session.pu_id %}
+                                {% if collect_position_Count == 0 %}
+                                    <div class="zsp_collect" onclick="collectPosition({{ position.id }})">
+                                        <span>收藏</span>
+                                        <i class="iconfont icon-collect_act"></i>
+                                    </div>
+                                {% else %}
+                                    <div class="zsp_collect" onclick="collectPosition({{ position.id }})">
+                                        <span>已收藏</span>
+                                        <i class="iconfont icon-shoucang"></i>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                            <ul>
+                                {% if position.work_areaname %}
+                               <li><i class='iconfont icon-didian'></i>{{ position.work_areaname|default:'' }}</li>{% endif %}
+                               {% if position.work_yearname %}
+                                <li><i class="iconfont icon-gongzuojingli"></i>{{ position.work_yearname|default:'' }}</li>
+                                {% endif %}
+                                {% if position.diplomaname %}<li><i class="iconfont icon-xueli"></i>
+                                {{ position.diplomaname| default:'' }}</li>{% endif %}
+                                {% if position.work_naturename %}<li><i class="iconfont icon-quanzhijianzhi"></i>
+                                {{ position.work_naturename|default:'' }}</li>{% endif %}
+
+                            </ul>
+                            <p class="bid_content">
+                                <span>阅读:{{ view_count }}</span>
+                                <span>转发:{{ forward_count }}</span>
+                                {% if position.rewards_money > 0 %}
+                                    <span>推荐人数:{{ recommend_count }}</span>
+                                {% endif %}
+                                <span>发布时间：{{ position.last_update_date|date:'Y-m-d' }}</span>
+                            </p>
+                        </div>
+                    </div>
+                    {% if position.rewards_money > 0 %}
+                        <div class="count_down">
+                            <img src="/static/new_mobile/images/rewardbj.jpg" class="zsp_coudown_img" alt="">
+                            <div class="zsp_reward_count_left">
+                                <p><i class="iconfont icon-qianbao1"></i>赏金：</p>
+                                <p><span class="rew_money">{{ position.rewards_money }}</span>
+                                    <span class="rew_yuan">元</span>
+                                    <a href="moneyreward" class="rew_howtoget">如何获取赏金</a>
+                                    <em class="iconfont icon-bangzhuzhongxin" onclick="location.href ='moneyreward'"></em></p>
+                            </div>
+                            <div class="zsp_reward_count_right">
+                                <p>距结束还剩</p>
+                                <p><span>{{ left_day|default:0 }}天</span></p>
+                            </div>
+                        </div>
+                        <div class="reward_flow" onclick="location.href ='moneyreward'">
+                            <ul>
+                                <li><i class="iconfont icon-check-outline"></i><span>平台担保</span></li>
+                                <li><i class="iconfont icon-check-outline"></i><span>快速反馈</span></li>
+                                <li><i class="iconfont icon-check-outline"></i><span>入职10个工作日内领赏</span></li>
+                                <i class="iconfont icon-fanhui-copy-copy arrows"></i>
+                            </ul>
+                        </div>
+                    {% endif %}
+                    <div class="zsp_job_details">
+                        <div class="pulic_posit_title">
+                            <h3>职位描述</h3></div>
+                        <div class="zsp_duty_claim">
+                            <h3>一、任职要求：</h3>
+                            <p>{{ position.demand|default:'' | safe}}
+                            </p>
+                            <h3>二、岗位职责：</h3>
+                            <p>{{ position.position_describe | safe}}
+                            </p>
+                        </div>
+                        <div class="pulic_posit_title">
+                            <h3>公司信息</h3></div>
+                        <div class="zsp_job_detai_top" {% if position.position_source == 1 %}onclick="companyView({{ position_source_company.id }})"{% endif %}>
+                            <div class="zsp_job_img">
+{#                                <img src="/static/new_mobile/images/p_b_por.png" alt="">#}
+                                <img src="{{ request.session.file_website }}{{ position_source_company.pc_logo }}" onerror="notfind(this,'', 2)">
+                            </div>
+                            <div class="zsp_job_li">
+                                </a><h3>{{ position_source_company.pc_name | default:'' }}</h3>
+                                <em>
+                                    {{ position_source_company.businessname | default:'' }}
+                                </em>
+                            </div>
+                            {% if position.position_source == 1 %}
+                                <i class="iconfont icon-fanhui-copy-copy arrows"></i>
+                            {% endif %}
+                        </div>
+                        <!-- 经纪人和企业普通职位发布者 -->
+                        {% if position.rewards_money == 0 %}
+                            <div class="pulic_posit_title">
+                                <h3>职位发布者</h3></div>
+                            <!-- 经纪人职位发布者 -->
+                            {% if position.position_source == 2 %}
+                                {% if request.session.account_type != '3' and request.session.account_type != '5' %}
+                                    <div class="zsp_job_detai_bottom pr" >
+                                {% else %}
+                                    <div class="zsp_job_detai_bottom pr">
+                                {% endif %}
+                                    <div class="zsp_job_img">
+                                        <img style="border-radius: 50%;" src="{{ request.session.file_website }}{{ source_pu.head_portrait | default:'' }}" onerror="notfind(this,'{{ source_pu.sex }}',{{ source_pu.account_type }})" >
+                                    </div>
+                                    <div class="zsp_job_lixq">
+                                        <h3>{{ source_pu.user_name | default:position.user_name }} &nbsp; {{ source_pu.extension|default:source_pu.phone }}
+                                            {% if source_pu.extension %}
+                                                <a class="iconfont icon-dianhua" href="tel:400-666-4846"></a>
+                                            {% else %}
+                                                <a class="iconfont icon-dianhua" href="tel:{{ source_pu.phone }}"></a>
+                                            {% endif %}
+                                        </h3>
+                                        <em>人才经纪人</em>
+                                    </div>
+                                    {% if request.session.account_type != '3' and request.session.account_type != '5' %}
+                                    <span class="toheaderhun" onclick="headhuntView({{ source_pu.headhunt_id }})">
+                                    <i class="iconfont icon-fanhui-copy-copy arrows"></i>
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div class="zsp_job_detai_bottom">
+                                    <div class="zsp_job_img">
+                                        <img src="{{ request.session.file_website }}{{ position_source_company.pc_logo }}" onerror="notfind(this,'', 2)">
+                                    </div>
+                                    <div class="zsp_job_lixq">
+                                        <h3>{{ position.contact_user_name | default:position.user_name }}</h3>
+                                        <em>{{ position.contact_current_post | default:'' }}</em>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                        <!-- 悬赏电话咨询 -->
+                        {% if position.rewards_money > 0 %}
+                            <div class="pulic_posit_title">
+                                <h3>详情请咨询</h3></div>
+                            <div class="zsp_job_detai_bottom">
+                                <div class="zsp_job_img">
+                                    {% if position.position_source == 1 and position.company_id != 8904 %}
+                                        <img src="{{ request.session.file_website }}{{ position_source_company.pc_logo }}" onerror="notfind(this,'', 2)">
+                                    {% elif position.company_id == 8904 %}
+                                        <img src="/static/mobile/images/rcf_tx2.png" />
+                                    {% else %}
+                                        <img style="border-radius: 50%;" src="{{ request.session.file_website }}{{ source_pu.head_portrait | default:'' }}" onerror="notfind(this,'{{ source_pu.sex }}',{{ source_pu.account_type }})" >
+                                    {% endif %}
+                                </div>
+                                <a href="tel:400-666-4846,{% if position.position_source == 1 and position.company_id != 8904 %}600{% elif position.company_id == 8904 %}680{% else %}{{ source_pu.extension|default:source_pu.phone }}
+                                        {% endif %}"><div class="zsp_job_li">
+                                    <h3>
+                                        {% if position.position_source == 1 and position.company_id != 8904 %}
+                                            400-666-4846 转 600
+                                        {% elif position.company_id == 8904 %}
+                                            400-666-4846 转 680
+                                        {% else %}
+                                            {{ source_pu.extension|default:source_pu.phone }}
+                                        {% endif %}
+                                    </h3>
+                                    <em>更多悬赏详情，请电话咨询</em>
+                                </div></a>
+                                 <div class="zsp_job_dial">
+                                    {% if position.position_source == 1 and position.company_id != 8904 %}
+                                        <a class="iconfont icon-dianhua" href="tel:400-666-4846,600"></a>
+                                    {% elif position.company_id == 8904 %}
+                                        <a class="iconfont icon-dianhua" href="tel:400-666-4846,680"></a>
+                                    {% else %}
+                                        <a class="iconfont icon-dianhua" href="tel:400-666-4846{{ forward_num }}"></a>
+                                    {% endif %}
+                                 </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <!-- 类似职位 -->
+                    {% if position.rewards_money == 0 %}
+                        <div class="zsp_reward_job">
+                            <div class="pulic_posit_title">
+                                <h3>类似职位</h3></div>
+                            <div class="zsp_reward_list">
+                                <ul>
+                                    {% if simple_position_list %}
+                                        {% for simple_position in simple_position_list %}
+                                            <li onclick="positionView({{ simple_position.id }})">
+                                                <i class="iconfont icon-fanhui-copy-copy arrows"></i>
+                                                <div class="zsp_rewar_img">
+                                                    <img src="{{ request.session.file_website }}{{ simple_position.pc_logo }}" onerror="notfind(this,'', 2)">
+                                                </div>
+
+                                                <div class="zsp_rewar_deti">
+                                                    <h3 >{{ simple_position.position_name }}
+                                                   <span>{{ simple_position.payname }}</span>
+                                                   </h3>
+                                                    <p>{{ simple_position.pc_name }}</p>
+                                                    <p class="lszw">{{ simple_position.work_areaname }}{% if  simple_position.work_yearname %}
+                                                        | {{ simple_position.work_yearname }}
+                                                    {% endif %}
+                                                    {% if simple_position.diplomanam %}
+                                                        | {{ simple_position.diplomanam }}
+                                                    {% endif %}</p>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% else %}
+                    <!-- 悬赏职位列表 -->
+                        <div class="zsp_reward_job">
+                            <div class="pulic_posit_title">
+                                <h3>更多悬赏职位</h3></div>
+                            <div class="zsp_reward_list">
+                                <ul>
+                                    {% if simple_position_list %}
+                                        {% for simple_position in simple_position_list %}
+                                            <li onclick="positionView({{ simple_position.id }})">
+                                                <i class="iconfont icon-fanhui-copy-copy arrows"></i>
+                                                <div class="reward_icon"><i class="iconfont icon-qianbao"></i>悬赏:￥{{ simple_position.rewards_money }}</div>
+                                                <div class="zsp_rewar_img">
+                                                    <img src="{{ request.session.file_website }}{{ simple_position.pc_logo }}" onerror="notfind(this,'', 2)">
+                                                </div>
+                                                <div class="zsp_rewar_deti">
+                                                <h3 class="zsp_h3"><b class="zsp_b">{{ simple_position.position_name }}</b>
+                                                   <span class="zsp_span">{{ simple_position.payname }}</span>
+                                                   </h3>
+                                                    <p class="jqslh">{{ simple_position.pc_name }}</p>
+                                                    <p class="lszw">{{ simple_position.work_areaname }}
+                                                    {% if simple_position.work_yearname %}
+                                                        | {{ simple_position.work_yearname }}
+                                                    {% endif %}
+                                                    {% if simple_position.diplomanam %}
+                                                        | {{ simple_position.diplomanam }}
+                                                    {% endif %}</p>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="zsp_personal_fixed_box" id="wap_but_box" style="display: block; height:45px">
+                    <div class="zsp_footer_job_but_box">
+                        {% if request.session.account_type == '1' %}
+                            {% if position.rewards_money > 0 %}
+                                <a href="javascript:;" class="zsp_footer_job_but_85 job_but_float_left_50 tuijian" style="width:100%;">转发职位</a>
+                            {% else %}
+                                <a href="javascript:;" class="zsp_footer_job_but_84 job_but_float_left_50" id="jobs_apply">申请职位</a>
+                                <a href="javascript:;" class="zsp_footer_job_but_85 job_but_float_left_50 tuijian">转发职位</a>
+                            {% endif %}
+                        {% elif request.session.account_type == '3' or request.session.account_type == '5' %}
+                            <a href="javascript:;" class="zsp_footer_job_but_84 job_but_float_left_50" id="jobs_apply">推荐人才</a>
+                            <a href="javascript:;" class="zsp_footer_job_but_85 job_but_float_left_50 tuijian">转发职位</a>
+                        {% else %}
+                            {% if request.session.pu_id %}
+                                <a href="javascript:;" class="zsp_footer_job_but_85 job_but_float_left_50 tuijian" style="width: 100%;" >转发职位</a>
+                            {% else %}
+                                <a href="javascript:;" class="zsp_footer_job_but_84 job_but_float_left_50" id="jobs_apply">推荐人才</a>
+                                <a href="javascript:;" class="zsp_footer_job_but_85 job_but_float_left_50 tuijian" >转发职位</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<!-- --微信分享开始 -->
+<script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+<script>
+    // 微信分享
+    function showPhone(phone){
+        $("body").append('<div style="width:100%;height:100%;position:fixed;top:0; background:rgba(0,0,0,.5)"><div style="width: 60%;height: 45px;position: fixed;margin: auto;background: #fff;z-index: 9999;left: 0;right: 0;top: 0;text-align: center;bottom: 0;font-size: 20px;border-radius:10px;padding:10px 0"><a style="color:#333" href="tel:'+phone+'">'+phone+'</a></div></div>')
+    }
+    var head_protraint = '';
+    if($.trim(head_protraint)==''){
+        head_protraint ='/static/mobile/images/qy_logo.png';
+    }
+
+    {% if position.rewards_money > 0 %}
+        {% if position.position_source == 2 %}
+            head_protraint ='/static/new_mobile/images/Wanted.png';
+        {% endif %}
+    {% else %}
+        {% if position.pc_logo %}
+            head_protraint = '{{ position.pc_logo }}';
+        {% endif %}
+    {% endif %}
+
+    // setTimeout(function() {
+    //     head_protraint = $(".zsp_job_main_tit_img:first").find("img:first").attr('src');
+    // }, 700);
+    var position_demand = '{{ position.demand | safe }}';
+    var position_describe = '{{ position.position_describe | safe}}'
+    if (position_demand ==''){
+        position_demand = position_describe
+    }
+
+    position_demand = position_demand.replace(/<br>/g,"\n");
+    {#    var description = '{{ position.work_areaname | default:'' }}|{{ position.position_name | default:'' }}|{{ position_source_company.pc_name | default:'' }}|{{ position.payname | default:'' }}';#}
+
+    WXJssdk.init(function(wx) {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+            success: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+        // 分享data
+        var shareData = {
+            {% if position.rewards_money > 0 %}
+                title: '{% if position.rewards_money %} 【悬赏{{ position.rewards_money | default:'' }}元】 {% endif %}{{ position_source_company.pc_short_name | default:position_source_company.pc_name }}诚聘{{ position.position_name | default:'' }}--{{ position.work_areaname | default:'' }}',
+            {% else %}
+                title: '{% if position.payname %} 【年薪{{ position.payname | default:'' }}】 {% endif %}{{ position_source_company.pc_short_name | default:position_source_company.pc_name }}诚聘{{ position.position_name | default:'' }}--{{ position.work_areaname | default:'' }}',
+            {% endif %}
+
+            {% if position.rewards_money > 0 %}
+                desc: {% if position.demand %}'{% if position.payname %}【年薪{{ position.payname | default:'' }}】{% endif %}职位描述: ' + position_demand {% else %}{% endif %},
+            {% else %}
+                desc: '职位描述: ' + position_demand ,
+            {% endif %}
+            link: '{{ web_site }}/mobile/personal/position_detail?position_id={{ position.id }}',//分享链接地址 自己调整
+            {% if position.rewards_money > 0 %}
+                {% if position.position_source == 2 %}
+                    imgUrl: '{{ web_site }}' + '/static/new_mobile/images/Wanted.png',//分享显示的图片
+                {% else %}
+                    imgUrl: '{{ web_site }}' + '{{ position.pc_logo }}',//分享显示的图片
+                {% endif %}
+            {% else %}
+                imgUrl: '{{ web_site }}' + head_protraint,//分享显示的图片
+            {% endif %}
+
+            success:function(){
+                // alert('shareData success');
+            },
+            cancel:function(){
+                // alert('shareData cancel');
+            },
+            error:function(res){
+                // alert(JSON.stringify(res));
+            }
+        };
+
+        // 分享给朋友
+        wx.onMenuShareAppMessage(shareData);
+        // 分享到朋友圈
+        wx.onMenuShareTimeline(shareData);
+        // 分享到QQ
+        wx.onMenuShareQQ(shareData);
+        // 分享到微博
+        wx.onMenuShareWeibo(shareData);
+    });
+</script>
+<!-- --微信分享结束 -->
+
+{% if request.session.account_type == '1'  %}
+    {% for resume in resume_list %}
+        <input type="hidden" id="resumepeid" value="{{ resume.id }}">
+    {% endfor %}
+{% endif %}
+<script>
+$(function(){
+        timer();
+        })
+function timer() {
+    var time_start = new Date().getTime(); //获取当前时间
+    var time_end = new Date("2016/6/16 14:00:00").getTime(); //获取目标时间
+
+    // 计算时间差 
+    var time_distance = time_end - time_start;
+    // 天
+    var int_day = Math.floor(time_distance / 86400000)
+    time_distance -= int_day * 86400000;
+    // 时
+    var int_hour = Math.floor(time_distance / 3600000)
+    time_distance -= int_hour * 3600000;
+    // 分
+    var int_minute = Math.floor(time_distance / 60000)
+    time_distance -= int_minute * 60000;
+    // 秒 
+    var int_second = Math.floor(time_distance / 1000)
+
+    // 时分秒为单数时、前面加零 
+    if (int_day < 10) {
+        int_day = "0" + int_day;
+    }
+    if (int_hour < 10) {
+        int_hour = "0" + int_hour;
+    }
+    if (int_minute < 10) {
+        int_minute = "0" + int_minute;
+    }
+    if (int_second < 10) {
+        int_second = "0" + int_second;
+    }
+    // 显示时间 
+    $("#time_d").text(int_day+"天");
+    // 设置定时器
+    setTimeout("timer()", 1000);
+}
+
+
+    // 收藏职位
+    function collectPosition(positionId){
+        $.ajax({
+            type: "POST",
+            url: "/mobile/ajax_collectPosition",
+            data: {"positionId": positionId},
+            dataType: "json",
+            success: function (data) {
+                if(data.msg == 'success1'){
+                    $(".zsp_collect").empty();
+                    $(".zsp_collect").append('<span>已收藏</span> <i class="iconfont icon-shoucang"></i>');
+                }else if(data.msg == 'success2'){
+                    $(".zsp_collect").empty();
+                    $(".zsp_collect").append('<span>收藏</span> <i class="iconfont icon-collect_act"></i>');
+                }else{
+                    window.alert([data.msg]);
+                }
+            }
+        })
+    }
+    // 企业预览
+    function companyView(company_id){
+        window.location = '/mobile/personal/show_company?company_id=' + company_id;
+    }
+    // 职位预览
+    function positionView(position_id){
+        window.location = '/mobile/personal/position_detail?position_id=' + position_id;
+    }
+    // 经纪人查看
+    function headhuntView(headhunt_id){
+        window.location = '/mobile/deatil_headhunter_list?headhunt_id=' + headhunt_id;
+    }
+    // 申请职位
+    $("#jobs_apply").click(function(){
+        if('{{ request.session.pu_id|default:"" }}' == '' && '{{ position.rewards_money|default:"" }}' != '' && '{{ position.rewards_money }}' != '0'){
+            window.location.href = '/mobile/login_register';
+            return false;
+        }
+        if(!'{{ request.session.pu_id }}') {
+            window.location.href='/mobile/personal/application_Position?position_id={{ position.id }}&sourceId={{ position.source_id }}'
+            return false;
+        }
+        {% if request.session.account_type != '1' %}
+            window.location = '/mobile/headhunter/recomm_talents?position_id={{ position.id }}';
+            return false;
+        {% endif %}
+        if($('#resumepeid').val().trim() != ""){
+            var resumesid = $('#resumepeid').val();
+            var flag = false;
+            $.ajax({
+                async: false,
+                type: 'POST',
+                data: {'position_id': '{{ position.id }}'},
+                url: '/ajax_get_this_position_deliver_count',
+                dataType: 'json',
+                success: function(data) {
+                    if(data > 0) {
+                        {% if request.session.account_type == '1' %}
+                            alert(['你已投递过此职位，无需再次投递！',4]);
+                        {% else %}
+                            alert(['你已推荐过此职位，无需再次推荐！',4]);
+                        {% endif %}
+                        flag = true;
+                    }
+                }
+            });
+            if(flag == true) {
+                return false;
+            }
+            $.ajax({
+                async: false,
+                type: 'post',
+                data: {'sourceId': '{{ position.source_id }}', 'positionId': '{{ position.id }}', 'resumeId': resumesid},
+                url: '/mobile/ajax_deliver_resume',
+                dataType: 'json',
+                success: function (data) {
+                    if(data.msg =="success"){
+                        {% if request.session.account_type == '1' %}
+                            alert(['简历投递成功',1]);
+                            var url = '/mobile/personal/deliver_results?position_id=' + {{ position.id }} + '&deal_status=5';
+                            url += '&resume_id=' + resumesid + '&ajInfo_id=' + data.ajInfoId;
+                            window.location = url;
+                        {% else %}
+                            alert(['简历推荐成功',1]);
+                        {% endif %}
+                    }else if(data.msg == "exist"){
+                        {% if request.session.account_type == '1' %}
+                            alert(["您投递的简历正在处理", 2]);
+                        {% else %}
+                            alert(["您推荐的简历正在处理", 2]);
+                        {% endif %}
+                    }else{
+                        alert([data.msg]);
+                    }
+                }
+            });
+        }
+    });
+
+    $('.tuijian').click(function(event) {
+         $('.shareCurRed').show();
+    });
+    $('.shareCurRed').click(function(event) {
+        $('.shareCurRed').hide();
+    });
+   
+</script>
+
+
+
+</html>

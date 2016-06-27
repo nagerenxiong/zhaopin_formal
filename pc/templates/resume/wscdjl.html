@@ -1,0 +1,305 @@
+{% include 'jobs/system/header.html' %}
+{% include 'jobs/system/menu_resume.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/css.css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/kongjian.css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/popup.css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/library.css">
+<div class="clear">2</div>
+<div class="clear">2</div>
+
+<div id="libaray" class="box_c clearfix">
+    <!-- 左边栏start --> 
+    <div class="box_l clearfix">
+        {% include 'jobs/resume/resume_left_company.html' %}
+    </div>
+    <!-- 左边栏end -->
+    <!-- 主体start -->
+    <div class="box_r clearfix">
+    <!-- 搜索选项start -->
+        <div class="o_search">
+            <div class="t">
+                <input id="search_input" type="text" placeholder="请输入简历关键词，多个关键词用空格隔开"><button id="search_btn" class="search_btn1" onclick="searchResumeData()">搜索</button><a class="more_search" href="javascript:void(0)">高级搜索</a>
+            </div>
+            <div class="m">
+                <ul>
+                    <li>
+                        <label class="f_l">性别</label>
+                        <div class="f_l">
+                            <span class="sex active">不限</span><span class="sex"><i class="iconfont icon-nan"></i>男</span><span class="sex"><i class="iconfont icon-nv" style="cursor:inherit"></i>女</span><label class="age">年龄要求</label>
+                            <input id="startAge" class="year" type="text" maxlength="3" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;岁" onkeydown="key_number(this)" onkeyup="key_number(this)">
+                            <em>—</em>
+                            <input id="endAge" class="year" type="text" maxlength="3" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;岁" onkeydown="key_number(this)" onkeyup="key_number(this)">
+                        </div>
+                    </li>
+                    <li>
+                        <label class="f_l">所在行业</label>
+                        <div class="f_l">
+                            <div id="businessulDiv" class="industry" onclick="BusinessulControlsShow(3,this)"></div>
+                            <input id="businessulValue" name="businessulValue" type="hidden" />
+                        </div>
+                    </li>
+                    <li>
+                        <label class="f_l">职能类别</label>
+                        <div class="f_l">
+                            <div id="positionDiv" class="industry" onclick="PositionControlsShow(5,this)"></div>
+                            <input type="hidden" value="" name="positionValue" id="expectPosition">
+                        </div>
+                    </li>
+                    <li>
+                        <label class="f_l">期望工作地区</label>
+                        <div class="f_l">
+                            <input name="" class="area_input ControlsWrap" id="expected_area" onclick="showArea(this,3)" placeholder="请选择工作地区" >
+                            <input type="hidden" value="" name="areaValue">
+                        </div>
+                    </li>
+                    <li>
+                        <label class="f_l">目前居住地</label>
+                        <div class="f_l">
+                            <input name="" class="area_input ControlsWrap" id="current_area" onclick="showArea(this,1, false)" placeholder="请选择目前居住地" >
+                            <input type="hidden" value="" name="nowLiveArea">
+                        </div>
+                    </li>
+                    <li>
+                        <label class="f_l">目前所在公司</label>
+                        <div class="f_l">
+                            <input class="company_name" type="text" placeholder="请填写公司名称"><div class="dib active"><span class="radio"><i></i></span><label class="n">全部公司</label>
+                            </div><div class="dib"><span class="radio"><i></i></span><label class="n">全部经历</label>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="tac">
+                    <button class="more_search_btn" onclick="searchResumeData()">搜索简历</button>
+                    <span class="reset" onclick="reset();">重置条件</span>
+                </div>
+            </div>
+        </div>
+    <!-- 搜索选项end -->
+    <!-- 简历列表start -->
+        <div class="resume_list">
+            <div class="o_sort">
+                共有<span class="b resume_count">0份</span>简历
+                <div id="xl" class="o_s" style="margin-left: 24px;">
+                    <p data-value="" id="max_diploma">最高学历</p>
+                    <ul class="commys">
+                        <li value="">不限</li>
+                        {% if diplomas %}
+                            {% for diploma in diplomas %}
+                                <li value="{{ diploma.dictionary_value }}">{{ diploma.dictionary_name }}</li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+                <div id="jy" class="o_s">
+                    <p data-value="" id="work_year">工作经验</p>
+                    <ul class="commys">
+                        <li value="">不限</li>
+                        {% if forWorkYs %}
+                            {% for work_year in forWorkYs %}
+                                <li value="{{ work_year.dictionary_value }}">{{ work_year.dictionary_name }}</li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+                <div id="nx" class="o_s">
+                    <p data-value="" id="expect_pay">期望年薪</p>
+                    <ul class="commys">
+                        <li value="">不限</li>
+                        {% if expectPays %}
+                            {% for expectPay in expectPays %}
+                                <li value="{{ expectPay.dictionary_value }}">{{ expectPay.dictionary_name }}</li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="o_s">
+                    <p data-value="" id="resume_type">简历类别</p>
+                    <ul class="commys">
+                        <li value="">不限</li>
+                        <li value="1">个人简历</li>
+                        <li value="2">经纪人简历</li>
+                    </ul>
+                </div>
+                <div class="o_pagination">
+                    <em class="l" onclick="pageTurn('up')"></em>
+                    <p class="page_right"><span class="b">0</span>/<b>0</b></p>
+                    <em class="r" onclick="pageTurn('down')"></em>
+                </div>
+            </div>
+            <div class="count_operate ">
+                <div class="dib check" onclick="active(this)">
+                    <span class="checkbox"><i class="iconfont icon-32gougou"></i></span>
+                    <label class="all">全选</label>
+                </div>
+                <button class="more_forward" onclick="browseResume()">批量浏览简历</button>
+                <button class="more_forward" style="display: none;" data-toggle="modal" data-target="#message_Modal" onclick="judgeSelected(this)">批量私信</button>
+                <div class="f_r">
+                    <p class="mr20">
+                        每页显示<span class="look_count active" onclick="reloadPage(10)">10</span>
+                        <span class="look_count" onclick="reloadPage(20)">20</span>
+                        <span class="look_count" onclick="reloadPage(30)">30</span>条
+                    </p>
+                </div>
+            </div>
+            <div class="resume_info">
+                <ul id="tableInfo">
+                </ul>
+                <div id="noSendData_library" class="noSendData" style="display: none;">
+                    <div>
+                            <p>暂时没有符合条件的记录！</p>
+                    </div>
+                </div>
+                <div id="noSendData_upload" class="noSendData" style="display: none;">
+                    <div>
+                            <p>暂无简历！<a href="javascript:void(0)" onclick="addNewJl()" style="color:#ff8800;">【立即上传】</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="lthy_pager" id="paginInfo">    
+
+            </div>
+        </div>
+    <!-- 简历列表end -->
+    </div>
+    <!-- 主体end -->
+</div>
+<!-- /.modal -->
+<!-- 模态框（Modal） -->
+<!-- 分组模态框（Modal） -->
+<div class="modal fade" id="update_fz_Modal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:300px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">分组</h4>
+                <input type="hidden" id="operateIndex" />
+            </div>
+            <div class="modal-body t_c">
+                <select name="" id="groupList" style="width:270px;height: 30px;">
+                    <option value="">未分组</option>
+                    {% if groups %}
+                        {% for secondGroup in groups %}
+                            <option value="{{ secondGroup.id }}">{{ secondGroup.group_name }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"data-dismiss="modal" style="background:#5c91d9;" onclick="updateGroup()">完成</button>
+            </div>
+        </div>
+        <!-- /.modal-content --> 
+    </div>
+</div>
+<!-- /.modal -->
+<!-- 删除简历模态框（Modal） -->
+    <div class="modal fade" id="if_del_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:300px">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">删除简历</h4>
+                </div>
+                <div class="modal-body tac">是否确认删除该简历？</div>
+                <div class="modal-footer tac">
+                    <input type="hidden" id="cancelId" />
+                    <input type="hidden" id="cancelGroupId" />
+                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteResume()">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="">取消</button>
+                   
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+    <!-- 删除简历模态框（Modal） -->
+    <div class="modal fade" id="if_del_group" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:300px">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">删除分组</h4>
+                </div>
+                <div class="modal-body tac">是否确认删除该分组？</div>
+                <div class="modal-footer tac">
+                    <input type="hidden" id="cancelId" />
+                    <input type="hidden" id="cancelGroupId" />
+                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="del_group()">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="">取消</button>
+                   
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+        <!-- /.modal -->
+<input type="hidden" id="pu_id" value="{{ pu.id }}" />
+<input type="hidden" id="pu_email" value="{{ pu.email }}" />
+<input type="hidden" id="operate_id" />
+<input type="hidden" id="operateState" />
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}appJs/resume/company_resume_list.js"></script>
+<script src="{{ STATIC_URL }}js/bootstrap.min.js" media="screen" rel="stylesheet" type="text/css"></script>
+<script src="/static/js/businessul.js"></script>
+<script src="/static/js/position.js"></script>
+<script src="/static/js/area.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/autoMatching.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/forwardresume.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/interview.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/uploader/jquery.uploadify.min.js"></script>
+
+<script>
+    $(function(){
+    // 行业、职位、地区 初始化
+        BusinessulControls("businessulDiv","{{ tri.sexpect_industry | default:'' }}","{{ tri.expect_industry | default:''}}","width:432px;height:auto;font-size:14px;min-height:38px;padding-left:10px;line-height:38px;");
+        PositionControls("positionDiv","{{ tri.sexpect_position | default:'' }}","{{ tri.expect_position | default:'' }}","width:432px;height:auto;font-size:14px;min-height:38px;padding-left:10px;line-height:38px;", true);
+    });
+    $('#checkAll').click(function () {
+        var checkboxes;
+        if ($('#tableInfo1').css("display") != 'none') {
+            checkboxes = $("#tableInfo1 input[type='checkbox']");
+        }
+        if ($(this).is(":checked")) {
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = true;
+            }
+        } else {
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = false;
+            }
+        }
+        var count1 = $("input[name='input']:checked").length;
+        $(".resucount span").html(count1);
+    })
+    $(".resulist").on('click', 'input[type="checkbox"]', function(event) {
+        var sum = $(".resulist li").not('.resltop').length;
+        var count1 = $("input[name='input']:checked").length;
+        $(".resucount span").html(count1);
+        if(count1 >= sum ){
+            $('#checkAll').attr('checked', 'true');
+        }else{
+            $('#checkAll').removeAttr('checked');
+        }
+    });
+    function post(URL, PARAMS) {
+        var temp = document.createElement("form");
+        $(temp).append("{% csrf_token %}");
+        temp.action = URL;
+        temp.method = "post";
+        temp.style.display = "none";
+        var opt = document.createElement("input");
+        opt.name = 'fileIds';
+        opt.value = PARAMS;
+        temp.appendChild(opt);
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    }
+
+</script>
+{% include 'jobs/system/new_footer.html' %}

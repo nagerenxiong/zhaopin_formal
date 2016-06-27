@@ -1,0 +1,72 @@
+		<div class="t">
+			<button class="upload" onclick="addNewJl()">上传简历</button>
+			<a class="o_btn create_new" href="/jobs/resume/new_jlsz" target="_blank">创建新简历</a>
+		</div>
+		<div class="b">
+			<h1>
+				<a class="conversion" href="javascript:void(0);" onclick="loadUnhandResume(this)">未转换的简历
+					<span>({{ file_count|default:0 }})</span>
+				</a>
+			</h1>
+			<div class="resume_group">
+				<h1>简历分组</h1>
+				<p class="l all active" onclick="changeDataType('all')" style="cursor: pointer;">全部简历（<span>{{ all_count|default:0 }}</span>）</p>
+
+				<p class="l"><i class="iconfont icon-xjt"></i>按来源分组</p>
+				<ul class="default">
+					<li onclick="changeDataType('myResume')"><a href="javascript:void(0)">我上传的简历（<span>{{ my_count|default:0 }}</span>）</a></li>
+					<li  onclick="changeDataType('myView')"><a href="javascript:void(0)">我购买的简历（<span>{{ view_count|default:0 }}</span>）</a></li>
+					<li onclick="changeDataType('entrust')"><a href="javascript:void(0)" >委托给我的简历（<span>{{ entrust_count|default:0 }}</span>）</a></li>
+					<li onclick="changeDataType('forward')"><a href="javascript:void(0)" >转发给我的简历（<span>{{ forward_count|default:0 }}</span>）</a></li>
+					<li onclick="changeDataType('myFavourite')"><a href="javascript:void(0)">我收藏的简历（<span>{{ favourite_count|default:0 }}</span>）</a></li>
+				</ul>
+
+				<p class="l">自定义分组<span class="add_group"><em>分组</em></span></p>
+				<ul class="o_group">
+					<li><div><input class="group_txt" type="text" data-value="" value="" maxlength="6"><button class="submit">提交</button><a class="cancel" href="javascript:void(0)">取消</a></div><span class="group_name">未分组</span><span class="count">（{{ ungroup_count|default:0 }}）</span></li>
+                    {% if groups %}
+                        {% for group in groups %}
+                            <li>
+                            	<div>
+                            		<input class="group_txt" type="text" data-value="{{ group.id }}" value="{{ group.group_name }}" maxlength="6"><button class="submit">OK</button><a class="cancel" href="javascript:void(0)">取消</a>
+                            	</div>
+                            	<span class="group_name">{{ group.group_name }}</span>
+                            	<span class="count">（{{ group.childCount|default:0 }}）</span>
+                            	<div class="ope">
+                            		<span class="editor"></span>
+                            		<i class="delete"></i>
+                            	</div>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+				</ul>
+
+			</div>
+		</div>
+<div id="delGroup" data-toggle="modal" data-target="#if_del_group" style="display:none;"></div>
+
+		<!-- 上传弹框 start-->
+		<div id="selectJl" style="display: none;">
+			<div class="selectJl_l">
+				<input type="file" name="file_upload" id="file_upload"  />
+			</div>
+			<div class="clearfix"></div>
+			<div class="word">
+				<div>
+					<span>提示：</span>
+					只支持doc、pdf、txt、HTML格式文件，文件大小不能超过5M
+					<p class="f_r">
+						已选择<span id="sc_select">0</span>份，
+						上传成功<span id="sc_upload">0</span>份，
+		            解析成功<span id="sc_success">0</span>份，
+		            失败<span id="sc_error">0</span>份
+					</p>
+				</div>
+			</div>
+			<div id="some_file_queue">
+				<div id="uploadCount"></div>
+			</div>
+			<a  href="javascript:void(0)" id="start_upload">开始上传</a>
+			<a  href="" id="finish_btn" >完成</a>
+		</div>
+		<!-- 上传弹框 end-->

@@ -1,0 +1,358 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+$(document).ready(function()
+{
+    $('.tuijian').click(function(){
+        $('.shareCur').fadeIn();
+    });
+    $('.shareCur').click(function(){
+        $('.shareCur').fadeOut();
+    });
+    
+    $("#clearkey").click(function () {
+        $("#key").val('');
+    });
+    $("#key").focus(function()
+    {
+        var patrn=/^(请输入关键字)/i;
+        var key=$("#key").val();
+        if (patrn.exec(key))
+        {
+            $("#key").val('');
+        }
+    });
+    //打开顶部菜单
+    $("#topmenu_sub").click( function () { 
+        $("#topmenu").slideToggle("fast");
+    });
+    $(".so_sub").click(function(){
+        var key = $.trim($("#key").val());
+        $(".zsp_job_list_li").remove();
+        if (key == '') {
+            var sql = ' position_status=1 order by add_date desc';
+        } else {
+            var sql = 'position_name like "%' + key + '%" or pc_name like "%' + key + '%" and position_status=1 order by add_date desc';
+        }
+        // 职位分页
+        var loadData = new pagin("positionPaginInfo", "V_Position_Search", "", encodeURI(sql), "", 10, "positionPagin", "loadData");
+    });
+    var flag = true;
+    if($(".zsp_job_list a").length<6){
+        $(".more").hide();
+    }
+    $(window).scroll(function(){
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        if(scrollTop + windowHeight == scrollHeight){
+            //getMore执行之后，flag为false防止多次ajax
+            if(flag){
+               getMore();
+            }
+        }
+    }); 
+});
+</script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+</script>
+<div class="zsp_job_search_box">
+    <div class="zsp_job_search_input_bg">
+        <div class="zsp_job_search_input">
+            <div class="zsp_job_input_but" id="clearkey"><i class="fa fa-search so_sub"></i></div>
+                        <div class="zsp_job_search_inp"><input name="key" type="text" id="key" class="keyinput" value="" placeholder="请输入关键字""></div>
+            
+        </div>
+    </div>
+    <input type="hidden" id="talent" name="talent" value="">
+    <div class="zsp_jbo_search_select_val_box" style="display: none;">
+        <a href="javascript:;" class="zsp_jbo_search_select_val_remove" id="clearShowList"><i class="fa fa-times"></i></a>
+        <div class="zsp_jbo_search_select_vals">
+            <strong>搜索条件：</strong>
+            <span id="showListCity"></span>
+            <span id="showListExperience"></span>
+            <span id="showListJobs"></span>
+            <span id="showListEducation"></span>
+        </div>
+    </div>
+    <script type="text/javascript">
+        //            地区恢复
+
+
+
+
+
+
+        var citygetDistrictId = "";
+        var citygetSdistrictId = "";
+        var showCityHtm = "";
+        $.each(QS_city_parent, function(cindex, cval) {
+            if(cval) {
+                var citys = cval.split(",");
+                if(citys[0] == citygetDistrictId) {
+                    showCityHtm += citys[1]+"/";
+                }
+            }
+        });
+        if(citygetSdistrictId == "0") {
+            showCityHtm += "不限";
+        } else {
+            if(QS_city[citygetDistrictId]) {
+                var ccitysArray = QS_city[citygetDistrictId].split("|");
+                $.each(ccitysArray, function(scindex, scval) {
+                    if(scval) {
+                        var scitys = scval.split(",");
+                        if(scitys[0] == citygetSdistrictId) {
+                            showCityHtm += scitys[1];
+                        }
+                    }
+                });
+            }
+        }
+        $("#showListCity").html(showCityHtm);
+        //            工作经验恢复
+        var citygetExperienceId = "";
+        var showExperienceHtm = "";
+        $.each(QS_experience, function(windex, eval) {
+            if(eval) {
+                var experiences = eval.split(",");
+                if(experiences[0] == citygetExperienceId) {
+                    showExperienceHtm += experiences[1];
+                }
+            }
+        });
+        $("#showListExperience").html(showExperienceHtm);
+        //            职能恢复
+        var citygetTopclassId = "";
+        var citygetCategoryId = "";
+        var citygetSubclassId = "";
+        var showJobsHtm = "";
+        if(QS_jobs[citygetTopclassId]) {
+            var sjobsArray = QS_jobs[citygetTopclassId].split("|");
+            $.each(sjobsArray, function(sindex, sval) {
+                if(sval) {
+                    var sjobs = sval.split(",");
+                    if(sjobs[0] == citygetCategoryId) {
+                        showJobsHtm += sjobs[1]+"/";
+                    }
+                }
+            });
+        }
+        if(citygetSubclassId == "0") {
+            showJobsHtm += "不限";
+        } else {
+            if(QS_jobs[citygetCategoryId]) {
+                var tsjobsArray = QS_jobs[citygetCategoryId].split("|");
+                $.each(tsjobsArray, function(sindex, sval) {
+                    if(sval) {
+                        var tsjobs = sval.split(",");
+                        if(tsjobs[0] == citygetSubclassId) {
+                            showJobsHtm += tsjobs[1];
+                        }
+                    }
+                });
+            }
+        }
+        $("#showListJobs").html(showJobsHtm);
+        //            学历恢复
+        var citygetEducationId = "";
+        var showEducationHtm = "";
+        $.each(QS_education, function(windex, edval) {
+            if(edval) {
+                var educations = edval.split(",");
+                if(educations[0] == citygetEducationId) {
+                    showEducationHtm += educations[1];
+                }
+            }
+        });
+        $("#showListEducation").html(showEducationHtm);
+        $("#clearShowList").click(function(event) {
+            $("#showListCity").html("");
+            $("#showListExperience").html("");
+            $("#showListJobs").html("");
+            $("#showListEducation").html("");
+            $("#district").val("");
+            $("#sdistrict").val("");
+            $("#education").val("");
+            $("#topclass").val("");
+            $("#category").val("");
+            $("#subclass").val("");
+            $("#experience").val("");
+            var patrn=/^(请输入关键字)/i;
+            var key=$("#key").val();
+            if (patrn.exec(key))
+            {
+                key = "";
+            }
+
+            var district =$("#district").val();
+            var sdistrict =$("#sdistrict").val();
+
+            var experience =$("#experience").val();
+
+            var topclass =$("#topclass").val();
+            var category =$("#category").val();
+            var subclass =$("#subclass").val();
+            var talent =$("#talent").val();
+
+            var education =$("#education").val();
+
+            var url = "wap-resume-list.php";
+            window.location.href=url+"?key="+key;
+        });
+    </script>
+</div>
+
+
+<div id="wrapper" style="padding-top:0;">
+
+
+    <div class="zsp_job_list" id="scroller" style="padding-top:0;">
+    
+    
+        <div id="list" style="padding-top:0;">
+            
+        <a href="http://127.0.0.1:8000/mobile/personal/position_detail?position_id=30433" class="zsp_job_list_li">   <div class="zsp_job_li_top">       <div class="zsp_job_li_fang"><img src=""></div>       <div class="zsp_job_li_tit">           <div class="zsp_job_li_h">               <span><i class="fa fa-angle-right"></i></span>               <h3>来投我</h3>            </div>            <div class="zsp_job_li_tit_other">EEI            </div>       </div>   </div>   <div class="zsp_job_li_other  redPW">       <div class="zsp_job_li_other_icon">           <i class="fa fa-map-marker"></i>           <span>北京市</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-jpy"></i>           <span>5-10万</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-graduation-cap"></i>           <span>高中及以下</span>       </div>   </div></a><a href="http://127.0.0.1:8000/mobile/personal/position_detail?position_id=30432" class="zsp_job_list_li">   <div class="zsp_job_li_top">       <div class="zsp_job_li_fang"><img src=""></div>       <div class="zsp_job_li_tit">           <div class="zsp_job_li_h">               <span><i class="fa fa-angle-right"></i></span>               <h3>啊我打我的</h3>            </div>            <div class="zsp_job_li_tit_other">EEI            </div>       </div>   </div>   <div class="zsp_job_li_other  redPW">       <div class="zsp_job_li_other_icon">           <i class="fa fa-map-marker"></i>           <span>北京市</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-jpy"></i>           <span>5-10万</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-graduation-cap"></i>           <span>高中及以下</span>       </div>   </div></a><a href="http://127.0.0.1:8000/mobile/personal/position_detail?position_id=30430" class="zsp_job_list_li">   <div class="zsp_job_li_top">       <div class="zsp_job_li_fang"><img src="/static/new_mobile/images/bea6fd08-a85a-11e5-858d-00163e0034bd.png"></div>       <div class="zsp_job_li_tit">           <div class="zsp_job_li_h">               <span><i class="fa fa-angle-right"></i></span>               <h3>测试</h3>            </div>            <div class="zsp_job_li_tit_other">桔子红了            </div>       </div>   </div>   <div class="zsp_job_li_other  redPW">       <div class="zsp_job_li_other_icon">           <i class="fa fa-map-marker"></i>           <span>南昌市</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-jpy"></i>           <span>10-15万</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-graduation-cap"></i>           <span>大专</span>       </div>   </div></a><a href="http://127.0.0.1:8000/mobile/personal/position_detail?position_id=30426" class="zsp_job_list_li">   <div class="zsp_job_li_top">       <div class="zsp_job_li_fang"><img src=""></div>       <div class="zsp_job_li_tit">           <div class="zsp_job_li_h">               <span><i class="fa fa-angle-right"></i></span>               <h3>啊我打我的</h3>            </div>            <div class="zsp_job_li_tit_other">阿瓦的洼地            </div>       </div>   </div>   <div class="zsp_job_li_other  redPW">       <div class="zsp_job_li_other_icon">           <i class="fa fa-map-marker"></i>           <span>北京市</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-jpy"></i>           <span>5万以下</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-graduation-cap"></i>           <span>高中及以下</span>       </div>   </div></a><a href="http://127.0.0.1:8000/mobile/personal/position_detail?position_id=30425" class="zsp_job_list_li">   <div class="zsp_job_li_top">       <div class="zsp_job_li_fang"><img src=""></div>       <div class="zsp_job_li_tit">           <div class="zsp_job_li_h">               <span><i class="fa fa-angle-right"></i></span>               <h3>凤凰城战士</h3>            </div>            <div class="zsp_job_li_tit_other">啦啦啦            </div>       </div>   </div>   <div class="zsp_job_li_other  redPW">       <div class="zsp_job_li_other_icon">           <i class="fa fa-map-marker"></i>           <span>北京市</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-jpy"></i>           <span>5万以下</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-graduation-cap"></i>           <span>高中及以下</span>       </div>   </div></a><a href="http://127.0.0.1:8000/mobile/personal/position_detail?position_id=30424" class="zsp_job_list_li">   <div class="zsp_job_li_top">       <div class="zsp_job_li_fang"><img src="/static/new_mobile/images/cf701cf2-a632-11e5-829f-00163e0034bd.png"></div>       <div class="zsp_job_li_tit">           <div class="zsp_job_li_h">               <span><i class="fa fa-angle-right"></i></span>               <h3>孙策近卫</h3>            </div>            <div class="zsp_job_li_tit_other">哇哈哈            </div>       </div>   </div>   <div class="zsp_job_li_other  redPW">       <div class="zsp_job_li_other_icon">           <i class="fa fa-map-marker"></i>           <span>北京市</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-jpy"></i>           <span>5万以下</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-graduation-cap"></i>           <span>高中及以下</span>       </div>   </div></a><a href="http://127.0.0.1:8000/mobile/personal/position_detail?position_id=30422" class="zsp_job_list_li">   <div class="zsp_job_li_top">       <div class="zsp_job_li_fang"><img src=""></div>       <div class="zsp_job_li_tit">           <div class="zsp_job_li_h">               <span><i class="fa fa-angle-right"></i></span>               <h3>招聘财务总监职位</h3>            </div>            <div class="zsp_job_li_tit_other">加速            </div>       </div>   </div>   <div class="zsp_job_li_other  redPW">       <div class="zsp_job_li_other_icon">           <i class="fa fa-map-marker"></i>           <span>南昌市</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-jpy"></i>           <span>15-20万</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-graduation-cap"></i>           <span>大专</span>       </div>   </div></a><a href="http://127.0.0.1:8000/mobile/personal/position_detail?position_id=30421" class="zsp_job_list_li">   <div class="zsp_job_li_top">       <div class="zsp_job_li_fang"><img src="/static/new_mobile/images/28124bbe-a205-11e5-96e2-00163e0034bd.jpg"></div>       <div class="zsp_job_li_tit">           <div class="zsp_job_li_h">               <span><i class="fa fa-angle-right"></i></span>               <h3>皮鞋厂老总</h3>            </div>            <div class="zsp_job_li_tit_other">吹牛大王            </div>       </div>   </div>   <div class="zsp_job_li_other  redPW">       <div class="zsp_job_li_other_icon">           <i class="fa fa-map-marker"></i>           <span>北京市</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-jpy"></i>           <span>5万以下</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-graduation-cap"></i>           <span>高中及以下</span>       </div>   </div></a><a href="http://127.0.0.1:8000/mobile/personal/position_detail?position_id=30419" class="zsp_job_list_li">   <div class="zsp_job_li_top">       <div class="zsp_job_li_fang"><img src=""></div>       <div class="zsp_job_li_tit">           <div class="zsp_job_li_h">               <span><i class="fa fa-angle-right"></i></span>               <h3>我的职位名称长度是否合适呢你知道 谁又知道嫩白嘎嘎嘎嘎</h3>            </div>            <div class="zsp_job_li_tit_other">测试            </div>       </div>   </div>   <div class="zsp_job_li_other  redPW">       <div class="zsp_job_li_other_icon">           <i class="fa fa-map-marker"></i>           <span>江西省</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-jpy"></i>           <span>10-15万</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-graduation-cap"></i>           <span>本科</span>       </div>   </div></a><a href="http://127.0.0.1:8000/mobile/personal/position_detail?position_id=30418" class="zsp_job_list_li">   <div class="zsp_job_li_top">       <div class="zsp_job_li_fang"><img src=""></div>       <div class="zsp_job_li_tit">           <div class="zsp_job_li_h">               <span><i class="fa fa-angle-right"></i></span>               <h3>流一手</h3>            </div>            <div class="zsp_job_li_tit_other">海豹突击队            </div>       </div>   </div>   <div class="zsp_job_li_other  redPW">       <div class="zsp_job_li_other_icon">           <i class="fa fa-map-marker"></i>           <span>福州市</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-jpy"></i>           <span>5-10万</span>       </div>       <div class="zsp_job_li_other_icon">           <i class="fa fa-graduation-cap"></i>           <span>高中及以下</span>       </div>   </div></a></div>
+
+
+
+
+    <div class="zsp_resume_but_box" onClick="next_page_position()">         <a href="javascript:;" id="jobMore" class="zsp_resume_but_4 more">查看更多</a>   </div></div>
+</div>
+
+<div class="zsp_share_fidex shareCur">
+
+	<div class="zsp_share_box">
+    	<div class="zsp_share_xz_icon"></div>
+        <strong>点击右上角菜单</strong>
+        <strong>将悬赏职位列表分享到朋友圈</strong>
+    </div>
+
+</div>
+
+
+
+<div class="zsp_footer_fixed_height"><iframe style="z-index:1000;"></iframe></div>
+
+
+
+
+
+<ul class="positionPaginInfo" id="positionPaginInfo" style="display: none">    <ul class="page_number">    <li onClick="loadData.paginDispose(&#39;positionPaginInfo&#39;,&#39;V_Position_Search&#39;,&#39;&#39;,&#39;%20position_status=1%20order%20by%20add_date%20desc&#39;,&#39;&#39;,1,10,&#39;positionPagin&#39;,&#39;loadData&#39;,&#39;0&#39;,&#39;0&#39;,&#39;0&#39;,&#39;08dd45d1-9446-e6d3-5d9c-cdb988deeb4e&#39;)">首页</li>        <li id="positionPaginInfo_backPage" onClick="loadData.paginDispose(&#39;positionPaginInfo&#39;,&#39;V_Position_Search&#39;,&#39;&#39;,&#39;%20position_status=1%20order%20by%20add_date%20desc&#39;,&#39;&#39;,1,10,&#39;positionPagin&#39;,&#39;loadData&#39;,&#39;0&#39;,&#39;0&#39;,&#39;0&#39;,&#39;08dd45d1-9446-e6d3-5d9c-cdb988deeb4e&#39;)">上一页        </li><li class="active" onClick="loadData.paginDispose(&#39;positionPaginInfo&#39;,&#39;V_Position_Search&#39;,&#39;&#39;,&#39;%20position_status=1%20order%20by%20add_date%20desc&#39;,&#39;&#39;,1,10,&#39;positionPagin&#39;,&#39;loadData&#39;,&#39;0&#39;,&#39;0&#39;,&#39;0&#39;,&#39;08dd45d1-9446-e6d3-5d9c-cdb988deeb4e&#39;)">1</li><li onClick="loadData.paginDispose(&#39;positionPaginInfo&#39;,&#39;V_Position_Search&#39;,&#39;&#39;,&#39;%20position_status=1%20order%20by%20add_date%20desc&#39;,&#39;&#39;,2,10,&#39;positionPagin&#39;,&#39;loadData&#39;,&#39;0&#39;,&#39;0&#39;,&#39;0&#39;,&#39;08dd45d1-9446-e6d3-5d9c-cdb988deeb4e&#39;)">2</li><li onClick="loadData.paginDispose(&#39;positionPaginInfo&#39;,&#39;V_Position_Search&#39;,&#39;&#39;,&#39;%20position_status=1%20order%20by%20add_date%20desc&#39;,&#39;&#39;,3,10,&#39;positionPagin&#39;,&#39;loadData&#39;,&#39;0&#39;,&#39;0&#39;,&#39;0&#39;,&#39;08dd45d1-9446-e6d3-5d9c-cdb988deeb4e&#39;)">3</li><li onClick="loadData.paginDispose(&#39;positionPaginInfo&#39;,&#39;V_Position_Search&#39;,&#39;&#39;,&#39;%20position_status=1%20order%20by%20add_date%20desc&#39;,&#39;&#39;,4,10,&#39;positionPagin&#39;,&#39;loadData&#39;,&#39;0&#39;,&#39;0&#39;,&#39;0&#39;,&#39;08dd45d1-9446-e6d3-5d9c-cdb988deeb4e&#39;)">4</li><li onClick="loadData.paginDispose(&#39;positionPaginInfo&#39;,&#39;V_Position_Search&#39;,&#39;&#39;,&#39;%20position_status=1%20order%20by%20add_date%20desc&#39;,&#39;&#39;,5,10,&#39;positionPagin&#39;,&#39;loadData&#39;,&#39;0&#39;,&#39;0&#39;,&#39;0&#39;,&#39;08dd45d1-9446-e6d3-5d9c-cdb988deeb4e&#39;)">5</li><li onClick="loadData.paginDispose(&#39;positionPaginInfo&#39;,&#39;V_Position_Search&#39;,&#39;&#39;,&#39;%20position_status=1%20order%20by%20add_date%20desc&#39;,&#39;&#39;,2,10,&#39;positionPagin&#39;,&#39;loadData&#39;,&#39;0&#39;,&#39;0&#39;,&#39;0&#39;,&#39;08dd45d1-9446-e6d3-5d9c-cdb988deeb4e&#39;)">下一页</li><li onClick="loadData.paginDispose(&#39;positionPaginInfo&#39;,&#39;V_Position_Search&#39;,&#39;&#39;,&#39;%20position_status=1%20order%20by%20add_date%20desc&#39;,&#39;&#39;,3020,10,&#39;positionPagin&#39;,&#39;loadData&#39;,&#39;0&#39;,&#39;0&#39;,&#39;0&#39;,&#39;08dd45d1-9446-e6d3-5d9c-cdb988deeb4e&#39;)">尾页</li>            </ul></ul>
+<script src="/static/new_mobile/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    wx.config({
+        debug: false ,
+        appId: 'wx8a9b8a64aa7bb0e1',
+        timestamp: '1449889597',
+        nonceStr: '86MgPXiu8RSBlBtJ',
+        signature: '0d0c99231173528bf324f5cdfce5048323d59f41',
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'showMenuItems',
+            'hideMenuItems'
+        ]
+    });
+    wx.ready(function () {
+        function callback(){
+        }
+        var title = "最新悬赏招聘职位，推荐人才赚赏金";
+        var headimg="http://image.hijobs.cn/image/logo/55adaa3d9ab98.jpg";
+        var desc="【招手招聘】最新悬赏招聘职位，推荐人才赚赏金，热门悬赏职位持续更新中，快来推荐。";
+        var url=window.location.href;
+        WxShare.TimeLine(title, url, headimg, callback);
+        WxShare.AppMessage(title,desc,url,headimg,callback);
+        WxShare.SharedQQ(title,desc,url,headimg,callback);
+    });
+</script>
+<script type="text/javascript" src="/static/new_mobile/js/pagination.js"></script>
+<script>
+    // 职位分页
+    var sql = ' position_status=1 order by add_date desc';
+    loadData = new pagin("positionPaginInfo", "V_Position_Search", "", encodeURI(sql), "", 10, "positionPagin", "loadData");
+
+//动态加载页面绑定数据
+function positionPagin(dataInfo){
+    $(".zsp_resume_but_box").remove();
+     //图片列表数据加载
+    var html = '';
+    $(dataInfo).each(function(i) {
+        // 处理值为 null 的字段
+        var len = $(this).length;
+        var array = $(this);
+        for (var n = 0; n < len; n++) {
+            if (array[n] == null) {
+                array[n] = "&nbsp;"
+            }
+        }
+        html += '<a href="/mobile/personal/position_detail?position_id=' + array[0] + '" class="zsp_job_list_li">';
+        html += '   <div class="zsp_job_li_top">';
+        html += '       <div class="zsp_job_li_fang"><img src="' + array[56] + '" onerror="notfindimg(this)"></div>';
+        html += '       <div class="zsp_job_li_tit">';
+        html += '           <div class="zsp_job_li_h">';
+        html += '               <span><i class="fa fa-angle-right"></i></span>';
+        html += '               <h3>' + array[3] + '</h3>';
+        html += '            </div>';
+        html += '            <div class="zsp_job_li_tit_other">';
+        html +=                 array[55];
+        html += '            </div>';
+        html += '       </div>';
+        html += '   </div>';
+        html += '   <div class="zsp_job_li_other  redPW">';
+        html += '       <div class="zsp_job_li_other_icon">';
+        html += '           <i class="fa fa-map-marker"></i>';
+        html += '           <span>' + array[59] + '</span>';
+        html += '       </div>';
+        html += '       <div class="zsp_job_li_other_icon">';
+        html += '           <i class="fa fa-jpy"></i>';
+        html += '           <span>' + array[19] + '</span>';
+        html += '       </div>';
+        html += '       <div class="zsp_job_li_other_icon">';
+        html += '           <i class="fa fa-graduation-cap"></i>';
+        html += '           <span>' + array[26] + '</span>';
+        html += '       </div>';
+        html += '   </div>';
+        html += '</a>';
+
+    });
+    $("#list").append(html);
+    var $this_page_data = $(".positionPaginInfo .active");
+    var $end_page_data = $(".positionPaginInfo li:last");
+    if($this_page_data.attr('onclick') != $end_page_data.attr('onclick')) {
+        var moreButton = '<div class="zsp_resume_but_box" onclick="next_page_position()">';
+        moreButton += '         <a href="javascript:;" id="jobMore" class="zsp_resume_but_4 more">查看更多</a>';
+        moreButton += '   </div>';
+        $("#scroller").append(moreButton);
+    }
+}
+
+// 加载更多职位
+function next_page_position() {
+    var $this_page_data = $(".positionPaginInfo .active");
+    var $end_page_data = $(".positionPaginInfo li:last");
+    if($this_page_data.attr('onclick') != $end_page_data.attr('onclick')) {
+        $this_page_data.next("li").click();
+    } else {
+        $(".zsp_resume_but_box").remove();
+    }
+}
+
+</script>
+
+</body></html>

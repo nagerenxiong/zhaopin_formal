@@ -1,0 +1,61 @@
+{% include 'jobs/system/header.html' %}
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/joinagcom.css">
+    <div class="clear" style="display: none">99</div>
+     <div class="main" style="margin-top:20px;">
+         {% if not pu.p_audit_result or pu.p_audit_result != 3 %}
+            <div class="crcom_top">
+              若没有通过个人身份验证，将无法申请加入或创建怀才经纪人公司哦，马上  <a href="/account/new_sfyz"><span>验证个人信息</span><i></i></a>
+            </div>
+            {% else %}
+            <div style=" margin:40px auto;"></div>
+         {% endif %}
+        <div class="crcom_mid">
+            <div class="cr_lf">
+                <a class="addcr_btn cre_publ" href="javascript:void(0);" onclick="alertJoinOrCreateHeadhuntCompanyDialog(1)"><i></i>加入经纪人公司</a>
+              <p class="ma40">欢迎加入<span class="com_name">深圳仕道金略咨询管理公司</span></p>
+              <h3 class="hiti">加入须知：</h3>
+              <p>尊敬的经纪人您好！加入平台现有的经纪人公司您就可以发布职位进行招聘活动啦！</p>
+              <p>Q:  何为经纪人公司？</p>
+              <p>A:  经纪人公司依法成立的，以猎头服务，人才信息服务为</p>
+              <p class="p_jju1"> 经营基础的服务型公司。</p>
+            </div>
+            <div class="cr_rg">
+              <a class="cre_btn cre_publ" href="javascript:void(0);" onclick="alertJoinOrCreateHeadhuntCompanyDialog(2)"><i></i>创建经纪人公司</a>
+              <h3 class="hiti">创建须知：</h3>
+              <p>创建怀才当遇经纪人公司后，您可以做的事情有：</p>
+              <p>1、登录后能使用平台人才经纪人的所有功能。</p>
+              <p>2、对申请加入本公司的经纪人进行审核，您可以“同意”</p>
+              <p class="p_jju">或者“拒绝”他们的加入。</p>
+              <p>3、邀请其他经纪人加入公司。</p>
+              <p>4、对“申请退出”的经纪人，您可以终止经纪人跟公司</p>
+              <p class="p_jju"> 的合作关系，并作相应的处理。</p>
+            </div>
+        </div>
+     </div>
+<script>
+    var joinedCompanyResult = '{{ pu.joinedCompanyResult }}';
+    var tpcAuditResult = '{{ request.session.validStatus }}';
+    var headHuntValidStatus = '{{ request.session.headHuntValidStatus }}';
+    // joinedCompanyResult
+    // 加入/创建经纪人企业弹框
+    function alertJoinOrCreateHeadhuntCompanyDialog(type) {
+        if(headHuntValidStatus == '3') {
+            if(tpcAuditResult == '2') {
+                hint('亲，您创建的经纪人公司正在审核中哦');
+            } else if(joinedCompanyResult == '2') {
+                hint('亲，您提交的加入经纪人公司申请正在审核中哦');
+            } else {
+                if(type == 1) {
+                    window.location.href = '/position/joage_search';
+                } else {
+                    window.location.href = '/position/headhunter/headhunter_company';
+                }
+            }
+        } else if(headHuntValidStatus == '2') {
+            hint('您的个人信息正在审核中，请耐心等待一会吧~<span class="yqts">如需加快审核，请拨打客服电话：400-666-4846<br>工作时间：9:00-20:00</span>');
+        } else if(headHuntValidStatus == '1') {
+            hint('您的个人信息尚未认证哦，请先前往<a href="/account/new_sfyz">认证个人信息</a>吧')
+        }
+    }
+</script>
+{% include 'jobs/system/new_footer.html' %}

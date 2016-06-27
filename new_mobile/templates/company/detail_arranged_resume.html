@@ -1,0 +1,465 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/gridsystem.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+    img{vertical-align: middle;}
+    .tag{margin-top:20px;}
+    .tag .row div{margin-bottom: 10px;}
+    .tag .row div span{border:1px solid #1470B3;height:39px;line-height: 39px;text-align: center;border-radius: 5px;width:90%;display:block;margin: 0 auto;font-size: 16px;}
+    .zsp_resume_header .t{text-align: center;color:#fff;}
+    .zsp_resume_header div{text-align:center;color:#fff;line-height: 30px;}
+
+</style>
+<script type="text/javascript">
+$(document).ready(function()
+{
+    //打开顶部菜单
+    $("#topmenu_sub").click( function () { 
+        $("#topmenu").slideToggle("fast");
+    });
+
+    // 删除工作经历
+    $(".work_del_but").click(function(){
+        var work_experience_id = $(this).attr("pid");
+        $.ajax({
+            async: false,
+            type: 'post',
+            data: {'work_experience_id': work_experience_id},
+            url: '/mobile/ajax_delete_work_experience',
+            dataType: 'json',
+            success: function (data) {
+                if(data=="ok"){
+                    alert(["删除成功"]);
+                    window.location.href="/mobile/personal/resume_edit?resume_id={{ resume.id }}";
+                }else if(data=="err"){
+                    alert(["删除失败"]);
+                }
+            }
+        });
+    });
+    // 删除教育经历
+    $(".exp_del_but").click(function(){
+        var education_id=$(this).attr("pid");
+        $.ajax({
+            async: false,
+            type: 'post',
+            data: {'education_id': education_id},
+            url: '/mobile/ajax_delete_education_experience',
+            dataType: 'json',
+            success: function (data) {
+                if(data=="ok"){
+                    alert(["删除成功"]);
+                    window.location.href="/mobile/personal/resume_edit?resume_id={{ resume.id }}";
+                }else if(data=="err"){
+                    alert(["删除失败"]);
+                }
+            }
+        });
+    });
+    // 删除简历
+    $(".deletResume").click(function(){
+        var resume_id = $(this).attr("pid");
+        if (!confirm("确认要删除？")) {
+            window.event.returnValue = false;
+        }
+        else
+        {
+            $.ajax({
+                async: false,
+                type: 'post',
+                data: {'resume_id': resume_id},
+                url: '/mobile/ajax_delete_resume',
+                dataType: 'json',
+                success: function (data) {
+                    if(data=="ok"){
+                        // alert("删除简历成功");
+                        window.location.href="/mobile/personal/resume_list";
+                    }else if(data="err"){
+                        alert(["删除简历失败！"]);
+                    }else{
+                        alert([data]);
+                    }
+                }
+            });
+        }
+    });
+    
+    $('.inviteRz').click(function(){
+        $('.zsp_share_fidex').fadeIn();
+    });
+    $('.zsp_share_fidex').click(function(){
+        $('.zsp_share_fidex').fadeOut();
+    });
+    
+    $(".identifyBar .rightBtn").click(function(){
+        $(this).parent().next().slideToggle();
+        if($(this).find("span").text() == "展开"){
+            $(this).find("span").text("收起");
+            $(this).find("i").css("transform","rotate(180deg)")
+        }else{
+            $(this).find("span").text("展开");
+            $(this).find("i").css("transform","rotate(0deg)")
+        }
+    })
+});
+</script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+    $('.zsp_header').remove();
+}
+
+</script><!--zsp_header -->
+
+<div class="zsp_share_fidex">
+
+    <div class="zsp_share_box">
+        <div class="zsp_share_xz_icon"></div>
+        <strong>点击右上角菜单</strong>
+        <strong>分享朋友圈，邀请认证</strong>
+    </div>
+
+</div>
+
+<div class="zsp_resume_box">
+
+    <div class="zsp_resume_header">
+       <div class="t">
+           <img src="{{ resume.head_portrait | default:"" }}" onerror="notfind(this,'{{ resume.sex }}',1)"  class="head_protraint" width="100" height="100" style="vertical-align: bottom;border-radius: 50%;"><span>匹配度:{{ match_raise | default:100 }}%</span>
+       </div>
+       <div>{{ resume.user_name | default:"" }}</div>
+       <div>{{ resume.scurrently_pacece | default:"" }} {{ resume.sex | default:"男" }} {{ resume.age | default:18 }}岁 {{ resume.sworkyear | default:"" }} {{ resume.sdiploma | default:"" }}</div>
+       <div>{{ resume.currently_company | default:"" }} {{ resume.scurrently_postaion | default:"" }}</div>
+       <div>{% if resume.phone %}电话:{{ resume.phone | default:"" }}{% endif %}  {% if resume.email %}邮箱:{{ resume.email | default:"" }}{% endif %}</div>
+    </div>
+    <!--zsp_resume_header -->
+
+    <div class="zsp_resume_list_box">
+        <div class="container tag">
+           <div class="row">
+              {% if label_array %}
+                    {% for label in label_array %}
+                        <div class="col-xs-6"><span style="">{{ label }}</span></div>
+                    {% endfor %}
+               {% endif %}
+           </div>
+        </div>
+        <div class="zsp_resume_list_tit">
+            <a href="javascript:;" class="zsp_resume_list_icon_l"><img src="/static/new_mobile/images/sj_10.png" alt=""></a>
+            <h3>求职意向</h3>
+        </div>
+        <div class="zsp_resume_list_p">
+            <p>工作状态：{{ resume.sposition_status | default:'' }}</p>
+            <p>期望职位：{{ resume.sexpect_position  | default:'' }}</p>
+            <p>期望年薪：{{ resume.sexpect_pay | default:'' }}</p>
+            <p>期望地点：{{ resume.sexpect_area | default:'' }}</p>
+           <!--  <p>补充说明：{{ resume.self_introduce | default:'' }}</p> -->
+            <p></p>
+            <!--<p>期望行业：</p>-->
+        </div>
+        <!--zsp_resume_list_p -->
+    </div>
+    <!--zsp_resume_list_box -->
+
+
+    <div class="zsp_resume_list_add_box">
+        <div class="zsp_resume_list_tit">
+            <a href="javascript:;" class="zsp_resume_list_icon_l smIcon"><img src="/static/new_mobile/images/sj_16.png" alt=""></a>
+            <h3>教育背景</h3>
+        </div>
+        <!--zsp_resume_list_tit -->
+
+       <div class="zsp_resume_list_li_box">
+           {% if education_list %}
+                    {% for education in education_list %}
+                        <div class="zsp_resume_list_li">
+
+                            <div class="zsp_resume_li_main">
+                                <div class="zsp_resume_li_main_icon"><i class="fa fa-circle"></i></div>
+                                <div class="zwp_resume_li_info">
+                                    <div class="zwp_resume_li_time">
+                                        <span>{{ education.start_time | date:"Y-m" }}</span>
+                                        <span>到</span>
+                                        <span>{% if education.end_time %}{{ education.end_time | date:"Y-m" }}{% else %}至今{% endif %}</span>
+                                    </div>
+                                    <div class="zwp_resume_li_name">
+                                        <span>{{ education.uc_name | default:'' }}</span>
+                                        <span>-</span>
+                                        <span>{{ education.sdiploma | default:'' }}</span>
+                                    </div>
+                                    <div class="zwp_resume_li_name">{{ education.smajor | default:'' }}</div>
+                                </div>
+                                <!--zwp_resume_li_info -->
+                            </div>
+                        </div>
+                {% endfor %}
+            {% endif %}
+                <!--zsp_resume_li_main -->
+                
+
+        </div>
+        <!--zsp_resume_list_li_box -->
+    </div>
+    <!--zsp_resume_list_box 教育背景-->
+
+
+
+
+
+    <div class="zsp_resume_list_add_box">
+        <div class="zsp_resume_list_tit">
+            <a href="javascript:;" class="zsp_resume_list_icon_l smIcon"><img src="/static/new_mobile/images/sj_28.png" alt=""></a>
+            <h3>工作经验</h3>
+        </div>
+        <!--zsp_resume_list_tit -->
+        <div class="zsp_resume_list_li_box">
+            {% if work_list %}
+                {% for work in work_list %}
+                    <div class="zsp_resume_list_li">
+                <!--zsp_resume_edit_box -->
+                        <div class="zsp_resume_li_main">
+                            <div class="zsp_resume_li_main_icon"><i class="fa fa-circle"></i></div>
+                            <div class="zwp_resume_li_info">
+                                <div class="zwp_resume_li_time">
+                                    <span>{{ work.start_time | date:"Y-m" }}</span>
+                                    <span>～</span>
+                                    <span>
+                                        {% if work.end_time %}
+                                            {{ work.end_time | date:"Y-m" }}
+                                        {% else %}
+                                            至今
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="zwp_resume_li_name">
+                                    <span>{{ work.company_name | default:'' }}</span>
+                                </div>
+                                <div class="zwp_resume_li_name">{{ work.position | default:'' }}</div>
+                            </div>
+                        <!--zwp_resume_li_info -->
+                        </div>
+                    <!--zsp_resume_li_main -->
+                    <!--<div class="inviteRz">邀请认证</div>-->
+                    </div>
+
+                {% endfor %}
+            {% endif %}
+        </div>
+        <!--zsp_resume_list_li_box -->
+    </div>
+    <!--zsp_resume_list_box -->
+
+
+    <div class="zsp_resume_but_box">
+        {% if position and position.position_status != 0 %}
+            <a href="javascript: void(0)" onClick="arranged_position()" class="zsp_resume_but_1">已入职</a>
+            {% if resume.phone %}
+                <a href="tel:{{ resume.phone }}" class="zsp_resume_but_2">电话联系</a>
+            {% endif %}
+            <a href="javascript:;" class="zsp_resume_but_2 " onClick="shareShow()" >转发简历</a>
+            <a href="javascript: void(0)" onClick="improperDeal()" class="zsp_resume_but_3">不合适</a>
+        {% else %}
+            <a href="javascript:;" class="zsp_resume_but_2 " onClick="shareShow()" >转发简历</a>
+        {% endif %}
+    </div>
+
+</div>
+
+
+
+<script type="text/javascript">
+    $(".editTitleBtn").click(function(event) {
+        var t=$(".editTitleInput").val(); 
+        $(".editTitleInput").val("").show().focus().val(t); 
+        
+        $(".resumeTitleH1").hide();
+        $(this).hide();
+        $(".saveTitleBtn").show();
+    });
+    $(".saveTitleBtn").click(function(event) {
+        var resvalue = $(".editTitleInput").val();
+        var resume_id = 198816;
+        $.post("?act=resume_name_save", {"resume_id":resume_id,"title":resvalue} , function(data) {
+
+            if(data == "ok") {
+                alert(["修改成功！"]);
+                $(".resumeTitleH1").html(resvalue);
+                $(".resumeTitleH1").show();
+                $(".editTitleInput").val(resvalue);
+                $(".editTitleInput").hide();
+                $(".saveTitleBtn").hide();
+                $(".editTitleBtn").show();
+            } else if(data == "err") {
+                alert(["修改失败！"]);
+                window.location.reload();
+            } else {
+                alert([data]);
+                window.location.reload();
+            }
+        });
+    });
+</script>
+
+
+<script src="/static/new_mobile/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+
+    wx.config({
+        debug: false ,
+        appId: 'wx8a9b8a64aa7bb0e1',
+        timestamp: '1449888793',
+        nonceStr: 'T1H4pvjkcy5TnA7m',
+        signature: '1c119d2772ef287811ebfda63f80c8bffebee05b',
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'showMenuItems',
+            'hideMenuItems'
+        ]
+    });
+
+    wx.ready(function () {
+        function callback(){
+
+        }
+
+        var title="///";
+        var headimg="";
+
+        var url=window.location.href;
+        WxShare.TimeLine(title,url,headimg,callback);
+        WxShare.AppMessage("推荐职位：",title,url,headimg,callback);
+        WxShare.SharedQQ("推荐职位：",title,url,headimg,callback);
+    });
+
+//不合适处理
+function improperDeal(){
+    var flag =  confirm('您确定这不是您要找的人才吗？');
+    if(flag == false) {
+        return false;
+    }
+    var content = '您不是我们要找的人才';
+    $.ajax({
+        type: "POST",
+        url: "/ajax_dealResume",
+        data: {"ajInfoId": '{{ tajinfo_id }}', "type": 3, "content": content},
+        dataType: "json",
+        success: function (data) {
+            if (data.msg == 'success') {
+                alert(['处理完成']);
+                var position_id = '{{ position_id | default:'' }}';
+                if(position_id == '') {
+                    window.location.href = '/mobile/company/talent_pool_list';
+                } else {
+                    window.location.href = '/mobile/company/filtered_resume?position_id={{ position_id }}';
+                }
+            } else {
+                alert([data.msg]);
+            }
+        }
+    })
+}
+
+// 已入职
+function arranged_position() {
+    //type 0-待处理，1-待沟通，2-面试，3-不合适，4-已入职，5-已过滤
+    var ajInfoId = '{{ tajinfo_id }}';
+    if(ajInfoId != ''){
+        $.ajax({
+            type: "POST",
+            url: "/ajax_dealResume",
+            data: {"ajInfoId": ajInfoId, "type": 4, "content": '已同意您入职该职位'},
+            dataType: "json",
+            success: function (data) {
+                if (data.msg == 'success') {
+                    alert(['处理完成']);
+                    var position_id = '{{ position_id | default:'' }}';
+                    if(position_id == '') {
+                        window.location.href = '/mobile/company/talent_pool_list';
+                    } else {
+                        window.location.href = '/mobile/company/filtered_resume?position_id={{ position_id }}';
+                    }
+                } else {
+                    alert([data.msg]);
+                }
+            }
+        })
+    }
+}
+</script>
+
+<script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+<script>
+    var sex = "{{ resume.sex | default:'' }}";
+    if(sex == '男') {
+        var head_protraint = '/static/mobile/images/rcf_tx.png';
+    } else {
+        var head_protraint = '/static/mobile/images/rcf_tx1.png';
+    }
+    var description = '';
+    {% if education_last %}
+        description = '毕业院校:{{ education_last.uc_name | default:'' }}|{{ education_last.smajor | default:'' }}|{{ education_last.sdiploma | default:'' }}';
+    {% endif %}
+    {% if work_list %}
+        description += ' 工作经历：';
+        {% for work in work_list %}
+            description += ' {{ work.start_time | date:"Y-m" }}-{% if work.end_time %}{{ work.end_time | date:"Y-m" }}{% else %}至今{% endif %}';
+            description += '{{ work.time_gap }} {{ work.company_name | default:'' }}|{{ work.position | default:'' }}';
+        {% endfor %}
+    {% endif %}
+    var title = '【{{ resume.sworkyear | default:"" }}经验】 {{ resume.scurrently_postaion | default:"" }} {{ resume.anonymity }} {{ resume.age | default:18 }}岁{% if resume.sexpect_area %} 意向城市：{{ resume.sexpect_area }}{% endif %}';
+ // 微信分享
+    WXJssdk.init(function(wx) {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+            success: function (res) {
+			//alert(JSON.stringify(res));
+            }
+        });
+
+        // 分享data
+        var shareData = {
+            title: title,
+            desc: description,
+            {% if resume.resume_source == 1 %}
+                link: '{{ request.session.web_site }}/mobile/company/detail_mate_resume?resume_id={{ resume.id }}',//分享链接地址 自己调整
+            {% else %}
+                link: '{{ request.session.web_site }}/mobile/headhunter/detail_uploaded_resume?resume_id={{ resume.id }}',//分享链接地址 自己调整
+            {% endif %}
+            imgUrl: '{{ request.session.web_site }}' + head_protraint,//分享显示的图片
+            success:function(){
+               // alert('shareData success');
+            },
+            cancel:function(){
+               // alert('shareData cancel');
+            },
+            error:function(res){
+               // alert(JSON.stringify(res));
+            }
+        };
+
+        // 分享给朋友
+          wx.onMenuShareAppMessage(shareData);
+        // 分享到朋友圈
+          wx.onMenuShareTimeline(shareData);
+        // 分享到QQ
+          wx.onMenuShareQQ(shareData);
+        // 分享到微博
+          wx.onMenuShareWeibo(shareData);
+    });
+</script>
+</body></html>

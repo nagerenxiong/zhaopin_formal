@@ -1,0 +1,51 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/single/caicard.css">
+<div class="center_card">
+	<div class="title">
+		<span>才才卡兑换</span>
+	</div>
+	<ul class="exchange_box">
+		<li><span class="e_l">当前账号:</span><div class="e_r">{{ request.session.account | default:'' }}</div></li>
+		<li><span class="e_l">兑换码:</span><div class="e_r"><input type="text" class="password" value="" placeholder="请输入兑换码"></div></li>
+		<li><span class="e_l"></span><div class="e_r"><a href="javascript:void(0);" onclick="add_gold_by_card()" class="confirm_btn">立即兑换</a><a href="/jobs/account/jbgl" class="return_btn">返回</a></div></li>
+	</ul>
+	<dl class="notify_box">
+		<dt>才才卡兑换使用须知</dt>
+		<dd>
+			<pre>
+1、凭才才卡的兑换码在怀才当遇网站中兑换等值面额的才币；<br>
+2、凭才才卡兑换的才币购买怀才当遇网精英人才简历；<br>
+3、凭才才卡线下仕道金略咨询式猎头服务享受8.8折；<br>
+4、二次及以上购卡享受8.8折优惠；<br>
+5、凭才才卡可享受人本工坊、仕道金略、怀才当遇举办的各类交流、学习、论坛、研讨等活动的参与权；<br>
+6、才才卡享有的消费、销售、转让权利；<br>
+7、才才卡为一次性不记名销售卡，本卡遗失、盗窃等行为怀才当遇不负责追回。卡面损坏影响兑换可联系客服（4006664846）进行注销兑换。
+			</pre>
+		</dd>
+	</dl>
+</div>
+<script>
+    function add_gold_by_card() {
+        var password = $(".password").val();
+        if($.trim(password) == '') {
+            alert('请输入才才卡兑换码',4)
+        }
+        $.ajax({
+            type: "POST",
+            url: "/ajax_add_gold_by_rechargecard",
+            data: {'password': password},
+            dataType: "json",
+            success: function (data) {
+                if(data == 'success') {
+                    alert('充值成功!', 1);
+                    setTimeout(function() {
+                        window.location.href= '/jobs/account/jbgl';
+                    }, 1000)
+                } else {
+                    alert(data,4);
+                }
+            }
+        });
+    }
+</script>
+{% include 'jobs/system/new_footer.html' %}

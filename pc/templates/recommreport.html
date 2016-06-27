@@ -1,0 +1,192 @@
+<script type="text/javascript" src="{{ STATIC_URL }}appJs/system/recommreports.js"></script>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/recommrep.css">
+<!--推荐报告弹框-->
+<div class="o_modal" id="recommreports" style="padding-top: 30px; opacity: 1;">
+    <div class="kx_common o_tjzw">
+        <h1>推荐报告<i class="iconfont icon-cha cancel" onclick="o_hides()"></i></h1>
+        <div class="coreadva">
+            <div class="unifytit"><i></i>核心优势</div>
+            <div class="temp">
+                <p data-val="4">选择模板</p>
+                <ul>
+                    <li data-val="1">模板--设计</li>
+                    <li data-val="2">模板--销售</li>
+                    <li data-val="3">模板--财务</li>
+                </ul>
+            </div>
+            <div class="edittjbg"><i class="edit_icon"></i>编辑</div>
+            <div style="clear:both"></div>
+            <div class="advanbox">
+                <textarea maxlength="1000" name="" class="numberCount1" datatype="advantage" id="advantage" placeholder="请填写人才核心优势分析，不少于50字。"></textarea>
+                <!-- <span><b>0</b>/200</span> -->
+                <div class="numTip" style="float:right;color:#b0bec5;margin-right: 10px;margin-top: -7px;">( <span>0</span> <span>/ 1000 )</span> </div>
+            </div>
+            <div class="kxsl_mes" id="kxys">{% if recommendReport.core_advantage %}{{ recommendReport.core_advantage|safe }}{% endif %}
+            </div>
+            <div class="capacitymod"> 
+                <!--沟通协调能力-->
+                <div class="commoncs"> <span>沟通协调能力:</span>
+                    <div class="comm_rig">
+                        <ul id="make_compromises">                            
+                            <li class="huise">善于倾听</li>
+                            <li class="huise">口齿伶俐</li>
+                            <li class="huise">和颜悦色</li>
+                            <li class="huise">有耐心</li>
+                            <li class="huise">尊重他人</li>
+                        </ul>
+                        <div class="commadd"> <i></i> </div>
+                        <div class="addll">
+                            <input type="text" maxlength="6">
+                            <span class="repitchon"></span> </div>
+                    </div>
+                </div>
+                <!--逻辑思维能力-->
+                <div class="commoncs"> <span>逻辑思维能力:</span>
+                    <div class="comm_rig">
+                        <ul id="logic_thinking">
+                            <li class="huise">思维敏锐</li>
+                            <li class="huise">思路清晰</li>
+                            <li class="huise">思想独立</li>
+                            <li class="huise">观点全面</li>
+                            <li class="huise">见解独特</li>
+                        </ul>
+                        <div class="commadd"> <i></i> </div>
+                        <div class="addll">
+                            <input type="text" maxlength="6">
+                            <span class="repitchon" onclick="tieshang(this)" id=""></span> </div>
+                    </div>
+                </div>
+                <div class="moreability"> 
+                    <!--性格特点-->
+                    <div class="commoncs"> <span>性格特点:</span>
+                        <div class="comm_rig">
+                            <ul id="character">                        
+                                <li class="huise">自信</li>
+                                <li class="huise">有亲和力</li>
+                                <li class="huise">偏外向</li>
+                                <li class="huise">偏内向</li>
+                                <li class="huise">坚韧不拔</li>
+                                <li class="huise">务实</li>
+                                <li class="huise">冷静</li>
+                                <li class="huise">果断</li>
+
+                            </ul>
+                            <div class="commadd"> <i></i> </div>
+                            <div class="addll">
+                                <input type="text" maxlength="6">
+                                <span class="repitchon"></span> </div>
+                        </div>
+                    </div>
+                    <!--团队管理能力-->
+                    <div class="commoncs"> <span>团队管理能力:</span>
+                        <div class="comm_rig">
+                            <ul id="team_management">          
+                                <li class="huise">良好的问题解决能力</li>
+                                <li class="huise">良好的下属辨识能力</li>
+                                <li class="huise">良好的领导能力</li>
+                                <li class="huise">善于沟通协调</li>
+                                <li class="huise">善于计划管理</li>
+                                <li class="huise">善于压力管理</li>
+
+                            </ul>
+                            <div class="commadd"> <i></i> </div>
+                            <div class="addll">
+                                <input type="text" maxlength="6">
+                                <span class="repitchon"></span> </div>
+                        </div>
+                    </div>
+                    <!--专业技能能力-->
+                    <div class="commoncs"> <span>专业技能能力:</span>
+                        <div class="comm_rig">
+                            <ul id="expertise">
+                                <li class="huise">基础扎实</li>
+                                <li class="huise">创新</li>
+                                <li class="huise">行业翘楚</li>
+                                <li class="huise">经验丰富</li>
+                                <li class="huise">技术骨干</li>
+                            </ul>
+                            <div class="commadd"> <i></i> </div>
+                            <div class="addll">
+                                <input type="text" maxlength="6">
+                                <span class="repitchon"></span> </div>
+                        </div>
+                    </div>               
+                </div>
+                <div class="sh_submit">展开<i class="active"></i></div>
+            </div>
+            <div class="capacyl">
+                {% if recommendReport.make_compromises %}
+                    <p><span class="bold">沟通协调能力：</span>{{ recommendReport.make_compromises|default:'' }}</p>
+                {% endif %}
+                {% if recommendReport.logic_thinking %}
+                    <p><span class="bold">逻辑思维能力：</span>{{ recommendReport.logic_thinking|default:'' }}</p>
+                {% endif %}
+                {% if recommendReport.character %}
+                    <p><span class="bold">性格特点：</span>{{ recommendReport.character|default:'' }}</p>
+                {% endif %}
+                {% if recommendReport.team_management %}
+                    <p><span class="bold">团队管理能力：</span>{{ recommendReport.team_management|default:'' }}</p>
+                {% endif %}
+                {% if recommendReport.expertise %}
+                    <p><span class="bold">专业技能能力：</span>{{ recommendReport.expertise|default:'' }}</p>
+                {% endif %}
+{#                <p><span>逻辑思维能力:</span>善于倾听,口齿伶俐,和颜悦色,和颜悦色,和颜悦色.</p>#}
+{#                <p><span>性格特点:</span>善于倾听,口齿伶俐,和颜悦色,和颜悦色.</p>#}
+            </div>
+            <div class="unifytit"><i style="background:none!important;"></i>薪酬福利</div>
+            <div style="clear:both"></div>
+            <div class="advanbox1" style="margin: 5px 0px 12px 18px!important;">
+                <textarea maxlength="200" name="" id="salary" datatype="salary" class="numberCount1" placeholder="请填写薪酬福利分析，包括目前薪资构成及期望薪资构成等">
+                </textarea>
+                <div class="numTip2" style="float:right;color:#b0bec5;margin-right: 10px;margin-top: -8px;">( <span>0</span> <span>/ 200 )</span> </div>
+            </div>
+            <div class="kxsl_mes" id="xcfl">{% if recommendReport.salary_welfare %}{{ recommendReport.salary_welfare|safe }}{% endif %}<br/>
+            </div>
+            <div class="unifytit"><i></i>经纪人评价</div>
+            <div style="clear:both"></div>
+            <div class="advanbox" style="margin: 5px 0px 12px 18px!important;">
+                <textarea maxlength="1000" name="" id="evaluate" datatype="evaluate" class="numberCount1" placeholder="请填写经纪人评价，不少于50字。"></textarea>
+                <div class="numTip1" style="float:right;color:#b0bec5;margin-right: 10px;margin-top: -7px;">( <span>0</span> <span>/ 1000 )</span> </div>
+            </div>
+            <div class="kxsl_mes" id="jjrpj">{% if recommendReport.consultant_evaluation %}{{ recommendReport.consultant_evaluation|safe }}{% endif %}<br/>
+            </div>
+        </div>
+        <div class="okno"><a href="javascript:void(0);" class="saveok">确认</a><a href="javascript:void(0);" class="cancel" onclick="o_hides()">取消</a></div>
+    </div>
+</div>
+<input type="hidden" id="obj_id" value="{{ recommendReport.id }}" />
+<input type="hidden" id="abilityto_com" value="{{ recommendReport.make_compromises }}" />
+<input type="hidden" id="logical_think" value="{{ recommendReport.logic_thinking }}" />
+<input type="hidden" id="character_trait" value="{{ recommendReport.character }}" />
+<input type="hidden" id="team_govern" value="{{ recommendReport.team_management }}" />
+<input type="hidden" id="profe_skill" value="{{ recommendReport.expertise }}" />
+<div class="o_shade"></div>
+  <script>
+    $(function(){
+       var recomendid=$('#obj_id').val();
+       if($.trim(recomendid) !=""){
+          $('.coreadva').css('height', '470px');
+            $('.temp').css('display', 'none');
+            $('.advanbox').css('display', 'none');
+            $('.advanbox1').css('display', 'none');
+            $('.okno').css('display', 'none');
+            $('.capacitymod').css('display', 'none');
+            $('.kxsl_mes').css('display', 'block');
+            $('.edittjbg').css('display', 'block');
+            $('.capacyl').css('display', 'block');
+            $('.tjbg em').attr('class', 'tj_gou');
+        }
+        else{
+            $('.coreadva').css('height', '470px');
+            $('.temp').css('display', 'block');
+            $('.advanbox').css('display', 'block');
+            $('.advanbox1').css('display', 'block');
+            $('.okno').css('display', 'block');
+            $('.capacitymod').css('display', 'block');
+            $('.kxsl_mes').css('display', 'none');
+            $('.edittjbg').css('display', 'none');
+            $('.capacyl').css('display', 'none');
+            $("#salary").html("目前薪资构成："+"\n"+"期望薪资构成：");
+        }
+    })
+  </script>

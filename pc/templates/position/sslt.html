@@ -1,0 +1,770 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj2.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+<div class="lt_content_box sslt">
+	<!-- 猎头会员菜单开始 -->
+	<ul class="nav nav-tabs center lthy_nav">
+		<li class="active">
+			<a href="#">搜索猎头</a>
+		</li>
+		<li>
+			<a href="#">匹配到的猎头</a>
+		</li>
+		<li>
+			<a href="#">合作中的猎头</a>
+		</li>
+		<li>
+			<a href="#">合作过的猎头</a>
+		</li>
+	</ul>
+	<!-- 猎头会员菜单结束 -->
+	<div class="clear"></div>
+	<div class="center">
+		<!-- 企业会员找猎头主内容开始 -->
+		<div class="dleft">
+			<div class="ssjg p9 mt30">
+				<div class="bkdw"></div>
+				<div class="biaolm m10">
+					<div class="biaot2 fz16">
+						<ul>
+							<li class="bthover">找猎头</li>
+						</ul>
+					</div>
+				</div>
+				<div class="hr_ltss_k">
+					<ul>
+						<li>
+							<div class="liLe">关键词</div>
+							<div class="liRi">
+								<input name="" type="text" class="hr_btk"></div>
+						</li>
+						<li>
+							<div class="liLe">所在地</div>
+							<div class="liRi">
+								<input name="" type="text" class="hr_btk2"></div>
+						</li>
+						<li>
+							<div class="liLe">擅长行业</div>
+							<div class="liRi">
+								<input name="" type="text" class="hr_btk2"></div>
+						</li>
+						<li>
+							<div class="liLe">从业年数</div>
+							<div class="liRi">
+								<input name="" type="text" class="hr_btk2"></div>
+						</li>
+						<li>
+							<div class="liLe">擅长职位</div>
+							<div class="liRi">
+								<input name="" type="text" class="hr_btk2"></div>
+						</li>
+						<li>
+							<div class="liLe">区域范围</div>
+							<div class="liRi">
+								<select name="" class="hr_btk1"></select>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="hr_zjlqran">
+					<input name="" type="button" class="lt_zltbc fz16" value="搜索猎头" style="padding-left:0">
+					<input name="" type="button" class="lt_zltbctj fz14 ml15" value="保存搜索条件"style="padding-left:0"></div>
+			</div>
+			<!-- 企业会员找猎头开始 -->
+			<div class="ssjg p9 mt30">
+				<div class="bkdw"></div>
+				<div class="biaolm m10">
+					<div class="biaot2 fz16">
+						<ul>
+							<li class="bthover">搜索结果</li>
+
+						</ul>
+					</div>
+					<div class="qhann">
+						<ul>
+							<li class="sige sigehs fz12"> <i class="iconfont icon-liebiao fsn" style="font-size:24px;"></i>
+								图片列表
+							</li>
+							<li class="sige fz12"> <i class="iconfont icon-list fsn" style="font-size:18px;"></i>
+								文章列表
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="tjsx m10">
+					<input name="" type="checkbox" value="">
+					<i class="ml5 mr5 fn">全选</i>
+					<input name="" type="button" value="批量关注" class="tjann">
+					<input name="" type="button" value="批量私信" class="tjann"></div>
+
+				<!-- 企业会员找猎头图片列表开始 -->
+				<div class="tuplb sigenr mt5">
+
+					<div class="jlmp12 m10">
+						<div class="jlmp1_k12">
+							<div class="mpLe2">
+								<div class="mpxp">
+									<img src="/static/images/mpxp.jpg" width="88" height="88" border="0" align="absmiddle"></div>
+								<div class="hr_mpqzxx mt6 fz14">综合好评：</div>
+							</div>
+							<div class="mpRi2">
+								<ul>
+									<li class="c3"> <b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+										<i class="pl5"><img src="/static/images/dengji.jpg" width="23" height="17" border="0" align="absmiddle" style="margin-top:-5px;"></i>
+									</li>
+									<li class="fz12 c3">北京和君设计创意传媒股份有限公司</li>
+									<li class="fz12 c3">互联网/电子商务/网游</li>
+									<li class="fz12 c3">南昌  |  高级寻访员</li>
+									<li class="fz14 pt4 cr">
+										<i><img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing2.png" width="21" height="21" border="0" align="absmiddle"></i>
+										<i class="fn fz14 cr">4.3</i>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="jlmp1_k2"></div>
+						<div class="jlmp1_k3">
+							<div class="gnaj_Le">
+								<input name="input" type="checkbox" value=""></div>
+							<div class="gnaj_Ri">
+								<input name="input" type="button" value="关注" class="gnanys">
+								<input name="input" type="button" value="私信" class="gnanys"></div>
+						</div>
+						<div class="jlmp1_k4"></div>
+
+					</div>
+					<div class="jlmp12 m10">
+						<div class="jlmp1_k12">
+							<div class="mpLe2">
+								<div class="mpxp">
+									<img src="/static/images/mpxp.jpg" width="88" height="88" border="0" align="absmiddle"></div>
+								<div class="hr_mpqzxx mt6 fz14">综合好评：</div>
+							</div>
+							<div class="mpRi2">
+								<ul>
+									<li class="c3"> <b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+										<i class="pl5">
+											<img src="/static/images/dengji.jpg" width="23" height="17" border="0" align="absmiddle" style="margin-top:-5px;"></i>
+									</li>
+									<li class="fz12 c3">北京和君设计创意传媒股份有限公司</li>
+									<li class="fz12 c3">互联网/电子商务/网游</li>
+									<li class="fz12 c3">南昌  |  高级寻访员</li>
+									<li class="fz14 pt4 cr">
+										<i>
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing2.png" width="21" height="21" border="0" align="absmiddle"></i>
+										<i class="fn fz14 cr">4.3</i>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="jlmp1_k2"></div>
+						<div class="jlmp1_k3">
+							<div class="gnaj_Le">
+								<input name="input" type="checkbox" value=""></div>
+							<div class="gnaj_Ri">
+								<input name="input" type="button" value="关注" class="gnanys">
+								<input name="input" type="button" value="私信" class="gnanys"></div>
+						</div>
+						<div class="jlmp1_k4"></div>
+
+					</div>
+					<div class="jlmp12 m10">
+						<div class="jlmp1_k12">
+							<div class="mpLe2">
+								<div class="mpxp">
+									<img src="/static/images/mpxp.jpg" width="88" height="88" border="0" align="absmiddle"></div>
+								<div class="hr_mpqzxx mt6 fz14">综合好评：</div>
+							</div>
+							<div class="mpRi2">
+								<ul>
+									<li class="c3">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+										<i class="pl5">
+											<img src="/static/images/dengji.jpg" width="23" height="17" border="0" align="absmiddle" style="margin-top:-5px;"></i>
+									</li>
+									<li class="fz12 c3">北京和君设计创意传媒股份有限公司</li>
+									<li class="fz12 c3">互联网/电子商务/网游</li>
+									<li class="fz12 c3">南昌  |  高级寻访员</li>
+									<li class="fz14 pt4 cr">
+										<i>
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing2.png" width="21" height="21" border="0" align="absmiddle"></i>
+										<i class="fn fz14 cr">4.3</i>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="jlmp1_k2"></div>
+						<div class="jlmp1_k3">
+							<div class="gnaj_Le">
+								<input name="input" type="checkbox" value=""></div>
+							<div class="gnaj_Ri">
+								<input name="input" type="button" value="关注" class="gnanys">
+								<input name="input" type="button" value="私信" class="gnanys"></div>
+						</div>
+						<div class="jlmp1_k4"></div>
+
+					</div>
+					<div class="jlmp12 m10">
+						<div class="jlmp1_k12">
+							<div class="mpLe2">
+								<div class="mpxp">
+									<img src="/static/images/mpxp.jpg" width="88" height="88" border="0" align="absmiddle"></div>
+								<div class="hr_mpqzxx mt6 fz14">综合好评：</div>
+							</div>
+							<div class="mpRi2">
+								<ul>
+									<li class="c3">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+										<i class="pl5">
+											<img src="/static/images/dengji.jpg" width="23" height="17" border="0" align="absmiddle" style="margin-top:-5px;"></i>
+									</li>
+									<li class="fz12 c3">北京和君设计创意传媒股份有限公司</li>
+									<li class="fz12 c3">互联网/电子商务/网游</li>
+									<li class="fz12 c3">南昌  |  高级寻访员</li>
+									<li class="fz14 pt4 cr">
+										<i>
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing2.png" width="21" height="21" border="0" align="absmiddle"></i>
+										<i class="fn fz14 cr">4.3</i>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="jlmp1_k2"></div>
+						<div class="jlmp1_k3">
+							<div class="gnaj_Le">
+								<input name="input" type="checkbox" value=""></div>
+							<div class="gnaj_Ri">
+								<input name="input" type="button" value="关注" class="gnanys">
+								<input name="input" type="button" value="私信" class="gnanys"></div>
+						</div>
+						<div class="jlmp1_k4"></div>
+
+					</div>
+					<div class="jlmp12 m10">
+						<div class="jlmp1_k12">
+							<div class="mpLe2">
+								<div class="mpxp">
+									<img src="/static/images/mpxp.jpg" width="88" height="88" border="0" align="absmiddle"></div>
+								<div class="hr_mpqzxx mt6 fz14">综合好评：</div>
+							</div>
+							<div class="mpRi2">
+								<ul>
+									<li class="c3">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+										<i class="pl5">
+											<img src="/static/images/dengji.jpg" width="23" height="17" border="0" align="absmiddle" style="margin-top:-5px;"></i>
+									</li>
+									<li class="fz12 c3">北京和君设计创意传媒股份有限公司</li>
+									<li class="fz12 c3">互联网/电子商务/网游</li>
+									<li class="fz12 c3">南昌  |  高级寻访员</li>
+									<li class="fz14 pt4 cr">
+										<i>
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing2.png" width="21" height="21" border="0" align="absmiddle"></i>
+										<i class="fn fz14 cr">4.3</i>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="jlmp1_k2"></div>
+						<div class="jlmp1_k3">
+							<div class="gnaj_Le">
+								<input name="input" type="checkbox" value=""></div>
+							<div class="gnaj_Ri">
+								<input name="input" type="button" value="关注" class="gnanys">
+								<input name="input" type="button" value="私信" class="gnanys"></div>
+						</div>
+						<div class="jlmp1_k4"></div>
+
+					</div>
+					<div class="jlmp12 m10">
+						<div class="jlmp1_k12">
+							<div class="mpLe2">
+								<div class="mpxp">
+									<img src="/static/images/mpxp.jpg" width="88" height="88" border="0" align="absmiddle"></div>
+								<div class="hr_mpqzxx mt6 fz14">综合好评：</div>
+							</div>
+							<div class="mpRi2">
+								<ul>
+									<li class="c3">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+										<i class="pl5">
+											<img src="/static/images/dengji.jpg" width="23" height="17" border="0" align="absmiddle" style="margin-top:-5px;"></i>
+									</li>
+									<li class="fz12 c3">北京和君设计创意传媒股份有限公司</li>
+									<li class="fz12 c3">互联网/电子商务/网游</li>
+									<li class="fz12 c3">南昌  |  高级寻访员</li>
+									<li class="fz14 pt4 cr">
+										<i>
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+											<img src="/static/images/xingxing2.png" width="21" height="21" border="0" align="absmiddle"></i>
+										<i class="fn fz14 cr">4.3</i>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="jlmp1_k2"></div>
+						<div class="jlmp1_k3">
+							<div class="gnaj_Le">
+								<input name="input" type="checkbox" value=""></div>
+							<div class="gnaj_Ri">
+								<input name="input" type="button" value="关注" class="gnanys">
+								<input name="input" type="button" value="私信" class="gnanys"></div>
+						</div>
+						<div class="jlmp1_k4"></div>
+
+					</div>
+
+					<div class="lthy_pager">
+						<ul class="pagination pagination-sm">
+							<li>
+								<a href="#">上一页</a>
+							</li>
+							<li>
+								<a href="#">1</a>
+							</li>
+							<li>
+								<a href="#">2</a>
+							</li>
+							<li>
+								<a href="#">3</a>
+							</li>
+							<li>
+								<a href="#">4</a>
+							</li>
+							<li>
+								<a href="#">5</a>
+							</li>
+							<li>
+								<a href="#">下一页</a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="clear"></div>
+
+				</div>
+				<!-- 企业会员找猎头图片列表结束 -->
+				<!-- 企业会员找猎头文章列表开始 -->
+				<div class="wenzlb sigenr mt15">
+					<div class="jllb m10">
+						<div class="jllbnk1">
+							<div class="lbzp">
+								<img src="/static/images/mpxp.jpg" width="66" height="66" border="0" align="absmiddle"></div>
+							<div class="hr_lbnr">
+								<ul>
+									<li class="pt8">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+										<i class="pl5">
+											<img src="/static/images/dengji.jpg" width="23" height="17" border="0" align="absmiddle" style="margin-top:-5px;"></i>
+										&nbsp;&nbsp;&nbsp;南昌  |  高级寻访员
+									</li>
+									<li>
+										<i class="fn fz12">北京和君设计创意传媒股份有限公司  |  互联网/电子商务/网游</i>
+									</li>
+								</ul>
+							</div>
+							<div class="hr_lbkoj">
+								<div class="hr_mpjlly fz14">综合好评</div>
+								<div class="hr_xjpj mt6 fz14">
+									<i>
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing2.png" width="21" height="21" border="0" align="absmiddle"></i>
+									<i class="fn fz14 cr">4.3</i>
+								</div>
+
+							</div>
+						</div>
+						<div class="jllbnk2">
+							<div class="gnajlb_Le">
+								<input name="" type="checkbox" value=""></div>
+
+							<div class="gnajlb_Ri">
+								<input name="" type="button" value="关注" class="gnanys">
+								<input name="" type="button" value="私信" class="gnanys"></div>
+						</div>
+						<div class="jlhx"></div>
+					</div>
+					<div class="jllb m10">
+						<div class="jllbnk1">
+							<div class="lbzp">
+								<img src="/static/images/mpxp.jpg" width="66" height="66" border="0" align="absmiddle"></div>
+							<div class="hr_lbnr">
+								<ul>
+									<li class="pt8">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+										<i class="pl5">
+											<img src="/static/images/dengji.jpg" width="23" height="17" border="0" align="absmiddle" style="margin-top:-5px;"></i>
+										&nbsp;&nbsp;&nbsp;南昌  |  高级寻访员
+									</li>
+									<li>
+										<i class="fn fz12">北京和君设计创意传媒股份有限公司  |  互联网/电子商务/网游</i>
+									</li>
+								</ul>
+							</div>
+							<div class="hr_lbkoj">
+								<div class="hr_mpjlly fz14">综合好评</div>
+								<div class="hr_xjpj mt6 fz14">
+									<i>
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing2.png" width="21" height="21" border="0" align="absmiddle"></i>
+									<i class="fn fz14 cr">4.3</i>
+								</div>
+
+							</div>
+						</div>
+						<div class="jllbnk2">
+							<div class="gnajlb_Le">
+								<input name="" type="checkbox" value=""></div>
+
+							<div class="gnajlb_Ri">
+								<input name="" type="button" value="关注" class="gnanys">
+								<input name="" type="button" value="私信" class="gnanys"></div>
+						</div>
+						<div class="jlhx"></div>
+					</div>
+					<div class="jllb m10">
+						<div class="jllbnk1">
+							<div class="lbzp">
+								<img src="/static/images/mpxp.jpg" width="66" height="66" border="0" align="absmiddle"></div>
+							<div class="hr_lbnr">
+								<ul>
+									<li class="pt8">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+										<i class="pl5">
+											<img src="/static/images/dengji.jpg" width="23" height="17" border="0" align="absmiddle" style="margin-top:-5px;"></i>
+										&nbsp;&nbsp;&nbsp;南昌  |  高级寻访员
+									</li>
+									<li>
+										<i class="fn fz12">北京和君设计创意传媒股份有限公司  |  互联网/电子商务/网游</i>
+									</li>
+								</ul>
+							</div>
+							<div class="hr_lbkoj">
+								<div class="hr_mpjlly fz14">综合好评</div>
+								<div class="hr_xjpj mt6 fz14">
+									<i>
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing2.png" width="21" height="21" border="0" align="absmiddle"></i>
+									<i class="fn fz14 cr">4.3</i>
+								</div>
+
+							</div>
+						</div>
+						<div class="jllbnk2">
+							<div class="gnajlb_Le">
+								<input name="" type="checkbox" value=""></div>
+
+							<div class="gnajlb_Ri">
+								<input name="" type="button" value="关注" class="gnanys">
+								<input name="" type="button" value="私信" class="gnanys"></div>
+						</div>
+						<div class="jlhx"></div>
+					</div>
+					<div class="jllb m10">
+						<div class="jllbnk1">
+							<div class="lbzp">
+								<img src="/static/images/mpxp.jpg" width="66" height="66" border="0" align="absmiddle"></div>
+							<div class="hr_lbnr">
+								<ul>
+									<li class="pt8">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+										<i class="pl5">
+											<img src="/static/images/dengji.jpg" width="23" height="17" border="0" align="absmiddle" style="margin-top:-5px;"></i>
+										&nbsp;&nbsp;&nbsp;南昌  |  高级寻访员
+									</li>
+									<li>
+										<i class="fn fz12">北京和君设计创意传媒股份有限公司  |  互联网/电子商务/网游</i>
+									</li>
+								</ul>
+							</div>
+							<div class="hr_lbkoj">
+								<div class="hr_mpjlly fz14">综合好评</div>
+								<div class="hr_xjpj mt6 fz14">
+									<i>
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing2.png" width="21" height="21" border="0" align="absmiddle"></i>
+									<i class="fn fz14 cr">4.3</i>
+								</div>
+
+							</div>
+						</div>
+						<div class="jllbnk2">
+							<div class="gnajlb_Le">
+								<input name="" type="checkbox" value=""></div>
+
+							<div class="gnajlb_Ri">
+								<input name="" type="button" value="关注" class="gnanys">
+								<input name="" type="button" value="私信" class="gnanys"></div>
+						</div>
+						<div class="jlhx"></div>
+					</div>
+					<div class="jllb m10">
+						<div class="jllbnk1">
+							<div class="lbzp">
+								<img src="/static/images/mpxp.jpg" width="66" height="66" border="0" align="absmiddle"></div>
+							<div class="hr_lbnr">
+								<ul>
+									<li class="pt8">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+										<i class="pl5">
+											<img src="/static/images/dengji.jpg" width="23" height="17" border="0" align="absmiddle" style="margin-top:-5px;"></i>
+										&nbsp;&nbsp;&nbsp;南昌  |  高级寻访员
+									</li>
+									<li>
+										<i class="fn fz12">北京和君设计创意传媒股份有限公司  |  互联网/电子商务/网游</i>
+									</li>
+								</ul>
+							</div>
+							<div class="hr_lbkoj">
+								<div class="hr_mpjlly fz14">综合好评</div>
+								<div class="hr_xjpj mt6 fz14">
+									<i>
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing2.png" width="21" height="21" border="0" align="absmiddle"></i>
+									<i class="fn fz14 cr">4.3</i>
+								</div>
+
+							</div>
+						</div>
+						<div class="jllbnk2">
+							<div class="gnajlb_Le">
+								<input name="" type="checkbox" value=""></div>
+
+							<div class="gnajlb_Ri">
+								<input name="" type="button" value="关注" class="gnanys">
+								<input name="" type="button" value="私信" class="gnanys"></div>
+						</div>
+						<div class="jlhx"></div>
+					</div>
+					<div class="jllb m10">
+						<div class="jllbnk1">
+							<div class="lbzp">
+								<img src="/static/images/mpxp.jpg" width="66" height="66" border="0" align="absmiddle"></div>
+							<div class="hr_lbnr">
+								<ul>
+									<li class="pt8">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+										<i class="pl5">
+											<img src="/static/images/dengji.jpg" width="23" height="17" border="0" align="absmiddle" style="margin-top:-5px;"></i>
+										&nbsp;&nbsp;&nbsp;南昌  |  高级寻访员
+									</li>
+									<li>
+										<i class="fn fz12">北京和君设计创意传媒股份有限公司  |  互联网/电子商务/网游</i>
+									</li>
+								</ul>
+							</div>
+							<div class="hr_lbkoj">
+								<div class="hr_mpjlly fz14">综合好评</div>
+								<div class="hr_xjpj mt6 fz14">
+									<i>
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle">
+										<img src="/static/images/xingxing2.png" width="21" height="21" border="0" align="absmiddle"></i>
+									<i class="fn fz14 cr">4.3</i>
+								</div>
+
+							</div>
+						</div>
+						<div class="jllbnk2">
+							<div class="gnajlb_Le">
+								<input name="" type="checkbox" value=""></div>
+
+							<div class="gnajlb_Ri">
+								<input name="" type="button" value="关注" class="gnanys">
+								<input name="" type="button" value="私信" class="gnanys"></div>
+						</div>
+						<div class="jlhx"></div>
+					</div>
+
+					<div class="lthy_pager">
+						<ul class="pagination pagination-sm">
+							<li>
+								<a href="#">上一页</a>
+							</li>
+							<li>
+								<a href="#">1</a>
+							</li>
+							<li>
+								<a href="#">2</a>
+							</li>
+							<li>
+								<a href="#">3</a>
+							</li>
+							<li>
+								<a href="#">4</a>
+							</li>
+							<li>
+								<a href="#">5</a>
+							</li>
+							<li>
+								<a href="#">下一页</a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="clear"></div>
+
+				</div>
+				<!-- 企业会员找猎头文章列表结束 -->
+			</div>
+			<!-- 企业会员找猎头结束 -->
+		</div>
+		<!-- 企业会员找猎头主内容结束 -->
+
+		<div class="xright">
+			<!-- 猎头会员保存的条件开始 -->
+			<div class="wbdss" style="margin-top: 30px">
+				<div class="wbdss_tou">
+					<i class="iconfont icon-set fsn pl15 cr" style="font-size:24px;"></i>
+					<i class="fn fz16 pl5">我保存的快捷搜索</i>
+				</div>
+				<div class="wbdss_lb">
+					<ul>
+
+						<li>
+							<input type="hidden" value="4">
+							<div class="wbdss_wen" style="cursor:pointer;" onclick="quickSearch(4)">设计师</div>
+							<span class="del_btn" style="cursor: pointer;display:none">X</span>
+						</li>
+
+						<li>
+							<input type="hidden" value="6">
+							<div class="wbdss_wen" style="cursor:pointer;" onclick="quickSearch(6)">程序员</div>
+							<span class="del_btn" style="cursor: pointer;display:none">X</span>
+						</li>
+
+						<li>
+							<input type="hidden" value="10">
+							<div class="wbdss_wen" style="cursor:pointer;" onclick="quickSearch(10)">会计</div>
+							<span class="del_btn" style="cursor: pointer;display:none">X</span>
+						</li>
+
+						<li>
+							<input type="hidden" value="11">
+							<div class="wbdss_wen" style="cursor:pointer;" onclick="quickSearch(11)">测试</div>
+							<span class="del_btn" style="cursor: pointer;display:none">X</span>
+						</li>
+
+					</ul>
+				</div>
+				<div class="wbdss_foot"></div>
+			</div>
+			<!-- 猎头会员保存的条件结束 -->
+			<!-- 侧边栏 -->
+			<!-- 猎头会员英才举荐开始 -->
+			<div class="yctj mt30">
+				<div class="bkdw"></div>
+				<div class="yctj_tou">
+					<div class="yctj_tou_z fz18 cr">
+						
+						<b class="fn c3 pl5">英才举荐</b>
+					</div>
+					<div class="yctj_tou_y"></div>
+				</div>
+				<div class="yctj_nei">
+					<div class="yctj_nrlb">
+						<div class="yctj_nrzp">
+							<img src="../static/images/mpxp.jpg" width="84" height="84" border="0" align="absmiddle"></div>
+						<div class="yctj_nrwen">
+							<b class="fz16">某某求职者</b>
+							<br>
+							相关行业
+							<br>工作年限</div>
+					</div>
+					<div class="yctj_nrlb">
+						<div class="yctj_nrzp">
+							<img src="../static/images/mpxp.jpg" width="84" height="84" border="0" align="absmiddle"></div>
+						<div class="yctj_nrwen">
+							<b class="fz16">某某求职者</b>
+							<br>
+							相关行业
+							<br>工作年限</div>
+					</div>
+					<div class="yctj_nrlb">
+						<div class="yctj_nrzp">
+							<img src="../static/images/mpxp.jpg" width="84" height="84" border="0" align="absmiddle"></div>
+						<div class="yctj_nrwen">
+							<b class="fz16">某某求职者</b>
+							<br>
+							相关行业
+							<br>工作年限</div>
+					</div>
+				</div>
+			</div>
+			<!-- 猎头会员英才举荐结束 -->
+			<!-- 侧边栏 -->
+		</div>
+
+		<div class="clear"></div>
+	</div>
+</div>
+{% include 'jobs/system/new_footer.html' %}

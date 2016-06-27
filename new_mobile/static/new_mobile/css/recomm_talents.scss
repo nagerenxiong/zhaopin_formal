@@ -1,0 +1,337 @@
+// @import "normalize";
+@charset "utf-8";
+@import "initial";
+@import "normalize";
+html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    width: 100%;
+    max-width: 640px;
+    height: 100%;
+    overflow: hidden;
+}
+
+.view {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    min-width:320px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+
+.content {
+    background-color: $bgc;
+    overflow-y: auto;
+}
+
+.recomm_talents_top {
+    clear: both;
+    padding: 20px 4%;
+    background-color: #fff;
+    overflow: hidden;
+    border: 1px solid #e6e6e6;
+    position:relative;
+    .zsp_rewar_img {
+        border: 1px solid #e2e2e2;
+        border-radius: 8px;
+        width: 50px;
+        height: 50px;
+        overflow: hidden;
+        // float: left;
+        position:absolute;
+        left:4%;
+        top:20px;
+        img {
+            width: 50px;
+            height: 50px;
+        }
+    }
+    .zsp_rewar_deti {
+        // width: 55%;
+        // float: left;
+        padding:0 95px 0 60px;
+        h3 {
+            // width:86%;
+            font-size: 1.5rem;
+            color: #222222;
+            
+            span {
+                white-space: nowrap;
+                color: #ff6b12;
+                font-size: 1.3rem;
+            }
+        }
+        p {
+            color: #555555;
+            font-size: 1.3rem;
+            
+            line-height: 10px;
+            padding-top: 10px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+    // @media only screen and (max-width: 360px) {
+    //     .zsp_rewar_deti {
+    //         width: 40%;
+    //         float: left;
+    //         h3 {
+    //             // width:86%;
+    //             font-size: 1.3rem;
+    //             color: #222222;
+    //             // text-indent: 10px;
+    //             span {
+    //                 white-space: nowrap;
+    //                 color: #ff6b12;
+    //                 font-size: 1.2rem;
+    //                 padding-left:10px;
+    //             }
+    //         }
+    //         p {
+    //             color: #555555;
+    //             font-size: 1.2rem;
+    //             text-indent: 10px;
+    //             line-height: 10px;
+    //             padding-top: 10px;
+    //         }
+    //     }
+    // }
+    .reward_icon {
+        position:absolute;
+        right:4%;
+        top:40px;
+        font-size: 1.1rem;
+        color: #ffffff;
+        width: 95px;
+        text-align: center;
+        background-color: #ff6d6d;
+        border-radius: 12px;
+        height: 24px;
+        line-height: 22px;
+        // float: right;
+        // margin-top: 20px;
+    }
+}
+
+
+
+
+
+.recomm_talents_middle {
+    .recom_talen_titl {
+        height: 45px;
+        line-height: 55px;
+        color: #555555;
+        font-size: 1.3rem;
+        margin: 0px 4%;
+    }
+    ul {
+        li {
+            border-top: 1px solid #e6e6e6;
+            border-bottom: 1px solid #e6e6e6;
+            width: 100%;
+            background-color: #fff;
+            margin-bottom: 10px;
+            .recomm_top {
+                overflow: hidden;
+                height: 46px;
+                line-height: 46px;
+                margin: 0px 4%;
+                border-bottom: 1px solid #e6e6e6;
+                .rect_lf {
+                    width: 58%;
+                    float: left;
+                }
+                .rect_rg {
+                    width: 42%;
+                    float: right;
+                    text-align: right;
+                }
+                .recom_name {
+                    font-size: 1.5rem;
+                    color: #222;
+                    margin-right: 2%;
+                }
+                .matching1 {
+                    font-size: 1.3rem;
+                    color: #555555;
+                    margin-right: 2%;
+                }
+                .matching_rate {
+                    font-size: 1.5rem;
+                    color: #ff6b12;
+                }
+                .recom_rp,
+                .recom_compile {
+                    border: 1px solid #00baff;
+                    position: relative;
+                    border-radius: 3px;
+                    height:30px;
+                    line-height:30px;
+                    // padding: 6px 0px;
+                    width:28%;
+                    display:inline-block;
+                    text-align:center;
+                    i {                        
+                        color: #00baff;
+                         vertical-align: bottom;
+                        display: inline-block;
+                        margin-right: 2px;
+                    }
+                    i.icon-zhucechenggong01:before{
+                        content: "\e617";
+                        background-color:white;
+                    }
+                    .fd{
+                        position: absolute;
+                            top: -14px;
+    left: -8px;
+                    }
+                    .rd{
+                        font-size:1.4rem!important;
+                    }
+                }
+                .recom_rp {
+                    width: 55% !important;
+                    margin-right: 6px;
+                    // margin-left:7%;
+                }
+            }
+            .recomm_bottom {
+                overflow: hidden;
+                // padding: 0px 4%;
+                height:68px;
+                position:relative;
+                .recom_left {
+                    position:absolute;
+                    left:4%;
+                    top:12px;
+                    // float: left;
+                    // padding: 12px 0px;
+                    p {
+                        font-size: 1.3rem;
+                        color: #555555;
+                        line-height: 22px;
+                    }
+                }
+                .recom_rigt {
+                    // width: 25%;
+                    // float: right;
+                    position:absolute;
+                    right:4%;
+                    top:26px;
+                    // margin-top: 26px;
+                    text-align: right;
+                    span {
+                        font-size: 1.5rem;
+                        padding: 8px 16px;
+                        border-radius: 3px;
+                    }
+
+                    .if_recom {
+                        color: #fff;
+                        background-color: #ffb30f;
+                        padding: 8px 14px;
+                        i.icon-elite{
+                            vertical-align: text-bottom;
+                            padding-right: 4px;  
+                        }
+                    }
+                    .yet_recom {
+                        color: #fff;
+                        background-color: #afafaf;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+.confirm_dh1{
+      position: fixed;
+      top: 27%;
+      width: 100%;          
+      z-index: 99999;
+      display:none;
+  }
+  .confirm_dh1 p{
+      width:80%;
+      text-align: center;
+      margin:auto;
+      color:#888888;
+      padding:12px;
+      font-size:1.3rem!important;
+  }
+  .confirm_dh1 .btn_save1{
+      width:100%;
+      margin:0px auto;
+      overflow:hidden;
+      border-top:1px solid #e0e0e0;
+  }
+  .confirm_dh1 .con_tit{
+      font-size:1.5rem;
+      color:#333333;
+      text-align: center;
+      padding: 18px 0px 0px 0px;
+      width:100%;
+  } 
+  .confirm_dh1 a{
+     width:49%;
+     display:block;
+     float:left;
+     height:40px;
+     text-align:center;
+     line-height:40px;
+
+      }
+.ztcont1{
+    width:85%;
+    margin:0px auto;
+    background-color: #fff;
+    border-radius:5px;
+  }
+  .confirm_btn{
+    border-left:1px solid #e0e0e0!important;
+    border-right:none!important;
+  }
+.ztcont1 span{
+    color:#333;
+    font-size:17px;
+    text-align: center;
+    display:block;
+    padding-top:12px;
+}
+  .ensure_ex1{
+     color: #2d90fe;
+     font-size: 14px;
+     font-weight: bold;
+     border-right:1px solid #e0e0e0;
+  }
+  .ex_close1{
+     color:#2d90fe;
+     font-size: 14px;
+     font-weight: bold;
+  }
+.modal_wrap {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    background-color: #000;
+    transition: opacity .15s linear;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    display: none;
+}

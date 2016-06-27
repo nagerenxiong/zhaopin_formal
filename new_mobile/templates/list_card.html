@@ -1,0 +1,55 @@
+{% include 'header.html' %}
+	<link rel="stylesheet" href="/static/new_mobile/css/zsc_common.css">
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+    $('.zsp_header').remove();
+}
+</script><!--zsp_header -->
+<script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+<script>
+    // 微信分享
+    WXJssdk.init(function(wx) {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+            success: function (res) {
+			//alert(JSON.stringify(res));
+            }
+        });
+        // 分享data
+        var shareData = {
+            title: '{{ headHunt.real_name | default:'' }}',
+            desc: desc1,
+            link: '{{ request.session.web_site }}/mobile/deatil_headhunter_list?headhunt_id={{ headHunt.id }}&resume_count={{ headHunt.resume_count | default:0 }}',//分享链接地址 自己调整
+            imgUrl: '{{ request.session.web_site }}' + head_protrait,//分享显示的图片
+            success:function(){
+               // alert('shareData success');
+            },
+            cancel:function(){
+               // alert('shareData cancel');
+            },
+            error:function(res){
+               // alert(JSON.stringify(res));
+            }
+        };
+
+        // 分享给朋友
+          wx.onMenuShareAppMessage(shareData);
+        // 分享到朋友圈
+          wx.onMenuShareTimeline(shareData);
+        // 分享到QQ
+          wx.onMenuShareQQ(shareData);
+        // 分享到微博
+          wx.onMenuShareWeibo(shareData);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,1004 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<style>
+	.o_placeholder{
+		width:400px;margin:0 auto;
+	}
+	.o_placeholder li{
+		position: relative;
+        background-color: #fafafa;
+	}
+	.o_placeholder span.abs{
+		position: absolute;top: 8px;left: 10px;color:#888;display: none;
+	}
+</style>
+<script>
+	$(function(){
+		$(".o_placeholder input").each(function(index, el) {
+			if($(el).val() =="")
+				$(el).siblings('.abs').show();
+			else
+				$(el).siblings('.abs').hide();
+			$(el).keydown(function(event) {
+				if($(this).val() == "")
+					$(this).siblings('.abs').show();
+				else
+					$(this).siblings('.abs').hide();
+			});
+			$(el).keyup(function(event) {
+				if($(this).val() == "")
+					$(this).siblings('.abs').show();
+				else
+					$(this).siblings('.abs').hide();
+			});
+		});
+		$(".o_placeholder textarea").each(function(index, el) {
+			if($(el).val() =="")
+				$(el).siblings('.abs').show();
+			else
+				$(el).siblings('.abs').hide();
+			$(el).keydown(function(event) {
+				if($(this).val() == "")
+					$(this).siblings('.abs').show();
+				else
+					$(this).siblings('.abs').hide();
+			});
+			$(el).keyup(function(event) {
+				if($(this).val() == "")
+					$(this).siblings('.abs').show();
+				else
+					$(this).siblings('.abs').hide();
+			});
+		});
+	})
+</script>
+<div class="clear">99</div>
+	<!-- 内容大框 -->
+	<div class="lt_content_box">
+		<div class="center clearfix" >
+			<!-- 修改个人信息 -->
+			<dl class="grxx_info f_l ">
+				<dt class="bd_bottom1">
+					<span>我的通讯录</span>
+					<div class="slider" style="width:100px"></div>
+				</dt>
+				<dd style="padding-top: 20px;padding-left: 0px;padding-right: 0px">
+{#                    <form action="txl" method="POST" id="txlsearch">#}
+{#                        {% csrf_token %}#}
+					    <a href="javascript:void(0)" style="display: block;text-align: center;line-height: 38px" name="" data-toggle="modal" data-target="#add_txl_Modal" class="add_new_txl f_l">添加新通讯录</a>
+                        <input class="ss_input" type="text" id="ssname" name="contactname" maxlength="8" placeholder="请输入姓名:如王小小等" style="width:320px;padding-left:10px">
+					    <a href="javascript:void(0)" class="ss_anniu" name=""  onclick="queryData()" style="width:126px;color:white;border:none;margin-left: -4px;vertical-align: bottom;">搜索</a>
+{#				    </form>#}
+                </dd>
+                <dd style="background:#f8f8f8;margin-top: 10px;line-height: 50px;padding:0px">
+					<input type="checkbox" name="" value="" class="ml25"  id="allcheck">
+					<span class="ml15">全选</span>
+                    <input type="hidden" id="delSelect" />
+					<input type="button" id="delCheck" value="删除" data-toggle="modal" data-target="#delete_Modal" onclick="judgeSelected()"
+                           style="width:66px;height:24px;border:1px solid #e4e4e4;background:white;line-height: 24px;color:#666"  class="ml15" ></dd>
+				<dd class="mt10" style="padding:0" id="tableInfo">
+{#                <form action="delCheck" method="post" id="delform">#}
+{#                    {% csrf_token %}#}
+{#					<table width="100%">#}
+{#						<thead>#}
+{#							<tr class="panel tr1" >#}
+{#								<th class="t_l" style="padding-left: 75px">姓名</th><th class="t_c">电话</th><th class="t_c">邮箱</th><th class="t_c">添加时间</th><th class="t_c">操作</th>#}
+{#							</tr>#}
+{#						</thead>#}
+{#						<tbody>#}
+{#                         {% for txl in listTxl %}#}
+{#							<tr class="bd_bottom2" style="height:50px;line-height: 50px">#}
+{#								<td class="t_l" style="padding-left: 20px"><input type="checkbox" name="check" value=""><span style="margin-left: 39px">{{ txl.2 }}</span></td><td class="t_c">{{ txl.3 }}</td><td class="t_c">{{ txl.4 }}</td><td class="t_c">{{ txl.6|date:"Y年m月j日 " }} </td>#}
+{#                                <td class="t_c"><input type="button" name="" value="编辑"  class="btn_jb1" data-toggle="modal" data-target="#update_txl_Modal" onclick="searchTxl({{ txl.0 }}, {{ forloop.counter }})" >#}
+{#                                    <input type="button" name="" value="删除" class="btn_jb" style="height: 32px;" onclick="setTxlID({{ txl.0 }}, {{ txl.7 }})"  data-toggle="modal" data-target="#delete_Modal"  ><input type="button" onclick="setOld({{ txl.0 }},{{ txl.7 }})" value="分组" class="btn_jb1 ml5" data-toggle="modal" data-target="#update_fz_Modal"></td>#}
+{#							</tr>#}
+{#							<tr style="height:50px;line-height: 50px"><td colspan="5"  class="t_l" style="padding-left: 20px"><span style="margin-right: 10px;color:#b7b7b7">备注：{{ txl.5 }}</span></td></tr>#}
+{#							{% endfor %}#}
+{#                        </tbody>#}
+{#					</table>#}
+{##}
+{#                </form>#}
+{#					<div class="t_c" id="paginInfo">#}
+{#						<ul class="pagination pagination-sm">#}
+{#							<li>#}
+{#                        {% if page == 1 %}#}
+{#                            <a href="javascript:void(0)"#}
+{#                            style="color: #FFF;background-color: #C8161D;border-color: #DDD;">首页</a>#}
+{#                        {% else %}#}
+{#						    <a href="txl?page=0" name="pagehref">首页</a>#}
+{#                        {% endif %}#}
+{#                    </li>#}
+{#					<li>#}
+{#                        {% if page == 1 %}#}
+{#                            <a href="javascript:void(0)"#}
+{#                            style="color: #FFF;background-color: #C8161D;border-color: #DDD;">上一页</a>#}
+{#                        {% else %}#}
+{#						    <a href="txl?page={{ page }}&biaoshi=0" name="pagehref">上一页</a>#}
+{#                        {% endif %}#}
+{#					</li>#}
+{#                    {% for i in pagesize %}#}
+{#					<li>#}
+{#                        {% if i == page %}#}
+{#                            <a href="javascript:void(0)"#}
+{#                            style="color: #FFF;background-color: #C8161D;border-color: #DDD;">{{ i }}</a>#}
+{#                        {% else %}#}
+{#						    <a href="txl?page={{ i }}" name="pagehref">{{ i }}</a>#}
+{#                        {% endif %}#}
+{#					</li>#}
+{#                    {% endfor %}#}
+{#					<li>#}
+{#						{% if page == maxpage %}#}
+{#                            <a href="javascript:void(0)"#}
+{#                            style="color: #FFF;background-color: #C8161D;border-color: #DDD;">下一页</a>#}
+{#                        {% else %}#}
+{#						    <a href="txl?page={{ page }}&biaoshi=1" name="pagehref">下一页</a>#}
+{#                        {% endif %}#}
+{#					</li>#}
+{#                    <li>#}
+{#                        {% if page == maxpage %}#}
+{#                            <a href="javascript:void(0)"#}
+{#                            style="color: #FFF;background-color: #C8161D;border-color: #DDD;">尾页</a>#}
+{#                        {% else %}#}
+{#						    <a href="txl?page={{ maxpage }}" name="pagehref">尾页</a>#}
+{#                        {% endif %}#}
+{##}
+{#                    </li>#}
+{#						</ul>#}
+{#					</div>#}
+				</dd>
+                <div id="paginInfo"></div>
+				<div class="left_top_border"></div>
+			</dl>
+			<!-- 修改个人信息 -->
+			<!-- 侧边栏 -->
+			<div class="grxx_sidebar f_r">
+				<div class="add_cal_btn">
+					<i class="iconfont icon-tianjia"></i>
+					添加分组
+				</div>
+				<div class="grxx_sidebar_b" style="padding:20px 0;">
+					<dl>
+						<dt class="my_cal_title" style="margin-left:20px">通讯录分组</dt>
+						<dd class="cal_tree_dd">
+							<div class="panel-group wdgz_conter" id="accordion">
+                                {% if groups %}
+                                    {% for group in groups %}
+                                        <div class="panel-heading clearfix" style="padding:10px 20px 6px 20px;cursor: pointer;">
+                                            <input type="hidden" value="{{ group.id }}" />
+                                            <i class="iconfont icon-fangxiang2 f_l" style="font-size:16px"></i>
+                                            <span class="f_l name_span ml5 fz16" onclick="queryByGroupId({{ group.id }},this)">{{ group.group_name }}</span>
+                                            <input type="text" id="" value="{{ group.group_name }}" class="edit_name_input" maxlength="8" style="display: none;float:left">
+                                            <span class="f_r num_group">{{ group.childCount }}</span>
+                                            {% if group.group_name != '未分组' %}
+                                                <span class="f_r add_up_re_btn">
+                                                    <i class="iconfont icon-xiugaichujia"></i>
+                                                   <i class="iconfont icon-shanchu fz18"></i>
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+							</div>
+						</dd>
+					</dl>
+				</div>
+			</div>
+			<!-- 侧边栏 -->
+		</div>
+	</div>
+	<!-- 内容大框 -->
+	<!-- 底部 -->
+	{% include 'jobs/system/new_footer.html' %}
+	<!-- 底部 -->
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="update_txl_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content" style="width:450px;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" >&times;</button>
+					<h4 class="modal-title" id="myModalLabel">修改通讯录</h4>
+				</div>
+				<div class="modal-body">
+					<select name="" id="txlList" >
+						<option value="0">---请选择---</option>
+                        {% if groups %}
+                            {% for secondGroup in groups %}
+                                <option value="{{ secondGroup.id }}">{{ secondGroup.group_name }}</option>
+                            {% endfor %}
+                        {% endif %}
+					</select>
+                    <input type="hidden" id="operateIndex" />
+                    <input type="hidden" id="oldGroupId">
+                    <input type="hidden" id="updateTxlId" value="{{ contact.id }}" />
+                    <ul class="o_placeholder">
+                    	<li>
+							<input type="text" maxlength="8" id="contactname" placeholder="" value="{{ contact.contact_name }}" />
+							<span class="abs">请填写姓名</span>
+						</li>
+						<li>
+							<input type="text" name="phone" maxlength="14" placeholder="" id="updatePhone" value="{{ contact.phone }}" />
+							<span class="abs">请填写手机号码</span>
+						</li>
+						<li>
+							<input type="text" name="email" maxlength="30" placeholder="" id="updateEmail" value="{{ contact.email }}" />
+							<span class="abs">请填写邮箱</span>
+						</li>
+						<li>
+							<textarea name="remark" rows="" maxlength="50" placeholder=""  cols="" id="updateRemark"  onkeydown="countChar('updateRemark','counter2',50);"
+                            onkeyup="countChar('updateRemark','counter1',50);">{{ contact.remark }}</textarea>
+                            <span class="abs" style="top:6px;">备注</span>
+                         </li>
+                     </ul>
+					<p class="t_r">
+						最多输入50字，目前已经输入<span  id="counter1" style="COLOR:red;FONT-WEIGHT:bold">0</span>字
+					</p>
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-primary" data-dismiss="modal" style="background:#5c91d9;color:white;padding-left:0px;" onclick="updateTxl(this)" value="保存" />
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal -->
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="add_txl_Modal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog"  style="width: 482px; height:533px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">添加新通讯录</h4>
+				</div>
+		<form action="/addtxl" method="POST">
+            {% csrf_token %}
+         <div class="modal-body" style="height:420px;">
+            	 <select name="newGroupId" id="addGroupList" style="height:37px;">
+{#            	 	<option value="">企业通讯录</option>#}
+                    {% if groups %}
+                        {% for secondGroup in groups %}
+                            <option value="{{ secondGroup.id }}">{{ secondGroup.group_name }}</option>
+                        {% endfor %}
+                    {% endif %}
+            	 </select>
+            	 	<ul class="o_placeholder" style="width:400px;margin:0 auto">
+            	 		<li>
+            	 			<input type="text" maxlength="8" name="contactname" class="input" id="newName" placeholder="" />
+            	 			<span class="abs">请填写姓名</span>
+            	 		</li>
+            	 		<li>
+            	 			<input type="text" maxlength="14"   name="phone" class="input" id="newPhone" placeholder="" />
+            	 			<span class="abs">请填写电话</span>
+            	 		</li>
+            	 		<li>
+            	 			<input type="text" name="email" maxlength="30" class="input" id="newEmail" placeholder="" />
+            	 			<span class="abs">请填写邮箱</span>
+            	 		</li>
+            	 		<li>
+            	 			<textarea name="remark" maxlength="50" rows="" class="input" id="newRemark"  cols="" placeholder="" onkeydown="countChar('newRemark','counter2',50);" onkeyup="countChar('newRemark','counter2',50);"></textarea>
+            	 			<span class="abs">请填写备注</span>
+            	 		</li>
+                    </ul>
+            	 <p class="t_r">最多输入50字，目前已经输入<span  id="counter2" style="color:red;font-weight:bold">0</span>字</p>
+         </div>
+         <div class="modal-footer">
+            <input type="submit" id="updatesubmit" class="btn btn-primary"    style="background:#5c91d9;color:white;margin-top:-15px;" value="保存" onclick="return saveContact(this)" />
+         </div>
+         </form>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal -->
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="delete_Modal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 283px;">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">确认删除</h4>
+				</div>
+				<div class="modal-body t_c">
+					是否确认删除
+				</div>
+				<div class="modal-footer">
+					 <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">否</button>
+                     <input type="hidden" id="fadeid"  />
+                    <input type="hidden" id="delGroupId"  />
+		             <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="delTxl()">是</button>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal -->
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="update_fz_Modal" tabindex="-1" role="dialog" 
+        aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog"style="width: 433px;">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">修改分组</h4>
+				</div>
+				<div class="modal-body t_c">
+                    <select name="" id="newGroupId" style="width:270px;height: 30px;border: solid 1px red;">
+                    {% if groups %}
+                        {% for secondGroup in groups %}
+                            <option style="border: solid 1px red;" value="{{ secondGroup.id }}">{{ secondGroup.group_name }}</option>
+                        {% endfor %}
+                    {% endif %}
+                    </select>
+                </div>
+				<div class="modal-footer">
+                    <input type="hidden" id="oldGroupInfoId" />
+                    <input type="hidden" id="cancelId" />
+                    <input type="hidden" id="operateState" />
+					<button type="button" class="btn btn-primary"data-dismiss="modal" style="background:#5c91d9" onclick="updateSelectGroup()">完成</button>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal -->
+    <script src="{{ STATIC_URL }}js/common.js" ></script>
+    
+    <script type="text/javascript">
+    var loadData;
+    var pu_id = {{ pu.id }};
+    var sql = ' pu_id=' + pu_id;
+    var querySql = sql;
+
+    $(function(){
+        loadData = new pagin("paginInfo", "V_Contact_Group", "", querySql, "", 6, "paginBind", "loadData");
+    })
+    //动态加载页面绑定数据
+    function paginBind(dataInfo){
+         //图片列表数据加载
+        $("#tableInfo").empty();
+        $(dataInfo).each(function(i) {
+
+            // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this)
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            var content = '';
+            content += '<div id="txlmp">';
+            content += '    <div class="left">';
+            content += '        <h1>'+array[2];
+{#            +' <span>您在'+array[6].substring(0, 10)+'开始关注他</span>' +#}
+            content += '        </h1>';
+            content += '        <p>电话：'+array[3]+'</p>';
+            content += '        <p>邮箱：'+array[4]+'</p>';
+            content += '    </div>';
+            content += '    <div class="right">';
+            content += '        备注:'+array[5]+'';
+            content += '    </div>';
+            content += '    <div class="group"><input type="hidden" value="'+array[9]+'"/><input type="hidden" value="'+array[8]+'"/>';
+            content += '        <input type="checkbox" class="radio" name="check" value="'+array[0]+'" />';
+            content += '        <input type="button" value="删除" data-toggle="modal" data-target="#delete_Modal" onclick="setTxlID('+array[0]+', '+array[9]+')">';
+            content += '        <input type="button" value="编辑" data-toggle="modal" data-target="#update_txl_Modal"  onclick="searchTxl('+array[0]+', '+i+')">';
+            content += '    </div>';
+            content += '    <i></i>';
+            content += '</di>';
+            $('#tableInfo').append(content);
+        })
+    }
+    //查询数据
+    function queryData(){
+        var queryCondition = $('#ssname').val();
+        querySql = sql + ' and contact_name like "%' + queryCondition + '%"';
+        loadData = new pagin("paginInfo", "V_Contact_Group", "", encodeURI(querySql), "", 6, "paginBind", "loadData");
+    }
+	 var i=5;
+     //加载分组点开的项
+     $(function(){
+        var url = window.location.href;
+        if(url.indexOf('index=') != -1){
+            var index = url.substring(url.lastIndexOf('=') + 1);
+            $('.collapse').eq(parseInt(index)).attr('aria-expanded', 'true');
+            $('.collapse').eq(parseInt(index)).addClass('in');
+        }
+    })
+
+	$(".check_b").click(function(){
+		if($(this).is(":checked")){
+		$(this).next().css('backgroundImage', 'url({{ STATIC_URL }}images/ck_03.png)');}
+	    else{
+	    $(this).next().css('backgroundImage', 'url({{ STATIC_URL }}images/ck_05.png)');}
+	})
+	// $(document).on('mouseover','.panel-heading',function(){
+	// 	$(".panel-heading").removeClass('active');
+	// 	$(".wdgz_cal_tree_ul li").removeClass('active');
+	// 	$(this).addClass('active');
+	// })
+	// $(document).on('mouseout','.panel-heading',function(){
+	// 	$(".panel-heading").removeClass('active');
+	// 	$(".wdgz_cal_tree_ul li").removeClass('active');		
+	// })	
+	// $(document).on('mouseover','.wdgz_cal_tree_ul li',function(){
+		
+	// 	$(".panel-heading").removeClass('active');
+	// 	$(".wdgz_cal_tree_ul li").removeClass('active');
+	// 	$(this).addClass('active');
+	// })
+	// $(document).on('mouseout','.cal_tree_dd #accordion',function(){
+		
+	// 	$(".panel-heading").removeClass('active');
+	// 	$(".wdgz_cal_tree_ul li").removeClass('active');
+	// })
+     $("[name=pagehref]").click(function(){
+        aas=this+'&contactname='+document.getElementById('ssname').value
+       this.href=aas
+     });
+    $("#allcheck").click(function(){
+        var ids = document.getElementsByName("check");
+        if(document.getElementById("allcheck").checked == true){
+              for(var i=0;i<ids.length;i++){
+                    ids[i].checked=true;
+                }
+        document.getElementById("delCheck").removeAttribute("disabled");
+        }else{
+           for(var i=0;i<ids.length;i++){
+                    ids[i].checked=false;
+                };
+            document.getElementById("delCheck").disabled=true;
+        }
+    });
+    function setTxlID(tid, groupId) {
+        document.getElementById('fadeid').value=tid
+        $('#delGroupId').val(groupId);
+        $('#delSelect').val('false');
+    }
+    //修改选中人的分组
+    function updateSelectGroup(newGroupId){
+        var oldGroupId = $('#oldGroupInfoId').val();//原分组ID
+        var attentionId = $('#cancelId').val();//被关注人的ID
+        var newGroupId = $('#newGroupId').val();//被关注人的ID
+
+        $.ajax({
+            type: "POST",
+            url: "/ajax_updateGroup",
+            data: {"oldGroupId": oldGroupId, "newGroupId": newGroupId, "attentionId": attentionId},
+            dataType: "json",
+            success: function(data){
+                if(data.msg == "修改成功"){
+                    window.location.reload();
+                }else{
+                    window.alert(data.msg,4)
+                }
+            }
+        });
+
+    }
+    //删除通讯录
+    function delTxl() {
+        //判断是删除单个还是删除选中的对象
+        if($('#delSelect').val() == 'true'){
+{#            var checkboxs = document.getElementsByName('check');#}
+            var checkboxes = $('.radio:checked');
+            var txlIds = [];
+            var groupIds = [];
+            for(var i = 0;i < checkboxes.length;i++){
+                var obj = checkboxes[i];
+                if(obj.checked){
+                    txlIds.push($(obj).val());
+                    groupIds.push($(obj).parent().children('input:first').val());
+                }
+            }
+            $.ajax({
+                type: "POST",
+                url: "/ajax_txlOperate",
+                data: {"operateType": 'delete', "txlIds": txlIds, "groupIds": groupIds},
+                dataType: "json",
+                success:function(data){
+                    if(data.msg == 'success'){
+                        for(var i = 0;i < checkboxes.length;i++){
+                            checkboxes.eq(i).parent().parent().remove();
+                            //修改分组含有的数量
+                            var gid = checkboxes.eq(i).prev().val();
+                            var group = $('input[value="'+gid+'"]').parent().find('.num_group:first');
+                            var childCount = group.text();
+                            group.text(parseInt(childCount) - 1);
+                            //end
+                        }
+                        loadData = new pagin("paginInfo", "V_Contact_Group", "", querySql, "", 6, "paginBind", "loadData");
+                        window.alert('批量删除成功',1);
+                    }else{
+                        window.alert(data.msg,4);
+                    }
+                }
+            });
+        }else{
+            var txlId = $('#fadeid').val();
+            var groupId = $('#delGroupId').val();
+            $.ajax({
+                type: "POST",
+                url: "/ajax_txlOperate",
+                data: {"operateType": 'delete', "txlId": txlId, "groupId": groupId},
+                dataType: "json",
+                success:function(data){
+                    if(data.msg == 'success'){
+                        //修改分组含有的数量
+                        var groupId = $('#delGroupId').val();
+                        var gid = $('input[value="'+groupId+'"]').next().val();
+                        var group = $('input[value="'+gid+'"]').parent().find('.num_group:first');
+                        var childCount = group.text();
+                        group.text(parseInt(childCount) - 1);
+                        //end
+                        loadData = new pagin("paginInfo", "V_Contact_Group", "", querySql, "", 6, "paginBind", "loadData");
+                        window.alert('删除成功',1);
+                    }else{
+                        window.alert(data.msg,4);
+                    }
+                }
+            });
+{#            window.location.href='deltxl?tid='+document.getElementById('fadeid').value#}
+        }
+    }
+    //保存通讯录
+    function saveContact(obj){
+        $(obj).css('display', 'none');
+        var reg = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/;
+        if($('#addGroupList').val() == 0){
+            window.alert("请选择分组！",4);
+            $(obj).css('display', 'block');
+            return false;
+        }
+        if($.trim($('#newName').val()) == ''){
+            window.alert('请填写姓名！',4);
+            $(obj).css('display', 'block');
+            return false;
+        }
+        if($.trim($('#newPhone').val()) == ''){
+            window.alert('请填写电话！',4);
+            $('#newPhone').val('');
+            $('#newPhone').focus();
+            $(obj).css('display', 'block');
+            return false;
+        }else if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test($('#newPhone').val()))){
+            window.alert('你输入的手机号码格式不对，请重新输入！',4);
+            $('#newPhone').val('');
+            $('#newPhone').focus();
+            $(obj).css('display', 'block');
+            return false;
+        }else{
+            var phone = $('#newPhone').val();
+            //通讯录电话唯一性验证
+            var result = validPhone($('#newPhone'));
+            if(!result){
+                $(obj).css('display', 'block');
+                return false;
+            }
+        }
+        if($('#newEmail').val() == ''){
+            window.alert('请填写邮箱！',4);
+			$('#newEmail').focus();
+            $(obj).css('display', 'block');
+            return false;
+        }else if(!reg.test($('#newEmail').val())){
+            window.alert("邮箱格式不对，请重新输入！",4);
+            $('#newEmail').val('');
+            $('#newEmail').focus();
+            $(obj).css('display', 'block');
+            return false;
+        }
+        if($.trim($('#newRemark').val()) == ''){
+            window.alert('请填写备注！',4);
+            $('#newRemark').val('');
+            $('#newRemark').focus();
+            $(obj).css('display', 'block');
+            return false;
+        }
+        return true;
+    }
+    //根据通讯录ID获得通讯录信息，用于通讯录信息修改
+    function searchTxl(sid, index) {
+        $('#operateIndex').val(index);
+        $.ajax({
+            type: "POST",
+            url: "/ajax_getTxlById",
+            data: {"sid": sid},
+            dataType: "json",
+            success: function (data) {
+                if (!data.msg) {
+                    $('#oldGroupId').val(data.gid);
+                    $('#txlList').val(data.gid);
+                    $('#updateTxlId').val(data.id);
+                    $('#contactname').val(data.contact_name);
+                    $('#updatePhone').val(data.phone);
+                    $('#updateEmail').val(data.email);
+                    $('#updateRemark').val(data.remark);                    
+                } else {
+                    window.alert(data.msg,4);
+                }
+                $(".o_placeholder input").keydown();
+                $(".o_placeholder textarea").keydown();
+            }
+        });
+{#        window.location.href='searchtxl?searchid='+sid#}
+    }
+    //修改通讯录
+    function updateTxl(obj){
+        var _this = obj;
+        var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+        var oldGroupId = $('#oldGroupId').val();
+        var groupId = $('#txlList').val();
+        var txlId = $('#updateTxlId').val();
+        var contactname = $('#contactname').val();
+        var phone = $('#updatePhone').val();
+        var email = $('#updateEmail').val();
+        if(!reg.test(email)){
+            $(_this).attr('data-dismiss', '');
+            window.alert("邮箱格式不对，请重新输入!",4);
+            return;
+        }
+        if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(phone))){
+            $(_this).attr('data-dismiss', '');
+            window.alert('你输入的手机号码格式不对，请重新输入！',4);
+            $('#updatePhone').val('');
+            $('#updatePhone').focus();
+            return false;
+        }else{
+            //通讯录电话唯一性验证
+            var result = validPhone($('#updatePhone'), txlId);
+            if(!result){
+                $(_this).attr('data-dismiss', '');
+                return false;
+            }
+        }
+        $(_this).attr('data-dismiss', 'modal');
+        var remark = $('#updateRemark').val();
+        $.ajax({
+            type: "POST",
+            url: "/ajax_txlOperate",
+            data: {"operateType": 'update', "txlId": txlId, "contactname": contactname, "phone": phone, "email": email,
+                "remark": remark, "oldGroupId": oldGroupId, "groupId": groupId},
+            dataType: "json",
+            success:function(data){
+                if(data.msg == 'success'){
+                    if(oldGroupId != groupId){
+                        var oldObj = $('input[value="'+oldGroupId+'"]').parent().find('.num_group:first');
+                        var newObj = $('input[value="'+groupId+'"]').parent().find('.num_group');
+                        var oldCount = oldObj.text();
+                        var newCount = newObj.text();
+                        oldObj.text(parseInt(oldCount) - 1);
+                        newObj.text(parseInt(newCount) + 1);
+                    }
+                    loadData = new pagin("paginInfo", "V_Contact_Group", "", querySql, "", 6, "paginBind", "loadData");
+{#                    var index = $('#operateIndex').val();#}
+{#                    var obj = $('.mt10 li').eq(index);#}
+{#                    obj.children('div:first').children('b').text(contactname);#}
+{#                    obj.children('div:first').children('div:first').children('span:last').text(phone);#}
+{#                    obj.children('div:first').children('div').eq(1).children('span:last').text(email);#}
+{#                    obj.children('div').eq(1).text('备注：' + remark);#}
+                    window.alert("修改完成",1);
+                    $(_this).attr('data-dismiss', 'modal');
+                }else{
+                    window.alert(data.msg,4);
+                }
+            }
+        });
+    }
+    //通讯录电话唯一性验证
+    function validPhone(obj, txlId){
+        if(!txlId){
+            txlId = '';
+        }
+        var result = false;
+        $.ajax({
+            type: "POST",
+            url: "/ajax_validPhone",
+            data: {"phone": obj.val(), "txlId": txlId},
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if(data.status == 0){
+                    result = true;
+                }else if(data.status == 1){
+                    window.alert('您的通讯录中已存在该电话号码，请重新输入',4);
+                    obj.focus();
+                    result = false;
+                }else{
+                    window.alert(data.msg,4);
+                    obj.focus();
+                    result = false;
+                }
+            }
+        });
+        return result;
+    }
+    //判断是否有选中
+    function judgeSelected(){
+        var checkboxs = document.getElementsByName('check');
+        var bool = false;
+        if(checkboxs){
+            for(var i = 0;i < checkboxs.length;i++){
+                if(checkboxs[i].checked == true){
+                    bool = true;
+                    break;
+                }
+            }
+            if(bool){
+                $('#delCheck').attr('data-target', '#delete_Modal');
+                $('#delSelect').val('true');
+            }else{
+                //当没选中时，阻止弹框
+                $('#delCheck').attr('data-target', '');
+                window.alert("请选择要删除的数据！",4);
+            }
+        }else{
+            $('#delCheck').attr('data-target', '');
+            window.alert("无数据可删！",4);
+        }
+
+    }
+
+    //根据分组ID获得分组下通讯录
+    function queryByGroupId(groupId, obj){
+    	  $(obj).parent().addClass('active').siblings('').removeClass('active');
+{#        if(location.href.indexOf('groupId='+ groupId) != -1){return false;}#}
+{#        var index = 0;#}
+{#        for(var i = 0;i < $('.collapse').length;i++){#}
+{#            if($('.collapse').eq(i).attr('aria-expanded') == 'true'){#}
+{#                index = i;#}
+{#                break;#}
+{#            }#}
+{#        }#}
+{#        window.location = 'txl?groupId=' + groupId + '&index=' + index;#}
+        querySql = sql + ' and gid=' + groupId;
+        loadData = new pagin("paginInfo", "V_Contact_Group", "", querySql, "", 6, "paginBind", "loadData");
+    }
+    function loadupdate(){
+        $('#update_txl_Modal').modal('show')
+
+    }
+    //点击添加新个人分组事件处理
+    $(".add_cal_btn").click(function(){
+        var groupName = '默认分组';
+        var groupType = '3';
+        var parentId = 0;
+        var operateType = 'add';
+        if($('#accordion').children('div').length >15 ){
+            alert('您的分组数量已达到上限，无法继续添加',4);
+            return false;
+        }else{
+		        $.ajax({
+		            type: "POST",
+		            url: "/ajax_groupOperate",
+		            data: {"parentId": parentId, "groupName": groupName, "groupType": groupType, "operateType": operateType},
+		            dataType: "json",
+		            success: function(data){
+		{#                var number = $('#accordion').children().length + 1;#}
+		                if(data.msg == "新建分组成功！"){
+		                    var str = '';
+		                    str += '<div class="panel-heading clearfix" style="padding:10px 20px 6px 20px">';
+		                    str += '    <input type="hidden" value="' + data.id + '" />';
+		                    str += '    <i class="iconfont icon-fangxiang2 f_l" style="font-size:16px"></i>';
+		                    str += '    <span class="f_l name_span ml5 fz16" onclick="queryByGroupId(' + data.id + ',this)">默认分组</span>';
+		                    str += '    <input type="text" id="" value="" placeholder="默认分组" class="edit_name_input" style="display: none;float:left"  maxlength="5">';
+		                    str += '    <span class="f_r num_group">0</span>';
+		                    str += '    <span class="f_r add_up_re_btn">';
+		                    str += '        <i class="iconfont icon-xiugaichujia"></i>';
+		                    str += '        <i class="iconfont icon-shanchu fz18"></i>';
+		                    str += '    </span>';
+		                    str += '</div>';
+		                    $("#accordion").append(str);
+		                    $('#newGroupId').append('<option value="'+data.id+'">默认分组</option>');
+		                    $('#txlList').append('<option value="'+data.id+'">默认分组</option>');
+		                    $('#addGroupList').append('<option value="'+data.id+'">默认分组</option>');
+		                    //最后添加的分组呈修改状态
+		                    $(".cal_tree_dd").children('div:last').find('.icon-xiugaichujia').click();
+		{#                        var str = '<div class="panel panel-default"><div class="panel-heading clearfix" style="padding:10px 20px 6px 20px"><input type="hidden" value="'+data.id+'" /><a data-toggle="collapse" data-parent="#accordion" href="#collapse'+number+'" class="collapsed">';#}
+		{#                            str += '<i class="iconfont icon-jinlingyingcaiwangtubiao12 f_l fz14"></i><span class="f_l name_span" >默认分组</span><input type="text" id="" value="默认分组"  class="edit_name_input" style="display: none;" />';#}
+		{#                            str += '<span class="f_r num_group">0/0</span><span class="f_r add_up_re_btn" style="display: none;"><i class="iconfont icon-xiugaichujia"></i><i class="iconfont icon-tianjia"></i>';#}
+		{#                            str += '<i class="iconfont icon-shanchu"></i></span></a></div>';#}
+		{#                            str += '<div id="collapse'+number+'" class="panel-collapse in" style="height:auto"><div class="panel-body" style="padding:0 0 8px 0"><ul class="cal_tree_ul wdgz_cal_tree_ul"  style="padding-left:0px"></ul></div></div></div>';#}
+		{#                        $("#accordion").append(str);#}
+		                }else{
+		                    window.alert(data.msg,4);
+		                }
+		            }
+		        })
+       }
+    })
+
+    //修改分组名称
+    $(document).on('click','.icon-xiugaichujia',function(){
+        var oldValue = $(this).parent().prev().prev().val();
+        var _this=this;
+        $(this).parent().prevAll('.name_span').css('display','none');
+        $(this).parent().prevAll('.edit_name_input').css('display','inline-block');
+        $(this).parent().prevAll('.edit_name_input').focus();
+        $(this).parent().prevAll('.edit_name_input').blur(function(){
+            var obj = this;
+            if($(this).val() == ''){
+                window.alert('请输入分组名称',4);
+                this.focus();
+                return ;
+            }
+            if($(this).val() == '未分组'){
+                window.alert('未分组只能有一个，请重新输入',4);
+                $(this).val('');
+                this.focus();
+                return ;
+            }
+            //判断分组名称有没改变
+            var newValue = $(this).val();
+            if(oldValue != newValue){
+                var groupId = $(this).parent().children('input:first').val();
+                var operateType = 'update';
+                //修改分组名称
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax_groupOperate",
+                    data: {"groupId": groupId, "groupName": newValue, "operateType": operateType},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.msg == "修改分组成功！") {
+                            $(_this).parent().prevAll('.name_span').html($(obj).val());
+                            $(_this).parent().prevAll('.name_span').css('display','inline-block');
+                            $(_this).parent().prevAll('.edit_name_input').css('display','none');
+                            $('#newGroupId').children('option[value='+groupId+']').text($(obj).val());
+                            $('#txlList').children('option[value='+groupId+']').text($(obj).val());
+                            $('#addGroupList').children('option[value='+groupId+']').text($(obj).val());
+                        } else {
+                            window.alert(data.msg,4);
+                        }
+                    }
+                })
+            }else{
+                $(_this).parent().prevAll('.name_span').css('display','inline-block');
+                $(_this).parent().prevAll('.edit_name_input').css('display','none');
+            }
+        })
+    })
+{#        //一级分组添加二级分组事件处理#}
+{#        $(document).on('click','.icon-tianjia',function(){#}
+{#            var _this = this;#}
+{#            var groupName = '未命名';#}
+{#            var groupType = '3';#}
+{#            var parentId = $(this).parent().parent().prev().val();#}
+{#            var parentName = $(this).parent().prev().prev().val();#}
+{#            var operateType = 'add';#}
+{#            $.ajax({#}
+{#                type: "POST",#}
+{#                url: "/ajax_groupOperate",#}
+{#                data: {"parentId": parentId, "groupName": groupName, "groupType": groupType, "operateType": operateType},#}
+{#                dataType: "json",#}
+{#                success: function (data) {#}
+{#                    if(data.msg == "新建分组成功！") {#}
+{#                        var em = '<input type="hidden" value="'+data.id+'"/><li><span class="name_span" >未命名</span><input type="text" id="" value="未命名"  class="edit_name_input" style="display: none;"/><span class="f_r num_group mt6">0</span>';#}
+{#                            em += '<span class="f_r add_up_re_btn" style="display:none"><i class="iconfont icon-xiugaichujia"></i><i class="iconfont icon-shanchu"></i></span></li>';#}
+{#                        //修改一级分类含有子分类数量#}
+{#                        var countStr = $(_this).parent().prev().text();#}
+{#                        var oldCount = countStr.split('/')[1];#}
+{#                        var newCountStr = countStr.split('/')[0] + '/' + (parseInt(oldCount) + 1);#}
+{#                        $(_this).parent().prev().text(newCountStr);#}
+{#                        $('#newGroupId').append('<option style="border: solid 1px red;" value="'+data.id+'">'+parentName+'----未命名</option>');#}
+{#                        $('#addGroupList').append('<option style="border: solid 1px red;" value="'+data.id+'">'+parentName+'----未命名</option>');#}
+{#                        $(_this).parent().parent().parent().next().children().children().append(em);#}
+{#                    }else{#}
+{#                        window.alert(data.msg);#}
+{#                    }#}
+{#                }#}
+{#            })#}
+{#        })#}
+        //删除分组
+        $(document).on('click','.icon-shanchu',function(){
+            if(confirm("你确定要删除该分组码？")){
+                var _this = this;
+                var groupId = $(this).parent().parent().children('input:first').val();
+                var operateType = 'delete';
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax_groupOperate",
+                    data: {"groupId": groupId, "operateType": operateType},
+                    dataType: "json",
+                    success: function (data) {
+                        if(data.msg == "删除分组成功！") {
+                            //把属于该分组的数据移到未分组中
+                            var childCount = $(_this).parent().prev().text();
+                            if(parseInt(childCount) > 0){
+                                var liList = $('#tableInfo').children('li').children('input[value="'+groupId+'"]');
+                                //设置未分组下的数量
+                                var noGroupId = '';
+                                $(".ml5").each(function(){
+                                    if($(this).text() == "未分组"){
+                                        var noGroup = $(this);
+                                        noGroupId = noGroup.prev().prev().val();
+                                        var own = noGroup.next().next().text();
+                                        noGroup.next().next().text(parseInt(own) + parseInt(childCount));
+                                    }
+                                });
+                                for(var m = 0;m < liList.length;m++){
+                                    liList.eq(m).val(noGroupId)
+                                }
+                            }
+{#                            if($(_this).parent().parent().attr('data-toggle')) {#}
+{#                                $(_this).parent().parent().parent().parent().remove();#}
+{#                            }else{#}
+{#                                var countObj = $(_this).parent().parent().parent().parent().parent().prev().children('a').children('span').eq(1)#}
+{#                                var countStr = countObj.text();#}
+{#                                var oldCount = countStr.split('/')[1];#}
+{#                                var newCountStr = countStr.split('/')[0] + '/' + (parseInt(oldCount) - 1);#}
+{#                                countObj.text(newCountStr);#}
+
+                            $('#newGroupId').children('option[value='+groupId+']').remove();
+                            $('#txlList').children('option[value='+groupId+']').remove();
+                            $('#addGroupList').children('option[value='+groupId+']').remove();
+
+                            $(_this).parent().parent().remove();
+{#                            }#}
+                        }else{
+                            window.alert(data.msg,4);
+                        }
+                    }
+                })
+            }
+        })
+        $(".message_Modal_box label").click(function(){
+            $(this).parent().remove()
+        })
+     function setOld(tid,id){
+         $("#oldGroupInfoId").val(id);
+
+         $("#cancelId").val(tid);
+     }
+{#         function yzemail(){#}
+{#                var t = $("#updateemail").val();#}
+{#                var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;#}
+{#                if (reg.test(t)) {#}
+{#                    document.getElementById("updatesubmit").disabled=false;#}
+{#                }else{#}
+{#                     document.getElementById("updatesubmit").disabled=true;#}
+{#                }#}
+{#          }#}
+{#        function tjsubmit(){#}
+{#            $("#delform").submit();#}
+{#         }#}
+    function countChar(textareaID,spanID,maxNum)
+                {
+                    //得到输入的字符的长度
+                var NowNum = document.getElementById(textareaID).value.length;
+                //判断输入的长度是否超过规定的长度
+                if(NowNum>maxNum)
+                {
+                   //如果超过就截取规定长度的内容
+                document.getElementById(textareaID).value = document.getElementById(textareaID).value.substring(0,maxNum);
+                }
+                else
+                {
+                    //得到当前的输入长度并且显示在页面上
+                document.getElementById(spanID).innerHTML = NowNum;
+                }
+                }
+                //得到当前的输入长度并且显示在页面上
+                function SetLength(textareaID,spanID)
+                {
+                var NowNum = document.getElementById(textareaID).value.length;
+
+                document.getElementById(spanID).innerHTML = NowNum;
+                }
+
+                function PageInit()
+                {
+                    SetLength('updateRemark','counter1');
+                    SetLength('newRemark','counter2');
+                }
+	</script>
+</body>
+</html>

@@ -1,0 +1,456 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link href="http://at.alicdn.com/t/font_1451985787_9008727.css" rel="stylesheet" type="text/css">
+<script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+<style type="text/css">
+    #changType span{
+        display:inline-block;
+        width:50%;
+        text-align:center;
+        height:39px;
+        line-height: 39px;
+        font-size:1.3em;
+    }
+    #changType span.active{
+        background-color:#147027;
+        color:#fff;
+    }
+    .zsp_job_li_title h3 {
+    margin-right: 30px;
+    margin-top:5px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #002a3f;
+    font-weight: normal;
+    line-height: 20px;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+.zsp_job_li_buttom{margin-top: 10px;text-align: center;min-height: 32px;}
+.zsp_job_li_buttom span{width:auto;border-radius:5px;border:1px solid #999;line-height:25px;height:25px;display:inline-block;text-align:center;color:#333;margin:5px 3px; }
+.zsp_job_list_li{display:none;}
+.zsp_job_list_li.active{display:block;padding-bottom:25px;}
+</style>
+<style type="text/css">
+    .zsp_job_li_top {
+        overflow: visible;
+    }
+    #changType span{
+        display:inline-block;
+        width:50%;
+        text-align:center;
+        height:39px;
+        line-height: 39px;
+        font-size:1.3em;
+    }
+    #changType span.active{
+        background-color:#147027;
+        color:#fff;
+    }
+    .zsp_job_li_title h3 {
+    margin-right: 30px;
+    margin-top:5px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #002a3f;
+    font-weight: normal;
+    line-height: 20px;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+.zsp_job_li_h .iconfont {
+    font-size: 14px;margin-right: 2px;margin-left: 10px;
+}
+.zsp_job_li_tit_other span{color:#333;font-size: 13px;}
+.zsp_job_li_h h3{font-weight: bold;}
+.zsp_job_li_h h3 em {
+    float: none;
+    height: auto;
+    font-size: 14px;
+    color: #9daeb7;
+    font-style: normal;font-weight: normal;
+}
+.zsp_job_li_h h3 span {
+    width:auto; color:#ff8800 !important;border-radius: 5px;border: 1px solid #ff8800;font-size: 10px;padding:0px 5px;
+}
+.zsp_job_li_other_icon{
+    font-size: 13px;
+}
+.zsp_job_li_buttom{
+    margin-top: 5px !important;
+}
+.zsp_job_li_fang img{
+    margin-top: 5px;
+}
+.zsp_job_li_other.redPW{
+    margin-top: -5px !important;
+}
+.zsp_job_li_buttom{margin-top: 10px;text-align: left;padding-left: 68px;}
+.zsp_job_li_buttom span{padding:0px 3px;border-radius:5px;border:1px solid #e0e0e0;line-height:20px;height:20px;display:inline-block;text-align:center;color:#999;margin:5px 1px; font-size: 10px}
+.zsp_job_list_li{display:none;}
+.zsp_job_list_li.active{display:block;}
+</style>
+<script type="text/javascript">
+$(document).ready(function()
+{
+    $('.tuijian').click(function(){
+        $('.shareCur').fadeIn();
+    });
+    $('.shareCur').click(function(){
+        $('.shareCur').fadeOut();
+    });
+    
+    $("#clearkey").click(function () {
+        $("#key").val('');
+    });
+    $("#key").focus(function()
+    {
+        var patrn=/^(请输入关键字)/i;
+        var key=$("#key").val();
+        if (patrn.exec(key))
+        {
+            $("#key").val('');
+        }
+    });
+
+    var flag = true;
+    // if($(".zsp_job_list a").length<6){
+    //     $(".more").hide();
+    // }
+    $(window).scroll(function(){
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        if(scrollTop + windowHeight == scrollHeight){
+            //getMore执行之后，flag为false防止多次ajax
+            if(flag){
+               getMore();
+            }
+        }
+    });
+});
+</script>
+</head>
+<body>
+
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+    $('.zsp_header').remove();
+}
+</script>
+<div class="zsp_job_search_box">
+    <input type="hidden" id="talent" name="talent" value="">
+    <div class="zsp_jbo_search_select_val_box" style="display: none;">
+        <a href="javascript:;" class="zsp_jbo_search_select_val_remove" id="clearShowList"><i class="fa fa-times"></i></a>
+        <div class="zsp_jbo_search_select_vals">
+            <strong>搜索条件：</strong>
+            <span id="showListCity"></span>
+            <span id="showListExperience"></span>
+            <span id="showListJobs"></span>
+            <span id="showListEducation"></span>
+        </div>
+    </div>
+    <script type="text/javascript">
+        //            地区恢复
+        var citygetDistrictId = "";
+        var citygetSdistrictId = "";
+        var showCityHtm = "";
+        $.each(QS_city_parent, function(cindex, cval) {
+            if(cval) {
+                var citys = cval.split(",");
+                if(citys[0] == citygetDistrictId) {
+                    showCityHtm += citys[1]+"/";
+                }
+            }
+        });
+        if(citygetSdistrictId == "0") {
+            showCityHtm += "不限";
+        } else {
+            if(QS_city[citygetDistrictId]) {
+                var ccitysArray = QS_city[citygetDistrictId].split("|");
+                $.each(ccitysArray, function(scindex, scval) {
+                    if(scval) {
+                        var scitys = scval.split(",");
+                        if(scitys[0] == citygetSdistrictId) {
+                            showCityHtm += scitys[1];
+                        }
+                    }
+                });
+            }
+        }
+        $("#showListCity").html(showCityHtm);
+        //            工作经验恢复
+        var citygetExperienceId = "";
+        var showExperienceHtm = "";
+        $.each(QS_experience, function(windex, eval) {
+            if(eval) {
+                var experiences = eval.split(",");
+                if(experiences[0] == citygetExperienceId) {
+                    showExperienceHtm += experiences[1];
+                }
+            }
+        });
+        $("#showListExperience").html(showExperienceHtm);
+        //            职能恢复
+        var citygetTopclassId = "";
+        var citygetCategoryId = "";
+        var citygetSubclassId = "";
+        var showJobsHtm = "";
+        if(QS_jobs[citygetTopclassId]) {
+            var sjobsArray = QS_jobs[citygetTopclassId].split("|");
+            $.each(sjobsArray, function(sindex, sval) {
+                if(sval) {
+                    var sjobs = sval.split(",");
+                    if(sjobs[0] == citygetCategoryId) {
+                        showJobsHtm += sjobs[1]+"/";
+                    }
+                }
+            });
+        }
+        if(citygetSubclassId == "0") {
+            showJobsHtm += "不限";
+        } else {
+            if(QS_jobs[citygetCategoryId]) {
+                var tsjobsArray = QS_jobs[citygetCategoryId].split("|");
+                $.each(tsjobsArray, function(sindex, sval) {
+                    if(sval) {
+                        var tsjobs = sval.split(",");
+                        if(tsjobs[0] == citygetSubclassId) {
+                            showJobsHtm += tsjobs[1];
+                        }
+                    }
+                });
+            }
+        }
+        $("#showListJobs").html(showJobsHtm);
+        //            学历恢复
+        var citygetEducationId = "";
+        var showEducationHtm = "";
+        $.each(QS_education, function(windex, edval) {
+            if(edval) {
+                var educations = edval.split(",");
+                if(educations[0] == citygetEducationId) {
+                    showEducationHtm += educations[1];
+                }
+            }
+        });
+        $("#showListEducation").html(showEducationHtm);
+        $("#clearShowList").click(function(event) {
+            $("#showListCity").html("");
+            $("#showListExperience").html("");
+            $("#showListJobs").html("");
+            $("#showListEducation").html("");
+            $("#district").val("");
+            $("#sdistrict").val("");
+            $("#education").val("");
+            $("#topclass").val("");
+            $("#category").val("");
+            $("#subclass").val("");
+            $("#experience").val("");
+            var patrn=/^(请输入关键字)/i;
+            var key=$("#key").val();
+            if (patrn.exec(key))
+            {
+                key = "";
+            }
+
+            var district =$("#district").val();
+            var sdistrict =$("#sdistrict").val();
+
+            var experience =$("#experience").val();
+
+            var topclass =$("#topclass").val();
+            var category =$("#category").val();
+            var subclass =$("#subclass").val();
+            var talent =$("#talent").val();
+
+            var education =$("#education").val();
+
+            var url = "wap-resume-list.php";
+            window.location.href=url+"?key="+key;
+        });
+    </script>
+</div>
+
+
+<div id="wrapper" style="padding-top:0;">
+
+
+    <div class="zsp_job_list" id="scroller" style="padding-top:0;">
+    
+    
+        <div id="list" style="padding-top:0;">
+            {% comment %}职位分页信息{% endcomment %}
+        </div>
+
+    </div>
+</div>
+
+<div class="zsp_share_fidex shareCur">
+
+    <div class="zsp_share_box">
+        <div class="zsp_share_xz_icon"></div>
+        <strong>点击右上角菜单</strong>
+        <strong>将悬赏职位列表分享到朋友圈</strong>
+    </div>
+
+</div>
+
+
+<!--  <div class="zsp_resume_but_box load spe">
+    <a href="javascript:;" class="loading_more more">
+        <i class="fa fa-refresh"></i>
+        <span>正在努力为您加载...</span>
+    </a>
+   
+</div>  -->
+<div class="zsp_footer_fixed_height" style="height:auto"></div>
+
+<div id="resumePaginInfo" class="resumePaginInfo" style="display: none;"></div>
+
+
+
+
+<ul class="positionPaginInfo" id="positionPaginInfo" style="display: none"></ul>
+<script type="text/javascript" src="{{ STATIC_URL }}js/new_pagination.js"></script>
+<script type="text/javascript" src="/static/new_mobile/js/getInitial.js"></script>
+<script>
+    {% if source == "purchase" %}
+    var sql = ' and id in (select trv.new_resume_id from T_Resume_View trv where trv.pu_id = {{ pu.id }} and state=1)';
+    {% elif source == "collect" %}
+    var sql = ' and resume_status=1 and id in (select object_id from T_PU_Favorite where favorite_type=1 and pu_id= {{ pu.id }})';
+    {% else %}
+    var sql = ' and id in (select objectid from T_Message_Record where record_type=2 and receive_id="{{ pu.email|default:pu.id }}" and state=1)';
+    {% endif %}
+    var order = 'add_date desc'
+    console.log(sql);
+    var loadData = new pagin("positionPaginInfo", "V_Resume_Info", "",  sql, order, 7, "resumePagin", "loadData");
+
+
+//动态加载页面绑定数据
+function resumePagin(dataInfo) {
+    $(".zsp_resume_but_box").remove();
+    var html1= '';
+    $(dataInfo).each(function(i) {
+        var resume_type = '个人简历';
+
+        if(this.resume_source == 1)
+        {
+            html1 += '<a href="/mobile/company/detail_mate_resume?resume_id=' + this.id + '&source={{ source | default:'' }} " class="zsp_job_list_li active">';
+        }
+        else {
+            resume_type = '经纪人简历';
+            html1 += '<a href="/mobile/headhunter/detail_uploaded_resume?resume_id=' + this.id + '&source={{ source | default:'' }}" class="zsp_job_list_li active">';
+        }
+
+        html1 += '   <div class="zsp_job_li_top">';
+        html1 += '       <div class="zsp_job_li_fang"><img src="' + file_website + this.head_portrait + '" onerror="notfind(this, \'' + this.sex +'\',1)"></div>';
+        html1 += '       <div class="zsp_job_li_tit">';
+        html1 += '           <div class="zsp_job_li_h">';
+
+
+        var name = this.user_name;
+        if(this.sex == '女'){
+            html1 += '               <h3 style="width:86%!important">' + name + ' <i class="iconfont icon-comiisnv" style="color:#FFB062"></i>女';
+        } else {
+            html1 += '               <h3 style="width:86%!important">' + name + ' <i class="iconfont icon-nan" style="color:#1470B3"></i>男';
+        }
+
+        html1 += '            <span>'+resume_type+'</span></h3></div>';
+        html1 += '            <div class="zsp_job_li_tit_other">';
+        html1 +=         '<span style="margin-left:2px">' + (this.scurrently_postaion == null ? "":this.scurrently_postaion) + '</span>';
+
+        html1 += '            </div>';
+        html1 += '       </div>';
+        html1 += '   </div>';
+        html1 += '   <div class="zsp_job_li_other  redPW">';
+        var full_rate = this.integrity;
+        if($.trim(full_rate) == '' || full_rate == '&nbsp;') {
+            full_rate = 100;
+        }
+         html1 +='          <span style="position:absolute;color:#666;top:72px;text-align:center;left:23px">' + full_rate + '％<br>完整度</span>';
+        html1 += '       <div class="zsp_job_li_other_icon" style="color:#333;padding-left:68px;">';
+
+        var birth_year = this.birthday_year;
+        var age = 18;
+        if(birth_year != '') {
+            age = (new Date().getFullYear() - parseInt(birth_year));
+        }
+        if($.trim(this.scurrently_pacece) == "" | $.trim(this.scurrently_pacece)=="&nbsp;"){
+            this.scurrently_pacece = "";
+        }
+        else
+            this.scurrently_pacece = this.scurrently_pacece +"&nbsp;|&nbsp;";
+        if($.trim(this.sworkyear) == "" || $.trim(this.sworkyear)=="&nbsp;")
+            this.sworkyear = "";
+        else
+            this.sworkyear = this.sworkyear+"&nbsp;|&nbsp;";
+
+       if($.trim(this.sdiploma) == "" || $.trim(this.sdiploma)=="&nbsp;")
+            this.sdiploma = "";
+        else
+            this.sdiploma = this.sdiploma +"&nbsp;|&nbsp;";
+
+        html1 += '           '+ this.scurrently_pacece + this.sworkyear + this.sdiploma + age + '岁';
+        html1 += '       </div>';
+        html1 += '   </div>';
+        html1 += '</a>';
+
+    });
+    if(html1 != '') {
+        $(".zsp_footer_fixed_height").append(html1);
+    }
+}
+// 加载更多职位
+function next_page_position2() {
+    var $this_page_data = $(".resumePaginInfo .active");
+    var $end_page_data = $(".resumePaginInfo li:last");
+    if($this_page_data.attr('onclick') != $end_page_data.attr('onclick')) {
+        $this_page_data.next("li").click();
+    }else {
+        $(".zsp_resume_but_box").remove();
+    }
+}
+
+</script>
+<script type="text/javascript">
+{#    wx.config({#}
+{#        debug: false ,#}
+{#        appId: 'wx8a9b8a64aa7bb0e1',#}
+{#        timestamp: '1449889597',#}
+{#        nonceStr: '86MgPXiu8RSBlBtJ',#}
+{#        signature: '0d0c99231173528bf324f5cdfce5048323d59f41',#}
+{#        jsApiList: [#}
+{#            // 所有要调用的 API 都要加到这个列表中#}
+{#            'onMenuShareTimeline',#}
+{#            'onMenuShareAppMessage',#}
+{#            'onMenuShareQQ',#}
+{#            'onMenuShareWeibo',#}
+{#            'showMenuItems',#}
+{#            'hideMenuItems'#}
+{#        ]#}
+{#    });#}
+{#    wx.ready(function () {#}
+{#        function callback(){#}
+{#        }#}
+{#        var title = "最新悬赏招聘职位，推荐人才赚赏金";#}
+{#        var headimg="http://image.hijobs.cn/image/logo/55adaa3d9ab98.jpg";#}
+{#        var desc="【招手招聘】最新悬赏招聘职位，推荐人才赚赏金，热门悬赏职位持续更新中，快来推荐。";#}
+{#        var url=window.location.href;#}
+{#        WxShare.TimeLine(title, url, headimg, callback);#}
+{#        WxShare.AppMessage(title,desc,url,headimg,callback);#}
+{#        WxShare.SharedQQ(title,desc,url,headimg,callback);#}
+{#    });#}
+</script>
+</body>
+</html>

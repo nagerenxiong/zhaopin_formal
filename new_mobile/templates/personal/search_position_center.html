@@ -1,0 +1,215 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link href="http://at.alicdn.com/t/font_1452073348_6208189.css" rel="stylesheet" type="text/css">
+<script src="/static/js/lazyload.js"></script>
+<style type="text/css">
+    img{vertical-align: middle;}
+    .tag{margin-top:20px;}
+    .tag .row div{margin-bottom: 10px;}
+    .tag .row div span{border:1px solid #1470B3;height:39px;line-height: 39px;text-align: center;border-radius: 5px;width:90%;display:block;margin: 0 auto;font-size: 16px;}
+    .zsp_resume_header .t{text-align: center;color:#fff;padding-top: 10px;}
+    .zsp_resume_header div{text-align:center;color:#fff;line-height: 20px;}
+</style>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+</script><div class="zsp_user_center_main">
+    </div>
+   <div class="zsp_resume_header" style="margin-bottom:0px;">
+        <div class="zsp_resume_userhead" style="padding-bottom:0px;!important;">
+            <a href="/mobile/personal/info_edit" class="zsp_resume_edit_but">[编辑名片]</a>
+            <div class="zsp_userhead_img">
+                <div class="imgBorderBox">
+                    <input id="sctx" type="file" style="display: none;">
+                    <img id="o_logo" src="{{ request.session.file_website }}{{ pu.head_portrait | default:'' }}"  onerror="notfind(this,'{{ request.session.sex }}',1)">
+                    <input type="hidden" name="logo" value="{{ pu.head_portrait | default:'' }}"></div>
+                     <script>
+                        $(function(){
+                            $("#o_logo").click(function(event) {
+                                $("#sctx").click();
+                            });
+                        })
+                    </script>
+                </div>
+       </div>
+       <div>{{ pu.user_name | default:"" }}</div>
+       <div>{{ resume.scurrently_pacece | default:"" }} {{ resume.sex | default:"男" }} {{ resume.age | default:18 }}岁 {{ resume.sworkyear | default:"" }} {{ resume.sdiploma | default:"" }}</div>
+       <div><!--{{ resume.currently_company | default:"" }} --><span> {{ resume.scurrently_postaion | default:"" }}</span></div>
+       <div style="padding-bottom:5px!important;">
+          {% if resume.phone %}<span id="phone">电话:{{ resume.phone | default:"" }}</span>{% endif %}
+          {% if resume.email %}<span id="email">邮箱:{{ resume.email | default:"" }}</span>{% endif %}
+       </div>        
+    </div>
+  <!-- 简历完整度100% 则不显示 -->
+    {% if resume.integrity < 70 %}
+        <a class="index_hint" href="/mobile/personal/resume_edit?resume_id={{ resume.id }}">
+        <!-- 跳转到简历编辑页面， -->
+          请尽快完善您的简历信息，以免错过高薪职位
+          <img src="/static/new_mobile/images/lawyer_down1.png" alt="">
+        </a>
+    {% endif %}
+    
+    <div class="zsp_uc_list_box">
+    	<a href="/mobile/personal/preview_resume?resume_id={{ resume.id }}" class="zsp_uc_list_1">
+        	<div class="zsp_uc_list_text">
+                <strong>我的简历</strong>
+            </div>
+        </a>
+    	<a href="/mobile/personal/follow_recruit_status" class="zsp_uc_list_2">
+        	<div class="zsp_uc_list_text">
+                <strong>我投递的职位</strong>
+            </div>
+{#            <i>●</i>#}
+        </a>
+    	<a href="/mobile/personal/position_invite" class="zsp_uc_list_3">
+        	<div class="zsp_uc_list_text">
+                                <strong>职位收藏</strong>
+            </div>
+        </a>
+    </div>
+</div>
+
+<a href="/mobile/reward_position" class="common_tit_box" style="margin-top:10px;"><span><i class="fa fa-angle-right"></i></span><strong style="color:#8493a8">发现更多机会</strong></a>
+
+
+
+<div id="wrapper" style="padding-top:0;">
+
+
+    <div class="zsp_job_list" id="scroller" style="padding-top:0;">
+    
+        <div id="list" style="padding-top:0;">
+            {% if position_list %}
+                {% for position in position_list %}
+
+                    <a href="/mobile/personal/position_detail?position_id={{ position.id }}" class="zsp_job_list_li">
+                            <div class="zsp_job_li_top">
+                                <div class="zsp_job_li_fang">
+                                    <img class="lazy" src="{{ request.session.file_website }}{{ position.pc_logo }}" onerror="notfindimg(this)" width="48" heigh="48"></div>
+
+                                <div class="zsp_job_li_tit">
+                                    <div class="zsp_job_li_h">
+                                        <span><i class="fa fa-angle-right"></i></span>
+                                        <h3>
+                                            {{ position.position_name | default:'' }}
+
+                                        </h3>
+
+                                        <!--<div class="hotJob">置顶</div>
+                                        <div class="xuanshang">悬赏</div>
+                                        <div class="tuijian">推荐</div>-->
+                                    </div>
+                                    <div class="zsp_job_li_tit_other">
+                                        {{ position.pc_name | default:'' }}
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="zsp_job_li_other  ">
+                                <div class="zsp_job_li_other_icon">
+                                    <i class="fa fa-map-marker"></i>
+                                    <span>{{ position.work_areaname | default:'' }}</span>
+                                </div>
+                                <div class="zsp_job_li_other_icon">
+                                    <i class="fa fa-jpy"></i>
+                                    <span>{{ position.payname | default:'' }}</span>
+                                </div>
+                                <div class="zsp_job_li_other_icon">
+                                    <i class="fa fa-graduation-cap"></i>
+                                    <span>{{ position.diplomaname | default:'' }}</span>
+                                </div>
+                                <div style="float:right;color:#002a3f">匹配度:{{ position.auto_prace }}%</div>
+                            </div>
+                    </a>
+                {% endfor %}
+            {% endif %}
+            <!--zsp_job_list_li -->
+        </div>
+         <div class="zsp_resume_but_box">
+            <a href="/mobile/reward_position" id="jobMore" class="zsp_resume_but_4 more">查看更多</a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+       //上传头像功能
+$("#sctx").on("change", fOnChange);
+function fOnChange(){
+  var oFile = this.files[0],
+    sName = this.files[0].fileName,
+    sFileType = oFile.type;
+    var nSize = 0,
+    nModTime;
+  // Android下读不到type信息，从文件名中解析
+
+  // if(!sFileType){
+  //   sFileType = "image/" + sName.split(".").pop().toLowerCase();
+  // }
+photoExt=sFileType.substr(sFileType.lastIndexOf(".")).toLowerCase();//获得文件后缀名
+  // 读取文件大小、修改时间等信息
+  var oUploadInfo = {
+    name : oFile.name || oFile.fileName,
+    size : oFile.size/1000 || oFile.fileSize/1000,
+    blob : oFile,
+    type : oFile.type
+  };
+  //图片大小限制单位kb
+  // if(oUploadInfo.size>30){
+  //   alert("图片不能大于30kb");
+  //   return false;
+  // }
+if(oUploadInfo.type !="image/png" && oUploadInfo.type !="image/jpg" && oUploadInfo.type !="image/jpeg" && oUploadInfo.type !="image/gif"){
+  alert(["图片支持jpg、jpeg、gif、png格式",2]);
+  return false;
+}
+var oImg = $("#o_logo");//接收图片的DOM元素
+
+// 使用FileReader读取
+var oReader = new FileReader();
+oReader.onload = function(e){
+  var sBase64 = e.target.result;
+  // 部分Android下base64字符串格式不完整
+  if(window.gIsAndroid && sBase64.indexOf("data:image/") != 0){
+    var sMime = sName.split(".").pop().toLowerCase();
+    sBase64 = sBase64.replace("base64,", "image/" + sMime + ";base64,");
+  }
+  oImg.attr('src', sBase64);
+     // 上传头像
+  upload_head_portrait(sBase64);
+  sBase64 = null;
+}
+oReader.readAsDataURL(oFile);
+}
+
+function upload_head_portrait(fileContent) {
+    var contentStart = 'data:image';
+    var fileContentArray = fileContent.split(contentStart);
+    if(fileContentArray.length != 2) {
+        alert(['您上传的图片不合法',2]);
+        return false;
+    }
+    $.ajax({
+        async: false,
+        type: 'post',
+        data: {'fileContent': fileContentArray[1], 'resume_id': '{{ resume.id }}', 'type': 2},
+        url: '/mobile/ajax_upload_resume_headPortrait',
+        dataType: 'json',
+        success: function(data) {
+            if(data == 'err') {
+                alert(['头像上传失败',2])
+            }
+        }
+    })
+}
+</script>
+</body></html>

@@ -1,0 +1,264 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/new_pocomm_seach.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style2.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css">
+
+<script>
+  $(function(){
+        BusinessulControls("businessulDiv1","{{ tri.sexpect_industry | default:"" }}","{{ tri.expect_industry | default:"" }}",
+                'width:300px;margin-top:5px;height:auto;font-size:14px;');
+        PositionControls("positionDiv1","{{ tri.sexpect_position | default:"" }}","{{ tri.expect_position | default:"" }}",
+                'width:300px;margin-top:5px;height:auto;font-size:14px;', true);
+
+    })
+</script>
+<style>
+  #PositionSearchControls{
+    display: none;
+  }
+</style>
+<script type="text/javascript" >
+       $(function () {
+                $(".ssxl").click(function() {
+            if ($(this).find('ul').css("display") == "none") {
+                $(this).find('ul').slideDown(150);
+            } else {
+            $(this).find('ul').slideUp(150);
+            }
+    });
+         $(".ssxl ul").children('li').click(function(){
+            $(".ssxl ul").slideUp(150);
+            var zw=$(".ssxl").children("span").text();
+            $(".ssxl").children("span").text($(this).text());
+            $(this).text("");
+            if(zw == '公司'){
+                $('.gsss_r_t2').css('display', '');
+                $('#heclear').css('display', 'none');              
+                $('#condition').attr('placeholder', '请输入职位关键字');
+            }else{
+                
+                $('.gsss_r_t2').css('display', 'none');
+                $('#heclear').css('display', 'block');
+                $('#condition').attr('placeholder', '请输入公司关键字');
+            }
+            $(this).text(zw);
+         })       
+        });
+</script>
+<div class="nav2" style="width:1018px!important;">
+    {% include 'jobs/system/menu_position.html' %}
+</div>
+<div class="clear">3</div>
+<div class="clear">1</div>
+
+<div style="height:25px; clear:both;"></div>
+<div class="main">
+  <div class="s_condition">
+    <div class="sctop">
+    <input type="hidden"  id="edit_expect_industry" value="{{ resume.expect_industry }}">
+      <div id="businessulDiv1" class="industry" onclick="BusinessulControlsShow(3,this)"></div>
+            <input type="hidden">
+      <div id="positionDiv1" class="industry" onclick="PositionControlsShow(5,this)"></div>
+            <input type="hidden">
+    </div>
+    <div id="positionmid">
+      <!-- 搜索筛选 -->
+      <ul class="category_ds">
+        <div class="details">
+          <li id="age_scope">
+            <span>年薪范围：</span>
+            <a href="javascript:void(0);" data-value="" class="active">不限</a>
+            {% if salarys %}
+                {% for salary in salarys %}
+                    <a href="javascript:void(0);" data-value="{{ salary.dictionary_value }}">{{ salary.dictionary_name }}</a>
+                {% endfor %}
+            {% endif %}
+          </li>
+          <li id="work_ex">
+            <span class="title">工作经验：</span>
+            <a href="javascript:void(0);" data-value="" class="active">不限</a>
+            {% if workyears %}
+                {% for workyear in workyears %}
+                    <a href="javascript:void(0);" data-value="{{ workyear.dictionary_value }}">{{ workyear.dictionary_name }}</a>
+                {% endfor %}
+            {% endif %}
+          </li>
+          <li id="ed_re">
+            <span class="title">学历要求：</span>
+            <a href="javascript:void(0);" data-value="" class="active">不限</a>
+            {% if diplomas %}
+                {% for diploma in diplomas %}
+                    <a href="javascript:void(0);" data-value="{{ diploma.dictionary_value }}">{{ diploma.dictionary_name }}</a>
+                {% endfor %}
+            {% endif %}
+          </li>
+          <li id="job_nat">
+            <span class="title">工作性质：</span>
+            <a href="javascript:void(0);" data-value="" class="active">不限</a>
+            {% if worktypes %}
+                {% for worktype in worktypes %}
+                    <a href="javascript:void(0);" data-value="{{ worktype.dictionary_value }}">{{ worktype.dictionary_name }}</a>
+                {% endfor %}
+            {% endif %}
+          </li>
+          <li id="re_time">
+            <span class="title">发布时间：</span>
+            <a href="javascript:void(0);" data-value="" class="active">不限</a>
+            {% if publishDates %}
+                {% for publishDate in publishDates %}
+                    <a href="javascript:void(0);" data-value="{{ publishDate.dictionary_value }}">{{ publishDate.dictionary_name }}</a>
+                {% endfor %}
+            {% endif %}
+          </li>
+          </div>
+
+          <li id="choice_re" class="dn">
+            <span class="title">年薪范围：</span>
+            <a href="#" class="active" id="nx">5万以下</a>
+            <span class="title">工作经验：</span>
+            <a href="#" class="active" id="gzjl">不限</a>
+            <span class="title">学历要求：</span>
+            <a href="#" class="active" id="xl">高中及以下</a>
+            <span class="title">工作性质：</span>
+            <a href="#" class="active" id="xz">全职</a>
+            <span class="title">发布时间：</span>
+            <a href="#" class="active" id="fbt">一个月内</a>
+          </li>
+  
+          <li>
+            <span class="title">工作地点：</span>
+            <div class="choice_city">
+              <p class="city_p" data-value="">选择省份
+                <img src="{{ STATIC_URL }}images/new_images/xjt.png" alt=""></p>
+              <ul class="xl_mes">
+                <li value="">不限</li>
+                {% if areaes %}
+                    {% for area in areaes %}
+                        <li value="{{ area.dictionary_value }}">{{ area.dictionary_name }}</li>
+                    {% endfor %}
+                {% endif %}
+              </ul>
+            </div>
+            <div class="choice_city ml15">
+              <p class="city_p" data-value="">选择地市
+                <img src="{{ STATIC_URL }}images/new_images/xjt.png" alt=""></p>
+              <ul class="xl_mes">
+                <li value="">不限</li>
+              </ul>
+            </div>
+          </li>
+       
+      </ul>
+      <div class="seach_des" style="width:600px!important">
+        <div class="gsss_r_t1 ">
+          <div class="ssxl ss_div"><span>职位</span> <img style="margin-left:5px;" src="/static/images/h_xjt.gif">
+                    <ul style="display: none;">
+                        <li>公司</li>
+                    </ul>
+                </div>
+          <input class="ss_input" type="text" placeholder="请输入职位关键字" id="condition" style="float:left;vertical-align: top; width:360px!important;" onkeydown="judgeEntry(event)" maxlength="50" value=''>
+          <a class="ss_anniu" href="javascript:void(0);" onclick="queryData()">搜索</a>
+        </div>
+        <div class="gsss_r_t2">
+          <span>热搜关键词：</span>
+          <ul>
+            <li>
+              <a href="javascript:void(0);" onclick="hotJobQuery(this)">市场推广</a>
+            </li>
+            <li>
+              <a href="javascript:void(0);" onclick="hotJobQuery(this)">测试</a>
+            </li>
+            <li>
+              <a href="javascript:void(0);" onclick="hotJobQuery(this)">运营</a>
+            </li>
+            <li>
+              <a href="javascript:void(0);" onclick="hotJobQuery(this)">产品助理</a>
+            </li>
+            <li>
+              <a href="javascript:void(0);" onclick="hotJobQuery(this)">网页设计</a>
+            </li>
+          </ul>
+        </div>
+        <div style="height:40px; clear:both; display:none;" id="heclear"></div>
+      </div>
+      <div class="sh_submit">收起<i></i></div>
+    </div>
+    <div id="res_des">
+      <div class="sere_nav">
+        <div class="result_left">
+          搜索结果： 共
+          <span id="resultCount">0个</span>
+          职位
+          <div   class="type_position position_select" data-key="" data-value="职位类型"><span>
+              职位类型
+            </span>
+            <ul class="selectControlList zwxl">
+              <li data-key="" >不限</li>
+              <li data-key="1" >企业直招</li>
+              <li data-key="2" >经纪人发布</li>
+            </ul>
+          </div>
+         <div   class="is_reward  position_select" data-key="" data-value="是否悬赏"><span>
+              是否悬赏
+            </span>
+            <ul class="selectControlList zwxl">
+              <li data-key="" >不限</li>
+              <li data-key="1" >悬赏职位</li>
+              <li data-key="2" >非悬赏职位</li>
+            </ul>
+          </div>
+        </div>
+        <div class="page_right">
+          <i class="left_icon" onclick="pageTurn('up')" style="cursor: pointer;"></i>
+          <span>0</span>
+          /<b>0</b> <i class="right_icon" onclick="pageTurn('down')" style="cursor: pointer;"></i>
+        </div>
+      </div>
+    <div id="noSendData" class="noSendData" style="display: none;">
+        <div>
+            <p>暂无匹配的搜索结果</p>
+        </div>
+    </div>
+    <ul class="sea_list">
+
+    </ul>
+</div>
+  </div>
+  <div class="lthy_pager" id="paginInfo" style="margin-top:80px">
+       </div>
+
+</div>
+
+<input type="hidden" id="pu_id" value="{{ pu.id }}" />
+<input type="hidden" id="phone" value="{{ pu.phone|default:'' }}" />
+<input type="hidden" id="email" value="{{ pu.email|default:'' }}" />
+<input type="hidden" id="operateIndex" />
+<input type="hidden" id="positionId" />
+<input type="hidden" id="sourceId" />
+<input type="hidden" id="initData" value="{{ condition }}" />
+<input type="hidden" id="viewSql" value="{{ viewSql }}" />
+<script type="text/javascript">
+  $(".type_position").select({
+        width: '120px',
+        height: '30px'
+    });
+   $(".is_reward").select({
+        width: '120px',
+        height: '30px'
+    });
+    $(function(){
+      $('.selectControlList').mouseleave(function(event) {
+          $(this).slideUp(150);
+      });
+   })
+</script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/deliverResumes.js"></script>
+<script src="{{ STATIC_URL }}appJs/headhunter/new_agent_seach.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/forwardposition.js"></script>
+
+{% include 'jobs/system/new_footer.html' %}
+

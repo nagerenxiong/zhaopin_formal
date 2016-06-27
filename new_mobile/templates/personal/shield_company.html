@@ -1,0 +1,248 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+    .pbList{margin-top: 10px;}
+    .pbList span{display:inline-block;padding:5px 10px;border:1px solid #999;border-radius:5px;margin:0 5px 10px 5px;}
+    .ac ul{
+            height: 200px;
+    overflow: auto;
+    text-indent: 16px;
+    }
+</style>
+<script src="/static/js/jquery.autocomplete.min.js"></script>
+<style>
+.addPb .addInput{padding-left:0px;}
+.addPb .addInput input{text-indent: 15px;}
+.addInput{position: relative;}
+.addPb{overflow: visible;}
+    .ac{
+    text-align: left;border:1px solid #E0E0E0;background-color: #FFF;
+        position: absolute;right:-20px;z-index: 2;width:100%;margin-left: -1px;
+        max-height: 400%;overflow: auto;display: none;left:16px;
+}
+.custom{
+     height:30px;line-height: 30px;padding-right: 20px;
+}
+.custom div{
+    height:30px !important;line-height: 30px !important;max-height: none !important;
+}
+ .custom:hover{
+        color:#FFF;background-color: #5c91d9;
+    }
+</style>
+</head>
+<body>
+<input type="hidden" id="resume_id" value="{{ resume_id }}">
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+    $('.zsp_header').remove();
+}
+</script>
+<!-- 隐私设置页面 -->
+<div class="pbRTitle">简历名称：{{ resume.user_name | default:'' }}</div>
+<div class="pbCompany">
+    <div class="pbTilte">屏蔽企业</div>
+    <div class="pbInfo">
+        <div class="pbList" id="company_list">
+            {% if filter_tpcList %}
+                {% for filter_tpc in filter_tpcList %}
+                    <span data-id="{{ filter_tpc.id|default:'' }}"  onclick="close_company(this)">{{ filter_tpc.pc_name }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="addPb clearfix">
+            <div class="addInput">
+                <input onKeyDown="setAutoComplete_company()" onKeyUp="setAutoComplete_company()" type="text" name="comkeyword" id="add_input">
+                <input type="hidden"  value="" id="dataId_company" ></div>
+            <div class="addBut" id="add_shield_company">确定屏蔽</div>
+        </div>
+        <div class="pbTilte"style="margin-top: 20px;">屏蔽经纪人</div>
+        <div class="pbList" id="hadhunt_list">
+            {% if filter_tpuList %}
+                {% for filter_tpu in filter_tpuList %}
+                    <span data-id="{{ filter_tpu.id|default:'' }}"  onclick="close_hadhunt(this)">{{ filter_tpu.user_name }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="addPb clearfix">
+            <div class="addInput">
+                <input onKeyDown="setAutoComplete_hadhunt()" onKeyUp="setAutoComplete_hadhunt()" id="lt_add_input" type="text" name="comkeyword" >
+                <input type="hidden" value="" id="dataId_hadhunt"></div>
+
+            <div class="addBut" id="add_shield_headhunter">确定屏蔽</div>
+        </div>
+    </div>
+</div>
+
+<div class="zsp_resume_but_box">
+    <a href="/mobile/personal/resume_edit?resume_id={{ resume_id }}" class="zsp_resume_but_3">返回简历编辑</a>
+</div>
+<script>
+function setAutoComplete_company() {
+        $.ajax({
+            type: "POST",
+            url: "/jobs/resume/ajax_getAllCompanyInfo",
+            dataType: "json",
+            success: function(data) {
+                $("#add_input").AutoComplete({
+                    'data': data,
+                    'itemHeight': 20,
+                    'width': 'auto',
+                    'afterSelectedHandler': function(data) {
+                        if($("#company_list span[data-id=" + data.label+ "]").length == 0) {
+{#                            $("#add_input").next().val(data.label);#}
+                            $("#dataId_company").val(data.label);
+                            $("#company_list").append('<span onclick="close_company(this)" data-id=' + data.label +' >' + data.value + '</span>')
+                        } else {
+                            alert(['您已选择过滤该企业']);
+                        }
+                        $("#add_input").val('');
+                    },
+                    'listStyle': 'custom',
+                    'emphasis': false,
+                    'createItemHandler': function(index, data) {
+                        return data.value; // 文本显示为绿色，并在前后使用'--'包裹
+                    }
+
+                }).AutoComplete('show');
+            }
+        });
+    }
+//自动查找经纪人
+function setAutoComplete_hadhunt() {
+        $.ajax({
+            type: "POST",
+            url: "/jobs/resume/getAllPuInfo",
+            dataType: "json",
+            data: {
+                account_type: "3,5"
+            },
+            success: function(data) {
+                $("#lt_add_input").AutoComplete({
+                    'data': data,
+                    'itemHeight': 20,
+                    'width': 'auto',
+                    'afterSelectedHandler': function(data) {
+                        $("#lt_add_input").next().val(data.label);
+
+                        if($("#hadhunt_list span[data-id=" + data.label+ "]").length == 0) {
+{#                            $("#add_input").next().val(data.label);#}
+$("#hadhunt_list").append('<span onclick="close_hadhunt(this)" data-id=' + data.label +' >' + data.value + '</span>')
+                        } else {
+                            alert(['您已选择过滤该经纪人']);
+                        }
+                        $("#lt_add_input").val('');
+
+                    },
+                    'listStyle': 'custom',
+                    'emphasis': false,
+                    'createItemHandler': function(index, data) {
+                        return data.value; // 文本显示为绿色，并在前后使用'--'包裹
+                    }
+                }).AutoComplete('show');
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    var shield_type = '添加';
+     //添加屏蔽企业
+    $("#add_shield_company").click(function(){
+        var val_list = "";
+        var company_list_box=$("#company_list");
+        var length = company_list_box.children('span').length;
+        company_list_box.children("span").each(function() {
+            if (val_list == '') {
+                val_list = $(this).attr("data-id");
+            } else {
+                val_list += "," + $(this).attr("data-id");
+            }
+        });
+        if (length > 12) {
+            alert(["只能同时过滤12个企业"]);
+            return;
+        }
+        if($('#dataId_company').val() !=""){
+         $.ajax({
+            type: "POST",
+            url: "/mobile/ajax_update_resume_filter",
+            data: {"resume_id": $("#resume_id").val(), "filter_ids": val_list, "type": 1},
+            dataType: "json",
+            success: function(data) {
+                if(data=="ok"){
+                    alert([shield_type + "屏蔽企业成功！"])
+                }else if(data=="err"){
+                    alert([shield_type + "屏蔽企业失败！"]);
+                }
+                shield_type = '添加';
+            }
+        });
+        }
+        else{
+             alert(["请选择要屏蔽的企业！"]);
+             return;
+        }
+    });
+    //删除 屏蔽
+   function close_company(_this){
+       shield_type = '删除';
+       $('#dataId_company').val($(_this).text());
+       $(_this).remove();
+       $("#add_shield_company").click();
+   }
+     //添加屏蔽经纪人
+    $("#add_shield_headhunter").click(function() {
+        var val_list = "";
+        var hadhunt_list_box = $("#hadhunt_list");
+        var length = hadhunt_list_box.children('span').length;
+        hadhunt_list_box.children("span").each(function () {
+            if (val_list == '') {
+                val_list = $(this).attr("data-id");
+            } else {
+                val_list += "," + $(this).attr("data-id");
+            }
+        });
+
+
+        if (length > 12) {
+            alert(["只能同时过滤12个经纪人"]);
+            return;
+        }
+        if($('#dataId_hadhunt').val() !="")
+        {
+            $.ajax({
+                type: "POST",
+                url: "/mobile/ajax_update_resume_filter",
+                data: {"resume_id": $("#resume_id").val(), "filter_ids": val_list, "type": 2},
+                dataType: "json",
+                success: function (data) {
+                    if (data == "ok") {
+                        alert([shield_type + "屏蔽经纪人成功！"])
+                    } else if (data == "err") {
+                        alert([shield_type + "屏蔽经纪人失败！"]);
+                    }
+                    shield_type = '添加';
+                }
+            });
+        }
+        else{
+            alert(["请选择要屏蔽的经纪人"]);
+        }
+    })
+function close_hadhunt(_this){
+    shield_type = '删除';
+    $('#dataId_hadhunt').val($(_this).text());
+    $(_this).remove();
+    $("#add_shield_headhunter").click();
+}
+</script>
+</body>
+</html>

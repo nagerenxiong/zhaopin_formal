@@ -1,0 +1,437 @@
+<!DOCTYPE HTML>
+<html>
+	<!-- Added by HTTrack -->
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<!-- /Added by HTTrack -->
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<title>注册</title>
+	<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+	<script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js" ></script>
+	<script src="{{ STATIC_URL }}js/radio.js"></script>
+	<script src="{{ STATIC_URL }}js/Validform_v5.3.2.js"></script>
+	<script src="{{ STATIC_URL }}js/bootstrap.min.js" ></script>
+	<script src="{{ STATIC_URL }}js/common.js"></script>
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+	<script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<script>
+	$(document).ready(function() {
+		$(".registed").Validform({tiptype:2});
+	});
+    var timer = null;
+    var alertFram;
+    window.alert = function(txt) {
+        clearInterval(timer);
+        timer =setInterval(function() {
+            if ($("#alertFram")[0]) {
+                $("#alertFram").remove();
+                clearInterval(timer);
+            }
+        }, 3000)
+        alertFram = $('<div id="alertFram" style="color:#ed4f30;font-size:14px;padding:0px 0px 0px 30px;height:40px;background-color:#fff3de;border:1px solid #ffddc1;position:fixed;left:50%;z-index:10001;text-align:center;line-height:40px;top:0">' + txt + '<img onclick="$(this).parent().remove()" src="../../static/images/x_03.png" style="float:right;cursor:pointer;margin-left:10px;margin-top:14px;margin-right:10px" width="12" height="12"></div>')
+        if ($("#alertFram")[0]) {
+            return;
+        }
+        $("body").append(alertFram);
+        var width=parseInt(alertFram.css('width'));
+        alertFram.css('margin-left', '-'+width/2+'px');
+    }
+  </script>
+  <script type="text/javascript">
+  var timer = null;
+    var alertFram;
+    window.alert = function(txt) {  
+        clearInterval(timer);
+        timer =setInterval(function() {
+            if ($("#alertFram")[0]) {               
+                $("#alertFram").remove();
+                clearInterval(timer);
+            }       
+        }, 3000)
+        alertFram = $('<div id="alertFram" style="color:#ed4f30;font-size:14px;padding:0px 0px 0px 30px;height:40px;background-color:#fff3de;border:1px solid #ffddc1;position:fixed;left:50%;z-index:10001;text-align:center;line-height:40px;top:0">' + txt + '<img onclick="$(this).parent().remove()" src="../../static/images/x_03.png" style="float:right;cursor:pointer;margin-left:10px;margin-top:14px;margin-right:10px" width="12" height="12"></div>')        
+        if ($("#alertFram")[0]) {
+            return;
+        }           
+        $("body").append(alertFram);  
+        var width=parseInt(alertFram.css('width'));       
+        alertFram.css('margin-left', '-'+width/2+'px');              
+    }    
+</script>
+</head>
+<style>
+	html,body{width:100%;height: 100%;}
+</style>
+<body>
+	<!-- 顶部 -->
+	<!-- <div class="re_top">
+		<div class="center">
+			<img src="{{ STATIC_URL }}images/logo.png" alt=""></div>
+	</div> -->
+	<!-- 顶部 -->
+	<!-- banner图 -->
+	<div style="height:100%;width:100%;overflow:hidden;" class="re_banner">
+			<h1>本周已有<div id="num_box" style="display:inline-block"></div>人在许愿树许愿</h1>
+		<div class="re_form_box">
+			<dl class="re_form_container">
+				<dt class="clearfix">
+					<div class="f_r re_form_title_r" style="margin-top: 30px;">
+{#						<a href="#" target="_blank" class="c_a6 fz14">已有账号？</a>#}
+						<a href="/system/general_logins" class="fc fz14"><span class="c_a6 fz14" style="vertical-align: middle;">已有账号？</span><span  style="vertical-align: middle;">立即登录</span>
+						<i class="icon-fangxiang2 iconfont" style="vertical-align: middle;"></i>
+						</a> 
+
+					</div>
+					<div class="f_l" style="padding-top:10px;">
+						<a href="/jobs/index"><img src="{{ STATIC_URL }}images/login_logo.gif" alt="" class="va_bottom"></a>
+						<a href="#" target="_blank" class="c_3a fz20" style="line-height: 30px;">会员注册</a>
+					</div>
+				</dt>
+				<dd class="clx" style="display: block">
+					<ul class="nav nav-tabs">
+						<li class="{% if accounttype == 1 %}active{% else %}mr_clear{% endif %}" >
+							<a class="clx_li_activpe"  data-toggle="tab" onclick="changeRegistType('1')">我是人才方</a>
+						</li>
+						<li class="{% if accounttype == 3 %}active{% else %}mr_clear{% endif %}">
+							<a data-toggle="tab" onclick="changeRegistType('3')">我是人才经纪人</a>
+						</li>
+						<li class="{% if accounttype == 4 %}active{% else %}mr_clear{% endif %}">
+							<a data-toggle="tab" onclick="changeRegistType('4')">我是企业方</a>
+						</li>
+					</ul>
+					</dd>
+					<dd style="margin-top: 20px;">
+					<div  class="tab-content">
+						<div class="tab-pane  in active" id="qzz">
+							<form class="registed" method="post" action="/system/generalRegister">
+                                {% csrf_token %}
+                                <input type="hidden" name="account_type" value="{{ accounttype }}" />
+                                <input type="hidden" name="remark" value="{{ remark | default:'' }}" />
+								<dl>
+									<div>
+										<input class="inputxt" data-type="account" type="text" id="account" name="account"  value="{{ account }}" datatype="e-m" placeholder="请输入邮箱/手机号"   />
+									</div>
+									<div class="ml15">
+									<i></i>
+										<span class="Validform_checktip" name="validateAccountSpan">请用邮箱或手机号码注册！</span>
+									</div>
+								</dl>
+								<dl>
+									<div>
+										<input type="password" maxlength="16" oncopy="return false;" onpaste="return false;" oncut="return false;" name="password" datatype="*6-16" placeholder="请输入密码"  value="{{ password }}" ></div>
+									<div class="ml15">
+									<i></i>
+										<span class="Validform_checktip">请输入登录密码，6-16位字符!</span>
+									</div>
+								</dl>
+								<dl >
+									<div>
+										<input type="password" maxlength="16" oncopy="return false;" onpaste="return false;"  oncut="return false;" name="userpassword2"  recheck="password" datatype="*6-16"  value="{{ password }}" placeholder="请再次输入密码"   ></div>
+									<div class="ml15">
+									<i></i>
+										<span class="Validform_checktip">请确认登录密码，6-16位字符!</span>
+									</div>
+								</dl>
+								<dl style="display: none;position: relative;" id="fyzm" >
+									<div>
+										<input id="yzm" name="code" type="text" style="width: 150px;" placeholder="请输入校验码"   >
+										<input id="fs"  onclick="smsValidation()" type="button" value="发送校验码">
+										<!-- <div id="ssyzm" style="display:none;">
+											<h1>手机验证</h1>
+											<input id="mobile_captcha" type="text" class="txt">
+{#											<img src="/code/">#}
+                                            <span style="cursor: pointer;" class="tip" onclick="GetRandomNum()"  title="点击刷新验证码" id="mobile_captcha_lable" ></span>
+											<input value="" id="mobile_captcha_input" type="hidden">
+                                            <input onclick="oclose()" type="button" value="取消" class="qx">
+											<input onclick="smsValidation()" type="button" value="确定" class="qd">
+										</div> -->
+									</div>
+									
+									<div class="ml15">
+										<span class="Validform_checktip"></span>
+									</div>
+								</dl>
+								<dl style="margin-top:10px;float:left;font-size: 15px;margin-top: 25px;" class=" pd_bottom">
+								<input id="jzmm" style="margin-right:10px;vertical-align: middle;" type="checkbox" checked="checked">
+								<label for="jzmm" style="-moz-user-select:none;vertical-align: middle;" onselcetstart="return false;">我已阅读并同意</label>
+								<a href="/privacy" target="_blank" class="fc f_bold yhxy_a">《用户协议》</a>
+								<div class="clear"></div>
+								<button style="margin-top:15px;;display:block;background:#5c91d9;" type="submit" class="btn btn-default"  data-toggle="modal"   data-target="#myModal" style="width:200px" onclick="return judgeSubmit();">立即注册</button>
+								</dl>
+								<dl style="margin-top:15px;margin-right:40px;line-height:40px" class="fz16 f_r mb_clear lfloat">使用以下帐号直接登录</dl>
+								<dl style="margin-top:0px;" class="btn-group rfloat">
+									<button type="button" class="btn btn-primary mr25 btn1 " onclick="omsg()"> <i class="iconfont icon-qq"></i>
+										QQ 登录
+									</button>
+									<button type="button" class="btn btn-primary mr25 btn2 " onclick="omsg()">
+										<i class="iconfont icon-weixin"></i>
+										微信登录
+									</button>
+									<button type="button" class="btn btn-primary btn3 " onclick="omsg()">
+										<i class="iconfont icon-jinlingyingcaiwangtubiao60"></i>
+										微博登录
+									</button>
+								</dl>
+							</form>
+						</div>
+						
+					</div>
+				</dd>
+			</dl>
+		</div>
+	</div>
+	
+    {% if msg %}
+        <script type="text/javascript">
+            $('#account').focus();
+            $(function(){
+            	var reg = /^1[0-9]{10}$/;
+			  	if (reg.test($("#account").val())) {
+			  	// $this.children('i').addClass('icon-gou');
+			    	$("#fyzm").slideDown(300);
+			    	$(".clx").next().animate({marginTop:"0px"}, 150);
+			  	} 
+			  	else {
+			  	// $this.children('i').addClass('icon-gantanhao');
+			    	$("#fyzm").slideUp(300);
+			    	$(".clx").next().animate({marginTop:"20px"}, 150);
+			  	}
+            });
+            alert( '{{ msg }}');
+        </script>
+    {% endif %}
+</body>
+	<!-- Added by HTTrack -->
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<!-- /Added by HTTrack -->
+    <script type="text/javascript">
+    function omsg(){
+            	alert("攻城狮紧张建设中，感谢关注怀才当遇！");
+            }
+        function changeRegistType(type){
+            $('input[name="account_type"]').val(type);
+        }
+        function judgeSubmit(){
+            var reg = /^1[0-9]{10}$/;
+
+            if(reg.test($("#account").val())){
+                if($("#check_code").val() == ""){
+                    alert("请填写校验码！");
+                    return false;
+                }
+                if($.trim($('#yzm').val()) == ''){
+                    window.alert('请输入校验码');
+                    return false;
+                }
+            }
+            // 已经存在的账号阻止提交
+             var flag = $("span[name=validateAccountSpan]").hasClass("Validform_wrong");
+            if(flag){
+{#                alert("该账号已存在!");#}
+                $("#account").focus();
+                return false;
+            }
+            var checkbox = $('input[type="checkbox"]');
+            if(checkbox[0].checked){
+                return true;
+            }else{
+                window.alert('同意协议内容才能注册');
+                return false;
+            }
+        }
+var countdown;
+function smsValidation(){
+    var reg = /^1[0-9]{10}$/;
+    if (reg.test($("#account").val())){
+        $.ajax({
+        type: "POST",
+        url: "/jobs/ajax_sms_send",
+        data: {
+            "code": "",
+            "mobile": $("#account").val()
+        },
+        dataType: "text",
+        success: function (msg) {
+            if (msg == "1") {
+                $('.show_code').hide();
+                countdown = setInterval(CountDown, 1000);
+                alert("校验码已发送到您的手机，请注意查收！");
+            } else if(msg == "2") {
+                alert("验证码发送失败，请重试！");
+            }else{
+                alert("验证码输入错误！");
+            }
+        }
+    });
+}
+else{
+    alert("请输入正确的手机号");
+}
+}
+var count = 120; // 设置短信发送延时
+function CountDown() {
+    $("#fs").attr("disabled", true);
+    $("#fs").val(count + " 秒后再次发送");
+    count--;
+    if (count <= 0) {
+        $("#fs").val("重新获取验证码").removeAttr("disabled");
+        clearInterval(countdown);
+        count = 120;
+    }   
+}
+
+	</script>
+	<script type="text/javascript">
+	$(function(){
+	$(".nav-tabs li a").click(function(){
+        var index = $('.nav-tabs').find('a').index($(this));
+        if(index == 0){
+            $('#account_type').val('1');           
+        }else if(index == 1){
+            $('#account_type').val('3');
+        }else{
+            $('#account_type').val('4');
+        }
+		$(".nav-tabs li a").removeClass('clx_li_active');
+		$(this).addClass('clx_li_active');
+		 $("#account").focus();
+	});
+	// $("input").focus(function(event) {
+	// 	$("input").css("border-color","#CCC")
+	// 	$("input").css("box-shadow","none")
+	// 	$(this).css("border-color","#C8161D")
+	// 	$(this).css("box-shadow","0px 0px 3px #C8161D")
+	// });
+
+// 验证码下拉框
+	$("#account").keydown(function(event) {
+		var $this = $(this).parent().siblings('div');
+		 var reg = /^1[0-9]{10}$/;
+  if (reg.test($("#account").val())) {
+  	// $this.children('i').addClass('icon-gou');
+    $("#fyzm").slideDown(300);
+    $(".clx").next().animate({marginTop:"0px"}, 150);
+  } else {
+  	// $this.children('i').addClass('icon-gantanhao');
+    $("#fyzm").slideUp(300);
+    $(".clx").next().animate({marginTop:"20px"}, 150);
+
+  }
+	}); 
+	$("#account").keyup(function(event) {
+			var $this = $(this).parent().siblings('div');
+			 var reg = /^1[0-9]{10}$/;
+	  if (reg.test($("#account").val())) {
+	  	// $this.children('i').addClass('icon-gou');
+	    $("#fyzm").slideDown(300);
+	    $(".clx").next().animate({marginTop:"0px"}, 150);
+	  } else {
+	  	// $this.children('i').addClass('icon-gantanhao');
+	    $("#fyzm").slideUp(300);
+	    $(".clx").next().animate({marginTop:"20px"}, 150);
+
+	  }
+		}); 
+
+
+	
+// 	var mans = "98765";
+// 		var $man =new Array(); 
+// 		var $span = $(".re_banner h1 span");
+// 		var bs = new Array();
+// 		var a = 0;
+// 		for(var i = 0;i<5;i++)
+// 		{
+// 			$man[i] = mans.substr(i,1);
+// 			$man[i]=$man[i]*1;
+// 		}
+// setInterval(function(){clx(4)},300);
+// function clx(x){
+// 			if($mans[x-1]>0)
+// 			{
+// 				if(typeof(bs[x-1]) == "undefined")
+// 				{
+// 					$span.eq(x).text(parentInt($span.eq(x).text())+1);
+// 					if($span.eq(x))
+// 				}
+// 			}
+// 		}
+
+
+
+// 		setInterval();
+
+	$("#account").blur(function(){
+		var accountValue=$(this).val();
+	//	var form_reg=$(".registed").Validform();
+	//	form_reg.resetForm();
+		$(this).val(accountValue);	
+		
+	})
+    })
+
+
+
+$(function(){
+    GetRandomNum();
+})
+function GetRandomNum()
+{
+    var random="";
+    for(var i=0;i<6;i++)
+    {
+        random+=Math.floor(Math.random()*10);
+    }
+
+    $("#mobile_captcha_input").val(random);
+    $("#mobile_captcha_lable").text(random);
+}
+	// $("#fs").click(function(){
+ //        $("#mobile_captcha").val("");
+ //        GetRandomNum();
+ //        $('#ssyzm').show()
+	// })
+	// function oclose(){
+	// 	$("#ssyzm").css("display","none");
+	// }
+var num="54789";
+    var numList=num.split("");
+    var i=numList.length;
+    $.each(numList,function(i,e){
+        $("#num_box").append('<span class="active">0</span>');             
+    })
+    function each_list()
+    {        
+        i--;
+        if(i<0)
+        {
+            return;
+        }
+        addNum(i);
+
+    }
+    function addNum(i){
+         var j=0;
+         var numTimer=setInterval(function(){     
+         j++;
+         if(j>numList[i])
+         {            
+            each_list();              
+            clearInterval(numTimer);                 
+         } 
+         else
+         {
+         $("#num_box span:eq("+i+")").html(j);
+         }
+        },80)
+    }
+   each_list();  
+</script>
+</html>

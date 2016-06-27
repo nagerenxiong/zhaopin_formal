@@ -1,0 +1,240 @@
+@charset "utf-8";
+@import "base.scss";
+@import "layout.scss";
+body{background-color: #f8f8f8;}
+.nowrap{text-overflow:ellipsis;overflow: hidden;white-space:nowrap; }
+.center{width: 1020px;margin: 0 auto;}
+.left,.f_l{float: left;}.right,.f_r{float: right;}
+.fc{text-align: center;}
+li.slide{position: absolute;bottom: 0px;width: 80px;height:2px;background-color: #5391D9;}
+.nav ul li a{font-size: 20px;}
+.fz14{font-size:14px;}
+.fz16{font-size:16px;}
+.fw_n{font-weight:normal;}
+b{font-weight:normal}
+
+
+//mainstart
+.main{
+	margin-top: 25px;border-radius:4px;
+	//main_left start 
+	.main_content{
+		float: left;
+			.resume{
+				width: 722px;;border-radius:4px;;margin-top: 25px;padding: 25px 20px 30px 20px;    
+				-webkit-box-shadow: 0px 1.2px 3px rgba(0,0,0,0.2);
+				-moz-box-shadow: 0px 1.2px 3px rgba(0,0,0,0.2);
+				box-shadow: 0px 1.2px 3px rgba(0,0,0,0.2);
+				background-color: white;
+				border-top: 1px solid #e0e0e0;
+				.resume_select{
+					position: relative;border-bottom: 1px solid $c_ee;
+					li{
+						position: relative;cursor: pointer;margin-right: 20px;padding:0px 15px 15px 12px;float: left;font-size: 16px;color: $c_33;@include fz16;	
+						span{
+							text-align: center;@include height(20px);border-radius: 50%;width: 20px;top: -9px;right:-9px;background-color: $c_f80;color: white;@include fz12;position: absolute;
+						}
+					}
+					li.active,li:hover{color: $c_5c;}
+					li.slide{position:absolute;padding:0px;}
+				}
+				.result{
+					//////////////
+					.zpzw{
+						margin-top: 24px;padding: 5px 14px 2px;border-bottom:1px solid #e0e0e0;background-color:#f4f4f4;@include fz14;color:$c_33;overflow:hidden;
+						li{
+							margin-bottom: 0px !important;cursor: pointer;padding: 5px 10px;float:left;margin-left:15px;border-radius:4px;
+						}
+						li:hover,li.active{
+							color: white;background-color:$c_5c;
+						}
+						li.leading{margin-left:0px;cursor:default;}
+						li.leading:hover{color: $c_33;background-color:$c_f8;}
+					}
+					//匹配的职位
+					.ppd_zw{
+					//margin-top: 20px;
+
+					li{
+						position: relative;background-color: $c_f8;
+						h2{
+							cursor: pointer;@include fz14;color: #333;padding: 15px;
+							span{
+								top: 8px;right: 15px;position: absolute;cursor: pointer;float: right;@include fz25;
+							}
+						}
+						.match{
+							display: none;background-color: white;padding: 20px 0px 20px 20px;
+							cursor: default;
+						}
+						.match:hover{
+								background-color: $c_f4;
+							}
+					}
+
+					li:last-child{
+                       //border-bottom:none!important;
+                    }
+
+					.dt{
+						img{
+							display: inline-block;width: 92px;height:92px;;border-radius:50%;padding:2px;background-color:transparent;border:2px solid transparent;
+						}
+						p{
+							color: $c_99;
+							span{padding-left: 10px;color: $c_f80;@include fz20;}
+						}
+						p.fc{
+							color:#333;
+						}
+					}
+					.information{
+						margin-left:25px;padding:0px;
+						p{
+							margin-bottom: 5px;min-height:21px;
+							span{margin-left: 10px;@include fz12;color: $c_5c;border: 1px solid $c_5c;padding: 3px 10px;border-radius: 5px;}
+						}
+						.i_info{
+							margin: 0px;@include fz12;color:$c_99;max-width:420px;cursor:default;
+							i{
+								position: relative;top:1px;cursor: default;
+							}
+						}
+					}
+					.right{
+						margin-top: 30px;text-align: center;width: 150px;margin-right:5px !important;
+						a{
+							@include fz12;display: inline-block;cursor: pointer;margin-bottom: 12px;margin-right: 5px;color: $c_33;border-radius: 20px;border: 1px solid $c_ee;
+							width: 65px;
+						    height: 26px;
+						    text-align: center;
+						    padding: 0px 0px!important;
+						    line-height: 26px;
+						}
+						a:hover{
+								background-color:$c_5c;color:white;border-color:$c_5c;
+							}
+					}
+				}
+				.match{
+					display:block;
+					.left{
+						float: none;display:inline-block;vertical-align:middle;
+					}
+				}
+				//匹配的简历
+				.ppd_jl{
+					li{
+						.match{
+							display:block;
+							.left{
+								float: none;display:inline-block;vertical-align:middle;
+							}
+						}
+					}
+					.information{
+						p{
+							span{cursor:default;margin-left: 20px;@include fz12;color: $c_f80;border: 1px solid $c_f80;padding: 3px 10px;border-radius: 5px;}
+							span.o_zzz{color:#5c91d9;border-color:#5c91d9;}
+							span.o_ylz{color:#999;border-color:#999;}
+						}
+					}
+				}
+				//应聘简历
+				#yp_jl{margin-left:-18px;}
+				.yp_jl{
+					li{
+						width: 350px;border:1px solid $c_ee;margin-left:18px;margin-top: 20px;
+						h2{
+							@include fz14;color:$c_33;background-color:$c_f8;padding:13px;
+							span{color:$c_99;@include fz12;float:none;position:static;}
+							span.fz_r{float:right;line-height:20px;}
+						}
+						.match{padding-bottom:0px;overflow:hidden;}
+					}
+					.information{
+						width: 195px;padding-top:0px;
+						p{
+							margin-bottom: 10px;
+							span{margin-left: 10px;@include fz12;color: $c_5c;border: 1px solid $c_5c;padding: 3px 10px;border-radius: 5px;}
+							span.status1{color:$c_f80;border-color:$c_f80;}
+							span.status2{color:$c_99;border-color:$c_99;}
+							.name{@include fz16;max-width:110px;}
+							i{margin-left:5px;margin-right:5px;}
+						}
+					}
+
+					.right{
+						width: auto;margin-top:10px;margin-right:20px;
+						a{
+							background-color:white;color:$c_33;border:1px solid $c_ee;
+						}
+						a:hover{
+							background-color:$c_5c;color:white !important;
+						}
+					}
+				}
+				//新增委托
+				#xz_wt{
+					overflow: hidden;
+					.zpzw{
+						input[type="checkbox"]{vertical-align:middle;}
+						li{
+							margin-left:18px;@include fz12;padding-top:3px;border:1px solid $c_ee;border-radius:4px;background-color:white;color:$c_33;
+						}
+						li:hover{
+							background-color:$c_5c;color:white;
+						}
+						li.leading{border:none;background-color:$c_f8;}
+						li.leading:hover{color:$c_33;}
+					}
+					.xz_wt{
+						margin-left:-18px;
+						li{
+							margin-top:20px;
+						}
+					}
+					.xz_wt>li>h2{
+						font-size: 12px;
+					}
+					.match{
+						.dt{vertical-align:top;}
+						.left{
+							.information{
+								padding-bottom:0px;
+								p{
+									margin-bottom: 10px;height:18px;
+								}
+								p.mb_5{margin-bottom:5px;}
+
+							}
+						}
+						.right{
+							.btn{
+								margin-right: 5px;padding: 3px 19px;@include fz12;
+							}
+							input[type="checkbox"]{
+								margin-right:15px;border:none;padding:0px;vertical-align:super;
+							}
+						}
+					}
+				}
+
+				}
+				.page_number{
+					overflow: hidden;display:inline-block;
+					li{
+						float: left;padding:10px 15px;text-align:center;@include fz14;color:$c_33;
+						margin-left: 2.5px;margin-right:2.5px;;border:1px solid #EEE;display:block;cursor:pointer;
+					}
+					li:hover{background-color:$c_5c;color:white;}
+				}
+			
+		}
+	}
+	//main_left end
+
+	
+}
+//main end
+

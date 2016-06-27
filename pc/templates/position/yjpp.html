@@ -1,0 +1,358 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css"> 
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style2.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj2.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/isIdentityAudit.js"></script>
+<script>
+var loadData;
+var file_website = '';
+$(function(){
+    file_website = $('#file_website').val();
+    var sql = 'position_status=1 and source_id=' +{{ puId }};
+    loadData = new pagin("paginInfo", "V_Position_Search", "", encodeURI(sql), "", 8, "paginBind", "loadData");
+});
+
+
+function matching(obj, postaion_type, clazz){
+    $(".beforeClazz").val(clazz);
+    var sql2 = '';
+    var business = [];
+    if(postaion_type != '') {
+        business = postaion_type.split(',');
+    }
+    for(var i = 0 ; i < business.length; i ++) {
+        if(sql2 == '') {
+            sql2 += 'post like "%' + business[i] + '%"';
+        } else {
+            sql2 += ' or post like "%' + business[i] + '%"';
+        }
+    }
+    var $find_div = $(obj).parent().next();
+    if($find_div.attr('class') != 'hr_ltpp_gj') {
+        var loadData = new pagin("paginInfo33", "V_PU_HeadHunt", "", encodeURI(sql2), "", 6, "paginBind2", "loadData");
+    }
+    $(obj).parent().next().slideToggle(150);
+}
+
+function paginBind(dataInfo) {
+    $("#tableInfo").empty();
+//无数据处理
+    if(dataInfo == ''){
+        $('#noSendData_ppdjjr').css('display', 'block');
+        $(".page_number").hide();
+        return;
+    }else{
+        $('#noSendData_ppdjjr').css('display', 'none');
+        $(".page_number").show();
+    }
+    $(dataInfo).each(function(){
+
+        // 处理值为 null 的字段
+        var len = $(this).length;
+        var array = $(this);
+        for(var n = 0; n < len; n ++){
+            if(array[n] == null){
+                array[n] = "&nbsp;"
+            }
+        }
+        // 拼凑企业用户发布的职位
+        var context = '';
+        context += '<div class="hr_ltpp_zwk m10 ' + array[0] + '">';
+        context += '    <div class="hr_ltpp_zwnk"  onclick="matching(this, \'' + array[7] + '\', ' + array[0] + ')">';
+        context += '        <div class="fz18  lh48 fl">' + array[3] + '</div>';
+        context += '        <div class="hr_ltpp_yjan" id="' + array[0] + '">';
+        context += '            <i class="iconfont icon-pipeifangshi fz16" style="font-size:18px;"></i>一键匹配';
+        context += '        </div>';
+        context += '    </div>';
+        context += '</div>';
+        $("#tableInfo").append(context);
+
+    })
+}
+
+function paginBind2(dataInfo) {
+ var content = '';
+ content += '<div class="hr_ltpp_gj"  style="display: none; overflow: hidden">';
+ content += '<ul>';
+
+if(dataInfo[0] ==undefined)
+ {
+     content += '<p style="display:block; text-align:center; width:90%; color:#999;">暂无匹配信息</p>';
+ }
+ else{
+     var tpu_ids = '_';
+     $(dataInfo).each(function(){
+
+         // 处理值为 null 的字段
+        var len = $(this).length;
+        var array = $(this);
+        for(var n = 0; n < len; n ++){
+            if(array[n] == null){
+                array[n] = "&nbsp;";
+            }
+        }
+        
+        if($.trim(array[15])=="")
+                array[15]="null";
+         var tpu = '_' + array[1] + '_';
+         if(tpu_ids.indexOf(tpu) < 0){                                  //不包含
+            array[15]==""?"null":array[15];
+             tpu_ids += array[3] + '_';
+             content += '<li><div class="img_lf">';
+             content += '<img src="'+ file_website + array[15] + '" width="88" height="88" border="0" align="absmiddle"  onclick="watchHeadhuntInfo(' + array[1] + ')" style="cursor: pointer;" onerror="notfind(this, 3)">';
+        var area_year = [];
+        if( array[18] !='&nbsp;'){
+            area_year.push( array[18] );
+        }
+        if( array[23] !='&nbsp;'){
+            area_year.push( array[23] );
+        }
+        area_year = area_year.join('&nbsp;|&nbsp;');
+        if(array[25] == "3"){
+            content += '<div class="status">';
+            content += '    <span style="color:white">';
+            content += '       <img class="v" src="/static/images/new_images/v.png" style="cursor: pointer;" alt="">';
+            content += "已认证"
+        } else {
+            content += '<div class="status">';
+            content += '    <span style="color:white">';
+            content += '       <img class="v" src="/static/images/v1.png" style="cursor: pointer;" alt="">';
+            content += "未认证"
+        }
+        content += '    ';
+        content += '    </span>';
+        content += '</div>';
+        content += '</div><div class="re_details"><p>'
+        content += '<span class="talents_name" style="cursor: pointer;" onclick="watchHeadhuntInfo(' + array[1] + ')">' + array[2] + '</span>';
+        content += '<span class="grade_agr">'+array[21]+'</span>';
+        content +=  '<span class="deji">LV' + array[26] + '<span/>';
+        content +=  '</p>';
+        content += '<p><span class="edu_des">' + area_year + '</span></p>';
+        var business = array[19];
+        var bs = business.split(",");
+        for(var i = 0; i < 3; i ++){
+            if(bs[i] != null && bs[i] != "")
+                content += '<p class="fz12 c3"><span class="rus_tit">擅长行业:</span><span class="res_comm">' + bs[i] + '</span></p>';
+        }
+        content +='<p class="wtnum">已接收<span>'+array[31]+'</span>份委托简历</p>';
+        content +='</div>';
+        content +='<div class="det_rg">';            
+         content +='<div class="ser_eva">';
+         content +='<span>服务评价</span>';
+           content +=' <div class="starlev">';
+        //服务评价
+        var evaluationValue = '';
+        if(array[24] != '&nbsp;'){
+            evaluationValue = array[24];
+        } else {
+            evaluationValue = '5.0'
+        }
+        for(var i = 1; i <= 5; i ++){
+            if(i <= parseInt(evaluationValue)){
+                content += '<img src="{{ STATIC_URL }}images/new_images/star.png" width="21" height="21" border="0" align="absmiddle">'
+            }else{
+                content += '<img src="{{ STATIC_URL }}images/new_images/star1.png" width="21" height="21" border="0" align="absmiddle">'
+            }
+        }
+        content +='          </div>';
+        content +='      </div>';
+        content +='      <p class="comment">评论'+array[32]+'条</p>';
+        var deal_time = 0;
+        if(array[33].indexOf('.') != -1){
+            deal_time = parseInt(array[33].substring(0, array[33].indexOf('.'))) + 1;
+        }else if(array[33] != '&nbsp;'){
+            deal_time = parseInt(array[33]);
+        }
+        if (deal_time > 72){
+            deal_time = '3天以上';
+        }else{
+            deal_time += 'h';
+        }
+        content +='         <p class="response">平均响应时间 <span>'+deal_time+'</span></p></div>';
+        content +='<div class="pri_lett">';
+        content +='<div class="attent_des" onclick="attentionOperate(this, \''+array[1]+'\')">';
+        content +='<i></i>关注</div>';
+        content +='<input type="hidden" value="'+array[1]+'">';
+        content +=' <span data-toggle="modal" data-target="#sxmessage_Modal" onclick="getOperateDatass(this, \''+array[2]+'\', '+array[1]+')">私信';
+        content +='</span>';
+        content +='</div>';
+        }
+       });
+     // content += '</div></div>';
+     content +='</li>';
+
+       content += '</ul></div>';
+     }
+     // 拼凑企业用户职位匹配的猎头
+    var clazz = $(".beforeClazz").val();
+     $("." + clazz).after(content);
+    var objs = $("." + clazz).next().find('.attent_des');
+    var length = objs.length;
+    if(length > 0){
+        for(var m= 0;m < length;m += 1){
+            judgeAttention(objs.eq(m), objs.eq(m).next().val());
+        }
+    }
+}
+//判断简历是否关注
+function judgeAttention(attObj, pu_id) {
+    $.ajax({
+        type: "post",
+        url: "/ajax_attentionOrNot",
+        data: {
+            "attention_pu_id": pu_id,
+            "type": '1'
+        },
+        dataType: "json",
+        async: true,
+        success: function(data) {
+            if(data.msg == 'yes')
+                $(attObj).text('取消关注');
+        }
+    });
+}
+
+// 切换关注状态
+function attentionOperate(obj, source_id){
+    var tpuIds = [];
+    tpuIds.push(source_id);
+    $.ajax({
+        type: "post",
+        url: "/ajax_attentionedSwap",
+        data: {"tpuIds": tpuIds},
+        dataType: "json",
+        success: function(data){
+            if (data.status && data.status == '0') {
+                window.alert('关注人数已达上限',2);
+            } else if (data.msg && data.msg == 'isAttentioned') {
+                $(obj).text('取消关注');
+                window.alert('关注成功',1);
+            } else if (data.msg && data.msg == 'noAttentioned') {
+                $(obj).empty();
+                $(obj).append('<i></i>关注');
+                window.alert('取消关注成功',1);
+            }
+        }
+    })
+}
+
+
+// 跳往人才经纪人首页
+function watchHeadhuntInfo(puId) {
+    window.open('/system/ckjjrsy?puid=' + puId, '_blank');
+}
+</script>
+<input type="hidden" class="beforeClazz" >
+<div class="clear">4</div><div class="clear">2</div>
+<div class="lt_content_box">
+    <!-- 猎头会员菜单开始 -->
+       <div class="nav2">
+        <ul id="menu">
+            <li>
+                <a href="zlt">搜索经纪人<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li class="">
+                <a href="yjpp" onclick=" return isIdentityAudit('2,4', '2')">匹配到的经纪人<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li>
+                <a href="hzdlt" onclick=" return isIdentityAudit('2,4', '2')">合作中的经纪人<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li>
+                <a href="hzgdlt" onclick=" return isIdentityAudit('2,4', '2')">合作过的经纪人<i class="iconfont icon-xia1"></i></a>
+            </li>
+        
+        </ul>
+    </div>
+    <!-- 猎头会员菜单结束 -->
+
+    <div class="clear"></div>
+
+    <div class="center">
+
+        <div class="tlwk p9 mt25">
+            <div class="bkdw"></div>
+            <div class="hr_biaolm m10">
+                <div class="biaot2 fz16">
+                    <ul>
+                        <li class="bthover">匹配到的经纪人</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="hr_ltpp pt10">
+                    <div id="noSendData_ppdjjr" class="noSendData" style="display: none;">
+                        <div>
+                                <p>暂时没有匹配到的经纪人</p>
+                        </div>
+                    </div>
+                    <div class="tuplb sigenr mt5" id="tableInfo">
+
+                    </div>
+
+                </div>
+
+                <div class="lthy_pager">
+                    <div class="lthy_pager" id="paginInfo">
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+
+            </div>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="gz_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog"style="width:300px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">关注</h4>
+            </div>
+            <div class="modal-body t_c" id="attentionHeadhunt">是否确认关注该名片</div>
+            <div class="modal-footer ta-c">
+                <input type="hidden" id="cancelId" value="19">
+                <input type="hidden" id="cancelGroupId" value="136">                
+                <button type="button" class="btn btn-primary m-l49" data-dismiss="modal" id="attentionClick" onclick="swapAttentionStatus(this)">
+                确认</button>
+                <button type="button" class="btn-qx m-l5" data-dismiss="modal" style="width:100px;height:35px">关闭</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+
+<script type="text/javascript">
+    //======= 信息模版
+    $(".icon-iconfontmoban2").click(function(){
+        $(".dialog").show();
+    })
+    $(".qx_btn").click(function(){
+        $(".dialog").hide();
+    })
+    $(".dialog li").click(function(){
+        $(".dialog li").removeClass('active');
+        $(this).addClass('active');
+    })
+    $(".dialog li").dblclick(function(){
+         confirms.call(this);
+    })
+    $(".modal_wdgz .re_btn").click(function(){
+        confirms.call(this);
+    })
+    function confirms(){
+        $("#letterContent").val($(".dialog li.active").children('input').val());
+        $(this).parent().parent().hide();
+    }
+</script>
+{% include 'jobs/system/new_footer.html' %}

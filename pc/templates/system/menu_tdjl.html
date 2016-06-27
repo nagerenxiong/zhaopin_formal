@@ -1,0 +1,37 @@
+<link href="{{ STATIC_URL }}css/style2.css" media="screen" rel="stylesheet" type="text/css">
+<div class="nav2">
+<ul id="menu"  style="margin-bottom:0px;float:none">
+{#        <li class="active">#}
+{# 			<a href="/jobs/position/personal/zwss">职位搜索</a>#}
+{# 		</li>#}
+{#        <li>#}
+{#			<a href="/jobs/position/personal/ppdzw">匹配到的职位</a>#}
+{#		</li>#}
+        <li>
+ 			<a href="/jobs/resume/personal/tddjl">我投递的职位<i class="iconfont icon-xia1"></i></a>
+            
+ 		</li>
+        <li>
+ 			<a href="/jobs/position/personal/zwsc">职位收藏夹<i class="iconfont icon-xia1"></i></a>
+ 		</li>
+        <li>
+ 			<a href="/jobs/position/personal/zwdyq">职位订阅器<i class="iconfont icon-xia1"></i></a>
+ 		</li>
+ </ul>
+ </div>
+<script type="text/javascript">
+    $(function(){
+        //设置当前页样式
+        var url = location.href;
+        var num = url.lastIndexOf('/')
+        url = url.substring(num + 1,url.length)
+
+        $("#menu li").removeClass();
+
+        $("#menu li").each(function(){
+            if($(this).find("a").attr("href") == url){
+                $(this).addClass("active");
+            }
+        });
+    })
+</script>

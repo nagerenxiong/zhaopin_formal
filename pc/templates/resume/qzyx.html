@@ -1,0 +1,266 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style1.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/uploadify.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script src="{{ STATIC_URL }}js/jquery.uploadify.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<script type="text/javascript">
+    $(function(){
+        BusinessulControls("businessulDiv","{{ tri.sexpect_industry | default:"" }}","{{ tri.expect_industry | default:"" }}",
+                'width:300px;margin-top:5px;font-size:14px;');
+        PositionControls("positionDiv","{{ tri.sexpect_position | default:"" }}","{{ tri.expect_position | default:"" }}",
+                'width:300px;margin-top:5px;font-size:14px;');
+    })
+</script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+<!-- 内容大框 -->
+<div class="lt_content_box scjl">
+    <input type="hidden" id="resumeID" value="{{ tri.id }}" >
+    <input type="hidden" id="attachment" value="{{ tri.attachment }}" >
+    <input type="hidden" id="user_name" value="{{ tri.user_name }}" >
+    <div class="center clearfix">
+        <div class="left">
+        <div class="left_box">
+             <div class="bd_bottom1">
+                <span class="t">求职意向</span>
+                <div class="slider wdgz_silder"></div>
+            </div>
+            <ul class="info">
+                <li>
+                    <select id="expect_pay" class="w300" onchange="yzPay()">
+                        <option value="0">期望薪资</option>
+                        {% for expect_pay in expect_payList %}
+                            {% if tri.expect_pay == expect_pay.dictionary_value %}
+                                <option value="{{ expect_pay.dictionary_value }}" selected="selected">{{ expect_pay.dictionary_name }}</option>
+                            {% else %}
+                                <option value="{{ expect_pay.dictionary_value }}" >{{ expect_pay.dictionary_name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <span class="ml25 " style="color:#ff6a6a; " id="expectpay"></span>
+                </li>
+                <li>
+{#					<input type="text" id="sexpect_industryName" onblur="yzPerson(this)"  placeholder="期望行业" onclick="showBusinessul(this,3)"#}
+{#                           class="w300" value="{{ tri.sexpect_industry | default:"" }}"  >#}
+{#                           <span class="ml25"style="color:#ff6a6a" id="yzhangye"></span>#}
+                    <div id="businessulDiv" onclick="BusinessulControlsShow(3,this)"></div>
+                    <input type="hidden" id="expect_industry" value="{{ tri.expect_industry | default:"" }}"  />
+                    <span class="scjl_span" style="color:#ff6a6a;line-height: 42px;"></span>
+                </li>
+                 <li>
+
+{#					<input type="text" onblur="yzPerson(this)"  placeholder="请先选择所处行业" onclick="positionShow(this)"#}
+{#                           class="w300" value="{{ tri.sexpect_position | default:""  }}"  >#}
+                     <div id="positionDiv" onclick="PositionControlsShow(5,this)"></div>
+                     <input type="hidden" id="expect_position" value="{{ tri.expect_position | default:"" }}"  />
+                     <span class="scjl_span" style="color:#ff6a6a;line-height: 42px;"></span>
+
+                </li>
+                <li>
+                    <select id="expect_work_nature" class="w300">
+                        <option value="0">期望工作性质</option>
+                        {% for expect_work_nature in expect_work_natureList %}
+                            {% if tri.expect_work_nature == expect_work_nature.dictionary_value %}
+                                <option value="{{ expect_work_nature.dictionary_value }}" selected="selected">{{ expect_work_nature.dictionary_name }}</option>
+                            {% else %}
+                                <option value="{{ expect_work_nature.dictionary_value }}" >{{ expect_work_nature.dictionary_name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <span class="ml25" style="color:#ff6a6a" ></span>
+                </li>
+                <li>
+                    <input type="text" onblur="yzPerson(this)"  placeholder="期望工作地点" onclick="showArea(this,3)"
+                           class="w300" value="{{ expect_areas | default_if_none:""  }}"  >
+                    <input type="hidden" id="expect_area" value="{{ tri.expect_area }}"  />
+                    <span class="ml25"style="color:#ff6a6a" id="yzhangye"></span>
+                </li>
+                 <li>
+                    <select id="work_time" id="time" class="w300" onchange="yzwork()">
+                        <option value="0">到岗时间</option>
+                        {% for work_time in work_timeList %}
+                            {% if tri.work_time == work_time.dictionary_value %}
+                                <option value="{{ work_time.dictionary_value }}" selected="selected">{{ work_time.dictionary_name }}</option>
+                            {% else %}
+                                <option value="{{ work_time.dictionary_value }}" >{{ work_time.dictionary_name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <span class="ml25 " style="color:#ff6a6a" id="worktime"></span>
+                </li>
+                <li>
+                    <select id="position_status"  class="w300">
+                        <option value="0">求职状态</option>
+                        {% for position_status in position_statusList %}
+                            {% if tri.position_status == position_status.dictionary_value %}
+                                <option value="{{ position_status.dictionary_value }}" selected="selected">{{ position_status.dictionary_name }}</option>
+                            {% else %}
+                                <option value="{{ position_status.dictionary_value }}" >{{ position_status.dictionary_name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <span class="ml25" style="color:#ff6a6a" ></span>
+                </li>
+            </ul>
+        </div>
+            <div class="b">
+                 <input type="button" onclick="editInfo()"  class="button f_r ml15" name="" value="保存" >
+                <input type="button" class="button f_r " onclick="window.location.href= '/jobs/resume/gzjl?resumeID={{ tri.id }}'" value="下一步" >
+                <a onclick="resumeJump('scjl')" class="f_l return_a fz18 mt10">返回：基本信息</a>
+            </div>
+        </div >
+        {% include 'jobs/resume/resumeRight.html' %}
+    </div>
+</div>
+<!-- 内容大框 -->
+
+<script type="text/javascript">
+function positionShow(obj){
+    showPosition(obj,$("#sexpect_industryName").val(),$("#expect_industry").val(),5)
+}
+
+$('#upload_jl').uploadify({
+    'onUploadSuccess' : function(file, data, response) {
+        alert(data.save_name);
+    },
+     'onUploadStart': function (file) {
+        $("#upload_photo_sfyz").uploadify("settings", "formData", { 'fileType': 4 });
+         }
+});
+    function yzPay(){
+        if(document.getElementsByName('expectpay').value!=""){
+            $("#expectpay").empty()
+            $("#expectpay").append("<i class=\"iconfont icon-gou\">");
+        }else{
+            $("#expectpay").empty()
+             $("#expectpay").append("<i class=\"iconfont icon-gantanhao\"></i>必填")
+        }
+    }
+    function yzwork(){
+
+        if(document.getElementById('time').value!=0){
+            $("#worktime").empty()
+            $("#worktime").append("<i class=\"iconfont icon-gou\">");
+        }else{
+            $("#worktime").empty()
+             $("#worktime").append("<i class=\"iconfont icon-gantanhao\"></i>必填")
+        }
+    }
+
+        function yzForm(){
+
+            if($('[name=expectpay]').val()==""||$('[name=expectpay]').val()==0){
+                alert("期望薪资不能为空!")
+                    return false
+            }
+            if($('[name=work_state]').val()==""||$('[name=work_state]').val()==0){
+                alert("到岗时间不能为空!")
+                    return false
+            }
+            return true;
+        }
+    function yzPerson(obj){
+         if($(obj).next().val()!="0"&&$(obj).val()!=""){
+            $(obj).next().next().empty()
+            $(obj).next().next().append("<i class=\"iconfont icon-gou\">");
+        }else{
+            $(obj).next().next().empty()
+            $(obj).next().next().append("<i class=\"iconfont icon-gantanhao\"></i>必填")
+        }
+    }
+
+function editInfo(){
+    var expect_pay = $("#expect_pay").val(); //期望薪资
+    var expect_industry  = $("#expect_industry").val(); //期望行业
+    var expect_position  = $("#expect_position").val(); //期望职位
+    var expect_work_nature  = $("#expect_work_nature").val(); //期望工作性质
+    var expect_area  = $("#expect_area").val(); //期望工作地点
+    var work_time  = $("#work_time").val(); //到岗时间
+    var position_status  = $("#position_status").val(); //求职状态
+
+    //信息验证
+    if(expect_pay == "0"){
+        alert("期望薪资不能为空");
+        return false;
+    }
+    if(expect_industry == ""){
+        alert("期望行业不能为空");
+        return false;
+    }
+    if(expect_work_nature == "0"){
+        alert("期望工作性质不能为空");
+        return false;
+    }
+    if(expect_area == ""){
+        alert("期望工作地点不能为空");
+        return false;
+    }
+    if(work_time == "0"){
+        alert("到岗时间不能为空");
+        return false;
+    }
+    if(position_status == ""){
+        alert("求职状态不能为空");
+        return false;
+    }
+{#    var elemt=event.target; #}
+    $.ajax({
+        type: "POST",
+        url: "/jobs/ajax_manageResume",
+{#        eventT:elemt,#}
+        data: {
+            "resumeID": $("#resumeID").val(),
+            "expect_pay": expect_pay ,
+            "expect_industry": expect_industry ,
+            "expect_position": expect_position ,
+            "expect_work_nature": expect_work_nature ,
+            "expect_area": expect_area ,
+            "work_time": work_time ,
+            "position_status": position_status,
+            "type" : 2
+        },
+        dataType: "json",
+        success: function(data){
+            if(data.resumeID != ""){
+                $("#resumeID").val(data.resumeID);
+                $("#qzyx").text("[完成]");
+                $("#wsRes").text(data.wsres+"%");
+                $("span#jdt").animate({width: data.wsres+"%"}, 100);
+
+                alert("保存成功");
+            }
+            else{
+                alert("保存失败");
+            }
+        }
+    });
+}
+$(function(){
+    $(".info select").on('change blur', function(event) {
+       if($(this).val()!='0'){
+            $(this).siblings('span').empty()
+            $(this).siblings('span').append("<i class=\"iconfont icon-gou\">");
+       }
+       else{
+            $(this).siblings('span').empty()
+            $(this).siblings('span').append("<i class=\"iconfont icon-gantanhao\"></i>必填")
+       }
+    });
+   $(".info input[type='text']").on('change blur', function(event) {
+       if($(this).val()!=''){
+            $(this).siblings('span').empty()
+            $(this).siblings('span').append("<i class=\"iconfont icon-gou\">");
+       }
+       else{
+            $(this).siblings('span').empty()
+            $(this).siblings('span').append("<i class=\"iconfont icon-gantanhao\"></i>必填")
+       }
+   });
+
+})
+</script>
+{% include 'jobs/system/new_footer.html' %}

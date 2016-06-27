@@ -1,0 +1,517 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style2.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj2.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/isIdentityAudit.js"></script>
+<script style="text/javascript">
+    var sql = ' release_id=' +{{ puId }} + '  and  (dispose_status=2 or dispose_status=1) ';
+    var file_website = '';
+    $(function(){
+        file_website = $('#file_website').val();
+        var loadData = new pagin("paginInfo", "V_Cooperate_HeadHunt", "", encodeURI(sql), "", 6, "paginBind", "loadData");
+        var tpu_id;
+        $(".attentioned").click(function(){
+            var $this = $(this)
+            tpu_id = $this.attr("id");
+            if($this.val() == '取消关注'){
+                $("#attentionHeadhunt").text("是否确认取消关注该名片?")
+            }else{
+                $("attentionHeadhunt").text("是否确认关注该名片?")
+            }
+        });
+
+        $("#attentionClick").click(function(){
+            tpu_id = tpu_id.split(",");
+            $.ajax({
+                type: "post",
+                url: "/ajax_attentionedSwap",
+                data: {"tpuIds": tpu_id},
+                dataType: "json",
+                success: function(data) {
+                    if(data.status == '0') {
+                        alert("您已达到关注人数的上限!");
+                    } else if(data.msg == "error"){
+                        alert("发生内部错误")
+                    }else if (data.msg == 'noAttentioned'){
+                        $(".p" + tpu_id + "p").text("");
+                        $("#" + tpu_id + "").val("关注")
+                    }else if (data.msg == 'isAttentioned'){
+                        $("#" + tpu_id + "").val("取消关注");
+                        alert("关注成功!");
+                    }
+                }
+            })
+        })
+        var receiveId;
+        $(".update_btn").click(function(){
+            receiveId = $(this).attr("name");
+        })
+        $("#updateRemark").click(function(){
+            var remark = $("textarea[name=remark]").val()
+            $.ajax({
+                type: "post",
+                url: "/ajax_sendRemark",
+                data: {"receiveId": receiveId, "remark":remark},
+                dataType: "json",
+                success: function(data){
+                    if(data.msg == "success"){
+                        $(".p" + receiveId + "p").text("备注: " + remark);
+                    }else{
+                        alert("发送内部错误!")
+                    }
+                }
+            });
+            $("textarea[name=remark]").val("")
+        });
+        var messageReceiveId;
+        $(".sendMessage").click(function(){
+            messageReceiveId = $(this).attr("id");
+            var name = $(this).nextAll(":hidden:first").attr("name");
+            $("#receiveUser").text(name)
+        })
+    });
+
+    function paginBind(dataInfo) {
+        $("#tableInfo").empty();
+        $("#articleInfo").empty();
+        //无数据处理
+            if(dataInfo == ''){
+                $('#noSendData_hzzdjjr').css('display', 'block');
+                $(".page_number").hide();
+                return;
+            }else{
+                $('#noSendData_hzzdjjr').css('display', 'none');
+                $(".page_number").show();
+            }
+        var tpu_ids = '_';
+        $(dataInfo).each(function (i) {
+
+            // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this);
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            if($.trim(array[15])=="")
+                array[15]="null";
+            var tpu = '_' + array[3] + '_';
+            if(tpu_ids.indexOf(tpu) < 0){                                  //不包含
+                tpu_ids += array[3] + '_';
+                var content = '';
+                content += '<div class="hr_hzzdlt_dk m10" >';
+                content += '    <div class="hr_hzzdlt_k">';
+                content += '        <div class="hr_hzzdlt_mp" id="wdgz_info_list">';
+                content += '            <div class="hr_hzzdlt_mp_k1" style="height:auto">';
+                content += '                <div class="mpLe2" style="height:auto;font-size:12px">';
+                content += '                    <div class="mpxp">';
+                content += '                        <img src="'+ file_website +array[15] + '" width="88" height="88" border="0" align="absmiddle"  onclick="watchHeadhuntInfo(' + array[3] + ')" style="cursor: pointer" onerror="notfind(this, 3)">';
+                content += '                    </div>';
+
+                {% comment %}content += '<div class="hr_mpqzxx mt6" style="font-size:12px;text-align:center;background:#5c919d;border-radius:3px">';
+                content += '    <span style="color:white">';
+                content += '        <i class="iconfont icon-renzhengv2" style="margin-right:5px;"></i>';
+                content += '            认证猎头'{% endcomment %}
+
+                if(array[27] == "3"){
+                     content += '<div class="hr_mpqzxx mt6 fz14" style="text-align:center;background:#5c91d9;border-radius:3px">';
+                     content += '   <span style="color:white">';
+                     content += '       <i class="iconfont icon-renzhengv2" style="margin-right:5px;"></i>';
+                     content += '           已认证';
+                } else{
+                     content += '<div class="hr_mpqzxx mt6 fz14" style="text-align:center;background:#999;border-radius:3px">';
+                     content += '   <span style="color:white">';
+                     content += '       <i class="iconfont icon-renzhengv2" style="margin-right:5px;"></i>';
+                     content += '           未认证';
+                }
+
+                content += '    </span>';
+                content += '</div>';
+                content += '<div style="padding:4px 0">【' + array[20] + '】</div></div><div class="mpRi2"><ul >';
+                content += '<li class="c3"> <b class="fz16 fn fb"  onclick="watchHeadhuntInfo(' + array[3] + ')" style="cursor: pointer">' + array[14] + '</b>';
+                content += '<span style="vertical-align:middle;color:#ff8800;margin:0px 5px">LV' + array[28] + '</span>';
+                content +=  '<span style="vertical-align:middle">' + array[17] + '<span/>';
+                content += '</li><li class="fz12 c3">' + array[22] + '</li>';
+                 //content += '<li class="fz12 c3">' + array[26] + '</li>';
+                 var business = array[18];
+                 var bs = business.split(",");
+                 for(var i = 0; i < 3; i ++){
+                    if(bs[i] != null && bs[i] != "")
+                        content += '<li class="fz12 c3" style="height:23px">' + bs[i] + '</li>';
+                    else
+                        content += '<li class="fz12 c3" style="height:23px"></li>';
+                 }
+                 {% comment %}content += '<li class="fz12 c3"  style="height:23px">百货/连锁/零售服务</li>';
+                 content += '<li class="fz12 c3"  style="height:23px">百货/连锁/零售服务</li>';
+                 content += '<li class="fz12 c3"  style="height:23px">百货/连锁/零售服务</li>';{% endcomment %}
+                content += '<li class="fz14 pt4">好评:<i>';
+                var strs = parseInt(array[21])
+                for(var i = 1; i <= 5; i ++){
+                    if(i <= strs){
+                        content+='<img src="/static/images/xingxing.png" width="21" height="21" border="0" align="absmiddle" style="margin-right:2px;vertical-align:top;">'
+                    }else{
+                        content+='<img src="/static/images/xingxing2.png" width="21" height="21" border="0" align="absmiddle" style="margin-right:2px;vertical-align:top;"></i>'
+                    }
+                }
+                content += '</i><i class="fn fz14" style="vertical-align:bottom;color:#ff8800; margin-bottom:-3px; margin-left:5px;">' + array[21] + '</i></li></ul></div></div><div class="hr_hzzdlt_mp_k2"></div><div class="hr_hzzdlt_mp_k3"><div class="gnaj_Ri" style="height:24px;padding-top:3px">';
+                if(array[25] == '1'){
+                    content += '<input name="input" type="button" value="取消关注" class="gnanys attentioned" id=' + array[3] + ' data-toggle="modal" data-target="#gz_Modal">';
+                }else{
+                    content += '<input name="input" type="button" value="关注" class="gnanys attentioned" id=' + array[3] + ' data-toggle="modal" data-target="#gz_Modal">';
+                }
+                content += '<input name="input" type="button" value="私信"  id=' + array[3] + ' class="gnanys sendMessage" ';
+                content += '    data-toggle="modal" data-target="#sxmessage_Modal" onclick="getOperateDatass(this, \''+array[16]+'\', '+array[3]+');">';
+                content += '<input type="hidden" name="' + array[14] + '"></div></div>';
+                // 关注、备注;
+                content += '<dl class="hr_zzc" id="wdgz_detail"   style="height: 186px; padding-top: 10px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;display:none">';
+                content += '<dd class="f_l t_c" style="margin-left: 15px;margin-top: 20px"><a href="/account/wdgz">';
+                content += '<img src="'+ file_website +array[15] + '" width="88" height="88" border="0" align="absmiddle" onerror="notfind(this, 3)"></a>';
+                content += '<p class="mt10">' + array[16] + '</p></dd><dd class="f_l wdgz_detail_r" style="width:230px">';
+                content += '<input type="hidden" value="96" name="remarkId">';
+{#                if($(this)[25] == '1'){#}
+                if($(this)[26] == null || $(this)[26] == ""){
+                    content += '<p class="p' + array[3] + 'p">尚未添加备注!</p>';
+                } else {
+                    content += '<p class="p' + array[3] + 'p">' + '备注: ' + array[26] + '</p>';
+                }
+
+{#                }else{#}
+{#                    content += '<p>备注: 您尚未关注此人 </p>'#}
+{#                }#}
+
+
+                content += '</dd><dd class="update_btn" data-toggle="modal" name=' + array[3] + ' data-target="#update_bz" style="background-color: transparent;top:6px;right:0">';
+                content += '<i class="iconfont icon-wrench"></i></dd></dl></div>';
+                content += '<div class="hr_hzzdlt_lb"><ul id="' + array[3] + 'ul">';
+                content += '<li><div class="hr_hzzdlt_jl fz14 c3">' + array[13] + '</div><div class="hr_hzzdlt_zt pr5">';
+                var disposeStatus = array[9];
+                if(disposeStatus == 1){
+                    content += '<img src="/static/images/daigoutong.png" width="63" height="30" border="0" align="absmiddle" class="mt6">';
+                 }else if(disposeStatus == 2){
+                    content += '<img src="/static/images/mianshi.png" width="63" height="30" border="0" align="absmiddle" class="mt6">';
+                }
+                content += '</div><div class="hr_hzzdlt_zt fz12 c3 pr5">共接收<i class="cr fn fz14">' + array[12] + '</i>份简历  |  ';
+                var newest_disposeStatus = array[23];
+                if(newest_disposeStatus == 0){
+                    content += '最新简历待处理</div></li>';
+                }else if(newest_disposeStatus == 1 || newest_disposeStatus == 2){
+                    content += '最新简历待沟通</div></li>';
+                } else if(newest_disposeStatus == 3 || newest_disposeStatus == 4 || newest_disposeStatus == 5){
+                    content += '最新简历已处理</div></li>';
+                }
+                content += '</ul></div></div></div>';
+                $("#tableInfo").append(content);
+            }else{
+                var content = '';
+                 content += '<li><div class="hr_hzzdlt_jl fz14 c3">' + array[13] + '</div><div class="hr_hzzdlt_zt pr5">';
+                var disposeStatus = array[9];
+                if(disposeStatus == 1){
+                    content += '<img src="/static/images/daigoutong.png" width="63" height="30" border="0" align="absmiddle" class="mt6">';
+                 }else if(disposeStatus == 2){
+                    content += '<img src="/static/images/mianshi.png" width="63" height="30" border="0" align="absmiddle" class="mt6">';
+                }
+                content += '</div><div class="hr_hzzdlt_zt fz12 c3 pr5">共接收<i class="cr fn fz14">' + array[12] + '</i>份简历  |  ';
+                var newest_disposeStatus = array[23];
+                if(newest_disposeStatus == 0){
+                    content += '最新简历待处理</div></li>';
+                }else if(newest_disposeStatus == 1 || newest_disposeStatus == 2){
+                    content += '最新简历待沟通</div></li>';
+                } else if(newest_disposeStatus == 3 || newest_disposeStatus == 4 || newest_disposeStatus == 5){
+                    content += '最新简历已处理</div></li>';
+                }
+                $("#" + array[3] + "ul").append(content)
+            }
+
+        })
+    }
+
+    // 跳往人才经纪人首页
+    function watchHeadhuntInfo(puId) {
+        window.open('/system/ckjjrsy?puid=' + puId, '_blank');
+    }
+</script>
+<div class="clear">4</div><div class="clear">3</div>
+<div class="lt_content_box">
+	<!-- 猎头会员菜单开始 -->
+	    <div class="nav2">
+        <ul id="menu">
+            <li>
+                <a href="zlt">搜索经纪人<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li class="">
+                <a href="yjpp" onclick=" return isIdentityAudit('2,4', '2')">匹配到的经纪人<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li>
+                <a href="hzdlt" onclick=" return isIdentityAudit('2,4', '2')">合作中的经纪人<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li>
+                <a href="hzgdlt" onclick=" return isIdentityAudit('2,4', '2')">合作过的经纪人<i class="iconfont icon-xia1"></i></a>
+            </li>
+        
+        </ul>
+    </div>
+	<!-- 猎头会员菜单结束 -->
+	<div class="clear"></div>
+	<div class="center">
+		<div class="tlwk p9 mt25">
+			<div class="bkdw"></div>
+			<div class="hr_biaolm m10">
+				<div class="biaot2 fz16">
+					<ul>
+						<li class="bthover">合作中的经纪人</li>
+					</ul>
+				</div>
+			</div>
+			<div class="hr_ltpp pt10">
+                <div id="noSendData_hzzdjjr" class="noSendData" style="display: none;">
+                    <div>
+                            <p>暂时没有合作中的经纪人</p>
+                    </div>
+                </div>
+                <div class="sigenr mt5" id="tableInfo" style="overflow: visible;">
+                </div>
+                <div class="wenzlb sigenr mt15" style="display:none" id="articleInfo">
+                </div>
+                <div class="lthy_pager" id="paginInfo">
+                </div>
+				<div class="clear"></div>
+
+				<div class="clear"></div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="gz_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog" style="width:300px">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel">关注</h4>
+			</div>
+			<div class="modal-body t_c" id="attentionHeadhunt">是否确认关注该名片</div>
+			<div class="modal-footer">
+				<input type="hidden" id="cancelId" value="19">
+				<input type="hidden" id="cancelGroupId" value="136">
+				<button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">关闭</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" id="attentionClick">确认</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+</div>
+
+<div class="modal fade" id="detail_hzzw" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog" style="width:702px">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel">合作职位详情</h4>
+			</div>
+			<div class="modal-body">
+				<img src="/static/images/hzz_03.png" style="display:block;margin:0 auto">
+				<div class="tuplb sigenr mt10 oh hzdlt_tuplb">
+					<div class="jlmp1 ">
+						<div class="jlmp1_k1 border_clear" style="position:relative">
+							<div class="mpLe">
+								<div class="mpxp">
+									<img src="/static/images/hzz_07.png" width="88" height="88" border="0" align="absmiddle"></div>
+								<div class="mpqzxx mt6 fz14">
+									<i class="iconfont icon-xin fz16"></i>
+									已入职
+								</div>
+							</div>
+							<div class="mpRi">
+								<ul>
+									<li class="c3">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+									</li>
+									<li class="mpjlly mt6 fz12" style="text-align: left">【个人简历】</li>
+									<li class="fz14  pt10 ">产品市场运营部总监</li>
+									<li class="fz12 pt8 c3">南昌  |  10年以上  |  本科  |  24岁</li>
+								</ul>
+							</div>
+							<div class="ppd_box2" style="position:absolute;right:0;top:10px">
+								<div class="t">41%</div>
+								<div>匹配值</div>
+							</div>
+						</div>
+						<div class="fz12  c3 t_r" style="border-left:1px solid #e0e0e0;border-right:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;padding:5px 0;padding-right: 10px">
+							<i class="iconfont icon-shijian fsn c9 mr5" style="font-size:14px;"></i>
+							2015-15-15
+						</div>
+						<div class="jlmp1_k4"></div>
+					</div>
+					<div class="jlmp1 ">
+						<div class="jlmp1_k1 border_clear" style="position:relative">
+							<div class="mpLe">
+								<div class="mpxp">
+									<img src="/static/images/hzz_07.png" width="88" height="88" border="0" align="absmiddle"></div>
+								<div class="mpqzxx mt6 fz14">
+									<i class="iconfont icon-xin fz16"></i>
+									安排面试
+								</div>
+							</div>
+							<div class="mpRi">
+								<ul>
+									<li class="c3">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+									</li>
+									<li class="mpjlly mt6 fz12" style="text-align: left">【个人简历】</li>
+									<li class="fz14  pt10 ">产品市场运营部总监</li>
+									<li class="fz12 pt8 c3">南昌  |  10年以上  |  本科  |  24岁</li>
+								</ul>
+							</div>
+							<div class="ppd_box2" style="position:absolute;right:0;top:10px">
+								<div class="t">41%</div>
+								<div>匹配值</div>
+							</div>
+						</div>
+						<div class="fz12  c3 t_r" style="border-left:1px solid #e0e0e0;border-right:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;padding:5px 0;padding-right: 10px">
+							<i class="iconfont icon-shijian fsn c9 mr5" style="font-size:14px;"></i>
+							2015-15-15
+						</div>
+						<div class="jlmp1_k4"></div>
+					</div>
+					<div class="jlmp1 ">
+						<div class="jlmp1_k1 border_clear" style="position:relative">
+							<div class="mpLe">
+								<div class="mpxp">
+									<img src="/static/images/hzz_07.png" width="88" height="88" border="0" align="absmiddle"></div>
+								<div class="mpqzxx mt6 fz14">
+									<i class="iconfont icon-xin fz16"></i>
+									待沟通
+								</div>
+							</div>
+							<div class="mpRi">
+								<ul>
+									<li class="c3">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+									</li>
+									<li class="mpjlly mt6 fz12" style="text-align: left">【个人简历】</li>
+									<li class="fz14  pt10 ">产品市场运营部总监</li>
+									<li class="fz12 pt8 c3">南昌  |  10年以上  |  本科  |  24岁</li>
+								</ul>
+							</div>
+							<div class="ppd_box2" style="position:absolute;right:0;top:10px">
+								<div class="t">41%</div>
+								<div>匹配值</div>
+							</div>
+						</div>
+						<div class="fz12  c3 t_r" style="border-left:1px solid #e0e0e0;border-right:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;padding:5px 0;padding-right: 10px">
+							<i class="iconfont icon-shijian fsn c9 mr5" style="font-size:14px;"></i>
+							2015-15-15
+						</div>
+						<div class="jlmp1_k4"></div>
+					</div>
+					<div class="jlmp1 ">
+						<div class="jlmp1_k1 border_clear" style="position:relative">
+							<div class="mpLe">
+								<div class="mpxp">
+									<img src="/static/images/hzz_07.png" width="88" height="88" border="0" align="absmiddle"></div>
+								<div class="mpqzxx mt6 fz14">
+									<i class="iconfont icon-xin fz16"></i>
+									求职中
+								</div>
+							</div>
+							<div class="mpRi">
+								<ul>
+									<li class="c3">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+									</li>
+									<li class="mpjlly mt6 fz12" style="text-align: left">【个人简历】</li>
+									<li class="fz14  pt10 ">产品市场运营部总监</li>
+									<li class="fz12 pt8 c3">南昌  |  10年以上  |  本科  |  24岁</li>
+								</ul>
+							</div>
+							<div class="ppd_box2" style="position:absolute;right:0;top:10px">
+								<div class="t">41%</div>
+								<div>匹配值</div>
+							</div>
+						</div>
+						<div class="fz12  c3 t_r" style="border-left:1px solid #e0e0e0;border-right:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;padding:5px 0;padding-right: 10px">
+							<i class="iconfont icon-shijian fsn c9 mr5" style="font-size:14px;"></i>
+							2015-15-15
+						</div>
+						<div class="jlmp1_k4"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+</div>
+
+<div class="modal fade" id="update_bz" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel">添加备注</h4>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" id="operateIndex" value="0">
+				<textarea name="remark" id="remark"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" style="width:90px;height:33px">关闭</button>
+				<button type="button" class="btn btn-primary" id="updateRemark" data-dismiss="modal">提交更改</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+</div>
+<script>
+ jQuery(document).ready(function($) {
+ 	// $(".hr_hzzdlt_mp").mouseenter(function(event) {
+ 	// 	$(this).children(".hr_zzc").stop().slideDown('500');
+ 	// });
+ 	// $(".hr_hzzdlt_mp").mouseleave(function(event) {
+ 	// 	$(this).children(".hr_zzc").stop().slideUp('500');
+ 	// })
+ 	$(".message_Modal_box label").click(function(event) {
+ 		$(this).parent().remove();
+ 	});
+ 	  //======= 信息模版
+        $(".icon-iconfontmoban2").click(function(){
+       	 $(".dialog").show();
+	    })
+	    $(".qx_btn").click(function(){
+	         $(".dialog").hide();
+	    })
+	    $("#add_btn").click(function(){
+	        $(".cyqy_table input[type=text]").val("");
+	    })
+	    $(".dialog li").click(function(){
+	        $(".dialog li").removeClass('active');
+	        $(this).addClass('active');
+	    })
+	    $(".dialog li").dblclick(function(){
+	         confirms.call(this);
+	    })
+	    $(".modal_wdgz .re_btn").click(function(){
+	        confirms.call(this);
+	    })
+	    function confirms(){
+	        $("#letterContent").val($(".dialog li.active").children('input').val());
+	        $(this).parent().parent().hide();
+	    }
+	     //========end 信息模版
+ });
+</script>
+{% include 'jobs/system/new_footer.html' %}

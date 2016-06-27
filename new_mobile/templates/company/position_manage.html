@@ -1,0 +1,771 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_company.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link href="http://at.alicdn.com/t/font_1465712390_2049143.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/static/new_mobile/js/layer/layer.js"></script>
+<style>
+	.zsp_job_li_other{width:60%;}
+    .zsp_job_li_other.redPW{width:74%;}
+  .zsp_job_list_li{
+  padding:10px 0px!important;
+  margin-bottom:10px;
+ }
+  .zsp_job_li_other{
+        margin: 0 0 3px 92px!important;
+  }
+  .zsp_job_li_tit{
+        margin: 0 0 0px 92px!important;
+  }
+  .zsp_job_li_fang img{
+        width:75px!important;
+        height:75px!important;
+        margin-top:5px;
+  }
+
+  .zsp_job_li_top{
+    padding:0px 16px!important;
+  }
+  .zsp_job_li_other_icon{margin-right: 0;color:#555;}
+  @media only screen and (max-width:400px) {
+   .zsp_job_li_h em{float: left;}
+}
+  @media only screen and (min-width:400px) {
+   .zsp_job_li_h h3{width:92%;}
+}
+.zsp_job_li_other_icon span{vertical-align:bottom;}v fe3
+.yjpp_box a,.yprc_box a[class^='no_a']{
+    text-decoration: none;
+    margin-bottom: 2px;
+    display: block;
+    overflow: hidden;
+    padding: 16px 16px;
+    position: relative;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+}
+.yjpp_wrap{overflow: hidden;}
+.yjpp_wrap .img{
+    display: block;
+    height: 48px;
+    width: 48px;
+    -moz-border-radius: 36px;
+    -webkit-border-radius: 36px;
+    border-radius: 36px;
+    margin: 1px 0 1px 1px;
+    float: left;
+    position: relative;
+}
+.yjpp_wrap .img img{
+    display: block;
+    height: 48px;
+    width: 48px;
+    -moz-border-radius: 36px;
+    -webkit-border-radius: 36px;
+    border-radius: 36px;
+}
+.yjpp_wrap .main{
+        margin: 0 0 0 66px;
+}
+.yjpp_wrap .main .zsp_job_li_h {
+    margin: 4px 0 6px;
+    overflow: hidden;
+}
+.yjpp_wrap .main .zsp_job_li_h span {
+    float: right;
+    color: #1470b3;
+    height: 20px;
+    width: 20px;
+    font-size: 14px;
+    color: #9daeb7;
+    line-height: 20px;
+}
+.yjpp_wrap .main .zsp_job_li_h span i {
+    display: block;
+    height: 20px;
+    width: 20px;
+    text-align: right;
+    font-size: 18px;
+    color: #b0bec5;
+    line-height: 20px;
+}
+.yjpp_wrap .main .zsp_job_li_h h3 {
+    margin-right: 30px;
+    font-size: 16px;
+    color: #002a3f;
+    font-weight: normal;
+    line-height: 20px;
+    word-break: break-all;
+    word-wrap: break-word;
+    width: 86%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.yjpp_wrap .main .zsp_job_li_h span.resume_type {
+    width: auto;
+    color: rgb(255, 136, 0);
+    font-size: 12px;
+    border-radius: 5px;
+    border: 1px solid #ffa137;
+    height: auto;
+    padding: 0px 3px;
+}
+.yjpp_wrap .main .zsp_job_li_tit_other {
+    font-size: 14px;
+    color: #9daeb7;
+    line-height: 20px;
+    width: 100%;
+    overflow: hidden;
+}
+.yjpp_wrap .main .zsp_job_li_rstate {
+    margin: 4px 0;
+    height: 18px;
+}
+.yjpp_wrap .main .zsp_job_li_rstate strong {
+    margin-right: 4px;
+    float: left;
+    font-size: 12px;
+    color: #9daeb7;
+    font-weight: normal;
+    line-height: 20px;
+}
+.yjpp_wrap .main .zsp_job_li_rstate strong {
+    margin-right: 4px;
+    float: left;
+    font-size: 12px;
+    color: #9daeb7;
+    font-weight: normal;
+    line-height: 20px;
+}
+ .reward_icon {
+        color: #ffffff;
+        width: 95px;
+        text-align: center;
+        background-color: #ff6d6d;
+        border-radius: 12px;
+        height: 24px;
+        line-height: 24px;
+        font-size: 12px;
+        position: absolute;
+        right: 22px;
+    }
+.zsp_job_li_h h3{width:100%;}
+@media screen and (max-width: 330px) {
+    .reward_icon{
+        position:static;
+        margin-top:0;
+    }
+}
+.yjpp_wrap{
+        overflow: hidden;
+        padding: 10px 0 0 0;
+        border-bottom:1px solid #e0e0e0;
+}
+.yjpp_box,.yprc_box{
+        border-top:1px solid #e0e0e0;
+        padding:0 20px;
+        display:none;
+}
+.zsp_job_li_fang, .zsp_job_li_fang img, .zsp_job_main_tit_img, .zsp_job_main_tit_img img{
+    width:auto;
+    height:auto;
+}
+
+</style>
+<script type="text/javascript">
+$(document).ready(function()
+{
+	// 职位暂停
+	$(".jobs_pause").click(function(){
+		var id = $(this).attr("jid");
+		$.post("?act=jobs_pause",{id:id},function(data){
+			if(data=="ok"){
+				alert(["职位暂停成功",1]);
+				window.location.reload();
+			}else if(data=="err"){
+				alert(["职位暂停失败",2]);
+				window.location.reload();
+			}else{
+				alert([data,2]);
+				window.location.reload();
+			}
+		});
+	});
+	// 暂停职位恢复
+	$(".jobs_regain").click(function(){
+		var id = $(this).attr("jid");
+		$.post("?act=jobs_regain",{id:id},function(data){
+			if(data=="ok"){
+				alert(["职位恢复成功",1]);
+				window.location.reload();
+			}else if(data=="err"){
+				alert(["职位恢复失败",2]);
+				window.location.reload();
+			}else{
+				alert([data,2]);
+				window.location.reload();
+			}
+		});
+	});
+	// 刷新职位
+	$(".jobs_refresh").click(function(){
+		var id = $(this).attr("jid");
+		$.post("?act=jobs_refresh",{id:id},function(data){
+			if(data=="ok"){
+				alert(["刷新职位成功",1]);
+				window.location.reload();
+			}else if(data=="err"){
+				alert(["刷新职位失败",2]);
+				window.location.reload();
+			}else{
+				alert([data,2]);
+				window.location.reload();
+			}
+		});
+	});
+	// 删除职位
+	$(".jobs_del").click(function(){
+		var id = $(this).attr("jid");
+		if (!confirm("确认要删除？")) {
+            window.event.returnValue = false;
+        }
+        else
+        {
+			$.post("?act=jobs_del",{id:id},function(data){
+				if(data=="ok"){
+					// alert("删除职位成功");
+					window.location.reload();
+				}else if(data=="err"){
+					alert(["删除职位失败",2]);
+					window.location.reload();
+				}else{
+					alert([data,2]);
+					window.location.reload();
+				}
+			});
+		}
+	});
+	
+	var flag = true;
+	if($(".zsp_job_list a").length<6){
+		$(".more").hide();
+	}
+	$(window).scroll(function(){
+		var scrollTop = $(this).scrollTop();
+		var scrollHeight = $(document).height();
+		var windowHeight = $(this).height();
+		if(scrollTop + windowHeight == scrollHeight){
+			//getMore执行之后，flag为false防止多次ajax
+			if(flag){
+			   // getMore();					   
+			}
+		}
+	});
+});
+
+// 不能发布职位提示
+function cannot_publish_position(type) {
+    if(type == 1) {
+        alert(['您加入企业的申请正在审核中哦~',3]);
+    } else if (type == 2) {
+        alert(['请您先前往怀才当遇PC端进行企业信息认证吧~',3]);
+    } else {
+        alert(['您的企业信息认证正在审核中哦~请耐心等待',3])
+    }
+}
+</script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+</script>
+
+<div class="zsp_job_list">
+</div>
+<div class="positionPaginInfo" id="positionPaginInfo" style="display: none;"></div>
+
+<div class="nothingTip nothin" style="display: none;">
+    <div class="tipImg">
+        <img src="/static/new_mobile/images/wsj.png" alt="">
+    </div>
+    <p>你还没有发布的职位</p>
+    <div class="goBtn"><a href="/mobile/company/release_position">立即发布职位</a></div>
+</div>
+<div class="nothingTip noconn" style="display: none;">
+    <div class="tipImg">
+        <img src="/static/new_mobile/images/wsj.png" alt="">
+    </div>
+    <p>暂时没有内容</p>
+</div>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script>
+// 职位分页
+var status = '{{ status | default:1 }}';
+var key = '{{ key | default:'' }}';
+var sql = 'source_id={{ request.session.pu_id }} ';
+if(status == '5') {
+
+    if (key != '') {
+        var key_list = key.split(' ');
+        for(var n = 0;n < key_list.length;n++){
+            sql += ' and (position_name like "%' + key_list[n] + '%" or Work_AreaName like "%'+key_list[n]+'%" or ';
+            sql += ' postaion_type in (select Position from T_SYS_Keywords where Keywords like "%'+key_list[n]+'%"))';
+        }
+    }
+
+} else {
+    sql += ' and position_status=' + status;
+}
+sql += ' order by last_update_date desc';
+var loadData = new pagin("positionPaginInfo", "V_Position_Search", "", encodeURI(sql), "", 6, "positionPagin", "loadData");
+
+
+//动态加载页面绑定数据
+function positionPagin(dataInfo){
+    $(".zsp_resume_but_box").remove();
+     //图片列表数据加载
+    var html = '';
+   
+    if(status =="2"){
+          if(dataInfo =='')
+            {
+                $(".noconn").show();
+                return false;
+            }
+    }
+    else if(status =="0"){
+        if(dataInfo =='')
+            {
+                $(".noconn").show();
+                return false;
+            }
+    }
+    else{
+         if(dataInfo =='')
+            {
+                $(".nothin").show();
+                return false;
+            }
+    }
+    $(dataInfo).each(function(i) {
+        // 处理值为 null 的字段
+        var len = $(this).length;
+        var array = $(this);
+        for (var n = 0; n < len; n++) {
+            if (array[n] == null) {
+                array[n] = "&nbsp;";
+            }
+        }
+
+        html += '<a href="javascript:void(0);" class="zsp_job_list_li">';
+        html += '   <div class="zsp_job_li_top" onclick="window.location.href=\'/mobile/company/view_position?position_id=' + array[0] + '\'">';
+        html += '       <div class="zsp_job_li_fang"><img src="' + file_website + array[56] + '" onerror="notfindimg(this)"></div>';
+        html += '       <div class="zsp_job_li_tit">';
+        html += '           <div class="zsp_job_li_h">';
+        html += '               <h3>' + array[3] + '<i style="color:#ff6b12;font-size:14px;margin-left:5px;">'+array[19]+'</i>';
+        if(array[30] != '' && array[30] != '&nbsp;'){
+            html += '               <div class="reward_icon"><i class="iconfont icon-qianbao"></i>悬赏:￥'+array[30]+'</div>';
+        }
+        html += '                   <i class="iconfont icon-youjiantou"></i></h3>';
+        html += '            </div>';
+        html += '            <div class="zsp_job_li_tit_other" style="margin-top:7px;">';
+         html += '       <div class="zsp_job_li_other_icon">';
+     
+        html += '           <span>' + array[59] + '</span><em style="color:#555;margin:0 5px;">|</em>';
+        html += '       </div>';
+        html += '       <div class="zsp_job_li_other_icon">';
+      
+        html += '           <span>' + array[23] + '</span><em style="color:#555;margin:0 5px;">|</em>';
+        html += '       </div>';
+        html += '       <div class="zsp_job_li_other_icon">';
+
+        if(array[26] == "&nbsp;") {
+            html += '           <span>学历不限</span>';
+        } else {
+            html += '           <span>' + array[26] + '</span>';
+        }
+        html += '       </div>';
+        html += '            </div>';
+        html += '       </div>';
+        html += '   <div class="zsp_job_li_other  redPW" style="color:#888;margin-bottom:0!important;margin-top:7px!important;">';
+        html +=                 '<span style="color:#888">发布于'+array[48].substring(0, 10)+'</span>';
+        html += '   </div>';        
+        // html += '   <div class="zsp_job_li_other">';
+        // html += '       <div class="zsp_job_li_other_icon">';
+        // var update_date = array[48];
+        // if(update_date != '&nbsp;' && update_date.length > 10) {
+        //     update_date = update_date.substr(0, 10);
+        // }
+        // html += '           <span>更新时间: ' + update_date + '</span>';
+        // html += '       </div>';
+        html += '   </div  onclick="window.location.href=\'/mobile/company/view_position?position_id=' + array[0] + '\'">';
+        html += '   </div>';
+       
+
+      
+        if(array[50] == 1) {
+            // html += '   <div onclick="window.location.href=\'/mobile/company/filtered_resume?position_id=' + array[0] + '\'" style="position:absolute;right:5%;top:15px;background-color:#1470b3;color:#fff;padding:1em;font-size: 1em;width:84px;">';
+            html += '<div class="resumepro">';
+            var resume_count = 0;
+            $.ajax({
+                async: false,
+                type: 'post',
+                data: {'position_id': array[0]},
+                url: '/mobile/ajax_get_receive_deliver_count',
+                dataType: 'json',
+                success: function(data) {
+                    if(data != 'err') {
+                        resume_count = data
+                    }
+                }
+            });
+            // html += '       待处理简历(' + resume_count + ')';
+            // html += '   </div>';
+            // html += '   <div style="position:absoluete;right:5%;top:60px;background-color:#1470b3;color:#fff;padding:1em;font-size: 1em;width:84px;">';
+            // html += '       匹配的人才(20)';
+            // html += '   </div>';
+             
+               html += ' <ul> ';
+               // html += ' <li style="border-right:1px solid #d8dfe2" onclick="window.location.href=\'/mobile/company/filtered_resume?position_id=' + array[0] + '\'">';
+               html += ' <li style="border-right:1px solid #d8dfe2" onclick="yprc(this,'+ array[0] +')">';
+               html += ' <i class="pending"></i><span class="pendmain">应聘人才';
+            if(resume_count != 0){
+                html += '   <em class="hint">' + resume_count + '</em>'; }
+                html += ' <i class="iconfont icon-arrowll-copy copyarrow"></i></span> ';
+           
+               // html += ' <li onclick="window.location.href=\'/mobile/company/mate_resume?position_id=' + array[0] + '\'" ><i class="matching"></i>一键匹配</li>';
+             html += ' </li><li onclick="yjpp(this,'+ array[0] +')" ><i class="matching"></i>一键匹配</li>';
+               html += '</ul>';
+               html += '</div>';
+               html +="<div class='yprc_box'>"
+               html +="</div>"
+               html +='<div class="yjpp_box">';
+               html +='</div>'
+        } else if(array[50] == 0) {
+            // html += '   <div onclick="window.location.href=\'/mobile/company/view_position?position_id=' + array[0] + '\'" style="position:absolute;right:5%;top:15px;background-color:#ccc;color:#fff;padding: 0.5em;font-size: 1.2em;width: 80px;text-align: center;">';
+            // html += '       已下线';
+            // html += '   </div>';
+            // html += '   <div>请电脑登陆 www.hcdyhr.com 认证企业信息</div>';
+            html += '</a>';
+        } else if(array[50] == 2) {
+             html += '</a>';
+        }
+
+
+    });
+    $(".zsp_job_list").append(html);
+    $(".pendmain").css({"position":"relative"});
+    $(".hint").css({"margin-top":"-16px","right":"-13px"});
+    $(".copyarrow").css({"position":"absolute","right":"-30px","color":"#333","font-size":"15px","transtion":"all 0.4s ease 0s"});
+    var $this_page_data = $(".positionPaginInfo .active");
+    var $end_page_data = $(".positionPaginInfo li:last");
+    if($this_page_data.attr('onclick') != $end_page_data.attr('onclick')) {
+{#        var moreButton = '<div class="zsp_resume_but_box" onclick="next_page_position()">';#}
+{#        moreButton += '         <a href="javascript:;" id="jobMore" class="zsp_resume_but_4 more">查看更多</a>';#}
+{#        moreButton += '   </div>';#}
+{#        $(".zsp_job_list").append(moreButton);#}
+    }
+    var length = $(".zsp_job_list_li").length;
+    if(length == 0) {
+        var no_position = '';
+        no_position = '<div class="nothingTip">';
+        no_position += '   <div class="tipImg">';
+        no_position += '   </div>';
+        no_position += '    <p>你还没有发布职位</p>';
+        no_position += '    <div class="goBtn">';
+        no_position += '        <a href="/mobile/company/release_position">发布招聘职位</a>';
+        no_position += '    </div>';
+		no_position += '</div>';
+        $(".zsp_job_list").append(no_position);
+    }
+}
+function yjpp(_this,position_id){
+    var yjppDom=$(_this).parent().parent().parent().children('.yjpp_box');
+    yjppDom.empty();
+    var loading=layer.open({
+        type:2
+    })
+    $.ajax({
+        async: true,
+        type: "POST",
+        url: "/ajax_autoMatching",
+        data: {"positionID": position_id, "type": 2, 'matchingCount': 6},
+        dataType: "json",
+        success: function (data) {
+            $(data.dataInfo).each(function () {
+                layer.close(loading);
+                var array = $(this);
+
+                for (var i = 0; i < array.length; i++) {
+                    if (array[i] == null || array[i] == "") {
+                        array[i] = "&nbsp;";
+                    }
+                }
+                if(array[4] =="&nbsp;"){
+                    array[4] = null;
+                }
+                if(array[array.length - 1]=="&nbsp;")
+                {
+                    array[array.length - 1]=0;
+                }
+                var resume_type = "个人简历";
+
+                if(array[1] != 1)
+                    resume_type = "经纪人简历";
+                array[5] = $.trim(array[5]);
+                var sex = array[5];
+                var name = array[3];
+                if(name != '' && name.length > 1) {
+                    name = name.substr(0, 1);
+                    //name = makePy(name)[0];
+                }
+                if(sex == '男') {
+                    name += '先生'
+                } else {
+                    name += '女士'
+                }
+                var o_array = [];
+                function has_val(val,arr){
+                    if($.trim(val) != '' && val !='&nbsp;'){
+                        arr.push(val);
+                    }
+                }
+                has_val(array[37],o_array);
+                has_val(array[35],o_array);
+
+                if(array[6] != "&nbsp;"){
+                    has_val(array[36],o_array);
+                    has_val((new Date().getFullYear() - parseInt(array[6]))+'岁',o_array);
+                }
+
+                o_array = o_array.join('&nbsp|&nbsp;');
+
+                var education_array = [];
+                $.ajax({
+                    async: false,
+                    type: 'post',
+                    data: {'resume_id': array[0]},
+                    url: '/mobile/ajax_get_education_experience',
+                    dataType: 'json',
+                    success: function(data) {
+                        has_val(data.uc_name,education_array);
+                        has_val(data.smajor,education_array);
+                        has_val(data.sdiploma,education_array);
+                        education_array = education_array.join('&nbsp;|&nbsp;');
+                    }
+                });
+
+                var yjppHtml='<a href="/mobile/company/detail_mate_resume?resume_id=' + array[0] + '&match_raise='+array[array.length - 1]+
+                        '&position_id='+ position_id +'" class="no_a">\
+                    <div class="yjpp_wrap">\
+                        <div class="img">\
+                            <img src="'+array[4] + '" onerror="notfind(this,\''+array[5]+'\')">\
+                            <p style="text-align: center;color:#333;margin-top:5px;">匹配度</p>\
+                            <p style="text-align: center;color:#ff8800;">'+array[array.length - 1]+'%</p>\
+                        </div>\
+                        <div class="main">\
+                            <div class="zsp_job_li_h" style="margin-bottom:0">\
+                                <h3 style="width:85%!important;">'+ name +'<i style="margin-left: 10px;">'+ sex +'</i><span\
+                                class="resume_type">'+ resume_type +'</span></h3>\
+                            </div>\
+                            <div class="zsp_job_li_tit_other">高级研发工程师<i class="fa fa-angle-right"  style="float: right;font-size: 22px;"></i></div>\
+                            <div class="zsp_job_li_rstate">\
+                              <strong>'+ o_array +'</strong>\
+                            </div>\
+                            <div class="zsp_job_li_rstate">\
+                                <strong style="color:#FFA137">\
+                                '+ education_array +'</strong>\
+                            </div>\
+                        </div>\
+                    </div>\
+                    </a>';
+
+                yjppDom.append(yjppHtml);
+            });
+        }
+    });
+    
+    $(_this).parent().parent().parent().children('.yprc_box').hide();
+    $(_this).parent().parent().parent().children('.yjpp_box').show();
+}
+var yprcDom;
+var yprcData;
+var locklock = true
+function yprc(_this, position_id){
+    // 没有应聘简历时不处理
+    if($(_this).children().children('.hint').length <= 0){
+        // console.log(1)
+        return false;
+    }
+     ;
+    if(locklock){
+        locklock = false;
+         $(_this).children('span').children(".copyarrow").css({"transform":"rotate(180deg)"});
+
+
+    o_async=true;
+    var sql = ' id IN (SELECT MAX(a.id) AS aid FROM T_AJ_Info a WHERE release_id={{ request.session.pu_id }} and position_id = '+ position_id +' GROUP BY Form_No) ';
+    sql += ' and (dispose_status=0 or dispose_status=1 or dispose_status=2 or dispose_status=5) and resume_status=1';
+    yprcDom=$(_this).parent().parent().parent().children('.yprc_box');
+
+    $(_this).parent().parent().parent().children('.yprc_box').show();
+    $(_this).parent().parent().parent().children('.yjpp_box').hide();
+    yprcDom.empty();
+    yprcDom.append('<div class="yprc_pagin" id="yprc_pagin" style="display: none;">');
+    layer.open({type:2});
+    yprcData = new pagin("yprc_pagin", "V_AJ_Resume_Deal", "", sql, "", 6, "yprc_dataBind", "yprcData", 4);
+     
+     }else{
+        console.log(1);
+        $(_this).parent().parent().parent().children('.yprc_box').hide();
+        $(_this).children('span').children(".copyarrow").css({"transform":"rotate(0deg)"});
+        locklock = true;
+     }
+   
+     
+    
+}
+
+function yprc_dataBind(data){
+    var date = new Date();
+    var year_now = date.getFullYear();
+    var data_len = data.length;
+    for (var i = 0; i < data_len; i++) {
+        // 处理值为 null 的字段
+        var len = data[i].length;
+        var array =data[i];
+        for(var n = 0; n < len; n ++){
+            if(array[n] == null){
+                array[n] = "&nbsp;"
+            }
+        }
+        if(array[4] =="&nbsp;"){
+                   array[4] = null;
+               }
+        array[5] = $.trim(array[5]);
+
+        $.ajax({
+            async: false,
+            type: 'post',
+            data: {'expect_position': array[23]},
+            url: '/mobile/ajax_get_expect_position',
+            dataType: 'json',
+            success: function(data) {
+                if(data != 0) {
+                    array[23] = data;
+                }
+            }
+        });
+        var experience = null;
+
+        $.ajax({
+            async: false,
+            type: 'post',
+            data: {'resume_id': array[0]},
+            url: '/mobile/ajax_get_education_experience',
+            dataType: 'json',
+            success: function(data) {
+                if(data != 0) {
+                     experience = data;
+                }
+            }
+        });
+
+        var yprcHtml='<a href="javascript:void(0);" onclick="viewRecieveResume('+array[41]+', '+array[39]+', '+data[i][data[i].length - 1]+', '+array[0]+')">\
+                 <div class="yjpp_wrap">\
+                     <div class="img">\
+                        <img src="{{ request.session.file_website }}' + array[4] + '" onerror="notfind(this,\''+array[5]+'\')">\
+                        <p style="text-align: center;color:#333;margin-top:5px;">匹配度</p>\
+                        <p style="text-align: center;color:#ff8800;">' + data[i][data[i].length - 1] + '%</p>\
+                     </div>\
+                     <div class="main">\
+                        <div class="zsp_job_li_h" style="margin-bottom:0">\
+                            <h3 style="width:85%!important;">'+ array[3] +'<i style="margin-left: 10px;">' + array[5] + '</i><span\
+                            class="resume_type">'+ (array[1] == 1?"个人简历":"经纪人简历") +'</span></h3>\
+                        </div>\
+                        <div class="zsp_job_li_tit_other">'+ array[23] +'<i class="fa fa-angle-right"  style="float: right;font-size: 22px;"></i></div>\
+                        <div class="zsp_job_li_rstate">\
+                          <strong>'+array[16]+'&nbsp;|&nbsp;'+array[14]+'&nbsp;|&nbsp;' +array[15] + '&nbsp;|&nbsp;' +
+                (array[6] != "&nbsp;"?((year_now - parseInt(array[6])) + "岁") : "") + '</strong>\
+                        </div>\
+                        <div class="zsp_job_li_rstate">\
+                            <strong style="color:#FFA137">\
+                              '+ (experience != null ? experience.uc_name+'&nbsp;|&nbsp;':"")
+                             + (experience != null ? experience.smajor+'&nbsp;|&nbsp;':"")
+                             + (experience != null ? experience.sdiploma:"") +'</strong>\
+                        </div>\
+                     </div>\
+                 </div>\
+               </a>';
+        if(yprcDom.children('div[onclick="getMoreYprc(this)"]').length > 0){
+            yprcDom.children('div[onclick="getMoreYprc(this)"]').eq(0).before(yprcHtml);
+        }else{
+            yprcDom.append(yprcHtml);
+        }
+    }
+    var index_page = yprcDom.children('div:first').children('ul').children('.active');
+    var last_page = yprcDom.children('div:first').children('ul').children('li:last');
+    if(index_page.attr('onclick') == last_page.attr('onclick')){
+        yprcDom.children('div[onclick="getMoreYprc(this)"]').remove();
+    }else{
+        yprcDom.append('<div style="text-align: center;line-height:36px;" onclick="getMoreYprc(this)"><span style="color:#1470b3">加载更多</span></div>');
+    }
+}
+// 查看应聘的简历
+function viewRecieveResume(resume_id, dispose_status, matching_score, tajinfo_id){
+    var url = '';
+    if(dispose_status == 0) {
+        url = '/mobile/company/detail_filtered_resume?resume_id=';
+    } else if(dispose_status == 1) {
+        url = '/mobile/company/detail_commun_resume?resume_id=';
+    } else if(dispose_status == 2) {
+        url = '/mobile/company/detail_arranged_resume?resume_id=';
+    } else if(dispose_status == 3) {
+        url = '/mobile/company/detail_improper_resume?resume_id=';
+    } else if(dispose_status == 4) {
+        url = '/mobile/company/detail_mate_resume?resume_id=';
+    } else {
+        url = '/mobile/company/detail_filtered_resume?resume_id=';
+    }
+    url += resume_id +'&match_raise=' + matching_score + '&tajinfo_id=' + tajinfo_id;
+    window.location = url;
+}
+
+
+// 加载更多职位
+function next_page_position() {
+    var $this_page_data = $(".positionPaginInfo .active");
+    var $end_page_data = $(".positionPaginInfo li:last");
+    if($this_page_data.attr('onclick') != $end_page_data.attr('onclick')) {
+        $this_page_data.next("li").click();
+    } else {
+        $(".zsp_resume_but_box").remove();
+    }
+}
+function getMoreYprc(_this){
+    var index_page = $(_this).parent().children('div:first').children('ul').children('.active');
+    var last_page = $(_this).parent().children('div:first').children('ul').children('li:last');
+    if(index_page.attr('onclick') != last_page.attr('onclick')){
+        index_page.next('li').click();
+    }
+{#    $(_this).before('<a href="/mobile/company/detail_mate_resume?resume_id=65816"><div class="yjpp_wrap">\#}
+{#        <div class="img"><img src="/static/mobile/images/rcf_tx.png" onerror="notfind(this,"男")">\#}
+{#        <p style="text-align: center;color:#333;margin-top:5px;">匹配度</p><p style="text-align: center;color:#ff8800;">14%\#}
+{#        </p></div><div class="main"> <div class="zsp_job_li_h" style="margin-bottom:0"><h3 style="width:85%!important;">\#}
+{#        鄢定旭<i style="margin-left: 10px;">男</i><span class="resume_type">经纪人简历</span></h3>\</div>\#}
+{#        <div class="zsp_job_li_tit_other">UI设计师/顾问<i class="fa fa-angle-right" style="float: right;font-size: 22px;"></i>\#}
+{#        </div><div class="zsp_job_li_rstate"><strong>北京市&nbsp;|&nbsp;3-5年&nbsp;|&nbsp;硕士&nbsp;|&nbsp;25岁</\#}
+{#        strong></div><div class="zsp_job_li_rstate"><strong style="color:#FFA137">九江学院&nbsp;|&nbsp;信息管理和信息系统&nbsp;\#}
+{#        |&nbsp;大专</strong></div></div></div></a>')#}
+}
+</script>
+</body></html>

@@ -1,0 +1,166 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+ <style type="text/css">
+        .zsp_job_list_top{width:100%;}
+        .zsp_job_list_top span{display:inline-block;width:15.8%;text-align:center;height:38px;line-height: 38px;border-radius: 5px;border:1px solid #1470B3;margin:0 2%;font-size: 16px;margin-bottom:10px;margin-top:10px;}
+        @media (max-width: 768px) {
+            .zsp_job_list_top span{width:28%;}
+        }
+        .zsp_job_list_li .zsp_job_li_h span.resume_type{
+            width: auto ;
+            color: rgb(255, 136, 0);
+            font-size: 12px;
+            border-radius: 5px;
+            border: 1px solid rgb(255, 136, 0);
+            height: auto;
+            padding: 0px 3px;
+        }
+    </style>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+
+
+<div class="zsp_resume_but_box load spe">
+    <a href="javascript:;" class="loading_more more">
+    	<i class="fa fa-refresh"></i>
+		<span>正在努力为您加载...</span>
+    </a>
+</div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+</script>
+<div class="zsp_job_list">
+</div>
+<script type="text/javascript" src="/static/new_mobile/js/getInitial.js"></script>
+</body></html>
+<script>
+//智能匹配（简历）
+$(function() {
+    matchResume();
+});
+function notfind(obj,sex){
+    if(sex == "男")
+        obj.src='/static/images/rcf_tx.png';
+    else
+        obj.src='/static/images/rcf_tx1.png';
+}   
+function matchResume(){
+    var positionId = '{{ position_id }}';
+    $.ajax({
+        type: "POST",
+        url: "/ajax_autoMatching",
+        data: {"positionID": positionId, "type": 2, 'matchingCount': 6},
+        dataType: "json",
+        success: function (data) {
+            addresume(data.dataInfo);
+        }
+    });
+}
+
+    //加载匹配的简历
+function addresume(dataInfo) {
+    if (typeof(dataInfo) == "undefined") {
+        return;
+    }
+    $(".zsp_resume_but_box").remove();
+    var userValidateStatus = $("#userValidateStatus").val();    // 认证状态
+
+    $(dataInfo).each(function () {
+        var array = $(this);
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] == null || array[i] == "") {
+                array[i] = "&nbsp;";
+            }
+        }
+        if(array[4] =="&nbsp;"){
+            array[4] = null;
+        }
+        if(array[array.length - 1]=="&nbsp;")
+        {
+            array[array.length - 1]=0;
+        }
+        var resume_type = "个人简历";
+
+        if(array[1] != 1)
+            resume_type = "经纪人简历";
+        array[5] = $.trim(array[5]);
+        var html = "";
+        html += '<a href="/mobile/company/detail_mate_resume?resume_id=' + array[0] + '&match_raise='+array[array.length - 1]+'&position_id={{ position_id }}" class="zsp_job_list_li">';
+        html += '   <div class="zsp_job_li_top">';
+        html += '       <div class="zsp_job_li_img"><img src="'+array[4] + '" onerror="notfind(this,\''+array[5]+'\')"><p style="text-align: center;color:#333;margin-top:5px;">匹配度</p><p style="text-align: center;color:#ff8800;">'+array[array.length - 1]+'%</p></div>';
+
+        // if(array[5]=='男')
+        //     html += '       <div class="zsp_job_li_img"><img src="/static/images/rcf_tx.png"><p style="text-align: center;color:#333;margin-top:5px;">匹配度</p><p style="text-align: center;color:#ff8800;">'+array[array.length - 1]+'%</p></div>';
+        // else
+        //     html += '       <div class="zsp_job_li_img"><img src="/static/images/rcf_tx1.png" ><p style="text-align: center;color:#333;margin-top:5px;">匹配度</p><p style="text-align: center;color:#ff8800;">'+array[array.length - 1]+'%</p></div>';
+
+
+
+        html += '       <div class="zsp_job_li_main">';
+        html += '           <div class="zsp_job_li_h" style="margin-bottom:0">';
+        html += '               <span><i class="fa fa-angle-right"></i></span>';
+        var sex = array[5];
+        var name = array[3];
+        if(name != '' && name.length > 1) {
+            name = name.substr(0, 1);
+            name = makePy(name)[0];
+        }
+        if(sex == '男') {
+            name += '先生'
+        } else {
+            name += '女士'
+        }       
+        var o_array = [];
+        function has_val(val,arr){
+            if($.trim(val) != '' && val !='&nbsp;'){
+                arr.push(val);
+            }
+        }
+        has_val(array[37],o_array);
+        has_val(array[35],o_array);
+        has_val(array[36],o_array);
+        has_val((new Date().getFullYear() - parseInt(array[6]))+'岁',o_array);
+        o_array = o_array.join('&nbsp|&nbsp;');
+        html += '               <h3 style="width:85%!important;">'+name+'<i style="margin-left: 10px;">' + array[5] + '</i><span class="resume_type">'+resume_type+'</span></h3>';
+        html += '           </div>';
+        html += '           <div class="zsp_job_li_tit_other">'+array[38]+'</div>';
+        html += '           <div class="zsp_job_li_rstate">';
+        html += '               <strong>' + o_array+'</strong>';
+        html += '           </div>';
+        html += '           <div class="zsp_job_li_rstate">';
+        $.ajax({
+            async: false,
+            type: 'post',
+            data: {'resume_id': array[0]},
+            url: '/mobile/ajax_get_education_experience',
+            dataType: 'json',
+            success: function(data) {
+                var o_array= [];
+                has_val(data.uc_name,o_array);
+                has_val(data.smajor,o_array);
+                has_val(data.sdiploma,o_array);
+                o_array = o_array.join('&nbsp;|&nbsp;');
+                if(data == 0) {
+                     html += '                   <strong style="color:#FFA137"></strong>';
+                } else {
+                     html += '                   <strong style="color:#FFA137">' + o_array +'</strong>';
+                }
+            }
+        });
+        html += '           </div>';
+        html += '       </div>';
+        html += '   </div>';
+        html += '</a>';
+        $(".zsp_job_list").append(html);
+    })
+}
+
+</script>

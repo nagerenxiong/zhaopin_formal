@@ -1,0 +1,16 @@
+@charset "utf-8";
+@mixin content_box($w1,$w2)
+{
+   .l_box{
+		width:$w1;
+		float: left;
+	}
+	.r_box{
+		width:$w2;
+		float: right;
+	}
+}
+.content
+{
+	@include content_box(765px,235px);	
+}

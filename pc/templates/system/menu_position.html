@@ -1,0 +1,65 @@
+<ul id="menu" >
+        {% if request.session.account_type == "2" or request.session.account_type == "4"  %}
+            <li class="nav2hover">
+                <a href="/jobs/position/company/fbdzw">职位发布<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <!-- <li>
+ 			    <a href="/jobs/position/l_zwglq">职位过滤器<i class="iconfont icon-xia1"></i></a>
+ 		    </li> -->
+            <li>
+ 			    <a href="/jobs/position/company/zwgl">职位管理<i class="iconfont icon-xia1"></i></a>
+ 		    </li>
+        {% else %}
+            <li class="nav2hover">
+                <a href="/jobs/position/headhunter/naagentsearch">职位搜索<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li>
+                <a href="/jobs/position/headhunter/fbdzw" onclick="return isIdentityHeadhunt('3,5', '2')">职位发布<i class="iconfont icon-xia1"></i></a>
+            </li>
+            
+            <li>
+ 			    <a href="/jobs/position/headhunter/zwgl">职位管理<i class="iconfont icon-xia1"></i></a>
+ 		    </li>
+            
+            <li>
+                <a href="/jobs/position/headhunter/zwsc">收藏的职位<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li>
+                <a href="/jobs/position/headhunter/zwdyq"  onclick=" return onlyHeadhuntCompany()">职位订阅器<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li>
+                <a href="/jobs/position/headhunter/zpqygl" onclick=" return onlyHeadhuntCompany()">招聘企业管理<i class="iconfont icon-xia1"></i></a>
+            </li>
+        {% endif %}
+ </ul>
+ 
+<script type="text/javascript">
+    $(function(){
+        //设置当前页样式
+        var url = location.href;
+        var num = url.lastIndexOf('/');
+        url = url.substring(num + 1,url.length);
+
+        $("#menu li").removeClass();
+
+        $("#menu li").each(function(){
+            if(url== "wscdjl" || url== "wtdjl" ){
+                url = "wdjlk";
+            }
+            if($(this).find("a").attr("href") == url){
+                $(this).addClass("nav2hover");
+            }
+        });
+    })
+
+    function onlyHeadhuntCompany() {
+{#        var account_type = "{{ pu.account_type }}";#}
+{#        if(account_type == '3'){#}
+{#            layer.alert("猎头企业信息尚未验证，点击[<a href='/jobs/account/sfyz'  style='color: blue'>前往验证</a>]");#}
+{#            return false;#}
+{#        } else {#}
+{#            return isIdentityAudit('5', '2');#}
+{#        }#}
+        return isIdentityAudit('3,5', '2');
+    }
+</script>

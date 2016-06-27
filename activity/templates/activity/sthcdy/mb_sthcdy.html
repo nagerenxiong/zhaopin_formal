@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <title>怀才当遇</title>
+  <link rel="stylesheet" href="/static/activity/dsglst/css/pulic.css">
+  <script type="text/javascript" src="{{ STATIC_URL }}js/core/jquery-1.11.3.min.js"></script>
+
+  <link rel="stylesheet" href="{{ STATIC_URL }}images/images8/swiper.min.css">
+  <script type="text/javascript" src="/static/activity/dsglst/js/swiper.min.js"></script>
+  <script type="text/javascript" src="http://tool.keleyi.com/ip/visitoriphost/"></script> 
+  <script  src="/static/activity/dsglst/js/jquery.SuperSlide.2.1.1.js"></script>
+  <script type="text/javascript" src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+ <script type="text/javascript" src="{{ STATIC_URL }}images/images8/swiper.min.js"></script>
+  <script type="text/javascript">
+
+  function BrowserRedirect(e,t,n,r){var i=navigator.userAgent.toLowerCase(),s=i.match(/ipad/i)=="ipad",o=i.match(/iphone os/i)=="iphone os",u=i.match(/midp/i)=="midp",a=i.match(/rv:1.2.3.4/i)=="rv:1.2.3.4",f=i.match(/ucweb/i)=="ucweb",l=i.match(/android/i)=="android",c=i.match(/windows ce/i)=="windows ce",h=i.match(/windows mobile/i)=="windows mobile",p=i.match(/gt-p/i)=="gt-p",d;n==""&&(n=e),o||u||a||f||l||c||h?p?(d=n,r!=0&&(window.location.href=d)):(d=t,r!=1&&(window.location.href=d)):(s?d=n:d=e,r!=0&&(window.location.href=d))}
+BrowserRedirect('sthcdy','mb_sthcdy','',1);
+  /*自适应文字大小*/
+  function setCookie(c_name,value,expiredays)
+    {
+    var exdate=new Date()
+    exdate.setDate(exdate.getDate()+expiredays)
+    document.cookie=c_name+ "=" +escape(value)+
+    ((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+    }
+    function getCookie(c_name)
+    {
+    if (document.cookie.length>0)
+      {
+      c_start=document.cookie.indexOf(c_name + "=")
+      if (c_start!=-1)
+        { 
+        c_start=c_start + c_name.length+1 
+        c_end=document.cookie.indexOf(";",c_start)
+        if (c_end==-1) c_end=document.cookie.length
+        return unescape(document.cookie.substring(c_start,c_end))
+        } 
+      }
+    return ""
+    }
+(function(doc, win) {
+  var docEl = doc.documentElement,
+    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+    recalc = function() {
+      var clientWidth = docEl.clientWidth;
+      if (!clientWidth) return;
+      if (clientWidth > 640) {
+        clientWidth = 640;
+      }
+      docEl.style.fontSize = clientWidth / 10 + 'px';
+      var swiper = new Swiper('.swiper-container', {
+      pagination: '.swiper-pagination',
+      //grabCursor: false,
+      loop: true,
+      autoplay: 3000,
+      nextButton: '.swiper-button-next',
+      prevButton: '.swiper-button-prev',
+      paginationClickable: true
+      });
+    };
+  if (!doc.addEventListener) return;
+  win.addEventListener(resizeEvt, recalc, false);
+  doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+
+$(function(){
+  $('.ea_selet ul li').each(function(index,el) {
+     $(el).click(function(event) {
+      $('.ea_selet ul li').removeClass('active');
+      $(el).addClass('active');
+      $('.item_ea .ea_info').css('display', 'none');
+      $('#eain'+(index+1)).css('display', 'block');
+     });
+  });
+})
+
+     // 微信分享
+    WXJssdk.init(function(wx) {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+            success: function (res) {
+      //alert(JSON.stringify(res));
+            }
+        });
+        // 分享data
+        var shareData = {
+            title: '大圣归来精英招聘季',
+            desc: '怀才当遇2015江西首届精英人才招聘季-大圣归来',
+            link: 'http://www.hcdyhr.com/resume/mobile_dsgl.html',//分享链接
+            imgUrl: 'http://www.hcdyhr.com/static/images/images8/dsgl_logo.jpg',//分享显示的图片
+            success:function(){
+                // alert('shareData success');
+            },
+            cancel:function(){
+                // alert('shareData cancel');
+            },
+            error:function(res){
+                // alert(JSON.stringify(res));
+            }
+        };
+      
+        // 分享给朋友
+          wx.onMenuShareAppMessage(shareData);
+        // 分享到朋友圈
+          wx.onMenuShareTimeline(shareData);
+        // 分享到QQ
+          wx.onMenuShareQQ(shareData);
+        // 分享到微博
+          wx.onMenuShareWeibo(shareData);
+    });
+</script>
+<style>
+.djs_time{    
+    background-color: #000;
+    border-radius: 0.14rem;
+    width: 5.3rem;
+    height: 1.1rem;    
+  }
+.djs_time ul{
+    margin-left:0.39rem;
+    display:block;
+    overflow:hidden;
+}
+.djs_time ul li{
+    width:1.2rem;
+    float:left;
+    margin-top:0.125rem;   
+    font-size: 0.25rem;
+}
+.djs_time ul li input{
+   width:0.62rem;
+   height:0.76rem;
+   background-color:#fff;
+   color:#ee3147;
+   display:inline-block;
+   border-radius:0.05rem;
+   line-height:0.76rem;
+   font-size:0.3rem;
+   font-weight:bold;
+   text-align:center;
+   border:0px;
+}
+
+
+
+
+
+
+
+
+
+/* 本例子css */
+.slideBox{ width:300px; height:280px; overflow:hidden; margin:3px auto; margin-top:-15px!important;}
+.slideBox .hd{ height:36px; overflow:hidden; position:absolute; bottom:0px; z-index:1; }
+.slideBox .hd ul{ overflow:hidden; zoom:1; float:left;  }
+.slideBox .hd ul li{ float:left; margin-right:2px; overflow-y:none; width:98px;font-style: italic; font-weight:bold; font-family:"微软雅黑"; height:36px;display:block; line-height:36px; font-size:14px; text-align:center; color:#001c37; background:#806b1c; cursor:pointer; }
+.slideBox .hd ul li.on{ background:#ffb901; color:#001c37; height:36px; line-height:36px;}
+.slideBox .bd{ position:relative; height:100%; z-index:0; font-size:12px;   }
+.slideBox .bd li{ zoom:1; vertical-align:middle; padding-top: 30px;font-size:12px;  color:#fff;}
+.slideBox1 .bd li{padding-left:30px;padding-right: 30px;}
+
+/* 下面是前/后按钮代码，如果不需要删除即可 */
+.slideBox .prev{ position:absolute; left:0; top:50%; margin-top:-39px; width:0.40rem;  height:0.72rem; display:block; color:#ffb901;}
+.slideBox .next{ position:absolute; left:0; top:50%; margin-top:-39px; width:0.40rem;  height:0.72rem; background:url(images/right.jpg) no-repeat; display:block;color:#ffb901;   }
+.slideBox .next{ left:auto; right:0; }
+.slideBox .prevStop{ display:none;  }
+.slideBox .nextStop{ display:none;  }
+.demo1 ul li{
+  line-height:1rem;
+}
+.badao{
+  width:9.3rem;
+  overflow:hidden;
+  display:block;
+  border:4px solid #ffb901;
+  margin:0px auto;
+  margin-top:1.1rem;
+  clear:both;
+  padding:0.4rem 0px 0.3rem 0rem;
+ 
+}
+.baodao_top ul li{
+    font-size:0.31rem;
+    color:#fff;
+    padding-left:0.45rem;
+    line-height:0.6rem;
+}
+.baodao_bottom{
+  width:8.4rem;
+  margin:0px auto;
+  margin-top:0.6rem;
+}
+.baodao_bottom ul li{
+  float:left;
+  margin:0.04rem;
+}
+.baodao_bottom ul li img{
+  width:1.59rem;
+  height:0.83rem;
+}
+</style>
+</head>
+<body>
+  <section class="content">
+    <div class="header_title">
+      <div style="height:2.7rem;color:#fff; width:3.1rem;margin:0px auto;padding-top: 9.3rem;">
+                <!-- <div class="djs_lf" style="width:5rem; float:left;">
+                    <p style="text-align:center; margin:0.31rem 0px; font-size:0.4rem;">距开幕还剩</p>
+                    <div class="djs_time">
+                        <ul>
+                        <li><input type="text" id="time_d">&nbsp;天</li>
+                        <li><input type="text" id="time_h">&nbsp;时</li>
+                        <li><input type="text" id="time_m">&nbsp;分</li>
+                        <li><input type="text" id="time_s">&nbsp;秒</li>
+                        </ul>
+                    </div>
+                </div> -->
+                <div class="djs_rg" style="text-align: center;font-size: 0.16rem;width: 3rem; font-size:0.3rem;  margin-top:0.30rem;margin-left:0.06rem;float: left;">目前有&nbsp;<div id="djs_count" style="color:#fff; display:inline-block; color:#ee3147;font-size:0.4rem!important;"></div>&nbsp;助力<br>
+                    <div class="dis_btn" style="width: 2.7rem;height: 0.8rem;line-height: 0.75rem;background: #ffb901;color: #060505;border-radius: 0.09rem;text-align: center; margin-left: 0.2rem;margin-top: 0.4rem; font-size:0.23rem;cursor: pointer;">
+                        为大圣归来助力
+                    </div>
+                </div>
+       </div>
+      <span class="titmes">战略合作企业</span>
+      <div class="co_ltd">
+        <ul>
+                <li> <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7228" target="_blank"><img src="/static/activity/dsglst/image/dsgl1_09.jpg"></a></li>               
+                <li> <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=6554" target="_blank"><img src="/static/activity/dsglst/image/dsgl1_07.png"></a></li>
+                <li><a href="http://www.latticelighting.cn/" target="_blank"><img src="/static/activity/dsglst/image/dsgl1_25.png"></a></li>
+                <li><a href="http://www.hcdyhr.com/account/new_qyyl?companyId=6561" target="_blank"><img src="/static/activity/dsglst/image/dsgl1_09.png"></a></li>
+                <li><a href="http://www.futureholdings.com.cn/" target="_blank"><img src="/static/activity/dsglst/image/dsgl1_26.png"></a></li>
+                <li> <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7237" target="_blank"><img src="/static/activity/dsglst/image/dsgl1_11.png"></a></li>
+                <li><a href="http://www.zhjs.com.cn/" target="_blank"><img src="/static/activity/dsglst/image/dsgl1_27.png"></a></li>
+                <li><a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7227" target="_blank"><img src="/static/activity/dsglst/image/dsgl1_13.png"></a></li>
+                <li><a href="http://www.cshyyjt.com/" target="_blank"><img src="/static/activity/dsglst/image/dsgl1_15.png"></a></li>
+                <li><a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7225" target="_blank"><img src="/static/activity/dsglst/image/dsgl1_10.jpg"></a></li>
+                <li><a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7233" target="_blank"><img src="/static/activity/dsglst/image/dsgl1_11.jpg"></a></li>
+                <li><a href="http://nchnct.com/" target="_blank"><img src="/static/activity/dsglst/image/dsgl1_17.png"></a></li>
+        </ul>
+      </div>
+    </div>
+
+
+
+
+
+
+
+<div class="center clear">
+     <div style="width:9.3rem;margin-top: 0.37rem; color:#fff;margin:0px auto;">
+        <p><img src="/static/activity/dsglst/image/mob1.jpg" alt="" style="width:9.2rem; height:1.4rem;margin-top:0.3rem;"></p>
+        <p style="font-size:0.375rem; text-align:center;">兴奋的一天，新颖的一天,创纪录的一天！</p>
+        <p>
+        
+        
+          <div style="width:9.4rem; height:5.96rem;margin:20px 0px 20px 0px">
+         <script type="text/javascript" src="/static/activity/dsglst/player/sewise.player.min.js?server=vod&type=m3u8&videourl=http://4221.live-vod.cdn.aodianyun.com/m3u8/0x0/jxzd.jxzdhz1.1446267166/jxzd.jxzdhz1.1446267166.m3u8&autostart=true&starttime=0&lang=en_US&logo=http://onvod.sewise.com/libs/swfplayer/skin/images/logo.png&title=怀才当遇&buffer=5&claritybutton=disable&skin=vodWhite"></script>
+          </div>
+         <!--  <object class="" id="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" style="width:9.4rem; height:5.96rem;margin:20px 0px 20px 0px">
+          <param name="movie" value="/static/activity/dsglst/image/flvplayer.swf">
+          <param name="quality" value="high">
+          <param name="allowFullScreen" value="true">
+          <param name="FlashVars" value="vcastr_file=/static/activity/dsglst/image/aaa.flv&amp;BufferTime=3&amp;IsAutoPlay=1">
+          <embed src="flvplayer.swf" allowfullscreen="true" flashvars="vcastr_file=viedo/aaa.flv&amp;LogoText=www.lanrentuku.com&amp;IsAutoPlay=1" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="width:9.3rem" height="height:5.96rem">
+        </object> -->
+
+        </p>
+     </div>         
+</div>
+
+
+
+ <div class="clear" style="position:relative;">
+        <img src="/static/activity/dsglst/image/mob2.jpg" alt="" style="display:block;width:8.9rem; margin:0px auto;">
+         <div id="slideBox" class="slideBox">
+            <div class="bd qh_mes">
+              <ul>
+                 <li style="padding-top:1.3rem">
+                 <p>敖勇冰博士：中科招商投资管理集团执行副总裁</p>
+                                                                              <p>王敏博士：中节能晶和照明、晶能光电联合创始人、晶能光电集团CEO</p>
+                                                                              <p>郑礼生：上海骐岳投资管理有限公司董事长</p>
+                                                                              <p>章晓辉：上海康佳绿色科技股份公总裁</p>
+                                                                              <p>刘  礼：上海瀛石投资管理有限公司董事长</p>
+                                                                              <p>祝  军：上海常春藤资本有限公司董事总经理</p>
+                                                                              <p>胥清皓：天使汇江西办公处负责人、大航海股权投资基金CEO</p>
+                                                                            </li>
+                                                                            <li style="padding-top:0.8rem">
+                                                                                    <div class="mes_left" style="width:47%; float:left;">
+                                                                                    <p>刘文彪：江西财经大学创业学院院长</p>
+                                                                                    <p>余华凌：江西师范大学科技园主任</p>
+                                                                                    <p>陈  俊：共青团南昌市委副书记</p>
+                                                                                    <p>姜  江：江西省民营企业家协会副会长</p>
+                                                                                    <p>南昌市女企业家协会会长</p>
+                                                                                    <p>肖志峰：绿之肴集团董事长</p>  
+                                                                                    </div>
+                                                                                    <div class="mes_right" style="width:50%; float:left;margin-left:3%">
+                                                                                    <p>王远青：江西长力远成集团董事长</p>
+                                                                                    <p>黄国生：全国优秀企业家宣讲团团长</p>
+                                                                                    <p>缪金生：心客众创CEO</p>
+                                                                                    <p>熊小鹏：博金贷CEO</p>
+                                                                                    <p>张  刚：三星气龙集团董事长</p>
+                                                                                    <p>杜励兴：红牛餐饮集团董事长</p>
+                                                                                     <p>李旭荣：华农骏通集团董事长</p>
+                                                                                    </div>
+                                                                            </li>
+
+                                                                             <li style="padding-top:1.2rem;display:block;">
+                                                                              <p>物流团购网：上海尧泰供应链管理有限公司</p>
+                                                                              <p>中国企服通：江西企业服务股份有限公司</p>
+                                                                              <p>公交站台液晶显示屏广告：江西华兴信息产业有限公司</p>
+                                                                              <p>怀才当遇网：深圳仕道金略科技有限公司</p>
+                                                                              <p>嗖嗖生活：北京嗖嗖快跑科技有限公司</p>
+                                                                              <p>留学快问：阿基德米（北京）科技有限公司</p>
+                                                                              <p>鬼才知道APP：江西天天向上网络科技有限公司</p>
+                                                                              <p>博天下APP：北京文博天下网络科技有限公司</p>
+                                                                              <p>自加热汤商业项目：江西田昌农业技术有限公司</p>
+                                                                              <p>互联网+农庄连锁：国海集团</p>
+                                                                            </li>
+              </ul>
+            </div>
+
+
+             <div class="hd">
+              <ul>
+                <li class="on">
+                  专业评委导师
+                </li>
+                <li>
+                  特邀嘉宾名单
+                </li>
+                <li>
+                  路演项目
+                </li>
+              </ul>
+              </div>
+       
+         <img src="/static/activity/dsglst/image/left.jpg" class="prev" onclick="javascript:void(0)" style="top:5rem; left:0.3rem;">
+         <img src="/static/activity/dsglst/image/right.jpg" class="next" onclick="javascript:void(0)" style="top:5rem; right:0.3rem;">
+      </div>
+  </div>
+
+
+
+   <div class="center">
+    <img src="/static/activity/dsglst/image/mob3.jpg" alt="" style="width:9.3rem;height:2.68rem;margin:0px auto; display:block; margin-top:0.64rem;">
+  </div>
+
+  
+ <div class="center" style=" position:relative;">
+  <div class="badao">
+                             <img src="/static/activity/dsglst/image/mob4.jpg" style="width: 8.2rem;height:1rem;position:absolute;top: -0.5rem;display: block;right:0.8rem; z-index: 9999999;">
+                             <div style="margin: 0.2rem 0.3px;display: block;float: left;">        
+                                 <div id="demo" onmouseover="clearInterval(timer)" onmouseout="timer=setInterval(mar,30)" style="overflow:hidden; margin-left:0.5rem; height:6.3rem; font-size:0.32rem; color:#fff; width:9rem; line-height:0.8rem;">
+                                <div id="demo1">
+                                  <ul>
+                                    <li><a href="http://www.jx.xinhuanet.com/news/focus/2015-11/03/c_1117020628.htm" style="color:#fff;text-decoration:none;" target="_blank">闪投1.6亿 江西首次投融资路演火爆收官——新华网江西频道</a></li>
+            <li><a href="http://www.deyi.com/thread-6906332-1-1.html" style="color:#fff;text-decoration:none;" target="_blank">闪投1.6亿 江西首次投融资路演火爆收官——得意生活馆</a></li>
+            <li><a href="http://www.163.com/" style="color:#fff;text-decoration:none;" target="_blank">闪投1.6亿 江西首次投融资路演火爆收官——网易</a></li>
+            <li><a href="http://www.jxcn.cn/" style="color:#fff;text-decoration:none;" target="_blank">闪投1.6亿 江西首次投融资路演火爆收官——大江网</a></li>
+            <li><a href="http://www.douban.com/note/525060073/?type=rec" style="color:#fff;text-decoration:none;" target="_blank">闪投1.6亿 江西首次投融资路演火爆收官——豆瓣</a></li>
+            <li><a href="http://toutiao.com/i6212732917368603138/" style="color:#fff;text-decoration:none;" target="_blank">闪投1.6亿 江西首次投融资路演火爆收官——今日头条</a></li>
+            <li><a href="http://bbs.huanqiu.com/" style="color:#fff;text-decoration:none;">闪投1.6亿 江西首次投融资路演火爆收官——环球论坛</a></li>
+            <li><a href="http://bbs.hexun.com/post_153_9014631_1_d.html" style="color:#fff;text-decoration:none;" target="_blank">闪投1.6亿 江西首次投融资路演火爆收官——和讯网</a></li>
+            <li><a href="http://www.hainei.org/thread-3202552-1-1.html" style="color:#fff;text-decoration:none;" target="_blank">闪投1.6亿 江西首次投融资路演火爆收官——海内网</a></li>
+            <li><a href="http://wangjing.fang.com/bbs/wangjing~-1/118695855_118695855.htm" style="color:#fff;text-decoration:none;" target="_blank">闪投1.6亿 江西首次投融资路演火爆收官——搜房网</a></li>
+            <li><a href="http://bbs.suyoo.cn/thread-644608-1-1.html" style="color:#fff;text-decoration:none;" target="_blank">闪投1.6亿 江西首次投融资路演火爆收官——苏友网</a></li>
+            <li><a href="http://www.huaxia.com/jx-tw/zjjx/jrjx/2015/11/4606556.htm" style="color:#fff;text-decoration:none;" target="_blank">闪投1.6亿 江西首次投融资路演火爆收官——苏友网</a></li>
+                                    </ul>
+                                </div>
+                                <div id="demo2"></div>
+                                </div>
+                              </div>
+                                <script>
+                                var t=getid("demo"),t1=getid("demo1"),t2=getid("demo2"),sh=getid("show"),timer;
+                                t2.innerHTML=t1.innerHTML;
+                                function mar(){
+                                if(162<=t.scrollTop)
+                                t.scrollTop-=t1.offsetHeight;
+                                else
+                                t.scrollTop++;
+                                }
+                                timer=setInterval(mar,50);
+                                function getid(id){
+                                return document.getElementById(id);
+                                }
+                                </script>
+
+                            <div class="baodao_bottom">
+                            <ul>
+                                   <li><a href="http://www.163.com/" target="_blank"><img src="/static/activity/dsglst/image/wy.jpg" alt=""></a></li>
+          <li><a href="http://www.jx.xinhuanet.com/news/focus/2015-11/03/c_1117020628.htm" target="_blank"><img src="/static/activity/dsglst/image/xhw.jpg" alt=""></a></li>
+          <li><a href="http://www.huaxia.com/jx-tw/" target="_blank"><img src="/static/activity/dsglst/image/gtxq.jpg" alt=""></a></li>
+          <li><a href="http://www.jxcn.cn/" target="_blank"><img src="/static/activity/dsglst/image/dj.jpg" alt=""></a></li>
+          <li><a href="http://www.douban.com/note/525060073/?type=rec" target="_blank"><img src="/static/activity/dsglst/image/db.jpg" alt=""></a></li>
+          <li><a href="http://toutiao.com/i6212732917368603138/" target="_blank"><img src="/static/activity/dsglst/image/jrtt.jpg" alt=""></a></li>
+          <li><a href="http://www.huanqiu.com/" target="_blank"><img src="/static/activity/dsglst/image/hqw.jpg" alt=""></a></li>
+          <li><a href="http://bbs.hexun.com/post_153_9014631_1_d.html" target="_blank"><img src="/static/activity/dsglst/image/hx.jpg" alt=""></a></li>
+          <li><a href="http://www.hainei.org/thread-3202552-1-1.html" target="_blank"><img src="/static/activity/dsglst/image/hr.jpg" alt=""></a></li>
+          <li><a href="http://www.sina.com.cn/" target="_blank"><img src="/static/activity/dsglst/image/xl.jpg" alt=""></a></li>
+                            </ul>
+                            </div>
+  </div>  
+  </div>
+
+  <div class="center">
+    <div class="zph" style="margin:0px auto; width:9.4rem; margin-top:0.8rem">
+        <img src="/static/activity/dsglst/image/mob5.jpg" style="width:7.9rem;height:1.66rem; margin:0px auto; display:block; margin-bottom:0.5rem">
+      <div class="img_left" style="width:4.9rem; float:left;">
+        <img src="/static/activity/dsglst/image/mob7.jpg" style="width:4.86rem;height:3.2rem"><br>
+        <img src="/static/activity/dsglst/image/mob8.jpg" style="width:4.86rem;height:3.26rem">
+      </div>
+      <div class="img_right" style="width:4.4rem; float:left;height:6.65rem; margin-left:0.1rem;margin-top:-0.02rem;">
+        <img src="/static/activity/dsglst/image/mob6.jpg" style="width:4.3rem;height:6.65rem">
+      </div>
+      <img src="/static/activity/dsglst/image/mob9.jpg" style="width:9.3rem; height:">
+    </div>
+
+  </div>
+
+<script>
+     $(function(){
+      jQuery(".slideBox").slide({mainCell:".bd ul",effect:"leftLoop",autoPlay:true,easing:"easeOutCirc"});
+    })
+  </script>
+
+
+
+
+
+
+
+    <div class="central" style="margin-top:1rem!important;">
+      <div class="com_rec">
+        <img src="/static/activity/dsglst/image/title1.gif" class="imgcc">
+        <span class="titmes pt014">高薪职位你敢想我敢有...</span>
+        <div class="swiper-container swiper-container-horizontal roll_ad">
+          <a class="swiper-button-prev left_ico" href="javascript:void(0);"></a>
+          <a class="swiper-button-next right_ico" href="javascript:void(0);"></a>
+          <div class="swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
+            <div class="swiper-slide swiper-slide-active roll_sub">
+              <ul>
+                <li>
+                  <div class="com_mes">
+                    <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=6554" target="_blank"><img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1449807496,3946535613&fm=58">
+                    </a>
+                    <div class="com_rig">
+                    <span>绿地集团</span> <i class="bacimg" width=""></i><a href="http://www.hcdyhr.com/account/new_qyyl?companyId=6554" target="_blank" style="text-decoration: none;"><em>进入企业</em></a>
+                      <p>绿地集团旗下移动互联网电子商务平台</p>
+                      <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=6554" target="_blank">
+                       <img src="/static/activity/dsglst/image/dsgl2_14.png" style="width:2.3rem!important; height:0.6rem!important; margin-top:0.2rem;"></a>
+                    </div>
+                  </div>
+                  <div class="roll_fmes">
+                    <ul>
+                      <li>
+                       <a href="http://www.hcdyhr.com/resume/zwxq?positionId=12838" target="_blank"><span class="f4">人力资源管理</span></a>
+                        <span class="p">10-15万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=12837" target="_blank"><span class="f4">项目客服经理</span></a>
+                        <span class="p">5-10万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=12839" target="_blank"><span class="f4">商业策划</span></a>
+                        <span class="p">5-10万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=12840" target="_blank"><span class="f4">土建工程师</span></a>
+                        <span class="p">5-10万</span>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>            
+            <div class="swiper-slide swiper-slide-next roll_sub">
+              <ul>
+                <li>
+                  <div class="com_mes">
+                    <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7229" target="_blank"> <img src="/static/activity/dsglst/image/sf.jpg" ></a>
+                    <div class="com_rig">
+                      <span>搜房网</span> <i class="bacimg" width=""></i><a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7229" target="_blank" style="text-decoration: none;"><em>进入企业</em></a>
+                      <p>搜房网旗下互联网平台</p>
+                      <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7229" target="_blank">
+                                            <img src="/static/activity/dsglst/image/dsgl2_14.png" style="width:2.3rem!important;margin-top:0.2rem;height:0.6rem!important"></a>
+                    </div>
+                  </div>
+                  <div class="roll_fmes">
+                    <ul>
+                      <li>
+                       <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18936" target="_blank"><span class="f4">行政经理</span></a>
+                        <span class="p">5-10万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18942" target="_blank"><span class="f4">销售经理</span></a>
+                        <span class="p">5-10万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18943" target="_blank"><span class="f4" >搜房顾问</span></a>
+                        <span class="p">5万以下</span>
+                      </li>    
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18944" target="_blank"><span class="f4" >财务助理</span></a>
+                        <span class="p">5万以下</span>
+                      </li>                    
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="swiper-slide swiper-slide-next roll_sub">
+              <ul>
+                <li>
+                  <div class="com_mes">
+                    <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7227" target="_blank"> <img src="/static/activity/dsglst/image/yy.jpg"  ></a>
+                    <div class="com_rig">
+                      <span>用友软件</span> <i class="bacimg" width=""></i><a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7227" target="_blank" style="text-decoration: none;"><em>进入企业</em></a>
+                      <p>用友软件旗下互联网平台</p>
+                      <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7227" target="_blank">
+                                            <img src="/static/activity/dsglst/image/dsgl2_14.png" style="width:2.3rem!important;margin-top:0.2rem;height:0.6rem!important"></a>
+                    </div>
+                  </div>
+                  <div class="roll_fmes">
+                    <ul>
+                      <li>
+                       <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18924" target="_blank"><span class="f4">高级客户经理</span></a>
+                        <span class="p">5-10万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18925" target="_blank"><span class="f4">渠道推进经理</span></a>
+                        <span class="p">5-10万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18926" target="_blank"><span class="f4">资深售前顾问</span></a>
+                        <span class="p">5-10万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18927" target="_blank"><span class="f4">高级实施顾问</span></a>
+                        <span class="p">5-10万</span>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+                 <div class="swiper-slide swiper-slide-next roll_sub">
+              <ul>
+                <li>
+                  <div class="com_mes">
+                    <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7228" target="_blank"> <img src="/static/activity/dsglst/image/gm.jpg"  ></a>
+                    <div class="com_rig">
+                      <span>国美集团</span> <i class="bacimg" width=""></i><a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7228" target="_blank" style="text-decoration: none;"><em>进入企业</em></a>
+                      <p>国美集团旗下互联网平台</p>
+                      <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7228" target="_blank">
+                                            <img src="/static/activity/dsglst/image/dsgl2_14.png" style="width:2.3rem!important;margin-top:0.2rem;height:0.6rem!important"></a>
+                    </div>
+                  </div>
+                  <div class="roll_fmes">
+                    <ul>
+                      <li>
+                       <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18929" target="_blank"><span class="f4">储备营运总监</span></a>
+                        <span class="p">5-10万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18930" target="_blank"><span class="f4">二级分公司总经理</span></a>
+                        <span class="p">10-15万</span>
+                      </li>
+                      <li style="width:60%!important;">
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18931" target="_blank"><span class="f4" >电业务总监&3C业务总监</span></a>
+                        <span class="p">5-10万</span>
+                      </li>                     
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+                 <div class="swiper-slide swiper-slide-next roll_sub">
+              <ul>
+                <li>
+                  <div class="com_mes">
+                    <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7214" target="_blank"> <img src="/static/activity/dsglst/image/gdgl.jpg" ></a>
+                    <div class="com_rig">
+                      <span>江西光大旅游集团</span> <i class="bacimg" width=""></i><a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7214" target="_blank" style="text-decoration: none;"><em>进入企业</em></a>
+                      <p>江西光大旅游集团旗下互联网平台</p>
+                      <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7214" target="_blank">
+                                            <img src="/static/activity/dsglst/image/dsgl2_14.png" style="width:2.3rem!important;margin-top:0.2rem;height:0.6rem!important"></a>
+                    </div>
+                  </div>
+                  <div class="roll_fmes">
+                    <ul>
+                      <li>
+                       <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18919" target="_blank"><span class="f4">副总裁</span></a>
+                        <span class="p">20-30万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18920" target="_blank"><span class="f4">销售总监</span></a>
+                        <span class="p">10-15万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18921" target="_blank"><span class="f4">市场策划经理</span></a>
+                        <span class="p">10-15万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18922" target="_blank"><span class="f4">电商运营经理</span></a>
+                        <span class="p">5-10万</span>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+                 <div class="swiper-slide swiper-slide-next roll_sub">
+              <ul>
+                <li>
+                  <div class="com_mes">
+                    <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7225" target="_blank"> <img src="/static/activity/dsglst/image/rh.jpg" width="110" ></a>
+                    <div class="com_rig">
+                      <span>仁和集团</span> <i class="bacimg" width=""></i><a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7225" target="_blank" style="text-decoration: none;"><em>进入企业</em></a>
+                      <p>仁和集团旗下互联网平台</p>
+                      <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7225" target="_blank">
+                                            <img src="/static/activity/dsglst/image/dsgl2_14.png" style="width:2.3rem!important;margin-top:0.2rem;height:0.6rem!important"></a>
+                    </div>
+                  </div>
+                  <div class="roll_fmes">
+                    <ul>
+                      <li>
+                       <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18949" target="_blank"><span class="f4">运营主管</span></a>
+                        <span class="p">5-10万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18950" target="_blank"><span class="f4">培训经理</span></a>
+                        <span class="p">5-10万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18951" target="_blank"><span class="f4">产品经理</span></a>
+                        <span class="p">5万以下</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18952" target="_blank"><span class="f4">产品包装设计经理</span></a>
+                        <span class="p">5-10万</span>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+           <div class="swiper-slide  roll_sub">
+              <ul>
+                <li>
+                  <div class="com_mes">
+                    <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7233" target="_blank"> <img src="/static/activity/dsglst/image/rx.jpg"  ></a>
+                    <div class="com_rig">
+                      <span>江西瑞信投资集团</span> <i class="bacimg" width=""></i><a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7233" target="_blank" style="text-decoration: none;"><em>进入企业</em></a>
+                      <p>江西瑞信投资集团旗下互联网平台</p>
+                      <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7233" target="_blank">
+                                            <img src="/static/activity/dsglst/image/dsgl2_14.png" style="width:2.3rem!important;margin-top:0.2rem;height:0.6rem!important"></a>
+                    </div>
+                  </div>
+                  <div class="roll_fmes">
+                    <ul>
+                      <li>
+                       <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18954" target="_blank"><span class="f4">集团副总裁</span></a>
+                        <span class="p">20-30万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18955" target="_blank"><span class="f4">集团行政人事总监</span></a>
+                        <span class="p">10-15万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18956" target="_blank"><span class="f4">集团财务总监</span></a>
+                        <span class="p">10-15万</span>
+                      </li>
+                      <li>
+                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18958" target="_blank"><span class="f4">集团审计师</span></a>
+                        <span class="p">10-15万</span>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>                      
+          </div>          
+        </div>
+        <p class="line_t"></p>
+          <p class="line_f"></p>
+          <div class="swiper-pagination swiper-pagination-clickable cut_ico">
+            <span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span>
+            <span class="swiper-pagination-bullet"></span>
+            <span class="swiper-pagination-bullet"></span>
+            <span class="swiper-pagination-bullet"></span>
+            <span class="swiper-pagination-bullet"></span>
+          </div>
+      </div>
+    <!--特色展区-->
+    <div class="item_ea">
+      <div class="ea_info bacimg" id="eain1" style="display:block">
+        <img src="/static/activity/dsglst/image/item_ea.jpg" alt="" class="tit_img">
+        <span>—— ——十大特色功能展区</span>
+        <h2>现场招聘区：</h2>
+        <p>【招聘现场】设在绿地中心双子塔之间的广场，包括主席台与200-300个标准招聘展台；</p>
+        <p>【领导致辞】江西省人力资源协会会长雷湘池致辞，绿地控股集团江西事业部副总经理李景斌致辞；</p>
+        <p>【主题发布】仕道金略公司董事长杨文娟：《互联网时代的人才经纪人</p>
+        <p> 晶能光电集团董事长王敏：《人才，现代企业的核心资本》</p>
+      </div>
+      <div class="ea_info bacimg" id="eain2">
+        <img src="/static/activity/dsglst/image/item_ea.jpg" alt="" class="tit_img">
+        <span>—— ——十大特色功能展区</span>
+         <h2>现场招聘区：</h2>
+        <p>【专区位置】：设在绿地中心的一楼大堂</p>
+        <p>【专区功能】由省市区人才机构派出专人，进行关于人才引进与回流的政策咨询与介绍。</p>
+        <p>【现场专题】政府为了吸引人才回乡发展，加速我省建设，全力支持大圣归来，</p>
+        <p> 并派专人进行政府政策宣传。</p>
+      </div>
+      <div class="ea_info bacimg" id="eain3">
+        <img src="/static/activity/dsglst/image/item_ea.jpg" alt="" class="tit_img">
+        <span>—— ——十大特色功能展区</span>
+         <h2>现场招聘区：</h2>
+        <p>【专区位置】 设在绿地中心一楼大堂</p>
+        <p>【专区功能】人才经济人作为特色项目，怀才当遇专门在大圣归来现场开设专区为客户提供专门咨询。</p>
+        <p>【现场主题】为人才提供专业的职业规划、求职方向、薪酬定位、</p>
+        <p> 个人包装等全方位的咨询与讲解服务，同时广泛发展“人才经纪人”。</p>
+      </div>
+      <div class="ea_info bacimg" id="eain4">
+        <img src="/static/activity/dsglst/image/item_ea.jpg" alt="" class="tit_img">
+        <span>—— ——十大特色功能展区</span>
+        <h2>现场招聘区：</h2>
+        <p>【专区位置】 设在绿地中心32楼的心客咖啡</p>
+        <p>【专区功能】宽松的环境内供企业与人才进行良性互动，合作洽谈。</p>
+        <p>【现场主题】为了给高级人才提供更加优质的服务，</p>
+        <p> 怀才当遇专门在大圣归来现场开设专区给高级人才洽谈区，让高级人才享受洽谈的最大乐趣。</p>
+      </div>
+      <div class="ea_info bacimg" id="eain5">
+        <img src="/static/activity/dsglst/image/item_ea.jpg" alt="" class="tit_img">
+        <span>—— ——十大特色功能展区</span>
+        <h2>现场招聘区：</h2>
+        <p>【专区位置】设在绿地中心4楼的会议中心，8个国际一流水准的会议室同时开放</p>
+        <p>【专区功能】供各大企业进行现场的人才、合伙人引进路演及现场洽谈。</p>
+        <p>【现场主题】为企业提供一个更细致化的宣传场所，企业在此展示自我、介绍项目、吸引融资与人才。</p>
+      </div>
+      <div class="ea_info bacimg" id="eain6">
+        <img src="/static/activity/dsglst/image/item_ea.jpg" alt="" class="tit_img">
+        <span>—— ——十大特色功能展区</span>
+         <h2>现场招聘区：</h2>
+        <p>【专区位置】设在绿地中心4楼的会议中心</p>
+        <p>【专区功能】对大圣归来的精英人才进行销售，为企业提供更优质化的人才服务</p>
+        <p>【现场主题】对人力资源总监、财务总监、营销总监三大人才进行主销，</p>
+        <p> 每个岗位提供50名以上专业精英人才。</p>
+      </div>
+      <div class="ea_info bacimg" id="eain7">
+        <img src="/static/activity/dsglst/image/item_ea.jpg" alt="" class="tit_img">
+        <span>—— ——十大特色功能展区</span>
+         <h2>现场招聘区：</h2>
+        <p>【专区位置】设在绿地中心50楼的绿地企业家俱乐部</p>
+        <p>【专区功能】给VIP客户提供专项的猎聘服务咨询与高级人才洽谈</p>
+        <p>【现场主题】为vip客户举行专场招聘，定制化服务，尊享更高待遇。</p>
+      </div>
+      <div class="ea_info bacimg" id="eain8">
+        <img src="/static/activity/dsglst/image/item_ea.jpg" alt="" class="tit_img">
+        <span>—— ——十大特色功能展区</span>
+        <h2>现场招聘区：</h2>
+        <p>【专区位置】设在绿地中心32楼的心客咖啡，</p>
+        <p>【专区功能】给众创客更多的交流与合作的机会。</p>
+        <p>【现场主题】创客们在此专区，展示自我，宣传项目，实现梦想</p>
+      </div>
+      <div class="ea_info bacimg" id="eain9">
+        <img src="/static/activity/dsglst/image/item_ea.jpg" alt="" class="tit_img">
+        <span>—— ——十大特色功能展区</span>
+        <h2>现场招聘区：</h2>
+        <p>【专区位置】设在绿地中心50楼的绿地企业家俱乐部</p>
+        <p>【现场主题】【互联网+企业】项目路演（创业项目找资金、或者企业家找人才或团队）。</p>
+        <p>【参加对象】政府、人才服务机构、高校、金融机构、企业家、行业人才代表（约120人）</p>
+      </div>
+      <div class="ea_info bacimg" id="eain10">
+        <img src="/static/activity/dsglst/image/item_ea.jpg" alt="" class="tit_img">
+        <span>—— ——十大特色功能展区</span>
+        <h2>现场招聘区：</h2>
+        <p>【专区位置】设在绿地中心双子塔之间的广场</p>
+        <p>【专区功能】现场设置摇一摇专区，在活动现场使用手机打开蓝牙就能在微信的摇一摇的界面中摇出好职位，好名片，小礼品，代金卷，怀才当遇抽奖页面甚至微信红包。</p>
+        <p>【专区主题】为了能在传统招聘会上做出更多的创新，我们派出专业的队伍，到北上广多地考察，经过全公司人员的研讨，在江西首创微信乐玩，玩出好职位，我们玩出精彩，玩出激情。</p>
+      </div>
+      <div class="ea_selet">
+        <ul>
+          <li class="active">
+            <img src="/static/activity/dsglst/image/ccha1.png"></li>
+          <li>
+            <img src="/static/activity/dsglst/image/ccha2.png"></li>
+          <li>
+            <img src="/static/activity/dsglst/image/ccha3.png"></li>
+          <li>
+            <img src="/static/activity/dsglst/image/ccha4.png"></li>
+          <li style="margin-right:0px!important">
+            <img src="/static/activity/dsglst/image/ccha5.png"></li>
+          <li>
+            <img src="/static/activity/dsglst/image/ccha6.png"></li>
+          <li>
+            <img src="/static/activity/dsglst/image/ccha7.png"></li>
+          <li>
+            <img src="/static/activity/dsglst/image/ccha8.png"></li>
+          <li>
+            <img src="/static/activity/dsglst/image/ccha9.png"></li>
+          <li style="margin-right:0px!important">
+            <img src="/static/activity/dsglst/image/ccha10.png"></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="clear:both;"></div>
+    <!--六大特色-->
+    <div class="s_chara">
+      <img src="/static/activity/dsglst/image/s_chara.jpg" class="career_img">
+      <span></span>
+      <div class="chara_info">
+        <ul>
+          <li>
+            <span>【 才财对接 】</span>
+            <p>打造江西首个以“人才”为核心，对接资本、项目的优质“才财”平台。</p>
+          </li>
+          <li>
+            <span>【 精英归来 】</span>
+            <p>
+              联合全国各大媒体、人才网站、仕道金略各分公司，邀约近千名江西籍在外及愿意到江西发展的精英人才来昌参会，助力江西企业人才建设。
+            </p>
+          </li>
+          <li>
+            <span>【 人才主销 】</span>
+            <p>主销“人力资源管理类”、“财务管理类”、“营销管理类”三大专业线人才，每个专业线提供500名以上的精英人选。</p>
+          </li>
+          <li>
+            <span>【 强势推广 】</span>
+            <p>
+              线上线下同步，怀才当遇线上平台+新媒体（微信、微博等）+现场招聘博览会+江西各大媒体+各省人才网站，360度的人才引进解决方案。
+            </p>
+          </li>
+          <li>
+            <span>【 高性价比 】</span>
+            <p>用最低的成本最高效地解决企业人才需求；万人盛会更是企业品牌展示和形象宣传的最佳平台。</p>
+          </li>
+          <li>
+            <span>【 个性订制 】</span>
+            <p>
+              人才经纪人”服务团队根据用户需要，提供定向邀约人才服务、企业专场招聘会服务、主销服务、私董会、项目路演等订制化服务，满足用户个性需求。
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!--高端精英回归-->
+    <div class="high_peo">
+      <img src="/static/activity/dsglst/image/dsgl_25.png" class="high_img" style="width: 8.18rem; height: 1.76rem; margin: 0.089rem auto;display: block;">
+        <!--<div class="z">
+        <span>总</span>
+        <span>监</span>
+        <span>专</span>
+        <span>场</span>
+        </div>-->
+      <div class="peo_info">
+        <ul>
+          <li>
+            <span>听人力资源总监说说HR的战略价值</span>
+            <p>
+              2015年度最受欢迎的人力资源总监
+              <br>探讨人力资本趋势，分享个人成长心得</p>
+          </li>
+          <li>
+            <span>财务总监分享融资与财务规范的重要性</span>
+            <p>
+              500强企业财务总监分享金融融资与财务规范
+              <br>听听合伙人的声音</p>
+          </li>
+          <li>
+            <span>营销总监告诉你互联网+形式下的新营销</span>
+            <p>
+              在互联网新营销的冲击下
+              <br>看看成功的营销总监是如何实现“老树新花亦是春”</p>
+          </li>
+        </ul>
+      </div>
+
+
+      <div class="info_img">
+        <ul>
+          <li>
+            <img src="/static/activity/dsglst/image/im1.jpg"></li>
+          <li>
+            <img src="/static/activity/dsglst/image/im2.jpg"></li>
+          <li>
+            <img src="/static/activity/dsglst/image/im3.jpg"></li>
+        </ul>
+        <a class="bm_btn bacimg" href="enroll"></a>
+       <!--  <a class="rc_btn bacimg" href="http://www.hcdyhr.com/system/generalRegister"></a> -->
+      </div>
+    </div>
+
+    <!--职业交流群-->
+    <div class="career_comm">
+      <img src="/static/activity/dsglst/image/dsgl_41.png" class="career_img">
+        <!--<div class="m">
+              <span>分</span>
+              <span>享</span>
+              <span>创</span>
+              <span>造</span>
+              <span>价</span>
+              <span>值</span>
+        </div>-->
+       
+      <div class="comm_info">
+        <ul>
+          <li>
+            <img src="/static/activity/dsglst/image/dsgl_45.png">
+            <p>怀才当遇微信公众号</p>
+          </li>
+          <li>
+            <img src="/static/activity/dsglst/image/dsgl_48.png">
+            <p>咨询式猎头第一品牌仕道金略</p>
+          </li>
+          <li>
+            <img src="/static/activity/dsglst/image/dsgl_50.png">
+            <p>中国人力资源第一社区人本工坊江西群</p>
+          </li>
+          <li>
+            <img src="/static/activity/dsglst/image/dsgl_54.png">
+            <p>江西职业生涯规划师群</p>
+          </li>         
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<span style="display:none" id="keleyivisitorip"></span>
+<script>
+   $(function(){
+        timer();
+        getPraise();
+        })
+        function getPraise(){ 
+        $.ajax({
+            type: "POST",
+            url: "/getPraiseCount",
+            dataType: "json",
+            success: function (data) {
+                if(data.status == '1'){
+                    $("#djs_count").text(data.count+8260);
+                }
+            }
+        })
+        }
+        $(".dis_btn").click(function(event) {
+          if(getCookie('ip')!="")
+         {
+            return;
+         }
+        setCookie("ip",$("#keleyivisitorip").text(),2);
+         $.ajax({
+            type: "POST",
+            url: "/savePraise",
+            dataType: "json",
+            success: function (data) {
+                getPraise();
+            }
+        })
+        });
+         function timer(){ 
+
+            var time_start = new Date().getTime(); //获取当前时间
+            var time_end =  new Date("2015/10/31 08:00:00").getTime(); //获取目标时间
+
+            // 计算时间差 
+            var time_distance = time_end - time_start; 
+            // 天
+            var int_day = Math.floor(time_distance/86400000) 
+            time_distance -= int_day * 86400000; 
+            // 时
+            var int_hour = Math.floor(time_distance/3600000) 
+            time_distance -= int_hour * 3600000; 
+            // 分
+            var int_minute = Math.floor(time_distance/60000) 
+            time_distance -= int_minute * 60000; 
+            // 秒 
+            var int_second = Math.floor(time_distance/1000) 
+
+            // 时分秒为单数时、前面加零 
+            if(int_day < 10){ 
+                int_day = "0" + int_day; 
+            } 
+            if(int_hour < 10){ 
+                int_hour = "0" + int_hour; 
+            } 
+            if(int_minute < 10){ 
+                int_minute = "0" + int_minute; 
+            } 
+            if(int_second < 10){
+                int_second = "0" + int_second; 
+            } 
+            // 显示时间 
+            $("#time_d").val(int_day); 
+            $("#time_h").val(int_hour); 
+            $("#time_m").val(int_minute); 
+            $("#time_s").val(int_second); 
+            // 设置定时器
+            setTimeout("timer()",1000); 
+            }
+</script>
+</body>
+</html>

@@ -1,0 +1,902 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+    <div class="clear">99</div>
+	<!-- 内容大框 -->
+	<div class="lt_content_box">
+		<div class="center clearfix">
+			<!-- 修改个人信息 -->
+			<dl class="grxx_info f_l ">
+				<dt class="bd_bottom1">
+					<span><a href="wdgz"  style="color:#777">关注的人</a></span>
+					<span><a href="gz_gzdqy" class="fc">关注的企业</a></span>
+{#					<span>关注的猎头</span>#}
+					<div class="slider wdgz_silder gzqy_silder"></div>
+				</dt>
+				<dd class="wdgz_search_box">
+                    <input type="hidden" id="oldGroupInfoId" />
+                    <input type="hidden" id="pu_id" value="{{ pu.id }}" />
+{#					<form action="gz_gzdqy" method="post" >#}
+{#                        {% csrf_token %}#}
+                        <input type="hidden" id="hiddenValue" value="{{ condition }}" />
+						<input type="text" name="condition" class="search_txt ss_input" id="condition" onkeydown="queryData()" value="{{ condition }}">
+						<input type="button" name="" value="搜索" class="search_submit ss_anniu" onclick="queryBycondition()">
+{#                    </form>#}
+					<div class="wdgz_ckbox">
+						<input type="checkbox" class="wdgz_ckall">
+						<span>全选</span>
+						<input type="button"  value="取消关注" class="wdgz_txt1" data-toggle="modal" data-target="#delete_gz_Modal" onclick="judgeSelected(this)">
+						<input type="button"  value="分组" class="wdgz_txt1" data-toggle="modal" data-target="#update_fz_Modal" onclick="judgeSelected(this)" ></div>
+					<ul class="wdgz_info_list clearfix load" id="tableInfo">
+
+					</ul>
+				</dd>
+				<dd>
+					<div class="lthy_pager" id="paginInfo">
+
+					</div>
+				</dd>
+				<div class="left_top_border"></div>
+			</dl>
+			<!-- 修改个人信息 -->
+			<!-- 侧边栏 -->
+			<div class="grxx_sidebar f_r">
+				<div class="add_cal_btn">
+					<i class="iconfont icon-tianjia"></i>
+					添加新企业分组
+				</div>
+				<div class="grxx_sidebar_b" style="padding:20px 0;">
+					<dl>
+						<dt class="my_cal_title" style="margin-left:20px">关注的企业分组</dt>
+						<dd class="cal_tree_dd">
+							<div class="panel-group wdgz_conter" id="accordion">
+                                {% if groups %}
+                                    {% for group in groups %}
+                                        <div class="panel-heading clearfix" style="padding:10px 20px 6px 20px;cursor: pointer;height:41px">
+                                            <input type="hidden" value="{{ group.id }}" />
+                                            <i class="iconfont icon-fangxiang2 f_l" style="font-size:16px"></i>
+                                            <span class="f_l name_span ml5 fz16" onclick="queryByGroupId({{ group.id }})">{{ group.group_name }}</span>
+                                            <input type="text" id="" value="{{ group.group_name }}" class="edit_name_input" style="display: none;float:left">
+                                            <span class="f_r num_group">{{ group.childCount }}</span>
+                                            {% if group.group_name != '未分组' %}
+                                                <span class="f_r add_up_re_btn">
+                                                    <i class="iconfont icon-xiugaichujia"></i>
+                                                   <i class="iconfont icon-shanchu fz18"></i>
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+{#                                {% if groups %}#}
+{#                                    {% for group in groups %}#}
+{#                                        <div class="panel panel-default">#}
+{#                                            <div class="panel-heading clearfix" style="padding:10px 20px 6px 20px">#}
+{#                                                <input type="hidden" value="{{ group.id }}" />#}
+{#                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}" class="collapsed">#}
+{#                                                    <i class="iconfont icon-jinlingyingcaiwangtubiao12 f_l fz14"></i>#}
+{#                                                    <span class="f_l name_span" {% if group.group_name == "未分组" %} onclick="queryByGroupId({{ group.id }})"{% endif %} >{{ group.group_name }}</span><input type="text" id="" value="{{ group.group_name }}"  class="edit_name_input" style="display: none;"/>#}
+{#                                                    {% if group.group_name != "未分组" %}#}
+{#                                                        <span class="f_r num_group">{{ group.count }}/{{ group.childCount }}</span>#}
+{#                                                        <span class="f_r add_up_re_btn" style="display: none;">#}
+{#                                                            <i class="iconfont icon-xiugaichujia"></i>#}
+{#                                                            <i class="iconfont icon-tianjia"></i>#}
+{#                                                            <i class="iconfont icon-shanchu"></i>#}
+{#                                                        </span>#}
+{#                                                    {% else %}#}
+{#                                                        <span class="f_r num_group">{{ group.count }}</span>#}
+{#                                                    {% endif %}#}
+{#                                                </a>#}
+{#                                            </div>#}
+{#                                            <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse" style="height:auto">#}
+{#                                                <div class="panel-body" style="padding:0 0 8px 0">#}
+{#                                                    <ul class="cal_tree_ul wdgz_cal_tree_ul"  style="padding-left:0px">#}
+{#                                                        {% if group.childs %}#}
+{#                                                            {% for child in group.childs %}#}
+{#                                                                <input type="hidden" value="{{ child.id }}" />#}
+{#                                                                <li>#}
+{#                                                                    <span class="name_span" onclick="queryByGroupId({{ child.id }})" >{{ child.group_name }}</span><input type="text" id="" value="{{ child.group_name }}"  class="edit_name_input" style="display: none;"/>#}
+{#                                                                    <span class="f_r num_group mt6">{{ child.count }}</span>#}
+{#                                                                    <span class="f_r add_up_re_btn" style="display:none">#}
+{#                                                                        <i class="iconfont icon-xiugaichujia"></i>#}
+{#                                                                        <i class="iconfont icon-shanchu"></i>#}
+{#                                                                    </span>#}
+{#                                                                </li>#}
+{#                                                            {% endfor %}#}
+{#                                                        {% endif %}#}
+{#                                                    </ul>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    {% endfor %}#}
+{#                                {% endif %}#}
+							</div>
+						</dd>
+					</dl>
+				</div>
+			</div>
+			<!-- 侧边栏 -->
+		</div>
+	</div>
+	<!-- 内容大框 -->
+	<!-- 底部 -->
+	<!-- <div class="re_bottom">
+		<div class="center">
+			<div class="clearfix">
+				<dl>
+					<dt>
+						<i class="iconfont icon-lianjie"></i>
+						合作企业
+					</dt>
+					<dd>
+						<a href="#">
+							<img src="../../static/images/hcdyhr_03.jpg" alt=""></a>
+						<a href="#">
+							<img src="../../static/images/hcdyhr_05.jpg" alt=""></a>
+						<a href="#">
+							<img src="../../static/images/hcdyhr_07.jpg" alt=""></a>
+						<a href="#">
+							<img src="../../static/images/hcdyhr_09.jpg" alt=""></a>
+						<a href="#">
+							<img src="../../static/images/hcdyhr_11.jpg" alt=""></a>
+					</dd>
+				</dl>
+				<ul>
+					<li>
+						<a class="iconfont icon-weibo" href="#"></a>
+						<p>关注微博</p>
+					</li>
+					<li>
+						<a class="iconfont icon-weixin" href="#"></a>
+						<p>关注微信</p>
+					</li>
+					<li>
+						<a class="iconfont icon-lianjie" href="#"></a>
+						<p>联系我们</p>
+					</li>
+					<li>
+						<a class="iconfont icon-yijianfankui" href="#"></a>
+						<p>意见反馈</p>
+					</li>
+				</ul>
+			</div>
+			底部链接和备案
+			<div class="re_bottom_menu">
+				<a href="#">关于我们</a>
+				<span>|</span>
+				<a href="#">关于我们</a>
+				<span>|</span>
+				<a href="#">关于我们</a>
+				<span>|</span>
+				<a href="#">关于我们</a>
+				<span>|</span>
+				<a href="#">关于我们</a>
+				<span>|</span>
+				<a href="#">关于我们</a>
+				<p>
+					Copyright © 2015 hcdyhr.com赣ICP备12347441号-1 , hcdyhr.com.保留所有版权. 使用这些服务遵守用户协议
+				</p>
+			</div>
+			底部链接和备案
+		</div>
+	</div>
+	底部 -->
+	{% include 'jobs/system/new_footer.html' %}
+    <!-- 模态框（Modal） -->
+	<div class="modal fade" id="delete_gz_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width:300px">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">取消关注</h4>
+				</div>
+				<div class="modal-body t_c">是否确认取消该名片</div>
+				<div class="modal-footer ta-c">
+                    <input type="hidden" id="cancelId" />
+                    <input type="hidden" id="cancelGroupId" />					
+					<button type="button" class="btn btn-primary m-l49" data-dismiss="modal" onclick="cancelAttention()">确认</button>
+					<button type="button" class="btn-qx m-l5" data-dismiss="modal" style="width:auto;height:auto">关闭</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+	</div>
+		<!-- /.modal -->
+		<!-- 模态框（Modal） -->
+
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="update_fz_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width:300px">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">分组</h4>
+				</div>
+				<div class="modal-body t_c">
+                    <select name="" id="groupList" style="width:270px;height: 30px;">
+                    {% if groups %}
+                        {% for secondGroup in groups %}
+                            <option value="{{ secondGroup.id }}">{{ secondGroup.group_name }}</option>
+                        {% endfor %}
+                    {% endif %}
+                    </select>
+                </div>
+				<div class="modal-footer">
+                    <input type="hidden" id="operateState" />
+					<button type="button" class="btn btn-primary"data-dismiss="modal" style="background:#5c91d9" onclick="updateGroup()">完成</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+	</div>
+		<!-- /.modal -->
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="update_bz" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">添加备注</h4>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" id="operateIndex" />
+						<textarea name="" id="remark"></textarea>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" style="width:90px;height:33px">关闭</button>
+					<button type="button" class="btn btn-primary" onclick="updateRemark()" data-dismiss="modal">提交更改</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+    </div>
+		<!-- /.modal -->
+    <script src="../../static/js/common.js" ></script>
+    <script type="text/javascript">
+
+        var pu_id = $('#pu_id').val();
+        var sql = 'pu_id=' + pu_id + ' and attention_type=2';
+        var querySql = sql;
+        var loadData;
+        var file_website = $('#file_website').val();
+        $(function(){
+           loadData = new pagin("paginInfo", "V_Attention_Company", "", sql, "", 6, "paginBind", "loadData");
+        })
+        //动态加载页面绑定数据
+        function paginBind(dataInfo){
+        	if(dataInfo[0]==null){
+                $("#tableInfo").removeClass('load');
+                $("#tableInfo").empty(); 
+                var content='<p class="no-mes">暂无记录</p>';
+                $("#tableInfo").append(content);
+                $("#paginInfo").css("display","none");
+                return;
+            }
+            $("#tableInfo").empty();
+            $(dataInfo).each(function(i){
+                // 处理值为 null 的字段
+                var len = $(this).length;
+                var array = $(this);
+                for(var n = 0; n < len; n ++){
+                    if(!array[n] || array[n] == null){
+                        array[n] = ""
+                    }
+                }
+                if($.trim(array[8]) == "")
+                	array[8] ="null";
+                if(!array[18]){
+                    array[18] = '';
+                }
+                $('#tableInfo').append('<li></li>');
+                var content = '';
+                    content += '<a href="javascript:void(0);" onclick="viewCompany('+array[11]+')">';
+                    content += '<img src="'+ file_website+array[8]+'" width="80px" height="80px" alt="" class="f_l" style="margin-left: 10px;    position: relative;" onerror="notfind(this, 2)"></a>';
+                    content += '<dl class="f_l gzlt_dl">';
+                    content += '<dt class="f_bold fz16 gzjq" onclick="viewCompany('+array[11]+')" style="cursor: pointer;">'+array[7]+'</dt>';
+                    content += '<dd class="c_c8">';
+{#                  content += $(this)[9];#}
+                var pclevel = array[9];
+                for(var index = 0;index < pclevel;index++){
+                    if(index > 4){
+                        break;
+                    }
+                    content += '<img src="/static/images/star1.png" alt="" width="18" height="18">';
+                }
+                    content += '&nbsp;</dd>';
+                    content += '<dd><span class="gzqy_city">['+array[10]+']</span><span class="gzqy_num">'+array[13]+'</span></dd>';
+                    content += '</dl>';
+                    content += '<div class="clearfix"></div>';
+                    content += '<p class="ml15 fz12" style="margin-left: 10px">'+array[14]+'</p>';
+                    content += '<div style="margin-left: 5px;height: 20px;overflow:hidden">';
+                    var labels = array[6];
+                    var labelStr = '';
+                    if(labels && labels != ''){
+                        var labellist = new Array();
+                        labellist = labels.split('**', 4);
+                        for(var l = 0;l < labellist.length;l++){
+                            labelStr += '<input type="button" value="'+labellist[l]+'">';
+                        }
+                    }
+                    content += ''+labelStr+'';
+                    content += '</div>';
+                    content += '<div class="wdgz_info_b">';
+                    content += '<input type="hidden" value="'+array[3]+'" />';
+                    content += '<input type="hidden" value="'+array[16]+'" />';
+                    content += '<input type="checkbox" name="" value="" id="checkboxThreeInput'+(i + 1)+'"  class="check_b">';
+                    content += '<label for="checkboxThreeInput'+(i + 1)+'"></label>';
+                    content += '<input type="button" value="取消关注" class="bd_raduio ml60 input_qx" data-toggle="modal" data-target="#delete_gz_Modal" onclick="getOperateData(this, '+(i + 1)+')">';
+                    content += '<input type="button" value="修改分组"class="bd_raduio input_xg" data-toggle="modal"   data-target="#update_fz_Modal" onclick="getOperateData(this, '+(i + 1)+')">';
+                    content += '<input type="button" value="私信" class="bd_raduio input_sx" data-toggle="modal" data-target="#sxmessage_Modal" onclick="getOperateData(this, '+(i + 1)+')">';
+                    content += '<input type="hidden" value="'+array[19]+'" /></div>';
+                    content += '<input type="hidden"  value="'+array[15]+'" />';//分组ID（gid）
+                    content +='<div class="wdgz_layer"><div class="wdgz_layer_r"><div style="text-align:right;margin-top:0;padding-top:0">   <span class="wdgz_edit"><i class="iconfont icon-xiugaiziliao"></i>备注</span></div><p class="bz">'+array[4]+'</p><textarea value="1253"  rows="4" class="edit_bz" maxlength="60" onblur="saveRemark(this, '+array[0]+')">'+array[4]+'</textarea></div><div class="wdgz_layer_b"><div class="wdgz_layer_b_l f_l">'+array[7]+'</div><div class="wdgz_layer_b_r f_r">最后登录时间：'+array[18]+'</div></div></div>';
+                   // content += '<dl class="wdgz_detail" style="display:none" >';
+                   // content += '<dd class="f_l t_c">';
+                   // content += '<a href="/account/new_qyyl?companyId=' + array[11] + '">';
+                   // content += '<img src="'+array[8]+'" style="width:88px;height:88px;" alt="" onerror="notfind(this, 2)"></a>';
+                   // content += '<p>'+array[7]+'</p>';
+                   // content += '</dd>';
+                   // content += '<dd class="f_l wdgz_detail_r">';
+                   // content += '<p>'+array[4]+'</p>';
+                   // content += '<input type="hidden" value="'+array[0]+'" name="remarkId" />';
+                   // content += '<p class="c_8f">最后登录时间：'+array[20]+'</p>';
+                   // content += '</dd>';
+                   // content += '<dd class="update_btn" data-toggle="modal" data-target="#update_bz">';
+                   // content += '<i class="iconfont icon-xiugaichujia"></i>';
+                   //content += '</dd>';
+                   //content += '</dl>';                  
+                $('#tableInfo').children('li:last').append(content);
+                 $(".wdgz_info_list li").mouseenter(function(){
+                    $(this).children('.wdgz_detail').stop().slideDown(300);
+                })
+                $(".wdgz_info_list li").mouseleave(function(){
+                    $(this).stop().children('.wdgz_detail').stop().slideUp(300);
+                })
+                //点击修改备注图标
+                $('.update_btn').click(function(){
+                    var index = $('.update_btn').index($(this));
+                    $('#operateIndex').val(index);
+                    if($(this).parent().prev().prev().children('.input_qx').val() == '取消关注'){
+                        $('#remark').val($(this).prev().children('p:first').text());
+                        $(this).attr('data-target', '#update_bz');
+                    }else{
+                        $(this).attr('data-target', '');
+                        window.alert("你还没关注此人，不能填写备注！");
+                    }
+                })
+                $(".check_b").click(function(){
+                    if($(this).is(":checked")){
+                    $(this).next().css('backgroundImage', 'url(../../static/images/ck_03.png)');}
+                    else{
+                    $(this).next().css('backgroundImage', 'url(../../static/images/ck_05.png)');}
+                })
+                $("#tableInfo").removeClass('load');
+{#                $("#tableInfo").append("<span>"+ $(this)[3] +"</span>  <span>"+ $(this)[4] +"</span><br />");#}
+            });
+        }
+        //搜索框按entry事件添加
+        function queryData(){
+            if(event.keyCode == 13){
+                queryBycondition();
+            }
+        }
+        //根据条件查询数据（搜索功能）
+        function queryBycondition(){
+            var condition = $('#condition').val();
+            querySql = sql + ' and company_name like "%' + condition + '%"';
+            loadData = new pagin("paginInfo", "V_Attention_Company", "", encodeURI(querySql), "", 6, "paginBind", "loadData");
+        }
+        //添加一级分组
+        $(".add_cal_btn").click(function(){
+            var length = $('.cal_tree_dd').children('div').length;
+            if(length > 9){
+                window.alert('最多添加10个分组');
+                return;
+            }
+            var groupName = '默认分组';
+            if(judgeExist(groupName, 0)){
+                window.alert('已有默认分组，请先修改默认分组名称');
+                return;
+            }
+            var groupType = '2';
+            var parentId = 0;
+            var operateType = 'add';
+            $.ajax({
+                type: "POST",
+                url: "/ajax_groupOperate",
+                data: {"parentId": parentId, "groupName": groupName, "groupType": groupType, "operateType": operateType},
+                dataType: "json",
+                success: function(data){
+{#                    var number = $('#accordion').children().length + 1;#}
+                    if(data.msg == "新建分组成功！"){
+                        var str = '';
+                        str += '<div class="panel-heading clearfix" style="padding:10px 20px 6px 20px;cursor: pointer;">';
+                        str += '    <input type="hidden" value="' + data.id + '" />';
+                        str += '    <i class="iconfont icon-fangxiang2 f_l" style="font-size:16px"></i>';
+                        str += '    <span class="f_l name_span ml5 fz16" onclick="queryByGroupId(' + data.id + ')">默认分组</span>';
+                        str += '    <input type="text" id="" value="默认分组" class="edit_name_input" style="display: none;float:left">';
+                        str += '    <span class="f_r num_group">0</span>';
+                        str += '    <span class="f_r add_up_re_btn">';
+                        str += '        <i class="iconfont icon-xiugaichujia"></i>';
+                        str += '        <i class="iconfont icon-shanchu fz18"></i>';
+                        str += '    </span>';
+                        str += '</div>';
+
+                        $("#accordion").append(str);
+                        $('#groupList').append('<option value="'+data.id+'">默认分组</option>');
+                        //最后添加的分组呈修改状态
+                        $(".cal_tree_dd").children('div:last').find('.icon-xiugaichujia').click();
+                    }else{
+                        window.alert(data.msg);
+                    }
+                }
+            })
+
+        })
+{#        //一级分组添加二级分组事件处理#}
+{#        $(document).on('click','.icon-tianjia',function(){#}
+{#            var _this = this;#}
+{#            var groupName = '未命名';#}
+{#            var groupType = '2';#}
+{#            var parentId = $(this).parent().parent().prev().val();#}
+{#            var operateType = 'add';#}
+{#            $.ajax({#}
+{#                type: "POST",#}
+{#                url: "../ajax_groupOperate",#}
+{#                data: {"parentId": parentId, "groupName": groupName, "groupType": groupType, "operateType": operateType},#}
+{#                dataType: "json",#}
+{#                success: function (data) {#}
+{#                    if(data.msg == "新建分组成功！") {#}
+{#                        var em = '<input type="hidden" value="'+data.id+'"/><li><span class="name_span" >未命名</span><input type="text" id="" value="未命名"  class="edit_name_input" style="display: none;"/><span class="f_r num_group mt6">0</span>';#}
+{#                            em += '<span class="f_r add_up_re_btn" style="display:none"><i class="iconfont icon-xiugaichujia"></i><i class="iconfont icon-shanchu"></i></span></li>';#}
+{#                        //修改一级分类含有子分类数量#}
+{#                        var countStr = $(_this).parent().prev().text();#}
+{#                        var oldCount = countStr.split('/')[1];#}
+{#                        var newCountStr = countStr.split('/')[0] + '/' + (parseInt(oldCount) + 1);#}
+{#                        $(_this).parent().prev().text(newCountStr);#}
+{##}
+{#                        $(_this).parent().parent().parent().next().children().children().append(em);#}
+{#                    }else{#}
+{#                        window.alert(data.msg);#}
+{#                    }#}
+{#                }#}
+{#            })#}
+{#        })#}
+        //删除分组
+        $(document).on('click','.icon-shanchu',function(){
+            if(confirm("你确定要删除该分组码？")){
+                var _this = this;
+                var groupId = $(this).parent().parent().children('input:first').val();
+                var operateType = 'delete';
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax_groupOperate",
+                    data: {"groupId": groupId, "operateType": operateType},
+                    dataType: "json",
+                    success: function (data) {
+                        if(data.msg == "删除分组成功！") {
+                            //把属于该分组的数据移到未分组中
+                            var childCount = $(_this).parent().prev().text();
+                            if(parseInt(childCount) > 0){
+                                var liList = $('#tableInfo').children('li').children('input[value="'+groupId+'"]');
+                                //设置未分组下的数量
+                                var noGroupId = '';
+                                $(".ml5").each(function(){
+                                    if($(this).text() == "未分组"){
+                                        var noGroup = $(this);
+                                        noGroupId = noGroup.prev().prev().val();
+                                        var own = noGroup.next().next().text();
+                                        noGroup.next().next().text(parseInt(own) + parseInt(childCount));
+                                    }
+                                });
+                                for(var m = 0;m < liList.length;m++){
+                                    liList.eq(m).val(noGroupId)
+                                }
+                            }
+{#                            if($(_this).parent().parent().attr('data-toggle')) {#}
+{#                                $(_this).parent().parent().parent().parent().remove();#}
+{#                            }else{#}
+{#                                //修改一级分类含有子分类数量#}
+{#                                var countObj = $(_this).parent().parent().parent().parent().parent().prev().children('a').children('span').eq(1);#}
+{#                                var countStr = countObj.text();#}
+{#                                var oldCount = countStr.split('/')[1];#}
+{#                                var newCountStr = countStr.split('/')[0] + '/' + (parseInt(oldCount) - 1);#}
+{#                                countObj.text(newCountStr);#}
+                            $('#groupList').children('option[value='+groupId+']').remove();
+                            $(_this).parent().parent().remove();
+{#                            }#}
+                        }else{
+                            window.alert(data.msg);
+                        }
+                    }
+                })
+            }
+        })
+        //======== 信息模版
+        $(".icon-iconfontmoban2").click(function(){
+       	 $(".dialog").show();
+	    })
+	    $(".qx_btn").click(function(){
+	         $(".dialog").hide();
+	    })
+	    $("#add_btn").click(function(){
+	        $(".cyqy_table input[type=text]").val("");
+	    })
+	    $(".dialog li").click(function(){
+	        $(".dialog li").removeClass('active');
+	        $(this).addClass('active');
+	    })
+	    $(".dialog li").dblclick(function(){
+	         confirms.call(this);
+	    })
+	    $(".modal_wdgz .re_btn").click(function(){
+	        confirms.call(this);
+	    })
+	    function confirms(){
+	        $("#letterContent").val($(".dialog li.active").children('input').val());
+	        $(this).parent().parent().hide();
+	    }
+        //修改分组名称
+        $(document).on('click','.icon-xiugaichujia',function(){
+            var oldValue = $(this).parent().prev().prev().val();
+            var _this=this;
+            $(this).parent().prevAll('.name_span').css('display','none');
+            $(this).parent().prevAll('.edit_name_input').css('display','inline-block');
+            $(this).parent().prevAll('.edit_name_input').focus();
+            $(this).parent().prevAll('.edit_name_input').blur(function(){
+                var obj = this;
+                if($(this).val() == ''){
+                    window.alert('请输入分组名称');
+                    this.focus();
+                    return ;
+                }
+                if(judgeExist($(this).val(), $('.edit_name_input').index(this)) == true){
+                    window.alert('该分组名称已存在，请重新输入');
+                    $(this).val('');
+                    this.focus();
+                    return ;
+                }
+                //判断分组名称有没改变
+                var newValue = $(this).val();
+                if(oldValue != newValue){
+                    var groupId = $(this).parent().children('input:first').val();
+                    var operateType = 'update';
+                    //修改分组名称
+                    $.ajax({
+                        type: "POST",
+                        url: "/ajax_groupOperate",
+                        data: {"groupId": groupId, "groupName": newValue, "operateType": operateType},
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.msg == "修改分组成功！") {
+                                $(_this).parent().prevAll('.name_span').html($(obj).val());
+                                $(_this).parent().prevAll('.name_span').css('display','inline-block');
+                                $(_this).parent().prevAll('.edit_name_input').css('display','none');
+
+                                $('#groupList').children('option[value='+groupId+']').text($(obj).val());
+                            } else {
+                                window.alert(data.msg);
+                            }
+                        }
+                    })
+                }else{
+                    $(_this).parent().prevAll('.name_span').css('display','inline-block');
+                    $(_this).parent().prevAll('.edit_name_input').css('display','none');
+                }
+            })
+        })
+        //判断修改的分组名称是否重复
+        function judgeExist(name, index){
+            var groupSpans = $('.edit_name_input').prev('span');
+            for(var m = 0;m < groupSpans.length;m++){
+                if(m != index && $.trim(groupSpans.eq(m).text()) == name){
+                    return true;
+                }
+            }
+            return false;
+        }
+        //修改我的关注企业所属分组
+        function updateGroup(){
+            //判断是单个修改分组还是多选的修改分组
+            var newGroupId = $('#groupList').val();//修改后的分组ID
+            if($('#operateState').val() == 'simple'){
+                var oldGroupId = $('#oldGroupInfoId').val();//原分组ID
+                var attentionId = $('#cancelId').val();//被关注人的ID
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax_updateGroup",
+                    data: {"oldGroupId": oldGroupId, "newGroupId": newGroupId, "attentionId": attentionId},
+                    dataType: "json",
+                    success: function(data){
+                        if(data.msg == "修改成功"){
+                            var oldObj = $('input[value="'+oldGroupId+'"]').parent().find('.num_group:first');
+                            var newObj = $('input[value="'+newGroupId+'"]').parent().find('.num_group');
+                            var oldCount = oldObj.text();
+                            var newCount = newObj.text();
+                            oldObj.text(parseInt(oldCount) - 1);
+                            newObj.text(parseInt(newCount) + 1);
+                            window.alert('修改成功');
+                        }else{
+                            window.alert(data.msg)
+                        }
+                    }
+                });
+            }else{
+                updateSelectGroup(newGroupId);
+            }
+        }
+        //修改选中企业的分组
+        function updateSelectGroup(newGroupId){
+            var checkboxes = $(".wdgz_info_list input[type='checkbox']:checked");
+            if(checkboxes.length == 0){
+                window.alert("请选择要修改分组的人！");
+                return;
+            }
+            var groupIds = [];//分组ID
+            for(var i = 0;i < checkboxes.length;i++){
+                groupIds.push(checkboxes.eq(i).prev().val());
+            }
+            $.ajax({
+                type: "POST",
+                url: "/ajax_updateSelectGroup",
+                data: {"groupIds": groupIds, "newGroupId": newGroupId},
+                dataType: "json",
+                success: function (data) {
+                    if (data.msg != 'success') {
+                        window.alert(data.msg);
+                    }else{
+                        for(var m = 0;m < checkboxes.length;m++){
+                            var oldGid = checkboxes.eq(m).parent().next().val();
+                            checkboxes.eq(m).parent().next().val(newGroupId);
+                            var oldObj = $('input[value="'+oldGid+'"]').parent().find('.num_group:first');
+                            var newObj = $('input[value="'+newGroupId+'"]').parent().find('.num_group');
+                            var oldCount = oldObj.text();
+                            var newCount = newObj.text();
+                            oldObj.text(parseInt(oldCount) - 1);
+                            newObj.text(parseInt(newCount) + 1);
+                        }
+                        loadData = new pagin("paginInfo", "V_Attention_Company", "", encodeURI(querySql), "", 6, "paginBind", "loadData");
+                        window.alert('批量修改分组成功');
+                    }
+                }
+            })
+        }
+        //获得操作的数据
+        function getOperateData(obj, index){
+            $('#operateIndex').val(index);
+            $('#cancelId').val($(obj).parent().children().eq(0).val());//被关注人的ID
+            $('#cancelGroupId').val($(obj).parent().children().eq(1).val())//被关注人的分组关系ID
+            $('#operateState').val('simple');
+            if($(obj).val() == '修改分组'){
+                //修改分组时，要显示该被关注人属于的分组，所有需要获得分组的ID
+                relationGroupId = $(obj).parent().children().eq(1).val();
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax_getGidByGinfoId",
+                    data: {"relationGroupId": relationGroupId},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.msg == 'success') {
+                            $('#groupList').val(data.gid);
+                            $('#oldGroupInfoId').val(data.gid);
+                        } else {
+                            window.alert(data.msg);
+                        }
+                    }
+                });
+            }else if($(obj).val() == '私信'){
+{#                $('.message_Modal_box').children().remove();#}
+                var username = $(obj).parent().parent().children('dl:eq(0)').children('dt:eq(0)').text();
+{#                var em = '<span>' + username + '<label>x</label></span>';#}
+{#                $('.message_Modal_box').append(em);#}
+                $('#cancelId').val($(obj).next().val());//被关注企业的PU_ID
+                getOperateDatass(this, username, $(obj).next().val());
+{#                $(".message_Modal_box label").click(function(){#}
+{#                    $(this).parent().remove()#}
+{#                })#}
+            }
+        }
+        //取消关注事件处理
+        function cancelAttention() {
+            //判断是单个取消关注还是多选的取消关注
+            if($('#operateState').val() == 'simple'){
+                var index = $('#operateIndex').val();
+                var obj = $('#checkboxThreeInput' + index);
+                var id = $('#cancelId').val();
+                var groupId = $('#cancelGroupId').val();
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax_attentionOperate",
+                    data: {"id": id, "type": "0", "groupId": groupId, "attentionType": 2},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.msg == '取消关注成功！') {
+                            obj.parent().parent().remove();
+                            //修改分组含有的数量
+                            var gid = obj.parent().next().val();
+                            var group = $('input[value="'+gid+'"]').parent().find('.num_group:first');
+                            var childCount = group.text();
+                            group.text(parseInt(childCount) - 1);
+                            //end
+                            loadData = new pagin("paginInfo", "V_Attention_Company", "", encodeURI(querySql), "", 6, "paginBind", "loadData");
+                            window.alert('取消关注成功');
+                        } else {
+                            window.alert(data.msg);
+                        }
+                    }
+                });
+            }else{
+                allCancel();
+            }
+        }
+        $(".wdgz_info_list li").mouseenter(function(){
+            $(this).children('.wdgz_detail').stop().slideDown(300);
+        })
+        $(".wdgz_info_list li").mouseleave(function(){
+            $(this).stop().children('.wdgz_detail').stop().slideUp(300);
+        })
+        $(".check_b").click(function(){
+            if($(this).is(":checked")){
+            $(this).next().css('backgroundImage', 'url(/static/images/ck_03.png)');}
+            else{
+            $(this).next().css('backgroundImage', 'url(/static/images/ck_05.png)');}
+        })
+        $(".wdgz_cal_tree_ul li").mouseover(function(){
+            $(".wdgz_cal_tree_ul li").removeClass('active');
+            $(this).addClass('active');
+        })
+        $(".cal_tree_dd #accordion").mouseout(function(){
+            $(".wdgz_cal_tree_ul li").removeClass('active');
+        })
+{#        $("#add_btn").click(function(){#}
+{#            $(".cyqy_table input[type=text]").val("");#}
+{#        })#}
+        $(document).on('click','.panel-heading',function(){
+            $(".panel-heading").removeClass('active');
+            $(".wdgz_cal_tree_ul li").removeClass('active');
+            $(this).addClass('active');
+        })
+
+        //点击修改备注图标
+        $('.update_btn').click(function(){
+            var index = $('.update_btn').index($(this));
+            $('#operateIndex').val(index);
+            if($(this).parent().prev().children('.input_qx').val() == '取消关注'){
+                $('#remark').val($(this).prev().children('p:first').text());
+                $(this).attr('data-target', '#update_bz');
+            }else{
+                $(this).attr('data-target', '');
+                window.alert("你还没关注此人，不能填写备注！");
+            }
+        })
+        //修改备注
+        function updateRemark(){
+            var operateIndex = $('#operateIndex').val();
+            if($('#remark').val() == ''){
+                window.alert('请先填写备注再修改！');
+            }else{
+                var relationId = $("[name='remarkId']").eq(operateIndex);
+                var id = relationId.val();
+                var remark = $('#remark').val();
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax_updateAttentionRemark",
+                    data: {"remark": remark, "remarkId": id},
+                    dataType: "json",
+                    success: function(data){
+                        if(data.msg == '修改成功！'){
+                            relationId.prev().text(remark);
+                        }else{
+                            window.alert(data.msg);
+                        }
+                    }
+                });
+            }
+        }
+        //根据分组ID获得分组下关注的人
+        function queryByGroupId(groupId){
+            querySql = sql + ' and gid=' + groupId;
+            loadData = new pagin("paginInfo", "V_Attention_Company", "", encodeURI(querySql), "", 6, "paginBind", "loadData");
+{#            window.location = 'gz_gzdqy?groupId=' + groupId + '&index=' + index;#}
+        }
+        //全选事件
+        $('.wdgz_ckall').click(function(){
+            var checkboxes = $(".wdgz_info_list input[type='checkbox']");
+            if($(this).is(":checked")){
+                for(var i= 0;i<checkboxes.length;i++){
+                    checkboxes[i].checked=true;
+                }
+                $(".check_b").next().css('backgroundImage', 'url(/static/images/ck_03.png)');
+            }else{
+                for(var i= 0;i<checkboxes.length;i++){
+                    checkboxes[i].checked=false;
+                }
+                $(".check_b").next().css('backgroundImage', 'url(/static/images/ck_05.png)');
+            }
+        })
+        //取消关注选中的人
+        function allCancel(){
+            var checkboxes = $(".wdgz_info_list input[type='checkbox']:checked");
+            if(checkboxes.length == 0){
+                window.alert("请选择要取消关注的人！");
+                return;
+            }
+            var attentionIds = [];//被关注人ID
+            var groupIds = [];//分组ID
+            for(var i = 0;i < checkboxes.length;i++){
+                attentionIds.push(checkboxes.eq(i).prev().prev().val());
+                groupIds.push(checkboxes.eq(i).prev().val());
+            }
+            $.ajax({
+                type: "POST",
+                url: "/ajax_cancelSelect",
+                data: {"attentionIds": attentionIds, "type": "0", "groupIds": groupIds, "attentionType": 2},
+                dataType: "json",
+                success: function (data) {
+                    if (data.msg == 'success') {
+                        for(var i = 0;i < checkboxes.length;i++){
+                            checkboxes.eq(i).parent().parent().remove();
+                            //修改分组含有的数量
+                            var gid = checkboxes.eq(i).parent().next().val();
+                            var group = $('input[value="'+gid+'"]').parent().find('.num_group:first');
+                            var childCount = group.text();
+                            group.text(parseInt(childCount) - 1);
+                            //end
+                        }
+                        loadData = new pagin("paginInfo", "V_Attention_Company", "", encodeURI(querySql), "", 6, "paginBind", "loadData");
+                        window.alert('批量取消关注成功');
+                    } else {
+                        window.alert(data.msg);
+                    }
+                }
+            })
+        }
+        //判断是否有选中的人
+        function judgeSelected(obj){
+            var checkboxes = $(".wdgz_info_list input[type='checkbox']:checked");
+            if(checkboxes.length == 0){
+                window.alert("请选择要操作的数据！");
+                $('.wdgz_txt1').attr('data-target', '');
+            }else{
+                $('.wdgz_txt1:first').attr('data-target', '#delete_gz_Modal');
+                $('.wdgz_txt1:last').attr('data-target', '#update_fz_Modal');
+            }
+            $('#operateState').val('multi');
+        }
+
+        //
+        function viewCompany(pc_id){
+            window.open('/account/new_qyyl?companyId=' + pc_id, '_blank');
+        }
+        $(document).on('click','.wdgz_edit',function(){
+            $(this).parent().parent().children('.bz').hide().next('.edit_bz').show();
+        })
+        $(document).on('blur','.edit_bz',function(){
+            $(this).prev().text($(this).val()).show();
+            $(this).hide();
+        });
+        //
+        function saveRemark(obj, remark_id){
+            var remark = $(obj).val();
+            $.ajax({
+                type: "POST",
+                url: "/ajax_updateAttentionRemark",
+                data: {"remark": remark, "remarkId": remark_id},
+                dataType: "json",
+                success: function(data){
+                    if(data.msg == '修改成功！'){
+                    	alert("修改成功");
+                    }else{
+                        window.alert(data.msg);
+                    }
+                }
+            });
+        }
+	</script>
+</body>
+</html>

@@ -1,0 +1,756 @@
+.errorTip{
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	background: rgba(244,82,82,0.8);
+	font-size: 14px;
+	color: #fff;
+	text-align: center;
+	z-index: 9999;
+	display: none;
+}
+
+.rztip{
+	width: 100%;
+	padding: 10px 20px;
+	font-size: 14px;
+	color: #9daeb7;
+	box-sizing: border-box;
+}
+
+.halfCheckBtnOk{
+	display: none;
+}
+
+.swiper-container {
+    width: 100%;
+    height: 100%;
+}
+
+.comTop{
+    height: 150px;
+    width: 100%;
+    background: #1470b3;
+    overflow: hidden;
+    padding-top: 35px;
+    box-sizing: border-box;
+}
+
+.comTop .pointBox{
+    background: url("../images/xxborder.jpg") center center repeat-x;
+}
+
+.comTop .pointBox.stepOne{
+    background: url("../images/xxborder.jpg") center center repeat-x;
+    width: 50%;
+    float: right;
+}
+
+.comTop .pointBox.stepFour{
+    background: url("../images/xxborder.jpg") center center repeat-x;
+    width: 50%;
+    float: left;
+}
+
+.comTop .pointBox .circlePoint{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    line-height: 40px;
+    text-align: center;
+}
+
+.comTop .pointBox .circlePoint.sideLeftP{
+    float: left;
+    margin-left: 20px;
+    background: #2089d0;
+}
+
+.comTop .pointBox .circlePoint.midP{
+    background: #fff;
+}
+
+.comTop .pointBox.overBox .circlePoint.midP{
+    position: absolute;
+    left: 50%;
+    margin-left: -20px;
+}
+
+.comTop .pointBox.stepOne .circlePoint.midP{
+    margin-left: -20px;
+    float: left;
+}
+
+.comTop .pointBox.stepFour .circlePoint.midP{
+    margin-right: -20px;
+    float: right;
+}
+
+.comTop .pointBox .circlePoint.sideRightP{
+    float: right;
+    margin-right: 20px;
+    background: #2089d0;
+}
+
+.comTop .pointBox .circlePoint i{
+    font-size: 16px;
+    color: #1470b3;
+    line-height: 40px;
+}
+
+.comTop .pointBox .circlePoint span{
+    font-size: 16px;
+    color: #1470b3;
+}
+
+.comTop h2{
+    width: 100%;
+    float: left;
+    text-align: center;
+    font-size: 16px;
+    color: #fff;
+    font-weight: normal;
+    margin-top: 15px;
+}
+
+.comTop h3{
+    float: left;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;    color: rgba(255, 255, 255, 0.5);    font-weight: normal;
+    margin-top: 5px;
+}
+
+.comMidTip{
+    width: 100%;
+    font-size: 14px;
+    text-align: center;
+    color: #b0bec5;
+    padding: 18px 0 10px;
+}
+
+.comMid{
+    width: 100%;
+
+    margin-top: 8px;
+}
+
+.expList{
+	width: 100%;
+	display: none;
+}
+
+.expList .oneExpList{
+	background: #fff;
+	padding: 10px 20px;
+	box-sizing: border-box;
+}
+
+.expList .oneExpList .expLeft{
+	float: left;
+}
+
+.expList .oneExpList .expLeft h2{
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.expList .oneExpList .expLeft span{
+	font-size: 14px;
+}
+
+.expList .oneExpList .expRight{
+	float: right;
+    margin: 17px 10px 0 0;
+}
+
+.expList .oneExpList .expRight i{
+	display: block;
+	width: 20px;
+	height: 20px;
+	font-size: 20px;
+	color: #b0bec5;
+	text-align: center;
+	line-height: 20px;
+}
+
+.moreAddBox{
+	width: 100%;
+	padding: 8px 20px 0;
+	box-sizing: border-box;
+	text-align: right;
+}
+
+.moreAddBtn{
+	font-size: 14px;
+	background: #1470b3;
+	display: inline-block;
+	color: #fff;
+	padding: 4px;
+	border-radius: 5px;
+}
+
+.expSave{
+	width: 100%;
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 50px;
+    text-align: center;
+    color: #fff;
+    background: #1470b3;
+}
+
+.bottom{
+    width: 100%;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    font-size: 16px;
+    line-height: 50px;
+    text-align: center;
+    color: #fff;
+    border: none;
+	padding: 0;
+	border-radius: 0;
+	outline: none;
+}
+
+.bottom.btnUnable{
+    background: #b0bec5;
+
+}
+
+.bottom.btnAble{
+    background: #1470b3;
+	display: none;
+}
+
+.create_job_but{
+
+}
+
+.create_job_but_no{
+
+}
+
+.overBox{
+    overflow: hidden;
+}
+
+.textRight{
+	text-align: right;
+}
+
+.margin-r-20{
+	margin-right: 20px;
+}
+
+
+.formEleInfoBox{
+    width: 100%;
+    padding: 5px 20px;
+    box-sizing: border-box;
+    line-height: 30px;
+    background: #fff;
+    margin-bottom: 2px;
+}
+
+.formEleInfoBox span{
+    font-size: 14px;
+}
+
+
+.errorColor input{
+	color: red;
+}
+
+
+/*¹«¹²form±íµ¥ÑùÊ½*/
+.formEleBox{
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    height: 60px;
+    line-height: 60px;
+    background: #fff;
+    border-top:1px solid #e6e6e6;
+}
+.swiper-slide .formEleBox{
+	overflow:hidden;
+}
+
+.formEleBox.errorBox{
+}
+
+.formEleBox label{
+    float: left;
+    font-size: 14px;
+}
+
+label.normolLabel{
+	float:none;
+}
+
+.formEleBox .rightBox{
+    margin-left: 75px;
+    position: relative;
+}
+
+.formEleBox .rightBox .yearInput{
+    float: left;
+    width: 40%;
+    position: relative;
+}
+
+.formEleBox .rightBox .yearCheck{
+    float: right;
+}
+
+.formEleBox .rightBox .yearCheck .yearCheckInput{
+    float: left;
+    width: auto;
+    margin-top: 24px;
+}
+
+.formEleBox .rightBox .logoBox{
+    width: 41px;
+    height: 41px;
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+    top: 9px;
+}
+
+.formEleBox .rightBox .logoBox img{
+    width: 41px;
+    height: 41px;
+    border-radius:50%;
+    position: static;
+}
+
+.formEleBox input[type=text],.formEleBox input[type=tel],.formEleBox input[type=number],select,.textarea{
+    width: 100%;
+    outline: none;
+    background: transparent;
+    border: none;
+    text-align: right;
+    font-size: 14px;
+}
+
+.shortSelect{
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	width: 40%;
+}
+
+.shortSelect.shortSelect28{
+	width: 33%;
+}
+
+.shortSelect span{
+	position: absolute;
+    top: 0;
+    right: 20px;
+    font-size: 14px;
+}
+
+.shortSelect .create_input{
+	padding-right: 40px!important;
+}
+
+.formEleBox .create_input{
+    font-size: 14px;
+    text-align: right;
+    padding-right: 25px;
+    box-sizing: border-box;
+    line-height: 60px;
+    height: 60px;
+}
+
+.formEleBox img{
+	position: absolute;
+	right: 0;
+	top: 27px;
+	width: 15px;
+}
+
+.textareaBox{
+    width: 100%;
+    padding: 20px 20px 10px;
+    box-sizing: border-box;
+    height: 200px;
+    background: #fff;
+}
+
+.textareaBox label{
+    display: block;
+    font-size: 14px;
+}
+
+
+.textareaBox .infoBox{
+    width: 100%;
+}
+
+.textareaBox .infoBox textarea{
+    width: 100%;
+    font-size: 14px;
+    outline: none;
+    background: transparent;
+    border: none;
+    height: 120px;
+  	padding: 1px 0;
+  	font-family: 'Microsoft Yahei',Arial,Helvetica,sans-serif;
+}
+
+.textareaBox .numTip{
+    width: 100%;
+    text-align: right;
+}
+
+.textareaBox .numTip span{
+    font-size: 14px;
+    color: #b0bec5;
+}
+
+
+.hrcenterMain{
+	
+}
+
+.hrcenterMain .hrTop{
+    overflow: hidden;
+	
+    padding: 10px 16px;
+    background: #1470b3;
+}
+
+.hrcenterMain .hrTop .leftImg{
+    overflow: hidden;        
+    padding: 5px;    
+    width: 80px;    
+    height: 80px;    
+    border: 1px solid rgba(255,255,255,0.5);    
+    -moz-border-radius: 50%;    
+    -webkit-border-radius: 50%;    
+    border-radius: 50%;
+    float: left;
+}
+
+.hrcenterMain .hrTop .leftImg .imgBorderBox{
+	width: 100%;
+	height: 100%;
+	border-radius: 100%;
+	box-sizing:border-box;
+	border:4px solid rgba(255,255,255,0.8);
+}
+
+.hrcenterMain .hrTop .leftImg img{
+  	display:block;
+	width:100%; 
+	height: 100%;
+    -moz-border-radius:100%;
+    -webkit-border-radius:100%;
+    border-radius:100%;
+}
+
+.hrcenterMain .hrTop .rightInfo{
+    margin-left: 92px;
+    padding-left: 10px;
+    margin-top: 10px;
+}
+
+.hrcenterMain .hrTop .rightInfo p{
+    line-height: 22px;
+	
+    width: 100%;
+    word-break: break-all;
+}
+
+.hrcenterMain .hrTop .rightInfo i{
+    font-size: 14px;
+	
+    color: #fff;
+    margin-right: 5px;
+    width: 14px;
+}
+
+.hrcenterMain .hrTop .rightInfo span{
+    font-size: 14px;
+	
+    color: #fff;
+}
+
+.hrcenterMain .hrTop .rightInfo .name,.hrcenterMain .hrTop .rightInfo .position{
+    font-size: 16px;
+}
+
+
+.hrcenterMain .listTitle{
+    width: 100%;
+	
+    font-size: 16px;
+    background: #fff;
+    margin: 8px 0 2px;
+    padding: 10px 16px;
+    color: #1470b3;
+}
+
+.hrcenterMain .hrcenterCompany .zsp_uc_tit{
+    margin-bottom: 2px;
+	
+    background: #fff;
+}
+
+.hrcenterCompany .zsp_uc_info_main  .zsp_uc_info_name span{
+	color: #002a3f;
+}
+
+.hrcenterCompany .zsp_uc_info_main  .zsp_uc_info_other span{
+	color: #9daeb7;
+}
+
+/*hrÃæÊÔÑûÇë*/
+.msTop{
+    font-size: 16px;
+	
+    color: #fff;
+    line-height: 50px;
+    background: #1470b3;
+    padding: 0 16px;
+}
+
+.msInfoBox{
+    margin-top: 8px;
+}
+
+.whiteBg{
+	background: #fff;
+}
+
+.msInfoBox .infoT{
+    margin: 0 16px;
+	
+    padding: 10px 0;
+    font-size: 14px;
+    color: #1470b3;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.msPinfo{
+    padding: 16px;
+	
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.msPinfo .msPImg{
+    width: 70px;
+	
+    height: 70px;
+    border-radius: 100%;
+    float: left;
+}
+
+.msPinfo .msPImg img{
+    width: 100%;
+	
+    border-radius: 100%;
+}
+
+.msPinfo .rPinfo{
+    margin-left: 85px;
+	
+}
+
+.msPinfo .rPinfo p{
+    font-size: 14px;
+	
+    margin-top: 5px;
+}
+
+.lightGrey{
+	color: #9daeb7;
+}
+
+/*ÐüÉÍ-ºòÑ¡ÈËÁÐ±í*/
+.cdListBox{
+	
+}
+
+.cdListBox .title{
+    background: #1470b3;
+    color: #fff;
+    padding: 16px;
+    font-size: 15px;
+}
+
+.cdListBox .addTips{
+	margin-top: 8px;
+	color: #9daeb7;
+	padding: 0 16px;
+}
+
+.cdListBox .tip{
+    background: #ff8f00;
+	
+    color: #fff;
+    padding: 10px 16px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.cdListBox ul{
+    margin-bottom: 10px;
+	
+}
+
+.cdListBox ul li{
+    background: #fff;
+    padding: 10px 16px;
+    overflow: hidden;
+  	margin-bottom: 1px;
+}
+
+.cdListBox ul li img{
+    width: 48px;
+    height: 48px;
+    border-radius: 100%;
+    float: left;
+}
+
+.cdListBox ul li .rightInfo{
+    margin-top: 6px;
+    margin-left: 60px;
+    position: relative;
+}
+
+.cdListBox ul li .rightInfo h2{
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.cdListBox ul li .rightInfo p{
+    color: #9daeb7;
+    font-size: 14px;
+}
+
+.cdListBox ul li .rightInfo .checkBox{
+    position: absolute;
+    right: 0;
+    top: 7px;
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    border: 1px solid #e0e0e0;
+    line-height: 27px;
+    text-align: center;
+}
+
+.cdListBox ul li .rightInfo .checkBox i{
+    color: #1470b3;
+	display: none;
+    font-size: 14px;
+}
+
+.cdListBox ul li .rightInfo .checkBox.checked{
+	border-color: #1470b3;;
+}
+
+.cdListBox ul li .rightInfo .checkBox.checked i{
+	display: inline-block;
+}
+
+.cdListBox .submitBtn{
+    width: 100%;
+    border: none;
+    background: #1470b3;
+    color: #fff;
+    font-size: 16px;
+    line-height: 50px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    z-index: 9000;
+}
+
+
+.cdListBox .submitBtn input{
+    background: transparent;
+    border: none;
+    color: #fff;
+    width: 100%;
+    line-height: 50px;
+    font-size: 16px;
+}
+
+
+.zsp_yzm_but{
+	position:absolute;
+	left:-26px;
+	height:100%;
+	background:#fff;
+	font-size:14px;
+	color:#1470b3;
+	text-align:right;
+	line-height:60px;
+}
+
+.zsp_yzm_but a{
+	color:#1470b3;
+	font-size:14px;
+}
+#remainTime{
+	margin-left:3px;
+	color:#1470b3;
+	font-size:14px;
+}
+
+/*¸öÈË±êÇ©*/
+.grbq{
+    float: left;
+width: 100%;padding-bottom: 10px;border-bottom: 1px solid #E0E0E0;
+}
+.grbq li{
+    border-radius: 5px;border:1px solid #E0E0E0;color:#333;background-color: #fff;
+    float: left;
+width: 19%;
+height: 30px;
+line-height: 30px;
+text-align: center;
+margin: 10px 3% 0px;
+overflow: hidden;
+} 
+
+
+.required1{
+    border:1px solid #fec00e;
+    border-radius:4px;
+    padding:0px 4px;
+    color:#fec00e;
+    font-size:12px;
+    margin-left:7px;
+}
+
+.core_adva{
+    border-radius:4px; padding:8px 8px;
+}
+
+.core_adva1{
+    border:1px solid #89b7d9!important; 
+    border-radius:4px; padding:8px 8px;
+}
+
+.ylbtn{
+    font-size:15px;
+    color:#fff;
+    background-color: #279aed;
+    padding:6px 12px;
+    border-radius:4px;
+    float:right;
+    margin-top:3px;
+}
+
+

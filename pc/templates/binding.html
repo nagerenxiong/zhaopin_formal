@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>绑定登录</title>
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/binding.css">
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/new_Register.css">
+	<link rel="stylesheet" href="//at.alicdn.com/t/font_1443147556_4920416.css">
+
+    <style>
+    .yzm_abs{
+        display: none;
+        width:280px;position: absolute;right:10px;top: -80px;
+        height: 130px;background-color: #FFF;padding: 15px;z-index: 2;
+        border:5px solid #333;
+    }
+    .yzm_abs input{
+        font-size: 12px;color:#333;padding-left: 5px !important;width:120px !important;
+        display: inline-block;
+    }
+     .yzm_abs input label{
+        font-size: 12px;display: inline-block;
+     }
+    .yzm_abs button{
+        display: inline-block;border:none;background-color: #5C91D9;color:#FFF;
+        border-radius: 5px;text-align: center;font-size: 12px;
+        width:45%;margin:0 auto;cursor: pointer;height: 40px;margin-right: 4%;
+    }
+
+
+</style>
+</head>
+<body>
+    <!-- 头部start -->
+	<div class="header">
+         <div class="content">
+             <a href="http://www.hcdyhr.com"><img style="margin-top:10px;" src="{{ STATIC_URL }}images/new_logo.png" alt=""></a>
+             <ul>
+                 <li><a href="http://www.hcdyhr.com">首页</a></li>
+                 <li><a href="/new_search_company" target="_blank">公司</a></li>
+                 <li><a href="/new_search_position" target="_blank">职位</a></li>
+                 <li><a href="/system/new_agent_search" target="_blank">人才经纪人</a></li>
+                 <span class="abs"></span>
+             </ul>
+         </div>
+    </div>
+<!-- 头部end -->
+
+
+
+
+	<div id="content">
+        {% if oauthType == 'qq' %}
+            <h4 id="qq"> <span><img src="{{ STATIC_URL }}images/qq_logo.png"></span>Hi,来自QQ登录的 <a href="javascript:void(0);" style="color:'#51b7ec';font-size: 16px">{{ oauthName }} </a> 您好！ 欢迎加入怀才当遇，请绑定您的账号</h4>
+        {% elif oauthType == 'weixin' %}
+            <h4 id="qq"> <span><img src="{{ STATIC_URL }}images/weixin_logo.png"></span>Hi,您好！欢迎加入怀才当遇，请绑定您的账号</h4>
+        {% elif oauthType == 'weibo' %}
+            <h4 id="qq"> <span><img src="{{ STATIC_URL }}images/xina_logo.png"></span>Hi,来自微博登录的 <a href="javascript:void(0);" style="color:'#51b7ec';font-size: 16px">{{ oauthName }} </a> 您好！欢迎加入怀才当遇，请绑定您的账号</h4>
+        {% endif %}
+		<div class="account-set">
+		<div class="tab-tag clearfix">
+			<a href="javascript:void(0);" class="a_color color_active">创建一个新帐号 </a>
+			<a href="javascript:void(0);" class="a_color">已有帐号</a>
+		</div>
+		<div class="tab-content-box ">
+			<div class="tab-content  estab">
+				<h4 class="cont-title">请选择你的角色及创建一个新的账号，并绑定你现在登录的<strong>{{ type_name }}</strong></h4>
+				<p class="sub-title">绑定成功后，您可以使用<strong>{{ type_name }}</strong>帐号或者怀才当遇网帐号登录</p>
+		            <div class="c c-binding">
+					<ul class="role">
+						<li onclick="changeRegistType('1')">我是人才方</li>
+						<li onclick="changeRegistType('3')">我是人才经纪人</li>
+						<li onclick="changeRegistType('4')">我是企业方</li>
+					</ul>
+					<form class="registed" method="post" >
+		              {% csrf_token %}
+                <input type="hidden" name="account_type" value="{{ accounttype }}" />
+                <input type="hidden" name="remark" value="{{ remark | default:'' }}" />
+		                <ul class="form">
+		                    <li>
+		                        <label for="">账号</label>
+		                        <input type="text" maxlength="24" data-type="account" id="account" name="account" datatype="e-m" class="account" placeholder="请用邮箱或手机号码注册" autocomplete="off">
+		                        <span name="validateAccountSpan"></span>
+		                        <i class="iconfont icon-yonghu"></i>
+		                    </li>
+		                    <span class="hint index1">
+		                    	
+		                    </span>
+		                    <li>
+		                        <label for="">密码</label>
+		                        <input type="password" maxlength="16" oncopy="return false;" onpaste="return false;" oncut="return false;" id="password" name="password" datatype="*6-16" class="mima1" placeholder="请输入登录密码,6-16位字符" >
+		                        <i class="iconfont icon-mima"></i>
+		                    </li>
+		                    <span class="hint index2">
+		                    	
+		                    </span>
+		                    <li>
+		                        <input type="password" maxlength="16" class="mima2" oncopy="return false;" onpaste="return false;"  oncut="return false;" name="userpassword2"  recheck="password" datatype="*6-16"  style="margin-left: 50px;" placeholder="请再次输入登录密码,6-16位字符" >
+		                        <i class="iconfont icon-mima"></i>
+		                    </li>
+		                    <span class="hint index3">		                    	
+		                    </span>
+		                    <li class="security">
+		                        <input type="text" name="code" style="margin-left: 50px;width:226px;padding-left: 15px;margin-right: 0px;" placeholder="请输入收到的验证码" >
+		                        <button class="send_security" >发送验证码</button>
+		                        <div class="yzm_abs">
+		                            <div>
+		                                <input type="text" class="o_yzm">
+		                                <label>123456</label>
+		                            </div>
+
+		                            <button onclick="return smsValidation(event,this);">确认发送验证码</button>
+		                             <button class="canel">取消</button>
+		                        </div>
+		                    </li>
+		                    <li>
+		                        <button class="register" onclick="return register()">创建并绑定</button>
+		                    </li>
+
+		                </ul>
+					</form>
+
+				</div>
+			</div>
+			<div class="tab-content hide  have">
+				<h4 class="cont-title">如果你已经有一个怀才当遇的帐号，可以在此进行绑定</h4>
+				<p class="sub-title">绑定成功后，您可以使用<strong>{{ type_name }}</strong>帐号或者怀才当遇网帐号登录</p>
+            <div class="d">
+		      <form method="post" action="">
+                {% csrf_token %}
+                <ul class="form">
+                    <li>
+                        <label for="">帐号</label>
+                        <input type="text"onkeyup="o_null(this)" onkeydown="o_null(this)" onblur="o_null(this)" maxlength="24" name="account" id="account2" placeholder="请输入邮箱帐号或手机" autocomplete="off">
+                       <!--  <i class="iconfont icon-yonghu"></i> -->
+                        <span class="hint"><i class="iconfont icon-gantanhao"></i>请输入帐号</span>
+                    </li>
+                    <li>
+                        <label for="">密码</label>
+                        <input type="password"onkeyup="o_null(this)" onkeydown="o_null(this)" onblur="o_null(this)" maxlength="16" name="password" id="pwd" class="mima1" placeholder="请输入密码,6-16位数字" oncopy="return false;" onpaste="return false;" oncut="return false;">
+                        <!-- <i class="iconfont icon-mima"></i> -->
+                        <span class="hint"><i class="iconfont icon-gantanhao"></i>请输入密码</span>
+                    </li>
+                    <li>
+                        <button class="login" onclick="return validData();">绑定</button>
+                    </li>
+                    {% if linkSource %}
+                        <input type="hidden" name="email_to_resume" value="{{ linkSource }}">
+                    {% endif %}
+
+                </ul>
+            </form>
+            </div>
+			</div>
+		</div>
+	</div>
+
+	</div>
+
+</body>
+<input type="hidden" id="oauthType" value="{{ oauthType }}" />
+<input type="hidden" id="oauthId" value="{{ oauthId }}" />
+<input type="hidden" id="oauthName" value="{{ oauthName }}" />
+<script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js" ></script>
+<script src="{{ STATIC_URL }}appJs/account/binding.js"></script>
+<script src="{{ STATIC_URL }}js/Validform_v5.3.2.js"></script>
+<script type="text/javascript">
+	$(function(){
+
+		$(".tab-tag a").each(function(){
+			$("a").click(function(){
+				if ($(this).index()==0) {
+                      if ($(".estab").hasClass("hide")) {
+                      	$(".estab").removeClass("hide");
+                      	$(".have").addClass("hide");
+
+                      };
+				};
+				if ($(this).index()==1) {
+                      if ($(".have").hasClass("hide")) {
+                      	$(".have").removeClass("hide");
+                      	$(".estab").addClass("hide");
+                      };
+				};
+				$(".tab-tag a").removeClass("color_active");
+                      	$(this).addClass("color_active")
+			})
+		})
+
+	})
+</script>
+<script>
+/*document.getElementById('protocol').checked = true;*/
+    $(".send_security").click(function(event) {
+        event.preventDefault();
+        GetRandomNum();
+        $(".yzm_abs").show();
+    });
+    $(".yzm_abs .canel").click(function(event) {
+        event.preventDefault();
+        $(".yzm_abs").hide();
+    });
+
+
+</script>
+{% if msg %}
+    <script type="text/javascript">
+        $('#account').focus();
+        $(function(){
+            var reg = /^1[0-9]{10}$/;
+            if (reg.test($("#account").val())) {
+                $(".security").slideDown(200);
+            }
+        });
+        var mes='{{ msg }}';
+        var str =mes.substring(0,4);
+        if($.trim(str) =="注册成功"){
+          alert( '{{ msg }}',1);
+        }
+        else{
+          alert( '{{ msg }}',4);
+        }
+    </script>
+{% endif %}
+</html>

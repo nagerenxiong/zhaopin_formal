@@ -1,0 +1,1183 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/swiper.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link href="http://at.alicdn.com/t/font_1451985787_9008727.css" rel="stylesheet" type="text/css">
+<link href="http://at.alicdn.com/t/font_1464954226_5359032.css" rel="stylesheet" type="text/css">
+
+<script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+<style type="text/css">
+    #changType span{
+        display:inline-block;
+        width:50%;
+        text-align:center;
+        height:39px;
+        line-height: 39px;
+        font-size:1.3em;
+    }
+    #changType span.active{
+        background-color:#147027;
+        color:#fff;
+    }
+    .zsp_job_li_title h3 {
+    margin-right: 30px;
+    margin-top:5px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #002a3f;
+    font-weight: normal;
+    line-height: 20px;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+.zsp_job_li_h .iconfont {
+    font-size: 14px;margin-right: 2px;margin-left: 10px;
+}
+.zsp_job_li_tit_other span{color:#333;font-size: 13px;}
+.zsp_job_li_h h3{font-weight: bold;}
+.zsp_job_li_h h3 em {
+    float: none;
+    height: auto;
+    font-size: 14px;
+    color: #9daeb7;
+    font-style: normal;font-weight: normal;
+}
+.zsp_job_li_h h3 span {
+    width:auto; color:#ff8800 !important;border-radius: 5px;border: 1px solid #ff8800;font-size: 10px;padding:0px 5px;
+}
+.zsp_job_li_other_icon{
+    font-size: 13px;
+    word-break:break-all;
+}
+.zsp_job_li_buttom{
+    margin-top: 5px !important;
+}
+.zsp_job_li_fang img{
+    margin-top: 5px;
+}
+.zsp_job_li_other.redPW{
+    margin-top: -5px !important;width:100%;
+}
+.zsp_job_li_other_icon{
+    min-height: 20px;height:auto;
+}
+.zsp_job_li_buttom{margin-top: 10px;text-align: left;padding-left: 68px;}
+.zsp_job_li_buttom span{padding:0px 3px;border-radius:5px;border:1px solid #e0e0e0;line-height:20px;height:20px;display:inline-block;text-align:center;color:#999;margin:5px 1px; font-size: 10px}
+.zsp_job_list_li{display:none;}
+.zsp_job_list_li.active{display:block;}
+.tag_box{    margin-left: 68px; display: flex; display: -webkit-flex;flex-wrap:wrap; }
+.tag_box span{
+  padding:5px 12px;
+  border:1px solid #dedede;
+  border-radius:5px;
+  margin:5px 10px 0 0;
+  text-align: center;
+  color:#777;
+}
+.tag_box>span:nth-child(3),.tag_box>span:nth-child(6),.tag_box>span:nth-child(9){
+    margin-right: 0;
+}
+.update_time{color:#777;margin-top: 5px;padding-left: 68px;}
+.icon-youjiantou{float: right;font-size:12px;}
+.zsp_job_li_tit_other{width:100%;}
+.zsp_job_search_input{
+    align-items: center;
+    display:flex;
+    justify-content: center;
+}
+.zsp_job_search_input i{margin-left:55px;}
+.zsp_job_search_input input{border:0;margin-left: 10px;}
+ .reward_icon {
+        color: #ffffff;
+        width: 95px;
+        text-align: center;
+        background-color: #ff6d6d;
+        border-radius: 8px;
+        height: 24px;
+        line-height: 24px;
+        float: right;
+    }
+.zsp_job_li_fang{
+    margin-top: 10px;
+}
+.zsp_job_list{overflow:initial;}
+.t_box{   
+      height:64px;
+       width:100%;
+         background:#0098dd;
+         position: relative;
+}
+.t_box div:nth-child(1){
+position: absolute;
+left: 0;
+top:0;
+width: 64px;
+height:64px;
+text-align: center;
+line-height: 64px;
+
+z-index: 99;
+}
+.t_box div:nth-child(1) i{
+    font-size: 20px;
+}
+.t_box div:nth-child(3){
+position: absolute;
+right: 0;
+top:0;
+width: 64px;
+height: 64px;
+text-align: center;
+line-height: 64px;
+z-index: 99;
+}
+.t_box div:nth-child(3) i{
+    font-size: 24px;
+}
+.t_box div:nth-child(2){
+    text-align: center;
+    height:64px;
+    padding:0 64px;
+    position: relative;
+}
+.t_box i{
+    color:#fff;
+    font-size: 24px;
+}
+.t_box div:nth-child(2)>input{
+    border:0;
+    box-sizing:border-box;
+    width:100%;
+    height:55%;
+    text-indent:20px;
+    border-radius:20px;
+    font-size:14px;
+    margin-top: 14px;
+}
+.cont{
+        position: absolute;
+        right: 67px;
+        top:50%;
+        margin-top: -7.5px;
+        color:#aaa!important;
+        font-size: 15px!important;
+        display: none;
+    }
+.b_box,.b_box1{background-color:#fff;}
+.b_box a,.b_box1 a{
+    display: block;color:#333;
+    height:50px;border-bottom:1px solid #d9d9d9;
+     width: 96%;margin:0 auto;
+     position: relative;
+}
+
+.b_box>ul,.b_box1>ul{
+    width: 96%; margin: 0 auto;
+}
+
+.b_box a>span,.b_box1 a>span{
+    font-size: 16px;padding-left: 30px;height:50px;line-height: 50px;
+}
+.b_box a i:first-child,.b_box1 a i:first-child{
+    position: absolute;
+    left:0;
+    top:50%;
+    transform: translateY(-50%);
+    -webkit-transform:translateY(-50%);
+font-size: 20px;
+color:#aeaeae;
+}
+.b_box a i:last-child,.b_box1 a i:last-child{
+    position: absolute;
+    right:0;
+    top:50%;
+    transform: translateY(-50%);
+    -webkit-transform:translateY(-50%);
+font-size: 12px;
+color:#aeaeae;
+}
+.b_box>.clear_record{
+    height:60px;
+    text-align: center;
+    color:#007eb2;
+    font-size: 16px;
+    line-height:60px;
+}
+.hot_search{
+    width:96%;
+    margin:0 auto;
+}
+.hot_search>dt{
+    color:#333;
+    height:60px;
+    line-height:60px;
+    font-size: 16px;
+}
+.hot_search>dd{
+    width:96%;
+   overflow: hidden;
+   margin:0 auto;
+}
+.hot_search>dd a,.hot_search>dd span{
+    width:24%;
+    font-size: 14px;
+    height:38px;
+    line-height:38px;
+    float: left;
+    border-radius:5px;
+    border:1px solid #d9d9d9;
+    text-align: center;
+    color:#0098dd;
+    background:#fff;
+    margin:5px 0.5%;
+    box-sizing:border-box;
+}
+.zsp_job_search_input{
+    align-items: center;
+    display:flex;
+    justify-content: center;
+}
+.zsp_job_search_input i{margin-left:55px;}
+.zsp_job_search_input input{border:0;margin-left: 10px;}
+.serach_terms{
+    display:flex;
+    display: -webkit-flex;
+    height:60px;
+    align-items:center;
+    -webkit-align-items: center;
+    background:#fff;
+    border-top:1px solid #d9d9d9;
+    border-bottom:1px  solid #d9d9d9;
+    position:relative;
+}
+.serach_terms>div{
+    width:100%;
+    text-align: center;
+    color:#333;
+    border-right: 1px solid #d9d9d9;
+    line-height:60px;
+    font-size: 16px;
+}
+.serach_terms>div>*{
+    vertical-align: middle;
+}
+.serach_terms>div:last-child{
+    height:auto;
+}
+.serach_terms>div:last-child{
+    border-right:0;
+}
+.serach_terms>div i{
+    color:#c5c5c5;
+    font-size: 12px;
+    margin-left: 5px;
+}
+.serach_terms>div:nth-child(2){
+    flex-basis:100%;
+    -webkit-flex-basis: 100%;
+}
+.nianxing_box,.more_box{
+    position: absolute;
+    top: 101%;
+    width: 100%;
+    left: 0;
+    background:#fff;
+    z-index: 2200;
+    display:none;
+}
+.nianxing_box>ul{
+    display:flex;   
+    display: -webkit-flex;
+    flex-direction:column;
+}
+.nianxing_box>ul>li{
+    border-bottom:1px solid #d9d9d9;
+     height:50px;
+    line-height:50px;
+    text-align: left;
+    margin: 0 3%;
+}
+.nianxing_box>ul>li i{float: right;color:#ff6e17;font-size: 16px;display:none;}
+.nianxing_box>div>a{
+    display:inline;
+    background:#00baff;
+    color:#fff;
+    font-size: 14px;
+    padding:2px 30px;
+    border-radius:5px;
+}
+.more_box>div:first-child{
+    height:50px;
+    line-height:50px;
+    text-align: left;
+    padding:0 5%;
+    border-bottom:1px solid #d9d9d9;
+}
+.more_box>div:first-child i{
+    float: right;
+}
+.more_box li{text-align:left;padding:0 5%;}
+.more_box li.mt10{display:flex;display:-webkit-flex;flex-wrap:wrap;}
+.more_box li>span{
+    box-sizing: border-box;
+    height:30px;
+    line-height:30px;
+    text-align: center;
+    width:24%;
+    margin-left:1%;
+    border-radius:5px;
+    font-size: 12px;
+    margin-top: 8px;
+    border:1px solid #d9d9d9;
+}
+.more_box li>span:first-child,.more_box li>span:nth-child(5),.more_box li>span:nth-child(9){
+    margin-left: 0;
+}
+.more_box .mt15{margin-top: 10px;}
+.more_box .mt10{margin-top: 5px;}
+.more_box div:last-child{
+    margin-top: 13px;
+    margin-bottom: 13px;
+}
+.more_box div:last-child>span{
+    width:27%;
+    text-align: center;
+    color:#fff;
+    display:inline-block;
+    line-height:25px;
+    border-radius:3px;
+    margin:0 15px;
+}
+.more_box div:last-child>span:first-child{
+    background:#00baff;
+}
+.more_box div:last-child>span:last-child{
+    background:#ffa11a;
+}
+.more_box>ul>li>span.active{
+    border-color:#22c3ff;
+}
+ .reward_icon {
+        color: #ffffff;
+        width: 95px;
+        text-align: center;
+        background-color: #ff6d6d;
+        border-radius: 8px;
+        height: 24px;
+        line-height: 24px;
+        float: right;
+    }
+li.ageRange_fag.mt10{flex-wrap:nowrap;}
+.ageRange_fag input{    border: 1px solid #d9d9d9;border-radius: 5px;box-sizing:border-box;height: 30px;line-height: 30px;width:24%;text-indent:10px;}
+
+
+</style>
+
+<script type="text/javascript">
+$(document).ready(function()
+{
+    $('.tuijian').click(function(){
+        $('.shareCur').fadeIn();
+    });
+    $('.shareCur').click(function(){
+        $('.shareCur').fadeOut();
+    });
+
+ 
+
+    var flag = true;
+    // if($(".zsp_job_list a").length<6){
+    //     $(".more").hide();
+    // }
+{#    $(window).scroll(function(){#}
+{#        var scrollTop = $(this).scrollTop();#}
+{#        var scrollHeight = $(document).height();#}
+{#        var windowHeight = $(this).height();#}
+{#        if(scrollTop + windowHeight == scrollHeight){#}
+{#            //getMore执行之后，flag为false防止多次ajax#}
+{#            if(flag){#}
+{#               getMore();#}
+{#            }#}
+{#        }#}
+{#    });    #}
+
+    if("{{key}}" != ""){
+        var resume_search =  window.localStorage.getItem("resume_search");
+
+        if(resume_search == null){
+            window.localStorage.setItem("resume_search", "{{key}}");
+        }
+        else if(resume_search.indexOf("{{key}}") == -1){
+            var resume_search_list = resume_search.split(",");
+
+            if(resume_search_list.length == 6){
+                resume_search_list.pop();
+                window.localStorage.setItem("resume_search", "{{key}}," + resume_search_list.join(","));
+            }
+            else{
+                window.localStorage.setItem("resume_search", "{{key}}," + resume_search);
+            }
+        }
+    }
+});
+</script></head>
+<body style="">
+
+
+<div class="s22"  style="display: none;overflow: hidden;">
+    <div class="t_box">
+        <div class="zuo" id="zuo">
+            <i class="iconfont icon-zuojiantou"></i>
+        </div>
+        <div>
+            <input type="text" name="" value="" placeholder="请输入人才关键字，如CEO" id="search_txt" class="fousw " >
+            <i class="iconfont icon-xiaocha cont"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAABL0lEQVQoU4VTwVHDMBDcswuADkgHOB3QQcJHGv9IB6QCQgXQAfDyWB9MB3SA6QA6sAuQjzmNlLlo7KAZPSTt7mlXJ0I2nHN3zLwhohsAlwAGZv4E0Flr3zSc0qJpmlVZlu8AqlxQrXvv/W1d1z+yF8iR+BUrneGGo8F7vxaBQG7btiei6/9Y+gbGmDWJRwAv6YCI9sx8AHChwCMRHZj5Se3thNwB2KjNAcAewHMUGAHcAxCiBJjGh5AFrKsEX1FAbiAzJwaMkHnB668xZuWck2Sv5jBLlcNVmfmBiB6VBa0xznnOPeYZnHjWaS+FMyewy99ZQDJ0qqnS8YyZv621le6wfib1uZxG73117LDUokVRdOc6TSpO07Q96W0tHztuC0B+lby/5BB+lTHmVWP/AD4DhgCtvsyMAAAAAElFTkSuQmCC" alt=""></i>
+            </div>
+        <div>
+            <i class="iconfont icon-sousuo"  id="search_btn"></i>
+        </div>
+    </div>
+    <div class="b_box">
+        <div class="record_list">
+
+        </div>
+        <div class="clear_record">清空搜索记录</div>
+    </div>
+    <div class="b_box1" style="display:none">
+        <div class="search_list"></div>
+    </div>
+    <dl class="hot_search">
+        <dt>热搜职位</dt>
+        <dd>
+            <a href="/mobile/company/list_find_resume?key=设计总监" >销售总监</a>
+            <a href="/mobile/company/list_find_resume?key=产品经理" >产品经理</a>
+            <a href="/mobile/company/list_find_resume?key=项目经理" >项目经理</a>
+            <a href="/mobile/company/list_find_resume?key=人力资源" >人力资源</a>
+            <a href="/mobile/company/list_find_resume?key=财务经理" >财务经理</a>
+            <a href="/mobile/company/list_find_resume?key=设计总监" >设计总监</a>
+            <a href="/mobile/company/list_find_resume?key=软件开发" >软件开发</a>
+            <a href="/mobile/company/list_find_resume?key=运营总监" >运营总监</a>
+        </dd>
+    </dl>
+</div>
+
+
+<!--搜索人才层-->
+<script type="text/javascript">
+
+$(function(){
+    var resume_search = window.localStorage.getItem("resume_search");
+   
+    if(resume_search != null) {
+        $(".record_list").empty();
+        var resume_search_list = window.localStorage.getItem("resume_search").split(",");
+        for (var i = 0; i < resume_search_list.length; i++) {
+            $(".record_list").append('<a href="/mobile/company/list_find_resume?key='+ resume_search_list[i] +'"><i class="icon-lishi iconfont"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAACA0lEQVRIS7VV0VEbMRR8qwYgFQQqMOnAVBBLKgBSQaACTAWBCoACJLkDTAVxOjgqiNOAXubdSDd3Z9k6z8B92SNp973Vah/okz9MxQ8hnDHzV9kP4F1r3Uw5e5AghDCPMV4BWBDR6Qhwy8wrpdSj1nqzj6xIEEI4jTH+AnAtB5n5HcCGmVsgABfMPAdwktaflVK3WuvtmGiHIIQgh5+I6IKI3gAstdbrUoXSITM/ENGMiDYALsckAwKpnJlfE/ijMeamDyz3IP/H+nvvn4noqkQyIOht3AEXYOdcA6AxxszHHfXOvhhjWmlbOfOP1K5U/1YCkH3ee66syx3NAHzLF98R5AqSjkXNawS9IrsuOgLnnDhga61tdS59NYIk4xbAX2PMeSdRcs5vIhroV9D5oERJxhURfQfwRRzVdpBbY+Z7a+2y0oF0OnhYAH5kZznnlgDustTHEojnf/YLkEeolJrXCORxVSWakj3e+12JSpczBay0Z2yWo2xaIz1o097i2hhzWQPbY+P9Dy1ZLGdKMSoOkVajItlVwk5e8UxS0lp7O6WTHvgfAOKoLrb3xbV0IhG8BnBfies7IpLw2wEfhF2/0hTb4nmJYPka6Uwp1Y7JGOOZVEpEOVZeANxMGjgjIhko18y8yNMrrzPzPwArAA9Hj8yS7mnY5IqbDxn6Uy64tuc/DUBaKDH31rAAAAAASUVORK5CYII="/></i><span>' + resume_search_list[i] + '</span><i class="iconfont icon-youjiantou"></i></a>');
+        }
+        $(".b_box").show();
+        $(".b_box1").hide();
+    }
+    else{
+        $(".b_box").hide();
+        $(".b_box1").show();
+    }
+});
+$(".clear_record").click(function(){
+    window.localStorage.removeItem("resume_search");
+    $(".record_list").empty().parent().hide();
+})
+$("#search_txt").keyup(function(){
+    var search_value=$(this).val();
+    if(search_value==""){
+        $(".b_box").show();
+        $(".b_box1").hide();
+
+        $(".record_list").empty();
+        var resume_search =  window.localStorage.getItem("resume_search");
+        if(resume_search!= null) {
+            var resume_search_list = window.localStorage.getItem("position_search").split(",");
+            for (var i = 0; i < resume_search_list.length; i++) {
+                $(".record_list").append('<a href="/mobile/company/list_find_resume?key='+ resume_search_list[i] +'"><i class="icon-lishi iconfont"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAACA0lEQVRIS7VV0VEbMRR8qwYgFQQqMOnAVBBLKgBSQaACTAWBCoACJLkDTAVxOjgqiNOAXubdSDd3Z9k6z8B92SNp973Vah/okz9MxQ8hnDHzV9kP4F1r3Uw5e5AghDCPMV4BWBDR6Qhwy8wrpdSj1nqzj6xIEEI4jTH+AnAtB5n5HcCGmVsgABfMPAdwktaflVK3WuvtmGiHIIQgh5+I6IKI3gAstdbrUoXSITM/ENGMiDYALsckAwKpnJlfE/ijMeamDyz3IP/H+nvvn4noqkQyIOht3AEXYOdcA6AxxszHHfXOvhhjWmlbOfOP1K5U/1YCkH3ee66syx3NAHzLF98R5AqSjkXNawS9IrsuOgLnnDhga61tdS59NYIk4xbAX2PMeSdRcs5vIhroV9D5oERJxhURfQfwRRzVdpBbY+Z7a+2y0oF0OnhYAH5kZznnlgDustTHEojnf/YLkEeolJrXCORxVSWakj3e+12JSpczBay0Z2yWo2xaIz1o097i2hhzWQPbY+P9Dy1ZLGdKMSoOkVajItlVwk5e8UxS0lp7O6WTHvgfAOKoLrb3xbV0IhG8BnBfies7IpLw2wEfhF2/0hTb4nmJYPka6Uwp1Y7JGOOZVEpEOVZeANxMGjgjIhko18y8yNMrrzPzPwArAA9Hj8yS7mnY5IqbDxn6Uy64tuc/DUBaKDH31rAAAAAASUVORK5CYII="/></i><span>' + resume_search_list[i] + '</span><i class="iconfont icon-youjiantou"></i></a>');
+            }
+        }
+    }
+    else {
+        $(".b_box1").show();
+        $(".b_box").hide();
+    }
+})
+$("#search_btn").click(function(){
+    var search_value=$("#search_txt").val();
+    location.href="/mobile/company/list_find_resume?key="+search_value;
+})
+
+
+ $("#search_txt").bind('input propertychange focus',function() {
+        /* Act on the event */
+       // console.log(1);
+       if( $(".t_box>div:eq(1) input").val() != "" ){
+            $(".cont").show();
+       }else{
+            $(".cont").hide();
+       };
+       
+    });
+    $('.cont').click(function(){
+        $(".t_box>div:eq(1) input").val("");
+        $(".cont").hide();
+    })
+
+
+   
+</script>
+
+
+
+<!--搜索人才结果页-->
+<div id="searchALL" class="searchALL" style="">
+ <div class="menu choose_menu" id="menuResidence" style="display:none;position:absolute;z-index:1;">
+                    <div class="menu_title">所在城市</div>
+                    <div class="choose_close"></div>
+                    <div class="area_choose">
+                        <ul class="area_left" id="area_left">
+                        </ul>
+                        <ul class="area_right" id="area_right">
+                            <li class="area_small"></li>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+<div class="t_box">
+        <div>
+            <i class="iconfont icon-zuojiantou gohis"></i>
+        </div>
+        <div>
+            <input type="text" name="" value="{{ key }}" placeholder="请输入搜索条件" id="search_txt" class="inpu3d"></div>
+        <div>
+            <i class="iconfont icon-sousuo"  id="search_btn" onclick="search_resume()"></i>
+        </div>
+    </div>
+        <div class="serach_terms">
+        <div>
+            <span id="residence_text">地点不限</span><i class="iconfont icon-xia1"></i>
+            <input name="residence" type="hidden" id="residence" value="{{ resume.currently_pacece }}">
+            <input name="residence_cn" type="hidden" id="residence_cn" value="{{ resume.scurrently_pacece }}">
+        </div>
+        <div>
+            <span id="annualSalary_text" data-value="0">年薪不限</span><i class="iconfont icon-xia1"></i>
+        </div>
+        <div>
+            更多<i class="iconfont icon-xia1"></i>
+        </div>
+         <div class="nianxing_box">
+                <ul >
+                <li><span data-value="0">年薪不限</span><i class="iconfont icon-32gougou"></i></li>
+                {% if salarys %}
+                    {% for salary in salarys %}
+                        <li><span data-value="{{ salary.dictionary_value }}">{{ salary.dictionary_name }}</span><i class="iconfont icon-32gougou"></i></li>
+                    {% endfor %}
+                {% endif %}
+                </ul>
+                <div>
+                    <a href="javascript:void(0)">取消</a>
+                </div>
+            </div>
+        <div class="more_box">
+            <div>
+                <span id="trad_span">选择行业</span>
+                <i class="iconfont icon-youjiantou"></i>
+                <input type="hidden" value="" id="trade">
+            </div>
+            <ul>
+                <li class="mt15">性别</li>
+                <li class="mt10" id="reward_fag"><span class="active">不限</span><span>男</span><span>女</span><input id="sex" type="hidden" name="" value=""></li>
+                <li class="mt15">年龄范围 (16-65）</li>
+                <li class="mt10 ageRange_fag"><input type="number" name="" id="startAge" value="" placeholder="开始">-<input type="number" name="" id="endAge" value="" placeholder="结束"></li>
+                 <li class="mt15">工作经验</li>
+                <li class="mt10" id="experience_fag">
+                    <span data-value="0" class="active">不限</span>
+                    {% if workyears %}
+                        {% for work_year in workyears %}
+                            <span data-value="{{ work_year.dictionary_value }}">{{ work_year.dictionary_name }}</span>
+                        {% endfor %}
+                    {% endif %}
+                    <input id="experience_id" type="hidden" name="" value=""></li>
+                <li class="mt15">简历类型</li>
+                <li class="mt10" id="type_fag">
+                    <span class="active">不限</span>
+                    <span>个人简历</span>
+                    <span>经纪人简历</span>
+                    <input id="type_id" type="hidden" name="" value=""></li>
+                <li class="mt15">学历</li>
+                <li class="mt10" id="releaseTime_fag">
+                    <span data-value="0" class="active">不限</span>
+                    {% if diplomas %}
+                        {% for diploma in diplomas %}
+                            <span data-value="{{ diploma.dictionary_value }}">{{ diploma.dictionary_name }}</span>
+                        {% endfor %}
+                    {% endif %}
+                    <input id="diploma" type="hidden" name="" value=""></li>
+            </ul>
+            <div>
+                <span class="qieren_btn">确认</span><span class="congzhi_btn">重置</span>
+            </div>
+        </div>
+    </div>
+    
+        <div class="zsp_footer_fixed_height" style="height:auto"></div>
+        <!-- <div class="zsp_resume_but_box" onclick="next_page_position2()">
+        <a href="javascript:;" id="jobMore" class="zsp_resume_but_4 more">查看更多</a>
+    </div>
+    -->
+</div>    
+    <div id="resumePaginInfo" class="resumePaginInfo" style="display: none;"></div>
+
+    <input type="hidden" id="pu_id" value="{{ request.session.pu_id|default:'' }}" />
+    <ul class="positionPaginInfo" id="positionPaginInfo" style="display: none"></ul>
+
+
+
+
+<input type="hidden" id="search_key" value="{{ key }}" />
+<script type="text/javascript" src="{{ STATIC_URL }}js/new_pagination.js"></script>
+<script type="text/javascript" src="/static/new_mobile/js/getInitial.js"></script>
+<script src="/static/new_mobile/js/trade.js"></script>
+<script>
+{#    var sql = '1=1 order by update_date desc ';#}
+    var sql = ' and resume_status=1';
+    var querySql;
+    var opentype = '';
+    var pu_id = $('#pu_id').val();
+    var account_type = '{{ request.session.account_type|default:"" }}';
+    var loadData;
+    $(function(){
+        if(account_type == '3' || account_type == '5'){
+            opentype = ' and (search_type = 0 or search_type = 12121000 or search_type = 12123000)';
+            opentype += ' and (filter_headhunt is null or filter_headhunt = "" or not find_in_set("' + pu_id + '", filter_headhunt))';
+            opentype += ' and source_id != ' + pu_id;
+        }else if(account_type == '2' || account_type == '4'){
+            opentype = ' and (search_type = 0 or search_type = 12121000 or search_type = 12124000)';
+            opentype += ' and (filter_company is null or filter_company = "" or not find_in_set("' + {{ pc_id }} + '", filter_company))';
+        }
+        sql += opentype;
+        var condition = $('#search_key').val();
+        if($.trim(condition) != ''){
+            $('#search_txt').val(condition);
+            search_resume();
+        }else{
+            var order = "update_date desc";
+            loadData = new pagin("resumePaginInfo", "V_Resume_Info", "",  encodeURI(sql), order, 10, "resumePagin", "loadData");
+        }
+    });
+
+
+//动态加载页面绑定数据
+function resumePagin(dataInfo) {
+    $(".zsp_resume_but_box").remove();
+    var html1= '';
+    $(dataInfo).each(function(i) {
+        var resume_type = '个人简历';
+
+        if(this.resume_source == 1)
+        {
+            html1 += '<a href="/mobile/company/detail_mate_resume?resume_id=' + this.id + '&source={{ source | default:'' }} " class="zsp_job_list_li active">';
+        }
+        else {
+            resume_type = '经纪人简历';
+            html1 += '<a href="/mobile/headhunter/detail_uploaded_resume?resume_id=' + this.id + '&source={{ source | default:'' }}" class="zsp_job_list_li active">';
+        }
+
+        html1 += '   <div class="zsp_job_li_top">';
+        html1 += '       <div class="zsp_job_li_fang"><img src="' + file_website + this.head_portrait + '" onerror="notfind(this, \'' + this.sex +'\',1)"></div>';
+        html1 += '       <div class="zsp_job_li_tit">';
+        html1 += '           <div class="zsp_job_li_h">';
+
+
+        var name = this.user_name;
+        if(this.sex == '女'){
+            html1 += '               <h3 style="width:88%">' + name;
+        } else {
+            html1 += '               <h3 style="width:88%">' + name;
+        }
+
+        html1 += '            <span style="color:#ffa11a!important;border-color:#ffa11a">'+resume_type+'</span></h3></div>';
+        html1 += '            <div class="zsp_job_li_tit_other">';
+        html1 +=         '<span style="margin-left:2px">' + (this.scurrently_postaion == null ? "":this.scurrently_postaion) + '</span><i class="iconfont icon-youjiantou"></i>';
+
+        html1 += '            </div>';
+        html1 += '       </div>';
+        html1 += '   </div>';
+        html1 += '   <div class="zsp_job_li_other  redPW">';
+        var full_rate = this.integrity;
+        if($.trim(full_rate) == '' || full_rate == '&nbsp;') {
+            full_rate = 100;
+        }
+       
+        html1 += '       <div class="zsp_job_li_other_icon" style="color:#333;padding-left:68px;float:none;">';
+
+        var birth_year = this.birthday_year;
+        var age = '';
+        if(birth_year != '' && birth_year != null) {
+            age = "&nbsp;|&nbsp;" + (new Date().getFullYear() - parseInt(birth_year)) + "岁";
+        }
+        if($.trim(this.scurrently_pacece) == "" | $.trim(this.scurrently_pacece)=="&nbsp;"){
+            this.scurrently_pacece = "";
+        }
+        else
+            this.scurrently_pacece = this.scurrently_pacece +"&nbsp;|&nbsp;";
+        if($.trim(this.sworkyear) == "" || $.trim(this.sworkyear)=="&nbsp;")
+            this.sworkyear = "";
+        else
+            this.sworkyear = this.sworkyear+"&nbsp;|&nbsp;";
+
+       if($.trim(this.sdiploma) == "" || $.trim(this.sdiploma)=="&nbsp;")
+            this.sdiploma = "";
+        else
+            this.sdiploma = this.sdiploma;
+
+        html1 += '           '+ this.scurrently_pacece + this.sworkyear + this.sdiploma + age;
+        html1 += '       </div>';
+         html1 += '       <div class="tag_box">';
+        html1 +='           <span>销售主管</span><span>踏实</span><span>销售主管</span>'
+        html1 += '   </div>';
+         html1 += '       <div class="update_time">';
+         html1 +='更新时间：' + this.update_date.substring(0, 10);
+         html1 += '      </div>';
+        html1 += '   </div>';
+        html1 += '</a>';
+
+    });
+    if(html1 != '') {
+        $(".zsp_footer_fixed_height").append(html1);
+    }
+}
+// 加载更多职位
+function next_page_position2() {
+    if($(".zsp_footer_fixed_height").children('a').length == 0 || $('.more_box').is(":visible")){
+        return false;
+    }
+    var $this_page_data = $(".resumePaginInfo .active");
+    var $end_page_data = $(".resumePaginInfo li:last");
+    if($this_page_data.attr('onclick') != $end_page_data.attr('onclick')) {
+        $this_page_data.next("li").click();
+    }else {
+        $(".zsp_resume_but_box").remove();
+    }
+}
+
+// 查找简历
+function search_resume() {
+    var keywords = $("#search_txt").val();
+    querySql = ' and resume_status=1 ' + opentype;
+    if($.trim(keywords) != '' ) {
+        keywords = $.trim(keywords);
+{#        var reg = /^s{2,}$/g;#}
+{#        keywords = keywords.replace(reg, ' ');#}
+{#        var keywordList = keywords.split(' ');#}
+        keywords = keywords.replace(/\s*/,"");
+        keywords = keywords.replace(/\s*$/,"");
+        keywords = keywords.replace(/\s+/g," ");
+        var keywordList = keywords.split(' ');
+
+        $(".zsp_job_list_li").remove();
+
+        var positionSql = ' (SELECT T_SYS_Position.Position_Name FROM T_SYS_Position WHERE T_SYS_Position.Position_Value = V_Resume_Info.Currently_Postaion)';
+        var locationSql = ' (select T_SYS_Dictionary.dictionary_name from T_SYS_Dictionary where T_SYS_Dictionary.dictionary_value = V_Resume_Info.Currently_Pacece)';
+        for(var m = 0;m < keywordList.length;m++){
+            if(keywordList[m] == ''){
+                continue;
+            }
+            querySql += ' and (';
+            querySql += locationSql + ' like "%' + $.trim(keywordList[m]) + '%"'; //当前所在地
+            querySql += ' or ' + positionSql + ' like "%' + $.trim(keywordList[m]) + '%"'; //期望职位
+            querySql += ' or Sex like "%' + $.trim(keywordList[m]) + '%"'; //性别
+            //判断是否是数字，如果是数字则进行年龄判断
+            if(!isNaN($.trim(keywordList[m]))){
+                var d = new Date();
+                var year = d.getFullYear() - parseInt($.trim(keywordList[m]));
+                querySql += ' or Birthday_Year = ' + year + ''; //年龄
+            }
+            //----------------------------------------
+            //期望职位处理
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "/ajax_get_position_for_name",
+                data: {"key_name": keywordList[m]},
+                dataType: "json",
+                success: function (data) {
+                    $(data["msg"]).each(function(){
+                       querySql += ' or Expect_Position like "%' + this[0] + '%"'
+                    });
+                } 
+            });
+            querySql += ') ';
+        }
+    }
+    // 期望行业
+    var industry = $('#trade').val();
+    if(industry != ''){
+        querySql += ' and find_in_set("' + industry + '", cast(expect_industry as char))';
+    }
+    // 期望工作地点
+    var work_area = $('#residence').val();
+    if(work_area != ''){
+        querySql += ' and (find_in_set("' + work_area + '", cast(expect_area as char))';
+        querySql += ' or expect_area in (select dictionary_value from T_SYS_Dictionary where p_value="'+work_area+'"))';
+    }
+    // 年薪范围
+    var salary = $('#annualSalary_text').attr('data-value');
+    if(salary != '0' && salary != ''){
+        // 期望年薪处理
+        var payname = $('#annualSalary_text').text();
+        if(payname.indexOf('以上') != -1){
+            querySql += ' and (expect_start_salary is not null and expect_end_salary is null';
+        }else if(payname.indexOf('以下') != -1){
+            querySql += ' and (expect_start_salary is null and expect_end_salary is not null';
+        }else{
+            var start_salary = payname.split('-')[0];
+            var end_salary = payname.split('-')[1].split('万')[0];
+            querySql += ' and ((expect_start_salary < '+ end_salary+' and expect_end_salary > '+start_salary+' )';
+        }
+        querySql += ')';
+    }
+    // 性别
+    var sex = $('#sex').val();
+    if(sex == '1'){
+        querySql += ' and sex="男"';
+    }else if(sex == '2'){
+        querySql += ' and sex="女"';
+    }
+    // 年龄
+    var startAge = $('#startAge').val();
+    var endAge = $('#endAge').val();
+    var rangeAge = '';
+    if(startAge != '' || endAge != ''){
+        if(startAge == ''){
+            for(var m = 18;m < endAge;m++){
+                if(rangeAge == ''){
+                    rangeAge += m;
+                }else{
+                    rangeAge += ',' + m;
+                }
+            }
+            rangeAge += ',' + endAge;
+        }else if(endAge == ''){
+            rangeAge = startAge;
+            for(var m = startAge;m <= 60;m++){
+                 rangeAge += ',' + m;
+            }
+        }else{
+            rangeAge = '';
+            for(var m = startAge;m <= endAge;m++){
+                 if(rangeAge == ''){
+                    rangeAge += m;
+                }else{
+                    rangeAge += ',' + m;
+                }
+            }
+        }
+        querySql += ' and find_in_set((year(now()) - birthday_year), "'+ rangeAge + '") ';
+    }
+    // 工作经验
+    var work_year = $('#experience_id').val();
+    if(work_year != '0' && work_year != ''){
+        querySql += ' and workyear=' + work_year;
+    }
+    // 简历类型
+    var resume_source = $('#type_id').val();
+    if(resume_source != '0' && resume_source != ''){
+        querySql += ' and resume_source=' + resume_source;
+    }
+    // 学历
+    var diploma = $('#diploma').val();
+    if(diploma != '' && diploma != '0'){
+        querySql += ' and diploma=' + diploma;
+    }
+    querySql += ' order by update_date desc';
+    $('.zsp_footer_fixed_height').empty();
+    loadData = new pagin("resumePaginInfo", "V_Resume_Info", "", encodeURI(querySql), "", 10, "resumePagin", "loadData");
+}
+$(".clear_record").click(function(){
+    $(".record_list").empty().parent().hide();
+})
+{#    $("#search_txt").keyup(function(){#}
+{#        var search_value=$(this).val();#}
+{#        if(search_value==""){#}
+{#            $(".b_box").show();#}
+{#            $(".b_box1").hide();#}
+{#            return;#}
+{#        }#}
+{#        $.ajax({  })//调用查询接口;#}
+{#        $(".search_list").empty();#}
+{#        for (var i = 0; i < 8; i++) {#}
+{#            $(".search_list").append('<a href="personal/position_search"><i class="icon-sousuo iconfont"></i><span>运营总监</span><i class="iconfont icon-youjiantou"></i></a>');#}
+{#        }#}
+{#        $(".b_box1").show();#}
+{#        $(".b_box").hide();#}
+{#    })#}
+    var citystr = '';
+    $.ajax({
+        async: false,
+        type: 'post',
+        url: '/mobile/ajax_getAjaxProvinces',
+        dataType: 'json',
+        success: function (data) {
+            if (data.length > 0) {
+                data.forEach(function(province) {
+                    citystr += '<li class="area_big" rcoid="' + province.area_value + '" pid="' + province.area_value + '" title="' + province.area_name + '" href="javascript:;">' + province.area_name + '</li>';
+                })
+            }
+        }
+    });
+    $("#area_left").html(citystr);
+    $("#area_left li").unbind().click(function () {
+        var cid = $(this).attr("rcoid");
+        var cid = $(this).attr("pid");
+        var ctitle = $(this).attr("title");
+        var scitystr = "";
+        if (cid) {
+            $.ajax({
+                async: false,
+                type: 'post',
+                data: {'father_dictionary_value': cid},
+                url: '/mobile/ajax_getAjaxSecondDictionary',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.length > 0) {
+                        data.forEach(function(dictionary) {
+                            scitystr += '<li class="area_small" rcoid="' + dictionary.dictionary_value + '" title="' + ctitle + '\/' + dictionary.dictionary_name + '" pid="' + cid + '.' + dictionary.dictionary_value + '">' + dictionary.dictionary_name + '</li>';
+                        })
+                    }
+                }
+            });
+            $("#area_right").html(scitystr).show();
+            $("#area_right li").click(function () {
+                $("#residence").val($(this).attr("rcoid"));
+                $("#residence_cn").val($(this).attr("title"));
+                var str=$(this).attr("title");
+                var titis=(str.substring(str.indexOf('/')+1));
+                $("#residence_text").css('color','#ff6b12').text(titis).next().css('color','#ff6b12');
+                $("#menuResidence").hide();
+                $(".menu_bg_layer").remove();
+                search_resume();
+            });
+        } else {
+            $("#residence_text").css('color','#ff6b12').text(rtitle).next().css('color','#ff6b12');
+            var cchid = new Array();
+            cchid = $(this).attr('pid').split(".");
+            if (cchid.length < 2) {
+                cchid.push(0);
+            }
+            var ccheckID = cchid.join(".");
+            $("#residence").val(ccheckID);
+            $("#residence_cn").val(rtitle);
+            $("#menuResidence").hide();
+            $(".menu_bg_layer").remove();
+            search_resume()
+        }
+    });
+
+     // 现居住地点击
+    $(".serach_terms div:eq(0)").click(function () {
+       showFloatBox();
+        $("#menuResidence").css({top: ($(window).height() - $('#menuResidence').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuResidence").show();
+        $(".nianxing_box").hide();
+        $(".more_box").hide();
+    });
+    $(".serach_terms>div:eq(1)").click(function (e) {
+        showFloatBox();
+        $(".nianxing_box").show();
+        $("#menuResidence").hide();
+        $(".more_box").hide();
+        $(".zsp_footer_fixed_height").css({
+            height: $(".nianxing_box").height()*1-30,
+            overflow: 'hidden'
+        });
+    });
+    $(".serach_terms>div:eq(2)").click(function (e) {
+        showFloatBox();
+        $(".more_box").show();
+        $("#menuResidence").hide();
+        $(".nianxing_box").hide();
+        $(".zsp_footer_fixed_height").css({
+            height: $(".more_box").height()*1-30,
+            overflow: 'hidden'
+        });
+        // console.log(heightAll)
+        // $(".more_box>ul>li>span").removeClass('active');
+        // $("#reward_fag>span:eq(0)").addClass('active');
+        // $("#ageRange_fag>span:eq(0)").addClass('active');
+        // $("#experience_fag>span:eq(0)").addClass('active');
+        // $("#type_fag>span:eq(0)").addClass('active');
+        // $("#releaseTime_fag>span:eq(0)").addClass('active');
+    });
+    $(".nianxing_box li:eq(0)").css('color',"#ff6b12");
+    $(".nianxing_box li i:eq(0)").show();
+    $(".nianxing_box li").click(function(){
+        $(".nianxing_box").hide();
+        $(".menu_bg_layer").remove();
+        $(".nianxing_box li i").hide();
+         $(".nianxing_box li").removeAttr('style');
+        $(this).css('color',"#ff6b12");
+        $(this).children('i').show();
+        $("#annualSalary_text").css('color','#ff6b12').text($(this).children('span').text()).next().css('color','#ff6b12');
+        $("#annualSalary_text").attr('data-value', $(this).children('span').attr('data-value'));
+        search_resume();
+        $(".zsp_footer_fixed_height").removeAttr('style').css('height', 'auto');
+    })
+    $(".nianxing_box>div>a").click(function(event) {
+        $(".nianxing_box").hide();
+        $(".menu_bg_layer").remove();
+        $(".zsp_footer_fixed_height").removeAttr('style').css('height', 'auto');
+    });
+    
+    $("#reward_fag span").click(function(){
+        $("#reward_fag span").removeClass('active');
+        $(this).addClass('active');
+        var index=$(this).index();
+         $("#sex").val(index);
+    });
+    $("#experience_fag span").click(function(){
+        $("#experience_fag span").removeClass('active');
+        $(this).addClass('active');
+{#        var index=$(this).index();#}
+        $("#experience_id").val($(this).attr('data-value'));
+    })
+      $("#type_fag span").click(function(){
+        $("#type_fag span").removeClass('active');
+        $(this).addClass('active');
+        var index = $(this).index();
+        $("#type_id").val(index);
+    })
+      $("#releaseTime_fag span").click(function(){
+        $("#releaseTime_fag span").removeClass('active');
+        $(this).addClass('active');
+{#        var index=$(this).index();#}
+        $("#diploma").val($(this).attr('data-value'));
+    })
+      $(".more_box .qieren_btn").click(function(){
+        $(".more_box").hide();
+        $(".menu_bg_layer").remove();
+          search_resume();
+          $(".zsp_footer_fixed_height").removeAttr('style').css('height', 'auto');
+    })
+      $(".congzhi_btn").click(function(){
+
+        $(".more_box>ul>li>span").removeClass('active');
+        $("#reward_fag>span:eq(0)").addClass('active');
+        $("#ageRange_fag>span:eq(0)").addClass('active');
+        $("#experience_fag>span:eq(0)").addClass('active');
+        $("#type_fag>span:eq(0)").addClass('active');
+        $("#releaseTime_fag>span:eq(0)").addClass('active');
+        // 置空行业的值
+        $('#trad_span').text('选择行业');
+        $('#trade').val('');
+        $("#diploma").val('');
+        $("#type_id").val('');
+        $("#experience_id").val('');
+        $("#sex").val('');
+        // $(".more_box").hide();
+        // $(".menu_bg_layer").remove();
+          search_resume();
+      })
+      $(".gohis").click(function(){
+        history.go(-1);
+      })
+      var lockmorebo = true;
+      // var lockmm ;
+      $(".more_box>div:eq(0)").bind("touchstart",function(){
+        if(lockmorebo){
+            console.log(1);
+            tradeShow();
+            lockmorebo = false;
+            // lockmm = false;
+        
+        }else{
+            $("#menutrade").remove();
+             lockmorebo = true;
+        }
+      });
+      $(".more_box ul").bind('touchstart', function(event) {
+          /* Act on the event */
+          if($("#menutrade").length > 0){
+                $("#menutrade").remove();
+                lockmorebo = true;
+          }
+      });
+      $(".more_box>div:last").bind('touchstart', function(event) {
+          /* Act on the event */
+          if($("#menutrade").length > 0){
+                $("#menutrade").remove();
+                lockmorebo = true;
+          }
+      });
+      // $(".more_box").bind("touchstart",function(){
+      //   // console.log(1);
+      //   if(!lockmorebo){
+      //        console.log(2);
+      //       $("#menutrade").remove();
+      //        lockmorebo = true;
+      //        // lockmm =true;
+      //   }
+      // })
+     $(document).on('click','.menu_bg_layer',function(){
+        $(".zsp_footer_fixed_height").removeAttr('style').css('height', 'auto');
+     })
+</script>
+<script type="text/javascript">
+    wx.config({
+        debug: false ,
+        appId: 'wx8a9b8a64aa7bb0e1',
+        timestamp: '1449889597',
+        nonceStr: '86MgPXiu8RSBlBtJ',
+        signature: '0d0c99231173528bf324f5cdfce5048323d59f41',
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'showMenuItems',
+            'hideMenuItems'
+        ]
+    });
+    wx.ready(function () {
+        function callback(){
+        }
+        var title = "最新悬赏招聘职位，推荐人才赚赏金";
+        var headimg="http://image.hijobs.cn/image/logo/55adaa3d9ab98.jpg";
+        var desc="【招手招聘】最新悬赏招聘职位，推荐人才赚赏金，热门悬赏职位持续更新中，快来推荐。";
+        var url=window.location.href;
+        WxShare.TimeLine(title, url, headimg, callback);
+        WxShare.AppMessage(title,desc,url,headimg,callback);
+        WxShare.SharedQQ(title,desc,url,headimg,callback);
+    });
+
+</script>
+<script type="text/javascript">
+//弹出层的互相跳转
+     $(".inpu3d").bind("touchstart focus",function(){
+        // console.log(1);
+        var inputval = $(this).val();
+        // console.log(inputval);
+        // $("#searchALL #pre-3d").css({"transform":"rotateX(-180deg)"});
+        $("#searchALL").fadeOut(1000);
+        $(".s22").show();
+        $("#search_txt").val(inputval).focus();
+    });
+    $("#zuo").bind("touchstart",function(){
+        $(".s22").fadeOut(500,function(){
+            
+        $("#searchALL").fadeIn(500);
+        });
+
+        // $("#searchALL #pre-3d").css({"transform":"rotateX(0deg)"});
+    })
+
+
+</script>
+</body>
+</html>

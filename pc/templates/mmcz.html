@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html>
+	<!-- Added by HTTrack -->
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<!-- /Added by HTTrack -->
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<title>密码重置</title>
+	<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+	<script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js" ></script>
+	<script src="{{ STATIC_URL }}js/radio.js"></script>
+	<script src="{{ STATIC_URL }}js/Validform_v5.3.2.js"></script>
+	<script src="{{ STATIC_URL }}bootstrap.min.js" ></script>
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+	<script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+<style>
+	html,body{width: 100%;height: 100%;}
+</style>
+    <script type="text/javascript">
+        function logins(){
+            window.location.href = "/jobs/system/general_logins";
+        }
+    </script>
+<script type="text/javascript">
+    var timer = null;
+    var alertFram;
+    window.alert = function(txt) {
+        clearInterval(timer);
+        timer =setInterval(function() {
+            if ($("#alertFram")[0]) {
+                $("#alertFram").remove();
+                clearInterval(timer);
+            }
+        }, 3000)
+        alertFram = $('<div id="alertFram" style="color:#ed4f30;font-size:14px;padding:0px 0px 0px 30px;height:40px;background-color:#fff3de;border:1px solid #ffddc1;position:fixed;left:50%;z-index:10001;text-align:center;line-height:40px;top:0">' + txt + '<img onclick="$(this).parent().remove()" src="../../static/images/x_03.png" style="float:right;cursor:pointer;margin-left:10px;margin-top:14px;margin-right:10px" width="12" height="12"></div>')
+        if ($("#alertFram")[0]) {
+            return;
+        }
+        $("body").append(alertFram);
+        var width=parseInt(alertFram.css('width'));
+        alertFram.css('margin-left', '-'+width/2+'px');
+    }
+ </script>
+</head>
+
+<body>
+	<!-- banner图 -->
+	<div style="height:100%;width:100%;" class="re_banner lo_banner">
+    <!-- <h1>本周已有<span>1</span><span>5</span><span>0</span><span>0</span><span>0</span>人在许愿树许愿</h1> -->
+		<div class="re_form_box lo_form_box yxyz1">
+			<dl class="re_form_container lo_form_container" id="yzyx">
+				<dt class="clearfix">
+					<!-- <div class="f_r re_form_title_r">
+{#						<a href="#" target="_blank" class="c_a6 fz14"></a>#}
+<a style="color:#D21D30;" href="/system/register" class="c_50 fz14"><span class="c_a6 fz14">没有账号？</span>立即注册</a> <i class="icon-fangxiang2 iconfont"></i>
+					</div> -->
+					<div class="f_l">
+					<a href="/lindex">
+						<img src="{{ STATIC_URL }}images/login_logo.gif" alt="" class="va_bottom"></a>
+						<span class="c_3a fz20">密码重置</span>
+					</div>
+				</dt>
+                                <span class="dashed"></span>
+				<dd style="margin-left: 0px;">
+                    <ul class="mmcz">
+                        {% if not msg %}
+                            <form method="post" action="/account/resetPwd_email">
+                            {% csrf_token %}
+                            <li style="text-align: center;">
+                                您的邮箱:<span class="red">{{ pu.email }}</span>
+                                <input type="hidden" name="pu_id" value="{{ pu.id }}" >
+                                <input type="hidden" name="tsy_id" value="{{ tsy_id }}" >
+                            </li>
+                            <li> <input style="margin:10px auto;width:340px;" class="txt" type="password" name="pwd"  placeholder="请输入新密码" required="required"></li>
+                            <li> <input style="margin:10px auto;width:340px;" class="txt" type="password"  placeholder="请再次输新入密码" required="required"></li>
+                            <li> <input class="btn" type="submit" onsubmit="return mmcz()" value="确定"></li>
+                            </form>
+                        {% elif msg == "success" %}
+                            <li>密码重置成功，接下来您可以</li>
+                            <li>
+                            <input class="msdl" onclick="logins()" type="button" value="马上登录"> <a class="fhsy" href="/jobs/index">返回首页</a>
+                            </li>
+                        {% elif msg == "overdue" %}
+                            <li>该链接已失效，请重新申请激活！</li>
+                            <li>
+                            <a class="fhsy" href="/jobs/index">返回首页</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </dd>
+			</dl>
+		</div>
+	</div>
+
+ {% if msg and msg != "success"  and msg != "overdue"%}
+    <script type="text/javascript">
+        alert("{{ msg }}");
+        var x=1;
+        $(".txt").blur(function(event) {
+           if($(".txt").val().length<6){
+             alert("密码长度不能小于6位");
+             x=0;
+           }
+           else{
+            x=1;
+           }
+        });
+        function mmcz(){
+            if(!($(".txt").eq(0) == $(".txt").eq(1))
+            {
+                alert("两次输入的密码不正确");
+                return false;
+                if(x==0)
+                {
+                     alert("密码长度不能小于6位");
+                    return false;
+                }
+                else{
+
+                }
+            }
+        }
+    </script>
+    {% endif %}
+</body>
+	<!-- Added by HTTrack -->
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<!-- /Added by HTTrack -->
+<script type="text/javascript">
+        function logins(){
+            window.location.href = "/jobs/system/general_logins";
+        }
+    </script>
+</html>

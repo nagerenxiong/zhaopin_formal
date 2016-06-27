@@ -1,0 +1,379 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/company.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsh_common.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/font-awesome.min(1).css" rel="stylesheet">
+<link rel="stylesheet" href="/static/new_mobile/css/bootstrap.min.css">
+<link href="/static/new_mobile/css/jquery.pagewalkthrough.css" rel="stylesheet">
+<link href="/static/new_mobile/css/colorpicker.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/tooltipster.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/jquery-ui.structure.min.css" rel="stylesheet">
+<link href="/static/new_mobile/css/animate.css" rel="stylesheet">
+<link href="/static/new_mobile/css/public.css" rel="stylesheet">
+<link href="/static/new_mobile/css/editor.css" rel="stylesheet">
+<link href="/static/new_mobile/css/pagesbody.css" rel="stylesheet">
+<link href="/static/new_mobile/css/web-font.css" rel="stylesheet">
+<link href="http://at.alicdn.com/t/font_1465712390_2049143.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+    .zsp_user_center_main{
+        display:none;
+    }
+    .reward_icon {
+        color: #ffffff;
+        width: 95px;
+        text-align: center;
+        background-color: #ff6d6d;
+        border-radius: 8px;
+        height: 24px;
+        line-height: 24px;
+        float: right;
+    }
+    .lcnm{
+        position: absolute;
+        top:50%;
+        margin-top: -10px;
+        right:12px;
+    }
+</style>
+<script type="text/javascript">
+$(document).ready(function()
+{
+    var sHtml = $('#pages-body');
+    var nEditorModele = $('.editor-module').length;
+    $('#editor-image-click').remove();
+    sHtml.find('section').siblings('span').remove();
+    sHtml.find('section').removeAttr('contenteditable');
+	$('#editor-body').removeAttr('class');
+    for (var pagesI = nEditorModele; pagesI >= 0; pagesI--) {
+        var sPagesText = $('.editor-module:eq(' + pagesI + ') section > div').text();
+        sPagesTextClone = $.trim(sPagesText);
+        if (sPagesTextClone.indexOf('请在这里输入内容') != -1 && sPagesTextClone.length == 8) {
+            $('.editor-module:eq(' + pagesI + ')').remove();
+        }
+    }
+	$(".joblist .list").click(function(){
+		window.location.href=$(this).attr("url"); 
+	});
+      var flag = true;
+    $(window).scroll(function(){
+                var scrollTop = $(this).scrollTop();
+                var scrollHeight = $(document).height();
+                var windowHeight = $(this).height();
+                if(scrollTop + windowHeight == scrollHeight){
+                    //getMore执行之后，flag为false防止多次ajax
+                    if(flag){
+                        getMore();
+                    }
+                }
+            });
+
+            function getMore(){
+                $(".more").show();
+                var patrn=/^(请输入关键字)/i;
+                var key=$("#key").val();
+                if (patrn.exec(key))
+                {
+                    key = "";
+                }
+                var offset=$(".zsp_job_list_zhaopin a").length;
+                // var offset=$(".interview_list_content").last().attr('did');
+                if(flag){
+                    flag = false;
+                }
+            }
+
+	var id="7136";
+  	var tsTimeStamp= new Date().getTime();
+	$('.zsp_compay_tap_header a').click(function(){
+		var oThis=$(this);
+		var nIndex=oThis.index();
+		oThis.addClass('zsp_compay_tap_show').siblings('a').removeClass('zsp_compay_tap_show');
+		if(nIndex==0){
+			$('.zsp_job_list').show();
+			$('.zsp_user_center_main').hide();
+		}else{
+			$('.zsp_user_center_main').show();
+			$('.zsp_job_list').hide();
+		}
+	});
+	
+	
+	$('.tuijian').click(function(){
+		$('.shareCur').fadeIn();
+	});
+	$('.shareCur').click(function(){
+		$('.shareCur').fadeOut();
+	});
+	
+	
+	
+    var sWeiXinUa = navigator.userAgent.toLowerCase();
+    if(sWeiXinUa.match(/MicroMessenger/i)!="micromessenger") {	
+		$('.zsp_footer_fixed_height,.zsp_personal_fixed_box').remove();
+    }
+});
+</script>
+</head>
+<body>
+<div class="zsp_share_fidex shareCur">
+	<div class="zsp_share_box">
+    	<div class="zsp_share_xz_icon"></div>
+        <strong>点击右上角菜单</strong>
+        <strong>将公司主页分享到朋友圈</strong>
+    </div>
+</div>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+var sWinUserAgent=navigator.userAgent.toLowerCase();
+//alert(typeof JavaScriptInterface);
+if(typeof JavaScriptInterface!='undefined'||sWinUserAgent.indexOf('hijobsapp')!=-1){
+	$('.zsp_header').remove();
+}
+</script><div class="hrcenterMain">
+	<div class="hrTop">
+
+	    <div class="zsp_uc_tit" style="padding:0">
+	        <div class="zsp_uc_img_fang">
+	            	        	<img src="{{ request.session.file_website }}{{ company.pc_logo | default:'/static/mobile/images/qy_logo.png' }}" onerror="notfindimg(this)">
+	             
+	        </div>
+	        <div class="zsp_uc_info_main">
+	            <div class="zsp_uc_info_name" style="margin-bottom:0;">
+	                <span>{{ company.pc_name | default:'' }}</span>
+	            </div>
+	
+	            <div class="zsp_uc_info_other">
+	                <span>{{ company.locationname | default:'' }}</span>
+	                <span>{{ company.scalename | default:'' }}</span>
+	            </div>
+                
+                <div class="zsp_company_lable_box">
+                                    </div>
+	
+	        </div>
+	        <!--zsp_uc_info_main -->
+	    </div>
+	    <!--zsp_uc_tit -->
+        <div class="clear"></div>
+        <div class="zsp_compay_tap_header">
+        	<a href="javascript:;" class="zsp_compay_tap_show">招聘职位</a>
+        	<a href="javascript:;">公司介绍</a>
+        </div>
+	</div>
+
+	<div class="zsp_job_list jobsList">
+		<!--<div class="listTitle">招聘职位</div>-->
+		<div class="zsp_job_list_zhaopin">
+                {#       招聘职位信息     #}
+        </div>
+
+        <!-- <div class="zsp_resume_but_box" onclick="next_page_position()">;
+             <a href="javascript:;" id="jobMore" class="zsp_resume_but_4 more">查看更多</a>
+        </div> -->
+	</div>
+    <!--zsp_job_list-->
+	
+	<div class="zsp_user_center_main hrcenterCompany">
+    
+    	<div class="zsp_com_list_box">
+        	<div class="zsp_com_list_header"><h3>公司信息</h3></div>
+            <div class="zsp_com_list_li zsp_com_list_icon_1">{{ company.pc_name | default:'' }}</div>
+            <div class="zsp_com_list_li zsp_com_list_icon_2"><a href="{% if 'http://' in company.pc_url %}{% else %}http://{% endif %}{{ company.pc_url | default:'' }}">{{ company.pc_url | default:'' }}</a></div>
+            <div class="zsp_com_list_li zsp_com_list_icon_3">{{ company.address | default:'' }}</div>
+        </div>
+    
+    	<div class="zsp_com_list_box">
+        	<div class="zsp_com_list_header"><h3>公司介绍</h3></div>
+	        <div id="pages-body" class="pages-body" style=" position: relative; z-index: 100; "><br>{% if company.introduce %}{{ company.introduce | safe }}{% endif %}
+            </div>
+        </div>
+    
+	</div>
+</div>
+
+
+<div id='positionPaginInfo' style="display: none"></div>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script src="/static/new_mobile/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    wx.config({
+        debug: false ,
+        appId: 'wx8a9b8a64aa7bb0e1',
+        timestamp: '1450785063',
+        nonceStr: 'Wb3wzS9S2nuWmieC',
+        signature: '49b3fc306b1364713a7e13b75711eb4ba781c7a5',
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'showMenuItems',
+            'hideMenuItems'
+        ]
+    });
+    wx.ready(function () {
+        function callback(){
+        }
+        var title = "神爸网热门招聘/HiJobs招手招聘";
+        var headimg="http://zhaoshou.oss-cn-beijing.aliyuncs.com/image/lagou/4AABC26C6A12B0D53BD40060D75F92FD.jpg";
+        var desc="神爸网热门招聘/HiJobs招手招聘";
+        var url=window.location.href;
+        WxShare.TimeLine(title, url, headimg, callback);
+        WxShare.AppMessage(title,desc,url,headimg,callback);
+        WxShare.SharedQQ(title,desc,url,headimg,callback);
+    });
+
+// 职位分页
+    {% if request.session.account_type == '1' %}
+        var sql = ' position_status=1 and rewards_money=0 and company_id = {{ company.id }} order by add_date desc';
+    {% else %}
+        var sql = ' position_status=1 and company_id = {{ company.id }} order by add_date desc';
+    {% endif %}
+loadData = new pagin("positionPaginInfo", "V_Position_Search", "", encodeURI(sql), "", 10, "positionPagin", "loadData");
+
+
+//动态加载页面绑定数据
+function positionPagin(dataInfo){
+     //图片列表数据加载
+    var html = '';
+    $(".zsp_resume_but_box").remove();
+    $(dataInfo).each(function(i) {
+        // 处理值为 null 的字段
+        var lens = $(this).length;
+        var array = $(this);
+        for (var n = 0; n < lens; n++) {
+            if (array[n] == null) {
+                array[n] = "&nbsp;"
+            }
+        }
+        html += '<a href="/mobile/personal/position_detail?position_id=' + array[0] + '" class="zsp_job_list_li">';
+        html += '   <div class="zsp_job_li_top">';
+        html += '       <div class="zsp_job_li_tit" style="margin-left: 0">';
+        html += '           <div class="zsp_job_li_h" style="overflow:hidden;">';
+        html += '               <span class="lcnm"><i class="fa fa-angle-right"></i></span>';
+
+        if($.trim(array[30]) !='' && $.trim(array[30]) !='&nbsp;' && $.trim(array[30]) !='0'){
+              html += '               <h3 style="width:57%; float:left; margin-right:0px!important;">' + array[3] + '</h3>';
+            if(array[30] > 0){
+            html += ' <div class="reward_icon" style="position:absolute; right:24px;top:50%;margin-top:-12px;border-radius:12px;line-height:23px;padding:0 4px;"><i class="iconfont icon-qianbao"></i>悬赏:￥'+array[30]+'</div>';
+            }
+        }
+        else{
+            html += '               <h3>' + array[3] + '</h3>';
+        }  
+
+
+        // html += '               <h3>' + array[3] + '</h3>';
+        html += '            </div>';
+        html += '            <div class="zsp_job_li_tit_other">';
+        html +=                 array[55];
+        html += '            </div>';
+        html += '       </div>';
+        html += '   </div>';
+
+        html += '   <div class="zsp_job_li_other  redPW">';     
+        if($.trim(array[59]) !='' && $.trim(array[59]) !='&nbsp;'){
+           html += '       <div class="zsp_job_li_other_icon">';
+           html += '           <i class="fa fa-map-marker"></i>';
+           html += '           <span>' + array[59] + '</span>';
+           html += '       </div>';
+        }  
+        if($.trim(array[19]) !='' && $.trim(array[19]) !='&nbsp;'){        
+            html += '       <div class="zsp_job_li_other_icon">';
+            html += '           <i class="fa fa-jpy"></i>';
+            html += '           <span>' + array[19] + '</span>';
+            html += '       </div>';
+        }
+        html += '       <div class="zsp_job_li_other_icon">';
+        html += '           <i class="fa fa-graduation-cap"></i>';
+        if(array[26] == "&nbsp;")
+        {
+              html += '           <span>学历不限</span>';
+        }
+        else
+        {
+              html += '           <span>' + array[26] + '</span>';
+        }
+      
+        html += '       </div>';
+        html += '   </div>';
+        html += '</a>';
+
+    });
+    $(".zsp_job_list_zhaopin").append(html);
+    var $this_page_data = $("#positionPaginInfo .active");
+    var $end_page_data = $("#positionPaginInfo li:last");
+    if($this_page_data.attr('onclick') != $end_page_data.attr('onclick')) {
+        // html = '<div class="zsp_resume_but_box" onclick="next_page_position()">';
+        // html += '         <a href="javascript:;" id="jobMore" class="zsp_resume_but_4 more">查看更多</a>';
+        // html += '   </div>';
+        // $(".zsp_job_list_zhaopin").append(html);
+    }
+}
+
+// 加载更多职位
+function next_page_position() {
+    var $this_page_data = $("#positionPaginInfo .active");
+    var $end_page_data = $("#positionPaginInfo li:last");
+    if($this_page_data.attr('onclick') != $end_page_data.attr('onclick')) {
+        $this_page_data.next("li").click();
+    } else {
+        $(".zsp_resume_but_box").remove();
+    }
+}
+</script>
+
+<script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+<script>
+    var head_protraint = '{{ company.pc_logo | default:'/static/mobile/images/qy_logo.png' }}';
+
+    var title = '{{ company.pc_name | default:'' }}' + '招聘，众多高薪职位等你来！';
+
+    var description = $('#pages-body').text();
+
+    if(description != '' && description.length > 28) {
+        description = description.substr(0, 28) + '...';
+    }
+    // 微信分享
+    WXJssdk.init(function(wx) {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+            success: function (res) {
+			//alert(JSON.stringify(res));
+            }
+        });
+        // 分享data
+        var shareData = {
+            title: title,
+            desc: description,
+            link: '{{ web_site }}/mobile/personal/show_company?company_id={{ company.id }}',//分享链接地址 自己调整
+            imgUrl: '{{ web_site }}' + head_protraint,//分享显示的图片
+            success:function(){
+               // alert('shareData success');
+            },
+            cancel:function(){
+               // alert('shareData cancel');
+            },
+            error:function(res){
+               // alert(JSON.stringify(res));
+            }
+        };
+
+        // 分享给朋友
+          wx.onMenuShareAppMessage(shareData);
+        // 分享到朋友圈
+          wx.onMenuShareTimeline(shareData);
+        // 分享到QQ
+          wx.onMenuShareQQ(shareData);
+        // 分享到微博
+          wx.onMenuShareWeibo(shareData);
+    });
+</script>
+</body></html>

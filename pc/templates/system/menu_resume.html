@@ -1,0 +1,29 @@
+<link href="{{ STATIC_URL }}css/style2.css" media="screen" rel="stylesheet" type="text/css">
+<div class="nav2">
+<ul id="menu">
+        {% if request.session.account_type == "3" or request.session.account_type == "5"  %}
+            <li >
+                <a href="/jobs/resume/new_resume_search">找人才<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li>
+                <a href="/jobs/resume/uploaded">简历库<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li>
+                <a href="/jobs/resume/h_tddjl" onclick=" return isIdentityHeadhunt('3,5', '2')">工作平台<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li>
+                <a href="/jobs/resume/myDeliveryResume">推荐记录<i class="iconfont icon-xia1"></i></a>
+            </li>
+        {% else%}
+            <li >
+                <a href="/jobs/resume/new_resume_search">找人才<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li>
+                <a href="/jobs/resume/wscdjl">简历库<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li>
+                <a href="/jobs/position/qytddjl">工作平台<i class="iconfont icon-xia1"></i></a>
+            </li>
+        {% endif %}
+ </ul>
+</div>

@@ -1,0 +1,248 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+{#	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">#}
+    <meta property="qc:admins" content="1546461203460341026375" />
+    <meta property="wb:webmaster" content="32fce1c39bc1e1e7" />
+    <link rel="shortcut icon" href="{{ STATIC_URL }}images/idel2.ico" type="image/x-icon">
+	<title>{{ title }}</title>
+	<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+	<script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js" ></script>
+    <script>
+  (function($) {
+     // 百度统计
+     var _hmt = _hmt || [];
+     (function() {
+         var hm = document.createElement("script");
+         hm.src = "//hm.baidu.com/hm.js?ddbc91eaffacc902d27d96305eae52b6";
+         var s = document.getElementsByTagName("script")[0];
+         s.parentNode.insertBefore(hm, s);
+     })();
+     // 百度统计
+     //备份jquery的ajax方法  
+     var _ajax = $.ajax;
+     //重写jquery的ajax方法  
+     $.ajax = function(opt) {
+         //备份opt中error和success方法  
+         var fn = {
+             error: function(XMLHttpRequest, textStatus, errorThrown) {},
+             success: function(data, textStatus) {}
+         }
+         if (opt.error) {
+             fn.error = opt.error;
+         }
+         if (opt.success) {
+             fn.success = opt.success;
+         }
+         if (opt.eventT) {
+             if (opt.eventT.type == "button" || opt.eventT.type == "a") {
+                 // $(opt.eventT).css('backgroundImage', 'url(/static/images/load2.gif)');
+                 var of = $(opt.eventT).css('float');
+                 var ow = $(opt.eventT).css('width');
+                 var oh = $(opt.eventT).css('height');
+                 var op = $(opt.eventT).css('padding');
+                 var om = $(opt.eventT).css('margin');
+                 var loadImg = document.createElement("img");
+                 loadImg.id = "loadImg";
+                 loadImg.src = "{{ STATIC_URL }}images/load2.gif";
+                 $(loadImg).css({
+                     height: oh,
+                     float: of,
+                     padding: op,
+                     margin: om,
+                     src: '{{ STATIC_URL }}images/load1.gif'
+                 });
+                 if (!document.getElementById('loadImg')) {
+                     $(opt.eventT).after(loadImg).hide();
+                 }
+             }
+         }
+         var ement = opt.eventT;
+         //扩展增强处理         
+         var _opt = $.extend(opt, {
+             error: function(XMLHttpRequest, textStatus, errorThrown) {
+                 $(opt.eventT).show().next().remove();
+                 fn.error(XMLHttpRequest, textStatus, errorThrown);
+             },
+             success: function(data, textStatus) {
+                 $(opt.eventT).show().next().remove();
+                 fn.success(data, textStatus);
+             }
+         });
+         _ajax(_opt);
+     };
+
+  var timer = null;
+  var alertFram;
+  window.alert = function(txt, type, fun1) {
+    var icon = "";
+    var qrStr = ""
+    clearInterval(timer);
+    timer = setInterval(function() {
+      if ($("#alertFram")[0]) {
+        $("#alertFram").remove();
+        clearInterval(timer);
+      }
+    }, 3900)
+    alertFram = $('<div id="alertFram" style="color:#ed4f30;font-size:14px;padding:0px 0px 0px 30px;height:40px;background-color:#fff3de;border:1px solid #ffddc1;position:fixed;left:50%;z-index:999999999;text-align:center;line-height:40px;top:0">' + txt + '<img onclick="$(this).parent().remove()" src="{{ STATIC_URL }}images/x_03.png" style="float:right;cursor:pointer;margin-left:10px;margin-top:14px;margin-right:10px" width="12" height="12"></div>')
+    if (arguments[1] != null) {
+      if (arguments[1] == 1) {
+        icon = "alert_03";
+      } else if (arguments[1] == 2) {
+        icon = "alert_07";
+      } else if (arguments[1] == 3) {
+        clearInterval(timer);
+        icon = "alert_15";
+        qrStr = '<div style="margin-top:20px"><input type="button" id="qr_btn" value="确认" style="width:70px;height:30px;\
+               line-height:30px;color:#fff;background-color:#5C91D9;border:0px;border-radius: 5px;font-size:14px"/><input type="button"\
+               value="取消" onclick="$(this).parent().parent().remove()" style="width:70px;height:30px;line-\
+               height:30px;color:#232323;background-color:#fff;border:0px;border-radius: 5px;font-size:14px"/></div>';
+      } else if (arguments[1] == 4) {
+        icon = "alert_18";
+      }
+      alertFram = $('<div id="alertFram" style="color:#232323;font-size:18px;box-shadow: 5px 5px 5px rgba(0,0,0,.4);background-color:#fff;border:1px solid #7E9CC6;border-radius: 5px;position:fixed;left:50%;z-index:999999999;text-align:center;top:50%;padding:10px 20px;white-space:nowrap;"><div style="width:200px;float:left"></div><div style="clear:both"></div><img onclick="$(this).parent().remove()" src="/static/images/alert_11.png" style="float:right;cursor:pointer;margin-right:-9px;" ><img src="/static/images/' + icon + '.png" style="vertical-align:middle;margin-right:10px"/>' + txt + '' + qrStr + '</div>')
+    }
+    if ($("#alertFram")[0]) {
+      return;
+    }
+    $("body").append(alertFram);
+    $("#qr_btn").click(function() {
+      fun1();
+    })
+    var width = parseInt(alertFram.css('width'))+40;
+    if(arguments[1] != null)
+    {
+          var height = parseInt(alertFram.height())+20;
+         alertFram.css('margin-top', '-' + height/2 + 'px');
+    }
+    alertFram.css('margin-left', '-' + width/2 + 'px');
+  }
+ })(jQuery);
+    </script>
+	<script src="{{ STATIC_URL }}js/Validform_v5.3.2.js"></script>
+	<script src="{{ STATIC_URL }}js/bootstrap.min.js" ></script>
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+	<script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<script type="application/javascript">
+        $(function() {
+            getIsSelectInfo();
+            //setInterval("getIsSelectInfo()", 100000);//1000为1秒钟
+        });
+        function getIsSelectInfo(){
+            $.ajax({
+                type: "POST",
+                url: "/ajax_getIsSelectInfo/",
+                dataType: "text",
+                success: function(data){
+                    if(data != $("#msgInfo").text()){
+                        if($("#msgInfo").text().length>2)
+                            $("#msgInfo").text("99");
+                        else
+                            $("#msgInfo").text(data);
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+	<!-- 顶部 --> 
+	<div class="top">
+		<div class="center">
+                {% if request.session.account_type == "1" %}
+                    <img src="{{ STATIC_URL }}images/logo.png" style="cursor: pointer" alt="" class="f_l mt10" onclick="window.location.href = '/jobs/system/personal_index'">
+                    <div class="nav_box f_r">
+                        <ul id="nav">
+                        <li><a id="index" href="/jobs/system/personal_index">首页</a></li>
+                       <li><a id="p_scjl" href="/position/gsss">公司职位</a></li>
+                        <li><a id="p_scjl" href="/position/personal/findHeadhunter">人才经纪人</a></li>
+                        <li><a id="p_scjl" href="/jobs/resume/yrjl">我的简历</a></li>
+                {% elif request.session.account_type == "2" or request.session.account_type  == "4" %}
+                    <img src="{{ STATIC_URL }}images/logo.png" style="cursor: pointer" alt="" class="f_l mt10" onclick="window.location.href = '/jobs/system/company_index'">
+                    <div class="nav_box f_r">
+                        <ul id="nav">
+                        <li class="active"><a id="index" href="/jobs/system/company_index">首页</a></li>
+                        <li><a id="resume" href="/jobs/position/qytddjl">简历通</a></li>
+    					<li><a id="position" href="/jobs/position/company/zwgl">职位通</a></li>
+                        <li><a id="list" href="/position/zlt">经纪人管理</a></li>
+                {% else %}
+                    <img src="{{ STATIC_URL }}images/logo.png" style="cursor: pointer" alt="" class="f_l mt10" onclick="window.location.href = '/jobs/system/headhunter_index'">
+                    <div class="nav_box f_r">
+                        <ul id="nav">
+                        <li class="active"><a id="index" href="/jobs/system/headhunter_index">首页</a></li>
+                        <li><a id="resume" href="/jobs/resume/jlss">简历通</a></li>
+    					<li><a id="position" href="/jobs/position/zwss">职位通</a></li>
+                        <li><a id="list" href="/jobs/account/search_list">我的List</a></li>
+                {% endif %}
+					<li id="nav_ab"></li>
+				</ul>
+				<div id="navslide">
+				  <p {% if request.session.user_name == '' %}title="{{ request.session.account }}"{% endif %}>
+                      <span  class="c_33 fz14">
+                      {% if request.session.user_name %}
+                        {{ request.session.user_name }}
+                      {% else %}
+                        {{ request.session.account|slice:"7" }}...
+                      {% endif %}
+                      </span>
+                <a href="/jobs/account/znxx" id="maopao"><img src="{{ STATIC_URL }}images/icon_03.png" width="20" height="14"><span  id="msgInfo" class="nowrap c_c8 ml5"></span></a>
+                <img src="{{ STATIC_URL}}images/xiajiantou.png" width="10" height="5" style="margin-top:5px;margin-left:5px">
+				  </p>
+                  <ul style="display:none;">
+                      {% if request.session.account_type == "1" %}
+                        <li><a id="account_set" href="/jobs/account/grxxsz">账号设置</a></li>
+                      {% elif request.session.account_type == "3" %}
+                        <li><a id="account_set" href="/jobs/account/qyxxxg">账号设置</a></li>
+                      {% elif request.session.account_type == "2" %}
+                          <li><a id="account_set" href="/jobs/account/skzh">账号设置</a></li>
+                      {% else %}
+                        <li><a id="account_set" href="/jobs/account/qygl">账号设置</a></li>
+                      {% endif %}
+                        <li><a href="/jobs/account/jbgl">金币管理</a></li>
+                        <li><a href="/jobs/account/wdgz">我的关注</a></li>
+                        <li><a href="/jobs/account/znxx">站内消息</a></li>
+                     <!--    <li><a href="">我的特权</a></li> -->
+                        <li><a href="/jobs/account/txl">通讯录</a></li>
+                        <li><a href="/jobs/account/xgmm">修改密码</a></li>
+                        <li style="padding-bottom:10px;height:40px;line-height: 40px;"><a href="/jobs/system/logout">退出</a></li>
+                  </ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script>
+    $(function(){
+        //导航active
+        $(".nav_box #nav li").removeClass('active');
+        $(".nav_box #nav li").eq($(".clear").eq(0).text()-1).addClass('active');
+        //设置当前页样式
+        $("#menu li a").removeClass('active');
+        $("#menu li a").eq($(".clear").eq(1).text()-1).addClass('active');
+        $("#maopao").click(function(e) {
+            e=e||event;
+            if(e && e.stopPropagation)
+            {e.stopPropagation();}
+            else{window.event.cancelBubble=true;}
+        });
+        //导航下拉
+            $("#navslide").mouseover(function () {
+                    $(this).find('ul').css("display","block")
+                    $(this).css('border-color','#e3e3e3')
+            });
+            $("#navslide").mouseout(function (event) {
+                $(this).find('ul').css("display","none")
+                $(this).css('border-color','transparent');
+            });
+        });
+</script>
+	<!-- 顶部 -->

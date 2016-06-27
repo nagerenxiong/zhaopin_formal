@@ -1,0 +1,860 @@
+<!DOCTYPE HTML>
+<html>
+	<!-- Added by HTTrack -->
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<!-- /Added by HTTrack -->
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<title>企业个人信息管理</title>
+	<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+	<script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js" ></script>
+	<script src="{{ STATIC_URL }}js/Validform_v5.3.2.js"></script>
+	<script src="{{ STATIC_URL }}js/bootstrap.min.js" ></script>
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+	<script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<!-- 顶部 -->
+	<div class="top">
+		<div class="center">
+			<img src="{{ STATIC_URL }}images/logo.png" alt="" class="f_l mt20">
+			<div class="nav_box f_r">
+				<div class="dropdown collapsible_menu f_r">
+					<button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown"> <i class="iconfont icon-youxiang"></i>
+						5658989@qq.... <i class="iconfont icon-xiajiantou fz12"></i>
+					</button>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="#">Java</a>
+						</li>
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="#">数据挖掘</a>
+						</li>
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="#">数据通信/网络</a>
+						</li>
+						<li role="presentation"></li>
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="#">分离的链接</a>
+						</li>
+					</ul>
+				</div>
+				<div class="clearfix"></div>
+				<ul class="nav nav-tabs nav_b">
+					<li class="active">
+						<a href="#">我的首页</a>
+					</li>
+					<li>
+						<a href="#">简历通</a>
+					</li>
+					<li>
+						<a href="#">职位通</a>
+					</li>
+					<li>
+						<a href="#">我的List</a>
+					</li>
+					<li>
+						<a href="#">我的关注</a>
+					</li>
+					<li>
+						<a href="#">账号管理</a>
+					</li>
+					<li>
+						<a href="#">站内消息</a>
+					</li>
+					<li>
+						<a href="#">通讯录</a>
+					</li>
+					<li class="slider" style="left: 0px;"></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- 顶部 -->
+	<!-- 内容大框 -->
+	<div class="lt_content_box">
+		<div class="center clearfix">
+			<!-- 修改个人信息 -->
+			<dl class="grxx_info f_l ">
+				<dt class="bd_bottom1">
+					<span>关注的个人</span>
+					<span>关注的企业</span>
+					<span>关注的猎头</span>
+					<div class="slider wdgz_silder gzld_silder"></div>
+				</dt>
+				<dd class="wdgz_search_box">
+					<form action="wdgz_submit" method="post" >
+						<input type="text" name="" class="search_txt"><input type="button" name="" value="搜索" class="search_submit"></form>
+					<div class="wdgz_ckbox">
+						<input type="checkbox" class="wdgz_ckall">
+						<span>全选</span>
+						<input type="button"  value="取消关注" class="wdgz_txt1">
+						<input type="button"  value="私信" class="wdgz_txt1">
+						<input type="button"  value="分组"class="wdgz_txt1" ></div>
+					<ul class="wdgz_info_list clearfix">
+						<li>
+							<a href="#" target="_blank">
+								<img src="{{ STATIC_URL }}images/gr_03.jpg" alt="" class="f_l" style="margin-left: 10px"></a>
+							<dl class="f_l gzlt_dl">
+								<dt class="f_bold fz16">王小小111<span>【高级顾问】</span></dt>
+								<dd class="c_c8"><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""></dd>
+								<dd>北京和君设计有限公司</dd>
+							</dl>
+							<div class="clearfix"></div>
+							<p class="ml15 fz12" style="margin-left: 10px">娇兰绒域咨询服务有限公司</p>
+							<div style="margin-left: 5px">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女"></div>
+							<div class="wdgz_info_b">
+								<input type="checkbox" name="" value="" id="checkboxThreeInput"  class="check_b">
+								<label for="checkboxThreeInput"></label>
+								<input type="button" value="取消关注" class="bd_raduio ml60 input_qx">
+								<input type="button" value="修改分组"class="bd_raduio input_xg">
+								<input type="button" value="私信" class="bd_raduio input_sx"></div>
+							<dl class="wdgz_detail" style="display:none" >
+								<dt class="f_l t_c">
+									<a href="#">
+										<img src="{{ STATIC_URL }}images/gr_03.jpg" alt=""></a>
+									<p>王小小</p>
+								</dt>
+								<dd class="f_l wdgz_detail_r">
+									<p>备注：应聘反馈：人选待定,应聘职位：事业部总经理（负责乐共享平台对接）。</p>
+									<p class="c_8f">最后登录时间：2015-05-06</p>
+								</dd>
+								<dd class="update_btn" data-toggle="modal" data-target="#update_bz">
+									<i class="iconfont icon-xiugaichujia"></i>
+								</dd>
+							</dl>
+							<img src="{{ STATIC_URL }}images/hx_03.png" alt="" class="red_icon"></li>
+						<li>
+							<a href="#" target="_blank">
+								<img src="{{ STATIC_URL }}images/gr_03.jpg" alt="" class="f_l" style="margin-left: 10px"></a>
+							<dl class="f_l gzlt_dl">
+								<dt class="f_bold fz16">王小小111<span>【高级顾问】</span></dt>
+								<dd class="c_c8"><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""></dd>
+								<dd>北京和君设计有限公司</dd>
+							</dl>
+							<div class="clearfix"></div>
+							<p class="ml15 fz12" style="margin-left: 10px">热爱运动、工作负责、擅长学习,可以从基层开始做起</p>
+							<div style="margin-left: 5px">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女"></div>
+							<div class="wdgz_info_b">
+								<input type="checkbox" name="" value="" id="checkboxThreeInput1"  class="check_b">
+								<label for="checkboxThreeInput1"></label>
+								<input type="button" value="取消关注" class="bd_raduio ml60 input_qx">
+								<input type="button" value="修改分组"class="bd_raduio input_xg">
+								<input type="button" value="私信" class="bd_raduio input_sx"></div>
+							<dl class="wdgz_detail" style="display:none" >
+								<dt class="f_l t_c">
+									<a href="#">
+										<img src="{{ STATIC_URL }}images/gr_03.jpg" alt=""></a>
+									<p>王小小</p>
+								</dt>
+								<dd class="f_l wdgz_detail_r">
+									<p>备注：应聘反馈：人选待定,应聘职位：事业部总经理（负责乐共享平台对接）。</p>
+									<p class="c_8f">最后登录时间：2015-05-06</p>
+								</dd>
+								<dd class="update_btn" data-toggle="modal" data-target="#update_bz">
+									<i class="iconfont icon-xiugaichujia"></i>
+								</dd>
+							</dl>
+							<img src="{{ STATIC_URL }}images/hx_03.png" alt="" class="red_icon"></li>
+						<li>
+							<a href="#" target="_blank">
+								<img src="{{ STATIC_URL }}images/gr_03.jpg" alt="" class="f_l" style="margin-left: 10px"></a>
+							<dl class="f_l gzlt_dl">
+								<dt class="f_bold fz16">王小小111<span>【高级顾问】</span></dt>
+								<dd class="c_c8"><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""></dd>
+								<dd>北京和君设计有限公司</dd>
+							</dl>
+							<div class="clearfix"></div>
+							<p class="ml15 fz12" style="margin-left: 10px">热爱运动、工作负责、擅长学习,可以从基层开始做起</p>
+							<div style="margin-left: 5px">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女"></div>
+							<div class="wdgz_info_b">
+								<input type="checkbox" name="" value="" id="checkboxThreeInput2"  class="check_b">
+								<label for="checkboxThreeInput2"></label>
+								<input type="button" value="取消关注" class="bd_raduio ml60 input_qx">
+								<input type="button" value="修改分组"class="bd_raduio input_xg">
+								<input type="button" value="私信" class="bd_raduio input_sx"></div>
+							<dl class="wdgz_detail" style="display:none" >
+								<dt class="f_l t_c">
+									<a href="#">
+										<img src="{{ STATIC_URL }}images/gr_03.jpg" alt=""></a>
+									<p>王小小</p>
+								</dt>
+								<dd class="f_l wdgz_detail_r">
+									<p>备注：应聘反馈：人选待定,应聘职位：事业部总经理（负责乐共享平台对接）。</p>
+									<p class="c_8f">最后登录时间：2015-05-06</p>
+								</dd>
+								<dd class="update_btn" data-toggle="modal" data-target="#update_bz">
+									<i class="iconfont icon-xiugaichujia"></i>
+								</dd>
+							</dl>
+							<img src="{{ STATIC_URL }}images/hx_03.png" alt="" class="red_icon"></li>
+						<li>
+							<a href="#" target="_blank">
+								<img src="{{ STATIC_URL }}images/gr_03.jpg" alt="" class="f_l" style="margin-left: 10px"></a>
+							<dl class="f_l gzlt_dl">
+								<dt class="f_bold fz16">王小小111<span>【高级顾问】</span></dt>
+								<dd class="c_c8"><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""></dd>
+								<dd>北京和君设计有限公司</dd>
+							</dl>
+							<div class="clearfix"></div>
+							<p class="ml15 fz12" style="margin-left: 10px">热爱运动、工作负责、擅长学习,可以从基层开始做起</p>
+							<div style="margin-left: 5px">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女"></div>
+							<div class="wdgz_info_b">
+								<input type="checkbox" name="" value="" id="checkboxThreeInput3"  class="check_b">
+								<label for="checkboxThreeInput3"></label>
+								<input type="button" value="取消关注" class="bd_raduio ml60 input_qx">
+								<input type="button" value="修改分组"class="bd_raduio input_xg">
+								<input type="button" value="私信" class="bd_raduio input_sx"></div>
+							<dl class="wdgz_detail" style="display:none" >
+								<dt class="f_l t_c">
+									<a href="#">
+										<img src="{{ STATIC_URL }}images/gr_03.jpg" alt=""></a>
+									<p>王小小</p>
+								</dt>
+								<dd class="f_l wdgz_detail_r">
+									<p>备注：应聘反馈：人选待定,应聘职位：事业部总经理（负责乐共享平台对接）。</p>
+									<p class="c_8f">最后登录时间：2015-05-06</p>
+								</dd>
+								<dd class="update_btn" data-toggle="modal" data-target="#update_bz">
+									<i class="iconfont icon-xiugaichujia"></i>
+								</dd>
+							</dl>
+							<img src="{{ STATIC_URL }}images/hx_03.png" alt="" class="red_icon"></li>
+						<li>
+							<a href="#" target="_blank">
+								<img src="{{ STATIC_URL }}images/gr_03.jpg" alt="" class="f_l" style="margin-left: 10px"></a>
+							<dl class="f_l gzlt_dl">
+								<dt class="f_bold fz16">王小小111<span>【高级顾问】</span></dt>
+								<dd class="c_c8"><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""></dd>
+								<dd>北京和君设计有限公司</dd>
+							</dl>
+							<div class="clearfix"></div>
+							<p class="ml15 fz12" style="margin-left: 10px">热爱运动、工作负责、擅长学习,可以从基层开始做起</p>
+							<div style="margin-left: 5px">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女"></div>
+							<div class="wdgz_info_b">
+								<input type="checkbox" name="" value="" id="checkboxThreeInput4"  class="check_b">
+								<label for="checkboxThreeInput4"></label>
+								<input type="button" value="取消关注" class="bd_raduio ml60 input_qx">
+								<input type="button" value="修改分组"class="bd_raduio input_xg">
+								<input type="button" value="私信" class="bd_raduio input_sx"></div>
+							<dl class="wdgz_detail" style="display:none" >
+								<dt class="f_l t_c">
+									<a href="#">
+										<img src="{{ STATIC_URL }}images/gr_03.jpg" alt=""></a>
+									<p>王小小</p>
+								</dt>
+								<dd class="f_l wdgz_detail_r">
+									<p>备注：应聘反馈：人选待定,应聘职位：事业部总经理（负责乐共享平台对接）。</p>
+									<p class="c_8f">最后登录时间：2015-05-06</p>
+								</dd>
+								<dd class="update_btn" data-toggle="modal" data-target="#update_bz">
+									<i class="iconfont icon-xiugaichujia"></i>
+								</dd>
+							</dl>
+							<img src="{{ STATIC_URL }}images/hx_03.png" alt="" class="red_icon"></li>
+						<li>
+							<a href="#" target="_blank">
+								<img src="{{ STATIC_URL }}images/gr_03.jpg" alt="" class="f_l" style="margin-left: 10px"></a>
+							<dl class="f_l gzlt_dl">
+								<dt class="f_bold fz16">王小小111<span>【高级顾问】</span></dt>
+								<dd class="c_c8"><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""></dd>
+								<dd>北京和君设计有限公司</dd>
+							</dl>
+							<div class="clearfix"></div>
+							<p class="ml15 fz12" style="margin-left: 10px">热爱运动、工作负责、擅长学习,可以从基层开始做起</p>
+							<div style="margin-left: 5px">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女"></div>
+							<div class="wdgz_info_b">
+								<input type="checkbox" name="" value="" id="checkboxThreeInput5"  class="check_b">
+								<label for="checkboxThreeInput5"></label>
+								<input type="button" value="取消关注" class="bd_raduio ml60 input_qx">
+								<input type="button" value="修改分组"class="bd_raduio input_xg">
+								<input type="button" value="私信" class="bd_raduio input_sx"></div>
+							<dl class="wdgz_detail" style="display:none" >
+								<dt class="f_l t_c">
+									<a href="#">
+										<img src="{{ STATIC_URL }}images/gr_03.jpg" alt=""></a>
+									<p>王小小</p>
+								</dt>
+								<dd class="f_l wdgz_detail_r">
+									<p>备注：应聘反馈：人选待定,应聘职位：事业部总经理（负责乐共享平台对接）。</p>
+									<p class="c_8f">最后登录时间：2015-05-06</p>
+								</dd>
+								<dd class="update_btn" data-toggle="modal" data-target="#update_bz">
+									<i class="iconfont icon-xiugaichujia"></i>
+								</dd>
+							</dl>
+							<img src="{{ STATIC_URL }}images/hx_03.png" alt="" class="red_icon"></li>
+						<li>
+							<a href="#" target="_blank">
+								<img src="{{ STATIC_URL }}images/gr_03.jpg" alt="" class="f_l" style="margin-left: 10px"></a>
+							<dl class="f_l gzlt_dl">
+								<dt class="f_bold fz16">王小小111<span>【高级顾问】</span></dt>
+								<dd class="c_c8"><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""></dd>
+								<dd>北京和君设计有限公司</dd>
+							</dl>
+							<div class="clearfix"></div>
+							<p class="ml15 fz12" style="margin-left: 10px">热爱运动、工作负责、擅长学习,可以从基层开始做起</p>
+							<div style="margin-left: 5px">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女"></div>
+							<div class="wdgz_info_b">
+								<input type="checkbox" name="" value="" id="checkboxThreeInput6"  class="check_b">
+								<label for="checkboxThreeInput6"></label>
+								<input type="button" value="取消关注" class="bd_raduio ml60 input_qx">
+								<input type="button" value="修改分组"class="bd_raduio input_xg">
+								<input type="button" value="私信" class="bd_raduio input_sx"></div>
+							<dl class="wdgz_detail" style="display:none" >
+								<dt class="f_l t_c">
+									<a href="#">
+										<img src="{{ STATIC_URL }}images/gr_03.jpg" alt=""></a>
+									<p>王小小</p>
+								</dt>
+								<dd class="f_l wdgz_detail_r">
+									<p>备注：应聘反馈：人选待定,应聘职位：事业部总经理（负责乐共享平台对接）。</p>
+									<p class="c_8f">最后登录时间：2015-05-06</p>
+								</dd>
+								<dd class="update_btn" data-toggle="modal" data-target="#update_bz">
+									<i class="iconfont icon-xiugaichujia"></i>
+								</dd>
+							</dl>
+							<img src="{{ STATIC_URL }}images/hx_03.png" alt="" class="red_icon"></li>
+						<li>
+							<a href="#" target="_blank">
+								<img src="{{ STATIC_URL }}images/gr_03.jpg" alt="" class="f_l" style="margin-left: 10px"></a>
+							<dl class="f_l gzlt_dl">
+								<dt class="f_bold fz16">王小小111<span>【高级顾问】</span></dt>
+								<dd class="c_c8"><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""><img src="{{ STATIC_URL }}images/ic_03.png" alt=""></dd>
+								<dd>北京和君设计有限公司</dd>
+							</dl>
+							<div class="clearfix"></div>
+							<p class="ml15 fz12" style="margin-left: 10px">热爱运动、工作负责、擅长学习,可以从基层开始做起</p>
+							<div style="margin-left: 5px">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女">
+								<input type="button" value="单身美女"></div>
+							<div class="wdgz_info_b">
+								<input type="checkbox" name="" value="" id="checkboxThreeInput7"  class="check_b">
+								<label for="checkboxThreeInput7"></label>
+								<input type="button" value="取消关注" class="bd_raduio ml60 input_qx">
+								<input type="button" value="修改分组"class="bd_raduio input_xg">
+								<input type="button" value="私信" class="bd_raduio input_sx"></div>
+							<dl class="wdgz_detail" style="display:none" >
+								<dt class="f_l t_c">
+									<a href="#">
+										<img src="{{ STATIC_URL }}images/gr_03.jpg" alt=""></a>
+									<p>王小小</p>
+								</dt>
+								<dd class="f_l wdgz_detail_r">
+									<p>备注：应聘反馈：人选待定,应聘职位：事业部总经理（负责乐共享平台对接）。</p>
+									<p class="c_8f">最后登录时间：2015-05-06</p>
+								</dd>
+								<dd class="update_btn" data-toggle="modal" data-target="#update_bz">
+									<i class="iconfont icon-xiugaichujia"></i>
+								</dd>
+							</dl>
+							<img src="{{ STATIC_URL }}images/hx_03.png" alt="" class="red_icon"></li>
+					</ul>
+				</dd>
+				<dd>
+					<div class="lthy_pager">
+						<ul class="pagination pagination-sm">
+							<li>
+								<a href="#">上一页</a>
+							</li>
+							<li>
+								<a href="#">1</a>
+							</li>
+							<li>
+								<a href="#">2</a>
+							</li>
+							<li>
+								<a href="#">3</a>
+							</li>
+							<li>
+								<a href="#">4</a>
+							</li>
+							<li>
+								<a href="#">5</a>
+							</li>
+							<li>
+								<a href="#">下一页</a>
+							</li>
+						</ul>
+					</div>
+				</dd>
+				<div class="left_top_border"></div>
+			</dl>
+			<!-- 修改个人信息 -->
+			<!-- 侧边栏 -->
+			<div class="grxx_sidebar f_r">
+				<div class="add_cal_btn">
+					<i class="iconfont icon-tianjia"></i>
+					添加新个人分组
+				</div>
+				<div class="grxx_sidebar_b" style="padding:20px 0;">
+					<dl>
+						<dt class="my_cal_title" style="margin-left:20px">关注的个人分组</dt>
+						<dd class="cal_tree_dd">
+							<div class="panel-group" id="accordion">
+								<div class="panel panel-default">
+									<div class="panel-heading clearfix" style="padding:10px 20px 6px 20px">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed">
+											<i class="iconfont icon-jinlingyingcaiwangtubiao12 f_l fz14"></i>
+											<span class="f_l">上市公司</span>
+											<span class="f_r num_group">2/3</span>
+										</a>
+									</div>
+									<div id="collapseOne" class="panel-collapse in" style="height:auto">
+										<div class="panel-body" style="padding:0 0 8px 0">
+											<ul class="cal_tree_ul wdgz_cal_tree_ul"  style="padding-left:0px">
+												<li>
+													猎头分类
+													<span class="f_r num_group mt6" >2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li>
+													关注二级猎头分类
+													<span class="f_r num_group mt6">2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li>
+													关注二级猎头分类
+													<span class="f_r num_group mt6">2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li class="active">
+													猎头分类
+													<span class="f_r num_group mt6" >2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li>
+													关注二级猎头分类
+													<span class="f_r num_group mt6">2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading clearfix" style="padding:10px 20px 6px 20px">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse3" class="collapsed" aria-expanded="false">
+											<i class="iconfont icon-jinlingyingcaiwangtubiao12 f_l fz14"></i>
+											<span class="f_l">上市公司</span>
+											<span class="f_r num_group">2/3</span>
+										</a>
+									</div>
+									<div id="collapse3" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+										<div class="panel-body" style="padding:0 0 8px 0">
+											<ul class="cal_tree_ul wdgz_cal_tree_ul"  style="padding-left:0px">
+												<li>
+													猎头分类
+													<span class="f_r num_group mt6" >2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li>
+													关注二级猎头分类
+													<span class="f_r num_group mt6">2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li>
+													关注二级猎头分类
+													<span class="f_r num_group mt6">2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li class="active">
+													猎头分类
+													<span class="f_r num_group mt6" >2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li>
+													关注二级猎头分类
+													<span class="f_r num_group mt6">2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading clearfix" style="padding:10px 20px 6px 20px">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse2" class="collapsed" aria-expanded="false">
+											<i class="iconfont icon-jinlingyingcaiwangtubiao12 f_l fz14"></i>
+											<span class="f_l">上市公司</span>
+											<span class="f_r num_group">2/3</span>
+										</a>
+									</div>
+									<div id="collapse2" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+										<div class="panel-body" style="padding:0 0 8px 0">
+											<ul class="cal_tree_ul wdgz_cal_tree_ul"  style="padding-left:0px">
+												<li>
+													猎头分类
+													<span class="f_r num_group mt6" >2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li>
+													关注二级猎头分类
+													<span class="f_r num_group mt6">2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li>
+													关注二级猎头分类
+													<span class="f_r num_group mt6">2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li class="active">
+													猎头分类
+													<span class="f_r num_group mt6" >2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li>
+													关注二级猎头分类
+													<span class="f_r num_group mt6">2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading clearfix" style="padding:10px 20px 6px 20px">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse4" class="collapsed" aria-expanded="false">
+											<i class="iconfont icon-jinlingyingcaiwangtubiao12 f_l fz14"></i>
+											<span class="f_l">上市公司</span>
+											<span class="f_r num_group">2/3</span>
+										</a>
+									</div>
+									<div id="collapse4" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+										<div class="panel-body" style="padding:0 0 8px 0">
+											<ul class="cal_tree_ul wdgz_cal_tree_ul"  style="padding-left:0px">
+												<li>
+													猎头分类
+													<span class="f_r num_group mt6" >2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li>
+													关注二级猎头分类
+													<span class="f_r num_group mt6">2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li>
+													关注二级猎头分类
+													<span class="f_r num_group mt6">2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li class="active">
+													猎头分类
+													<span class="f_r num_group mt6" >2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li>
+													关注二级猎头分类
+													<span class="f_r num_group mt6">2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading clearfix" style="padding:10px 20px 6px 20px">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse5" class="collapsed" aria-expanded="false">
+											<i class="iconfont icon-jinlingyingcaiwangtubiao12 f_l fz14"></i>
+											<span class="f_l">上市公司</span>
+											<span class="f_r num_group">2/3</span>
+										</a>
+									</div>
+									<div id="collapse5" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+										<div class="panel-body" style="padding:0 0 8px 0">
+											<ul class="cal_tree_ul wdgz_cal_tree_ul"  style="padding-left:0px">
+												<li>
+													猎头分类
+													<span class="f_r num_group mt6" >2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li>
+													关注二级猎头分类
+													<span class="f_r num_group mt6">2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li>
+													关注二级猎头分类
+													<span class="f_r num_group mt6">2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li class="active">
+													猎头分类
+													<span class="f_r num_group mt6" >2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+												<li>
+													关注二级猎头分类
+													<span class="f_r num_group mt6">2/4</span>
+													<span class="f_r add_up_re_btn" style="display:none">
+														<i class="iconfont icon-xiugaichujia"></i>
+														<i class="iconfont icon-tianjia"></i>
+														<i class="iconfont icon-shanchu"></i>
+													</span>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+						</dd>
+					</dl>
+				</div>
+			</div>
+			<!-- 侧边栏 -->
+		</div>
+	</div>
+	<!-- 内容大框 -->
+	<!-- 底部 -->
+	<div class="re_bottom">
+		<div class="center">
+			<div class="clearfix">
+				<dl>
+					<dt>
+						<i class="iconfont icon-lianjie"></i>
+						合作企业
+					</dt>
+					<dd>
+						<a href="#">
+							<img src="{{ STATIC_URL }}images/hcdyhr_03.jpg" alt=""></a>
+						<a href="#">
+							<img src="{{ STATIC_URL }}images/hcdyhr_05.jpg" alt=""></a>
+						<a href="#">
+							<img src="{{ STATIC_URL }}images/hcdyhr_07.jpg" alt=""></a>
+						<a href="#">
+							<img src="{{ STATIC_URL }}images/hcdyhr_09.jpg" alt=""></a>
+						<a href="#">
+							<img src="{{ STATIC_URL }}images/hcdyhr_11.jpg" alt=""></a>
+					</dd>
+				</dl>
+				<ul>
+					<li>
+						<a class="iconfont icon-weibo" href="#"></a>
+						<p>关注微博</p>
+					</li>
+					<li>
+						<a class="iconfont icon-weixin" href="#"></a>
+						<p>关注微信</p>
+					</li>
+					<li>
+						<a class="iconfont icon-lianjie" href="#"></a>
+						<p>联系我们</p>
+					</li>
+					<li>
+						<a class="iconfont icon-yijianfankui" href="#"></a>
+						<p>意见反馈</p>
+					</li>
+				</ul>
+			</div>
+			<!-- 底部链接和备案 -->
+			<div class="re_bottom_menu">
+				<a href="#">关于我们</a>
+				<span>|</span>
+				<a href="#">关于我们</a>
+				<span>|</span>
+				<a href="#">关于我们</a>
+				<span>|</span>
+				<a href="#">关于我们</a>
+				<span>|</span>
+				<a href="#">关于我们</a>
+				<span>|</span>
+				<a href="#">关于我们</a>
+				<p>
+				  京ICP备16011247 Powered by  2015-2025 北京怀才当遇网络技术有限公司版权所有
+				</p>
+			</div>
+			<!-- 底部链接和备案 -->
+		</div>
+	</div>
+	<!-- 底部 -->
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="update_bz" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">添加备注</h4>
+				</div>
+				<div class="modal-body">
+					<textarea name="">备注：应聘反馈：人选待定 ， 应聘职位：事业部总经理（负责乐共享平台对接）。</textarea>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default"
+               data-dismiss="modal" style="width:90px;height:33px">关闭</button>
+					<button type="button" class="btn btn-primary">提交更改</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+		<script src="{{ STATIC_URL }}js/common.js" ></script>
+		<script type="text/javascript">
+	$(".wdgz_info_list li").mouseenter(function(){
+		$(this).children('.wdgz_detail').stop().slideDown(300);
+	})
+	$(".wdgz_info_list li").mouseleave(function(){
+		$(this).stop().children('.wdgz_detail').stop().slideUp(300);
+	})
+	$("#update_bz textarea").focus(function(){
+		$(this).val('');
+	})
+	$('#update_bz').on('hidden.bs.modal', function () {
+    	$("#update_bz textarea").val('备注：应聘反馈：人选待定 ， 应聘职位：事业部总经理（负责乐共享平台对接）。');
+	})
+	$(".check_b").click(function(){
+		if($(this).is(":checked")){
+		$(this).next().css('backgroundImage', 'url({{ STATIC_URL }}images/ck_03.png)');}
+	    else{
+	    $(this).next().css('backgroundImage', 'url({{ STATIC_URL }}images/ck_05.png)');}
+	})
+	$(".wdgz_cal_tree_ul li").mouseover(function(){
+		$(".wdgz_cal_tree_ul li").removeClass('active');
+		$(this).addClass('active');
+	})
+	$(".cal_tree_dd #accordion").mouseout(function(){
+		$(".wdgz_cal_tree_ul li").removeClass('active');
+	})
+	$("#add_btn").click(function(){
+		$(".cyqy_table input[type=text]").val("");
+	})
+	</script>
+</body>
+	</html>

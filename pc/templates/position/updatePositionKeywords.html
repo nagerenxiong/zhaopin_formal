@@ -1,0 +1,268 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/single/jjrsy.css">
+<script src="{{ STATIC_URL }}js/jquery.knob.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<style type="text/css">
+	.page_number li{padding: 0px 10px!important;height:auto!important;border-bottom-style:solid!important;margin-top: 30px;}
+	.mid{padding-bottom:30px;}
+	.grbq li{height:auto;}
+	.content .main .mid .zb .fwpj .pjxq li .pjzp{overflow: hidden;}
+	.content .main .mid .zb .fwpj .pjxq li .pjzp img{width:55px;height:55px;}
+	 .fenxiang {
+    display: none;
+    margin-left: -40px;
+    margin-top: 2px;
+    border: 1px solid #e0e0e0;
+    width: 105px;
+    font-size: 12px;
+    background-color: white;
+    text-align: left;
+    position:absolute;
+    z-index: 999;
+}
+.auditResult2 {
+    float: left;
+    height: 45px;
+    cursor: pointer;
+    line-height: 45px;
+    width: 90px;
+    text-align: center;
+}
+.fenxiang .word {
+    background-color: #f8f8f8;
+    color: #333;
+    cursor: default;
+    padding: 0px 8px;
+    height: 30px;
+    line-height: 30px;
+}
+#tyZn_wrap li.active {
+border: 1px solid #5c91d9;
+border-bottom: none;
+bottom: -2px!important;
+}
+.fenxiang a {
+    display: block!important;
+    height: 45px;
+    line-height: 45px;
+    margin-left: 10px;
+    text-indent: 20px;
+    background-repeat: no-repeat;
+    background-position: left center!important;
+}
+
+.content .main .mid .zb .fbdzw .fbzwjg li .f_l h2 span {
+    color: #f80;
+    margin-left: 10px;
+}
+.content .main .mid .zb .fbdzw .fbzwjg li {
+    height: 0px;
+    padding: 30px 15px;
+    border-bottom: 1px dashed #e0e0e0;
+}
+#fenxiang_box:hover .fenxiang{display:block!important;color:red;}
+.td{border:solid #add9c0; border-width:0px 1px 1px 0px; padding:10px 0px; text-align: center}
+ .table{border:solid #add9c0; border-width:1px 0px 0px 1px;}
+.searchAuditUl{
+    float: right;
+    margin-right: 30px;
+}
+.searchAuditUl li{
+    float: left;
+    padding-left: 10px;
+}
+.search_input {
+    border: 2px solid #5c91d9;
+    height: 36px;
+    line-height: 36px;
+    width: 200px;
+    float: left;
+    text-indent: 10px;
+}
+{
+    height: 36px;
+    line-height: 36px;
+    float: left;
+}
+</style>
+<div class="clear">99</div>
+<div class="content ">
+	<div class="main">
+	<!-- 基本信息 -->
+		<div class="jbxx">
+			<div class="clearfix" style="height:70px;">
+                <h1 style="font-size: 25px">管理员验证用户的信息审核页面</h1>
+
+			</div>
+		</div>
+		<!-- 个人信息编辑 -->
+
+		<!-- 中间导航部分开始 -->
+		<div class="mid clearfix">
+			<!-- 左边 -->
+			<div class="zb" style="    width: 100%;">
+				<ul class="searchAuditUl" style="float: left">
+                    <li>
+                        <div id="positionDiv" onclick="PositionControlsShow(1,this)" style="color: red"></div>
+                        <input type="hidden" name="positionValue" class="positionValue" >
+                    </li>
+{#                    <li><input type="text" placeholder="请输入用户名(TPU)表" name="user_name" class="search_input"></li>#}
+                    <li class="searchAuditButton"><input type="button" value="查  询" onclick="showPositionKeywords()" style="font-size: 16px;width:80px;height:30px;color:white;background-color: #5C91D9;display:block;border-radius: 5px;line-height: 30px;text-align: center;cursor: pointer"></li>
+                </ul>
+				<!-- 正在发布的职位内容 -->
+				<div class="fbdzw" style="margin-top: 60px">
+
+					<ul class="sstj clearfix addPositionUl" style="display: none; float: left">
+					 	<h2></h2>
+						<li  style="width: 250px"><input type="text" placeholder="请输入添加的关键字" name="keyword" class="search_input"></li>
+                        <li class="searchAuditButton">
+                            <input class="addKeywordButton" type="button" value="添  加" onclick="addPositionKeywords()" style="font-size: 16px;width:80px;height:30px;color:white;background-color: #5C91D9;display:block;border-radius: 5px;line-height: 30px;text-align: center;cursor: pointer">
+                        </li>
+					</ul>
+                    <div class="f_l" display="none">
+                    </div>
+					<div class="fbzwjg" style=" align: center">
+                        <table id="positionsPaginBody" class="table">
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        <div class="lthy_pager" id="positionPaginInfo"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<input type="hidden" name="headhuntOrTpc" value="1">
+<input type="hidden" name="auditResult">
+<input type="hidden" name="pcType">
+<script  src="{{ STATIC_URL }}js/lib/ind/layer/layer.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+    // 最上方的选择用户类型d
+    $(".accountTypeUl li").click(function(){
+       $(".accountTypeUl li").removeClass("active");
+        $(this).addClass("active");
+        if($(this).hasClass("publicPositionLi")) {
+            $(".fbdzw").removeClass("dis");
+            $(".fwpj").addClass("dis");
+        } else {
+            $(".fbdzw").addClass("dis");
+            $(".fwpj").removeClass("dis");
+        }
+    });
+    var loadData;
+	$(function() {
+        PositionControls("positionDiv","","",
+                'width:300px;margin-top:5px;height:auto;font-size:14px;');
+
+
+        $(".knob").knob({
+            thickness: .1,
+            fgColor: '#ff8800',
+            bgColor: '#e4e4e4',
+            displayInput: false,
+            readOnly: true
+        });
+
+    });
+
+
+
+    // 展示职位关键字
+    function showPositionKeywords(){
+        var positionValue = $(".positionValue").val();
+        if(positionValue == '') {
+            alert("请选择职位");
+            return false;
+        }
+        $.ajax({
+            async: false,
+            type: 'post',
+            data: {'positionValue': positionValue},
+            url:  '/ajax_showPositionKeywords',
+            dataType: 'json',
+            success: function(data) {
+                if(data == '0') {
+                    alert("错错啦!")
+                } else {
+                    showKeyWordsTable(data, positionValue)
+                }
+            }
+        })
+    }
+
+    //添加关键字
+    function showKeyWordsTable(data, positionValue) {
+
+        $("#positionsPaginBody").empty();
+        var content = '<tr>';
+        content += '    <td class="td">职位名称</td>';
+        content += '    <td class="td">关键字</td>';
+        content += '    <td class="td">修改日期</td>';
+        content += '    <td class="td">删除</td>';
+        content += '</tr>';
+        $(data).each(function(){
+            content += '<tr name="' + this.id + '">';
+            content += '    <td class="td">' + this.positionName + '</td>';
+            content += '    <td class="td">' + this.keywords + '</td>';
+            content += '    <td class="td">' + this.add_date + '</td>';
+            content += '    <td class="td" style="cursor: pointer; color: blue;" onclick="removePositionKeyword(' + this.id +', \'' + this.position + '\')">删除</td>';
+            content += '</tr>';
+        });
+        $("#positionsPaginBody").append(content);
+        $(":input[name=keyword]").val('');
+        $(".addPositionUl").show();
+        $(".addKeywordButton").attr('name', positionValue);
+    }
+
+    // 删除关键字
+    function removePositionKeyword(id, positionValue) {
+        $.ajax({
+            async: false,
+            type: 'post',
+            data: {'id': id, 'positionValue': positionValue},
+            url: 'ajax_removePositionKeyword',
+            dataType: 'json',
+            success: function(data) {
+                if(data == '0') {
+                    alert("错错啦!")
+                } else {
+                    showKeyWordsTable(data, positionValue)
+                }
+            }
+        })
+    }
+
+    // 添加关键字
+    function addPositionKeywords() {
+        var keyword = $.trim($(":input[name=keyword]").val());
+        var positionValue = $(".addKeywordButton").attr('name');
+        var len = $("#positionsPaginBody td:contains('" + keyword + "')").length;
+        if(len > 0) {
+            alert("此关键字已存在此职位列表!");
+            return false;
+        }
+        $.ajax({
+            async: false,
+            type: 'post',
+            data: {'keyword': keyword, 'positionValue': positionValue},
+            url: 'ajax_addPositionKeywords',
+            dataType: 'json',
+            success: function(data) {
+                if(data == '0') {
+                    alert("错错啦!")
+                } else {
+                    showKeyWordsTable(data, positionValue)
+                }
+            }
+        })
+    }
+</script>
+{% include 'jobs/system/new_footer.html' %}

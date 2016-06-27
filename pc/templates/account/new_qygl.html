@@ -1,0 +1,521 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_1441872318_8012588.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/module.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/single/new_qygl.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script  src="{{ STATIC_URL }}js/lib/base/excanvas.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.knob.min.js"></script>
+{# 编辑器引用start #}
+<script type="text/javascript" charset="utf-8" src="{{ STATIC_URL }}ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{ STATIC_URL }}ueditor/ueditor.all.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}ueditor/themes/default/css/ueditor.css"/>
+{# 编辑器引用end #}
+<style>
+	#introduce *{
+		box-sizing:border-box;
+	}
+	.e_i,.e_l{vertical-align: middle;margin:0 2px;}
+	.o_b{display: inline-block;width:13px;height:13px;background: url(/static/images/icon_05.png) no-repeat;}
+	.chebian{position:absolute;top:87px;right:-2px;}
+    .chebian img{width:54px;height:97px;display:block;}
+    .showche{width:141px;height:409px;position:absolute;top:0px;right:0px;display:none;z-index:1000;    
+    background: url(/static/images/new_images/showxiala.jpg) no-repeat;}
+    .ewm{width:117px;margin-left:10px;height:117px;margin-top:258px;border:2px solid #de3d1d;}
+    .cmwz{color:#030303;font-size:11px;text-align: center;margin-top:6px;}
+</style>
+<script>
+$(function(){
+	$("dd.word_content").niceScroll();
+    $('.word_content').html($('#pc_introduce').val().replace(/\n/g,'<br>').replace(/\s/g,"&nbsp;"));
+	if(parseInt(window.location.hash.replace(/#/,"")) == 2){
+		$(".zqzw").show().siblings().hide();
+		$(".content_select li").removeClass('active').eq(1).addClass('active');
+		$(".content_select .slide").css({
+			width: '80px',
+			left: '89px'
+		});
+	}
+		$(".chebian").mouseover(function(event) {
+    	$(".showche").animate({ width: 'show', opacity: 'show' }, 'slow');
+    	$(".chebian").hide();
+    });
+    $(".showche").mouseleave(function(event) {
+    	$('.showche').hide();
+    	$(".chebian").show();
+    });
+    $('.qclose').click(function(event) {
+    	$('.showche').hide();
+    	$(".chebian").show();
+    	// $(".chebian").animate({ width: 'show', opacity: 'show' }, 'slow');
+    });
+})
+
+</script>
+
+<input type="hidden" id="inviteURL" value="{{ pc.activeUrl }}">
+<div class="clear">99</div>
+<div class="o_page" style="position:relative;!important">
+	{% if request.session.account_type == "4" %}
+    <div class="chebian"><img src="/static/images/new_images/erwma.png"></div>
+	<div class="showche">
+		<div class="ewm" id="qrcode">
+         {#             二维码 #}
+		</div>
+		<div class="cmwz">扫描生成企业动态场景</div>
+	</div>
+	{% endif %}
+<!-- 主体头部 start -->
+	<div class="qygl_top">
+	<div class="preview">
+		<div class="head_portrait f_l">
+				<!-- value为圆形进度条的百分比 -->
+				<input class="knob" data-width="170" type="hidden" data-height="170" data-skin="tron" data-displayInput="true" value="{{ pc.integrity }}">
+				<img id="omg" class="tx" style="width:164px; height:164px;border:0;left:3px;top:3px;" src="{{ request.session.file_website }}{{ pc.pc_logo|default:'/static/images/qy_logo.png'}}"  alt="" onerror="notfind(this, 2)">
+				<div class="status">
+					<span>企业信息完整度<b class="integrity">{{ pc.integrity | default:0 }}%</b></span>
+				</div>
+		</div>
+		<div class="f_l company_intro">
+			<h1>
+                {% if pc.pc_name %}
+                    <span title="{{ pc.pc_short_name | default:'' }}" style="font-size: 25px" id="btit">{{ pc.pc_name | default:'' }}</span>
+                {% else %}
+				    <span>{{ pc.pc_short_name | default:'' }}</span>
+                {% endif %}
+                <a href="javascript:void(0);" id="companyUrl" {% if pc.pc_url %}title="{{ pc.pc_url }}"{% else %}style="display: none;"{% endif %}><img src="{{ STATIC_URL }}images/sl.png"></a>
+				<span class="rz">
+                    {% if audit_result == 3 %}
+                        <img src="{{ STATIC_URL }}images/o_v.png" alt="">&nbsp;已认证
+                    {% elif audit_result == 2 %}
+                        &nbsp;审核中
+                    {% else %}
+                        <a href="/scyyzz?pc_id={{ pc.id }}"  style="color:white;">&nbsp;未认证</a>
+                    {% endif %}
+                </span>
+{#				<span class="star">#}
+{#					<i></i>#}
+{#					<i></i>#}
+{#					<i></i>#}
+{#					<i></i>#}
+{#					<i></i>#}
+{#				</span>#}
+                <span class="star">
+                   {% for index in pc.range %}
+                        {% if index < pc.tpcTotalEvaluations %}
+                            <i class="active"></i>
+                        {% else %}
+                            <i></i>
+                        {% endif %}
+                   {% endfor %}
+                </span>
+			</h1>
+			<h2>
+                <dd style="padding-top: 5px;">
+                    {% if pc.short_introduce %}
+                        {{ pc.short_introduce | safe }}
+                    {% endif %}
+                </dd>
+            </h2>
+			<p>继续完善公司产品信息，有助于应聘者更全面了解公司业务
+				<span class="write_info">完善公司主页信息></span>
+				<span class="company_number"><i><</i><b>1</b>/<b>3</b><i>></i></span>
+			</p>
+		</div>
+		<div class="clearfix"></div>
+		<span class="editor"><em class="e_i o_b"></em><label class="e_l">编辑</label></span>
+		</div>
+		<div class="editor_content">
+			<input type="text" id="short_name" class="o_txt"maxlength="12" value="{{ pc.pc_short_name|default:'' }}" placeholder="公司简称,最多12个字" {% if pc.pc_short_name %} {% endif %}>
+			<span class="biaoshi"></span>
+			<input type="text" class="o_txt no_bitian" id="pc_url" value="{{ pc.pc_url|default:'' }}" placeholder="公司网址">
+			<h1>{{ pc.pc_name }}</h1>
+			<input type="text" placeholder="公司简介" id="short_introduce" value="{{ pc.short_introduce|default:'' }}" maxlength="50" class="o_txt" style="width:593px;" onkeyup="changeLength(this, 50)">
+            <span class="biaoshi">(0/<b>50</b>)</span>
+			<button class="o_btn" onclick="saveShortInfo(this)">保存</button>
+			<a href="javascript:void(0)" onclick="o_cancel(this)">取消</a>
+		</div>
+	</div>
+<!-- 主体头部 end -->
+
+<!-- 主体内容 start -->
+	<div class="qygl_main clearfix">
+		<ul class="content_select clearfix">
+			<li class="active" style="text-align: center;">公司主页</li>
+			<li>招聘职位<span>{{ positionCount|default:0 }}</span></li>
+			<li class="slide"></li>
+		</ul>
+		<!-- 左侧内容 start -->
+		<div class="left">
+		<div class="qyzy">
+			<dl>
+				<dt id="gsjs">公司介绍</dt>
+				<div class="preview">
+
+				<dd class="word_content">
+				</dd>
+				<dd style="display: none" class="o_tj editor addgsjs">
+					<p><i class="iconfont icon-jiahao"></i>添加公司介绍</p>
+				</dd>
+
+				<dd class="pic clearfix phoneshow">
+				{% if imageList %}
+					<ul id="viewImages">                        
+                            {% for img in imageList %}
+                                <li><img src="{{ request.session.file_website }}{{ img }}" alt="" onerror="notfindimg(this)"></li>
+                            {% endfor %}                        
+                     </ul>
+                {% endif %}
+					<ol class="zy">
+						<li>
+							<i class="iconfont icon-zuojiantou f_l"></i>
+						</li>
+						<li>
+							<i class="iconfont icon-youjiantou f_r"></i>
+						</li>
+					</ol>
+				</dd>
+				<dd style="display: none" class="o_tj editor addphoto">
+					<p><i class="iconfont icon-jiahao"></i>添加公司照片</p>
+				</dd>
+
+				<dd class="editor" style="top:-35px;">
+					<em class="e_i o_b"></em><label class="e_l">编辑</label>
+				</dd>
+				</div>
+				<div class="editor_content company_js ">
+					<textarea id="introduce" onkeyup="changeLength(this, 500)" maxlength="500"></textarea>
+					<span class="biaoshi f_r" style="margin:5px 0px 0px 0px;">({{ pc.introduce|length }}/<b>500</b>)</span>
+					<h2 class="mt30">添加公司照片，最多可上传3张，已上传<span class="biaoshi">(<b>0</b>/3)</span></h2>
+					{% if imageList %}
+                        {% for img in imageList %}
+                            <div class="o_pic sctp">
+                                <img src="{{ img }}" alt="">
+                                <p>	
+                                	<span class="delete">删除</span><span class="change">更换</span>
+									<i class="mark1"></i>
+                                </p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="o_pic sctp sctp1">
+                            <img src="" alt="">
+                        </div>
+					{% endif %}
+					<div class="o_pic o_pic1 "></div>
+					<button class="o_btn" onclick="saveIntroduce(this)">保存</button>
+					<a href="javascript:void(0)" onclick="o_cancel(this)">取消</a>
+				</div>
+			</dl>
+			
+			<dl class="company_product clearfix">
+				<dt id="gscp">公司产品</dt>
+				<div class="preview" id="productDiv">
+                    {% if productList %}
+                        {% for product in productList %}
+                            <dd>
+                                <input type="hidden" value="{{ product.id }}" />
+                                <div class="img"><img onerror="this.src='{{STATIC_URL}}images/cp_logo.png'" src="{{ product.photo|default:'/static/images/cp_logo.png' }}" alt=""></div>
+                                <h1>{% if product.product_name %}{{ product.product_name|safe }}{% endif %}</h1>
+                                <p>{% if product.introduce %}{{ product.introduce|safe }}{% endif %}</p>
+                                <span class="editor2"><em class="e_i o_b"></em><label class="e_l">编辑</label></span>
+                            </dd>
+                        {% endfor %}
+                    {% endif %}
+					<dd style="display: none" class="o_tj editor">
+						<p><i class="iconfont icon-jiahao"></i>添加公司产品</p>
+					</dd>
+                    <dd class="editor" style="top:-56px;">
+                        <i class="iconfont icon-jiahao"></i>添加
+                    </dd>
+				</div>
+				<div class="editor_content" style="width:671px;">
+					<div class="f_l company_zs">
+						<h2>公司精品介绍，展现公司业务实力。</h2>
+						<div class="o_pic o_pic2 sctp" >
+							<img id="productImage" src="" alt="">
+						</div>
+					</div>
+					<div class="f_r company_cp">
+						<h2>产品名称</h2>
+						<input type="text" id="productName" class="o_txt" maxlength="20">
+						<h2>产品描述</h2>
+						<textarea id="productIntroduce" maxlength="70" onkeyup="changeLength(this, 70)"></textarea>
+						<span class="biaoshi f_r">(0/<b>70</b>)</span>
+						<div class="clearfix"></div>
+						<span class="biaoshi f_r delete_info">删除本条</span>
+					</div>
+					<button id="saveProduct" class="o_btn" onclick="saveProduct(this)">保存</button>
+					<a href="javascript:void(0)" onclick="o_cancel(this)">取消</a>
+					<div class="clearfix"></div>
+				</div>
+			</dl>
+			<dl class="company_area">
+				<dt id="gswz">公司位置</dt>
+				<dd>
+					<div id="allmap"></div>
+					<p class="preview"><span>{{ pc.address|default:'请点击“编辑”维护公司地址' }}</span>
+                        <span class="editor_area"><em class="e_i o_b"></em><label class="e_l">编辑</label></span></p>
+                     <div class="editor_content">
+                     	<input type="text" class="o_txt area_txt" id="address" placeholder="请输入公司地址" value="{{ pc.address|default:'' }}">
+                     	<button class="o_btn" onclick="saveAddress(this)">确定</button>
+                     	<a href="javascript:void(0)" onclick="o_cancel(this)">取消</a>
+                     </div>
+				</dd>
+				<script>
+					$(".editor_area").click(function(event) {
+						$(this).parent().hide().siblings('.editor_content').show();
+					});
+				</script>
+				<!-- <dd class="editor">
+					<i class="iconfont icon-jiahao"></i>添加
+				</dd> -->
+			</dl>
+			</div>
+			<div class="zqzw">
+				<div class="fbdzw">
+				    <ul class="sstj clearfix">
+					 	<h2>职位：</h2>
+						<li class="active">全部</li>
+{#                        {% if positionTypes %}#}
+{#                            {% for positionType in positionTypes %}#}
+{#                                <li>{{ positionType }}</li>#}
+{#                            {% endfor %}#}
+{#                        {% endif %}#}
+					</ul>
+{#					<ul class="sstj clearfix">#}
+{#					 	<h2>职位：</h2>                                 #}
+{#						<li class="active">全部</li>#}
+{#						<li>技术职位</li>#}
+{#						<li>产品经理</li>#}
+{#						<li>网页设计</li>#}
+{#						<li>数据运营</li>#}
+{#					</ul>#}
+					<div class="fbzwjg">
+						<ul id="positionsPaginBody">
+			
+						</ul>
+                        <div id="positionPaginInfo"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 左侧内容 end -->
+
+		<!-- 右侧内容 start -->
+		<div class="right">
+			<div class="company_info">
+				<h1>公司基本信息<span class="editor1"><em class="e_i o_b"></em><label class="e_l">编辑</label></span></h1>
+				<div class="editor_content">
+					<h2>地点</h2>
+                    <input readonly="readonly" type="text" class="o_txt" name="uplocation" id="workAddr" value="{{ pc.locationname|default:'' }}" onclick="showArea(this,1,false)" >
+                    <input type="hidden" name="location" id="areaid" value="{{ pc.location|safe }}" />
+					<h2>规模</h2>
+                    <select name="upscale" class="o_txt" id="scale">
+                        <option value="">请选择</option>
+                        {% for sc in scales %}
+                            {% if sc.dictionary_value != 12110000 %}
+                            <option value="{{ sc.dictionary_value }}"   {% if pc.scale == sc.dictionary_value %} selected="selected" {% endif %}>
+                                {{ sc.dictionary_name }}
+                            </option>
+                            {% endif %}
+                        {% endfor %}
+ 					</select>
+					<h2>性质</h2>
+                    <select name="upnature" class="o_txt" id="nature">
+                        <option value="">请选择</option>
+                        {% for sc in natures %}
+                            <option value="{{ sc.dictionary_value }}"   {% if pc.nature == sc.dictionary_value %} selected="selected" {% endif %}>
+                                {{ sc.dictionary_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+					<h2>行业</h2>
+                    <div id="businessulDiv" class="o_txt" onclick="BusinessulControlsShow(1,this)"></div>
+                    <input id="industry" name="expid" type="hidden" value="{{ pc.business|default:'' }}">
+					<button class="o_btn" onclick="saveCompanyInfo(this)">保存</button>
+					<a href="javascript:void(0)" onclick="o_cancel(this)">取消</a>
+				</div>
+				<p style="background: url('{{ STATIC_URL }}images/qyzy_side.png') no-repeat left 2px;margin-top: 10px;">LV&nbsp;&nbsp;{{ pu.account_level|default:0 }}</p>
+				<p style="background: url('{{ STATIC_URL }}images/qyzy_side.png') no-repeat left -37px;" class="preview">{{ pc.locationname|default:'' }}</p>
+				<p style="background: url('{{ STATIC_URL }}images/qyzy_side.png') no-repeat left -79px;" class="preview">{{ pc.scalename|default:'' }}</p>
+				<p style="background: url('{{ STATIC_URL }}images/qyzy_side.png') no-repeat left -119px;" class="preview">{{ pc.naturename|default:'' }}</p>
+				<p style="background: url('{{ STATIC_URL }}images/qyzy_side.png') no-repeat left -162px;"class="preview">{{ pc.businessname|default:'' }}</p>
+				
+			</div>
+			<div class="highlights">
+				<h1>企业亮点<span class="editor1"><em class="e_i o_b"></em><label class="e_l">编辑</label></span></h1>
+				<ul class="clearfix preview">
+                    {% if labelList %}
+                        {% for label in labelList %}
+                            {% if label != '' %}
+                                <li title="{{ label }}">{{ label }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+				</ul>
+				<div class="editor_content clearfix">
+					<ul id="highlights">
+                        {% if labelList %}
+                            {% for label in labelList %}
+                                {% if label != '' %}
+                                    <li title="{{ label }}">{{ label }}<i class="iconfont icon-cha"></i></li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+					</ul>
+                    <div class="c_5c mt30 cur" style="cursor: pointer;" id="changBtn" onclick="changeLabel()" ><i class="iconfont icon-shuaxin"></i>换一换</div>
+                        <ul class="bq bq1 clearfix mt10 " id="jlTag">
+                        </ul>
+					<span class="biaoshi">最多只能输入8个亮点</span>
+					<h2>输入你公司最吸引人的福利</h2>
+					<input type="text" class="o_txt" maxlength="4"><button class="b_btn tieshang" style="width:45px!important;height:38px!important;padding:0px 0px!important;">贴上</button>
+					<button class="o_btn" onclick="saveHighlights(this)">保存</button>
+					<a href="javascript:void(0)" onclick="o_cancel(this)">取消</a>
+				</div>
+			</div>
+			<script>
+				$(".tieshang").click(function(event) {
+                    if($('#highlights').children('li').length > 7){
+                        window.alert('最多添加8个标签');
+                        return;
+                    }
+                    var highheight = $.trim($(this).prev().val());
+                    if(highheight == ''){
+                        window.alert('请填写企业亮点，最多4个字');
+                        return;
+                    }
+                    var liList = $('#highlights').children('li');
+                    for(var m = 0;m < liList.length;m++){
+                        if($.trim(liList.eq(m).text()) == highheight ){
+                            window.alert('你已添加该企业亮点，无需再添加');
+                            return;
+                        }
+                    }
+					$('#highlights').append("<li>"+$(this).siblings('input').val()+"<i class='iconfont icon-cha'></i></li>")
+					$('.o_txt').val('');
+				});
+				$(".highlights .editor_content").on('click', 'li i', function(event) {
+					$(this).parent().remove();
+				});
+			</script>
+			<dl class="b jl_upload" >
+                <dd >
+                    <div class="active">
+                    	<a href="#gsjs">
+                        	公司介绍
+                        	<i class="iconfont icon-ditu"></i>
+                        </a>
+                    </div>
+                    <div>
+                    	<a href="#gscp">
+                        	公司产品
+                        	<i class="iconfont icon-ditu"></i>
+                        </a>
+                    </div>
+                    <div>
+                    	<a href="#gswz">
+                        	公司位置
+                        	<i class="iconfont icon-ditu"></i>
+                        </a>
+                    </div>
+                </dd>
+            </dl>
+			
+		</div>
+		<!-- 右侧内容 end -->
+	</div>
+<!-- 主体内容 end -->
+</div>
+<input type="hidden" id="pc_id" value="{{ pc.id }}" />
+<input type="hidden" id="business" value="{{ pc.business }}" />
+<input type="hidden" id="businessname" value="{{ pc.businessname|default:'' }}" />
+<input type="hidden" id="pc_images" value="{{ pc.pc_images }}" />
+<input type="hidden" id="operateId" />
+<input type="hidden" id="urlPath" value="{{ pc.pc_url|default:'' }}" />
+<input type="hidden" id="pc_introduce" value="{{ pc.introduce|safe }}" />
+<div style="display: none;" id="clx" >
+<div id="photoBox" >
+    
+</div>
+<div class="o_close" style="position: absolute; bottom: 82px; right: 34px; height: 27px; line-height: 27px; width: 64px; z-index: 1; cursor: pointer;"></div>
+</div>
+<div style="display: none;" id="clx1" >
+<div id="photoBox1" >
+    
+</div>
+<div class="o_close1" style="position: absolute; bottom: 82px; right: 34px; height: 27px; line-height: 27px; width: 64px; z-index: 1; cursor: pointer;"></div>
+</div>
+<!-- <input type="button" name="" value="上传图片" onclick="photoUploader1()">
+<div id="avatar_priview"></div>
+ -->
+
+
+{% include 'jobs/system/new_footer.html' %}
+<script src="{{ STATIC_URL }}js/xiuxiu.js" type="text/javascript"></script>
+<!-- <script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script> -->
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+<!-- <script type="text/javascript" src="{{ STATIC_URL }}js/uploader/photo.js"></script>
+<script type="text/javascript">
+	function photoUploader1(){
+		var photoUploader2=new photoUploader();
+		photoUploader2.open();
+	}
+</script> -->
+
+
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}appJs/account/new_qygl.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=dG44joucgDmPp7aWmNd9F4WU"></script>
+<script type="text/javascript" src="http://www.luqidong.com/demo/qrcode/js/qrcode.js"></script>
+<script type="text/javascript">
+      var qrcode = new QRCode(document.getElementById("qrcode"), {
+          width : 116,//设置宽高
+          height : 116
+      });
+      qrcode.makeCode(document.getElementById("inviteURL").value);
+</script>
+
+<script type="text/javascript">
+     var btit= $.trim($('#btit').text());
+        if(btit == "江西林垦科技有限公司" || btit == "博能集团" || btit == "江西优联投资发展有限责任公司" || btit == "星火众创空间运营管理有限公司" || btit == "江西互联智园商业运营管理集团公司"){
+            $('.content_select li').eq(0).text($('.content_select li').eq(0).text().substring(2, 4)).css('width', '64px');
+            $('.company_info h1').text($('.company_info h1').text().substring(2, 8));
+            $('.highlights h1').text($('.highlights h1').text().substring(2, 8));
+            $('#gsjs').text($('#gsjs').text().substring(2, 4));
+            $('#gscp').text($('#gscp').text().substring(2, 4));
+            $('#gswz').text($('#gswz').text().substring(2, 4));
+            var html='';
+            html +='<dd><div class="qyylti1 active"><a href="#gsjs">介绍<i class="iconfont icon-ditu"></i>';
+            html +='</a></div><div class="qyylti2"><a href="#gscp">产品<i class="iconfont icon-ditu"></i>';
+	        html +='</a></div><div class="qyylti3"><a href="#gswz">位置<i class="iconfont icon-ditu"></i></a></div></dd>';
+            $('.jl_upload').html(html); 
+        }
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");          
+	var local = new BMap.LocalSearch(map, {
+		pageCapacity: 1,
+		renderOptions:{map: map}
+	});
+	map.clearOverlays();
+	local.search($("#allmap").siblings('p.preview').children('span').eq(0).text());
+	
+	// var ue_introduce = UE.getEditor('introduce', {
+ //        toolbars: [
+ //            [ 'undo', 'redo','bold', 'italic', 'underline',
+ //            'fontborder','fontfamily', 'fontsize', 'strikethrough', 'superscript', 'subscript', 'removeformat',
+ //            'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor',
+ //            'selectall', 'cleardoc']
+ //        ],
+ //        wordCount:true, //字数统计
+ //        maximumWords:500, //字数限制
+ //        initialFrameHeight:200, //默认高度
+ //        elementPathEnabled:false, //关闭元素路径
+ //        enableAutoSave: false, //关闭自动保存
+ //        zIndex:1 //编辑器层级
+ //    });
+</script>

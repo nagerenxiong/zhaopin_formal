@@ -1,0 +1,874 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/style2.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul_old.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position_old.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/major.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/isIdentityAudit.js"></script>
+<script style="text/javascript">
+$(function(){
+
+    BusinessulControls("businessulDiv","","", 'width:300px;margin-top:5px;height:auto;font-size:14px;');
+    PositionControls("positionDiv","","",'width:300px;margin-top:5px;height:auto;font-size:14px;', true);
+
+    // 搜索猎头拼凑条件
+    $(":button[name=searchButton]").click(function(){
+        var i = 0;
+        var sql = '';
+        var description = $(":input[name=description]").val();
+        if(description == "请输入您查找的关键词"){
+            description = "";
+        }
+        sql += '(descriptions like "%' + description + '%" or real_name like "%' + description + '%") and ';
+        var areaValue = $(":input[name=areaValue]").val();
+        if(areaValue != ""){
+            sql += '(';
+            var areaValues = areaValue.split(",");
+            for(i; i < areaValues.length; i ++){
+                sql += 'location=' + areaValues[i] + ' or ';
+                sql += 'location in (select dictionary_value from T_SYS_Dictionary where p_value="'+areaValues[i]+'") or ';
+            }
+            sql = sql.substring(0, sql.length - 3) + ') and ';
+        }
+        var business = $(":input[name=businessulValue]").val();
+        if(business != ""){
+            sql += '(';
+            var businesses = business.split(",");
+            for(i = 0; i < businesses.length; i ++ ){
+                sql += 'business="' + businesses[i] + '" or '
+            }
+            sql = sql.substring(0, sql.length - 3) + ') and ';
+        }
+        var post = $(":input[name=positionValue]").val();
+        if(post != ""){
+            sql += '(';
+            var posts = post.split(",");
+            for(i = 0; i < posts.length; i ++ ){
+                sql += 'post like "%' + posts[i] + '%" or '
+            }
+            sql = sql.substring(0, sql.length - 3) + ') and ';
+        }
+        var Work_Year = $(":input[name=working_time]").val();
+        if(Work_Year == ""){                                     // 不限
+            sql += ' working_time like "%"';
+        }else{
+            sql += ' working_time like "' + Work_Year + '" ';
+        }
+        sql += ' and (Audit_Result=3) order by id desc';
+        loadData = new pagin("paginInfo", "V_PU_HeadHunt", "", encodeURI(sql), "", 6, "paginBind", "loadData");
+    })
+    $(":button[name=searchButton]").click();
+});
+// 分页
+function paginBind(dataInfo) {
+   if(dataInfo[0]==null){
+            $("#tableInfo").empty()  
+            var content='<p class="no-mes">搜索结果为空，请重新选择</p>';
+            $("#tableInfo").append(content);
+            $("#paginInfo").css("display","none");
+            return;
+      }
+    $("#tableInfo").empty();
+    $("#articleInfo").empty();
+    var validStatus = $("#validStatus").val();
+    $(dataInfo).each(function (i) {
+        // 处理值为 null 的字段
+        var len = $(this).length;
+        var array = $(this);
+        for(var n = 0; n < len; n ++){
+            if(array[n] == null){
+                array[n] = "&nbsp;"
+            }
+        }
+        if($.trim(array[15]) == "")
+            array[15]="null";
+        var sex = '男';
+        //给经纪人加性别，从身份证中抓取
+        if($.trim(array[3]) != '' && $.trim(array[3]).length == 18){
+            var sexValue = array[3].charAt(16);
+            if(parseInt(sexValue) % 2 == 0){
+                sex = '女';
+            }
+        }
+        var content = '';
+        content += '<div class="jlmp12 m10" style="height:210px"><div class="jlmp1_k12" style=" height:165px"><div class="mpLe2"><div class="mpxp">';
+        content += '<img src="' + array[15] + '" width="88" height="88" border="0" align="absmiddle" onclick="watchHeadhuntInfo(' + array[1] + ')" style="cursor: pointer;" onerror="notfind(this, 3, \''+sex+'\')"></div>';
+
+        if(array[25] == "3"){
+            content += '<div class="hr_mpqzxx mt6 fz14" style="text-align:center;background:#5c91d9;border-radius:3px">';
+            content += '    <span style="color:white">';
+            content += '        <i class="iconfont icon-renzhengv2" style="margin-right:5px;"></i>';
+            content += "已认证"
+        } else {
+            content += '<div class="hr_mpqzxx mt6 fz14" style="text-align:center;background:#999;border-radius:3px;">';
+            content += '    <span style="color:white">';
+            content += '        <i class="iconfont icon-renzhengv2" style="margin-right:5px;"></i>';
+            content += "未认证"
+        }
+
+        content += '    ';
+        content += '    </span>';
+        content += '</div>';
+        content += '<div class="hr_mpqzxx   fz12" style="text-align:center;padding:5px 0;width:108px;margin-left:-10px">【'+array[21]+'】</div></div><div class="mpRi2"><ul><li class="c3">'
+        content += '<b class="fz16 fn fb" style="vertical-align: middle; cursor: pointer;" onclick="watchHeadhuntInfo(' + array[1] + ')">' + array[2] + '</b>';
+{#        content += '<img src="/static/images/level' + array[26] + '.png" width="26" height="20" style="vertical-align: middle;margin: 0 10px"/>';#}
+        content += '<span style="color: #FF8800">&nbsp;&nbsp;&nbsp;LV' + array[26] + '&nbsp;&nbsp;&nbsp;</span>[&nbsp;';
+        content +=  array[18];
+        content +=  '&nbsp;]</li>';{% comment %}'<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>' + $(this)[21] +{% endcomment %}
+        content += '<li class="fz12 c3">' + array[16] + '</li>';
+        // content += '<li class="fz12 c3">' + array[19] + '</li>';
+        var business = array[19];
+        var bs = business.split(",");
+        for(var i = 0; i < 3; i ++){
+            if(bs[i] != null && bs[i] != "")
+                content += '<li class="fz12 c3" style="height:23px">' + bs[i] + '</li>';
+            else
+                content += '<li class="fz12 c3" style="height:23px"></li>';
+        }
+        content += '<li class="fz14 pt4"><span style="vertical-align: middle;">好评:</span>';
+        var strs = 5;
+        if(array[24] != '&nbsp;'){
+           var strs = Math.round(array[24]);
+            evaluationValue = array[24];
+        } else {
+            evaluationValue = '5.0'
+        }
+        for(var i = 1; i <= 5; i ++){
+            if(i <= strs){
+                content += '<img src="{{ STATIC_URL }}images/star.png" width="21" height="21" border="0" align="absmiddle">'
+            }else{
+                content += '<img src="{{ STATIC_URL }}images/star1.png" width="21" height="21" border="0" align="absmiddle">'
+            }
+        }
+        content += '</i><i class="fn fz14" style="color:#666;display:none;">' + evaluationValue + '</i></li></ul></div></div><div class="jlmp1_k2"></div>'
+        content += '<div class="jlmp1_k3"><div class="gnaj_Le"><input name="input" type="checkbox" value="' + array[1] + '"></div><div class="gnaj_Ri" id="isAttentioned' + array[1] + '">';
+        var tpu_id = array[1];
+        var name = array[2];
+        $.ajax({
+                type: "post",
+                url: "/ajax_showAttentionState",
+                data: {"tpu_id": tpu_id},
+                dataType: "json",
+                async: false,
+                success: function(data){
+                if(data.msg == "success"){
+                    if(validStatus  == "3" ) {
+                        content += '<input type="button" value="取消关注" class="gnanys attentioned" name=' + tpu_id + ' data-toggle="modal" data-target="#gz_Modal" onclick="attentionedClick(this)">';
+                        content += '<input type="button" value="私信"  name=' + tpu_id + ' class="gnanys sendMessage" onclick="sendPersonalMessage(this)">';
+                        content += '<input type="hidden" name="' + name + '">';
+                    } else {
+                        content += '<input type="button" value="取消关注" class="gnanys" onclick="doAlertToAudit(' + validStatus + ')">';
+                        content += '<input type="button" value="私信" class="gnanys" onclick="doAlertToAudit(' + validStatus + ')">';
+                    }
+
+                } else {
+                    if(validStatus  == "3" ) {
+                        content += '<input  type="button" value="关注" class="gnanys attentioned" name=' + tpu_id + ' data-toggle="modal" data-target="#gz_Modal" onclick="attentionedClick(this)">';
+                        content += '<input type="button" value="私信"  name=' + tpu_id + ' class="gnanys sendMessage" onclick="sendPersonalMessage(this)">';
+                        content += '<input type="hidden" name="' + name + '">'
+                    } else {
+                        content += '<input  type="button" value="关注" class="gnanys" onclick="doAlertToAudit(' + validStatus + ')">';
+                        content += '<input type="button" value="私信" class="gnanys" onclick="doAlertToAudit(' + validStatus + ')">';
+                    }
+
+                }
+            }
+        });
+        content += '</div></div><div class="jlmp1_k4"></div></div>';
+        $("#tableInfo").append(content);
+    })
+}
+
+
+//全选事件
+function checkAllClick(obj){
+    var checkboxes = $("#tableInfo input[type='checkbox']");
+    if($(obj).is(":checked")){
+         for(var i = 0;i<checkboxes.length;i++){
+            checkboxes[i].checked=true;
+        }
+    }else{
+        for(var i = 0;i<checkboxes.length;i++){
+            checkboxes[i].checked=false;
+        }
+    }
+}
+$(function(){
+    if($(".searchHeadhuntUl li").length<1){
+        $(".wbdss").css("display","none");
+    }
+
+});
+// 删除快捷搜索名
+function delSearchCondition(obj){
+    if($(".searchHeadhuntUl li").length<2){
+        $(".wbdss").slideUp(300);
+    }
+    var id = $(obj).parent().find("div:first").attr("id");
+    $.ajax({
+        type: "post",
+        url: "/ajax_searchConditionDel",
+        data: {"id": id},
+        dataType: "json",
+        success: function(data){
+            if(data.msg == "success"){
+               $("#" + id + "").parent().remove();
+               var $searchId = $(":input[name=searchId]");
+                if($searchId.val() == id){
+                    $searchId.val("");
+                    $("#interViewReason").val("");
+                }
+            }else{
+                alert("发生内部错误",2)
+            }
+        }
+    })
+}
+
+// 显示快捷保持信息
+function showSearchDetail(obj){
+    var id = $(obj).attr("id");
+    $.ajax({
+        type: "post",
+        url: "/ajax_showCondition",
+        data: {"id": id},
+        dataType: "json",
+        success: function(data){
+            if(data.msg == "success"){
+                $(":input[name=searchId]").val(id);
+                $(":input[name=description]").val(data.keyword);
+                $(":input[name=areaValue]").val(data.location);
+                $("#area").val(data.locationname);
+                if(data.working_time != '')
+                    $("select[name=working_time]").find("option[value=" + data.working_time + "]").attr("selected", "true");
+                var businessName = data.businessname == null? '': data.businessname;
+                var business = data.business == null? '': data.business;
+                var postname = data.postname == null? '': data.postname;
+                var post = data.post == null? '': data.post;
+                $(":input[name=businessulValue]").val(business);
+                $(":input[name=positionValue]").val(post);
+                $("#interViewReason").val(data.search_name);
+
+                $('#BusinessulControls').remove();
+                $('#PositionControls').remove();
+
+                $('businessulDiv').children(':gt(0)').remove();
+                $('positionDiv').children(':gt(0)').remove();
+
+
+                BusinessulControls("businessulDiv", businessName, business,
+                            'width:300px;margin-top:5px;height:auto;font-size:14px;');
+                PositionControls("positionDiv", postname, post,
+                        'width:300px;margin-top:5px;height:auto;font-size:14px;', true);
+            }
+        }
+    })
+}
+
+// 保存快捷搜索名
+function saveSearchName() {
+    if($(".searchHeadhuntUl li").length > 10){
+        alert("最多保存10条快捷搜索",4);
+        return false;
+    }
+    var searchId = $(":input[name=searchId]").val();
+    var search_name = $("#interViewReason").val();
+    if (search_name == "") {
+        alert("请输入要保存的快捷搜索名",4);
+        return false;
+    }
+    var keyword = $(":input[name=description]").val();
+    if (keyword == "请输入您查找的关键词") {
+        keyword = "";
+    }
+    var location = $(":input[name=areaValue]").val();
+    var business = $(":input[name=businessulValue]").val();
+    var post = $(":input[name=positionValue]").val();
+    var working_time = $(":input[name=working_time]").val();
+    var expected_position = $("#expected_position").val();
+    $.ajax({
+        type: "post",
+        url: "/ajax_headHuntSearchConditionSave",{% comment %}ajax_saveHeadhuntCondition{% endcomment %}
+        data: {"searchId": searchId,"keyword": keyword, "location": location, "business": business, "post": post, "working_time": working_time, "search_name": search_name},
+        dataType: "json",
+        success: function (data) {
+            if (data.msg == "success") {
+                if(searchId != ""){
+                    $("div[id=" + searchId + "]").parent().remove();
+                }
+                var content = '';
+                content += '<li><div class="wbdss_wen" id=' + data.id + ' onclick="showSearchDetail(this)" style="cursor: pointer">' + search_name + '</div>';
+                content += '<span class="del_btn" style="cursor: pointer;display:none"  onclick="delSearchCondition(this)"></span></li>';
+                $(".searchHeadhuntUl").append(content);{% comment %}id=' + data.id + '{% endcomment %}
+                $("#interViewReason").val("");
+                $(".wbdss").slideDown(300);
+            }else{
+                alert("保存失败!",2)
+            }
+        }
+    })
+}
+//期望职位弹框事件
+function positionShow(obj){
+    if($("#businessulValue").val() == ""){
+        alert("请选择行业!",4);
+        return false;
+    }
+    if($('#expected_industry').val() != ''){
+        showPosition(obj,$("#expected_industry").val(),$("#expected_industry").next().val(),5);
+    }else{
+        window.alert('请选择行业！',4);
+    }
+}
+
+
+
+// 发送私信
+function sendMessage(obj){
+    $(":input[name=sendMessageMany]").attr("data-toggle", "");
+    $(":input[name=sendMessageMany]").attr("data-target", "");
+    var letterContent = $('#letterContent').val();
+    if(letterContent == ''){
+        window.alert("请填写私信内容！",4);
+        $(obj).attr('data-dismiss', '');
+        return;
+    }
+    var $labels = $(".message_Modal_box").find("label");
+    if($labels.length == 1){
+        var attentionId = $labels.eq(0).attr("name");
+        $.ajax({
+        type: "POST",
+        url: "/ajax_sendLetter",
+        data: {"attentionId": attentionId, "letterContent": letterContent},
+        dataType: "json",
+        success: function (data) {
+            if (data.msg != 'success') {
+                window.alert(data.msg,4);
+            }else{
+                $(obj).attr('data-dismiss', 'modal');
+                window.alert('发送成功！',1)
+                $("#letterContent").val("")
+            }
+        }
+    })
+    }else{
+        var attentionIds = [];
+        for (var i = 0; i < $labels.length; i ++){
+            attentionIds[i] = $labels.eq(i).attr("name")
+        }
+        $.ajax({
+        type: "POST",
+        url: "/ajax_sendSelected",
+        data: {"attentionIds": attentionIds, "letterContent": letterContent},
+        dataType: "json",
+        success: function (data) {
+            if (data.msg != 'success') {
+                window.alert(data.msg,4);
+            }else{
+                $(obj).attr('data-dismiss', 'modal');
+                window.alert('发送成功！',1)
+                $("#letterContent").val("")
+            }
+        }
+    })
+    }
+
+}
+
+// 发送私信按钮
+function sendPersonalMessage(obj){
+    $("#receiveUser").text(name)
+    var buttonValue = $(obj).val();
+    var names = "";
+    $(".message_Modal_box").empty();
+    if(buttonValue == "批量私信"){
+        var checkboxes = $("#tableInfo input[type='checkbox']:checked");
+        var len = checkboxes.length;
+        if(len <= 0){
+            alert("请选择人才经纪人在进行相应的操作!",4);
+            return false;
+        }
+        for(var i= 0;i<len;i++){
+            var tpu_id = checkboxes.eq(i).val();
+            var huntName = $('#isAttentioned' + tpu_id).find(':hidden:last').attr('name');
+             names += '<span>' + huntName + '<label name=' + tpu_id + '>x</label></span>';
+        }
+    }else{
+        var tpu_id = $(obj).attr("name");
+        names = "<span>" + $(obj).nextAll(":hidden:first").attr("name") + "<label name=" + tpu_id + ">x</label>" + "</span>";
+    }
+    $(".message_Modal_box").append(names);
+    $("label").click(function(){
+        if($("label").length == 1){
+            alert("您不能移除所有的接收人!",4);
+            return false;
+        }
+        $(this).parent().remove();
+    });
+    $(obj).attr("data-toggle", "modal");
+    $(obj).attr("data-target", "#message_Modal");
+}
+
+// 点击关注按钮
+function attentionedClick(obj){
+    var buttonValue = $(obj).val();
+    var positionIds = [];
+    if(buttonValue == "批量关注"){
+        $("#attentionHeadhunt").text("是否确认批量关注这些名片?");
+        var checkboxes = $("#tableInfo input[type='checkbox']:checked");
+        var len = checkboxes.length;
+        if(len <= 0){
+            alert("请选择人才经纪人在进行相应的操作!",4);
+            return false;
+        }
+        $(obj).attr("data-toggle", "modal");
+        $(obj).attr("data-target", "#gz_Modal");
+       for(var i= 0;i<len;i++){
+             positionIds.push(checkboxes.eq(i).val());
+       }
+    } else{
+        var tpu_id = $(obj).attr("name");
+        positionIds.push(tpu_id);
+        if($(obj).val() == '取消关注')
+            $("#attentionHeadhunt").text("是否确认取消关注该名片?");
+        else
+            $("#attentionHeadhunt").text("是否确认关注该名片?")
+    }
+    $(":input[name=tpu_id]").val(positionIds);
+}
+
+// 切换关注状态
+function swapAttentionStatus(){
+    $(":input[name=attentionMany]").attr("data-toggle", "");
+    $(":input[name=attentionMany]").attr("data-target", "");
+    var tpuIds = $(":input[name=tpu_id]").val();
+    var tpuIdsArray = tpuIds.split(",");
+    $.ajax({
+        type: "post",
+        url: "/ajax_attentionedSwap",
+        data: {"tpuIds": tpuIdsArray},
+        dataType: "json",
+        success: function(data){
+            if(data.status == '0') {
+                alert("您已达到关注人数的上限!",4);
+            } else if(data.msg == "error"){
+                alert("发生内部错误",2);
+            // 更新多个关注状态
+            }else if(data.status == 'many'){
+                for( var i = 0; i < tpuIdsArray.length; i ++){
+                    var $button = $(".attentioned[name=" + tpuIdsArray[i] + "]");
+                    $button.val("取消关注");
+                }
+                alert("关注成功!",1);
+            // 更新单个关注状态
+            } else if(data.status == 'one'){
+                if (data.msg == 'noAttentioned'){
+                    $(".p" + tpuIds + "p").text("");
+                    $(".attentioned[name=" + tpuIds + "]").val("关注")
+                }else if (data.msg == 'isAttentioned'){
+                    $(".attentioned[name=" + tpuIds + "]").val("取消关注");
+                    alert("关注成功!",1);
+                }
+            }
+        }
+    })
+}
+// 跳往人才经纪人首页
+function watchHeadhuntInfo(puId) {
+    window.open('/system/ckjjrsy?puid=' + puId, '_blank');
+}
+</script>
+<div class="clear">4</div><div class="clear">1</div>
+<div class="lt_content_box grzy_box">
+
+	<!-- 猎头会员菜单开始 -->
+    <input type="hidden" name="validStatus" id="validStatus" value="{{ validStatus }}">
+	<div class="nav2">
+        <ul id="menu">
+            <li>
+                <a href="zlt">搜索经纪人<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li class="">
+                <a href="yjpp" onclick=" return isIdentityAudit('2,4', '2')">匹配到的经纪人<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li>
+                <a href="hzdlt" onclick=" return isIdentityAudit('2,4', '2')">合作中的经纪人<i class="iconfont icon-xia1"></i></a>
+            </li>
+            <li>
+                <a href="hzgdlt" onclick=" return isIdentityAudit('2,4', '2')">合作过的经纪人<i class="iconfont icon-xia1"></i></a>
+            </li>
+        
+        </ul>
+    </div>
+	<!-- 猎头会员菜单结束 -->
+
+	<div class="clear"></div>
+	<div class="center">
+		<div class="dleft">
+			<div class="ssjg p9 mt25">
+
+			<div class="bkdw"></div>
+			<div class="biaolm m10">
+				<div class="biaot2 fz16">
+					<ul>
+						<li class="bthover">找经纪人</li>
+					</ul>
+				</div>
+			</div>
+			<div class="hr_ltss_k">
+                <input type="hidden" name="searchId">
+				<ul>
+					<li>
+						<div class="liLe">关键词</div>
+						<div class="liRi">
+							<input type="text" class="hr_btk" maxlength="18" name="description" class="hr_btk2"  placeholder="请输入您查找的关键词"></div>
+					</li>
+					<li>
+						<div class="liLe">所在地</div>
+						<div class="liRi">
+                            <input readonly="true" onclick="showArea(this,1)" type="text" name="area" id="area"  placeholder="选择地区" class="hr_btk2"   >
+                            <input type="hidden" value="" name="areaValue">
+                        </div>
+					</li>
+					<li>
+						<div class="liLe">擅长行业</div>
+						<div class="liRi">
+{#							<input onclick="showBusinessul(this,3)" value="" type="text" id="businessulName" name="businessulName"  placeholder="选择行业" class="hr_btk2">#}
+{#                            <input name="" onclick="showBusinessul(this,2)" class="hr_btk2" id="expected_industry" placeholder="请选择行业">#}
+                            <div id="businessulDiv" onclick="BusinessulControlsShow(1,this)"></div>
+                            <input id="businessulValue" name="businessulValue" type="hidden" value="">
+                        </div>
+                    </li>
+					<li>
+						<div class="liLe">从业年数</div>
+						<div class="liRi">
+							<select name="working_time" class="hr_btk1">
+                                <option value="">请选择</option>
+                                {% if workYears %}
+                                    {% for workYear in workYears %}
+                                        <option value="{{ workYear.dictionary_value }}">{{ workYear.dictionary_name }}</option>
+                                    {% endfor %}
+                                {% endif %}
+							</select>
+                        </div>
+					</li>
+					<li>  
+						<div class="liLe">擅长职位</div>
+						<div class="liRi">
+{#							<select name="post" class="hr_btk1">#}
+{#                                <option value="0">请选择职位</option>#}
+{#							</select>#}
+{#                            <input name="" onclick="positionShow(this)" class="hr_btk2" id="expected_position" placeholder="请选择职位">#}
+                            <div id="positionDiv" onclick="PositionControlsShow(3,this)"></div>
+                            <input type="hidden" value="" name="positionValue">
+                        </div>
+					</li>
+{#					<li>#}
+{#						<div class="liLe">区域范围</div>#}
+{#						<div class="liRi">#}
+{#							<input onclick="showArea(this,1)" type="text" name="area" id="area"  placeholder="选择地区" class="hr_btk2"   >#}
+{#                            <input type="hidden" value="" name="location">#}
+{#						</div>#}
+{#					</li>#}
+				</ul>
+			</div>
+			<div class="hr_zjlqran">
+				<input name="searchButton" type="button" class="lt_zltbc fz16" value="搜索经纪人">
+				<input name="saveCondition"type="button" class="lt_zltbctj fz14 ml15" value="保存搜索条件"  data-toggle="modal" data-target="#ms_Modal"></div>
+		</div>
+
+		<!-- 猎头会员搜索结果主内容开始 -->
+			<!-- 猎头会员搜索结果开始 -->
+			<div class="ssjg p9 mt30">
+				<div class="bkdw"></div>
+				<div class="biaolm m10">
+					<div class="biaot2 fz16">
+						<ul>
+							<li class="bthover">搜索结果</li>
+
+						</ul>
+					</div>
+					{% comment %}<div class="qhann">
+						<ul>
+							<li class="sige sigehs fz12"> <i class="iconfont icon-liebiao fsn" style="font-size:24px;"></i>
+								图片列表
+							</li>
+							<li class="sige fz12"> <i class="iconfont icon-list fsn" style="font-size:18px;"></i>
+								文章列表
+							</li>
+						</ul>
+					</div>{% endcomment %}
+				</div>
+				<div class="tjsx m10">
+					<input name="" type="checkbox" value="" id="checkAll" onclick="checkAllClick(this)">
+					<i class="ml5 mr5 fn">全选</i>
+					<input name="attentionMany" type="button" value="批量关注"  class="tjann" onclick="attentionedClick(this)">
+					<input name="sendMessageMany" type="button" value="批量私信" class="tjann" onclick="sendPersonalMessage(this)"></div>
+
+				<!-- 猎头会员搜索结果图片列表开始 -->
+				<div class="tuplb sigenr mt5">
+
+
+                    <div class="tuplb sigenr mt5" id="tableInfo" style="overflow: hidden">
+                    </div>
+                    <div class="wenzlb sigenr mt15" style="display:none" id="articleInfo">
+                    </div>
+                    <div class="lthy_pager" id="paginInfo">
+                    </div>
+                    <div class="clear"></div>
+				</div>
+			</div>
+			<!-- 猎头会员搜索结果结束 -->
+		</div>
+		<!-- 猎头会员搜索结果主内容结束 -->
+
+		<div class="xright mt25" style="margin-bottom: 25px;">
+			<!-- 猎头会员保存的条件开始 -->
+			<div class="wbdss">
+				<div class="wbdss_tou">
+					<i class="iconfont icon-set fsn pl15 cr" style="font-size:24px;"></i>
+					<i class="fn fz16 pl5">我保存的快捷搜索</i>
+				</div>
+				<div class="wbdss_lb">
+					<ul class="searchHeadhuntUl">
+                        {% if vSearchheadhunts %}
+                            {% for vSearchheadhunt in vSearchheadhunts %}
+                                <li>
+                                    <div class="wbdss_wen" id="{{ vSearchheadhunt.id }}" name="{{ vSearchheadhunt.post }}"  onclick="showSearchDetail(this)"  style="cursor: pointer">
+                                        {{ vSearchheadhunt.search_name }}
+                                        <input type="hidden" name="{{ vSearchheadhunt.working_time }}" value="{{ vSearchheadhunt.working_timename }}" id="{{ vSearchheadhunt.keyword }}">
+                                        <input type="hidden" name="{{ vSearchheadhunt.business }}" value="{{ vSearchheadhunt.businessname }}" id="{{ vSearchheadhunt.postname }}">
+                                         <input type="hidden" name="{{ vSearchheadhunt.location }}" value="{{ vSearchheadhunt.locationname }}">
+                                    </div>
+                                    <span class="del_btn" style="cursor: pointer;display:none" id="{{ vSearchheadhunt.id }}"  onclick="delSearchCondition(this)"></span>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+					</ul>
+				</div>
+				<div class="wbdss_foot"></div>
+			</div>
+			<!-- 猎头会员保存的条件结束 -->
+			<!-- 侧边栏 -->
+			<!-- 猎头会员英才举荐开始 -->
+            {% include 'jobs/recommendResume.html' %}
+{#			<div class="yctj mt30">#}
+{#				<div class="bkdw"></div>#}
+{#				<div class="yctj_tou">#}
+{#					<div class="yctj_tou_z fz18 cr">#}
+{#						#}
+{#						<b class="fn c3 pl5">英才举荐</b>#}
+{#					</div>#}
+{#					<div class="yctj_tou_y"></div>#}
+{#				</div>#}
+{#				<div class="yctj_nei">#}
+{#					<div class="yctj_nrlb">#}
+{#						<div class="yctj_nrzp">#}
+{#							<img src="../static/images/mpxp.jpg" width="84" height="84" border="0" align="absmiddle"></div>#}
+{#						<div class="yctj_nrwen">#}
+{#							<b class="fz16">某某求职者</b>#}
+{#							<br>#}
+{#							相关行业#}
+{#							<br>工作年限</div>#}
+{#					</div>#}
+{#					<div class="yctj_nrlb">#}
+{#						<div class="yctj_nrzp">#}
+{#							<img src="/static/images/mpxp.jpg" width="84" height="84" border="0" align="absmiddle"></div>#}
+{#						<div class="yctj_nrwen">#}
+{#							<b class="fz16">某某求职者</b>#}
+{#							<br>#}
+{#							相关行业#}
+{#							<br>工作年限</div>#}
+{#					</div>#}
+{#					<div class="yctj_nrlb">#}
+{#						<div class="yctj_nrzp">#}
+{#							<img src="/static/images/mpxp.jpg" width="84" height="84" border="0" align="absmiddle"></div>#}
+{#						<div class="yctj_nrwen">#}
+{#							<b class="fz16">某某求职者</b>#}
+{#							<br>#}
+{#							相关行业#}
+{#							<br>工作年限</div>#}
+{#					</div>#}
+{#				</div>#}
+{#			</div>#}
+			<!-- 猎头会员英才举荐结束 -->
+			<!-- 侧边栏 -->
+		</div>
+
+		<div class="clear"></div>
+	</div>
+</div>
+
+<!-- 发送私信 -->
+<div class="modal fade" id="message_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog"style="width:610px">
+		<div class="modal-content" >
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel">发送私信</h4>
+			</div>
+			<div class="modal-body t_c">
+				<div class="message_Modal_box">
+				</div>
+				<div class="modal_wdgz mt10">
+					<i class="iconfont icon-iconfontmoban2"></i><p style="display: inline;color: #666;padding-left: 5px; font-size:14px;">信息模板</p>
+					<div class="dialog" style="display:none">
+						<ul class="list" style="  overflow: auto; height: 244px; ">
+                            {% if tmodels %}
+                                {% for tmodel in tmodels %}
+                                    <li>
+                                        <span style="color:#666">{{ tmodel.model_name }}</span>
+                                        <span style="margin-left: 30px;color:#b5b5b5">
+                                            {% if tmodel.content|length > 20 %}
+                                                {{ tmodel.content|slice:"20" }} ...
+                                            {% else %}
+                                                {{ tmodel.content }}
+                                            {% endif %}
+                                        </span>
+                                        <input type="hidden" value="{{ tmodel.content }}"></li>
+                                    <li>
+                                {% endfor %}
+                            {% endif %}
+{#							<li>#}
+{#								<span style="color:#666">职位推荐</span>#}
+{#								<span style="margin-left: 30px;color:#b5b5b5">你好！我们公司是专注于人才服务的，我们在 ...</span>#}
+{#								<input type="hidden" value="你好！我们公司是专注于人才服务的，我们在怀才当遇网站上看到你的信息，希望能对你做进一步了解，如有意向请回复！谢谢！"></li>#}
+{##}
+{#							<li>#}
+{#								<span style="color:#666">拒绝应聘</span>#}
+{#								<span style="margin-left: 30px;color:#b5b5b5">你好！感谢您的应聘，您的简历我已阅。从您 ...</span>#}
+{#								<input type="hidden" value="你好！感谢您的应聘，您的简历我已阅。从您以往经历来看，和这个职位的吻合度不是很高，希望我们能在下一个机会中合作！感谢您的关注，祝事业顺利！"></li>#}
+{##}
+{#							<li>#}
+{#								<span style="color:#666">申请加入企业</span>#}
+{#								<span style="margin-left: 30px;color:#b5b5b5">你好！在怀才当遇上我看到你们公司，我希望 ...</span>#}
+{#								<input type="hidden" value="你好！在怀才当遇上我看到你们公司，我希望能与你们合作，能够加入到你们公司里！"></li>#}
+{##}
+{#							<li>#}
+{#								<span style="color:#666">新建模板</span>#}
+{#								<span style="margin-left: 30px;color:#b5b5b5">uiiuiuiuuiiu</span>#}
+{#								<input type="hidden" value="uiiuiuiuuiiu"></li>#}
+{##}
+{#							<li>#}
+{#								<span style="color:#666">测试</span>#}
+{#								<span style="margin-left: 30px;color:#b5b5b5">进口车市场vwncv</span>#}
+{#								<input type="hidden" value="进口车市场vwncv"></li>#}
+{##}
+{#							<li>#}
+{#								<span style="color:#666">新建模板</span>#}
+{#								<span style="margin-left: 30px;color:#b5b5b5"></span>#}
+{#								<input type="hidden" value=""></li>#}
+{##}
+{#							<li>#}
+{#								<span style="color:#666">新建模板</span>#}
+{#								<span style="margin-left: 30px;color:#b5b5b5"></span>#}
+{#								<input type="hidden" value=""></li>#}
+{##}
+{#							<li>#}
+{#								<span style="color:#666">新建模板</span>#}
+{#								<span style="margin-left: 30px;color:#b5b5b5"></span>#}
+{#								<input type="hidden" value=""></li>#}
+{##}
+{#							<li>#}
+{#								<span style="color:#666">新建模板</span>#}
+{#								<span style="margin-left: 30px;color:#b5b5b5"></span>#}
+{#								<input type="hidden" value=""></li>#}
+
+						</ul>
+						<div class="t_c">
+							<input type="button" name="" class="re_btn" value="确认">
+							<input type="button" name="" class="qx_btn ml15" value="取消"></div>
+					</div>
+				</div>
+				<div class="message_Modal_box1 mt10">
+					<textarea name="" style="resize:none;color:#666" id="letterContent" placeholder="请输入私信内容"></textarea>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" style="background:#5c91d9" id="send" onclick="sendMessage(this)" >发送</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+</div>
+
+<!-- 面试模态框（Modal） -->
+<div class="modal fade" id="ms_Modal" tabindex="-1" role="dialog"
+aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:300px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">快捷搜索</h4>
+            </div>
+            <div class="modal-body t_c" style="text-align: left;">快捷搜索名称:<div><textarea name="search_name" id="interViewReason" cols="30" rows="4" style="width: 270px;resize: none;"></textarea></div></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="sureInterview" onclick="saveSearchName()">确认</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+    <!-- /.modal -->
+    <!-- 模态框（Modal） -->
+
+
+<div class="modal fade" id="gz_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog"style="width:300px">
+		<div class="modal-content" >
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel">关注</h4>
+			</div>
+			<div class="modal-body t_c" id="attentionHeadhunt">是否确认关注该名片？</div>
+			<div class="modal-footer ta-c">
+				<input type="hidden" id="cancelId" value="19">
+				<input type="hidden" id="cancelGroupId" value="136">				
+				<button type="button" class="btn btn-primary" data-dismiss="modal" id="attentionClick" onclick="swapAttentionStatus()">确认</button>
+                <button type="button" class="btn-qx m-l5" data-dismiss="modal" style="width:auto;height:auto">关闭</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+</div>
+<input type="hidden" name="tpu_id">
+<input type="hidden" name="messageReceiveId">
+<input type="hidden" id="initData" value="{{ condition }}" />
+<script type="text/javascript">
+    var condition = $('#initData').val();
+    $('.hr_btk').val(condition);
+
+    //======= 信息模版
+    $(".icon-iconfontmoban2").click(function(){
+        $(".dialog").show();
+    })
+    $(".qx_btn").click(function(){
+        $(".dialog").hide();
+    })
+    $(".dialog li").click(function(){
+        $(".dialog li").removeClass('active');
+        $(this).addClass('active');
+    })
+    $(".dialog li").dblclick(function(){
+         confirms.call(this);
+    })
+    $(".modal_wdgz .re_btn").click(function(){
+        confirms.call(this);
+    })
+    function confirms(){
+        $("#letterContent").val($(".dialog li.active").children('input').val());
+        $(this).parent().parent().hide();
+    }
+</script>
+{% include 'jobs/system/new_footer.html' %}

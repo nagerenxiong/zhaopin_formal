@@ -1,0 +1,137 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/new_agent.css">
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/css.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/module.css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/reset.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/basic.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style2.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_cj.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/pages.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css" type="text/css">
+<script  src="{{ STATIC_URL }}js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/major.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position_all.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/forwardresume.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/inviteDialog.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/interview.js"></script>
+<script  src="{{ STATIC_URL }}js/lib/ind/layer/layer.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/bootstrap.min.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/loginDialog/loginDialog.js"></script>
+<script src="{{ STATIC_URL }}appJs/system/new_broker_search.js" type="text/javascript" charset="utf-8"></script>
+{% if request.session.account_type == "1" %}
+<div class="clear">3</div>
+{% else %}
+<div class="clear">4</div>
+{% endif %}
+<img src="/static/images/new_images/fcshow.png" alt="" class="super_nat">
+<div class="suspend_sea"> 
+    <div class="opa"></div>
+    <div class="conts">
+        <div class="sus_sea">
+            <input type="text" class="commsea" placeholder="请输入经纪人姓名、擅长行业等关键字，并用空格隔开" id="condition1" style="float:left;vertical-align: top;" onkeydown="judgeEntry(event)" maxlength="50">
+            <a href="javascript:void(0);" onclick="queryData()">搜索</a> </div>
+        <div id="res_des1">
+            <div class="sere_nav"> 
+                <div class="result_left"> 共有 <span id="resultCount1">0</span>名 经纪人 </div>
+                <div class="broker_cate1">
+                    <ul>
+                        <li class="active" onclick="changeOrderType('Entrust_Count desc, Account_Level desc, Evaluation_Count')"><span class="zhsort">综合排序</span></li>
+                        <li onclick="changeOrderType('Account_Level')"><span class="zgrade">等级</span></li>
+                        <li onclick="changeOrderType('evaluation')"><span class="serveeva">服务评价</span></li>
+                        <li onclick="changeOrderType('deal_time')"><span class="respspeed">响应速度</span></li>
+                        <li onclick="changeOrderType('Working_Time')"><span class="workexp">工作经验</span></li>
+                        <li onclick="changeOrderType('Entrust_Count')"><span class="acceptcom">接收委托</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main">
+    <div class="search_con">
+        <div class="seach_des">
+            <div class="gsss_r_t1">
+                <input class="ss_input commsea" type="text" placeholder="请输入经纪人姓名、擅长行业等关键字，并用空格隔开" id="condition" value="{{ condition }}" style="float:left;vertical-align: top;" onkeydown="judgeEntry(event)" maxlength="50">
+                <a class="ss_anniu" href="javascript:void(0);" onclick="queryData()">搜索</a> </div>
+        </div>
+        <div class="sctop">
+            <div class="choice_area"><span class="chtit">所在地区：</span>
+                <div class="liRi">
+                    <input onclick="showArea(this,1)" type="text" name="area" id="area"  placeholder="选择地区" class="hr_btkarea"  readonly="true"  >
+                    <input type="hidden" value="" name="areaValue" id="areaValue">
+                </div>
+            </div>
+            <div class="Emprows"><span class="chtit">从业年数：</span>
+                <div class="expect_pay">
+                    <p class="claim_p " data-value="" style="background: none;">请选择 <img src="/static/images/new_images/xjt.png" alt="" class="claim_img"></p>
+                    <ul class="xl_comm">
+                        <li value="">不限</li>
+                        {% if workYears %}
+                            {% for workYear in workYears %}
+                                {% if workYear.dictionary_value != 12050000 %}
+                                    <li value="{{ workYear.dictionary_value }}">{{ workYear.dictionary_name }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="choice_area"><span class="chtit">擅长行业：</span>
+                <div id="businessulDiv1" class="" onclick="BusinessulControlsShow(3,this)" style="width:445px;margin-top:5px;height:auto;font-size:14px;">
+                    <dl style="height:25px;float:left">
+                    </dl>
+                    <span style="color:#999">请选择行业</span></div>
+                <input id="businessulValue" name="businessulValue" type="hidden" value="">
+            </div>
+           <div class="choice_area"><span class="chtit">擅长职位：</span>
+                <div id="positionDiv"  onclick="PositionControlsShow(3,this)" style="width:445px;margin-top:5px;height:auto;font-size:14px;">
+                    <dl style="height:25px;float:left">
+                    </dl>
+                    <span style="color:#999">请选择职位</span></div>
+                <input type="hidden" value="" name="positionValue" id="positionValue">
+            </div>
+        </div>
+        <div id="res_des">
+            <div class="sere_nav">
+                <div class="result_left"> 共有 <span id="resultCount">0</span>名 经纪人 </div>
+                <div class="broker_cate">
+                    <ul>
+                        <li class="active" onclick="changeOrderType('Entrust_Count desc, Account_Level desc, Evaluation_Count')"><span class="zhsort">综合排序</span></li>
+                        <li onclick="changeOrderType('Account_Level')"><span class="zgrade">等级</span></li>
+                        <li onclick="changeOrderType('evaluation')"><span class="serveeva">服务评价</span></li>
+                        <li onclick="changeOrderType('deal_time')"><span class="respspeed">响应速度</span></li>
+                        <li onclick="changeOrderType('Working_Time')"><span class="workexp">工作经验</span></li>
+                        <li onclick="changeOrderType('Entrust_Count')"><span class="acceptcom">接收委托</span></li>
+                    </ul>
+                </div>
+                <div class="page_right">
+                    <i class="left_icon" onclick="pageTurn('up')" style="cursor: pointer;"></i>
+                    <span>0</span> /&nbsp;<em>0</em>
+                    <i class="right_icon" onclick="pageTurn('down')" style="cursor: pointer;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="info_list">
+        <ul id="tableInfo">
+        </ul>
+        <div id="noSendData_library" class="noSendData" style="display: none;">
+            <div>
+                    <p>暂时没有符合条件的记录！</p>
+            </div>
+        </div>
+    </div>
+    <div id="paginInfo" class="lthy_pager mabt" style="margin-top:40px;padding-bottom:30px;">
+    </div>
+</div>
+
+<input type="hidden" id="sourceId" />
+<input type="hidden" id="initData" value="{{ condition|default:'' }}" />
+<input type="hidden" id="pu_id" value="{{ pu.id }}" />
+{% include 'jobs/system/new_footer.html' %} 

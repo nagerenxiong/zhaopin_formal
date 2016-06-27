@@ -1,0 +1,691 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+
+<div class="clear">99</div>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+	<!-- 内容大框 -->
+	<div class="lt_content_box">
+		<!-- 猎头会员菜单 -->
+{#		<ul class="nav nav-tabs center nav_min">#}
+{#			<li>#}
+{#				<a href="#">个人信息</a>#}
+{#			</li>#}
+{#			<li>#}
+{#				<a href="#">收款账号</a>#}
+{#			</li>#}
+{#			<li>#}
+{#				<a href="#">账号绑定</a>#}
+{#			</li>#}
+{#			<li>#}
+{#				<a href="#">修改密码</a>#}
+{#			</li>#}
+{#			<li>#}
+{#				<a href="#">简历接收邮箱</a>#}
+{#			</li>#}
+{#			<li>#}
+{#				<a href="#">信息模板设置</a>#}
+{#			</li>#}
+{#		</ul>#}
+		<!-- 猎头会员菜单 -->
+		<div class="center clearfix">
+			<!-- 修改个人信息 -->
+			<div class="f_l" style="width:710px;">
+				<div class="grxx_info_box f_l " style="_width:630px;padding-bottom: 40px">
+					<div class="grxx_info_t"style="margin-top: 40px">
+						<div class="grxx_pic_box"  >
+							<div class="clearfix" style="height:147px">
+                                {% if headHunter.head_portrait %}
+								    <img src="{{ headHunter.head_portrait }}" name="photo" style="width: 160px;height: 160px;" alt="" class="f_l" >
+								{% else %}
+                                    <img src="{{ forpu.head_portrait|default:'' }}" name="photo" style="width: 160px;height: 160px;" alt="" class="f_l" >
+								{% endif %}
+                                <dl class="f_l ml25" >
+									<dt>
+										<span class="f_bold fz20">{{ forpu.user_name }}</span>
+                                        {% if validState == '3' %}
+                                            <i class="iconfont icon-renzhengv2 fz18 c_c8 ml15"></i>
+                                            <span class="grxx_tag_b">认证猎头</span>
+                                        {% endif %}
+									</dt>
+									<dd>
+										{{ forpu.pc_name }}
+									</dd>
+									<dd class="mt10 fz12">
+										<span>擅长行业:</span>
+                                        <input type="hidden" id="bisId" />
+										<span id="bis">{{ headHunter.business|default:'' }}</span>
+									</dd>
+									<dd class="mt10 fz12">
+										<span>擅长职能:</span>
+                                        <input type="hidden" id="jobId"/>
+										<span id="job">{{ headHunter.post|default:'' }}</span>
+									</dd>
+								</dl>
+							</div>
+							<div class="grjj_box mt20">
+								{{ forpu.introduction }}
+								<div class="grjj_border_l"></div>
+								<div class="grjj_border_r"></div>
+							</div>
+							<ul class="grxx_tag_box clearfix mt20 oh"  >
+                                {% if labelList %}
+                                    {% for label in labelList %}
+                                        {% if label != '' %}
+                                            <li>{{ label }}</li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+							</ul>
+						</div>
+
+
+						<div class="left_top_border"></div>
+					</div>
+				</div>
+				<div style="clear: both"></div>
+				<div class="grxx_info_b mt20" style="height: auto">
+					<div class="bd_bottom1">
+{#						<a class="f_r c_33" href="#" style="vertical-align: middle">more+</a>#}
+						<span class="fz18 c_33" style="clear:right;vertical-align: middle">正在运作的职位</span>
+					</div>
+					<ul class="grxx_info_ul" id="table2" style="overflow:hidden">
+					</ul>
+					<div class="lthy_pager"  id="fypage2">
+					</div>
+					<div class="left_top_border"></div>
+				</div>
+				<div class="grxx_info_b mt20" style="overflow:hidden;height:auto;width: auto" >
+					<div class="bd_bottom1">
+						<span class="fz18 c_33" style="clear:right;vertical-align: middle;color:#cb2735">用户评价</span>
+					</div>
+					<ul class="grxxfw_ul" id="table1">
+
+					</ul>
+					<div class="lthy_pager" id="fypage1">
+
+					</div>
+					<div class="left_top_border"></div>
+				</div>
+			</div>
+			<!-- 修改个人信息 -->
+			<!-- 侧边栏 -->
+			<div class="grxx_sidebar f_r">
+			     <ul class="grxxfw_ul1 clearfix ">
+                 <input type="hidden" id="forpuid" value="{{ forpu.id }}" />
+                 <input type="hidden" id="puname" value="{{ pu.user_name }}" />
+                 <input type="hidden" id="puid" value="{{ pu.id }}" />
+			    	<li><i class="iconfont icon-guanzhu" data-toggle="modal" data-target="#is_gz_Modal"></i><br>关注</li>
+			    	<li><i class="iconfont icon-duanxin" data-toggle="modal" data-target="#msg_Modal"></i><br>发送私信</li>
+                     {% if pu.account_type == 1 or pu.account_type == 2 %}
+			    	<li><i class="iconfont icon-wodeweituo" data-toggle="modal" data-target="#is_wt_Modal"></i><br>委托简历</li>
+                     {% endif %}
+{#                 {% if pu.account_type == 3 or pu.account_type == 2 %}#}
+{#			    	<li><i class="iconfont icon-yaoqinghaoyou" data-toggle="modal" data-target="#yq_Modal"></i><br>邀请做单</li>#}
+{#                 {% endif %}#}
+{#			    	<li style=""><i class="iconfont icon-jubao1" data-toggle="modal" data-target="#jb_Modal"></i><br>举报用户</li>#}
+			    </ul>
+				<div class="grxx_sidebar_t" style="height:auto">
+					<div>
+						<span class="f_bold">等级</span>
+						<span class="ml40 c_c8">{{ pu.account_level|default:1 }}</span>
+					</div>
+					<div class="bd_bottom1">
+						<span class="f_bold">金币</span>
+						<img src="../static/images/111_03.png" alt=""class="ml40">
+						<span class="c_c8 ml15">{{ pu.gold|default:0 }}</span>
+					</div>
+					<dl id="grxx_address">
+						<div>
+						<span class="f_bold">地点</span>
+						<span class="ml40">{{ headHunter.location|default:'' }}</span>
+{#						<span class="ml15">东湖区</span>#}
+						</div>
+						<div>
+							<span class="f_bold">头衔</span>
+							<span class="ml40">{{ headHunter.headhunt_level|default:'' }}</span>
+						</div>
+						<div class="bd_bottom1">
+							<span class="f_bold">经验</span>
+							<span class="ml40">{{ headHunter.working_time|default:'' }}</span>
+						</div>
+					</dl>
+					<dl id="grxx_address1" style="display:none">
+						<div>
+						<span class="f_bold">地点</span><input type="hidden" name="location" id="areaid" />
+						<input type="text" name="" id="workAddr" value="{{ headHunter.location }}"  data-toggle="modal" data-target="#addree_moadl" style="width:160px;height:31px;background: url(../static/images/icon-07.png);border: none;cursor:pointer">
+						</div>
+						<div>
+							<span class="f_bold">头衔</span>
+                            <select style="width:160px;height:31px;background: url(../static/images/icon-07.png);border: none;" id="newtitle">
+                                <option value="" selected="selected">--请选择--</option>
+                                {% if headNames %}
+                                    {% for headName in headNames %}
+                                        <option value="{{ headName.dictionary_value }}" {% if headHunter.headhunt_level == headName.dictionary_name %}selected{% endif %}>
+                                            {{ headName.dictionary_name }}
+                                        </option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+{#							<input type="text" name="headhunt_level" id="headName" value="{{ headHunter.headhunt_level }}" style="width:160px;height:31px;background: url(../static/images/icon-07.png);border: none;">#}
+						</div>
+						<div>
+							<span class="f_bold">经验</span>
+{#							<input type="text" name="experience" id="experience" value="{{ headHunter.working_time }}" style="width:160px;height:31px;background: url(../static/images/icon_06.png);border: none;">#}
+							<input type="date" name="user_date" id="experience" value="{{ headHunter.working_time }}" style="width:160px;height:31px;background: url(../static/images/icon_06.png);border: none;"/>
+						</div>
+						<div>
+							<input type="button" name="" value="取消" class="btn13 ml15" onclick="cancelOperator()">
+                            <input type="button" name="" value="保存" class="btn14" onclick="saveHunter()">
+						</div>
+					</dl>
+					<div class="clearfix" style="padding-left: 20px;height:100px">
+						<div class="f_l t_c" style="width:90px;padding-left: 0px">
+							<i class="iconfont icon-tianjiayuangong fz20"></i>
+							<br>
+							<span>被关注人数</span>
+							<br>
+							<span class="c_c8">{% if headHunter.attentionCount %}{{ headHunter.attentionCount }}{% else %}0{% endif %}</span>
+						</div>
+						<div class="f_l t_c" style="width:90px;padding-left: 0px">
+							<i class="iconfont icon-tianjiayuangong fz20"></i>
+							<br>
+							<span>被访问人数</span>
+							<br>
+							<span class="c_c8">{{ forpu.pv|default:0 }}</span>
+						</div>
+					</div>
+				</div>
+				<div class="grxx_sidebar_m mt20 lthy_xxglmb_border" style="border-top:2px solid #c8161d">
+					<div class="grxx_sidebar_m_title">服务好评分</div>
+					<div class="mt10">
+						<span>好评值：</span>
+                        {% for i in pageSize %}
+                            {% if i < headHunter.praise_rate %}
+                            <img src="../static/images/ii_15.jpg" alt="">
+                            {% else %}
+                            <img src="../static/images/ii_17.png" alt="">
+                            {% endif %}
+                    {% endfor %}
+							<span  style="vertical-align: bottom">{{ headHunter.praise_rate|default:0 }}</span>
+					</div>
+
+				</div>
+				<div class="grxx_sidebar_m mt20 lthy_xxglmb_border" style="border-top:2px solid #c8161d;position:relative">
+					<div class="grxx_sidebar_m_title">服务过的企业</div>
+					<dl id="grxx_qy_box">
+                        {% if headHunter.serverList %}
+                            {% for server_company in headHunter.serverList %}
+                                <div class="mt10">
+{#                                    <img src="../static/images/112_03.jpg" alt="" width="40" height="37">#}
+                                    <span class="ml15">{{ server_company }}</span>
+                                    <hr/>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+{#						<div class="mt10">#}
+{#							<img src="../static/images/112_03.jpg" alt="" width="40" height="37">#}
+{#							<span class="ml15">北京和君设计有限公司</span>#}
+{#						</div>#}
+{#						<div class="mt10">#}
+{#							<img src="../static/images/112_03.jpg" alt="" width="40" height="37">#}
+{#							<span class="ml15">网易-网易游戏中心</span>#}
+{#						</div>#}
+					</dl>
+					<dl style="display:none" id="grxx_qy_box1">
+						<div class="mt10">
+						<input type="text" name="" value=""  style="width:216px;height:30px;background-color: #fafafa;border:1px solid #d9d9d9">
+						</div>
+						<div  class="mt10">
+							<input type="text" name="" value="" style="width:216px;height:30px;background-color: #fafafa;border:1px solid #d9d9d9">
+						</div>
+						<div  class="mt10">
+							<input type="text" name="" value="" style="width:216px;height:30px;background-color: #fafafa;border:1px solid #d9d9d9" >
+						</div>
+						<div  class="mt10">
+							<img src="../static/images/tj_03.png" alt="" style="cursor:pointer" id="add_new_qy">
+						</div>
+						<div class="t_c" style="padding-top: 20px">
+							<input type="button" name="" value="取消" class="btn15" style="border: 0;background-color: #1d99d2;color:white;text-align: center;width:85px;height:32px">
+							<input type="button" name="" value="保存" class="btn15" style="border: 0;background-color: #5c91d9;color:white;text-align: center;width:85px;height:32px">
+						</div>
+					</dl>
+
+				</div>
+			</div>
+			<!-- 侧边栏 -->
+		</div>
+	</div>
+		<!-- 内容大框 -->
+	<!-- 内容大框 -->
+<!-- 模态框（Modal） -->
+	<div class="modal fade" id="is_gz_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 433px;">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">确认关注</h4>
+				</div>
+				<div class="modal-body t_c">
+					是否确认关注
+				</div>
+				<div class="modal-footer">
+					 <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">否</button>
+		             <button type="button" class="btn btn-primary" data-dismiss="modal"  onclick="gz()">是</button>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+ <!-- 模态框（Modal） -->
+ <!-- 模态框（Modal） -->
+	<div class="modal fade" id="is_wt_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 433px;">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">确认委托</h4>
+				</div>
+				<div class="modal-body t_c">
+					是否确认委托
+				</div>
+				<div class="modal-footer">
+					 <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">否</button>
+		             <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="weituo()" >是</button>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+ <!-- 模态框（Modal） -->
+
+ <!-- 模态框（Modal） -->
+   <!-- 模态框（Modal） -->
+	<div class="modal fade" id="yq_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width:802px;">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">邀请做单</h4>
+				</div>
+				<div class="modal-body t_c">
+					<div class="title">
+						<input type="checkbox" id="allcheck" name="check_all" value=""><label for="check_all" >全选</label>
+					</div>
+					<ul class="list_box">
+                        {% for position in positionList %}
+						<li style="height: 75px">
+							<div class="f_l">
+								<input type="checkbox" name="check" value="{{ position.id }}{{ position.position_name }}">
+							</div>
+							<dl class="f_r" style="width:307px">
+								<dt><span class="f_bold fz16">{{ position.position_name }}</span><span class="fz14 c_c8 ml15">{{ position.pay }}</span></dt>
+								<dd class="b"><span>{{ position.work_area }}</span><span style="margin:0 8px">|</span><span>{{ position.demand }}</span>
+                                    <span style="margin:0 8px">|</span><span>{{ position.diploma }}</span><span style="margin:0 8px">|</span><span>{{ position.work_nature }}</span></dd>
+							</dl>
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+				<div class="modal-footer">
+					 <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+		             <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="dodan()">确认</button>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+ <!-- 模态框（Modal） -->
+   <!-- 模态框（Modal） -->
+	<div class="modal fade" id="jb_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 390px;">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">举报用户</h4>
+				</div>
+				<div class="modal-body t_c">
+					<select id="report">
+                        {% for report in reportList %}
+						<option value="{{ report.id }}">{{ report.dictionary_name }}</option>
+                        {% endfor %}
+					</select>
+					<textarea id="reportContent" placeholder="举报理由"></textarea>
+				</div>
+				<div class="modal-footer">
+					 <button type="button" class="btn btn-primary"  style="background:#5c91d9"  onclick="jb()">确认</button>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+ <!-- 模态框（Modal） -->
+ <!-- 模态框（Modal） -->
+	<div class="modal fade" id="msg_Modal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width:610px">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">发送私信</h4>
+				</div>
+				<div class="modal-body t_c">
+					<div  class="message_Modal_box">
+						<span>{{ forpu.user_name }}</span><a target='_blank'></a>
+					</div>
+					<div  class="modal_wdgz mt10">
+                    <i class="iconfont icon-iconfontmoban2"></i>
+                    <div class="dialog" style="display:none">
+                        <ul class="list" style="  overflow: auto; height: 244px; ">
+                            {% for tmodel in tmodels %}
+                                <li>
+                                    <span style="color:#666">{{ tmodel.model_name }}</span>
+                                    <span style="margin-left: 30px;color:#b5b5b5">
+                                        {% if tmodel.content|length > 20 %}
+                                            {{ tmodel.content|slice:"20" }} ...
+                                        {% else %}
+                                            {{ tmodel.content }}
+                                        {% endif %}
+                                    </span>
+                                    <input type="hidden" value="{{ tmodel.content }}" >
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="t_c">
+                            <input type="button" name="" class="re_btn" value="确认">
+                            <input type="button" name="" class="qx_btn ml15" value="取消"></div>
+                    </div>
+                </div>
+					<div class="message_Modal_box1 mt10">
+						<textarea name="" maxlength="1000" style="resize:none;color:#666" id="letterContent" placeholder="请输入私信内容"></textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal" style="background:#5c91d9" id="send" onclick="sendLetter()">发送</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+	</div>
+        <input id="tiaojian" type="hidden" value="{{ tiaojian }}" >
+        <input id="tiaojian2" type="hidden" value="{{ tiaojian2 }}" >
+		<!-- /.modal -->
+    <script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+	<script type="text/javascript">
+		$("#update_btn_qy").click(function(){
+			$("#grxx_qy_box").css('display','none')
+			$("#grxx_qy_box1").css('display','block')
+		})
+		$("#add_new_qy").click(function(){
+			var str='<div class="mt10"><input type="text" name="" value="" style="width:216px;height:30px;background-color: #fafafa;border:1px solid #d9d9d9"></div>';
+			$(this).parent().before(str);
+		})
+		 $(".icon-iconfontmoban2").click(function(){
+       	 $(".dialog").show();
+	    })
+	    $(".qx_btn").click(function(){
+	         $(".dialog").hide();
+	    })
+	     $(".dialog li").dblclick(function(){
+	         confirms.call(this);
+	    })
+	     $("#msg_Modal .message_Modal_box label").click(function(){
+	     	$(this).parent().remove();
+	     })
+        //关注
+        function gz(){
+            var forpuid = $('#forpuid').val();
+            var puid = $('#puid').val();
+            $.ajax({
+                type: "POST",
+                url: "/ajax_attentionOperate",
+                data: {"id": forpuid,"type":"1", "attentionType": "1"},
+                dataType: "json",
+                success: function (data) {
+                    if(data.msg == 'success'){
+                        window.alert('关注成功');
+                    }else if(data.msg == 'exist'){
+                        window.alert('你已关注该人才经纪人，无需再关注');
+                    }else{
+                        window.alert(data.msg);
+                    }
+                }
+            });
+        }
+        //举报
+        function jb(){
+            var forpuid = $('#forpuid').val();
+            var reportContent = $('#reportContent').val();
+            var report = $('#report').val();
+            $.ajax({
+                type: "POST",
+                url: "ajax_ltjb",
+                data: {"forpuid": forpuid,"report":report,"reportContent":reportContent},
+                dataType: "json",
+                success: function (data) {
+                    alert(data.msg);
+                }
+            });
+        }
+        //======= 信息模版
+        $(".icon-iconfontmoban2").click(function(){
+       	 $(".dialog").show();
+	    })
+	    $(".qx_btn").click(function(){
+	         $(".dialog").hide();
+	    })
+	    $("#add_btn").click(function(){
+	        $(".cyqy_table input[type=text]").val("");
+	    })
+	    $(".dialog li").click(function(){
+	        $(".dialog li").removeClass('active');
+	        $(this).addClass('active');
+	    })
+	    $(".dialog li").dblclick(function(){
+	         confirms.call(this);
+	    })
+	    $(".modal_wdgz .re_btn").click(function(){
+	        confirms.call(this);
+	    })
+	    function confirms(){
+	        $("#letterContent").val($(".dialog li.active").children('input').val());
+	        $(this).parent().parent().hide();
+	    }
+        //判断全选
+        $("#allcheck").click(function(){
+        var ids = document.getElementsByName("check");
+        if(document.getElementById("allcheck").checked == true){
+              for(var i=0;i<ids.length;i++){
+                    ids[i].checked=true;
+                }
+        }else{
+           for(var i=0;i<ids.length;i++){
+                    ids[i].checked=false;
+                };
+        }
+      });
+	     //发送私信
+        function sendLetter() {
+            var letterContent = $('#letterContent').val();
+            var forpuid = $('#forpuid').val();
+            if (letterContent == '') {
+                window.alert("请填写私信内容！");
+                $('#send').attr('data-dismiss', '');
+                return;
+            }
+            $.ajax({
+                    type: "POST",
+                    url: "/ajax_sendLetter",
+                    data: {"attentionId": forpuid, "letterContent": letterContent},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.msg != 'success') {
+                            window.alert(data.msg);
+                        }else{
+                            $('#send').attr('data-dismiss', 'modal');
+                            window.alert('发送成功！')
+                        }
+                    }
+                })
+        }
+        //委托方法
+        function weituo() {
+            var forpuid = $('#forpuid').val();
+{#            var puid = $('#puid').val();#}
+{#            var pname = $('#puname').val();#}
+{#            var letterContent=pname+"委托了个人简历给您，TA可能正在找工作哦，请尽快查看简历并与TA联系吧~~<a href='#id="+puid+"' target='_blank'>查看简历</a>"#}
+            $.ajax({
+                    type: "POST",
+                    url: "/ajax_entrustResume",
+                    data: {"for_pu_id": forpuid},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.msg == 'success') {
+                            window.alert('委托成功');
+                        }else if(data.msg == 'exist'){
+                            window.alert('你已委托简历，无需再委托！')
+                        }else{
+                            window.alert(data.msg);
+                        }
+                        $('#send').attr('data-dismiss', 'modal');
+                    }
+                })
+        }
+        //邀请做单方法
+        function dodan() {
+            var forpuid = $('#forpuid').val();
+            var puid = $('#puid').val();
+            var pname = $('#puname').val();
+            var ids = document.getElementsByName("check");
+            var zw="";
+                for(var i=0;i<ids.length;i++){
+                    if(ids[i].checked==true){
+                        id=ids[i].value.substring(0,1)
+                        name=ids[i].value.substring(1,ids[i].length)
+                        zw+="<a href='#id="+id+"' target='_blank'>"+name+"</a>,"
+                        }
+                }
+
+            var letterContent="亲，"+pname+"推荐了"+zw+"以上职位给您，对方很真诚的邀请您帮他们推荐候选人哦"
+            $.ajax({
+                    type: "POST",
+                    url: "ajax_sendLetter",
+                    data: {"attentionId": forpuid, "letterContent": letterContent},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.msg != 'success') {
+                            window.alert(data.msg);
+                        }else{
+                            $('#send').attr('data-dismiss', 'modal');
+                            window.alert('委托成功！')
+                        }
+                    }
+                })
+        }
+        var pagination1;
+        var pagination2;
+        $(function(){
+            var sql = $("#tiaojian").val();
+            pagination1=new pagin("fypage1","V_PU_Evaluation","",sql,"",5,"paginBind","pagination1");
+            var sql2 = $("#tiaojian2").val() + ' and position_status=1';
+            pagination2=new pagin("fypage2","V_Position_Search","",sql2,"",4,"paginBind2","pagination2");
+         })
+        function paginBind(dataInfo){
+        $("#table1").empty();
+        $(dataInfo).each(function() {
+            // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this);
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+           var content="";
+            content+="            <li class=\"clearfix\">       ";
+			content+="		<img src=\""+array[8]+"\"  class=\"f_l\" width=\"60\" height=\"60\" style=\"border-radius: 50%\">";
+			content+="		<dl class=\"f_l ml15\">";
+			content+="			<dt><span class=\"c_33 fz16\">"+array[9]+"</span><span class=\"c_c8 fz16 ml15\">LV"+array[10]+"</span></dt>";
+			content+="			<dd class=\"c_66 mt10\">"+array[6].substring(0,11)+"</dd>";
+			content+="		</dl>";
+;
+			content+="		<dl class=\"f_r\">";
+			content+="			<dt class=\"t_r\">"+array[7]+"</dt>";
+			content+="			<dd class=\"mt10\" style=\"float:right\">";
+                        for(var i=1;i<6;i++){
+                         if (array[5]>=i) {
+                             content += "                <img src=\"../static/images/ii_15.jpg\" >";
+                         }else{
+            content+="                <img src=\"../static/images/ii_17.png\" >";
+            }}
+			content+="		</dl>";
+			content+="	</li>";
+             $("#table1").append(content);
+        });
+    }
+        function paginBind2(dataInfo){
+        $("#table2").empty();
+        $(dataInfo).each(function() {
+            //切割标签
+            var labels = $(this)[14];
+            if (labels!=""&&labels!=null){
+                var labellist = new Array();
+                labellist = labels.split('**');
+                var labelStr = '';
+                for(var i = 0;i < labellist.length-1;i++){
+                    labelStr += '<dd>'+labellist[i]+'</dd>';
+                }
+             }else{
+                labelStr="";
+            }
+
+            // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this);
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;";
+                }
+            }
+           var content="";
+           content+="<li style=\"height:270px\">";
+		content+="		<dl class=\"f_l grxx_info_ul_dl\" >";
+		content+="			<dt>";
+		content+="				<span class=\"fz18 c_33\" style=\"cursor: pointer;\" onclick=\"viewPosition("+array[0]+")\">"+array[3]+"</span>";
+		content+="				<span class=\"fz16 c_c8 ml15\">"+array[19]+"</span>";
+		content+="			</dt>";
+		content+="			<dd>"+array[55]+"</dd>";
+		content+="			<dd>";
+		content+="				<span>地点:"+array[14]+"</span>";
+		content+="				<span class=\"ml15\">经验:"+array[23]+"</span>";
+		content+="			</dd>";
+		content+="			<dd>";
+		content+="				<span>学历:"+array[26]+"</span></dd>";
+		content+="				<dd><span >领域:"+array[6]+"</span>";
+		content+="			</dd>";
+		content+="		</dl>";
+{#		content+="		<img width-\"80px\" height=\"80px\" src=\""+array[17]+"\"  class=\"f_r\">";#}
+		content+="		<dl class=\"grxx_info_ul_dl1 clearfix\" style=\"margin-left:-12px;width:310px\">";
+		    if(labelStr!=""&&labelStr!=null){
+                content+=""+labelStr+"";
+            }
+		content+="		</dl>";
+		content+="	</li>";
+             $("#table2").append(content);
+        });
+    }
+    //查看职位
+    function viewPosition(positionId){
+        window.open('/resume/zwxq?positionId=' + positionId, '_blank');
+    }
+	</script>
+{% include 'jobs/system/new_footer.html' %}

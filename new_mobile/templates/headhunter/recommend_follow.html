@@ -1,0 +1,109 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+</head>
+</body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_send_list" style="padding-top:0;">
+    <div class="common_tit_box" style="border-bottom:0; text-align:left; margin-bottom:0; height:32px; line-height:32px;">候选人</div>
+        <a href="#" class="zsp_job_list_li">
+        <div class="zsp_job_li_top">
+                        <div class="zsp_job_li_img"><img src="/static/new_mobile/images/morenimg_gr.jpg"></div>
+                    
+            <div class="zsp_job_li_tit zsp_resume_li_tit">
+                <div class="zsp_job_li_h">
+                    <span><i class="fa fa-angle-right"></i></span>
+                    <h3>熊勇勇</h3>
+                </div>
+                <div class="zsp_job_li_tit_other">上海市/卢湾区 - 22222</div>
+            </div>
+        </div>
+        
+        <div class="zsp_job_li_other">
+            <div class="zsp_job_li_other_icon">
+                <i class="fa fa-jpy"></i>
+                <span>222222222</span>
+            </div>
+            <div class="zsp_job_li_other_icon">
+                <i class="fa fa-clock-o"></i>
+                <span></span>
+            </div>
+            <div class="zsp_job_li_other_icon">
+                <i class="fa fa-flask"></i>
+                <span>在职，愿意考虑新机会</span>
+            </div>
+        </div>
+    </a>
+    <!--zsp_job_list_li -->
+    </div>
+<!--zsp_job_list -->
+
+
+<div class="zsp_send_list" style="padding-top:0;">
+    <div class="common_tit_box" style="border-bottom:0; text-align:left; margin-bottom:0; height:32px; line-height:32px;">推荐职位信息</div>
+            <a href="#" class="zsp_job_list_li">
+        <div class="zsp_job_li_top"><!--zsp_job_ysc      zsp_job_ygq-->
+            <div class="zsp_job_li_tit" style="margin-left: 0!important;">
+                <div class="zsp_job_li_h">
+                    <span><i class="fa fa-angle-right"></i></span>
+                    <h3>副总裁（采销方向）</h3>
+                </div>
+                <div class="zsp_job_li_tit_other"><div class="zsp_recommend_tip zsp_recommend_tip_1">悬赏8000元</div></div>
+            </div>
+        </div>
+
+        <div class="zsp_job_li_other">
+            <div class="zsp_job_li_other_icon">
+                <i class="fa fa-map-marker"></i>
+                <span><br></span>
+            </div>
+            <div class="zsp_job_li_other_icon">
+                <i class="fa fa-jpy"></i>
+                <span>面议</span>
+            </div>
+            <div class="zsp_job_li_other_icon">
+                <i class="fa fa-graduation-cap"></i>
+                <span>本科</span>
+            </div>
+        </div>
+    </a>
+        <!--zsp_job_list_li -->
+    </div>
+<!--zsp_job_list -->
+
+<div class="zsp_send_main_box">
+    <h2>推荐状态跟踪</h2>
+    <div class="zsp_send_steps_box zsp_send_rec_1">
+        <div class="zsp_send_steps_itme">
+            <i class="fa fa-check"></i>
+            <strong>推荐成功</strong>
+        </div>
+        <u></u>
+        <div class="zsp_send_steps_itme_3">
+            <i class="fa fa-check"></i>
+            <strong>已被查看</strong>
+        </div>
+        <dfn></dfn>
+        <div class="zsp_send_steps_itme_4">
+        	                <i class="fa fa-check"></i>
+                <strong>邀请面试</strong>
+                    </div>
+        <ins></ins>
+        <div class="zsp_send_steps_itme_5">
+        	            <i class="fa fa-check"></i>
+            <strong>已经入职</strong>
+                    </div>
+    </div>
+</div>
+<div class="zsp_pay_tit" style="background:none; border-bottom:0; text-align:center; font-size:12px; padding:10px 16px; line-height:24px; height:auto;">推荐入职成功可获得6400元奖金,仅当HR确认入职后方可生效</div>
+<div class="zsp_resume_but_box">
+                <a href="javascript:void(0)" class="zsp_resume_but_3">返回到推荐跟踪</a>
+</div>
+
+
+</body></html>

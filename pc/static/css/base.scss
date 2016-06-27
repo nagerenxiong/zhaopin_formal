@@ -1,0 +1,93 @@
+@charset "utf-8";
+@import "http://at.alicdn.com/t/font_1458875755_3417337.css";
+body,h1,h2,h3,h4,h5,h6, hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,fieldset,button, input,textarea,th,td {
+    margin: 0;
+    padding: 0;
+}
+body,button,input,select,textarea {font:12px/1.5 "Microsoft YaHei","\5FAE\8F6F\96C5\9ED1",\5b8b\4f53,sans-serif;}
+a,a:link,a:visited,a:hover,a:active{
+    text-decoration:none;
+}
+a,a:link,a:visited,a:hover,a:active,input,textarea,:focus{
+    outline: 0;
+}
+textarea{padding:10px;}
+img,iframe {
+    border: none;
+    text-decoration:none;
+}
+li{list-style-type: none;}
+.nowrap{text-overflow:ellipsis;overflow: hidden;white-space:nowrap; }
+//color
+$c_cd:#ccddff;/*danzhi*/
+$c_5c:#5c91d9;/*lan*/
+$c_4c:#4c83ce;/*shenlan*/
+$c_f80:#ff8800;/*ju*/
+$c_f8:#f8f8f8;/*danhui*/
+$c_cdc:#cdcdcd;/*淡灰*/
+$c_f4:#f4f8fd;//danlan
+$c_e0:#e0e0e0;
+$c_33:#333;
+$c_66:#666;
+$c_88:#888;
+$c_99:#999;
+$c_ee:#e0e0e0;
+$c_f6:#ff6666;
+$c_ff:#fff;
+$c_77:#777;
+.c_99{color:$c_99!important;}
+.c_66{color:$c_66!important;}
+.c_33{color:$c_33!important;}
+.c_5c{color:$c_5c!important;}
+.c_f6{color:$c_f6!important;}
+@mixin center($_width){
+	margin:0 auto;
+	width:$_width;
+}
+@mixin m_l($_left){
+	margin-left:$_left;
+}
+@mixin cursor{
+	cursor: pointer;
+}
+.cursor{@include cursor;}
+@mixin oh{overflow: hidden;}
+.oh{@include oh;}
+@mixin t_l{text-align:left;}
+@mixin t_r{text-align:right;}
+@mixin t_c{text-align:center;}
+@mixin f_l{float:left;}
+.f_l{@include f_l;}
+@mixin f_r{float:right;}
+.f_r{@include f_r;}
+@mixin f_n{float:none;}
+@mixin fz25{font-size:25px;}
+@mixin fz20{font-size:20px;}
+@mixin fz18{font-size:18px;}
+@mixin fz16{font-size:16px;}
+@mixin fz14{font-size:14px;}
+@mixin fz12{font-size:12px;}
+.fz12{@include fz12}
+.fz14{@include fz14}
+.fz16{@include fz16}
+.fz18{@include fz18}
+.fz20{@include fz20}
+@mixin mt10{margin-top: 10px;}
+@mixin border($_color){
+	border:1px solid $_color;
+}
+.border{@include border($c_ee);}
+.mt5{margin-top: 5px;}
+.mt10{margin-top: 10px;}
+.mt20{margin-top: 20px;}
+.mt30{margin-top: 30px;}
+@mixin txt_hide($_width){white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:$_width;}
+.jl_txt_hide{@include txt_hide(72px);text-overflow:initial;}
+@mixin height($_height){height:$_height;line-height:$_height;}
+@mixin min_height($_height){height:$_height;float:left;}
+.clearfix:after { *zoom:1; content: "."; display: block; height:0; clear:both; visibility: hidden;}
+.clearfix { *zoom:1; }
+.center{@include center(1020px);overflow:visible;}
+.icon-nv{color:$c_f80;cursor: default;}
+.icon-nan{color:$c_5c;cursor: default;}
+.h20{height:20px;}

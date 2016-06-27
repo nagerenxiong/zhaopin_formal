@@ -1,0 +1,64 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/new_mobile/css/zsh_common.css" type="text/css">
+<script src="/static/new_mobile/js/formValidate.js" type="text/javascript"></script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+</script>
+<!--zsp_header -->
+<div class="zsp_edu_main_box">
+<div class="zsp_edu_tit">
+	<p style="margin-top:10px;display:inline-block;">填写推荐报告，增加简历含金量</p><span class="ylbtn">预览简历</span>
+</div>
+
+<form id="Form1" method="post">
+	<div class="zsp_input_main_box swiper-slide">
+		<div class="textareaBox">
+		   <label style="margin-top:-8px; margin-bottom:8px;display:inline-block;">核心优势</label><span class="required1">必填</span>
+				<div class="zwp_resume_li_name">
+                            <span>请填写该人才核心优势，不少于50字，如：
+                                  1.相关行业工作经验、专业能力、擅长领域</span>
+                </div>
+		</div>
+         
+		<div class="textareaBox" style="margin-top:10px; height: 165px;">
+			<label style="margin-top:-8px; margin-bottom:8px;display:inline-block;">薪酬福利</label>
+				<div class="zwp_resume_li_name">
+                            <span>请填写该人才核心优势，不少于50字，如：
+                                  1.相关行业工作经验、专业能力、擅长领域</span>
+                </div>
+		</div>
+
+		<div class="textareaBox" style="margin-top:10px;height: 190px;">
+			<label style="margin-top:-8px; margin-bottom:8px; display:inline-block;">经纪人评价</label><span class="required1">必填</span>
+				<div class="zwp_resume_li_name">
+                            <span>请填写该人才核心优势，不少于50字，如：
+                                  1.相关行业工作经验、专业能力、擅长领域</span>
+                </div>
+		</div>
+
+
+		<div class="edit_work_exp_but_group" style="margin-top:20px;width:100%!important;">
+			<div class="edit_exp_save_but" style="width:100%!important;">
+				<a class="able" id="edit_submit">编辑</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</form>
+</div>
+<div class="errorTip"></div>
+</body>
+</html>

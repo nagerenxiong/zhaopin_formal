@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>大圣归来</title>
+    <script  src="{{ STATIC_URL }}js/core/jquery-1.11.3.min.js"></script>
+    <script  src="{{ STATIC_URL }}js/lib/ind/layer/layer.js"></script>
+    <script  src="{{ STATIC_URL }}js/lib/ind/layer/layer.js"></script>
+    <script  src="{{ STATIC_URL }}images/images8/jquery.SuperSlide.2.1.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1443147556_4920416.css">
+    <style type="text/css">
+body,h1,h2,h3,h4,h5,h6, hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,fieldset,button, input,textarea,th,td {
+    margin: 0;
+    padding: 0;  
+    overflow-x: hidden; 
+}
+body,button,input,select,textarea {font:12px/1.5 tahoma,"microsoft yahei","\5FAE\8F6F\96C5\9ED1",\5b8b\4f53,sans-serif;}
+a,a:link,a:visited,a:hover,a:active{
+    text-decoration:none;
+}
+a,a:link,a:visited,a:hover,a:active,input,textarea,:focus{
+    outline: 0;
+}
+textarea{padding:10px;}
+img,iframe {
+    border: none;
+    text-decoration:none;
+}
+li{list-style-type: none;}
+  .content{
+    width: 1020px;height:100%;margin:0 auto;position:relative;overflow:hidden;
+ }
+ body{
+    font-family: "微软雅黑",Verdana, Arial, Helvetica, sans-serif;
+    font-size: 18px;
+ } 
+ .header{background-color: white;}
+ .header img{float: left;}
+ .header ul{ position:relative;float:right;}
+ .header li{ float: left;margin-left:15px;list-style-type:none;}
+ .header li a{color: #333;font-size: 18px;display:block;line-height:65px;width:100px;text-align:center;text-decoration:none;}
+ .header li a:hover,.header li a.active{color:#5c91d9;}
+  .header li.active a{border-bottom:3px solid #5c91d9;color:#5c91d9;}
+  .banner{background:url({{ STATIC_URL }}images/images8/dsgl_02.jpg) no-repeat top center;height:1000px;}
+.center{width:1000px;margin:0 auto;}
+  .share{position:relative;top:390px;left:685px;}
+.banner .m{margin:460px auto auto auto;font-size: 18px;color:white;padding:9px 0;border-top:1px solid white;border-bottom:1px solid white;width:740px;}
+.banner .m span{margin:0 25px;}
+.banner .b1{color:white;text-align: center;margin-top:60px;}
+.banner .b2{overflow:hidden;width:955px;margin: 0 auto;margin-top: 13px;}
+.banner .b2 img{float:left;margin:0 1px 2px 1px;}
+.content1{background-color: #001c37;color:white;font-size: 24px;}
+.content1 .t{width:1050px;margin:0 auto;overflow:hidden;}
+.content1 .t .l{float:left;}
+.content1 .t .r{float: right;background: url({{ STATIC_URL }}images/images8/dsgl_04.png) no-repeat left center;width:744px;height:343px;}
+.content1 .t .r .r_l{float: left;width:141px; height:141px;border:2px solid #f2495d;text-align: center;display:table;}
+.content1 .t .r .r_l span{ display:table-cell;vertical-align:middle;width:100%;height:100%;}
+.content1 .t .r .r_r{float: left;margin-left: 20px;margin-top: 5px;}
+.content1 .t .r .r_r .f1{font-size: 24px;color:#333;margin-right: 30px;}
+.content1 .t .r .r_r .f2{font-size: 16px;color:#666;margin-top:5px;}
+.content1 .t .r .r_r .f3{margin-top: 35px;}
+.content1 .t .r  .r_b{overflow:hidden;margin-top: 20px;}
+.content1 .t .r  .r_b div{float: left;margin:0;padding:0;width:308px;}
+.content1 .t .r  .r_b  .f4{color:black;font-size: 18px;font-weight: bold;display:inline-block;width:175px;}
+.content1 .t .r  .r_b  .f5{color:#f2495d;font-size: 18px;}
+img{ border:0;  }
+a{ text-decoration:none; color:#333;  }
+/* 本例子css */
+.slideBox{ width:694px; height:295px; overflow:hidden; position:relative;margin-left:3px;margin-top: 3px;  }
+.slideBox .hd{ height:15px; overflow:hidden; position:absolute; right:5px; bottom:5px; z-index:1; }
+.slideBox .hd ul{ overflow:hidden; zoom:1; float:left;  }
+.slideBox .hd ul li{ float:left; margin-right:2px;  width:15px; height:15px; line-height:14px; text-align:center; background:#fff; cursor:pointer; }
+.slideBox .hd ul li.on{ background:#fff; color:#fff; }
+.slideBox .bd{ position:relative; height:100%; z-index:0;   }
+.slideBox .bd li{ zoom:1; vertical-align:middle; padding-top: 30px;padding-left: 75px;}
+.slideBox1 .bd li{padding-left:30px;padding-right: 30px;}
+
+/* 下面是前/后按钮代码，如果不需要删除即可 */
+.slideBox .prev,
+.slideBox .next{ position:absolute; left:0; top:50%; margin-top:-39px; display:block; font-size: 60px;color:#f2495d;   }
+.slideBox .next{ left:auto; right:0; }
+.slideBox .prevStop{ display:none;  }
+.slideBox .nextStop{ display:none;  }
+.slideBox1{width:826px;height:214px;border:7px solid #009970;border-bottom:none;margin:0 auto;overflow:visible;}
+.slideBox1 .prev,.slideBox1 .next{color:#009970;}
+.slideBox1 .prev{left:-70px;}
+.slideBox1 .next{right:-70px;}
+.slideBox1 .hd{bottom:-12px;overflow:visible;width:848px;right:-11px;}
+.slideBox1 .hd li{width:162px!important;;height:71px!important;float: left;background-color: #009970!important;font-size: 24px;line-height: 26px!important;margin:0 4px 14px 4px!important;display:table;}
+.slideBox1 .hd li span{display:table-cell;vertical-align: middle;}
+.slideBox1 .hd li.on{background-color:#f23c51!important;}
+.ts{float:left;font-size: 16px;width:512px;margin-left: 30px;}
+.ts div{margin-top: 11px;}
+.zyjl{width:838px;height:206px;border:5px solid #ee3147;position: relative;padding:70px 37px 0 37px;}
+.zyjl div{float:left;width:142px;height:175px;margin: 0 12px;font-size: 1px;text-align: center;}
+.zyjl img.b{position:absolute;top:-70px;left:50%;margin-left: -289px;}
+.b_s span{margin:0 15px;}
+.b_s a{color:white;}
+#bmrk{display:none;width:500px;margin:0 auto;}
+#bmrk li{margin-top: 25px;height: 45px;}
+#bmrk div.l,#bmrk div.r{float: left;}
+#bmrk div.l{width:100px;text-align: right;}
+#bmrk div.r{margin-left: 20px;}
+#bmrk input{width:360px;height:42px;border:1px solid #f1f1f1;text-indent:20px;font-size: 22px;}
+#bmrk *{vertical-align: middle;line-height: 42px;}
+#bmrk label{color:#fd6791;margin-right: 8px;}
+#bmrk #wcbmBtn{width:278px;height:63px;line-height: 63px;color:white;text-align: center;font-size: 24px;display:block;background-color:#ee3147;margin: 0 auto;}
+#bmrk .b{font-size: 14px;color:#999;text-align: center;margin-top: 15px;}
+.layui-layer-ico {
+    background: url({{ STATIC_URL }}images/images8/close_03.png) no-repeat;width:29px!important;height:29px!important;background-position:left center!important;
+}
+#bmbtn{cursor: pointer;}
+.djs_time{background-color:#000; border-radius:9px; width:100%; height:73px;}
+.djs_time ul{
+    margin-left:25px;
+    display:block;
+    overflow:hidden;
+}
+.djs_time ul li{
+    width:85px;
+    float:left;
+    margin-top:8px;   
+}
+.djs_time ul li input{
+   width:40px;
+   height:55px;
+   background-color:#fff;
+   color:#ee3147;
+   display:inline-block;
+   border-radius:4px;
+   line-height:55px;
+   font-size:20px;
+   font-weight:bold;
+   text-align:center;
+   border:0px;
+}
+</style>
+<script type="text/javascript" src="http://tool.keleyi.com/ip/visitoriphost/"></script> 
+<script type="text/javascript">
+function BrowserRedirect(e,t,n,r){var i=navigator.userAgent.toLowerCase(),s=i.match(/ipad/i)=="ipad",o=i.match(/iphone os/i)=="iphone os",u=i.match(/midp/i)=="midp",a=i.match(/rv:1.2.3.4/i)=="rv:1.2.3.4",f=i.match(/ucweb/i)=="ucweb",l=i.match(/android/i)=="android",c=i.match(/windows ce/i)=="windows ce",h=i.match(/windows mobile/i)=="windows mobile",p=i.match(/gt-p/i)=="gt-p",d;n==""&&(n=e),o||u||a||f||l||c||h?p?(d=n,r!=0&&(window.location.href=d)):(d=t,r!=1&&(window.location.href=d)):(s?d=n:d=e,r!=0&&(window.location.href=d))}
+BrowserRedirect('dsgl','mobile_dsgl','',0);
+</script>
+</head>
+<body>
+    <!-- 头部start -->
+    <div class="header">
+        <div class="content">
+            <a href="/">
+                <img style="margin-top:10px;" src="{{ STATIC_URL }}images/new_logo.png" alt=""></a>
+            <ul>
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/position/company_search" target="_blank">公司</a>
+                </li>
+                <li>
+                    <a href="/position/personal/g_zwss" target="_blank">职位</a>
+                </li>
+                <li>
+                    <a href="/system/new_agent_search" target="_blank">人才经纪人</a>
+                </li>
+                <span class="abs"></span>
+            </ul>
+        </div>
+    </div>
+    <!-- 头部end -->
+    <div class="banner" >
+        <div class="center">
+            <div class="share">
+                <div class="bshare-custom">
+                    <div class="bsPromo bsPromo2"></div>
+                    <a title="分享到微信" class="bshare-weixin" href="javascript:void(0);"></a>
+                    <a title="分享到新浪微博" class="bshare-sinaminiblog" href="javascript:void(0);"></a>                   
+                </div>
+                <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=3200654e-df2b-4589-824e-d3e6c3b0d59c&amp;pophcol=2&amp;lang=zh"></script>
+                <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+            </div>
+            <div class="m">
+                <span>精</span>
+                <span>心</span>
+                <span>策</span>
+                <span>划</span>
+                <span>年</span>
+                <span>度</span>
+                <span>人</span>
+                <span>才</span>
+                <span>盛</span>
+                <span>会</span>
+            </div>
+            <div style="height:200px;color:#fff; width:743px;margin:0px auto;">
+                <div class="djs_lf" style="width:50%; float:left;">
+                    <p style="text-align:center; margin:20px 0px; font-size:26px;">距开幕还剩</p>
+                    <div class="djs_time">
+                        <ul>
+                        <li><input type="text" id="time_d">&nbsp;天</li>
+                        <li><input type="text" id="time_h">&nbsp;时</li>
+                        <li><input type="text" id="time_m">&nbsp;分</li>
+                        <li><input type="text" id="time_s">&nbsp;秒</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="djs_rg" style="text-align:center;font-size:24px;">目前有<div id="djs_count" style="color:#fff; display:inline-block; color:#ee3147;font-size:40px!important;vertical-align:-6px"></div>助力<br>
+                    <div class="dis_btn" style="width:259px; height:52px; line-height:50px; background:#ffb901;color:#333; border-radius:12px; text-align:center; margin-left: 430px; margin-top:30px;cursor: pointer">
+                        为大圣归来助力
+                    </div>
+                </div>
+            </div>
+            <div style="clear:both;"></div>
+            <div class="b1">战略合作企业</div>
+            <div class="b2">
+                 <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7228" target="_blank"><img src="{{ STATIC_URL }}images/images8/dsgl1_09.jpg"></a>
+                <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=6554" target="_blank"><img src="{{ STATIC_URL }}images/images8/dsgl1_07.png"></a>              
+                <a href="http://www.latticelighting.cn/" target="_blank"><img src="{{ STATIC_URL }}images/images8/dsgl1_25.png"></a>
+                <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=6561" target="_blank"><img src="{{ STATIC_URL }}images/images8/dsgl1_09.png"></a>
+                <a href="http://www.futureholdings.com.cn/" target="_blank"><img src="{{ STATIC_URL }}images/images8/dsgl1_26.png"></a>
+                <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7237" target="_blank"><img src="{{ STATIC_URL }}images/images8/dsgl1_11.png"></a>
+                <a href="http://www.zhjs.com.cn/" target="_blank"><img src="{{ STATIC_URL }}images/images8/dsgl1_27.png"></a>
+                <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7227" target="_blank"><img src="{{ STATIC_URL }}images/images8/dsgl1_13.png"></a>
+                <a href="http://www.cshyyjt.com/" target="_blank"><img src="{{ STATIC_URL }}images/images8/dsgl1_15.png"></a>
+                <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7225" target="_blank"><img src="{{ STATIC_URL }}images/images8/dsgl1_10.jpg"></a>
+                <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7233" target="_blank"><img src="{{ STATIC_URL }}images/images8/dsgl1_11.jpg"></a>
+                <a href="http://nchnct.com/" target="_blank"><img src="{{ STATIC_URL }}images/images8/dsgl1_17.png"></a></div>
+        </div>
+    </div>
+    <div class="content1">
+        <div class="t">
+            <div class="l">
+                <img src="{{ STATIC_URL }}images/images8/dsgl_07.png">
+                <p>高薪职位你敢想我敢有....</p>
+            </div>
+            <div class="r">
+                <div id="slideBox" class="slideBox">
+                    <div class="hd"></div>
+                    <div class="bd">
+                        <ul>
+                            <li>
+                                <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=6554" target="_blank" class="r_l">
+                                    <span>
+                                        <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1449807496,3946535613&fm=58" width="110" width="110"></span>
+                                </a>
+                                <div class="r_r">
+                                    <div>
+                                        <span class="f1">绿地集团</span>
+                                        <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=6554" target="_blank">
+                                            <img src="{{ STATIC_URL }}images/images8/dsgl2_03.png" alt=""></a>
+                                    </div>
+                                    <p class="f2">绿地集团旗下移动互联网电子商务平台</p>
+                                    <div class="f3">
+                                        <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=6554" target="_blank">
+                                            <img src="{{ STATIC_URL }}images/images8/dsgl2_14.png"></a>
+                                    </div>
+                                </div>
+                                <div style="clear:both"></div>
+                                <div class="r_b">
+                                    <div>
+                                    <a href="http://www.hcdyhr.com/resume/zwxq?positionId=12838" target="_blank"><span class="f4">人力资源管理</span></a>
+                                        <span class="f5">10-15万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=12837" target="_blank"><span class="f4">项目客服经理</span></a>
+                                        <span class="f5">5-10万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=12839" target="_blank"><span class="f4">商业策划</span></a>
+                                        <span class="f5">5-10万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=12840" target="_blank"><span class="f4">土建工程师</span></a>
+                                        <span class="f5">5-10万</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                               <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7229" target="_blank" class="r_l">
+                                    <span>
+                                        <img src="{{ STATIC_URL }}images/images8/sf.jpg" width="110" ></span>
+                                </a>
+                                <div class="r_r">
+                                    <div>
+                                        <span class="f1">搜房网</span>
+                                        <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7229" target="_blank">
+                                            <img src="{{ STATIC_URL }}images/images8/dsgl2_03.png" alt=""></a>
+                                    </div>
+                                    <p class="f2">搜房网旗下互联网平台</p>
+                                    <div class="f3">
+                                        <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7229" target="_blank">
+                                            <img src="{{ STATIC_URL }}images/images8/dsgl2_14.png"></a>
+                                    </div>
+                                </div>
+                                <div style="clear:both"></div>
+                                 <div class="r_b">
+                                    <div>
+                                    <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18936" target="_blank"><span class="f4">行政经理</span></a>
+                                        <span class="f5">5-10万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18942" target="_blank"><span class="f4">销售经理</span></a>
+                                        <span class="f5">5-10万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18943" target="_blank"><span class="f4">搜房顾问</span></a>
+                                        <span class="f5">5万以下</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18944" target="_blank"><span class="f4">财务助理</span></a>
+                                        <span class="f5">5万以下</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7227" target="_blank" class="r_l">
+                                    <span>
+                                        <img src="{{ STATIC_URL }}images/images8/yy.jpg" width="110" ></span>
+                                </a>
+                                <div class="r_r">
+                                    <div>
+                                        <span class="f1">用友软件</span>
+                                         <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7227" target="_blank">
+                                            <img src="{{ STATIC_URL }}images/images8/dsgl2_03.png" alt=""></a>
+                                    </div>
+                                    <p class="f2">用友软件旗下互联网平台</p>
+                                    <div class="f3">
+                                        <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7227" target="_blank">
+                                            <img src="{{ STATIC_URL }}images/images8/dsgl2_14.png"></a>
+                                    </div>
+                                </div>
+                                <div style="clear:both"></div>
+                                <div class="r_b">
+                                    <div>
+                                    <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18924" target="_blank"><span class="f4">高级客户经理</span></a>
+                                        <span class="f5">5-10万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18925" target="_blank"><span class="f4">渠道推进经理</span></a>
+                                        <span class="f5">5-10万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18926" target="_blank"><span class="f4">资深售前顾问</span></a>
+                                        <span class="f5">5-10万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18927" target="_blank"><span class="f4">高级实施顾问</span></a>
+                                        <span class="f5">5-10万</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7228" target="_blank" class="r_l">
+                                    <span>
+                                        <img src="{{ STATIC_URL }}images/images8/gm.jpg" width="110" ></span>
+                                </a>
+                                <div class="r_r">
+                                    <div>
+                                        <span class="f1">国美集团</span>
+                                         <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7228" target="_blank">
+                                            <img src="{{ STATIC_URL }}images/images8/dsgl2_03.png" alt=""></a>
+                                    </div>
+                                    <p class="f2">国美集团旗下互联网平台</p>
+                                    <div class="f3">
+                                        <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7228" target="_blank">
+                                            <img src="{{ STATIC_URL }}images/images8/dsgl2_14.png"></a>
+                                    </div>
+                                </div>
+                                <div style="clear:both"></div>
+                                <div class="r_b">
+                                    <div>
+                                    <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18929" target="_blank"><span class="f4">储备营运总监</span></a>
+                                        <span class="f5">5-10万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18930" target="_blank"><span class="f4">二级分公司总经理</span></a>
+                                        <span class="f5">10-15万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18931" target="_blank"><span class="f4" style="width:210px">电业务总监&3C业务总监</span></a>
+                                        <span class="f5">5-10万</span>
+                                    </div>                                  
+                                </div>
+                            </li>
+                            <li>
+                                <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7214" target="_blank" class="r_l">
+                                    <span>
+                                        <img src="{{ STATIC_URL }}images/images8/gdgl.jpg" width="110" ></span>
+                                </a>
+                                <div class="r_r">
+                                    <div>
+                                        <span class="f1">江西光大旅游集团</span>
+                                         <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7214" target="_blank">
+                                            <img src="{{ STATIC_URL }}images/images8/dsgl2_03.png" alt=""></a>
+                                    </div>
+                                    <p class="f2">江西光大旅游集团旗下互联网平台</p>
+                                    <div class="f3">
+                                        <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7214" target="_blank">
+                                            <img src="{{ STATIC_URL }}images/images8/dsgl2_14.png"></a>
+                                    </div>
+                                </div>
+                                <div style="clear:both"></div>
+                                <div class="r_b">
+                                    <div>
+                                    <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18919" target="_blank"><span class="f4">副总裁</span></a>
+                                        <span class="f5">20-30万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18920" target="_blank"><span class="f4">销售总监 </span></a>
+                                        <span class="f5">10-15万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18921" target="_blank"><span class="f4">市场策划经理</span></a>
+                                        <span class="f5">10-15万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18922" target="_blank"><span class="f4">电商运营经理</span></a>
+                                        <span class="f5">5-10万</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7225" target="_blank" class="r_l">
+                                    <span>
+                                        <img src="{{ STATIC_URL }}images/images8/rh.jpg" width="110" ></span>
+                                </a>
+                                <div class="r_r">
+                                    <div>
+                                        <span class="f1">仁和集团</span>
+                                         <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7225" target="_blank">
+                                            <img src="{{ STATIC_URL }}images/images8/dsgl2_03.png" alt=""></a>
+                                    </div>
+                                    <p class="f2">仁和集团旗下互联网平台</p>
+                                    <div class="f3">
+                                        <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7225" target="_blank">
+                                            <img src="{{ STATIC_URL }}images/images8/dsgl2_14.png"></a>
+                                    </div>
+                                </div>
+                                <div style="clear:both"></div>
+                                <div class="r_b">
+                                    <div>
+                                    <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18949" target="_blank"><span class="f4">运营主管</span></a>
+                                        <span class="f5">5-10万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18950" target="_blank"><span class="f4">培训经理</span></a>
+                                        <span class="f5">5-10万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18951" target="_blank"><span class="f4">产品经理</span></a>
+                                        <span class="f5">5万以下</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18952" target="_blank"><span class="f4">产品包装设计经理</span></a>
+                                        <span class="f5">5-10万</span>
+                                    </div>
+                                </div>
+                            </li>
+                             <li>
+                                <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7233" target="_blank" class="r_l">
+                                    <span>
+                                       <img src="{{ STATIC_URL }}images/images8/rx.jpg" width="110" ></span>
+                                </a>
+                                <div class="r_r">
+                                    <div>
+                                        <span class="f1">江西瑞信投资集团</span>
+                                         <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7233" target="_blank">
+                                            <img src="{{ STATIC_URL }}images/images8/dsgl2_03.png" alt=""></a>
+                                    </div>
+                                    <p class="f2">江西瑞信投资集团旗下互联网平台</p>
+                                    <div class="f3">
+                                        <a href="http://www.hcdyhr.com/account/new_qyyl?companyId=7233" target="_blank">
+                                            <img src="{{ STATIC_URL }}images/images8/dsgl2_14.png"></a>
+                                    </div>
+                                </div>
+                                <div style="clear:both"></div>
+                                <div class="r_b">
+                                    <div>
+                                    <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18954" target="_blank"><span class="f4">集团副总裁</span></a>
+                                        <span class="f5">20-30万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18955" target="_blank"><span class="f4">集团行政人事总监</span></a>
+                                        <span class="f5">10-15万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18956" target="_blank"><span class="f4">集团财务总监</span></a>
+                                        <span class="f5">10-15万</span>
+                                    </div>
+                                    <div>
+                                        <a href="http://www.hcdyhr.com/resume/zwxq?positionId=18958" target="_blank"><span class="f4">集团审计师</span></a>
+                                        <span class="f5">10-15万</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 下面是前/后按钮代码，如果不需要删除即可 -->
+                    <a class="prev iconfont icon-zuojiantou" href="javascript:void(0)"></a>
+                    <a class="next iconfont icon-youjiantou" href="javascript:void(0)"></a>
+                </div>
+            </div>
+        </div>
+        <div class="center" style="margin-top: 107px;">
+            <div   class="slideBox slideBox1">
+                <img src="{{ STATIC_URL }}images/images8/dsgl3_03.png" style="position:absolute;top:-40px;right:20px;">
+                <div class="bd">
+                    <ul>
+                        <li>
+                           <div style="font-size: 26px;">现场招聘区:</div>
+                           <div style="font-size: 16px;margin-top: 10px;line-height: 28px;">【招聘现场】设在绿地中心双子塔之间的广场，包括主席台与200-300个标准招聘展台；<br>
+【领导致辞】江西省人力资源协会会长雷湘池致辞，绿地控股集团江西事业部副总经理李景斌致辞；<br>
+【主题发布】仕道金略公司董事长杨文娟：《互联网时代的人才经纪人》晶能光电集团董事长王敏：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;《人才，现代企业的核心资本》</div>
+                        </li>                   
+                        <li>
+                           <div style="font-size: 26px;">政策宣导区:</div>
+                           <div style="font-size: 16px;margin-top: 10px;line-height: 28px;">【专区位置】：设在绿地中心的一楼大堂<br>
+【专区功能】由省市区人才机构派出专人，进行关于人才引进与回流的政策咨询与介绍。<br>
+【现场专题】政府为了吸引人才回乡发展，加速我省建设，全力支持大圣归来，<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;并派专人进行政府政策宣传。
+</div>
+                        </li>
+                        <li>
+                            <div style="font-size: 26px;">人才经纪人区:</div>
+                           <div style="font-size: 16px;margin-top: 10px;line-height: 28px;">【专区位置】 设在绿地中心一楼大堂<br>
+【专区功能】人才经济人作为特色项目，怀才当遇专门在大圣归来现场开设专区为客户提供专门咨询。<br>
+【现场主题】为人才提供专业的职业规划、求职方向、薪酬定位、<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;个人包装等全方位的咨询与讲解服务，同时广泛发展“人才经纪人”。</div>
+                        </li>
+                        <li>
+                           <div style="font-size: 26px;">高级人才洽谈区:</div>
+                           <div style="font-size: 16px;margin-top: 10px;line-height: 28px;">【专区位置】 设在绿地中心32楼的心客咖啡<br>
+【专区功能】宽松的环境内供企业与人才进行良性互动，合作洽谈。<br>
+【现场主题】为了给高级人才提供更加优质的服务，<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;怀才当遇专门在大圣归来现场开设专区给高级人才洽谈区，让高级人才享受洽谈的最大乐趣。</div>
+                        </li>
+                        <li>
+                           <div style="font-size: 26px;">企业宣讲区:</div>
+                           <div style="font-size: 16px;margin-top: 10px;line-height: 28px;">【专区位置】设在绿地中心4楼的会议中心，8个国际一流水准的会议室同时开放<br>
+【专区功能】供各大企业进行现场的人才、合伙人引进路演及现场洽谈。<br>
+【现场主题】为企业提供一个更细致化的宣传场所，企业在此展示自我、介绍项目、吸引融资与人才。</div>
+                        </li>
+                        <li>
+                            <div style="font-size: 26px;">人才主销区:</div>
+                           <div style="font-size: 16px;margin-top: 10px;line-height: 28px;">【专区位置】设在绿地中心4楼的会议中心<br>
+【专区功能】对大圣归来的精英人才进行销售，为企业提供更优质化的人才服务<br>
+【现场主题】对人力资源总监、财务总监、营销总监三大人才进行主销，<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;每个岗位提供50名以上专业精英人才。</div>
+                        </li>
+                         <li>
+                            <div style="font-size: 26px;">VIP客户专区:</div>
+                           <div style="font-size: 16px;margin-top: 10px;line-height: 28px;">【专区位置】设在绿地中心50楼的绿地企业家俱乐部<br>
+【专区功能】给VIP客户提供专项的猎聘服务咨询与高级人才洽谈<br>
+【现场主题】为vip客户举行专场招聘，定制化服务，尊享更高待遇。</div>
+                        </li>
+                         <li>
+                           <div style="font-size: 26px;">创客洽谈区:</div>
+                           <div style="font-size: 16px;margin-top: 10px;line-height: 28px;">【专区位置】设在绿地中心32楼的心客咖啡，<br>
+【专区功能】给众创客更多的交流与合作的机会。<br>
+【现场主题】创客们在此专区，展示自我，宣传项目，实现梦想</div>
+                        </li>
+                        <li>
+                            <div style="font-size: 26px;">项目路演区:</div>
+                           <div style="font-size: 16px;margin-top: 10px;line-height: 28px;">【专区位置】设在绿地中心50楼的绿地企业家俱乐部<br>
+【现场主题】【互联网+企业】项目路演（创业项目找资金、或者企业家找人才或团队）。<br>
+【参加对象】政府、人才服务机构、高校、金融机构、企业家、行业人才代表（约120人）</div>
+                        </li>
+                         <li style="padding-top: 10px;">
+                            <div style="font-size: 26px;">微信摇一摇区：</div>
+                           <div style="font-size: 16px;margin-top: 10px;line-height: 28px;">【专区位置】设在绿地中心双子塔之间的广场<br>
+【专区功能】现场设置摇一摇专区，在活动现场使用手机打开蓝牙就能在微信的<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;摇一摇的界面中摇出好职位，好名片，小礼品，代金卷，怀才当遇抽奖页面甚至微信红包。<br>
+【专区主题】为了能在传统招聘会上做出更多的创新，我们派出专业的队伍，到北上广多地考察，<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经过全公司人员的研讨，在江西首创微信乐玩，玩出好职位，我们玩出精彩，玩出激情。</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="hd" >
+                    <ul>
+                        <li><span>现场招聘区</span></li>
+                        <li><span>政策宣导区</span></li>
+                        <li style="margin:0 3px 14px 3px!important"><span>人才经纪人<br>专区</span></li>
+                        <li><span>高级人才<br>洽谈区</span></li>
+                        <li><span>企业宣讲区</span></li>
+                        <li><span>人才主销区</span></li>
+                        <li style="margin:0 3px 14px 3px!important"><span>VIP客户专区</span></li>
+                        <li><span>创客洽谈区</span></li>
+                        <li><span>项目路演区</span></li>
+                        <li><span>微信摇一摇区</span></li>                     
+                    </ul>
+                </div>
+                <!-- 下面是前/后按钮代码，如果不需要删除即可 -->
+               <a class="prev iconfont icon-zuojiantou" href="javascript:void(0)"></a>
+                    <a class="next iconfont icon-youjiantou" href="javascript:void(0)"></a>
+            </div>
+        </div>
+        <div class="center" style="overflow:hidden;margin-top: 200px;">
+            <img src="{{ STATIC_URL }}images/images8/dsgl12.png" style="float:left;margin-left: 80px">
+            <img src="{{ STATIC_URL }}images/images8/dsgl6_09.png" style="float:left;margin-left: 25px;">
+            <div class="ts">
+                <div style="margin-top: 0">打造江西首个以“人才”为核心，对接资本、项目的优质“才财”平台。</div>
+               <div> 联合全国各大媒体、人才网站、仕道金略各分公司，邀约近千名江西籍
+                在外及愿意到江西发展的精英人才来昌参会，助力江西企业人才建设。</div>
+               <div> 主销“人力资源管理类”、“财务管理类”、“营销管理类”三大专业
+                线人才，每个专业线提供500名以上的精英人选。</div>
+                <div>“人才经纪人”服务团队根据用户需要，提供定向邀约人才服务、企业
+                专场招聘会服务、主销服务、私董会、项目路演等订制化服务，满足用
+                户个性需求。</div>
+               <div> 线上线下同步，怀才当遇线上平台+新媒体（微信、微博等）+现场招聘
+                博览会+江西各大媒体+各省人才网站，360度的人才引进解决方案。</div>
+                <div>用最低的成本最高效地解决企业人才需求；万人盛会更是企业品牌展示
+                和形象宣传的最佳平台。</div>
+            </div>
+        </div>
+        <div class="center" style="text-align: center;margin-top: 100px;position:relative;">
+            <img src="{{ STATIC_URL }}images/images8/dsgl_25.png">
+           <p style="font-size: 32px;color:#ffb901;margin-top: 30px;">听人力资源总监说说HR的战略价值</p>
+           <p style="font-size: 22px;margin-top: 15px">2015年度最受欢迎的人力资源总监，探讨人力资本趋势，分享个人成长心得</p>
+           <p style="font-size: 32px;color:#ffb901;margin-top: 45px">财务总监分享融资与财务规范的重要性 </p>
+           <p style="font-size: 22px;margin-top: 15px;">500强企业财务总监分享金融融资与财务规范，听听合伙人的声音</p>
+           <p style="font-size: 32px;color:#ffb901;margin-top: 45px">营销总监告诉你互联网+形式下的新营销 </p>
+           <p style="font-size: 22px;margin-top: 15px">在互联网新营销的冲击下，看看成功的营销总监是如何实现“老树新花亦是春” </p>
+           <img src="{{ STATIC_URL }}images/images8/dsgl_22.png" style="position:absolute;right:0;top:-10px;">
+           <img src="{{ STATIC_URL }}images/images8/dsgl_22.png" style="position:absolute;left:0;bottom:10px;">
+        </div>
+        <div class="center" style="margin-top: 50px;text-align: center">
+            <img src="{{ STATIC_URL }}images/images8/dsgl7_03.png" >
+        </div>
+        <div class="center" style="margin-top: 30px;text-align: center">
+          <a href="/system/generalRegister" target="_blank"><img src="{{ STATIC_URL }}images/images8/dsgl999.png" ></a>
+          <img src="{{ STATIC_URL }}images/images8/dsgl7_07.png" id="bmbtn" style="margin-left: 20px">
+        </div>
+        <div class="center" style="margin-top: 105px;">
+            <div class="zyjl">
+                <div style="color:#ee3147">
+                    <img src="{{ STATIC_URL }}images/images8/dsgl_45.png">怀才当遇微信公众号
+                </div>
+                 <div>
+                    <img src="{{ STATIC_URL }}images/images8/dsgl_48.png">咨询式猎头第一品牌仕道金略
+                </div>
+                 <div>
+                    <img src="{{ STATIC_URL }}images/images8/dsgl_50.png">中国人力资源第一社区<br>人本工坊江西群
+                </div>
+                 <div>
+                    <img src="{{ STATIC_URL }}images/images8/dsgl_52.png">人本工坊HR总监沙龙群
+                </div>
+                 <div>
+                    <img src="{{ STATIC_URL }}images/images8/dsgl_54.png">江西职业生涯规划师群
+                </div> 
+                <img class="b" src="{{ STATIC_URL }}images/images8/dsgl_41.png">                
+            </div>
+        </div>
+        <div class="center" style="font-size: 16px;text-align: center;margin-top: 70px;">
+            <div class="b_s">
+                <a href="#" target="_blank">关于我们</a><span>|</span><a href="#" target="_blank">法律申明</a><span>|</span><a href="#" target="_blank">使用帮助</a><span>|</span><a href="#" target="_blank">用户协议</a><span>|</span><a href="#" target="_blank">网站索引</a><span>|</span><a href="#" target="_blank">移动版</a>
+            </div>
+            <p style="margin-top: 8px;">Copyright © 2015 hcdyhr.com赣ICP备12347441号-1 hcdyhr.com 保留所有版权 使用这些服务遵守用户协议</p>
+        </div>
+        <div style="height:60px;"></div>
+    </div>
+    <ul id="bmrk">
+        <li style="margin-top:10px"><div class="l"><label>*</label>企业名称</div><div class="r"><input type="text" id="pc_name"></div></li>
+         <li><div class="l"><label>*</label>职位</div><div class="r"><input type="text" id="position"></div></li>
+          <li><div class="l"><label>*</label>姓名</div><div class="r"><input type="text" id="user_name"></div></li>
+           <li><div class="l"><label>*</label>手机号</div><div class="r"><input type="text" id="phone"></div></li>
+            <li style="height:auto;"><a href="javascript:void(0)" id="wcbmBtn" onclick="saveSignUpInfo()">完成报名</a></li>
+             <li class="b">我们会尽快派专人与您取得联系！</li>
+    </ul> 
+    <span style="display:none" id="keleyivisitorip"></span>
+    <script type="text/javascript">
+    function setCookie(c_name,value,expiredays)
+    {
+    var exdate=new Date()
+    exdate.setDate(exdate.getDate()+expiredays)
+    document.cookie=c_name+ "=" +escape(value)+
+    ((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+    }
+    function getCookie(c_name)
+    {
+    if (document.cookie.length>0)
+      {
+      c_start=document.cookie.indexOf(c_name + "=")
+      if (c_start!=-1)
+        { 
+        c_start=c_start + c_name.length+1 
+        c_end=document.cookie.indexOf(";",c_start)
+        if (c_end==-1) c_end=document.cookie.length
+        return unescape(document.cookie.substring(c_start,c_end))
+        } 
+      }
+    return ""
+    }
+        $(function(){
+        timer();
+        getPraise();
+        })
+        function getPraise(){         
+        $.ajax({
+            type: "POST",
+            url: "/getPraiseCount",
+            dataType: "json",
+            success: function (data) {
+                if(data.status == '1'){
+                    $("#djs_count").text(data.count+8260);
+                }
+            }
+        })
+        }
+        $(".dis_btn").click(function(event) {
+         if(getCookie('ip')!="")
+         {
+            return;
+         }
+        setCookie("ip",$("#keleyivisitorip").text(),2);
+         $.ajax({
+            type: "POST",
+            url: "/savePraise",
+            dataType: "json",
+            success: function (data) {
+                getPraise();
+            }
+         })
+        });
+         function timer(){ 
+
+            var time_start = new Date().getTime(); //获取当前时间
+             var time_end =  new Date("2015/10/31 08:00:00").getTime(); //获取目标时间
+
+            // 计算时间差 
+            var time_distance = time_end - time_start; 
+            // 天
+            var int_day = Math.floor(time_distance/86400000) 
+            time_distance -= int_day * 86400000; 
+            // 时
+            var int_hour = Math.floor(time_distance/3600000) 
+            time_distance -= int_hour * 3600000; 
+            // 分
+            var int_minute = Math.floor(time_distance/60000) 
+            time_distance -= int_minute * 60000; 
+            // 秒 
+            var int_second = Math.floor(time_distance/1000) 
+
+            // 时分秒为单数时、前面加零 
+            if(int_day < 10){ 
+                int_day = "0" + int_day; 
+            } 
+            if(int_hour < 10){ 
+                int_hour = "0" + int_hour; 
+            } 
+            if(int_minute < 10){ 
+                int_minute = "0" + int_minute; 
+            } 
+            if(int_second < 10){
+                int_second = "0" + int_second; 
+            } 
+            // 显示时间 
+            $("#time_d").val(int_day); 
+            $("#time_h").val(int_hour); 
+            $("#time_m").val(int_minute); 
+            $("#time_s").val(int_second); 
+            // 设置定时器
+            setTimeout("timer()",1000); 
+            }
+
+            jQuery(".slideBox").slide({mainCell:".bd ul",effect:"leftLoop",autoPlay:true,easing:"easeOutCirc"});
+            $("#bmbtn").click(function(event) {
+               var layer_index;
+                    layer_index = layer.open({
+                        title: ['报名入口','height:67px;background-color:#ee3147;font-size:22px;color:white;line-height:67px;'],
+                        type: 1,
+                        area: ['766px', '525px'],
+                        shadeClose: true, //点击遮罩关闭               
+                        content: $("#bmrk")
+                    });     
+            });
+        //保存报名信息
+        function saveSignUpInfo(){
+            var pc_name = $('#pc_name').val();
+            if($.trim(pc_name) == ''){
+                window.alert('请输入企业名称');
+                return;
+            }
+            var position = $('#position').val();
+            if($.trim(position) == ''){
+                window.alert('请输入你的职位');
+                return;
+            }
+            var user_name = $('#user_name').val();
+            if($.trim(user_name) == ''){
+                window.alert('请输入姓名');
+                return;
+            }
+            var phone = $('#phone').val();
+            if($.trim(phone) == ''){
+                window.alert('请输入手机号码');
+                return;
+            }else if(!/^1[0-9]{10}$/.test($.trim(phone))){
+                window.alert('你输入的手机号码格式不对，请重新输入');
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                url: "/save_hdenroll",
+                data: {
+                    "pc_name": pc_name, "position": position, "user_name": user_name, "phone": phone
+                },
+                dataType: "json",
+                success: function (data) {
+                    if(data.status == '1'){
+                        window.alert('注册成功');
+                        layer.closeAll();
+                    }else if(data.status == '0'){
+                        window.alert(data.msg);
+                    }else{
+                        window.alert('系统繁忙，请稍后再试');
+                    }
+                }
+            });
+        }
+    </script>    
+</body>
+</html>

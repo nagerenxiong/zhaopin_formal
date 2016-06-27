@@ -1,0 +1,353 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link href="http://at.alicdn.com/t/font_1452073348_6208189.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+     @import "http://at.alicdn.com/t/font_1465712390_2049143.css";
+     html{font-size: 62.5% !important;}
+     img{vertical-align: middle;}
+    .tag{margin-top:20px;}
+    .tag .row div{margin-bottom: 10px;}
+    .tag .row div span{border:1px solid #1470B3;height:39px;line-height: 39px;text-align: center;border-radius: 5px;width:90%;display:block;margin: 0 auto;font-size: 16px;}
+    .zsp_resume_header .t{text-align: center;color:#fff;padding-top: 10px;}
+    .zsp_resume_header div{text-align:center;color:#fff;line-height: 20px;}
+    .zsp_resume_userhead_t{position:absolute;left:16px;top:16px;}
+    .zsp_resume_userhead_t1{position:absolute;left:16px;top:32px;}
+    .zsp_resume_userhead_t2{position:absolute;left:16px;top:49px;}
+    .zsp_resume_userhead_t span,.zsp_resume_userhead_t1 span{color:#E4EFB5;font-size: 14px;}
+    .hc_info span{margin:0 10px;}
+    .hc_info span i{margin-right:5px;}
+    .hc_info span label{color:#E4EFB5;font-weight: bold;font-size: 14px;}
+    .hc_info1{text-align:left;border-top:1px solid #A1CBFF;border-bottom:1px solid #A1CBFF;margin-top:10px;padding-top:10px;padding-bottom: 10px;margin-bottom: 10px;margin-left: 5%;}
+    .hc_info1 div{text-align:left;}
+    .hc_tag_list{margin-top:15px;margin-bottom: 15px;}
+    .hc_tag_list span{background:#fff;text-align: center;color:#7190BC;border-radius: 5px;height:25px;display:inline-block;line-height: 25px;width:20%;margin:0 2% 5px;}
+    .hc_bottom{height:35px;}
+    .hc_bottom span{width:50%;box-sizing: border-box;text-align:center;display:inline-block;}
+    .zsp_resume_header{padding-bottom: 10px;}
+    .reward_icon {color: #ffffff;width: 95px; text-align: center; background-color: #ff6d6d; border-radius: 12px; height: 24px;line-height: 22px;   float: right; position: absolute;right: 10px;}  
+    .pr{position: relative;} 
+    .zsp_job_li_h{}
+    .zsp_job_li_top{position: relative;}
+    .rewmove{margin-top: 18px;padding:0 2px;}
+    .fahi{display: block;height: 20px;width: 20px;text-align: right;font-size: 18px;color: #b0bec5;line-height: 20px;position: absolute;right:0;top:50%;}
+    .zspjname{color:#555;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width: 160px;}
+    .zspheaderh3{margin-bottom: 5px;}
+    .zspheaderh3 b{ max-width: 120px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;float: left;font-weight: normal;font-size: 1.5rem;font-weight: normal;}
+    .zsii{float: left;color: rgb(255, 107, 18);font-size: 14px;white-space: nowrap;line-height: 21px;padding-left: 5px;}
+</style>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+</script>
+<script>
+    $(function(){
+       $('.zsp_header img').attr('src','/static/new_mobile/images/logo1.png');
+    })  
+</script>
+<div class="zsp_user_center_main">
+    </div>
+   <div class="zsp_resume_header" style="margin-bottom:0px;">
+        <div class="zsp_resume_userhead" style="padding-bottom:0px;!important;">
+            <a href="/mobile/headhunter/info_edit" class="zsp_resume_edit_but">[编辑名片]</a>
+            <div class="zsp_resume_userhead_t">好评率 <span>{{ headHunt.evaluation | default:100 }}%</span></div>
+            <div class="zsp_resume_userhead_t1">评论 <span>{{ headhunt.evaluation_count | default:0 }}</span>条</div>
+            <div class="zsp_resume_userhead_t2">
+              <span><label style="color: #E4EFB5;font-size: 14px;">{{ headhunt.entrust_count | default:0 }}</label>份简历委托</span>
+            </div>
+            <div class="zsp_userhead_img">
+                <div class="imgBorderBox" style="position: relative;">
+                    <input id="sctx" type="file" style="display: none;">
+                    <img id="o_logo" src="{{ request.session.file_website }}{{ request.session.head_portrait | default:'' }}"  onerror="notfind(this,'{{ request.session.sex }}',3)">
+                    <input type="hidden" name="logo" value="{{ request.session.head_portrait | default:'' }}"></div>
+                     <script>
+                        $(function(){
+                            $("#o_logo").click(function(event) {
+                                $("#sctx").click();
+                            });
+                        })
+                    </script>
+                </div>
+       </div>
+       <div><span style="font-size: 16px;">{{ pu.user_name | default:'' }}</span><label style="color:#E4EFB5;font-style: oblique">&nbsp;&nbsp;Lv.{{ pu.account_level | default:0 }}</label></div>
+       <div class="hc_info">
+         <span><i class="fa fa-map-marker"></i>{{ headhunt.locationname | default_if_none:'' }}</span>
+        <!--  <span><i class="fa fa-clock-o"></i>{{ headhunt.headhunt_levelname | default_if_none:'' }}</span> -->
+         <span><i class="fa fa-suitcase"></i>{{ headhunt.work_timename | default_if_none:'' }}经验</span>
+       </div>
+       <div class="hc_info1" style="display:none">
+         <div>
+           个人简介:{% if pu.introduction %}{{ pu.introduction | safe }}{% endif %}
+         </div>
+         <div class="hc_tag_list">
+             {% if labelList %}
+                 {% for label in labelList %}
+                    <span>{{ label }}</span>
+                 {% endfor %}
+             {% endif %}
+         </div>
+         <div>
+           <span>擅长行业:</span><span style="margin-right: 10px;">{{ headhunt.businessname  | default_if_none:'' }}</span>
+         </div>
+         <div>
+           <span>擅长职能:</span><span>{{ headhunt.postname | default_if_none:'' }}</span>
+         </div>
+       </div>
+    </div>
+    <!-- 身份信息提交后不再显示 -->
+    {% if request.session.headHuntValidStatus == 1 %}
+        <a class="index_hint" href="/mobile/headhunter/identity">
+           请尽快提交身份认证信息，以免错过优质候选人
+            <img src="/static/new_mobile/images/lawyer_down1.png" alt="">
+        </a>
+    {% endif %}
+    <div class="zsp_uc_list_box">
+    	<a href="/mobile/headhunter/resume_database" class="zsp_uc_list_1">
+        	<div class="zsp_uc_list_text">
+                <strong>简历库</strong>
+            </div>
+        </a>
+    	<a href="/mobile/personal/follow_recruit_status" class="zsp_uc_list_2">
+        	<div class="zsp_uc_list_text">
+                <strong>推荐记录</strong>
+            </div>
+        </a>
+    	<a href="/mobile/personal/position_invite" class="zsp_uc_list_3">
+        	<div class="zsp_uc_list_text">
+             <strong>职位收藏</strong>
+            </div>
+        </a>
+    </div>
+  <div class="zsp_recommend_withdrawal_box" style="padding-right:0;">
+    <a href="JavaScript:void(0);" onClick="myWallet()"><strong>￥{{ gold_count | default:'0.00' }}</strong><span>钱包余额</span></a>
+    <a href="/mobile/company/caibi"><strong>{{ pu.gold | default:0 }}个</strong><span>才币</span></a>
+    <a href="/mobile/company/daijinquan"><strong>0张</strong><span>代金券</span></a>
+    </div>
+  <div>
+      <a href="/mobile/shareweal?remark={{ remark }}">
+          <img style="width:100%" src="/static/new_mobile/images/banner.png" alt="">
+      </a>
+  </div>
+<a href="/mobile/reward_position" class="common_tit_box" style="margin-top:10px;"><span><i class="fa fa-angle-right"></i></span><strong style="color:#8493a8">更多职位</strong></a>
+<div id="wrapper" style="padding-top:0;">
+    <div class="zsp_job_list" id="scroller" style="padding-top:0;">
+        <div id="list" style="padding-top:0;">
+
+        </div>
+        <ul class="positionPaginInfo" id="positionPaginInfo" style="display: none"></ul>
+    </div>
+</div>
+<input type="hidden" id="pu_id" value="{{ pu.id }}" />
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.common.js"></script>
+<script type="text/javascript">
+    var pu_id = $('#pu_id').val();
+    var sql = 'source_id != ' + pu_id + ' and rewards_money != 0 and position_status=1 order by last_update_date desc';
+    var loadData;
+    // 加载职位
+    $(function(){
+        loadData = new pagin("positionPaginInfo", "V_Position_Search", "", encodeURI(sql), "", 20, "paginBind", "loadData");
+    });
+    //加载职位信息
+    function paginBind(dataInfo){
+        var html= '';
+        $(dataInfo).each(function() {
+            // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this);
+            for (var n = 0; n < len; n++) {
+                if (array[n] == null) {
+                    array[n] = "&nbsp;"
+                }
+            }
+            if(array[26] == "&nbsp;" || array[26] == ''){
+                array[26] = "学历不限";
+            }
+            html += '<a href="/mobile/personal/position_detail?position_id='+array[0]+'" class="zsp_job_list_li">';
+            html += '    <div class="zsp_job_li_top">';
+            html += '        <div class="zsp_job_li_fang"><img src="{{ request.session.file_website }}'+array[56]+'" onerror="notfindimg(this)"></div>';
+            html += '        <div class="zsp_job_li_tit">';
+            html += '                <span><i class="fa fa-angle-right fahi"></i></span>';
+            html += '            <div class="zsp_job_li_h pr">';
+           
+            html += '                <h3 class="zspheaderh3" style=" float:left; margin-right:0px!important;"><b>'+array[3]+'</b>';
+            html += ' <i class="zsii" >'+array[19]+'</i></h3>';
+            html += '                <div class="reward_icon rewmove"><i class="iconfont icon-qianbao"></i>悬赏:￥'+array[30]+'</div>';
+            html += '                <!--<div class="hotJob">置顶</div>';
+            html += '                <div class="xuanshang">悬赏</div>';
+            html += '                <div class="tuijian">推荐</div>-->';
+            html += '            </div>';
+            html += '            <div class="zsp_job_li_tit_other zspjname">';
+            html += array[55];
+            html += '                <span></span>';
+            html += '            </div>';
+            html += '        </div>';
+            html += '    </div>';
+            html += '    <div class="zsp_job_li_other  ">';
+            html += '        <div class="zsp_job_li_other_icon">';
+            html += '            <i class="fa fa-map-marker"></i>';
+            html += '            <span>'+array[14]+'</span>';
+            html += '        </div>';
+            html += '        <div class="zsp_job_li_other_icon">';
+            html += '            <i class="fa fa-jpy"></i>';
+            html += '            <span>'+array[19]+'</span>';
+            html += '        </div>';
+            html += '        <div class="zsp_job_li_other_icon">';
+            html += '            <i class="fa fa-graduation-cap"></i>';
+            html += '            <span>'+array[26]+'</span>';
+            html += '        </div>';
+            html += '    </div>';
+            html += '</a>';
+        });
+        $('#list').append(html);
+    }
+    // 加载更多职位
+    function next_page_position() {
+        var $this_page_data = $(".positionPaginInfo .active");
+        var $end_page_data = $(".positionPaginInfo li:last");
+        if($this_page_data.attr('onclick') != $end_page_data.attr('onclick')) {
+            $this_page_data.next("li").click();
+        }else {
+            $(".zsp_resume_but_box").remove();
+        }
+    }
+
+       //上传头像功能  
+$("#sctx").on("change", fOnChange);
+function fOnChange(){
+  var oFile = this.files[0],
+    sName = this.files[0].fileName,
+    sFileType = oFile.type;
+    var nSize = 0,
+    nModTime;
+photoExt=sFileType.substr(sFileType.lastIndexOf(".")).toLowerCase();//获得文件后缀名
+  // 读取文件大小、修改时间等信息
+  var oUploadInfo = {
+    name : oFile.name || oFile.fileName,
+    size : oFile.size/1000 || oFile.fileSize/1000,
+    blob : oFile,
+    type : oFile.type
+  };
+if(oUploadInfo.type !="image/png" && oUploadInfo.type !="image/jpg" && oUploadInfo.type !="image/jpeg" && oUploadInfo.type !="image/gif"){
+  alert(["图片支持jpg、jpeg、gif、png格式",2]);
+  return false;
+}
+var oImg = $("#o_logo");//接收图片的DOM元素
+
+// 使用FileReader读取
+var oReader = new FileReader();
+oReader.onload = function(e){
+  var sBase64 = e.target.result;
+  // 部分Android下base64字符串格式不完整
+  if(window.gIsAndroid && sBase64.indexOf("data:image/") != 0){
+    var sMime = sName.split(".").pop().toLowerCase();
+    sBase64 = sBase64.replace("base64,", "image/" + sMime + ";base64,");
+  }
+  oImg.attr('src', sBase64);
+     // 上传头像
+  upload_head_portrait(sBase64);
+  sBase64 = null;
+}
+oReader.readAsDataURL(oFile);
+}
+
+function upload_head_portrait(fileContent) {
+    var contentStart = 'data:image';
+    var fileContentArray = fileContent.split(contentStart);
+    if(fileContentArray.length != 2) {
+        alert(['您上传的图片不合法',2]);
+        return false;
+    }
+    $.ajax({
+        async: false,
+        type: 'post',
+        data: {'fileContent': fileContentArray[1], 'resume_id': '{{ resume.id }}', 'type': 2},
+        url: '/mobile/ajax_upload_resume_headPortrait',
+        dataType: 'json',
+        success: function(data) {
+            if(data == 'err') {
+                alert(['头像上传失败',2])
+            }
+        }
+    })
+}
+
+//我的钱包
+function myWallet(){
+    $.ajax({
+        type: "POST",
+        url: "/ajax_intoMyWallet",
+        dataType: "json",
+        success: function (data) {
+            if(data.status == '2'){
+                alert(['请绑定手机号码再进行此操作', 4]);
+            }else if(data.status == '3'){
+                alert(['请绑定邮箱再进行此操作', 4]);
+            }else if(data.status == '1'){
+                var  code = data.result;
+                window.location.href ='{{ cash_website }}/api/login_api?code=' + encodeURIComponent(code);
+            }
+        }
+    })
+ }
+</script>
+<script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+<script>
+   var card ='{{ headhunt.id_card | default:0 }}';
+   var sex = '男';
+    var head_protrait = '{{ headhunt.head_portrait | default:'/static/images/jjr_tx.png' }}';
+    if(card.length > 1 && card.substr(-2,1)%2 == 0) {
+        sex = '女';
+        head_protrait = '{{ headhunt.head_portrait | default:'/static/images/jjr_tx1.png' }}';
+    }
+
+    var desc1 = '{% if headhunt.businessname %}擅长行业：{{ headhunt.businessname  | default_if_none:'' }}{% endif %}';
+    desc1 += '{% if headhunt.postname %}\n擅长职能：{{ headhunt.postname | default_if_none:'' }}{% endif %}';
+    var title = '怀才当遇——{{ headhunt.headhunt_levelname | default:'初级人才经纪人' }} {{ headhunt.real_name | default:'' }} 好评率{{ headhunt.praise_rate | default:'100' }}%';
+    // 微信分享
+    WXJssdk.init(function(wx) {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+            success: function (res) {
+			//alert(JSON.stringify(res));
+            }
+        });
+        // 分享data
+        var shareData = {
+            title: title,
+            desc: desc1,
+            link: '{{ request.session.web_site }}/mobile/deatil_headhunter_list?headhunt_id={{ headhunt.id }}&resume_count={{ headhunt.resume_count | default:0 }}',//分享链接地址 自己调整
+            imgUrl: '{{ request.session.web_site }}' + head_protrait,//分享显示的图片
+            success:function(){
+               // alert('shareData success');
+            },
+            cancel:function(){
+               // alert('shareData cancel');
+            },
+            error:function(res){
+               // alert(JSON.stringify(res));
+            }
+        };
+
+        // 分享给朋友
+          wx.onMenuShareAppMessage(shareData);
+        // 分享到朋友圈
+          wx.onMenuShareTimeline(shareData);
+        // 分享到QQ
+          wx.onMenuShareQQ(shareData);
+        // 分享到微博
+          wx.onMenuShareWeibo(shareData);
+    });
+</script>
+</body></html>

@@ -1,0 +1,980 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+ <script type="text/javascript" src="{{ STATIC_URL }}js/cropbox.js"></script>
+ <script type="text/javascript" src="{{ STATIC_URL }}js/businessul_old.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position_old.js"></script>
+ <script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+ <script src="{{ STATIC_URL }}js/xiuxiu.js" type="text/javascript"></script>
+ <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/pages.css">
+ <script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+ <style type="text/css">
+textarea{padding:10px;}
+input{padding-left: 10px;}
+ </style>
+  {#    显示图片插件引入#}
+    <script type="text/javascript">
+        {#        指向greybox所在目录;#}
+    var GB_ROOT_DIR = "../../static/greybox/";
+{#        var GB_ROOT_DIR = "http://mydomain.com/greybox/";#}
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}greybox/AJS.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}greybox/AJS_fx.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}greybox/gb_scripts.js"></script>
+    <link  type="text/css" href="{{ STATIC_URL }}greybox/gb_styles.css" rel="stylesheet"  />
+ <!-- 顶部 --> 
+ <!-- 内容大框 --> 
+ <div class="lt_content_box">
+ 	<!-- 菜单 -->
+    {% if pu.id == pc.pu_id %}
+        {% include 'jobs/system/menu_account.html' %}
+    {% else %}
+        <div style="margin-top: 30px;"></div>>
+    {% endif %}
+ 	<!-- 菜单 -->
+    <div class="clear">99</div>
+    <div class="clear">1</div>
+<div class="center clearfix mt25" >
+ 		<!-- 修改个人信息 --> 
+ 		<div class="f_l" style="width:710px;">
+				<div class="grxx_info_box f_l " style="_width:630px;padding-bottom: 40px;margin-top: 0">
+                    <input type="hidden" id="validStatus" value="{{ request.session.validStatus }}" />
+                    {% if not request.session.validStatus or request.session.validStatus == "1" %}
+                        <div class="jsyx_alert mt10" style="margin-bottom: 10px;"> <i class="iconfont icon-gantanhao1"></i>
+                            您还没有进行企业信息验证，请先<a href="/position/scyyzz" target="_blank">验证企业信息</a>
+                        </div>
+                    {% elif request.session.validStatus == "2" %}
+                        <div class="jsyx_alert mt10" style="margin-bottom: 10px;"> <i class="iconfont icon-gantanhao1"></i>
+                            您的企业信息验证正在审核中，暂时不能维护信息，请耐心等待
+                        </div>
+                    {% endif %}
+					<div class="grxx_info_t"style="margin-top: 40px">
+						<div class="grxx_pic_box" id="grxx" >
+							<div class="clearfix" >
+								<img src="{{ pc.pc_logo }}"  style="width: 200px;height: 200px;" alt="" class="f_l">
+								<dl class="f_l ml25" >
+									<dt>
+										<span class="f_bold fz20">{{ pc.pc_name }}</span>
+                                        {% if request.session.validStatus and request.session.validStatus == "3" %}
+                                            <i class="iconfont icon-renzhengv2 fz18 c_c8 ml15"></i>
+                                            <span class="grxx_tag_b">已认证</span>
+                                        {% endif %}
+									</dt>
+									<dd>
+                                        {% if isManager == 1 %}
+                                            <a href="/jobs/account/lthy?flag=1" target="_blank" class="grxx_sqqy_btn mt10"   data-target="#qy_modal">查看企业组织结构</a>
+                                            <a href="/jobs/account/lthy" target="_blank" class="grxx_sqqy_btn mt10"   data-target="#qy_modal">查看企业人员审核</a>
+                                        {% endif %}
+									</dd>
+									<dd class="mt10 fz12">
+										详细地址：<label id="csaddress">{{ pc.address | default:''}}</label>
+									</dd>
+									<dd class="mt10 fz12">
+										<span>营业执照编号：{{ pc.bl_number }}</span>
+                                        {% if isManager == 1 %}
+                                            <a title="营业执照" rel="gb_imageset[photos]" href="{{ pc.business_license }}" target="_blank" class="ml15">
+                                                <span class="t_d_udline" id="showCardSpan">查看营业执照副本</span>
+                                            </a>
+                                        {% else %}
+                                            <span class="t_d_udline" id="showCardSpan">查看营业执照副本</span>
+                                        {% endif %}
+									</dd>
+								</dl>
+							</div>
+
+ 						<div style="clear:both"></div>
+
+ 						<ul class="grxx_tag_box clearfix mt20 oh"  >
+                                {% if labelList %}
+                                    {% for label in labelList %}
+                                        {% if label != '' %}
+                                            <li>{{ label }}</li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+							</ul>
+ 					</div>
+
+ 					<div class="grxx_pic_box1"  id="grxx1" style="display:none">
+ 						<div class="clearfix" >
+{# 							<img src="{{ pu.head_portrait }}" style="width: 200px;height: 200px;" alt="" class="f_l">#}
+                            <img src="{{ pc.pc_logo }}" width="200" height="200"class="f_l head_portrait99_1" style="cursor: pointer" data-toggle="modal" data-target="#upload_photo" id="head_portrait99"  onclick="setIndex(99)">
+ 							<dl class="f_l ml25" >
+ 								<dt>
+ 									<span class="f_bold fz20">{{ pc.pc_name }}</span>
+                                    {% if request.session.validStatus and request.session.validStatus == "3" %}
+                                        <i class="iconfont icon-renzhengv2 fz18 c_c8 ml15"></i>
+                                        <span class="grxx_tag_b">已认证</span>
+                                    {% endif %}
+ 								</dt>
+ 								<dd>
+ 									<a href="/jobs/account/lthy?flag=1" tabindex="_blank" class="grxx_sqqy_btn mt10"  >查看企业组织架构</a>
+ 									<a href="/jobs/account/lthy" tabindex="_blank" class="grxx_sqqy_btn mt10"  >查看企业人员审核</a>
+ 								</dd>
+ 								<dd class="mt10 fz12">
+                                    <input id="pcid" type="hidden" value="{{ pc.id }}" />
+ 									<input type="text" maxlength="30" id="updateaddress" value="{{ pc.address }}" placeholder="请输入公司地址" maxlength="100" style="width:355px;height:30px;background:#fafafa;border:1px solid #e0e0e0"></dd>
+ 								<dd class="mt10 fz12">
+ 									<span>营业执照编号：{{ pc.bl_number }}</span>
+ 									<a title="营业执照" rel="gb_imageset[photos]" href="#" target="_blank" class="ml15">
+                                        <span class="t_d_udline" id="showCardSpan">查看营业执照副本</span>
+                                    </a>
+ 								</dd>
+ 							</dl>
+ 						</div>
+
+ 						<ul class="grxx_tag_box clearfix mt20 oh grxx_tag_box1" id="labels">
+                            {% if labelList %}
+                                {% for label in labelList %}
+                                    {% if label != '' %}
+                                        <li>{{ label }}<span style="display:none">X</span></li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+ 						<div style="clear:both"></div>
+ 						<div class="mt20 bd_bottom1 oh" style="height:40px">
+ 							<div class="f_r">
+ 								<input type="text" name="" id="plabel" maxlength="8" style="width:172px;height:28px;border:1px solid #e0e0e0"> 
+ 								<input type="button" name="" onclick="addTab()" value="贴上" style="background:#c8161d;color:white;border:none;height:29px;width:48px"></div>
+ 							<div class="f_l">
+ 								<span class="f_bold fz16">添加个人标签</span>
+ 								<span class="ml15" onclick="changeLabel()">
+                                        <input type="hidden" id="pageIndex" value="2" />
+                                        <input type="hidden" id="labelSize" value="{{ labelSize }}" />
+                                        <a href="javascript:void(0);" style="color:#cb252b" >换一换</a>
+                                    </span>
+ 							</div>
+ 						</div>
+ 						<ul class="grbq_list oh" id="changelabellist">
+ 							{% if labels %}
+                                {% for label in labels %}
+                                    <li><a href="javascript:void(0);">{{ label.dictionary_name }}</a></li>
+                                {% endfor %}
+                            {% endif %}
+ 						</ul>
+ 						<div style="clear:both"></div>
+ 						<div style="text-align: center;padding-top:20px">
+ 							<input type="button" name="" value="取消" class="btn11" onclick="cancelEdit()" > 
+ 							<input type="button" name="" value="保存" class="btn12 ml25" onclick="updateWorkAndLabel()" ></div>
+ 					</div>
+ 					<div class="left_top_border"></div>
+ 				</div>
+
+ 			{% if isManager == 1 %}
+                <div class="update_btn" id="update_btn" style="top: 20px;">
+ 				<i class="icon-wrench iconfont"></i>
+ 			</div>
+            {% endif %}
+ 		</div>
+ 		<div style="clear: both"></div>
+ 		<div class="grxx_info_b mt20" style="height:405px" >
+ 			<div class="bd_bottom1" style="position:relative">
+ 				<span class="fz18 c_33" style="clear:right;vertical-align: middle;">公司介绍</span>
+ 				<div class="slider"></div>
+ 			</div>
+ 			<dl id="qy_content" class="mt20" style="word-wrap: break-word;">
+ 				{{ pc.introduce|default:'' }}</dl>
+ 			<dl id="qy_content_update" style="display:none">
+                <textarea name="introduce" class="content" id="txtF_Content" maxlength="500" 
+                    onkeydown="countChar('txtF_Content','counter',500);"
+                    onkeyup="countChar('txtF_Content','counter',500);">{{ pc.introduce }}</textarea>
+                <div class="mt20 button">
+                    <dl class="f_r"><input type="button" name="" id="jssummary" value="取消" class="button2" >
+                        <input type="button" name=""onclick="qksz()" value="清空" class="button2" >
+                        <input type="button" name="introducebtn" onclick="savesummary()" value="保存" class="button1 ml15" ></dl>
+                    <dl class="f_l">最多输入500字，目前已经输入<span  id="counter" style="COLOR:red;FONT-WEIGHT:bold">0</span>字</dl>
+                </div>
+ 		    </dl>
+
+ 			<div class="left_top_border"></div>
+ 			{% if isManager == 1 %}<div class="update_btn" id="update_btn1" style="top:26px">
+ 				<i class="icon-wrench iconfont"></i>
+ 			</div>{% endif %}
+        </div>
+ 		<div style="clear: both"></div>
+        <div >
+
+ 		<div class="grxx_info_b mt20"style="height:auto" id="productIntroduce">
+
+ 			<div class="bd_bottom1" style="position:relative" >
+ 				<span class="fz18 c_33" style="clear:right;vertical-align: middle;">公司产品</span>
+ 				<div class="slider"></div>
+ 			</div>
+            {% for product in productList %}
+                <li id="{{ forloop.counter }}">
+                    {% if isManager == 1 %}
+                        <div class="update_btn" onclick="showupdate({{ forloop.counter }})" style="position: relative; left: 645px; top: 20px;">
+ 				            <i class="icon-wrench iconfont"></i>
+ 			            </div>
+                    {% endif %}
+                    <dl class="mt20 oh" id="grxx2{{ forloop.counter }}">
+                        <img src="{{ product.photo }}" width="200" height="230" class="f_l">
+                        <dl class="f_r" style="width:430px" >
+                            <dt class="mt10 f_bold">{{ product.product_name }}</dt>
+                            <dd class="mt20" style="text-indent: 20px;line-height: 30px">
+                                {{ product.introduce }}
+                            </dd>
+                        </dl>
+                    </dl>
+
+                    <dl style="display:none" id="grxx3{{ forloop.counter }}">
+                        <div class="container" style="padding:0;margin:20px 0 0 0">
+{#                            <div  class="imageBox" style=" background-size: 200px 230px; background-position: -50px -50px; background-repeat: no-repeat;">#}
+{#                                <div class="thumbBox" ></div>#}
+{#                                <img src="{{ product.photo }}" class="img_box" width="200" height="230">#}
+{#                                <div class="tmc"></div>#}
+{#                            <p class="title">#}
+{#                                更换产品照片<br>230px*200 px  文件小于5M</p>#}
+{#                            </div>#}
+                            <div class="action">
+                                <!-- <input type="file" id="file" style=" width: 200px">
+                                -->
+                                <div class="new-contentarea tc">
+                                    <img src="{{ product.photo }}" width="148" height="148" style="cursor: pointer" data-toggle="modal" data-target="#upload_photo" id="head_portrait{{ forloop.counter }}" onclick="setIndex({{ forloop.counter }})">
+{#                                    <a href="javascript:void(0)" class="upload-img" data-toggle="modal" data-target="#upload_photo" id="head_portrait{{ forloop.counter }}">#}
+{#                                        <label for="upload-file">上传图像</label>#}
+{#                                    </a>#}
+{#                                    <input type="file" class="upload-file" name="upload-file">#}
+                                </div>
+                        </div>
+                    </div>
+        {#                <form action="productUpdate" method="post" id="productUpdate{{ forloop.counter }}">#}
+                        <div class="gscp_right mt20">
+                            <input type="text" name="productName" id="productName{{ forloop.counter }}" value="{{ product.product_name }}" maxlength="12" placeholder="产品名称"><br/>
+                            <textarea name="productContext" class="mt20" style="resize: none" id="xgcp{{ forloop.counter }}" maxlength="500" placeholder="产品描述" onkeydown="countChar('xgcp{{ forloop.counter }}','cou{{ forloop.counter }}',500);"
+                                    onkeyup="countChar('xgcp{{ forloop.counter }}','cou{{ forloop.counter }}',500);">{{ product.introduce }}</textarea>
+                            最多输入500字，目前已经输入<span  id="cou{{ forloop.counter }}" style="COLOR:red;FONT-WEIGHT:bold">0</span>字
+                        </div>
+                        <div style="clear:both"></div>
+                        <div class="mt20 button oh" >
+                            <dl class="f_r">
+                                <input type="hidden" id="productId{{ forloop.counter }}" value="{{ product.id }}" />
+                                <input type="hidden" name="imgpath" value="{{ product.photo }}" />
+                                <input type="hidden" id="delid{{ forloop.counter }}" value="productDel?pid={{ product.id }}" />
+                                <input type="button" name="" value="取消" class="button2" onclick="quitUpdate({{ forloop.counter }})">
+                                <input type="button"  data-target="#delete_Modal" onclick="delflag({{ forloop.counter }})"  data-toggle="modal"  value="删除" class="button2">
+                                <input type="button" name="" value="保存" class="button1 ml15" onclick="saveProduct(this, {{ forloop.counter }})">
+                            </dl>
+                        </div>
+        {#                </form>#}
+
+                        </dl>
+                </li>
+            {% endfor %}
+        </div>
+{# 			</dl>#}
+ 			<div class="left_top_border"></div>
+                   </div>
+        {% if isManager == 1 %}
+            <div class="grxx_info_b mt20"style="height:210px;" id="add_cp" >
+                <div class="tianjia f_l mt10" style="cursor: pointer">
+                    <i class="iconfont icon-tianjia2" style="font-size:150px;color:#dfdfe1"></i>
+                </div>
+                <div class="gscp_right" style="margin-top: 50px!important">
+                    <p>
+                        酒香不怕巷子深已经过时啦！
+                        <br>把自己优秀的产品展示出来吸引人才围观吧！</p>
+                    <input type="button" name="" value="添加产品" class="button2" id="add_cp_btn">&nbsp;&nbsp;&nbsp;&nbsp;
+    {#                <input type="button" name="" value="取消" class="button2" id="quit_cp_btn">#}
+                </div>
+            </div>
+        {% endif %}
+ 	</div>
+ 	<!-- 修改个人信息 --> 
+ 	<!-- 侧边栏 --> 
+ 	<div class="grxx_sidebar f_r">
+{#        <form action="qyUpdate" method="post" onsubmit="return update()">#}
+        <input type="hidden" name="pid" value="{{ pc.id }}" id="addpid" />
+ 		<div class="grxx_sidebar_t" style="height:auto;margin-top: 0">
+ 			<div class="bd_bottom2">
+                <span class="f_bold">等级</span>
+                <span class="ml40 c_c8">LV {{ pc.pc_level|default:0 }}</span>
+            </div>
+            <dl id="grxx_address">
+                <div>
+                    <span class="f_bold">地点</span>
+                    <span class="ml40">{{ pc.locationname|default:'' }}</span>
+{#                    <span class="ml40">{{ location.dictionary_name }}</span>#}
+                </div>
+                <div>
+                    <span class="f_bold">规模</span>
+                    <span class="ml40">
+                        {{ pc.scalename|default:'' }}
+{#                        {% for sc in scale %}#}
+{#                            {% if pc.scale == sc.dictionary_value %}#}
+{#                                {{ sc.dictionary_name }}#}
+{#                            {% endif %}#}
+{#                        {% endfor %}#}
+                    </span>
+                </div>
+                <div>
+                    <span class="f_bold">性质</span>
+                    <span class="ml40">
+                        {{ pc.naturename|default:'' }}
+{#                        {% for sc in nature %}#}
+{#                            {% if pc.nature == sc.dictionary_value %}#}
+{#                               {{ sc.dictionary_name }}#}
+{#                            {% endif %}#}
+{#                        {% endfor %}#}
+                    </span>
+                </div>
+ 				<div>
+ 					<span class="f_bold">行业</span>
+ 					<span class="ml40 alignment">
+                        {{ pc.businessname|default:'' }}
+{#                        {{  hangye.dictionary_name|slice:"5" }} #}
+                    </span>
+ 				</div>
+ 			</dl>
+ 			<dl id="grxx_address1" style="display:none">
+                <div>
+ 					<span class="f_bold">地区</span>
+                    <input readonly="readonly" type="text" name="uplocation" id="workAddr" value="{{ pc.locationname|default:'' }}" onclick="showArea(this,1)"  style="width:160px;height:31px;background: url(/static/images/icon-07.png);border: 1px solid #E2E2E2;cursor:pointer">
+                    <input type="hidden" name="location" id="areaid" value="{{ pc.location|default:'' }}" />
+                </div>
+            <div>
+                <span class="f_bold">规模</span>
+ 					<select name="upscale" style="width:160px;height:31px;background-color:#FAFAFA;border:1px solid #e0e0e0" id="scale">
+                        {% for sc in scale %}
+                            <option value="{{ sc.dictionary_value }}"   {% if pc.scale == sc.dictionary_value %} selected="selected" {% endif %}>
+                                {{ sc.dictionary_name }}
+                            </option>
+                        {% endfor %}
+ 					</select>
+                </div>
+			<div>
+ 					<span class="f_bold">性质</span>
+ 					<select name="upnature" style="width:160px;height:31px;background-color:#FAFAFA;border:1px solid #e0e0e0" id="newtitle">
+                        <option value="">所有</option>
+ 						{% for sc in nature %}
+                            <option value="{{ sc.dictionary_value }}"   {% if pc.nature == sc.dictionary_value %} selected="selected" {% endif %}>
+                                {{ sc.dictionary_name }}
+                            </option>
+                        {% endfor %}
+ 					</select>
+
+ 				</div>
+ 				<div>
+ 					<span class="f_bold" >行业</span>
+{#                    <input readonly="readonly" onclick="showBusinessul(this,1)" value="{{  pc.businessname|default:'' }}" type="text" id="experience" name="experience"  placeholder="当前行业" class="w300"  style="width:160px;height: 30px;" >#}
+                    <div id="businessulDiv" onclick="BusinessulControlsShow(1,this)"></div>
+                    <input id="expid" name="expid" type="hidden" value="{{ pc.business|default:'' }}">
+                </div>
+ 				<div>
+                    <input type="button" name="" style="text-indent: 0px;" value="保存" class="btn14" onclick="saveCompanyInfo()" >
+ 					<input type="button" name="qxinfo" style="border-radius: 5px;text-indent: 0px" value="取消" class="btn13 ml15" >
+                    </div>
+ 					
+ 			</dl>
+
+ 			{% if isManager == 1 %}
+                <div class="update_btn" id="update_btn_address" style="top:5px;">
+ 				<i class="icon-wrench iconfont"></i>
+ 			</div>
+            {% endif %}
+{#        </form>#}
+		</div>
+        <div class="grxx_sidebar_m mt20 lthy_xxglmb_border" style="border-top:2px solid #5c91d9">
+ 			<div class="grxx_sidebar_m_title">服务好评分</div>
+ 			<div class="mt10" style="width: 300px;">
+ 				<span>综合好评：</span>
+ 				<img src="/static/images/ii_15.jpg" alt="">
+ 				<img src="/static/images/ii_15.jpg" alt="">
+ 				<img src="/static/images/ii_15.jpg" alt="">
+ 				<img src="/static/images/ii_15.jpg" alt="">
+ 				<img src="/static/images/ii_17.png" alt="">
+ 				<span class="ml15">4.3</span>
+ 			</div>
+ 		</div>
+ 	</div>
+ 	<!-- 侧边栏 -->
+</div>
+ <!-- 内容大框 --> 
+ <!-- 内容大框 -->
+
+ <!-- /.modal-dialog --> </div>
+ <!-- /.modal -->
+
+ <!-- /.modal -->
+ <!-- 模态框（Modal） -->
+ <!-- 模态框（Modal） -->
+	<div class="modal fade" id="delete_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 433px;">
+			<div class="modal-content" style="width: 300px;">
+				<div class="modal-header">
+					<button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">确认删除</h4>
+				</div>
+				<div class="modal-body t_c">
+					是否确认删除
+				</div>
+				<div class="modal-footer">
+                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setdelid()">是</button>
+					 <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">否</button>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+ <!-- 模态框（Modal） -->
+<div class="modal fade" id="add_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 433px;">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close"
+                data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">确认删除</h4>
+				</div>
+				<div class="modal-body t_c">
+					是否确认删除
+				</div>
+				<div class="modal-footer">
+                    <input type="hidden" id="qrid" >
+                    <input type="hidden" id="deladdid" />
+					<button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">否</button>
+		            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="productDel()">是</button>
+			    </div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+<!-- 上传头像 -->
+<div class="modal fade" id="upload_photo" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="upload_photo_c" style="width:600px" >
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">上传头像</h4>
+            </div>
+            <div class="modal-body" style="position:relative">
+                <div id="altContent">
+                    <h1>美图秀秀</h1>
+                </div>
+                <div style="position:absolute;width:300px;height: 50px;bottom: 10px;left:0;background-color:white "></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 上传头像 -->
+    <input type="hidden" id="pc_id" value="{{ pc.id }}" />
+    <input type="hidden" id="imgURL">
+<script type="text/javascript">
+    var imgIndex = 1;
+    $(function(){
+        BusinessulControls("businessulDiv","{{ pc.businessname | default:"" }}","{{ tri.business | default:"" }}",
+                'width:150px;margin-top:5px;font-size:14px;');
+        /*第1个参数是加载编辑器div容器，第2个参数是编辑器类型，第3个参数是div容器宽，第4个参数是div容器高*/
+        xiuxiu.embedSWF("altContent",5,"100%","420px");
+        //修改为您自己的图片上传接口
+        xiuxiu.setUploadURL("http://web.upload.meitu.com/image_upload.php");
+        xiuxiu.setUploadType(2);
+        xiuxiu.setUploadDataFieldName("upload_file");
+        xiuxiu.onInit = function ()
+        {
+            xiuxiu.loadPhoto("{{ tri.head_portrait }}");//修改为要处理的图片url
+        }
+        xiuxiu.onUploadResponse = function (data)
+        {
+            var imgData =  $.parseJSON(data);
+            var imgURL = $(imgData)[0].original_pic;
+
+            $("#imgURL").val(imgURL);
+
+            $("#upload_photo").modal("hide");
+
+            $("#head_portrait" + imgIndex).attr({"src":imgURL})
+        }
+    });
+    function setIndex(index){
+        imgIndex = index;
+    }
+    function positionShow(obj){
+        showPosition(obj,$("#businessulName").val(),$("#businessulValue").val(),5)
+    }
+    window.onload=function(){
+       PageInit();
+    }
+    
+    function showupdate(num){
+        $("#grxx2"+num).hide();
+        $("#grxx3"+num).show();
+        $("#add_cp").show();
+    }
+    $("#update_pro").click(function(){
+        $("#add_cp").show();
+    });
+    function quitUpdate(num){
+        $("#grxx2"+num).show();
+        $("#grxx3"+num).hide();
+    }
+    $("#quit_cp_btn").click(function(event) {
+        $("#grxx2").show();
+        $("#grxx3").hide();
+        $("#add_cp").hide();
+    });
+    $("#update_btn1").click(function(){
+        $("#qy_content").hide();
+        $("#qy_content_update").show();
+    });
+    $("#jssummary").click(function(){
+        $("#qy_content_update").hide();
+        $("#qy_content").show();
+    })
+    $("#update_btn_address").click(function(){
+        $("#grxx_address").hide();
+        $("#grxx_address1").show();
+    })
+    $("[name='qxinfo']").click(function(){
+        $("#grxx_address").show();
+        $("#grxx_address1").hide();
+    })
+
+    //点击编辑的取消
+    function cancelEdit(){
+        $(".grxx_pic_box").css('display','block');
+        $(".grxx_pic_box1").css('display','none');
+    }
+     //修改公司地址、logo及标签
+    function updateWorkAndLabel(){
+        if($("#head_portrait99").attr("src") ==  "" ){
+            window.alert('请上传公司logo');
+            return;
+        }
+        var address=$('#updateaddress').val();
+        var pcid=$('#pcid').val();
+        var labels = $('#labels').children('li');
+        var newlabels = '';
+        var length = labels.length;
+        for(var i = 0;i < length;i++){
+            newlabels += labels.eq(i).text().replace('X', '') + '**';
+        }
+        if(newlabels == ''){
+            window.alert('请添加标签！');
+            return ;
+        }
+        var realPath = '';
+        var oldPath = $('#grxx').children('div:first').children('img:first').attr('src');
+        if(oldPath != $("#head_portrait99").attr("src")){
+            realPath = editInfo(99);
+        }
+        $.ajax({
+            type: "POST",
+            url: "/ajax_saveQyxx",
+            data: {"realPath": realPath, "address": address, 'pcid': pcid, 'labels': newlabels},
+            dataType: "json",
+            success: function(data){
+                if(data.msg == '修改成功！'){
+                    //给修改前的div赋值
+                    $('#csaddress').text(address);
+                    if(realPath != ''){
+                        $('#grxx').children('div:first').children('img:first').attr('src', realPath);
+                    }
+                    $('.grxx_tag_box:first').children('li').remove();
+                    for(var i = 0;i < length;i++){
+                        $('.grxx_tag_box:first').append('<li>' + labels.eq(i).text().replace('X', '') + '</li>');
+                    }
+                    cancelEdit();
+                    window.alert(data.msg);
+                }
+            }
+        });
+    }
+     //添加标签
+    function addTab(){
+        var plabel = $('#plabel').val();
+        if(plabel != ''){
+            var labels = $('#labels').children('li');
+            if(labels.length>7){
+                    alert("你添加的标签太多了,不能再继续添加!");
+                    return
+                }
+            for(var i = 0;i < labels.length;i++){
+                if(plabel.trim() == labels.eq(i).text().replace('X', '').trim()){
+                    alert("不能添加相同的标签!");
+                    return
+                }
+            }
+            var em = '<li>' + plabel + '<span style="display:none">X</span></li>';
+            $('#labels').append(em);
+            $("#labels li").mouseover(function(){
+                $(this).children().css('display','inline');
+            })
+            $("#labels li").mouseout(function(){
+                $(this).children().css('display','none');
+            })
+            $("#labels li span").click(function(){
+                $(this).parent().remove();
+            })
+        }else{
+            window.alert("请填写要添加的标签！");
+        }
+    }
+    //系统自带标签点击事件处理
+    $(document).on('click','.grbq_list li',function(){
+        var labels = $('#labels').children('li');
+        if(labels.length>9){
+                    alert("你添加的标签太多了,不能再继续添加!")
+                    return
+                 }
+            for(var i = 0;i <labels.length;i++){
+                if($(this).text().trim() ==labels.eq(i).text().replace('X', '').trim()){
+                    alert("不能添加相同的标签!")
+                    return
+                }
+            }
+        var em = '<li>' + $(this).text() + '<span style="display:none">X</span></li>';
+        $('#labels').append(em);
+        $("#labels li").mouseover(function(){
+            $(this).children().css('display','inline');
+        })
+        $("#labels li").mouseout(function(){
+            $(this).children().css('display','none');
+        })
+        $("#labels li span").click(function(){
+            $(this).parent().remove();
+        })
+    });
+    //修改公司简介
+    function savesummary(){
+        var introduce=$('[name=introduce]').val();
+        var pcid=$('#pcid').val();
+         $.ajax({
+            type: "POST",
+            url: "/ajax_saveIntroduce",
+            data: {"introduce": introduce, 'pcid': pcid},
+            dataType: "json",
+            success: function(data){
+
+                    //给修改前的div赋值
+                    $('#qy_content').text(introduce);
+                    $("#jssummary").click();
+                    window.alert(data.msg);
+
+            }
+        });
+    }
+
+    var addcount=1;
+    //添加产品（html）
+    function add_cp(){
+        if(addcount>1){
+            alert("不能同时新增多个产品!")
+        }else{
+            var index = 1;
+            if($("#productIntroduce").children('li').length != 0){
+                index = parseInt($("#productIntroduce").children('li:last').attr('id')) + 1
+            }
+{#                    $("#productIntroduce").children('li').length + 1;#}
+            var str = '';
+            str += '<li id="'+index+'">';
+            str += '    <div class="update_btn" onclick="showupdate('+index+')" style="position: relative; left: 645px; top: 20px;">';
+            str += '        <i class="icon-wrench iconfont"></i>';
+            str += '    </div>';
+            str += '    <dl class="mt20 oh" id="grxx2'+index+'" style="display: none;">';
+            str += '        <img src="" width="200" height="230" class="f_l">';
+            str += '        <dl class="f_r" style="width:430px" >';
+            str += '            <dt class="mt10 f_bold"></dt>';
+            str += '            <dd class="mt20" style="text-indent: 20px;line-height: 30px">';
+            str += '                ';
+            str += '            </dd>';
+            str += '        </dl>';
+            str += '    </dl>';
+            str += '    <dl id="grxx3'+index+'">';
+            str += '        <div class="container" style="padding:0;margin:20px 0 0 0">';
+            str += '            <div class="action">';
+            str += '                <div class="new-contentarea tc">';
+            str += '<img src="" width="148" height="148" style="cursor: pointer" data-toggle="modal" data-target="#upload_photo" id="head_portrait'+index+'" onclick="setIndex('+index+')">';
+            str += '                </div>';
+            str += '        </div>';
+            str += '    </div>';
+            str += '        <div class="gscp_right mt20">';
+            str += '            <input type="text" name="productName" value="" id="productName'+index+'" placeholder="产品名称" maxlength="12"><br/>';
+            str += '            <textarea name="productContext" class="mt20" style:"resize:none" id="xgcp'+index+'" placeholder="产品描述" maxlength="500" onkeydown="countChar(\'xgcp'+index+'\',\'cou'+index+'\',500);"';
+            str += '                    onkeyup="countChar(\'xgcp'+index+'\',\'cou'+index+'\', 500);"></textarea>';
+            str += '            最多输入500字，目前已经输入<span  id="cou'+index+'" style="COLOR:red;FONT-WEIGHT:bold">0</span>字';
+            str += '        </div>';
+            str += '        <div style="clear:both"></div>';
+            str += '        <div class="mt20 button oh" >';
+            str += '            <dl class="f_r">';
+            str += '                <input type="hidden" id="productId'+index+'" value="" />';
+            str += '                <input type="hidden" name="imgpath" value="" />';
+            str += '                <input type="button" name="" style="display: none;" value="取消" class="button2" onclick="quitUpdate('+index+')">';
+            str += '                <input type="button"  data-target="#add_Modal" data-toggle="modal"  value="删除" class="button2">';
+            str += '                <input type="button" name="" value="保存" class="button1 ml15" onclick="saveProduct(this, '+index+')">';
+            str += '            </dl>';
+            str += '        </div>';
+            str += '    </dl>';
+            str += '</li>';
+{#          var str='<div id="productDiv'+addcount+'"><hr style="clear:both"><div class="container" style="padding:0;margin:20px 0 0 0"><div class="imageBox" style="background-image: url(/static/images/ls123.jpg);'#}
+{#              str+='background-size:200px 230px;background-position:-50px -50px;background-repeat:no-repeat;"><div class="thumbBox"></div><img src="" class="img_box" width="200" height="230">'#}
+{#              str+='<div class="tmc"></div><p class="title">更换产品照片<br>230px*200 px  文件小于5M</p></div><div class="action">'#}
+{#              str+='<div class="new-contentarea tc"><a href="javascript:void(0)" class="upload-img"><label for="upload-file">上传图像</label></a>'#}
+{#              str+='<input type="file" class="upload-file" name="upload-file"></div></div></div><div class="gscp_right mt20">'#}
+{#              str+='<input type="text" name="addproname'+addcount+'" maxlength="12" value="" placeholder="产品名称"><textarea placeholder="产品描述" name="addprocontext'+addcount+'" id="cpms" class="mt20"  onkeydown="countChar(\'cpms\',\'counter3\',500)"';#}
+{#                str+='onkeyup="countChar(\'cpms\',\'counter3\',500);"></textarea>最多输入500字，目前已经输入<span  id="counter3" style="COLOR:red;FONT-WEIGHT:bold">0</span>字</div><div style="clear:both"></div><div class="mt20 button oh"><dl class="f_r">'#}
+{#             str+='<input type="button" onclick="deladd('+addcount+')"  data-target="#add_Modal"  data-toggle="modal" value="删除" class="button2" ><input type="button" class="button1 ml15" name="" onclick="updateProduct(0,'+addcount+')" value="新增产品" ></dl>'#}
+{#             str+='</div></div>';#}
+               $("#productIntroduce").append(str);
+                addcount++;
+{#            if($("#grxx3"+num).val()==undefined){#}
+{#            }else{#}
+{#                $("#productIntroduce").append(str);#}
+{#            $("#grxx3"+num).append(str);#}
+{#             $("#grxx3"+num).show();#}
+{#             $("#grxx2"+num).hide();#}
+{#            }#}
+        }
+    }
+    // 头像方法
+    function editInfo(index){
+        var changePath = $("#head_portrait" + index).attr("src");
+        return editResumenInfo(changePath, changePath);
+    }
+    //从美图秀秀上获取图片到服务器上
+    function editResumenInfo(head_portrait, imgURL){
+        var realPath = '';
+{#        var elemt = event.target;#}
+        $.ajax({
+            type: "POST",
+            url: "/jobs/account/ajax_personalHeadPortrait",
+{#            eventT: elemt,#}
+            data: {
+                "head_portrait": head_portrait,
+                "imgURL":imgURL
+            },
+            dataType: "json",
+            async: false,
+            success: function(data){
+                if(data.status == "1"){
+                    realPath = data.head_portrait;
+{#                    $(":input[name=head_portrait]").val(data.head_portrait);#}
+                }
+            }
+        });
+        return realPath;
+    }
+    //保存产品
+    function saveProduct(obj, index){
+        if($("#head_portrait" + index).attr("src") ==  "" ){
+            window.alert('请选择产品图片');
+            return;
+        }
+        var parentLi = $(obj).parent().parent().parent().parent();
+        var oldPath = parentLi.find('img:first').attr('src');
+        var realPath = '';
+        if(oldPath != $("#head_portrait" + index).attr("src")){
+            realPath = editInfo(index);
+        }
+        var productId = $('#productId' + index).val();
+        var pc_id = $('#pc_id').val();
+        var productName = $('#productName' + index).val();
+        var introduce = $('#xgcp' + index).val();
+{#        var elemt = event.target;#}
+        $.ajax({
+            type: "POST",
+            url: "/jobs/ajax_saveProduct",
+{#            eventT: elemt,#}
+            data: {
+                "pc_id": pc_id,
+                "realPath": realPath,
+                "productId": productId,
+                "productName": productName,
+                "introduce": introduce
+            },
+            dataType: "json",
+            success: function(data){
+                if(data.msg == "success"){
+                    if(realPath != ''){
+                        parentLi.find('img:first').attr('src', realPath);
+                        $(obj).prev().prev().css('display', '');
+                        $(obj).prev().attr('data-target', '#delete_Modal');
+                        $(obj).prev().attr('onclick', 'delflag('+index+')');
+                        addcount = 1;
+                    }
+                    parentLi.find('dt:first').text(productName);
+                    parentLi.find('dd:first').text(introduce);
+                    $('#productId' + index).val(data.id);
+                    $("#grxx3"+index).hide();
+                    $("#grxx2"+index).show();
+                    window.alert('保存成功');
+                }else{
+                    window.alert('保存失败');
+                }
+            }
+        });
+    }
+{#    function deladd(id){#}
+{#        document.getElementById('deladdid').value=id#}
+{#    }#}
+    $(".icon-tianjia2").click(function(){
+        add_cp();
+    });
+    $("#add_cp_btn").click(function(){
+        add_cp();
+    });
+    //删除刚添加的产品(未保存的数据)
+    function productDel(){
+        $("#productIntroduce").children('li:last').remove();
+        addcount=1
+    }
+    $(".grxx_tag_box1 li").mouseover(function(){
+        $(this).children().css('display','inline');
+    });
+    $(".grxx_tag_box1 li").mouseout(function(){
+        $(this).children().css('display','none');
+    });
+    $(".grxx_tag_box1 li span").click(function(){
+        $(this).parent().remove();
+    })
+    //删除产品（整条数据）
+    function setdelid(){
+        var index = $('#qrid').val();
+        var productId = $('#productId' + index).val();
+        var pc_id = $('#pc_id').val();
+        $.ajax({
+            type: "POST",
+            url: "/jobs/ajax_deleteProduct",
+            data: {
+                "pc_id": pc_id,
+                "productId": productId
+            },
+            dataType: "json",
+            success: function(data){
+                if(data.msg == 'success'){
+{#                    $("#productIntroduce").children('li').eq(index - 1).remove();#}
+                    $("#grxx2"+index).parent().remove();
+                    window.alert('删除成功');
+                }else{
+                    window.alert(data.msg);
+                }
+            }
+        })
+{#        location.href=$("#delid"+ document.getElementById("qrid").value).val()#}
+    }
+    function delflag(index){
+        $('#qrid').val(index);
+{#        document.getElementById("qrid").value = index#}
+    }
+    //换一换标签
+    function changeLabel(){
+        var pageIndex = $('#pageIndex').val();
+        var labelSize = $('#labelSize').val();
+        $.ajax({
+            type: "POST",
+            url: "/jobs/position/headhunter/ajax_changeLabel",
+            data: {"p_value": '12000000', 'page': pageIndex},
+            dataType: "json",
+            success: function(data){
+                $('.grbq_list').children().remove();
+                for(var i = 0;i < data.length;i++){
+                    var hlabel = data[i];
+                    var em = '<li><a href="javascript:void(0);">'+hlabel.fields.dictionary_name+'</a></li>';
+                    $('.grbq_list').append(em);
+                }
+                //设置换一换的页数
+                if((parseInt(pageIndex)) * 8 > labelSize){
+                    $('#pageIndex').val(1);
+                }else{
+                    $('#pageIndex').val(parseInt(pageIndex) + 1);
+                }
+
+            }
+        });
+    }
+
+    function qksz(){
+        $("[name=introduce]").val("")
+    }
+    function countChar(textareaID,spanID,maxNum){
+        //得到输入的字符的长度
+        var NowNum = document.getElementById(textareaID).value.length;
+        //判断输入的长度是否超过规定的长度
+        if(NowNum>maxNum){
+            //如果超过就截取规定长度的内容
+            document.getElementById(textareaID).value = document.getElementById(textareaID).value.substring(0,maxNum);
+        }else{
+            //得到当前的输入长度并且显示在页面上
+            document.getElementById(spanID).innerHTML = NowNum;
+        }
+    }
+    //得到当前的输入长度并且显示在页面上
+    function SetLength(textareaID,spanID){
+        var NowNum = document.getElementById(textareaID).value.length;
+
+        document.getElementById(spanID).innerHTML = NowNum;
+    }
+
+    function PageInit(){
+        SetLength('txtF_Content','counter');
+    }
+    //保存企业信息（地址、性质、规模、行业）
+    function saveCompanyInfo(){
+        if($("#areaid").val()==""){
+            alert("请选择地区!");
+            return false;
+        }
+        if($("#scale").val()==""){
+            alert("请选择企业规模!");
+            return false;
+        }
+        if($("#newtitle").val()==""){
+            alert("请选择企业性质!");
+            return false;
+        }
+        if($("#expid").val()==""){
+            alert("请选择所属行业!");
+            return false;
+        }
+        var companyId = $('#addpid').val();
+        var location = $('#areaid').val();
+        var scale = $('#scale').val();
+        var nature = $('#newtitle').val();
+        var business = $('#expid').val();
+        $.ajax({
+            type: "POST",
+            url: "/ajax_saveCompanyInfo",
+            data: {"companyId": companyId, "location": location, "scale": scale, "nature": nature, "business": business},
+            dataType: "json",
+            success: function(data){
+                if(data.msg == 'success'){
+                    var locationname = $('#areaid').prev().val();
+                    var scalename = $('#scale').children('option:selected').text();
+                    var naturename = $('#newtitle').children('option:selected').text();
+                    var businessname = $('#businessulDiv').children('span').text();
+                    $('#grxx_address').children('div:first').children('span:eq(1)').text(locationname);
+                    $('#grxx_address').children('div:eq(1)').children('span:eq(1)').text(scalename);
+                    $('#grxx_address').children('div:eq(2)').children('span:eq(1)').text(naturename);
+                    $('#grxx_address').children('div:eq(3)').children('span:eq(1)').text(businessname);
+                    window.alert('保存成功');
+                    $("#grxx_address").show();
+                    $("#grxx_address1").hide();
+                }else{
+                    window.alert(data.msg);
+                }
+            }
+        });
+    }
+    //设置默认图片
+    if($("#head_portrait99").attr('src')==""){
+        $("#head_portrait99").attr('src', '{{ STATIC_URL }}images/photoupload_03.jpg');
+    }
+    $("#update_btn").click(function(event) {
+        $("#grxx").hide();
+        if($(".head_portrait99_1").attr('src')==""){
+                $(".head_portrait99_1").attr('src', '{{ STATIC_URL }}images/photoupload_03.jpg');
+            }
+        $("#grxx1").show();
+
+    });
+</script>
+{% include 'jobs/system/new_footer.html' %}

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{{ title }}</title>
+<meta name="description" content="怀才当遇提供专业的人才经纪人服务与互联网领域垂直招聘服务,通过创新独特的结构和模式,以及个性化的优质服务,为您提供职业规划、个性化定制职业形象,帮助用户快速提升职场价值.找工作、找人才、找人才经纪人服务就来怀才当遇网！" />
+<meta name="keywords" content="怀才当遇,怀才不遇,怀才当遇招聘,人才经纪人,互联网招聘,移动互联网招聘,微信招聘,微博招聘,高薪职位,互联网圈子,社交招聘,社会招聘" />
+<link rel="stylesheet" type="text/css" href="/static/css/style_cjydy.css">
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+<script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<script src="{{ STATIC_URL }}js/xiuxiu.js" type="text/javascript"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/cropbox.js"></script>
+<script  src="{{ STATIC_URL }}js/lib/ind/layer/layer.js" type="text/javascript"></script>
+
+<!-- <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/reset.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/basic.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style2.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/pages.css"> -->
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<!-- {#<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">#}
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css"> -->
+<style type="text/css">
+    *{box-sizing: content-box;}   
+    body{
+        background: transparent url("/static/images/new_bg.png") repeat scroll center top / cover;
+    }
+    .grxxk5{padding:0;text-indent:10px;}
+ 
+     .qbhy_div{margin:10px 0 0;padding:0;}
+    .qbhy_ul li{margin-left: 0;}
+    .grxxk4 em{right:10px;}
+    *{box-sizing: content-box;}
+     .szn_content li{font-weight: normal; width: 20%;}
+</style>
+<script>
+    var alertFram;var timer = null;
+    var timer = null;
+  var alertFram;
+  window.alert = function(txt, type, fun1) {
+    var icon = "";
+    var qrStr = ""
+    clearInterval(timer);
+    timer = setInterval(function() {
+      if ($("#alertFram")[0]) {
+        $("#alertFram").remove();
+        clearInterval(timer);
+      }
+    }, 3900)
+    alertFram = $('<div id="alertFram" style="color:#ed4f30;font-size:14px;padding:0px 0px 0px 30px;height:40px;background-color:#fff3de;border:1px solid #ffddc1;position:fixed;left:50%;z-index:999999999;text-align:center;line-height:40px;top:0">' + txt + '<img onclick="$(this).parent().remove()" src="{{ STATIC_URL }}images/x_03.png" style="float:right;cursor:pointer;margin-left:10px;margin-top:14px;margin-right:10px" width="12" height="12"></div>')
+    if (arguments[1] != null) {
+      if (arguments[1] == 1) {
+        icon = "alert_03";
+      } else if (arguments[1] == 2) {
+        icon = "alert_07";
+      } else if (arguments[1] == 3) {
+        clearInterval(timer);
+        icon = "alert_15";
+        qrStr = '<div style="margin-top:20px"><input type="button" id="qr_btn" value="确认" style="width:70px;height:30px;\
+               line-height:30px;color:#fff;background-color:#5C91D9;border:0px;border-radius: 5px;font-size:14px;cursor:pointer;"/><input type="button"\
+               value="取消" onclick="$(this).parent().parent().remove()" style="width:70px;height:30px;line-\
+               height:30px;color:#232323;background-color:#fff;border:0px;border-radius: 5px;font-size:14px;cursor:pointer;"/></div>';
+      } else if (arguments[1] == 4) {
+        icon = "alert_18";
+      }
+      alertFram = $('<div id="alertFram" style="color:#232323;font-size:18px;box-shadow: 5px 5px 5px rgba(0,0,0,.4);background-color:#fff;border:1px solid #7E9CC6;border-radius: 5px;position:fixed;left:50%;z-index:999999999;text-align:center;top:50%;padding:10px 20px;white-space:nowrap;"><div style="width:200px;float:left"></div><div style="clear:both"></div><img onclick="$(this).parent().remove()" src="/static/images/alert_11.png" style="float:right;cursor:pointer;margin-right:-9px;" ><img src="/static/images/' + icon + '.png" style="vertical-align:middle;margin-right:10px"/><span style="margin-right:10px">' + txt + '</span>' + qrStr + '</div>')
+    }
+    if ($("#alertFram")[0]) {
+      return;
+    }
+    $("body").append(alertFram);
+    $("#qr_btn").click(function() {
+      fun1();
+    })
+    var width = parseInt(alertFram.css('width'))+40;
+    if(arguments[1] != null)
+    {
+          var height = parseInt(alertFram.height())+20;
+         alertFram.css('margin-top', '-' + height/2 + 'px');
+    }
+    alertFram.css('margin-left', '-' + width/2 + 'px');
+  }
+</script>
+</head>
+<body>
+
+<div class="re_banner" style="width: 100%;height: 100%">
+
+	<div class="tmbj">
+    	<div class="bsbj" style="padding-bottom: 10px;">
+        	<div class="grws1">
+            	<div class="grnkys">
+                	<ul>
+                    	<li>
+                        	<div class="grtx">
+                            	<img src="/static/images/ls1.jpg" class="grtx_n" style="cursor: pointer" data-toggle="modal" data-target="#upload_photo" id="head_portrait">
+{#                                <div class="grtx_n" id="wdgz_info_list" style="background:url(/static/images/images6/nan.jpg) no-repeat center;">#}
+{#                                	<div class="grtx_g" id="wdgz_detail">#}
+{#                                    	<i class="iconfont icon-xiangji fn fz36"></i><br />#}
+{#                                        上传头像#}
+{#                                    </div>#}
+{#                                </div>#}
+                                
+                            </div>
+                            <div class="grxxk1">
+                            	<ul>
+                               	  <li class="pt10"><div class="grxxk2 fl active">男</div><div class="grxxk2 fl ml10">女</div></li>
+                                    <li class="pt8"><input name="" id="userName" type="text" class="grxxk3" placeholder="姓名" /></li>
+                                </ul>
+                            </div>
+                            <div class="clear"></div>
+                        </li>
+          				<li class="pt25">
+                        	<div class="grxxk4">
+                            	<input name="" type="button" class="grxxk5" value="最高学历" />
+                                <input type="hidden" id="diploma" />
+                                <em></em>
+                                <ul class="slide" style="right: 0px;width: 162px;">
+                                    {% if diplomas %}
+                                        {% for diploma in diplomas %}
+                                            <li value="{{ diploma.dictionary_value }}">{{ diploma.dictionary_name }}</li>
+                                        {% endfor %}
+                                    {% endif %}
+{#                                    <li>111</li>#}
+{#                                    <li>11</li>#}
+{#                                    <li>111</li>#}
+{#                                    <li>111</li>#}
+{#                                    <li>11</li>#}
+{#                                    <li>111</li>#}
+                                </ul>
+                            </div>
+                         	<div class="grxxk4 ml20">
+                                <input name="" type="button" class="grxxk5" value="工作经验" />
+                                <input type="hidden" id="workyear" />
+                                <em></em>
+                                <ul class="slide" style="right: 0px;width: 162px;">
+                                    {% if workyears %}
+                                        {% for workyear in workyears %}
+                                            <li value="{{ workyear.dictionary_value }}">{{ workyear.dictionary_name }}</li>
+                                        {% endfor %}
+                                    {% endif %}
+{#                                    <li>111</li>#}
+{#                                    <li>11</li>#}
+{#                                    <li>111</li>#}
+                                </ul>
+                          </div>
+              				<div class="clear"></div>
+                        </li>
+                        <li class="pt25">
+                            <div id="businessulDiv" onclick="BusinessulControlsShow(1, this)"></div>
+                            <input id="businessValue" name="businessulValue" type="hidden"  value="">
+                        </li>
+                        <li class="pt25">
+                            <div id="positionDiv" onclick="PositionControlsShow(1,this)"></div>
+                            <input type="hidden" id="positionValue" name="positionValue"  value="" >
+                        </li>
+                        <li class="pt25">
+                        	<input name="" id="telephone" type="text" class="grxxk6" placeholder="手机号" value="{{ pu.phone|default:'' }}">
+                        </li>
+                  		<li class="pt25">
+                            <input type="text" class="grxxk8 tk" data-target="#area_modal" data-toggle="modal" onclick="showArea(this,1,false)" onfocus="showArea(this,1,false)" name="qyworkarea" placeholder="当前所在地" style="text-indent:10px">
+                            <input type="hidden" name="locationValue" id="locationValue" />
+{#                        	<input name="" type="button" class="grxxk7" value="所在城市">#}
+{#                            <em></em>#}
+{#                            <ul class="slide" style="right: 0px;width: 348px;top: 70px;">#}
+{#                                    <li>111</li>#}
+{#                                    <li>11</li>#}
+{#                                    <li>111</li>#}
+{#                                </ul>#}
+                        </li>
+                        <li class=" pt25">
+                        	<input name="" type="button" onclick="saveBaseInfo('next',this)" class="grxxk9" value="下一步：继续完善职业信息" />
+                        </li>
+                        <li class="pt10 c6 t_c fz14">
+                            <a class="c3" href="javascript: void(0);" onclick="saveBaseInfo('save',this)" style="font-size: 12px;">保存以上信息，但暂不继续完善信息</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- <div class="grtpbx" style=" top:89px; left:33px;"><img src="/static/images/images6/grsf1.gif" width="69" height="69" border="0" align="absmiddle" /></div> -->
+                
+          </div>
+          <div class="grwzbq" style="top:39px; right:-15px;">基本信息</div>
+        </div>
+    </div>
+
+</div>
+<!-- 上传头像 -->
+<div class="modal fade" id="upload_photo" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="upload_photo_c" style="width:600px" >
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">上传头像</h4>
+            </div>
+            <div class="modal-body" style="position:relative">
+                <div id="altContent">
+                    <h1>美图秀秀</h1>
+                </div>
+                <div style="position:absolute;width:300px;height: 50px;bottom: 10px;left:0;background-color:white "></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 填写基本信息红包start -->
+<script>
+    function write_info(){
+        layer.open({
+            type: 1,
+            area: ['420px','475px'],
+            title:"",
+            fix: true, //不固定
+            maxmin: false,
+            skin: 'o_hb',
+            closeBtn:"1",
+            content: $(".jbxx_hb"),
+            success:function(layero, index){
+                var o_index = index;
+                $(layero).find('.go').click(function(event) {
+                    layer.close(o_index);
+                });
+            }
+        });
+    }
+
+    function write_info1(){
+        layer.open({
+            type: 1,
+            area: ['380px','540px'],
+            title:"",
+            fix: true, //不固定
+            maxmin: false,
+            skin: 'o_hb',
+            closeBtn:"1",
+            content: $(".jl_hb"),
+            success:function(layero, index){
+                var o_index = index;
+                $(layero).find('.go').click(function(event) {
+                    layer.close(o_index);
+                });
+            }
+        });
+    }
+</script>
+<div class="info_hb jbxx_hb">
+<span class="gold">100</span>
+ <h1>
+     <img src="{{ STATIC_URL }}images/wx.png" alt="">
+     <span>温馨提示</span>
+ </h1>
+    <p>完成基本信息填写，</p>
+    <p>奖励<span>100</span>经验值哦！</p>
+    <button class="go">马上去></button>
+    <img src="{{ STATIC_URL }}images/cd.png" alt="" class="abs">
+</div>
+<!-- ////////////////////////////// -->
+<div class="info_hb jl_hb">
+ <h1>
+     <p>哇~恭喜你，获得奖励</p>
+     <p class="mt"><span>100</span>经验值！</p>
+ </h1>
+
+    <button class="go" style="margin-top: 120px;">确定</button>
+    <img src="{{ STATIC_URL }}images/cd.png" alt="" class="abs">
+    <img src="{{ STATIC_URL }}images/cd1.png" alt="" style="top: 50%;left: -50px;" class="abs">
+    <img src="{{ STATIC_URL }}images/100_1.png" alt="" style="top: 55%;left: 80px;" class="abs">
+    <img src="{{ STATIC_URL }}images/100_2.png" alt="" style="top: 60%;right: 60px;" class="abs">
+</div>
+<!-- 填写基本信息红包end -->
+
+<!-- 上传头像 -->
+<input type="hidden" id="imgURL">
+<script type="text/javascript">
+    $(function(){
+        BusinessulControls("businessulDiv","","", 'width:333px;margin-top:5px;font-size:14px;');
+        PositionControls("positionDiv","","", 'width:333px;margin-top:5px;height:auto;font-size:14px;');
+        /*第1个参数是加载编辑器div容器，第2个参数是编辑器类型，第3个参数是div容器宽，第4个参数是div容器高*/
+        xiuxiu.embedSWF("altContent",5,"100%","420px");
+        //修改为您自己的图片上传接口
+        xiuxiu.setUploadURL("http://web.upload.meitu.com/image_upload.php");
+        xiuxiu.setUploadType(2);
+        xiuxiu.setUploadDataFieldName("upload_file");
+        xiuxiu.onInit = function ()
+        {
+            xiuxiu.loadPhoto("{{ tri.head_portrait }}");//修改为要处理的图片url
+        };
+        xiuxiu.onUploadResponse = function (data)
+        {
+            var imgData =  $.parseJSON(data);
+            var imgURL = $(imgData)[0].original_pic;
+
+            $("#imgURL").val(imgURL);
+
+            $("#upload_photo").modal("hide");
+
+            $("#head_portrait").attr({"src":imgURL})
+        }
+    });
+    $("#wdgz_info_list").mouseenter(function(){
+        $(this).children('#wdgz_detail').stop().slideDown(150);
+    })
+    $("#wdgz_info_list").mouseleave(function(){
+        $(this).stop().children('#wdgz_detail').stop().slideUp(150);
+    })
+    $(".grxxk2").click(function(event) {
+        $(this).addClass('active').siblings('').removeClass('active');
+    });
+
+    $(".slide").siblings('input').click(function(event) {
+        $(".slide").slideUp(150);
+        if($(this).siblings('.slide').css("display")=="none")
+        {
+            $(this).siblings('.slide').slideDown(150);
+        }else{
+            $(this).siblings('.slide').slideUp(150);
+        }
+    });
+    $(".slide li").click(function(event) {
+        $(this).parent().siblings('input').val($(this).text());
+        $(this).parent().siblings('input').next().val($(this).val());
+        $(this).parent("").slideUp(150);
+    });
+    // 头像方法
+    function editInfo(){
+        var changePath = $("#head_portrait").attr("src");
+        return editResumenInfo(changePath, changePath);
+    }
+    //从美图秀秀上获取图片到服务器上
+    function editResumenInfo(head_portrait, imgURL){
+        var realPath = '';
+        $.ajax({
+            type: "POST",
+            url: "/jobs/account/ajax_personalHeadPortrait",
+            data: {
+                "head_portrait": head_portrait,
+                "imgURL":imgURL
+            },
+            dataType: "json",
+            async: false,
+            success: function(data){
+                if(data.status == "1"){
+                    realPath = data.head_portrait;
+                }
+            }
+        });
+        return realPath;
+    }
+    //保存基本信息
+    function saveBaseInfo(type,obj){
+        var realPath = '';
+        if($("#head_portrait").attr("src") !=  "/static/images/images6/nan.jpg"
+                && $("#head_portrait").attr("src") != ''){
+            realPath = editInfo();
+        }
+        var userName = $('#userName').val();
+        if(userName == ''){
+            window.alert('请填写姓名',2);
+            return;
+        }
+        var diploma = $('#diploma').val();
+        if(diploma == ''){
+            window.alert('请选择最高学历',2);
+            return;
+        }
+        var workyear = $('#workyear').val();
+        if(workyear == ''){
+            window.alert('请选择工作经验',2);
+            return;
+        }
+        var business = $('#businessValue').val();
+        if(business == ''){
+            window.alert('请选择期望行业',2);
+            return;
+        }
+        var position = $('#positionValue').val();
+        if(position == ''){
+            window.alert('请选择期望职位',2);
+            return;
+        }
+        var telephone = $('#telephone').val();
+        if(telephone == ''){
+            window.alert('请填写手机号码',2);
+            return;
+        }else if (!(/^1[3|4|5|7|8][0-9]\d{4,8}$/.test(telephone))) {
+            window.alert('你输入的手机号码格式不对，请重新输入！',2);
+            return;
+        }
+        var location = $('#locationValue').val();
+        if(location == ''){
+            window.alert('请选择所在城市',2);
+            return;
+        }
+        var sex = $('.active:first').text();
+        $(obj).addClass('load_btn').attr('disabled', 'true');
+        $.ajax({
+            type: "POST",
+            url: "/system/ajax_savePersonInfo",
+            data: {"userName": userName, "sex": sex, "diploma": diploma, "workyear": workyear, "business": business,
+                    "position": position, "telephone": telephone, "location": location, "imagePath": realPath},
+            dataType: "json",
+            success: function (data) {
+                if(data.msg == 'success'){
+                    window.alert('保存成功',1);
+                    if(type == 'next'){
+                        window.location = '/system/hcdygrydSecond';
+                    }else{
+                        window.location = '/resume/new_jlsz';
+                    }
+                }else{
+                    window.alert(data.msg);
+                    $(obj).removeClass('load_btn').removeAttr('disabled');
+                }
+            }
+        });
+    }
+
+</script>
+
+</body>
+
+</html>

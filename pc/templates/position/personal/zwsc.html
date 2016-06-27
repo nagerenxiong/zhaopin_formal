@@ -1,0 +1,414 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/reset.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/basic.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/pages.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="http://www.luqidong.com/demo/qrcode/js/qrcode.js"></script>
+<script  src="{{ STATIC_URL }}js/personalDeliveryResume.js" type="text/javascript"></script>
+<div class="lt_content_box wdjlk">
+	<!-- 猎头会员菜单开始 -->
+	{% include 'jobs/system/menu_tdjl.html' %}
+	<!-- 猎头会员菜单结束 -->
+	<div class="clear">99</div>
+    <div class="clear">2</div>
+	<div class="center">
+
+		<!-- 猎头会职位管理内容开始 -->
+		<div class="dleft">
+
+			<!-- 猎头会员已下线的职位开始 -->
+			<div class="ssjg p9 mt25">
+				<div class="bkdw"></div>
+				<div class="biaolm m10">
+					<div class="biaot2 fz16">
+						<ul>
+							<li class="bthover">收藏的职位</li>
+						</ul>
+					</div>
+
+					<div class="qhann">
+						<ul>
+{#							<li class="sige sigehs fz12"> <i class="iconfont icon-liebiao fsn" style="font-size:24px;"></i>#}
+{#								图片列表#}
+{#							</li>#}
+{#							<li class="sige fz12"> <i class="iconfont icon-list fsn" style="font-size:18px;"></i>#}
+{#								文章列表#}
+{#							</li>#}
+						</ul>
+					</div>
+				</div>
+				<div class="tjsx m10">
+					<input name="" type="checkbox" value="" id="checkAll">
+					<i class="ml5 mr5 fn">全选</i>
+
+					<input name="" type="button" value="批量删除" class="tjann" data-toggle="modal" data-target="#if_del_Modal" onclick="judgeSelected(this)">
+                </div>
+                <div id="noSendData_scdzw" class="noSendData" style="display: none;">
+                    <div>
+                            <p>还没有收藏的职位！</p>
+                    </div>
+                </div>
+				<!-- 猎头会员已下线的职位图片列表开始 -->
+				<div class="tuplb sigenr mt10 oh hzdlt_tuplb zwsc"  id="tableInfo">
+
+
+				</div>
+                <div id="paginInfo"></div>
+
+				<!-- 猎头会员已下线的职位图片列表结束 -->
+				<!-- 猎头会员已下线的职位文章列表开始 -->
+
+				<!-- 猎头会员已下线的职位文章列表结束 -->
+			</div>
+			<!-- 猎头会员已下线的职位结束 -->
+		</div>
+		<!-- 猎头会职位管理内容结束 -->
+
+		<div class="xright mt25">
+			<!-- 侧边栏 -->
+			<!-- 猎头会员英才举荐开始 -->
+            {% include 'jobs/recommendResume.html' %}
+
+			<!-- 猎头会员英才举荐结束 -->
+			<!-- 侧边栏 -->
+		</div>
+
+		<div class="clear"></div>
+	</div>
+</div>
+<!-- 删除简历模态框（Modal） -->
+    <div class="modal fade" id="if_del_Modal" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:300px">
+            <div class="modal-content" >
+                <div class="modal-header" style="padding-bottom: 5px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">取消收藏</h4>
+                </div>
+                <div class="modal-body t_c" style="font-size: 15px;">确认取消收藏？</div>
+                <div class="modal-footer" style="border:none">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteFavoriteJob()">确认</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+        <!-- /.modal -->
+        <!-- 模态框（Modal） -->
+    <input type="hidden" id="operateIndex" />
+    <input type="hidden" id="positionId" />
+    <input type="hidden" id="sourceId" />
+    <input type="hidden" id="operateState" />
+    <input type="hidden" id="resume_id" value="{{ resumeId }}" />
+<script type="text/javascript">
+    var loadData;
+    var file_website = '';
+    var querySql = " position_status=1 and id IN (SELECT Position_ID FROM V_Favorite_Position WHERE pu_id = " +  {{ pu.id }}+ ")";
+    var resume_id = '';
+    $(function(){
+        resume_id = $('#resume_id').val();
+        file_website = $('#file_website').val();
+        loadData = new pagin("paginInfo", "V_Position_Search", "", querySql, "", 10, "paginBind", "loadData",1, "{{ resumeId }}");
+    })
+    function paginBind(dataInfo){
+        if(dataInfo[0]==null){
+            $("#tableInfo").empty()  
+            $("#noSendData_scdzw").show();
+            $(".page_number").hide();
+            return;
+        }
+        $("#tableInfo").empty();
+
+        $(dataInfo).each(function(i) {
+
+            // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this)
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            if($.trim(array[56])=="")
+                array[56] ="null";
+            if($.trim(array[23])=="")
+                array[23] ="经验不限";
+            if($.trim(array[26])=="")
+                array[26] ="学历不限";
+            var content = '';
+            content += '<div class="jlmp1 p_scdzw"  >';
+            content += '    <div class="jlmp1_k1 border_clear" style="position:relative" style="cursor: pointer;" >';
+            content += '        <div class="mpLe">';
+            content += '            <div class="mpxp">';
+            content += '                <img onclick="viewPosition('+array[0]+')" src="'+ file_website+ array[56]+'" width="61" height="61" border="0" align="absmiddle" onerror="notfind(this, 2)">';
+            var recruitType = '';
+            if(array[1] == 1){
+                recruitType = '【企业直招】'
+            }else{
+{#                recruitType = '【猎头职位】'#}
+            }
+            content += '                <div class="fz12" style="position:absolute;left:6px;color:#5c91d9;">'+recruitType+'</div>';
+            content += '            </div>';
+            content += '        </div>';
+            content += '        <div class="mpRi">';
+            content += '            <ul style="position:relative;">';
+            content += '                <li class="c3"> <b style="cursor:pointer;" onclick="viewPosition('+array[0]+')" title="'+array[3]+'" class="fz16 fn fb">'+array[3]+'</b>';
+            content += '                </li>';
+            content += '                <li class="fz12   txt_hide" title="'+array[55]+'" style="width:150px">'+array[55]+'</li>';
+            content += '                <li class="fz12   txt_hide" title="'+array[6]+'" style="width:150px">'+array[6]+'</li>';
+            content += '                <li class="fz12  " style="width:150px">';
+            content += '                    <span>年薪:</span>';
+            content += '                    <i class="fn fz16 cr pl5">'+array[19]+'</i>';
+
+            content += '                </li>';
+            var positionState = '';
+            var publishState = ''
+            if(array[50] == 1){
+                positionState = '招聘中';
+                   content += '<span class="btn80 f_r" style="background:#59A3A2">'+positionState+'</span>';
+            }else{
+                positionState = '已下线';
+                   content += '  <span class="btn80 f_r">'+positionState+'</span>';
+            }
+
+            content += '            </ul>';
+            content += '        </div>';
+            content += '        <div style="clear:both"></div>';
+            content += '        <div class="fz12 pt8 c3" title="'+$(this)[14]+
+                    '|'+ (array[23] == '&nbsp;'? "工作经验不限":array[23])+
+                    '|'+ (array[26] == '&nbsp;'? "学历不限":array[26])+
+                    '|'+array[48].substring(0, 10) +'" style="text-indent: 12px">'+$(this)[14]+
+                    '  |  '+ (array[23] == '&nbsp;'? "工作经验不限":array[23])+
+                    '  |  '+ (array[26] == '&nbsp;'? "学历不限":array[26])+
+                    '  |  '+array[48].substring(0, 10) +'</div>';
+
+            content += '        <div class="zwmp1_k2 oh zwbor" style="margin-top:8px;">';
+            content += '            <div class="zwmp1_k2_Le">';
+            content += '                <input name="" type="checkbox" value="'+array[0]+'"><input type="hidden" value="'+array[2]+'" /><input type="hidden" value="'+array[72]+'" /></div>';
+            content += '            <div class="zwmp1_k2_Ri">';
+{#            content += '                <input name="" type="button" value="投递简历" class="gnanys"  data-toggle="modal" data-target="#tdjl_Modal" onclick="getOperateData(this, '+i+',event)">';#}
+            if(array[30] == '&nbsp;' || array[30] == 0){
+                content += '                <input name="" type="button" value="投递简历" class="gnanys" onclick="tdjl_confirm('+resume_id+', '+array[0]+', '+array[2]+')" id="sendBtn">';
+            }
+            content += '                <input name="" type="button" value="取消收藏" class="gnanys" data-toggle="modal" data-target="#if_del_Modal" onclick="getOperateData(this, '+i+')">';
+            content += '                <input name="" type="button" value="私信" class="gnanys" data-toggle="modal" data-target="#sxmessage_Modal" onclick="getOperateDatass(this,\'' + array[72] + '\', \'' + array[2] + '\', 3, '+array[0]+', \''+array[3]+'\')"></div>';
+            content += '        </div>';
+            content += '        <div class="ppd_box2" style="position:absolute;right:0;top:10px">';
+            content += '            <div class="t">'+ + array[array.length - 1]+'%</div>';
+            content += '            <div>匹配值</div>';
+            content += '        </div>';
+            content += '    </div>';
+            content += '    <div class="jlmp1_k4"></div>';
+            content += '</div>';
+            $('#tableInfo').append(content);
+            var sendBtn = $('#tableInfo').children('div:last').find('#sendBtn');
+            loadSendStatus(sendBtn, resume_id, array[0], array[2]);
+            // if($(".jlmp1 .btn80").text()=="已下线"){
+            // $(".jlmp1 .jlmp1_k4").css("background","#6F6F6F");
+            // }
+        })
+    }
+    //获得投递状态
+    function loadSendStatus(obj, resume_id, position_id, source_id){
+        $.ajax({
+            type: "POST",
+            url: "/judgeSendOrNot",
+            data: {
+                "position_id": position_id,
+                "resume_id": resume_id,
+                "source_id": source_id
+            },
+            dataType: "json",
+            success: function(data) {
+                if(data.status == '2'){
+                    $(obj).attr('onclick', 'alert("你已投递过此职位，无需再次投递！", 4);');
+                    $(obj).val('已投递');
+                }
+            }
+        });
+    }
+    $(".zwmp1_k2_Ri").click(function(event) {
+        event.stopPropagation();
+    });
+    //======= 信息模版
+    $(".icon-iconfontmoban2").click(function(){
+     $(".dialog").show();
+    })
+    $(".qx_btn").click(function(){
+         $(".dialog").hide();
+    })
+    $(".dialog li").click(function(){
+        $(".dialog li").removeClass('active');
+        $(this).addClass('active');
+    })
+    $(".dialog li").dblclick(function(){
+         confirms.call(this);
+    })
+    $(".modal_wdgz .re_btn").click(function(){
+        confirms.call(this);
+    })
+    function confirms(){
+        $("#letterContent").val($(".dialog li.active").children('input').val());
+        $(this).parent().parent().hide();
+    }
+    //获得操作的数据
+    function getOperateData(obj, index,event){
+        var sourceId = $(obj).parent().prev().children('input').eq(1).val();
+        $('#operateIndex').val(index);
+        $('#positionId').val($(obj).parent().prev().children('input').eq(0).val());//职位ID
+        $('#sourceId').val(sourceId);
+        $('#operateState').val('simple');
+        if($(obj).val() == '私信'){
+            $('.message_Modal_box').children().remove();
+            var username = $(obj).parent().prev().children('input').eq(2).val();
+            var em = '<span>' + username + '<input type="hidden" value="' + sourceId + '" /><label>x</label></span>';
+            $('.message_Modal_box').append(em);
+            $(".message_Modal_box label").click(function(){
+                if($(".message_Modal_box label").length == 1) {
+                    alert("您不能移除所有的私信接收人!")
+                    return false;
+                }
+                $(this).parent().remove()
+            })
+        }
+        else if($(obj).val() == '投递简历'){
+            $('#selectPosition').children().remove();
+            var content = '';
+            content += '<li>';
+            content += '    <img src="'+$(obj).parent().parent().parent().children('div:first').children('div:first').children('img').attr('src')+'"  style="float:left;width: 61px;height: 61px;" class="ml15 mt10">';
+            content += '    <div class="f_l mt10">';
+            content += '        <h2 class="f_bold">'+$(obj).parent().parent().parent().children('div:eq(1)').children('ul').children('li:first').children('b').text()+'</h2>';
+            content += '        <p>'+$(obj).parent().parent().parent().children('div:eq(1)').children('ul').children('li:eq(1)').text()+'</p>';
+            content += '        <p>'+$(obj).parent().parent().parent().children('div:eq(1)').children('ul').children('li:eq(2)').text()+'</p>';
+            content += '    </div>';
+            content += '    <div class="ppd_box2 f_r mt10">';
+            content += '        <div class="t">'+$(obj).parent().parent().parent().find('.ppd_box2').children('div:first').text()+'</div>';
+            content += '        <div>匹配值</div>';
+            content += '    </div>';
+            content += '    <div style="clear:both"></div>';
+            content += '    <p style="margin-top:5px;">';
+            content += '' + $(obj).parent().parent().parent().children('div:first').children('div:first').children('div').text();
+            content += '<label class="ml15">' + $(obj).parent().parent().parent().children('div:eq(1)').children('ul').children('li:eq(3)').children(':eq(0)').text() + '</label>';
+            content += '        <span style="padding-left: 0">' + $(obj).parent().parent().parent().children('div:eq(1)').children('ul').children('li:eq(3)').children(':eq(1)').text() + '</span>';
+{#            content += '        【企业直招】';#}
+{#            content += '        <label class="ml15">年薪:</label>';#}
+{#            content += '        <span style="padding-left: 0">'+$(obj).parent().parent().children('p:first').children('span').text()+'</span>';#}
+            content += '    </p>';
+            content += '    <p class="mt10">';
+            content += '       '+$(obj).parent().parent().prev().html()+' ';
+            content += '    </p>';
+            content += '</li>';
+
+            $('#selectPosition').append(content);
+            
+        }
+
+    }
+    //投递简历
+    function sendResumes(){
+        var sourceId = $('#sourceId').val();
+        var positionId = $('#positionId').val();
+        var resumeId = '{{ resumeId }}';
+        if(resumeId == ''){
+            window.alert('你还没有简历');
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/ajax_sendResume",
+            data: {"sourceId": sourceId, "positionId": positionId, "resumeId": resumeId},
+            dataType: "json",
+            success: function (data) {
+                if(data.msg == 'success'){
+                    window.alert('投递成功',1);
+                }else if(data.msg == 'exist'){
+                    window.alert('你已投递该职位，无需投递！');
+                }else{
+                    window.alert(data.msg);
+                }
+            }
+        })
+    }
+    $(".btn68").click(function(event) {
+        $(".btn68").removeClass('active').siblings('span').css("display","none");
+        $(this).addClass('active').siblings('span').css("display","block");
+    });
+    //删除收藏职位
+    function deleteFavoriteJob(){
+        if($('#operateState').val() == 'simple'){
+            var positionId = $('#positionId').val();
+            $.ajax({
+                type: "POST",
+                url: "/ajax_deleteFavoriteJob",
+                data: {"positionId": positionId},
+                dataType: "json",
+                success: function (data) {
+                    if(data.msg == 'success'){
+                        loadData = new pagin("paginInfo", "V_Position_Search", "", querySql, "", 10, "paginBind", "loadData",1, "{{ resumeId }}");
+                        window.alert('取消成功');
+
+                    }else{
+                        window.alert(data.msg);
+                    }
+                }
+            });
+        }else{
+            var checkboxes = $("#tableInfo input[type='checkbox']:checked");
+            var positionIds = [];
+            for(var m = 0;m < checkboxes.length;m++){
+                positionIds.push(checkboxes.eq(m).val());
+            }
+            $.ajax({
+                type: "POST",
+                url: "/ajax_deleteFavoriteJob",
+                data: {"positionIds": positionIds},
+                dataType: "json",
+                success: function (data) {
+                    if(data.msg == 'success'){
+                        loadData = new pagin("paginInfo", "V_Position_Search", "", querySql, "", 10, "paginBind", "loadData",1, "{{ resumeId }}");
+                        window.alert('删除成功');
+                    }else{
+                        window.alert(data.msg);
+                    }
+                }
+            });
+        }
+    }
+    //判断是否有选中的项
+    function judgeSelected(obj){
+        var checkboxes = $("#tableInfo input[type='checkbox']:checked");
+        if(checkboxes.length == 0){
+            window.alert("请选择要操作的数据！");
+            $('.tjann').attr('data-target', '');
+        }else{
+            $('.tjann').eq(0).attr('data-target', '#if_del_Modal');
+        }
+    }
+    //全选事件
+    $('#checkAll').click(function(){
+        var checkboxes = $("#tableInfo input[type='checkbox']");
+        if($(this).is(":checked")){
+             for(var i= 0;i<checkboxes.length;i++){
+                checkboxes[i].checked=true;
+            }
+        }else{
+            for(var i= 0;i<checkboxes.length;i++){
+                checkboxes[i].checked=false;
+            }
+        }
+    })
+
+    function viewPosition(positionId){
+        window.open('/resume/zwxq?positionId=' + positionId, '_blank');
+    }
+
+</script>
+{% include 'jobs/system/new_footer.html' %}

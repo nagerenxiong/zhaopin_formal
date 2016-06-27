@@ -1,0 +1,457 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/zsl_login.css" rel="stylesheet" type="text/css">
+<script src="/static/new_mobile/js/formValidate.js" type="text/javascript"></script>
+<script type="text/javascript">
+var winUrl = window.location.href;
+if (navigator.userAgent.match(/.*Mobile.*/) && !winUrl.match(/.*\/wap\/.*/)) {
+    //window.location.href='/wap';
+} else if (!navigator.userAgent.match(/.*Mobile.*/) && winUrl.match(/.*\/wap\/.*/)) {
+    //window.location.href='/';
+}
+
+$(document).ready(function() {
+    if('{{ msg }}' != '') {
+        $('.errorTip').text("{{ msg }}").fadeIn();
+    }
+    var clearTimeOutNum = null;
+    var err = "";
+    if (err) {
+        $('.errorTip').text(err).fadeIn();
+        clearTimeout(clearTimeOutNum);
+        clearTimeOutNum = setTimeout(function() {
+            $('.errorTip').text("").fadeOut();
+        }, 5000)
+    } 
+    //发送手机验证
+    var mobileinterval; //调度器对象。
+    var mobileSendTime;
+
+    //判断安卓 iphone
+    var u = navigator.userAgent, app = navigator.appVersion;
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    $("#android").attr('value', isAndroid);
+    $("#ios").attr('value', isiOS);
+
+    $(function() {
+        var mobiletime = 1000;
+
+        function mobilerun() {
+            mobileinterval = setInterval(mobilefun, mobiletime);
+        }
+
+        function mobilerunYuyin() {
+            mobileinterval = setInterval(mobilefunYuyin, mobiletime);
+        }
+        // 发送验证码
+        $("#mobilesend").click(function() {
+            var tel = /^(13|15|14|17|18)\d{9}$/;
+            if ($("#username").val()==''){
+                // $('.errorTip').text("请填写手机号").fadeIn();
+                alert(['请填写手机号',2])
+                clearTimeout(clearTimeOutNum);
+                clearTimeOutNum = setTimeout(function() {
+                    $('.errorTip').text("").fadeOut();
+                }, 3000)
+            } else if(!tel.test($("#username").val())) {
+                // $('.errorTip').text("手机号码格式错误").fadeIn();
+                alert(['手机号码格式错误',2])
+                clearTimeout(clearTimeOutNum);
+                clearTimeOutNum = setTimeout(function() {
+                    $('.errorTip').text("").fadeOut();
+                }, 3000)
+            } else {
+                var mobile = $("#username").val();
+                $("#mobile").attr("disabled", "disabled");
+                $("#Form1").append("<input type='hidden' name='username' id='username' value='" + mobile + "'>");
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "/mobile/ajax_send_register_msg",
+                    data: {"code": "abc", "mobile": mobile},
+                    dataType: "json",
+                    success: function (msg) {
+                        if (msg == "1") {
+                            mobileSendTime = 60; // 设置倒计时开始时间
+                            $("#mobilesend").html(mobileSendTime);
+                            mobilerun();
+                            $("#mobilesendsucceed").show();
+                            $("#mobile_verifycode").attr("disabled", "");
+                        } else {
+                            alert([msg,2]);
+                            // $('.errorTip').text(msg).fadeIn();
+                            // clearTimeout(clearTimeOutNum);
+                            // clearTimeOutNum = setTimeout(function() {
+                            //     $('.errorTip').text("").fadeOut();
+                            // }, 3000)
+                        }
+                    }
+                });
+            }
+        });
+
+
+        // 语音获取验证码
+        $('#mobilesend_yuyin').click(function() {
+            var tel = /^(13|15|14|17|18)\d{9}$/;
+            if ($("#username").val() == '') {
+                // $('.errorTip').text("请填写手机号").fadeIn();
+                // clearTimeout(clearTimeOutNum);
+                // clearTimeOutNum = setTimeout(function() {
+                //     $('.errorTip').text("").fadeOut();
+                // }, 3000)
+                alert(['请填写手机号',2]);
+            } else if (!tel.test($("#username").val())) {
+                // $('.errorTip').text("手机号码格式错误").fadeIn();
+                // clearTimeout(clearTimeOutNum);
+                // clearTimeOutNum = setTimeout(function() {
+                //     $('.errorTip').text("").fadeOut();
+                // }, 3000)
+                alert(['手机号码格式错误',2]);
+            } else {
+                //                  $("#mobilesended").text("正在发送...");
+                //                  $("#mobilesend").hide();
+                //                  $("#mobilesended").show();
+                var mobile = $("#username").val();
+                $("#mobile").attr("disabled", "disabled");
+                $("#Form1").append("<input type='hidden' name='username' id='username' value='" + mobile + "'>");
+                    function(data, textStatus) {
+                        if (data.trim() == "success") {
+                            //                                  $("#mobilesended").text("已发送").css("background","#8a9aa2");
+                            mobileSendTime = 60; // 设置倒计时开始时间
+                            $("#mobilesend_yuyin").html(mobileSendTime);
+                            mobilerunYuyin();
+                            $("#mobilesendsucceed").show();
+                            $("#mobile_verifycode").attr("disabled", "");
+                        } else {
+                            // $('.errorTip').text(data).fadeIn();
+                            // clearTimeout(clearTimeOutNum);
+                            // clearTimeOutNum = setTimeout(function() {
+                            //     $('.errorTip').text("").fadeOut();
+                            // }, 3000)
+                            alert([data,2]);
+                        }
+                    }, "text"
+                )
+            }
+        })
+    });
+    function mobilefun() {
+        if (mobileSendTime > 0) {
+            mobileSendTime--;
+            $("#mobilesend").html(mobileSendTime);
+        } else {
+            $("#mobilesend").text('获取验证码');
+{#            $("#mobilesend").hide();#}
+{#            $('#mobilesend_yuyin').show();#}
+            clearInterval(mobileinterval);
+        };
+    }
+
+
+    function mobilefunYuyin() {
+        if (mobileSendTime > 0) {
+            mobileSendTime--;
+            $("#mobilesend_yuyin").html(mobileSendTime);
+        } else {
+            $("#mobilesend_yuyin").text('语音获取');
+            clearInterval(mobileinterval);
+        };
+    }
+
+    $("#hide_psd").live("keyup", function() {
+        $("#show_psd").val($(this).val());
+    })
+    $("#show_psd").live("keyup", function() {
+        $("#hide_psd").val($(this).val());
+    })
+    $(".psd_eye").click(function() {
+        if ($(this).hasClass("open")) {
+            $(this).removeClass("open").find("img").attr("src", "/static/new_mobile/images/closeeye.png");
+            $("#hide_psd").show();
+            $("#show_psd").hide();
+        } else {
+            $(this).addClass("open").find("img").attr("src", "/static/new_mobile/images/openeye.png");
+            $("#hide_psd").hide();
+            $("#show_psd").show();
+        }
+    })
+    $("#js_div span").click(function(){
+        var index=$(this).index();
+         $("#js_div span").css('background-color', 'inherit');
+         $(this).css('background-color', '#5C91D9');
+         if(index==0)
+         {
+            $(".account_type").val('1');
+         }
+         else if(index==1)
+         {
+            $(".account_type").val('3');
+         }
+         else
+         {
+            $(".account_type").val('4');
+         }
+    })
+});
+function validPhone() {
+    var username = $.trim($("#username").val());
+    var phoneReg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
+    var emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+    if (!phoneReg.test(username) && !emailReg.test(username)) {
+        alert(['账号输入不合法',2]);
+        $("#username").val('');
+        return false;
+    }
+    $.ajax({
+        async: false,
+        type: "POST",
+        url: "/mobile/ajax_isAccountRegistered",
+        data: {"account": username},
+        dataType: "json",
+        success: function (data) {
+            $('.psd_ele input').val('');
+            $("#verifycode").val('');
+            if (data == "password") { //查询后返回登录
+                $("#js_div").hide();
+                $(".psd_ele").addClass("show");
+                $(".reg_ele").removeClass("show");
+                $('.psd_ele input').attr('placeholder', '请输入密码');
+                $(".submitBox").val("登录");
+                $("form").attr('action', '/mobile/login_user');
+                $(".submitBox").attr('onclick', 'return isCouldLogin()');
+            } else if (data == "code") {
+                 $("#js_div").hide();
+                $(".psd_ele").removeClass("show");
+                $(".reg_ele").addClass("show");
+                $('.psd_ele input').attr('placeholder', '请输入密码');
+                $(".submitBox").val("登录");
+                $("form").attr('action', '/mobile/login');
+            } else if (data == "register") { //查询后返回注册
+                $("#js_div").show();
+                if(emailReg.test(username)) {
+                        alert(['账号未注册',2]);
+                    // $('.errorTip').text("账号未注册").fadeIn();
+                    $("#username").val('');
+                    return false;
+                }
+                $(".psd_ele").addClass("show");
+                $(".reg_ele").addClass("show");
+                $('.psd_ele input').attr('placeholder', '请设置密码');
+                $(".submitBox").val("开始体验");
+                $("form").attr('action', '/mobile/login_register');
+                $(".submitBox").attr('onclick', 'return isCouldRegister()');
+            } else {
+                 $("#js_div").hide();
+                $(".psd_ele").removeClass("show");
+                $(".reg_ele").removeClass("show");
+                $(".submitBox").val("登录/注册");
+            }
+            $("#type_login").val(data);
+            $(".submitButton1").hide();
+            $(".submitButton2").show();
+        }
+    });
+}
+
+// 判断是否满足注册
+function isCouldLogin() {
+    var flag = isPhoneUseful2();
+    if(!flag) {
+        return false;
+    }
+    flag = isPasswordUseful2();
+    if(!flag) {
+        return false;
+    }
+    return true
+}
+
+// 判断是否满足注册
+function isCouldRegister(){
+    var flag = isPhoneUseful2();
+    if(flag) {
+        // $('.errorTip').text("手机号已经注册").fadeIn();
+        alert(['手机号已经注册',2]);
+        return false;
+    }
+    flag = isPasswordUseful2();
+    if(!flag) {
+        return false;
+    }
+    flag = isValidCodeUseful();
+    if(!flag) {
+        return false;
+    }
+{#    var account_type = $('input[name="account_type"]').val();#}
+{#    if(account_type == '') {#}
+{#        window.alert('请选择注册身份');#}
+{#        return false;#}
+{#    }#}
+    return true;
+}
+
+// 验证码
+function isValidCodeUseful() {
+    var $audit_code = $("#verifycode");
+    var audit_code = $audit_code.val();
+    var reg = /^[0-9]{6}$/;
+    if (!reg.test(audit_code)) {
+        $audit_code.val('');
+        alert(["验证码格式不正确!",2]);
+        // $('.errorTip').text("验证码格式不正确!").fadeIn();
+        $audit_code.val('');
+        return false;
+    }
+    var flag = true;
+{#    $.ajax({#}
+{#        async: false,#}
+{#        type: 'post',#}
+{#        data: {'audit_code': audit_code},#}
+{#        url: '/mobile/ajax_isValidCodeUseful',#}
+{#        dataType: 'json',#}
+{#        success: function(data) {#}
+{#            if(data == '1') {#}
+{#                // 验证码有效#}
+{#            } else {#}
+{#                $('.errorTip').text(data).fadeIn();#}
+{#                $audit_code.val('');#}
+{#                flag = false;#}
+{#            }#}
+{#        }#}
+{#    });#}
+    return flag;
+}
+// 判断手机号是否已注册
+function isPhoneUseful2() {
+    var $phone = $("#username");
+    var phone = $.trim($phone.val());
+    var phoneReg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+    var emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+    if(!phoneReg.test(phone) && !emailReg.test(phone)) {
+        alert(['手机号不合法',2]);
+        // $('.errorTip').text("手机号不合法").fadeIn();
+        return false;
+    }
+    var flag = true;
+    $.ajax({
+        async: false,
+        type: 'post',
+        data: {'account': phone},
+        url: '/mobile/ajax_isAccountRegistered',
+        dataType: 'json',
+        success: function(data) {
+            if(data == 'register') {
+{#                alert('手机号已经注册');#}
+                flag = false;
+            } else {
+                // 手机号可以注册
+            }
+        }
+    });
+    return flag;
+}
+// 密码
+function isPasswordUseful2() {
+    var $password = $("#hide_psd");
+    var password = $.trim($password.val());
+    if(password == '') {
+        alert(['请输入密码',2]);
+        // $('.errorTip').text("请输入密码").fadeIn();
+        return false;
+    }
+    if(password.length < 6) {
+        $password.val('');
+        alert(['您的密码至少包含6个字符!',2]);
+        // $('.errorTip').text("您的密码至少包含6个字符!").fadeIn();
+        return false;
+    }
+    return true;
+}
+
+    </script></head>
+<body>
+<div class="errorTip"></div>
+<div class="top">
+    <a href="/mobile/">
+        <img src="/static/new_mobile/images/login_logo.png" alt="怀才当遇">
+    </a></div>
+<form id="login_form" action="" method="post">
+    <input id="open_id" name="open_id" type="hidden" value="{{ open_id|default:'' }}" />
+    <input id="android" name="android" type="hidden" value="">
+    <input id="ios" name="ios" type="hidden" value="">
+    <input name="type_login" id="type_login" type="hidden" value="">
+    <input name="invite_code" id="invite_code" type="hidden" value="">
+    <input type="hidden"  name="account_type" class="account_type" value="{{ account_type | default:1 }}">
+    <div class="loginBox">
+        <div style="width:100%;display:none;text-align: center" id="js_div" >
+            <span style="width:33%;display:inline-block;color:#fff;cursor:pointer;text-align: center;background-color: #5C91D9;height:35px;line-height: 35px;margin-right: 10px;">我是人才</span>
+            <span style="width:33%;color:#fff;cursor:pointer;text-align: center;height:35px;line-height: 35px;display:none">人才经纪人</span>
+          <span style="width:33%;display:inline-block;color:#fff;cursor:pointer;text-align: center;height:35px;line-height: 35px;margin-left: 10px;">我是企业HR</span>
+        </div>
+        <div class="ele_box show">
+            <div class="input_box">
+                <input name="username" id="username" class="formcheck telCheck" onchange="validPhone()" placeholder="请输入手机号码"></div>
+        </div>
+
+        <div class="ele_box reg_ele hide">
+            <div class="code_box" id="mobilesend">获取验证码</div>
+        <div class="input_box spe">
+            <input name="verifycode" id="verifycode" type="text" onchange="isValidCodeUseful()" placeholder="请输入验证码"></div>
+    </div>
+
+    <div class="ele_box psd_ele hide">
+        <div class="psd_eye">
+            <img src="/static/new_mobile/images/closeeye.png"></div>
+        <div class="input_box spe">
+            <input name="password" type="password" placeholder="请输入密码" id="hide_psd">
+            <input name="password" type="text" placeholder="请输入密码" class="hide" id="show_psd"></div>
+    </div>
+
+    <input type="button" value="登录/注册" onclick="return validPhone()" class="submitBox submitButton1">
+    <input type="submit" value="登录/注册" onclick="return validPhone()" class="submitBox submitButton2" style="display: none;">
+
+    <a href="/mobile/lockback_password">忘记密码？ </a>
+</div>
+</form>
+<div class="errorTip"></div>
+<script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+<script>
+    // 微信分享
+    WXJssdk.init(function(wx) {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+            success: function (res) {
+            //alert(JSON.stringify(res));
+            }
+        });
+        // 分享data
+        var shareData = {
+            title: '怀才当遇',
+            desc: '致力高品质专属人才服务',
+            link: 'http://www.hcdyhr.com/mobile/',//分享链接地址 自己调整
+            imgUrl: 'http://www.hcdyhr.com/static/images/logo.jpg',//分享显示的图片
+            success:function(){
+               // alert('shareData success');
+            },
+            cancel:function(){
+               // alert('shareData cancel');
+            },
+            error:function(res){
+               // alert(JSON.stringify(res));
+            }
+        };
+
+        // 分享给朋友
+          wx.onMenuShareAppMessage(shareData);
+        // 分享到朋友圈
+          wx.onMenuShareTimeline(shareData);
+        // 分享到QQ
+          wx.onMenuShareQQ(shareData);
+        // 分享到微博
+          wx.onMenuShareWeibo(shareData);
+    });
+</script>
+</body>
+</html>

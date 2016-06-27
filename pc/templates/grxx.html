@@ -1,0 +1,1256 @@
+<!DOCTYPE HTML>
+<html>
+	<!-- Added by HTTrack -->
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<!-- /Added by HTTrack -->
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<title>企业个人信息修改</title>
+	<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+	<script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js" ></script>
+	<script src="{{ STATIC_URL }}js/Validform_v5.3.2.js"></script>
+	<script src="{{ STATIC_URL }}js/bootstrap.min.js" ></script>
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+	<script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<!-- 顶部 -->
+	<div class="top">
+		<div class="center">
+			<img src="{{ STATIC_URL }}images/logo.png" alt="" class="f_l mt20">
+			<div class="nav_box f_r">
+				<div class="dropdown collapsible_menu f_r">
+					<button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown"> <i class="iconfont icon-youxiang"></i>
+						5658989@qq.... <i class="iconfont icon-xiajiantou fz12"></i>
+					</button>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="#">Java</a>
+						</li>
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="#">数据挖掘</a>
+						</li>
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="#">数据通信/网络</a>
+						</li>
+						<li role="presentation"></li>
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="#">分离的链接</a>
+						</li>
+					</ul>
+				</div>
+				<ul class="nav nav-tabs nav_b f_r" style="clear:right">
+					<li>
+						<a href="#">我的首页</a>
+					</li>
+					<li>
+						<a href="#">简历通</a>
+					</li>
+					<li>
+						<a href="#">职位通</a>
+					</li>
+					<li>
+						<a href="#">我的List</a>
+					</li>
+					<li>
+						<a href="#">我的关注</a>
+					</li>
+					<li>
+						<a href="#">账号管理</a>
+					</li>
+					<li>
+						<a href="#">站内消息</a>
+					</li>
+					<li>
+						<a href="#">通讯录</a>
+					</li>
+					<li class="slider" style="left: 0px;"></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- 顶部 -->
+	<!-- 内容大框 -->
+	<div class="lt_content_box">
+		<!-- 猎头会员菜单 -->
+		<ul class="nav nav-tabs center nav_min">
+			<li>
+				<a href="#">个人信息</a>
+			</li>
+			<li>
+				<a href="#">收款账号</a>
+			</li>
+			<li>
+				<a href="#">账号绑定</a>
+			</li>
+			<li>
+				<a href="#">修改密码</a>
+			</li>
+			<li>
+				<a href="#">简历接收邮箱</a>
+			</li>
+			<li>
+				<a href="#">信息模板设置</a>
+			</li>
+		</ul>
+    </div>
+		<!-- 猎头会员菜单 -->
+		<div class="center clearfix">
+			<!-- 修改个人信息 -->
+			<div class="f_l" style="width:710px;">
+				<div class="grxx_info_box f_l " style="_width:630px;padding-bottom: 40px">
+					<div class="grxx_info_t"style="margin-top: 40px">
+						<div class="grxx_pic_box"  >
+							<div class="clearfix" style="height:147px">
+								<img src="{{ pu.head_portrait }}" style="width: 200px;height: 200px;" alt="" class="f_l"  data-toggle="modal" data-target="#touxiang_modal">
+								<dl class="f_l ml25" >
+									<dt>
+										<span class="f_bold fz20">{{ pu.user_name }}</span>
+										<i class="iconfont icon-renzhengv2 fz18 c_c8 ml15"></i>
+										<span class="grxx_tag_b">怀才当遇认证猎头</span>
+										<span>隐藏真实姓名</span>
+										<div style="position:relative;display:inline-block;width:50px;height:21px;">
+											<input type="checkbox" id="s4" >
+											<label class="slider-v2" for="s4"></label>
+										</div>
+									</dt>
+									<dd>
+										<a href="#" tabindex="_blank" class="grxx_sqqy_btn mt10"  data-toggle="modal" data-target="#qy_modal">点击申请猎头企业</a>
+									</dd>
+									<dd class="mt10 fz12">
+										<span>擅长行业:</span>
+                                        <input type="hidden" id="bisId" />
+										<span id="bis">{{ headHunter.business }}</span>
+									</dd>
+									<dd class="mt10 fz12">
+										<span>擅长职能:</span>
+                                        <input type="hidden" id="jobId"/>
+										<span id="job">{{ headHunter.post }}</span>
+									</dd>
+								</dl>
+							</div>
+							<div class="grjj_box mt20">
+								个人简介模拟文字信息内容文字稿，个人简介模拟文字信息内容文字稿，个人简介模拟文字信息内容文字稿，
+个人简介模拟文字信息内容文字稿。。。
+								<div class="grjj_border_l"></div>
+								<div class="grjj_border_r"></div>
+							</div>
+							<ul class="grxx_tag_box clearfix mt20 oh"  >
+                                {% if labelList %}
+                                    {% for label in labelList %}
+                                        {% if label != '' %}
+                                            <li>{{ label }}</li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+							</ul>
+						</div>
+
+						<div class="grxx_pic_box1" style="display:none">
+							<div class="clearfix" style="height:147px">
+								<img src="{{ pu.head_portrait }}" style="width: 200px;height: 200px;" alt="" class="f_l">
+								<dl class="f_l ml25" >
+									<dt>
+										<span class="f_bold fz20">{{ pu.user_name }}</span>
+										<i class="iconfont icon-renzhengv2 fz18 c_c8 ml15"></i>
+										<span class="grxx_tag_b">怀才当遇认证猎头</span>
+										<span>隐藏真实姓名</span>
+										<div style="position:relative;display:inline-block;width:50px;height:21px;">
+											<input type="checkbox" id="s4" >
+											<label class="slider-v2" for="s4"></label>
+										</div>
+									</dt>
+									<dd>
+										<a href="#" tabindex="_blank" class="grxx_sqqy_btn mt10">点击申请猎头企业</a>
+									</dd>
+									<dd class="mt10">
+										<div class="schy_select" data-toggle="modal" data-target="#schy_moadl" onclick="intiBusiness()">
+                                            <input type="hidden" id="bisIds" />
+											<span class="schy_select_l fz12">{{ headHunter.business }}</span><span class="schy_select_r"><i class="iconfont icon-liebiao"></i></span>
+										</div>
+									</dd>
+									<dd class="mt10">
+										<div class="schy_select">
+                                            <input type="hidden" id="jobIds" />
+											<span class="schy_select_l fz12">{{ headHunter.post }}</span><span class="schy_select_r"><i class="iconfont icon-liebiao"></i></span>
+										</div>
+									</dd>
+								</dl>
+							</div>
+							<div class="grjj_box mt20 grjj_box1">
+								个人简介模拟文字信息内容文字稿，个人简介模拟文字信息内容文字稿，个人简介模拟文字信息内容文字稿，
+个人简介模拟文字信息内容文字稿。。。
+							</div>
+							<ul class="grxx_tag_box clearfix mt20 oh grxx_tag_box1" id="labels">
+                                {% if labelList %}
+                                    {% for label in labelList %}
+                                        {% if label != '' %}
+                                            <li>{{ label }}<span style="display:none">X</span></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+							</ul>
+							<div style="clear:both"></div>
+							<div class="mt20 bd_bottom1 oh" style="height:40px">
+								<div class="f_r"><input type="text" name="" id="plabel" style="width:172px;height:28px;border:1px solid #e0e0e0"><input type="button" name="" onclick="addTab()" value="贴上" style="background:#c8161d;color:white;border:none;height:29px;width:48px"></div><div class="f_l"><span class="f_bold fz16">添加个人标签</span><span class="ml15" style="color:#cb252b">换一换</span></div>
+							</div>
+							<ul class="grbq_list oh">
+                                {% if labels %}
+                                    {% for label in labels %}
+                                        <li>{{ label.dictionary_name }}</li>
+                                    {% endfor %}
+                                {% endif %}
+{#								<li class="grbq_list_li_active">单身美女</li><li>单身美女</li><li>单身美女</li><li class="grbq_list_li_active">单身美女</li><li>单身美女</li><li>单身美女</li><li>单身美女</li><li>单身美女</li><li>单身美女</li><li>单身美女</li><li>单身美女</li><li>单身美女</li><li>单身美女</li><li>单身美女</li>#}
+							</ul>
+							<div style="clear:both"></div>
+							<div style="text-align: center;padding-top:20px">
+								<input type="button" name="" value="取消" class="btn11" onclick="cancelEdit()" >
+                                <input type="button" name="" value="保存修改" class="btn12 ml25" onclick="updateWorkAndLabel()" >
+							</div>
+						</div>
+						<div class="left_top_border"></div>
+					</div>
+					<span class="grxx_edit_btn">
+						<i class="iconfont icon-wrench"></i>
+						编辑
+					</span>
+				</div>
+				<div style="clear: both"></div>
+				<div class="grxx_info_c mt20" >
+					<div >
+						<span class="fz16 f_bold">手机号码:</span>
+						<span class="td200">{{ pu.phone }}</span>
+						<input type="button" value="更换手机号" class="grxx_btn grxx_btn_bg" id="update_phone"></div>
+				    <div style="display:none;height:80px" id="update_phone_box">
+						<div>
+							<span class="fz16 f_bold">手机号码:</span>
+							<input type="text" id="newphone" class="grxx_info_txt">
+							<input type="button" name="" value="获取验证码"  class="grxx_btn grxx_btn_bg"></div>
+						<div>
+							<input type="text"  class="yz_code_txt grxx_info_txt1">
+                            <input type="button" name="" value="取消修改" class="btn13 ml15" onclick="cancelUpdate(this, 1)">
+							<input type="button" name="" value="确认修改" class="grxx_btn grxx_btn_bg1" onclick="updatePhone()"></div>
+					</div>
+					<div>
+						<span  class="fz16 f_bold">当前邮箱:</span>
+						<span class="td200">{{ pu.email }}</span>
+						<input type="button" name="" value="验证邮箱"  class="grxx_btn grxx_btn_bg2">
+						<input type="button" name="" value="更换邮箱"  class="grxx_btn grxx_btn_bg" id="update_email"></div>
+					<div style="display:none" id="update_email_box">
+						<span class="fz16 f_bold">当前邮箱:</span>
+						<input type="text" id="newemail" class="grxx_info_txt">
+                        <input type="button" name="" value="取消修改" class="btn13 ml15" onclick="cancelUpdate(this, 2)">
+						<input type="button" name="" value="确认新邮箱"  class="grxx_btn grxx_btn_bg1" onclick="updateEmail()"></div>
+					<div class="left_top_border"></div>
+				</div>
+				<div class="grxx_info_b mt20" >
+					<div class="bd_bottom1">
+						<a class="f_r c_33" href="#" style="vertical-align: middle">more+</a>
+						<span class="fz18 c_33" style="clear:right;vertical-align: middle">正在运作的职位</span>
+					</div>
+					<ul class="grxx_info_ul">
+						<li>
+							<dl class="f_l grxx_info_ul_dl" >
+								<dt>
+									<span class="fz18 c_33">运营经理</span>
+									<span class="fz16 c_c8 ml15">8K-20K</span>
+								</dt>
+								<dd>北京市和君设计有限公司</dd>
+								<dd>
+									<span>地点:南昌</span>
+									<span class="ml15">经验:南昌</span>
+								</dd>
+								<dd>
+									<span>学历:本科</span>
+									<span class="ml15">领域:互联网、O2O</span>
+								</dd>
+							</dl>
+							<img src="{{ STATIC_URL }}images/112_03.jpg" alt="" class="f_r">
+							<dl class="grxx_info_ul_dl1 clearfix" style="margin-left:-12px;width:310px">
+								<dd>绩效奖金</dd>
+								<dd>绩效奖金</dd>
+								<dd>绩效奖金</dd>
+								<dd>绩效奖金</dd>
+							</dl>
+						</li>
+						<li>
+							<dl class="f_l grxx_info_ul_dl" >
+								<dt>
+									<span class="fz18 c_33">运营经理</span>
+									<span class="fz16 c_c8 ml15">8K-20K</span>
+								</dt>
+								<dd>北京市和君设计有限公司</dd>
+								<dd>
+									<span>地点:南昌</span>
+									<span class="ml15">经验:南昌</span>
+								</dd>
+								<dd>
+									<span>学历:本科</span>
+									<span class="ml15">领域:互联网、O2O</span>
+								</dd>
+							</dl>
+							<img src="{{ STATIC_URL }}images/112_03.jpg" alt="" class="f_r">
+							<dl class="grxx_info_ul_dl1 clearfix" style="margin-left:-12px;width:310px">
+								<dd>绩效奖金</dd>
+								<dd>绩效奖金</dd>
+								<dd>绩效奖金</dd>
+								<dd>绩效奖金</dd>
+							</dl>
+						</li>
+					</ul>
+					<div class="lthy_pager">
+						<ul class="pagination pagination-sm">
+							<li>
+								<a href="#">上一页</a>
+							</li>
+							<li>
+								<a href="#">1</a>
+							</li>
+							<li>
+								<a href="#">2</a>
+							</li>
+							<li>
+								<a href="#">3</a>
+							</li>
+							<li>
+								<a href="#">4</a>
+							</li>
+							<li>
+								<a href="#">5</a>
+							</li>
+							<li>
+								<a href="#">下一页</a>
+							</li>
+						</ul>
+					</div>
+					<div class="left_top_border"></div>
+				</div>
+			</div>
+			<!-- 修改个人信息 -->
+			<!-- 侧边栏 -->
+			<div class="grxx_sidebar f_r">
+				<div class="grxx_sidebar_t" style="height:auto">
+					<div>
+						<span class="f_bold">等级</span>
+						<span class="ml40 c_c8">LV22</span>
+					</div>
+					<div class="bd_bottom1">
+						<span class="f_bold">金币</span>
+						<img src="{{ STATIC_URL }}images/111_03.png" alt=""class="ml40">
+						<span class="c_c8 ml15">200.00</span>
+					</div>
+					<dl id="grxx_address">
+						<div>
+						<span class="f_bold">地点</span>
+						<span class="ml40">{{ headHunter.location }}</span>
+{#						<span class="ml15">东湖区</span>#}
+						</div>
+						<div>
+							<span class="f_bold">头衔</span>
+							<span class="ml40">{{ headHunter.headhunt_level }}</span>
+						</div>
+						<div class="bd_bottom1">
+							<span class="f_bold">经验</span>
+							<span class="ml40">{{ headHunter.working_time }}</span>
+						</div>
+					</dl>
+					<dl id="grxx_address1" style="display:none">
+						<div>
+						<span class="f_bold">地点</span><input type="hidden" name="location" id="areaid" />
+						<input type="text" name="" id="workAddr" value="{{ headHunter.location }}"  data-toggle="modal" data-target="#addree_moadl" style="width:160px;height:31px;background: url(../static/images/icon-07.png);border: none;cursor:pointer">
+						</div>
+						<div>
+							<span class="f_bold">头衔</span>
+                            <select style="width:160px;height:31px;background: url(../static/images/icon-07.png);border: none;" id="newtitle">
+                                <option value="" selected="selected">--请选择--</option>
+                                {% if headNames %}
+                                    {% for headName in headNames %}
+                                        <option value="{{ headName.dictionary_value }}" {% if headHunter.headhunt_level == headName.dictionary_name %}selected{% endif %}>
+                                            {{ headName.dictionary_name }}
+                                        </option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+{#							<input type="text" name="headhunt_level" id="headName" value="{{ headHunter.headhunt_level }}" style="width:160px;height:31px;background: url(../static/images/icon-07.png);border: none;">#}
+						</div>
+						<div>
+							<span class="f_bold">经验</span>
+{#							<input type="text" name="experience" id="experience" value="{{ headHunter.working_time }}" style="width:160px;height:31px;background: url(../static/images/icon_06.png);border: none;">#}
+							<input type="date" name="user_date" id="experience" value="{{ headHunter.working_time }}" style="width:160px;height:31px;background: url(../static/images/icon_06.png);border: none;"/>
+						</div>
+						<div>
+							<input type="button" name="" value="取消" class="btn13 ml15" onclick="cancelOperator()">
+                            <input type="button" name="" value="保存" class="btn14" onclick="saveHunter()">
+						</div>
+					</dl>
+					<div class="clearfix" style="padding-left: 20px;height:100px">
+						<div class="f_l t_c" style="width:90px;padding-left: 0px">
+							<i class="iconfont icon-tianjiayuangong fz20"></i>
+							<br>
+							<span>被关注人数</span>
+							<br>
+							<span class="c_c8">122</span>
+						</div>
+						<div class="f_l t_c" style="width:90px;padding-left: 0px">
+							<i class="iconfont icon-tianjiayuangong fz20"></i>
+							<br>
+							<span>被访问人数</span>
+							<br>
+							<span class="c_c8">122</span>
+						</div>
+					</div>
+					<div class="update_btn" id="update_btn_address">
+						<i class="icon-wrench iconfont"></i>
+					</div>
+				</div>
+				<div class="grxx_sidebar_m mt20 lthy_xxglmb_border" style="border-top:2px solid #c8161d">
+					<div class="grxx_sidebar_m_title">服务好评分</div>
+					<div class="mt10">
+						<span>招聘服务：</span>
+						<img src="../static/images/ii_15.jpg" alt="">
+						<img src="../static/images/ii_15.jpg" alt="">
+						<img src="../static/images/ii_15.jpg" alt="">
+						<img src="../static/images/ii_15.jpg" alt="">
+						<img src="../static/images/ii_17.png" alt="">
+						<span class="c_66 ml15">4.3</span>
+					</div>
+					<div class="mt10">
+						<span>求职服务：</span>
+						<img src="../static/images/ii_15.jpg" alt="">
+						<img src="../static/images/ii_15.jpg" alt="">
+						<img src="../static/images/ii_15.jpg" alt="">
+						<img src="../static/images/ii_15.jpg" alt="">
+						<img src="../static/images/ii_17.png" alt="">
+						<span class="ml15">4.3</span>
+					</div>
+					<div class="mt10">
+						<span>综合好评：</span>
+						<img src="../static/images/ii_15.jpg" alt="">
+						<img src="../static/images/ii_15.jpg" alt="">
+						<img src="../static/images/ii_15.jpg" alt="">
+						<img src="../static/images/ii_15.jpg" alt="">
+						<img src="../static/images/ii_17.png" alt="">
+						<span class="ml15">4.3</span>
+					</div>
+				</div>
+				<div class="grxx_sidebar_m mt20 lthy_xxglmb_border" style="border-top:2px solid #c8161d;position:relative">
+					<div class="grxx_sidebar_m_title">服务过的企业</div>
+					<dl id="grxx_qy_box">
+						<div class="mt10">
+							<img src="../static/images/112_03.jpg" alt="" width="40" height="37">
+							<span class="ml15">北京和君设计有限公司</span>
+						</div>
+						<div class="mt10">
+							<img src="../static/images/112_03.jpg" alt="" width="40" height="37">
+							<span class="ml15">网易-网易游戏中心</span>
+						</div>
+					</dl>
+					<dl style="display:none" id="grxx_qy_box1">
+						<div class="mt10">
+						<input type="text" name="" value=""  style="width:216px;height:30px;background-color: #fafafa;border:1px solid #d9d9d9">
+						</div>
+						<div  class="mt10">
+							<input type="text" name="" value="" style="width:216px;height:30px;background-color: #fafafa;border:1px solid #d9d9d9">
+						</div>
+						<div  class="mt10">
+							<input type="text" name="" value="" style="width:216px;height:30px;background-color: #fafafa;border:1px solid #d9d9d9" >
+						</div>
+						<div  class="mt10">
+							<img src="../static/images/tj_03.png" alt="" style="cursor:pointer">
+						</div>
+						<div class="t_c" style="padding-top: 20px">
+							<input type="button" name="" value="取消" class="btn15" style="border: 0;background-color: #1d99d2;color:white;text-align: center;width:85px;height:32px">
+							<input type="button" name="" value="保存" class="btn15" style="border: 0;background-color: #5c91d9;color:white;text-align: center;width:85px;height:32px">
+						</div>
+					</dl>
+					<div class="update_btn" style="top:20px" id="update_btn_qy">
+						<i class="icon-wrench iconfont"></i>
+					</div>
+				</div>
+			</div>
+			<!-- 侧边栏 -->
+		</div>
+		<!-- 内容大框 -->
+		<!-- 底部 -->
+		<div class="re_bottom">
+			<div class="center">
+				<div class="clearfix">
+					<dl>
+						<dt>
+							<i class="iconfont icon-lianjie"></i>
+							合作企业
+						</dt>
+						<dd>
+							<a href="#">
+								<img src="{{ STATIC_URL }}images/hcdyhr_03.jpg" alt=""></a>
+							<a href="#">
+								<img src="{{ STATIC_URL }}images/hcdyhr_05.jpg" alt=""></a>
+							<a href="#">
+								<img src="{{ STATIC_URL }}images/hcdyhr_07.jpg" alt=""></a>
+							<a href="#">
+								<img src="{{ STATIC_URL }}images/hcdyhr_09.jpg" alt=""></a>
+							<a href="#">
+								<img src="{{ STATIC_URL }}images/hcdyhr_11.jpg" alt=""></a>
+						</dd>
+					</dl>
+					<ul>
+						<li>
+							<a class="iconfont icon-weibo" href="#"></a>
+							<p>关注微博</p>
+						</li>
+						<li>
+							<a class="iconfont icon-weixin" href="#"></a>
+							<p>关注微信</p>
+						</li>
+						<li>
+							<a class="iconfont icon-lianjie" href="#"></a>
+							<p>联系我们</p>
+						</li>
+						<li>
+							<a class="iconfont icon-yijianfankui" href="#"></a>
+							<p>意见反馈</p>
+						</li>
+					</ul>
+				</div>
+				<!-- 底部链接和备案 -->
+				<div class="re_bottom_menu">
+					<a href="#">关于我们</a>
+					<span>|</span>
+					<a href="#">关于我们</a>
+					<span>|</span>
+					<a href="#">关于我们</a>
+					<span>|</span>
+					<a href="#">关于我们</a>
+					<span>|</span>
+					<a href="#">关于我们</a>
+					<span>|</span>
+					<a href="#">关于我们</a>
+					<p>
+						Copyright © 2015 hcdyhr.com赣ICP备12347441号-1 , hcdyhr.com.保留所有版权. 使用这些服务遵守用户协议
+					</p>
+				</div>
+				<!-- 底部链接和备案 -->
+			</div>
+		</div>
+		<!-- 模态框（Modal） -->
+<div class="modal fade" id="addree_moadl" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog" style="width:840px">
+      <div class="modal-content" >
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" 
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title" id="myModalLabel">
+               选择地区
+            </h4>
+         </div>
+         <div class="modal-body">            
+            <div class="mt10">
+            	<img src="{{ STATIC_URL }}images/ag_03.png" alt="">
+            </div>
+            {% if areaes %}
+                <ul class="qbhy_ul clearfix xzdq_ul" id="areaul">
+                {% for area in areaes %}
+                    <li><input type="hidden" value="{{ area.dictionary_value }}" /><span>{{ area.dictionary_name }}</span></li>
+                    {% if forloop.counter == 6 or forloop.counter == 12 or forloop.counter == 18 or forloop.counter == 24 %}
+                        </ul><ul class="qbhy_ul clearfix xzdq_ul" id="areaul">
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            {% endif %}
+            <ul class="qbhy_div xzdq_div" id="childarea" style="display: none;"></ul>
+
+         </div>
+         <div class="modal-footer" style="text-align: center">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal" style="width:120px;height:40px;background-color: #38b7a9">
+               取消
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" style="width:120px;height:40px;background-color: #5c91d9">
+               确认
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+	<!-- 模态框（Modal） -->
+		<!-- 模态框（Modal） -->
+<div class="modal fade" id="schy_moadl" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog" style="width:840px">
+      <div class="modal-content" >
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" 
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title" id="myModalLabel">
+               选择擅长行业
+            </h4>
+         </div>
+         <div class="modal-body">
+            <div class="schy_tag_ul">
+            	最多选择3项：
+{#                <span>UI设计师<i>x</i></span><span>UI设计师<i>x</i></span><span>UI设计师<i>x</i></span>#}
+            </div>
+            <div class="mt10">
+            	<img src="{{ STATIC_URL }}images/xzhy_06.png" alt="">
+            </div>
+            {% if businesses %}
+                <ul class="qbhy_ul clearfix mt20" id="businessul">
+                {% for business in businesses %}
+                    <li><input type="hidden" value="{{ business.dictionary_value }}" /><span>{{ business.dictionary_name }}</span></li>
+                    {% if forloop.counter == 4 or forloop.counter == 8 or forloop.counter == 12 or forloop.counter == 16 %}
+                        </ul><ul class="qbhy_ul clearfix mt20" id="businessul">
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            {% endif %}
+            <ul class="qbhy_div" style="display:none" id="childbusiness"></ul>
+{#            <ul class="qbhy_ul clearfix mt20" id="businessul">#}
+{#            	<li>#}
+{#               	<span class="active">计算机硬件</span>#}
+{#               </li>#}
+{#               <li>#}
+{#               	<span>计算机软件</span>#}
+{#               </li>#}
+{#               <li>#}
+{#               	<span>互联网/电子商务/网游</span>#}
+{#               </li>#}
+{#               <li>#}
+{#               	<span>IT-管理</span>#}
+{#               </li>#}
+{#            </ul>#}
+{#            <ul class="qbhy_ul clearfix mt20" id="businessul">#}
+{#            	<li>#}
+{#               	<span>计算机硬件</span>#}
+{#               </li>#}
+{#               <li>#}
+{#               	<span>计算机软件</span>#}
+{#               </li>#}
+{#               <li>#}
+{#               	<span>互联网/电子商务/网游</span>#}
+{#               </li>#}
+{#               <li>#}
+{#               	<span>IT-管理</span>#}
+{#               </li>#}
+{#            </ul>#}
+{#             <ul class="qbhy_div" style="display:none"></ul>#}
+         </div>
+         <div class="modal-footer" style="text-align: center">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal" style="width:120px;height:40px;background-color: #38b7a9">
+               取消
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target="#sczy_moadl" onclick="selectBusiness()" style="width:120px;height:40px;background-color: #d21d30">
+               下一步
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+	<!-- 模态框（Modal） -->
+<div class="modal fade" id="sczy_moadl" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog" style="width:840px">
+      <div class="modal-content" >
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" 
+               aria-hidden="true">×
+            </button>
+            <h4 class="modal-title" id="myModalLabel">
+               选择擅长职业
+            </h4>
+         </div>
+         <div class="modal-body">
+            <div class="schy_tag_ul">
+{#            	<span style="width:163px">UI设计师<i>x</i></span><span  style="width:163px">互联网/电子商务<i>x</i></span><span  style="width:163px">仪器仪表/工业自动化<i>x</i></span>#}
+            </div>
+            <div class="mt10">
+            	<img src="{{ STATIC_URL }}images/xzhy_06.png" alt="">
+            </div>
+            <ul class="qbhy_ul clearfix" id="jobul">
+{#            	<li class="active">计算机软件</li><li>互联网/电子商务</li><li>仪器仪表/工业自动化</li>#}
+            </ul>
+            <ul class="qbhy_div" style="display: none" id="jobchild"></ul>
+{#               <li>#}
+{#               	<span  class="active">计算机硬件</span>#}
+{#               </li>#}
+{#               <li>#}
+{#               	<span>计算机软件</span>#}
+{#               </li>#}
+{#               <li>#}
+{#               	<span>互联网/电子商务/网游</span>#}
+{#               </li>#}
+{#               <li>#}
+{#               	<span>IT-管理</span>#}
+{#               </li>#}
+{#               <li>#}
+{#               <span>IT-品管、技术支持及其它</span>#}
+{#               </li>#}
+{#               <li>#}
+{#               <span>通信技术开发及应用</span>#}
+{#               </li>#}
+{#               <li>#}
+{#               	<span>电子/电器/半导体/仪器仪表</span>#}
+{#               </li>#}
+{#            </ul>#}
+         </div>
+         <div class="modal-footer" style="text-align: center">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal" style="width:120px;height:40px;background-color: #38b7a9">
+               取消
+            </button>
+            <button type="button" data-dismiss="modal" class="btn btn-primary" onclick="sureSelect()" style="width:120px;height:40px;background-color: #d21d30">
+               确认
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="touxiang_modal" tabindex="-1" role="dialog" 
+		   aria-labelledby="myModalLabel" aria-hidden="true">
+		   <div class="modal-dialog">
+		      <div class="modal-content">
+		         <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal" 
+		               aria-hidden="true">×
+		            </button>
+		            <h4 class="modal-title" id="myModalLabel">
+		               选择裁剪区域
+		            </h4>
+		         </div>
+		         <div class="modal-body">
+		            <div class="t_c">
+		            	<img src="{{ STATIC_URL }}images/touxiang_03.png" alt="">
+		            </div>
+		            <div>
+		            	您可以在已上传的图片中任意选取区域，选取区域比例必须为正方形。
+		            </div>
+		         </div>
+		         <div class="modal-footer">
+		            <button type="button" class="btn btn-default" 
+		               data-dismiss="modal" style="width:120px;height:40px;background-color: #38b7a9">
+		               取消
+		            </button>
+		            <button type="button" class="btn btn-primary" style="width:120px;height:40px;background-color: #d21d30">
+		               确认
+		            </button>
+		         </div>
+		      </div><!-- /.modal-content -->
+		   </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		<!-- 模态框（Modal） -->
+			<div class="modal fade" id="qy_modal" tabindex="-1" role="dialog" 
+			   aria-labelledby="myModalLabel" aria-hidden="true">
+			   <div class="modal-dialog" style="width:850px">
+			      <div class="modal-content" >
+			         <div class="modal-header">
+			            <button type="button" class="close" data-dismiss="modal" 
+			               aria-hidden="true">×
+			            </button>
+			            <h4 class="modal-title" id="myModalLabel">
+			               所属企业
+			            </h4>
+			         </div>
+			         <div class="modal-body t_c">
+			            搜素企业：<input type="text"><input type="button" value="搜索">
+			             <div>
+			            	<img src="{{ STATIC_URL }}images/gh_03.png" alt="">
+			            </div>
+			            <ul class="ssqy_ul_box clearfix">
+			            	<li class="clearfix">
+			            		<div class="ssqy_box f_l">
+			            			<img src="{{ STATIC_URL }}images/gh_04.png" alt="" >
+			            		</div>
+			            		<div class="f_l ml15" style="text-align: left;_display:inline">
+			            			<div>北京市和君设计有限公司</div>
+			            			<div class="mt10">
+			            				<input type="button" name="" value="确认申请" style="width:68px;height:24px;color:white;text-align: center;line-height: 24px;background:#d21d30;border:none">
+			            			</div>
+			            		</div>
+			            	</li>
+			            	<li class="clearfix">
+			            		<div class="ssqy_box f_l">
+			            			<img src="{{ STATIC_URL }}images/gh_04.png" alt="" >
+			            		</div>
+			            		<div class="f_l ml15" style="text-align: left;_display:inline">
+			            			<div>北京市和君设计有限公司</div>
+			            			<div class="mt10">
+			            				<input type="button" name="" value="确认申请" style="width:68px;height:24px;color:white;text-align: center;line-height: 24px;background:#d21d30;border:none">
+			            			</div>
+			            		</div>
+			            	</li>
+			            </ul>
+			         </div>
+			      </div><!-- /.modal-content -->
+			   </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+		<!-- 底部 -->
+    <script src="{{ STATIC_URL }}js/common.js" ></script>
+    <script type="text/javascript">
+        //擅长行业弹框事件处理
+		$("#businessul li").click(function(){
+			$(".qbhy_ul li span").removeClass('active');
+			$(this).children('span').addClass('active');
+{#			var str='<li><span>计算机硬件</span></li><li><span>计算机软件</span></li><li><span>互联网/电子商务/网游</span></li><li><span>';#}
+{#			str+='IT-管理</span></li><li><span>IT-品管、技术支持及其它</span></li><li><span>通信技术开发及应用</span></li><li><span>电子/电器/半导体/仪器仪表</span></li>';#}
+			var value = $(this).children('input:first').val();//获得擅长行业的值
+            var obj = $(this).parent();
+            $.ajax({//异步获取行业下的子类
+                type: "POST",
+                url: "ajax_dictionary",
+                data: {"p_value": value},
+                dataType: "json",
+                success: function(data){
+                    var child = $('#childbusiness');
+                    child.children().remove();
+                    child.css('display','');
+                    var newul = child;
+                    obj.after(newul);
+                    //动态添加子行业
+                    for(var i = 0;i < data.length;i++){
+                        var area = data[i];
+                        newul.append('<li style="width:160px;height:70px;"><input type="hidden" value="' + area.fields.dictionary_value + '" /><span>' + area.fields.dictionary_name + '</span></li>');
+                    }
+                    //给子行业标签加事件，把值带到选择框里
+                    newul.children().click(function(){
+                        var project = $('.schy_tag_ul:first');//选择项目的div
+                        var count = project.children('span').length;
+                        if(count == 3){
+                            window.alert('最多只能选择三个项目！');
+                            return
+                        }else{
+                            project.append('<span style="width:200px;"><input type="hidden" value="'+ $(this).children('input').val() +'" />'+$(this).children('span').text()+'<i>x</i></span>');
+                            $('.qbhy_ul:last').append('<li><input type="hidden" value="' + $(this).children('input').val() + '"/><span>'+$(this).children('span').text()+'</span></li>');
+                            project.children('span').children('i').click(function(){
+                                var objli = this;
+                                $('.qbhy_ul:last').children().each(function(){
+                                    if($(this).text() + 'x' == $(objli).parent().text()){
+                                        $(this).remove();
+                                    }
+                                });
+                                $(this).parent().remove();
+                            });
+                        }
+                        newul.children().children('span').removeClass();
+                        $(this).children('span').addClass('active');
+                    })
+                    //调整子行业ul的高度
+                    newul.children('li').css('width', '120px');
+                    if(data.length < 7){
+                        newul.css('height', '80px');
+                    }else if(data.length < 13){
+                        newul.css('height', '150px');
+                    }else if(data.length < 19){
+                        newul.css('height', '190px');
+                    }else{
+                        newul.css('height', '230px');
+                    }
+                }
+            });
+
+{#            $(this).parent().parent().children('.qbhy_div').css('display', 'none');#}
+{#			$(this).parent().next().css('display','block').html('').append(str);#}
+		})
+
+        //点击编辑
+		$(".grxx_edit_btn").click(function(){
+			$(".grxx_pic_box").css('display','none');
+			$(".grxx_pic_box1").css('display','block');
+		})
+        //点击编辑的取消
+        function cancelEdit(){
+            $(".grxx_pic_box").css('display','block');
+			$(".grxx_pic_box1").css('display','none');
+        }
+		$("#update_btn_qy").click(function(){
+			$("#grxx_qy_box").css('display','none')
+			$("#grxx_qy_box1").css('display','block')
+		})
+        //点击修改地点图标
+		$("#update_btn_address").click(function(){
+			$("#grxx_address").css('display','none');
+			$("#grxx_address1").css('display','block');
+		})
+        //点击地点维护的取消
+        function cancelOperator(){
+            $("#grxx_address").css('display','block');
+			$("#grxx_address1").css('display','none');
+        }
+        //取消修改
+        function cancelUpdate(obj, type){
+            if(type == 1){//手机修改的取消
+                $(obj).parent().parent().css('display', 'none');
+                $(obj).parent().parent().prev().css('display', 'block');
+            }else{//邮箱修改的取消
+                $(obj).parent().css('display', 'none');
+                $(obj).parent().prev().css('display', 'block');
+            }
+        }
+		$(".grxx_tag_box1 li").mouseover(function(){
+			$(this).children().css('display','inline');
+		})
+		$(".grxx_tag_box1 li").mouseout(function(){
+			$(this).children().css('display','none');
+		})
+		$(".grxx_tag_box1 li span").click(function(){
+			$(this).parent().remove();
+		})
+		$("#update_phone").click(function(){
+			$(this).parent().css('display', 'none');
+			 $("#update_phone_box").css('display','block');
+		})
+		$("#update_email").click(function(){
+			$(this).parent().css('display', 'none');
+			 $("#update_email_box").css('display','block');
+		})
+		$(".slider-v2").click(function(){
+			if($("#s4").attr('checked')=='checked')
+			{
+			$("#s4").removeAttr('checked');
+			$(this).css('background', 'url({{ STATIC_URL }}images/icon-s.png)');
+		    }
+		    else
+		    {
+		    $("#s4").attr('checked','checked');
+		    $(this).css('background', 'url({{ STATIC_URL }}images/icon-f.png)');
+		    }
+		})
+        $(".grxx_info_b").on('click',"#add_qy_btn",function(){
+            $(this).remove();
+            $(".grxx_info_b ul").append('<li><span class="add_qy_btn_span"></span><input type="text" ><a javascript:void(0)" class="ml15" id="add_qy_btn">继续添加</a></li>');
+        })
+        //地点弹出框事件处理
+        $('#areaul li').click(function(){
+            $('#areaul li').children('span').removeClass('active');
+            $(this).children('span').addClass('active');
+            var value = $(this).children('input:first').val();//获得省、自治区的值
+            var obj = $(this).parent();
+            $.ajax({//异步获取省下面的市
+                type: "POST",
+                url: "ajax_dictionary",
+                data: {"p_value": value},
+                dataType: "json",
+                success: function(data){
+                    var child = $('#childarea');
+                    child.children().remove();
+                    child.css('display','');
+                    var newul = child;
+                    obj.after(newul);
+                    //动态添加省下面的市
+                    for(var i = 0;i < data.length;i++){
+                        var area = data[i];
+                        newul.append('<li><input type="hidden" value="' + area.pk + '" /><span>' + area.fields.dictionary_name + '</span></li>');
+                    }
+                    //给市标签加事件，把值带到选择框里
+                    newul.children().click(function(){
+                        $('#workAddr').val($(this).children('span').text());
+                        $('#areaid').val($(this).children('input').val());
+                        newul.children().children('span').removeClass();
+                        $(this).children('span').addClass('active');
+                    })
+                    //调整市ul的高度
+                    newul.children('li').css('width', '120px');
+                    if(data.length < 7){
+                        newul.css('height', '70px');
+                    }else if(data.length < 13){
+                        newul.css('height', '130px');
+                    }else if(data.length < 19){
+                        newul.css('height', '160px');
+                    }else{
+                        newul.css('height', '210px');
+                    }
+                }
+            });
+        })
+        //添加标签
+        function addTab(){
+            var plabel = $('#plabel').val();
+            if(plabel != ''){
+                var em = '<li>' + plabel + '<span style="display:none">X</span></li>';
+                $('#labels').append(em);
+                $("#labels li").mouseover(function(){
+                    $(this).children().css('display','inline');
+                })
+                $("#labels li").mouseout(function(){
+                    $(this).children().css('display','none');
+                })
+                $("#labels li span").click(function(){
+                    $(this).parent().remove();
+                })
+            }else{
+                window.alert("请填写要添加的标签！");
+            }
+        }
+        //系统自带标签点击事件处理
+        $('.grbq_list li').click(function(){
+            var em = '<li>' + $(this).text() + '<span style="display:none">X</span></li>';
+            $('#labels').append(em);
+            $("#labels li").mouseover(function(){
+                $(this).children().css('display','inline');
+            })
+            $("#labels li").mouseout(function(){
+                $(this).children().css('display','none');
+            })
+            $("#labels li span").click(function(){
+                $(this).parent().remove();
+            })
+        })
+        //保存猎头信息(地点、头衔、经验)
+        function saveHunter(){
+            var location = $('#areaid').val();
+            var addr = $('#workAddr').val();
+            var headName = $('#newtitle').val();
+            var experience = $('#experience').val();
+{#            alert(location +"*****" + headName + "******" + experience)#}
+            if(addr == '' || headName == '' || experience == ''){
+                window.alert("信息不能为空，请填写数据后保存！");
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: "ajax_saveHeadHunt",
+                data: {"location": location, 'headhunt_level': headName, 'experience': experience},
+                dataType: "json",
+                success: function(data){
+                    if(data.msg == '保存成功！'){
+                        var title = $('#newtitle').find("option:selected").text();
+                        $("#grxx_address").children('div:first').children('span:last').text(addr);
+                        $("#grxx_address").children('div:eq(1)').children('span:last').text(title);
+                        $("#grxx_address").children('div:eq(2)').children('span:last').text(experience);
+                        cancelOperator();
+                        alert(data.msg);
+                    }
+                }
+            });
+        }
+        //更新手机号码
+        function updatePhone(){
+            var phone = $('#newphone').val();
+            if(phone != ''){
+                $.ajax({
+                    type: "POST",
+                    url: "ajax_updatePhone",
+                    data: {"phone": phone},
+                    dataType: "json",
+                    success: function(data){
+                        if(data.msg == '更换成功！'){
+                            $('#update_phone').prev().text(phone);
+                            $('#update_phone').parent().css('display', 'block');
+                            $('#update_phone').parent().next().css('display', 'none');
+                            window.alert(data.msg);
+                        }
+                    }
+                });
+            }
+        }
+        //更新邮箱
+        function updateEmail(){
+            var email = $('#newemail').val();
+            if(email != '') {
+                $.ajax({
+                    type: "POST",
+                    url: "ajax_updateEmail",
+                    data: {"email": email},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.msg == '更换成功！') {
+                            $('#update_email').prev().prev().text(email);
+                            $('#update_email').parent().css('display', 'block');
+                            $('#update_email').parent().next().css('display', 'none');
+                            window.alert(data.msg);
+                        }
+                    }
+                });
+            }
+        }
+        //选择行业后点击下一步，把数据带到下拉框中
+        function selectBusiness(){
+            var project = $('.schy_tag_ul:first');
+            var length = project.children('span').length;
+            var value = '';
+            var bisIds = '';
+            for(var i = 0;i < length;i++){
+                value += project.children('span').eq(i).text() + ',';
+                bisIds += project.children('span').eq(i).children('input').val() + ',';
+            }
+            value = value.replace('x', '').replace('x', '').replace('x', '');
+            $('#bisIds').val(bisIds);
+            $('.schy_select').children('span:first').text(value);
+
+            //擅长职业弹框事件处理
+            $('#jobul li').click(function(){
+                $("#jobul li").children('span').removeClass('active');
+                $(this).children('span').addClass('active');
+                var value = $(this).children('input').val();
+                var obj = $(this).parent();
+                $.ajax({//异步获取行业下的子类
+                    type: "POST",
+                    url: "ajax_dictionary",
+                    data: {"p_value": value},
+                    dataType: "json",
+                    success: function(data){
+                        var child = $('#jobchild');
+                        child.children().remove();
+                        child.css('display','');
+                        var newul = child;
+                        obj.after(newul);
+                        //动态添加职业
+                        for(var i = 0;i < data.length;i++){
+                            var area = data[i];
+                            newul.append('<li style="width:160px;height:70px;"><input type="hidden" value="' + area.pk + '" /><span>' + area.fields.dictionary_name + '</span></li>');
+                        }
+                        //给职业标签加事件，把值带到选择框里
+                        newul.children().click(function(){
+                            var project = $('.schy_tag_ul:last');//选择职业的div
+                            var count = project.children('span').length;
+                            if(count == 5){
+                                window.alert('最多只能选择五个项目！');
+                                return
+                            }else{
+                                project.append('<span style="width:200px;"><input type="hidden" value="'+$(this).children('input').val()+'" />'+$(this).children('span').text()+'<i>x</i></span>');
+                                project.children('span').children('i').click(function(){
+                                    $(this).parent().remove();
+                                });
+                            }
+                            newul.children().children('span').removeClass();
+                            $(this).children('span').addClass('active');
+                        })
+                        //调整子行业ul的高度
+                        newul.children('li').css('width', '120px');
+                        if(data.length < 7){
+                            newul.css('height', '80px');
+                        }else if(data.length < 13){
+                            newul.css('height', '150px');
+                        }else if(data.length < 19){
+                            newul.css('height', '190px');
+                        }else{
+                            newul.css('height', '230px');
+                        }
+                    }
+                });
+            })
+        }
+        //确认选择行业、职业
+        function sureSelect(){
+            var project = $('.schy_tag_ul:last');
+            var selectcount = project.children('span').length;
+            var selectvalue = '';
+            var jobIds = '';
+            for(var i = 0;i < selectcount;i++){
+                selectvalue += project.children('span').eq(i).text() + ',';
+                jobIds += project.children('span').eq(i).children('input').val() + ',';
+            }
+            //选择职业后把选择的职业带到选择框中
+            selectvalue = selectvalue.replace('x', '').replace('x', '').replace('x', '').replace('x', '').replace('x', '');
+            $('#jobIds').val(jobIds);
+            $('.schy_select:last').children('span:first').text(selectvalue);
+        }
+        //修改职业及个人标签
+        function updateWorkAndLabel(){
+            var jobs = $('#jobIds').next().text();
+            var bises = $('#bisIds').next().text();
+            if(bises == ''){
+                window.alert("请选择行业！");
+                return ;
+            }
+            if(jobs == ''){
+                window.alert('请选择职业！');
+                return ;
+            }
+            var jobIds = $('#jobIds').val();//职业的ID串,对应字典里的ID
+            var bisIds = $('#bisIds').val();//行业的ID串,对应字典里的dictionary_value值
+            var labels = $('#labels').children('li');
+            var newlabels = '';
+            var length = labels.length;
+            for(var i = 0;i < length;i++){
+                newlabels += labels.eq(i).text().replace('X', '') + '**';
+            }
+            if(newlabels == ''){
+                window.alert('请添加标签！');
+                return ;
+            }
+            $.ajax({
+                type: "POST",
+                url: "ajax_saveBusiness",
+                data: {"business": bisIds, 'post': jobIds, 'labels': newlabels},
+                dataType: "json",
+                success: function(data){
+                    if(data.msg == '修改成功！'){
+                        //给修改前的div赋值
+                        $('#job').text(jobs);
+                        $('#bis').text(bises);
+                        $('.grxx_tag_box:first').children('li').remove();
+                        for(var i = 0;i < length;i++){
+                            $('.grxx_tag_box:first').append('<li>' + labels.eq(i).text().replace('X', '') + '</li>');
+                        }
+                        cancelEdit();
+                        window.alert(data.msg);
+                    }
+                }
+            });
+        }
+        //初始化行业、职业弹框的值
+        function intiBusiness(){
+            var bises = $('#bisIds').next().text();
+            var project = $('.schy_tag_ul:first')//选择项目的div
+            var length = project.children('span').length;
+            //初始化行业的值
+            if(bises != '' && length == 0){
+                $.ajax({
+                    type: "POST",
+                    url: "ajax_initBusiness",
+                    data: {"businessNames": bises},
+                    dataType: "json",
+                    success: function(data){
+                        for(var i = 0;i < data.length;i++){
+                            var area = data[i];
+                            project.append('<span style="width:200px;"><input type="hidden" value="'+ area.fields.dictionary_value +'" />'+area.fields.dictionary_name+'<i>x</i></span>');
+                            $('.qbhy_ul:last').append('<li><input type="hidden" value="' + area.fields.dictionary_value + '"/><span>'+area.fields.dictionary_name+'</span></li>');
+                        }
+                        project.children('span').children('i').click(function(){
+                            var objli = this;
+                            $('.qbhy_ul:last').children().each(function(){
+                                if($(this).text() + 'x' == $(objli).parent().text()){
+                                    $(this).remove();
+                                }
+                            });
+                            $(this).parent().remove();
+                        });
+                    }
+                });
+            }
+            //初始化职业的值
+            var jobs = $('#jobIds').next().text();
+            var jobDiv = $('.schy_tag_ul:last')
+            if(jobs != '' && jobDiv.children('span').length == 0){
+                $.ajax({
+                    type: "POST",
+                    url: "ajax_initPost",
+                    data: {"posts": jobs},
+                    dataType: "json",
+                    success: function(data){
+                        for(var i = 0;i < data.length;i++){
+                            var area = data[i];
+                            jobDiv.append('<span style="width:200px;"><input type="hidden" value="'+ area.pk +'" />'+area.fields.dictionary_name+'<i>x</i></span>');
+                        }
+                        jobDiv.children('span').children('i').click(function(){
+                            $(this).parent().remove();
+                        });
+                    }
+                });
+            }
+        }
+	</script>
+</body>
+	</html>

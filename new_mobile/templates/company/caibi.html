@@ -1,0 +1,102 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+	var sWinUserAgent=navigator.userAgent.toLowerCase();
+	if(typeof JavaScriptInterface!='undefined'||sWinUserAgent.indexOf('hijobsapp')!=-1){
+		$('.zsp_header').remove();
+	}
+</script>
+<div class="zsp_balance_main">
+    <div class="zsp_balance_head">
+    	<h1>才币</h1>
+        <span style="font-size: 42px">{{ pu.gold }}</span><a href="../caicard" class="c_b_btn">才才卡兑换</a><span class="c_b_i">news</span>
+    </div>
+</div>
+{#	<div class="zsp_uc_list">#}
+{#        <div class="zsp_uc_list_a_2">#}
+{#            <span>才币明细</span>#}
+{#        </div>#}
+{#        <ul>#}
+{#            <li style="margin-top: 10px;">#}
+{#                <span style="float:right;font-size: 16px;margin-top: 10px;margin-right: 16px;">+1</span>#}
+{#                <div style="float:left">#}
+{#                    <div style="font-size: 16px;color:#4D6573;">上传简历得币</div>#}
+{#                    <div style="color: #ACAFB5;padding-top: 5px;">2015-12-05 09-23:28</div>#}
+{#                </div>#}
+{#            </li>#}
+{#        </ul>#}
+{#    </div>#}
+<div class="t_c" id="page1" style="display: none;"></div>
+</body></html>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script>
+// 充值、提现
+var sql = 'Account_ID = {{ pu.id }} order by id desc';
+var pagination = new pagin("page1","T_Gold_Record","",sql,"", 10, "paginBind","pagination");
+function paginBind(dataInfo){
+        var content = "";
+        $(".zsp_resume_but_box").remove();
+        $(dataInfo).each(function(i) {
+
+             // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this);
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            content = '<div class="zsp_uc_list">';
+
+            if($('.money_detail').length == 0) {
+                content += '    <div class="zsp_uc_list_a_2 money_detail">';
+                content += '        <span>才币明细</span>';
+                content += '    </div>';
+            }
+
+            content += '    <ul>';
+            content += '    <li style="margin-top: 10px;">';
+            if (array[5] < 0) {
+                content += '        <span style="float:right;font-size: 16px;margin-top: 10px;margin-right: 16px;">' + array[5] + '</span>';
+            } else {
+                content += '        <span style="float:right;font-size: 16px;margin-top: 10px;margin-right: 16px;">+' + array[5] + '</span>';
+            }
+
+            content += '        <div style="float:left">';
+            content += '            <div style="font-size: 16px;color:#4D6573;">' + array[2] + '</div>';
+            content += '            <div style="color: #ACAFB5;padding-top: 5px;">' + array[14] + '</div>';
+            content += '        </div>';
+            content += '    </li>';
+            content += '    </ul>';
+            content += '</div>';
+            $("body").append(content);
+    });
+    if(content == '') {
+        $("body").append("无其它记录");
+    }
+}
+
+
+// 加载更多记录
+function next_page_click() {
+    var $this_page_data = $("#page1 .active");
+    var $end_page_data = $("#page1 li:last");
+    if($this_page_data.attr('onclick') != $end_page_data.attr('onclick')) {
+        $this_page_data.next("li").click();
+    } else {
+        $(".zsp_resume_but_box").remove();
+    }
+}
+
+</script>
+

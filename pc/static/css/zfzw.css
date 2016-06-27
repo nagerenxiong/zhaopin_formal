@@ -1,0 +1,25 @@
+.zfzw{width: 910px;margin:0 auto;border: 1px solid #333;}
+.zfzw .icon-nv{color: #F80;}
+.zfzw .icon-nan{color: #5C91D9}
+.zfzw span{color:#5C91D9;}
+.zfzw .black{color: #333;font-size: 12px;}
+.zfzw .gary{color: #888;font-size: 12px;margin-top: 8px !important;}
+.zfzw_header{background-color: #5C91D9;height: 72px;line-height: 72px;}
+.zfzw_header img{vertical-align: middle;margin-left: 38px;}
+.zfzw .content{padding: 40px;}
+.zfzw .content>h2{font-size: 25px;}
+.zfzw .content>h2 span{font-size: 16px;color: #333;}
+.zfzw .content>p{font-size: 16px;}
+.zfzw .content ul{margin-top: 20px;margin-bottom: 10px;}
+.zfzw .content ul h3{color: #5C91D9;font-size: 18px;}
+.zfzw .content ul h4{font-size: 16px;}
+.zfzw .content ul h3 span{color: #F80;}
+.zfzw .content ul li {padding: 12px;position: relative;margin-bottom: 10px;background-color: rgb(248,248,248);}
+.zfzw .content ul li p{margin-top: 5px;}
+.zfzw .content ul li p span{color: #888;}
+.zfzw .content ul li a{position: absolute;right: 20px;top: 50%;margin-top: -9.5px;font-size: 14px;color: #333;}
+.zfzw .content ul li a:hover{color:#5C91D9 }
+.zfzw .content>p.remind{font-size: 12px;color: #888;text-indent: 2px;}
+.zfzw .content .add_txl{margin: 20px 0px;overflow: hidden;font-size: 14px;text-align: right;padding: 30px 0px; border-top: 1px solid rgb(230,230,230);border-bottom:1px solid rgb(230,230,230); }
+.zfzw .content .zfzw_bottom{color: #888;font-size: 14px;}
+

@@ -1,0 +1,560 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style1.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/uploadify.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul_old.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position_old.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.uploadify.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/cropbox.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position_all.js"></script>
+<script src="{{ STATIC_URL }}js/xiuxiu.js" type="text/javascript"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script>
+<script type="text/javascript">
+$(function(){
+    PositionControls("positionDiv","{{ tri.scurrently_postaion | default:"" }}","{{ tri.currently_postaion | default:"" }}",
+                'width:300px;margin-top:5px;height:auto;font-size:14px;');
+
+
+    /*第1个参数是加载编辑器div容器，第2个参数是编辑器类型，第3个参数是div容器宽，第4个参数是div容器高*/
+    xiuxiu.embedSWF("altContent",5,"100%","420px");
+    //修改为您自己的图片上传接口
+    xiuxiu.setUploadURL("http://web.upload.meitu.com/image_upload.php");
+    xiuxiu.setUploadType(2);
+    xiuxiu.setUploadDataFieldName("upload_file");
+    xiuxiu.onInit = function ()
+    {
+        xiuxiu.loadPhoto("{{ tri.head_portrait }}");//修改为要处理的图片url
+    }
+    xiuxiu.onUploadResponse = function (data)
+    {
+        var imgData =  $.parseJSON(data);
+        var imgURL = $(imgData)[0].original_pic;
+
+        $("#imgURL").val(imgURL);
+
+        $("#upload_photo").modal("hide");
+
+        $("#head_portrait").attr({"src":imgURL})
+    }
+})
+
+</script>
+<!-- 内容大框 -->
+<input type="hidden" id="resumeID" value="{{ tri.id }}" >
+<input type="hidden" id="attachment" value="{{ tri.attachment }}" >
+<input type="hidden" id="user_name" value="{{ tri.user_name }}" >
+<input type="hidden" id="imgURL" value="">
+<div class="clear">4</div>
+<div class="lt_content_box scjl">
+    <input type="hidden" id="imgURL" value="">
+    <div class="center clearfix">
+        <div class="scjl">
+            <div class="left">
+                <div class="left_box">
+                    <div class="bd_bottom1">
+                        <span class="t">基本信息</span>
+                        <div class="slider wdgz_silder"></div>
+                    </div>
+                    <ul class="info">
+                        <li style="overflow: hidden">
+                           <img id="head_portrait" src="{{ tri.head_portrait }}"  data-toggle="modal"
+   data-target="#upload_photo" class="f_l" onerror="this.src='{{ STATIC_URL }}images/photoupload_03.jpg'" width="120" height="120">
+                          <div class="f_l ml15" style="color:#A3A3A3;">
+                              <p>支持jpg、jpeg、gif、png图片文件</p>
+                              <p>图片尺寸:120px*120px</p>
+                              <p>图片大小需小于2MB</p>
+                          </div>
+                        </li>
+                        <li>
+                            <input type="text" maxlength="10" onblur="user_name(this)" id="user_name" name="user_name" value="{{ tri.user_name }}" placeholder="姓名"  class="w145" >
+                            <input type="button" name="bsex" value="男" class="t_c" {% if tri.sex != '女' %} style="color: #333;" {% endif %}>
+                            <input type="hidden" id="hidesex" value="{{ tri.sex | default:'男'}}" />
+                            <input style="color:#989797" type="button" name="bsex" value="女"  class="t_c" {% if tri.sex == '女' %} style="color: #333;" {% endif %}>
+                            <span style="color:#ff6a6a" class="scjl_span"> 
+                            <!-- <i class="iconfont icon-gantanhao"></i>
+                                必填 -->
+                            </span>
+                        </li>                       
+                        <li>
+                            <select id="birthday_year" id="bir" class="w145" onblur="yzYear(this)" onchange="yzYear(this)" >
+                                <option value="0">请选择出生年月</option>
+                                {% for year in yearList %}
+                            {% if tri.birthday_year == year %}
+                                <option value="{{ year }}" selected="selected">{{ year }}</option>
+                                {% else %}
+                                <option value="{{ year }}" >{{ year }}</option>
+                                {% endif %}
+                        {% endfor %}
+                            </select>
+                            年
+                            <select id="birthday_month" class="w145"  onblur="yzYear(this)" onchange="yzYear(this)">
+                                {% for month in monthList%}
+                            {% if tri.birthday_month == month %}
+                                <option value="{{ month }}" selected="selected">{{ month }}</option>
+                                {% else %}
+                                <option value="{{ month }}" >{{ month }}</option>
+                                {% endif %}
+                        {% endfor %}
+                            </select>
+                            月
+                            <span style="color:#ff6a6a" class="scjl_span"> 
+                            <!-- <i class="iconfont icon-gantanhao"></i>
+                                必填 -->
+                            </span>
+                        </li>
+                        <li>
+                            <input type="text" id="phone" maxlength="11" placeholder="手机号码"  class="w300" value="{{ tri.phone | default:''}}" onblur="checkMobile()">
+                            <span style="color:#ff6a6a" class="scjl_span">
+                                <!-- <i class="iconfont icon-gantanhao"></i>
+                                必填 -->
+                            </span>
+                        </li>
+                        <li>
+                            <input type="text" id="email" maxlength="30" name="email" placeholder="常用邮箱"  class="w300" onblur="yzemail(this)" value="{{ tri.email | default:'' }}">
+                            <span style="color:#ff6a6a" class="scjl_span">
+                               <!--  <i class="iconfont icon-gantanhao"></i>
+                                必填 -->
+                            </span>
+                        </li>
+                        <li>
+                            <select id="workyear" onchange="yzDiploma()" onblur="yzDiploma()"  class="w145" >
+                                <option value="0">工作经验</option>
+                                {% for year in startyearList %}
+                            {% if tri.workyear == year.dictionary_value %}
+                                <option value="{{ year.dictionary_value }}" selected="selected">{{ year.dictionary_name }}</option>
+                                {% else %}
+                                <option value="{{ year.dictionary_value }}" >{{ year.dictionary_name }}</option>
+                                {% endif %}
+                        {% endfor %}
+                            </select>
+                            <select name="" class="w145 ml15" id="diploma" onchange="yzDiploma()" onblur="yzDiploma()">
+                                <option value="0" selected="selected">学历</option>
+                                {% for diploma in diplomaList %}
+                            {% if tri.diploma == diploma.dictionary_value %}
+                                <option value="{{ diploma.dictionary_value }}" selected="selected">{{ diploma.dictionary_name }}</option>
+                                {% else %}
+                                <option value="{{ diploma.dictionary_value }}" >{{ diploma.dictionary_name }}</option>
+                                {% endif %}
+                        {% endfor %}
+                            </select>
+                            <span class="scjl_span" style="color:#ff6a6a" >
+                                <!-- <i class="iconfont icon-gantanhao"></i>
+                                必填 -->
+                            </span>
+                        </li>
+                        <li>
+
+{#                            <input type="text" onblur="yzPerson(this)"  placeholder="当前所在职位" value="{{ tri.scurrently_postaion | default:'' }}"#}
+{#                           class="w300"  onclick="showPoitionAll(this,1)" >#}
+                            <div id="positionDiv" onclick="PositionControlsShow(1,this)"></div>
+                            <input type="hidden" name="positionValue" id="currently_postaion" value="{{ tri.currently_postaion  }}"  />
+                            <span class="scjl_span" style="color:#ff6a6a;line-height: 42px;" >
+                                <!-- <i class="iconfont icon-gantanhao" style="display: none;"></i>
+                                必填 -->
+                            </span>
+                        </li>
+                        <li>
+                            <input type="text" id="currently_company"  placeholder="当前所在公司(非必填)"  maxlength="16" class="w300" value="{{ tri.currently_company }}"></li>
+                        <li>
+                            <select id="currently_salary" onchange="currently_salary(this)" onblur="currently_salary(this)" class="w300">
+                                <option value="0">当前薪资</option>
+                                {% for salary in salaryList %}
+                            {% if tri.currently_salary == salary.dictionary_value %}
+                                <option value="{{ salary.dictionary_value }}" selected="selected">{{ salary.dictionary_name }}</option>
+                                {% else %}
+                                <option value="{{ salary.dictionary_value }}" >{{ salary.dictionary_name }}</option>
+                                {% endif %}
+                        {% endfor %}
+                            </select>
+                            <span class="scjl_span" style="color:#ff6a6a">
+                               <!--  <i class="iconfont icon-gantanhao"></i>
+                                必填 -->
+                            </span>
+                        </li>
+                        <li>
+                            <input type="text" id="workAddr" readonly="readonly" placeholder="当前所在地" onclick="showArea(this,1)" value="{{ tri.scurrently_pacece|default:'' }}"
+                           onblur="yzPerson(this)"  class="w145" >
+                            <input type="hidden" id="currently_pacece" id="areaid" value="{{ tri.currently_pacece }}" />
+                           <span class="scjl_span" style="color:#ff6a6a">
+                                <!--  <i class="iconfont icon-gantanhao"></i>
+                                必填-->
+                            </span> 
+                            
+                            <select id="marital" class="w145 ml15" onblur="marital(this)" onchange="marital(this)">
+                                <option value="0">婚姻状况</option>
+                                {% for m in marital %}
+                                    {% if tri.marital == m.dictionary_value %}
+                                        <option value="{{ m.dictionary_value }}" selected="selected">{{ m.dictionary_name }}</option>
+                                        {% else %}
+                                        <option value="{{ m.dictionary_value }}" >{{ m.dictionary_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </li>
+                        <li>
+                            <textarea id="self_assessment" class="ta" placeholder="自我评价"
+                            onkeydown="countChar('self_assessment','counter2',500);"
+                            onkeyup="countChar('self_assessment','counter2',500);">{{ tri.self_assessment | default:'' }}</textarea>
+                        </li>
+                        <li>
+                            最多输入500字，目前已经输入
+                            <span  id="counter2" style="color:#ff8800;font-weight:bold">0</span>
+                            字
+                        </li>
+                    </ul>
+                </div>
+                <div class="b">
+                    <input type="button" class="button f_r ml15" name="" value="保存" onclick="editInfo()"  >
+                    <input type="button" class="button f_r " name="next" value="下一步" onclick="resumeJump('/jobs/resume/qzyx')" ></div>
+            </div >
+            {% include 'jobs/resume/resumeRight.html' %}
+        </div>
+    </div>
+</div>
+<!-- 上传头像 -->
+<div class="modal fade" id="upload_photo" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="upload_photo_c" style="width:600px" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">上传头像</h4>
+            </div>
+            <div class="modal-body" style="position:relative">
+                <div id="altContent">
+                    <h1></h1>
+                </div>
+                <div style="position:absolute;width:300px;height: 50px;bottom: 10px;left:0;background-color:white "></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 上传头像 -->
+<script type="text/javascript">
+if ("{{request.session.account_type}}" == "2" || "{{request.session.account_type}}"  == "4"){
+        $(".clear").eq(0).text("");
+    }
+
+var w=(parseInt($("body").css('width'))-600)/2;
+$('#upload_photo').on('show.bs.modal', function () { 
+ $("#upload_photo_c").css('margin-left',w);
+})
+$(function(){
+    var context = $("#self_assessment").text();
+    if(context != ""){
+        $("#counter2").text(context.length);
+    }
+    var sex = "{{ tri.sex  }}";
+    if(sex != null && sex != ""){
+        $(":input[value=" + sex + "]").click();
+    }
+    var marital = "{{ tri.marital }}";
+    $("#marital").find("option[value=" + marital + "]").attr("selected", true);
+   SetLength("self_assessment","counter2");
+});
+
+$('#upload_jl').uploadify({
+    'onUploadSuccess' : function(file, data, response) {
+        alert(data.save_name);
+    },
+    'onUploadStart': function (file) {
+        $("#upload_photo_sfyz").uploadify("settings", "formData", { 'fileType': 4 });
+    }
+});
+
+$("[name=bsex]").click(function(){
+    $("#hidesex").val($(this).val())
+    $('[name=bsex]:not(this)').css('color','#989797');
+    $(this).css('color','#333');
+    $("#sex").empty()
+    $("#sex").append("<i class=\"iconfont icon-gou\">");
+})
+
+
+function editInfo(){
+    if($("#imgURL").val() !=  ""){
+        editResumenInfo($("#head_portrait").attr("src"),$("#imgURL").val());
+    }
+    else{
+        if($("#resumeID").val() != "") {
+            editResumenInfo($("#head_portrait").attr("src"),"");
+        }
+        else{
+            alert("请选头像！");
+        }
+    }
+}
+
+//编辑简历信息
+function editResumenInfo(head_portrait,imgURL){
+    var user_name = $(":input[name=user_name]").val(); //姓名
+    var sex  = $("#hidesex").val(); //性别
+    var birthday_year  = $("#birthday_year").val(); //出生年
+    var birthday_month  = $("#birthday_month").val(); //出生月
+    var phone  = $("#phone").val(); //电话
+    var email  = $("#email").val(); //邮箱
+    var workyear  = $("#workyear").val(); //工作经验
+    var diploma  = $("#diploma").val(); //学历
+    var currently_postaion  = $("#currently_postaion").val(); //当前所在职位
+    var currently_company  = $("#currently_company").val(); //当前所在公司
+    var currently_salary  = $("#currently_salary").val(); //当前薪资
+    var currently_pacece  = $("#currently_pacece").val(); //当前所在地
+    var marital  = $("#marital").val(); //婚姻状况
+    var self_assessment  = $("#self_assessment").val(); //自我评价
+    var head_portrait  = head_portrait; //头像地址
+
+    if(user_name == ""){
+        alert("姓名不能为空")
+        return false;
+    }
+    if(sex==""||sex==0){
+       alert("性别不能为空");
+       return
+    }
+    if(birthday_year == "0"){
+        alert("出生年不能为空");
+       return
+    }
+    if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(phone))){
+        alert("手机格式不正确，请重新输入！")
+    }
+    var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+    if(!reg.test(email)){
+        window.alert("邮箱格式不对，请重新输入！");
+        return false;
+    }
+    if(workyear=="0"){
+       alert("工作经验不能为空");
+       return false;
+    }
+    if( diploma=="0"){
+       alert("学历不能为空");
+       return false;
+    }
+    if(currently_postaion==""||currently_postaion=="0"){
+       alert("行业不能为空");
+       return false;
+    }
+    if(currently_pacece==""||currently_pacece=="0"){
+       alert("当前所在地不能为空");
+       return false;
+    }
+    if(currently_salary == "0"){
+        alert("薪资不能为空")
+        return false;
+    }
+    if(marital == "0"){
+        alert("婚姻状况不能为空");
+        return false;
+    }
+
+    var resumeId = $("#resumeID").val();
+{#     var elemt=event.target;#}
+    $.ajax({
+        type: "POST",
+        url: "/jobs/ajax_manageResume",
+{#        eventT:elemt,#}
+        data: {
+            "resumeID": resumeId,
+            "user_name": user_name ,
+            "sex": sex ,
+            "birthday_year": birthday_year ,
+            "birthday_month": birthday_month ,
+            "phone": phone ,
+            "email": email ,
+            "workyear": workyear ,
+            "diploma": diploma ,
+            "currently_postaion": currently_postaion ,
+            "currently_company": currently_company ,
+            "currently_salary": currently_salary ,
+            "currently_pacece": currently_pacece ,
+            "marital": marital ,
+            "self_assessment": self_assessment ,
+            "head_portrait": head_portrait,
+            "type" : 1,
+            "imgURL":imgURL
+        },
+        dataType: "json",
+        success: function(data){
+            if(data.resumeID != ""){
+                $("#jbxx").text("[完成]");
+                $("#wsRes").text(data.wsres+"%");
+                $("span#jdt").animate({width: data.wsres+"%"}, 100);
+                $("#resumeID").val(data.resumeID);
+                alert("保存成功");
+            }
+            else{
+                alert("保存失败");
+            }
+        }
+    });
+}
+
+
+function upload_photo(){
+    var options =
+    {
+        thumbBox: '.thumbBox',
+        spinner: '.spinner',
+        imgSrc: 'images/avatar.png'
+    }
+    var cropper = $('.imageBox').cropbox(options);
+    $(document).on('change','.upload-file',function(){
+        var reader = new FileReader();
+        var _this=$(this);
+        var add_file_box=$(this).parent();
+        $(_this).parent().parent().prev().children('.img_box').attr('src', '');
+        $(_this).parent().parent().prev().children('.thumbBox').show();
+        reader.onload = function(e) {
+            $(_this).parent().parent().prev().children('.img_box').attr('src', '');
+            $(_this).parent().parent().prev().children('.thumbBox').show();
+            options.imgSrc = e.target.result;
+            cropper = $('.imageBox').cropbox(options);
+        }
+        reader.readAsDataURL(this.files[0]);
+        this.files = [];
+        $(this).remove();
+        var input = " <input type=\"file\" name=\"upload-file\" class=\"upload-file\"/>";
+        add_file_box.append(input);
+    });
+
+    $(document).on('dblclick','.thumbBox',function(){
+        var img = cropper.getDataURL();
+        $(this).hide();
+        $(this).next().attr('src', ''+img+'');
+    });
+
+    $('#btnZoomIn').on('click', function(){
+        cropper.zoomIn();
+    });
+
+    $('#btnZoomOut').on('click', function(){
+        cropper.zoomOut();
+    });
+
+    $(".grxx_tag_box1 li").mouseover(function(){
+            $(this).children().css('display','inline');
+    });
+
+    $(".grxx_tag_box1 li").mouseout(function(){
+            $(this).children().css('display','none');
+    });
+}
+
+function user_name(obj){
+    if($(obj).val()!=""){
+        $(obj).siblings('span').empty()
+        $(obj).siblings('span').append("<i class=\"iconfont icon-gou\">");
+    }
+    else{
+        $(obj).siblings('span').empty()
+        $(obj).siblings('span').append("<i class=\"iconfont icon-gantanhao\"></i>必填")
+    }
+}
+function  yzemail(obj){
+    email=$("#email").val()
+    var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+    if(reg.test(email)){
+            $(obj).siblings('span').empty()
+            $(obj).siblings('span').append("<i class=\"iconfont icon-gou\">");
+
+        }else{
+            $(obj).siblings('span').empty()
+            $(obj).siblings('span').append("<i class=\"iconfont icon-gantanhao\"></i>必填")
+        }
+}
+function yzYear(obj){
+    if($(obj).val()!="0" && $(obj).siblings('select').val()!="0"){
+        $("#birthday_year").siblings('span').empty()
+        $("#birthday_year").siblings('span').append("<i class=\"iconfont icon-gou\">");
+
+    }else{
+        $("#birthday_year").siblings('span').empty()
+        $("#birthday_year").siblings('span').append("<i class=\"iconfont icon-gantanhao\"></i>必填")
+    }
+}
+function yzDiploma(){
+    if(document.getElementById("diploma").value!="0" && $("#workyear").val()!="0"){
+        $("#diploma").siblings('span').empty();
+        $("#diploma").siblings('span').append("<i class=\"iconfont icon-gou\">");
+    }else{
+        $("#diploma").siblings('span').empty();
+        $("#diploma").siblings('span').append("<i class=\"iconfont icon-gantanhao\"></i>必填");
+    }
+}
+function currently_salary(obj){
+
+    if($(obj).val()!="0"){
+        $(obj).siblings('span').empty()
+        $(obj).siblings('span').append("<i class=\"iconfont icon-gou\">");
+    }
+    else{
+        $(obj).siblings('span').empty();
+        $(obj).siblings('span').append("<i class=\"iconfont icon-gantanhao\"></i>必填");
+    }
+}
+function marital(obj){
+    if($("#currently_pacece").val()!="0"&&$(obj).val()!="0"){
+            $(obj).siblings('span').empty()
+            $(obj).siblings('span').append("<i class=\"iconfont icon-gou\">");
+        }else{
+            $(obj).siblings('span').empty()
+            $(obj).siblings('span').append("<i class=\"iconfont icon-gantanhao\"></i>必填")
+        }
+}
+function yzPerson(obj){
+        if($(obj).next().val()!="0"&&$(obj).val()!="" && $(obj).siblings('select').val()!="0"){
+            $(obj).next().next().empty()
+            $(obj).next().next().append("<i class=\"iconfont icon-gou\">");
+        }else{
+            $(obj).next().next().empty()
+            $(obj).next().next().append("<i class=\"iconfont icon-gantanhao\"></i>必填")
+        }
+    }
+upload_photo()
+function countChar(textareaID,spanID,maxNum){
+    //得到输入的字符的长度
+    var NowNum = document.getElementById(textareaID).value.length;
+    //判断输入的长度是否超过规定的长度
+    if(NowNum>maxNum)
+    {
+       //如果超过就截取规定长度的内容
+    document.getElementById(textareaID).value = document.getElementById(textareaID).value.substring(0,maxNum);
+    }
+    else
+    {
+        //得到当前的输入长度并且显示在页面上
+    document.getElementById(spanID).innerHTML = NowNum;
+    }
+}
+
+//得到当前的输入长度并且显示在页面上
+function SetLength(textareaID,spanID){
+
+    var NowNum = $("#" + textareaID).val().length;
+
+    $("#" + spanID).text(NowNum);
+}
+//验证手机号码
+function checkMobile(){
+    var sMobile = $("#phone").val();
+    if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(sMobile))){
+        $("#phone").siblings('span').empty()
+        $("#phone").siblings('span').append("<i class=\"iconfont icon-gantanhao\"></i>必填")
+    }else{
+        $("#phone").siblings('span').empty()
+        $("#phone").siblings('span').append("<i class=\"iconfont icon-gou\">");
+    }
+}
+$(".scjl .info input,textarea").focus(function(){
+    $(".scjl .info input,textarea").css({"border-color":"#E2E2E2","box-shadow":"none"});
+   $(this).css({"border-color":"#5c91d9","box-shadow": "0px 0px 3px #5c91d9"});
+});
+
+</script>
+{% include 'jobs/system/footer.html' %}

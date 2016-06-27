@@ -1,0 +1,284 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" href="{{STATIC_URL}}css/style2.css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/css.css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/tabel.css">
+<style>
+	.layui-layer-page .layui-layer-content{overflow: hidden;}
+</style>
+<div class="clear">99</div><div class="clear">1</div>
+<div class="nav2" style="width:1020px;">
+	<ul id="menu">
+        <li>
+            <a href="/system/exp_rule">等级规则<i class="iconfont icon-xia1"></i></a>
+        </li>
+        <li>
+            <a href="/system/gold_rule">才币规则<i class="iconfont icon-xia1"></i></a>
+        </li>
+        <li>
+            <a href="/system/privilege">我的特权<i class="iconfont icon-xia1"></i></a>
+        </li>
+ 	</ul>
+</div>
+
+<div class="cont" style="margin-top: 30px;">
+	<h1 class="o_title"><span class="line"></span>什么是经验值？</h1>
+	<table class="o_tb">
+		<tr class="eef6ff">
+			<td class="pl3">经验值越多，用户等级越高，经验值只和等级相对应，不可消耗。</td>
+		</tr>
+	</table>
+	<h1 class="o_title"><span class="line"></span>等级增长规则</h1>
+	<table class="o_tb">
+		<tr class="eef6ff">
+			<td class="pl3" style="width:21%">等级</td>
+			<td><span class="level">LV.0</span></td>
+			<td><span class="level">LV.1</span></td>
+			<td><span class="level">LV.2</span></td>
+			<td><span class="level">LV.3</span></td>
+			<td><span class="level">LV.4</span></td>
+			<td><span class="level">LV.5</span></td>
+		</tr>
+		<tr>
+			<td class="pl3" style="width:195px">经验</td>
+			<td>0-399</td>
+			<td>400-999</td>
+			<td>1000-2999</td>
+			<td>3000-7999</td>
+			<td>8000-19999</td>
+			<td>20000+</td>
+		</tr>
+	</table>
+	<h1 class="o_title"><span class="line"></span>等级特权</h1>
+	<table class="o_tb">
+		<tr class="eef6ff">
+			<td class="pl3" style="width: 21%;">等级</td>
+			<td><span class="level">LV.0</span></td>
+			<td><span class="level">LV.1</span></td>
+			<td><span class="level">LV.2</span></td>
+			<td><span class="level">LV.3</span></td>
+			<td><span class="level">LV.4</span></td>
+			<td><span class="level">LV.5</span></td>
+		</tr>
+		<tr>
+			<td class="pl3">关注人数上限</td>
+			<td>100</td>
+			<td>1500</td>
+			<td>2000</td>
+			<td>3000</td>
+			<td>4000</td>
+			<td>5000</td>
+		</tr>
+		<tr class="eef6ff">
+			<td class="pl3">同时运作的职位数量</td>
+			<td>5个</td>
+			<td>25个</td>
+			<td>35个</td>
+			<td>45个</td>
+			<td>60个</td>
+			<td>80个</td>
+		</tr>
+		<tr>
+			<td class="pl3">每日查看简历数</td>
+			<td>3份</td>
+			<td>10份</td>
+			<td>20份</td>
+			<td>30份</td>
+			<td>30份</td>
+			<td>40份</td>
+		</tr>
+		<tr class="eef6ff">
+			<td class="pl3">每日导出简历数量</td>
+			<td>1份</td>
+			<td>3份</td>
+			<td>5份</td>
+			<td>7份</td>
+			<td>9份</td>
+			<td>12份</td>
+		</tr>
+		<tr>
+			<td class="pl3">职位订阅数量</td>
+			<td>1个</td>
+			<td>2个</td>
+			<td>3个</td>
+			<td>4个</td>
+			<td>5个</td>
+			<td>6个</td>
+		</tr>
+	</table>
+	
+	<h1 class="o_title"><span class="line"></span>每日任务</h1>
+	<table class="o_tb">
+		<tr class="eef6ff">
+			<td class="pl3" style="width: 28%;">操作</td>
+			<td style="width:10%;">经验值</td>
+			<td style="width:10%;">上限</td>
+			<td style="text-align: center;">说明</td>
+		</tr>
+		<tr>
+			<td class="pl3">对应聘来的简历快速反应</td>
+			<td class="o_value">+1</td>
+			<td class="o_value">40</td>
+			<td>
+				<p>对应聘来的候选人简历快速反馈“合适”“不合适”或“待沟通”。每日最多得40点。
+				</p>
+			</td>
+		</tr>
+		<tr class="eef6ff">
+			<td class="pl3">回复私信</td>
+			<td class="o_value">+2</td>
+			<td class="o_value">80</td>
+			<td>
+				<p>首次私信回复3天内的应聘、委托候选人可得。每日最多得60点。</p>
+			</td>
+		</tr>
+	</table>
+
+	<h1 class="o_title"><span class="line"></span>经验值获取规则</h1>
+	<table class="o_tb">
+		<tr class="eef6ff">
+			<td class="pl3" style="width: 28%;">操作</td>
+			<td style="width:10%;">经验值</td>
+			<td style="width:10%;">上限</td>
+			<td style="text-align: center;">说明</td>
+		</tr>
+		<tr>
+			<td class="pl3">填写基本信息</td>
+			<td class="o_value">+100</td>
+			<td class="o_value">100</td>
+			<td>
+				<p>填写基本信息，奖励100经验，基本信息包括：姓名、工作年限、擅长领域、擅长职位及当前头衔
+				</p>
+				<a href="/jobs/system/jjrsy" class="wr_info" target="_blank">完善信息</a>
+			</td>
+		</tr>
+		<tr class="eef6ff">
+			<td class="pl3">身份认证通过</td>
+			<td class="o_value">+80</td>
+			<td class="o_value">80</td>
+			<td>
+				<p>提交个人真实姓名、身份证号、头像等信息，并认证通过。</p>
+				<a href="/account/new_sfyz" class="wr_info" target="_blank">前往认证</a>
+			</td>
+		</tr>
+		<tr>
+			<td class="pl3">微信绑定怀才当遇账号</td>
+			<td class="o_value">+100</td>
+			<td class="o_value">-</td>
+			<td>
+				<p>关注怀才当遇公众号，通过公众号进入怀才当遇WEB端，登录并绑定怀才当遇账号成功即可获得100点经验。</p>
+				<a href="javascript:void(0)" id="weixinBtn" class="wr_info" target="_blank">立即绑定</a>
+			</td>
+		</tr>
+		<tr class="eef6ff">
+			<td class="pl3">对应聘来的简历快速反馈（当天）</td>
+			<td class="o_value">+1</td>
+			<td class="o_value">40</td>
+			<td>
+				<p>对应聘来的候选人简历快速反馈“合适”“不合适”或“待沟通”。每日最多得40点。</p>
+				<a href="resume/h_tddjl" class="wr_info" target="_blank">立即前往</a>
+			</td>
+		</tr>
+		<tr>
+			<td class="pl3">回复私信</td>
+			<td class="o_value">+2</td>
+			<td class="o_value">80</td>
+			<td>
+				<p>首次回复候选人3天内的应聘、委托、私信。<br>
+				每日最多得80点。</p>
+			</td>
+		</tr>
+		<tr class="eef6ff">
+			<td class="pl3">加入企业</td>
+			<td class="o_value">+100</td>
+			<td class="o_value">100</td>
+			<td>
+				<p>第一次成功加入企业。</p>
+				<a href="/jobs/system/jjrsy" class="wr_info" target="_blank">立即加入</a>
+			</td>
+		</tr>
+		<tr>
+			<td class="pl3">推荐职位匹配度70%以上加分</td>
+			<td class="o_value">+10</td>
+			<td class="o_value">150</td>
+			<td>
+				<p>向求职者或经理人推荐职位，推荐成功后获得+10经验值。推荐成功的标志是候选人投递职位。每日最多获得150.</p>
+				
+			</td>
+		</tr>
+		<tr class="eef6ff">
+			<td class="pl3">上传简历</td>
+			<td class="o_value">+10</td>
+			<td class="o_value">-</td>
+			<td>
+				<p>上传简历，一份10点经验值</p>
+				<a href="resume/uploaded" class="wr_info" target="_blank">立即上传</a>
+			</td>
+		</tr>
+		<tr>
+			<td class="pl3">被关注</td>
+			<td class="o_value">+2</td>
+			<td class="o_value">100</td>
+			<td>
+				<p>被主动关注得2经验值。每日最多获得100点。</p>
+			</td>
+		</tr>
+		<tr class="eef6ff">
+			<td class="pl3">每日登录</td>
+			<td class="o_value">+5</td>
+			<td class="o_value">5</td>
+			<td>
+				<p>每日仅第一次登录。</p>
+			</td>
+		</tr>
+	</table>
+
+	<h1 class="o_title"><span class="line"></span>经验证惩罚规则</h1>
+	<table class="o_tb">
+		<tr class="eef6ff">
+			<td class="pl3" style="width: 20%">操作</td>
+			<td style="width:27%;">经验值</td>
+			<td style="text-align: center;">说明</td>
+		</tr>
+		<tr style="height:105px;">
+			<td class="pl3">回复私信违规</td>
+			<td class="o_value">-5/条</td>
+			<td >
+				<ol>
+					<li>回复广告、色情及违法信息；</li>
+					<li>信息内容不尊重候选人，对候选人有恶意中伤；</li>
+					<li>信息中附带网址、微信、微博等联系方式；</li>
+					<li>其他经候选人举报属实的违规信息。</li>
+				</ol>
+			</td>
+		</tr>
+		<tr class="eef6ff">
+			<td class="pl3">被举报简历、职位</td>
+			<td class="o_value">-20/条</td>
+			<td>
+				<ol>
+					<li>简历内容作假</li>
+					<li>简历中存在广告、色情及违法内容</li>
+				</ol>
+			</td>
+		</tr>
+		<tr>
+			<td class="pl3">上传违规简历</td>
+			<td class="o_value">-100</td>
+			<td style="text-align: left;">简历内容带有广告、色情及违法信息</td>
+		</tr>
+	</table>
+	<p class="e52525">注：以上行为，视情节的严重程度，将做出账户禁用或封号处理</p>
+</div>
+<script>
+	$("#weixinBtn").click(function(event) {
+	    layer_index=layer.open({
+          type: 1,
+          area: ['280px', '260px'],
+          title:'怀才当遇二维码<em class="c_abs"></em>',
+          skin:'o_layer o_ewm',
+          shadeClose: true, //点击遮罩关闭
+          content:"<img src='/static/images/index_.jpg' width='175px' height='175px'/>"             
+      	});
+	});
+</script>
+{% include 'jobs/system/new_footer.html' %}

@@ -1,0 +1,140 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_company.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+$(document).ready(function()
+{
+    var oLingQuSave=false;
+    //打开顶部菜单
+    $("#topmenu_sub").click( function () { 
+        $("#topmenu").slideToggle("fast");
+    });
+    $(".lingqu").click(function(){
+        if(oLingQuSave){
+            return false;
+        }
+        oLingQuSave=true;
+        $.post("?act=lingqu_save",{"money":500},function(data){
+            if(data.trim()=="ok"){
+                alert(["领取成功！"]);
+                window.location.href=location.href;
+            }else
+            {
+                alert([data]);
+            }
+        });
+    });
+});
+</script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_user_center_main">
+
+	<div class="zsp_resume_header" style="margin-bottom:0;">
+        <div class="zsp_resume_userhead">
+        	<div class="zsp_userhead_img">
+        		<div class="imgBorderBox">
+	            	<img src="{{ pu.head_portrait }}" onerror='notfind(this, {{ request.session.sex | default:'男' }}, 5)'>
+        		</div>
+            </div>
+            <div class="zsp_userhead_name">{{ pu.user_name | default:'' }}</div>
+
+        </div>
+    </div>
+    
+    
+    <div class="zsp_uc_list_box">        
+        <a href="#" class="zsp_uc_list_18">
+        	<div class="zsp_uc_list_text">
+                <strong>已推荐跟踪</strong>
+            </div>
+        </a>
+    	<a href="/mobile/headhunter/resume_database" class="zsp_uc_list_14">
+            <div class="zsp_red_dotted"></div>
+        	<div class="zsp_uc_list_text">
+                <strong>私有人才库</strong>
+            </div>
+        </a>
+    	<a href="#" class="zsp_uc_list_11">
+        	<div class="zsp_uc_list_text">
+                <strong>查看悬赏职位</strong>
+            </div>
+        </a>
+    </div>
+    
+</div>
+<div class="zsp_recommend_withdrawal_box" style="padding-right:0;">
+
+    <a href="#"><strong>￥{{ gold_count | default:'0.00' }}</strong><span>余额</span></a>
+    <a href="#"><strong>0张</strong><span>代金券</span></a>
+    <a href="#"><strong>0</strong><span>积分</span></a>
+</div>
+
+<a href="/mobile/reward_position" class="common_tit_box" style="margin-top:10px;">
+    <span><i class="fa fa-angle-right"></i></span>
+    <strong style="color:#8493a8">您可能感兴趣的悬赏职位</strong>
+</a>
+
+<div id="wrapper" style="padding-top:0;">
+
+    <div class="zsp_job_list" id="scroller" style="padding-top:0;">
+
+        <div id="list" style="padding-top:0;">
+            {% if position_list %}
+                {% for position in position_list %}
+                    <a href="/mobile/personal/position_detail?position_id={{ position.id }}" class="zsp_job_list_li">
+                            <div class="zsp_job_li_top">
+                                <div class="zsp_job_li_fang"><img src="{{ position.pc_logo | default:'' }}" onerror="notfindimg(this)"></div>
+
+                                <div class="zsp_job_li_tit">
+                                    <div class="zsp_job_li_h">
+                                        <span><i class="fa fa-angle-right"></i></span>
+                                        <h3>
+                                            {{ position.position_name | default:'' }}
+
+                                        </h3>
+
+                                        <!--<div class="hotJob">置顶</div>
+                                        <div class="xuanshang">悬赏</div>
+                                        <div class="tuijian">推荐</div>-->
+                                    </div>
+                                    <div class="zsp_job_li_tit_other">
+                                        {{ position.pc_name | default:'' }}
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="zsp_job_li_other  ">
+                                <div class="zsp_job_li_other_icon">
+                                    <i class="fa fa-map-marker"></i>
+                                    <span>{{ position.work_areaname | default:'' }}</span>
+                                </div>
+                                <div class="zsp_job_li_other_icon">
+                                    <i class="fa fa-jpy"></i>
+                                    <span>{{ position.payname | default:'' }}</span>
+                                </div>
+                                <div class="zsp_job_li_other_icon">
+                                    <i class="fa fa-graduation-cap"></i>
+                                    <span>{{ position.diplomaname | default:'' }}</span>
+                                </div>
+{#                                <div style="float:right;color:#002a3f">匹配度:{{ position.auto_prace }}%</div>#}
+                            </div>
+                    </a>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="zsp_resume_but_box">
+            <a href="/mobile/reward_position" id="jobMore" class="zsp_resume_but_4 more">查看更多</a>
+        </div>
+    
+    
+    </div>
+</div>
+
+</body></html>

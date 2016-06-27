@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<title>我要邀请</title>
+<link href="/static/new_mobile/css/invite.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/static/new_mobile/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/static/new_mobile/js/invite.js"></script>
+<script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+<script type="text/javascript" src="http://www.luqidong.com/demo/qrcode/js/qrcode.js"></script>
+</head>
+
+<body>
+<div class="wrapper"> 
+    <!-- 邀请主页 -->
+    <div class="bag-main"> 
+        <!-- header -->
+        <div class="banner"> <img src="/static/new_mobile/images/yq/header1.jpg" alt=""> 
+            <img src="/static/new_mobile/images/yq/header2.jpg" alt="">
+          <!--  <img src="/static/new_mobile/images/yq/ewm.png" class="cmewm">  -->
+
+           <div id="qrcode" class="cmewm">
+          </div>
+          <script type="text/javascript">
+             window.onload =function(){
+              var qrcode = new QRCode(document.getElementById("qrcode"), {
+                  width : 200,//设置宽高
+                  height : 200
+              });
+              qrcode.makeCode('{{ website }}/mobile/invite_register?remark={{ remark }}');
+          }
+          </script>
+       </div>
+        <div class="main">
+            <p class="wrmes">邀请好友注册成功，您将获得50才币</p>
+            <div class="getbag1"> <a href="javascript:;" class="sharefl" >分享福利</a> </div>
+        </div>
+    </div>
+    
+    <!-- 领券成功 -->
+    <div class="rules on">
+        <div class="rules-title">
+            <p>活动规则</p>
+            <img src="/static/new_mobile/images/yq/jts.png" alt=""> </div>
+        <ul class="rules-bg">
+            <li>1、分享链接或二维码（二维码截图有效）给好友，邀请好友加入怀才当遇招聘网，双方即可获得才币奖励。</li>
+            <li>2、仅当被邀请方完成注册，奖励才能生效；邀请方奖励50才币，被邀请方奖励100才币，活动期间邀请奖励不设次数上限，多邀多得。</li>
+            <li>3、邀请成功后，您可登陆怀才当遇www.hcdyhr.com平台在个人中心-才币管理里面进行查看才币礼包详情。</li>
+            <li>4、怀才当遇招聘网可在法律法规允许范围内对本次活动规则进行解释。</li>
+            <li style="color:red; margin-top:0.2rem;">注：目前手机端只支持通过微信邀请好友来注册</li>
+        </ul>
+    </div>
+</div>
+{% if request.session.type and request.session.type == "2" %} 
+<div style="display: none;" class="zsp_share_fidex shareCur">
+          <div class="zsp_share_web_red">
+             <div class="zsp_share_box">
+                <strong>请点击右上角</strong>
+                <strong>将它发送给指定好友</strong>
+                <strong>或分享到朋友圈</strong>
+             </div> 
+             <div class="zsp_share_box1" style="margin-top:2rem">
+                <strong style="width:8.5rem!important">您好！您当前为试用账号，试用账号到期，</strong>
+                <strong style="width:8.5rem!important">邀请好友获得的才币也归试用账号所有，</strong>
+                <strong style="width:8.5rem!important">才币也就木有了~ 您还是尽快注册您自己企业账号吧~</strong>
+             </div>   
+         </div>        
+</div>
+{% else %}
+<div style="display: none;" class="zsp_share_fidex shareCur">
+          <div class="zsp_share_web_red">
+             <div class="zsp_share_box">
+                <strong>请点击右上角</strong>
+                <strong>将它发送给指定好友</strong>
+                <strong>或分享到朋友圈</strong>
+             </div>
+          
+         </div>
+</div>
+{% endif %}
+
+
+<script>
+// 微信分享
+    WXJssdk.init(function(wx) {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+            success: function (res) {
+      //alert(JSON.stringify(res));
+            }
+        });
+        // 分享data
+        var shareData = {
+            title: '怀才当遇送你才币大红包！',
+            desc: '找工作、找人才、找简历，轻轻一点，轻松实现！ ',
+            link: '{{ website }}/mobile/invite_register?remark={{ remark }}',//分享链接地址 自己调整
+            imgUrl: '{{ website }}/static/new_mobile/images/yq/cblogo.jpg',//分享显示的图片
+            success:function(){
+               // alert('shareData success');
+            },
+            cancel:function(){
+               // alert('shareData cancel');
+            },
+            error:function(res){
+               // alert(JSON.stringify(res));
+            }
+        };
+
+        // 分享给朋友
+          wx.onMenuShareAppMessage(shareData);
+        // 分享到朋友圈
+          wx.onMenuShareTimeline(shareData);
+        // 分享到QQ
+          wx.onMenuShareQQ(shareData);
+        // 分享到微博
+          wx.onMenuShareWeibo(shareData);
+    });
+</script>
+</body>
+</html>

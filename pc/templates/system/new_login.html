@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>{{ title }}</title>
+    <meta name="description" content="怀才当遇提供专业的人才经纪人服务与互联网领域垂直招聘服务,通过创新独特的结构和模式,以及个性化的优质服务,为您提供职业规划、个性化定制职业形象,帮助用户快速提升职场价值.找工作、找人才、找人才经纪人服务就来怀才当遇网！" />
+    <meta name="keywords" content="怀才当遇,怀才不遇,怀才当遇招聘,人才经纪人,互联网招聘,移动互联网招聘,微信招聘,微博招聘,高薪职位,互联网圈子,社交招聘,社会招聘" />
+<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1443147556_4920416.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/new_login.css">
+<style type="text/css">
+   .header li{position:relative;}
+        .header .ejcd{
+            position:absolute;
+            z-index: 99;
+            width:750px;
+            left: -300px;
+            display:none;
+            background:#fff;
+            -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            -ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            -o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            height:53px;
+            padding-top: 15px;
+            border-radius:3px;
+            top:82%;
+        }
+        .header .ejcd a{
+            display:inline-block;
+            width:auto;
+            color: #333;
+            border-left: 1px solid #bababa;
+            padding: 0 20px;
+            font-size: 14px;
+            line-height: 24px;
+        }
+        .header .icon-shang{position: absolute;top: 36px;left: 42px;color:#5c91d9;display:none;}
+        .search_position_box:hover .icon-shang,.search_position_box:hover .ejcd{
+            display:block;
+        }
+</style>
+<script  src="{{ STATIC_URL }}js/lib/base/common.js"></script>
+<script type="text/javascript">
+    function BrowserRedirect(e,t,n,r){var i=navigator.userAgent.toLowerCase(),s=i.match(/ipad/i)=="ipad",o=i.match(/iphone os/i)=="iphone os",u=i.match(/midp/i)=="midp",a=i.match(/rv:1.2.3.4/i)=="rv:1.2.3.4",f=i.match(/ucweb/i)=="ucweb",l=i.match(/android/i)=="android",c=i.match(/windows ce/i)=="windows ce",h=i.match(/windows mobile/i)=="windows mobile",p=i.match(/gt-p/i)=="gt-p",d;n==""&&(n=e),o||u||a||f||l||c||h?p?(d=n,r!=0&&(window.location.href=d)):(d=t,r!=1&&(window.location.href=d)):(s?d=n:d=e,r!=0&&(window.location.href=d))}
+BrowserRedirect('http://www.hcdyhr.com/system/new_login','http://www.hcdyhr.com/mobile/login_register','',0);
+
+ var timer = null;
+  var alertFram;
+  window.alert = function(txt, type, fun1) {
+    var icon = "";
+    var qrStr = ""
+    clearInterval(timer);
+    timer = setInterval(function() {
+      if ($("#alertFram")[0]) {
+        $("#alertFram").remove();
+        clearInterval(timer);
+      }
+    }, 3900)
+    alertFram = $('<div id="alertFram" style="color:#ed4f30;font-size:14px;padding:0px 0px 0px 30px;height:40px;background-color:#fff3de;border:1px solid #ffddc1;position:fixed;left:50%;z-index:999999999;text-align:center;line-height:40px;top:0">' + txt + '<img onclick="$(this).parent().remove()" src="{{ STATIC_URL }}images/x_03.png" style="float:right;cursor:pointer;margin-left:10px;margin-top:14px;margin-right:10px" width="12" height="12"></div>')
+    if (arguments[1] != null) {
+      if (arguments[1] == 1) {
+        icon = "alert_03";
+      } else if (arguments[1] == 2) {
+        icon = "alert_07";
+      } else if (arguments[1] == 3) {
+        clearInterval(timer);
+        icon = "alert_15";
+        qrStr = '<div style="margin-top:20px"><input type="button" id="qr_btn" value="确认" style="width:70px;height:30px;\
+               line-height:30px;color:#fff;background-color:#5C91D9;border:0px;border-radius: 5px;font-size:14px;cursor:pointer;"/><input type="button"\
+               value="取消" onclick="$(this).parent().parent().remove()" style="width:70px;height:30px;line-\
+               height:30px;color:#232323;background-color:#fff;border:0px;border-radius: 5px;font-size:14px;cursor:pointer;"/></div>';
+      } else if (arguments[1] == 4) {
+        icon = "alert_18";
+      }
+      alertFram = $('<div id="alertFram" style="color:#232323;font-size:18px;box-shadow: 5px 5px 5px rgba(0,0,0,.4);background-color:#fff;border:1px solid #7E9CC6;border-radius: 5px;position:fixed;left:50%;z-index:999999999;text-align:center;top:50%;padding:10px 20px;white-space:nowrap;"><div style="width:200px;float:left"></div><div style="clear:both"></div><img onclick="$(this).parent().remove()" src="/static/images/alert_11.png" style="float:right;cursor:pointer;margin-right:-9px;" ><img src="/static/images/' + icon + '.png" style="vertical-align:middle;margin-right:10px"/><span style="margin-right:10px;font-size:16px;">' + txt + '</span>' + qrStr + '</div>')
+    }
+    if ($("#alertFram")[0]) {
+      return;
+    }
+    $("body").append(alertFram);
+    $("#qr_btn").click(function() {
+      fun1();
+    })
+    var width = parseInt(alertFram.css('width'))+40;
+    if(arguments[1] != null)
+    {
+          var height = parseInt(alertFram.height())+20;
+         alertFram.css('margin-top', '-' + height/2 + 'px');
+    }
+    alertFram.css('margin-left', '-' + width/2 + 'px');
+  }
+
+</script>
+</head>
+<body>
+<!-- 头部start -->
+	<div class="header">
+         <div class="content">
+             <a href="http://www.hcdyhr.com"><img style="margin-top:10px;" src="{{ STATIC_URL }}images/new_logo.png" alt=""></a>
+             <ul>
+                 <li>
+          <a href="http://www.hcdyhr.com">首页</a>
+        </li>
+         <li class="search_position_box">
+          <a href="/new_search_position" target="_blank">搜索职位</a>
+           <i class="iconfont icon-shang"></i>
+          <div class="ejcd">
+            <a href="http://www.hcdyhr.com/industrySpecial?categoryID=H0001" target="_blank" style="border-left:0">互联网/游戏/软件</a>
+            <a href="http://www.hcdyhr.com/industrySpecial?categoryID=H0005" target="_blank">房地产/建筑/物业</a>
+            <a href="http://www.hcdyhr.com/industrySpecial?categoryID=H0012" target="_blank">金融</a>
+            <a href="http://www.hcdyhr.com/industrySpecial?categoryID=H0008" target="_blank">制造/采购/物流</a>
+            <a href="http://www.hcdyhr.com/industrySpecial?categoryID=H0009" target="_blank">消费品</a>
+            <a href="http://www.hcdyhr.com/industrySpecial?categoryID=H0006" target="_blank">政府/农林/牧渔</a>
+          </div>
+        </li>
+        <li>
+          <a href="/new_search_company" target="_blank">找人才</a>
+        </li>
+        <li>
+          <a href="/system/new_agent_search" target="_blank">免费咨询</a>
+        </li>
+        <span class="abs"></span>
+             </ul>
+         </div>
+    </div>
+<!-- 头部end -->
+<div class="bg">
+<!-- 主体start -->
+	<div class="main">
+		<!-- <h1 class="wishing_tree">本周已有
+			<div id="num_box" style="display:inline-block"></div>
+			人在许愿树许愿
+		</h1> -->
+		<div class="c">
+			<h1>欢迎登录</h1>
+            <div class="zjdl1">
+            <a href="/system/new_Register">
+             立即注册</a><i class="iconfont icon-xiao75"></i>
+             </div>
+			<form method="post" action="/system/general_logins">
+                {% csrf_token %}
+                <ul class="form">
+                    <li>
+                        <label for="">帐号</label>
+                        <input type="text"onkeyup="o_null(this)" onkeydown="o_null(this)" onblur="o_null(this)" maxlength="24" name="account" id="account" placeholder="请输入邮箱帐号或手机">
+                        <i class="iconfont icon-yonghu"></i>
+                        <span class="hint"><i class="iconfont icon-gantanhao"></i>请输入帐号</span>
+                    </li>
+                    <li>
+                        <label for="">密码</label>
+                        <input type="password"onkeyup="o_null(this)" onkeydown="o_null(this)" onblur="o_null(this)" maxlength="16" name="password" id="pwd" class="mima1" placeholder="请输入密码" oncopy="return false;" onpaste="return false;" oncut="return false;">
+                        <i class="iconfont icon-mima"></i>
+                        <span class="hint"><i class="iconfont icon-gantanhao"></i>请输入密码</span>
+                    </li>
+                    <li>
+                        <button class="login" onclick="return validData();">登录</button>
+                    </li>
+                    {% if linkSource %}
+                        <input type="hidden" name="email_to_resume" value="{{ linkSource }}">
+                    {% endif %}
+                    <li class="remember" >
+                        <input id="rmbUser" type="checkbox">
+                        <label for="rmbUser">记住我</label>
+                        <a href="/zhmm" class="wjmm">忘记密码?</a>
+                    </li>
+                </ul>
+            </form>
+			<div class="l clearfix">
+				<span>使用以下账号直接登录</span>
+				<div class="f_r">
+					<a style="background-position: center -70px" href="" class="sina"></a>
+					<a style="background-position: center 0px" href="" class="qq"></a>
+					<a style="background-position: center -140px" href="" class="wenxin"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- 主体end -->
+</div>
+<!-- 尾部start -->
+<div class="footer">
+	<ul>
+		<li><a href="about#0" target="_blank">关于我们</a></li>|
+        <!--<li><a href="#">法律声明</a></li>|-->
+        <li><a href="about#1" target="_blank">使用帮助</a></li>|
+        <li><a href="about#2" target="_blank">用户协议</a></li>
+        <li><a href="about#3" target="_blank">友情链接</a></li>
+        <!--<li><a href="#">网站索引</a></li>|-->
+        <!--<li><a href="#">移动版</a></li>-->
+	</ul>
+	<p>京ICP备16011247 Powered by  2015-2025 北京怀才当遇网络技术有限公司版权所有</p>
+</div>
+<!-- 尾部end -->
+</body>
+</html>
+<script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js"></script>
+<script src="{{ STATIC_URL }}js/uploader/layer/layer.js"></script>
+<script src="{{ STATIC_URL }}js/new_login.js"></script>
+{#    显示登录返回信息#}
+{% if msg %}
+    <script type="text/javascript">
+{#        $('#account').val('{{ account }}');#}
+{#        $('#pwd').val('{{ pwd }}');#}
+        $('#account').focus();
+        var mes='{{ msg }}';
+        var str =mes.substring(0,4);
+        if($.trim(str) =="注册成功"){
+          alert( '{{ msg }}',1);
+        }
+        else{
+          alert( '{{ msg }}',4);
+        }   
+    </script>
+{% endif %}

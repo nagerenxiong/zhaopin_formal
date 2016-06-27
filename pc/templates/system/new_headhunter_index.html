@@ -1,0 +1,358 @@
+{% include 'jobs/system/new_top.html' %}
+
+    {% if request.session.account_type == "3" or request.session.account_type  == "5" %}
+    <div id="info_nav" class="center clearfix" style="margin-top: 40px;">
+        <ul class="f_l">
+            <li>
+                <a href="/resume/uploaded" target="_blank">
+                    <p>{{ resume_count | default:"0"}}<span>位</span></p>
+                    <span>我的人才库</span>
+                </a>
+            </li>
+            <li>
+                <a href="/resume/myDeliveryResume" target="_blank">
+                    <p>{{ headhunter.sendCount | default:"0" }}<span>位</span></p>
+                    <span>进行中的推荐</span>
+                </a>
+            </li>
+            <li>
+                <a href="/position/headhunter/zwgl" target="_blank">
+                    <p>{{ position_count | default:"0"}}<span>个</span></p>
+                    <span>已发布的职位</span>
+                </a>
+            </li>
+            <li>
+                <a  href="JavaScript:void(0);" onclick="myWallet()" >
+                    <img src="/static/images/yu_e.png" alt="">
+                    <div>
+                        <p>{{ gold_count | default:"0" }}</p>
+                        <span>钱包余额</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="f_r">
+            <ul>
+                <li><a class="zrc" href="/resume/new_resume_search" target="_blank">找人才</a></li>
+                <li><a class="zxs" href="/position/headhunter/naagentsearch?rewards_type=1" target="_blank">找悬赏</a></li>
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+<!-- 主体开始 -->
+<!-- 老版弹出框样式，新版出了可以删除 -->
+<style type="text/css">
+    .yqzd .header{height:auto;background-color:transparent;}
+    #tableInfoForInvite li{box-sizing:border-box;}
+    .notice{
+        width:509px;
+        height:289px;
+        margin:0 auto;
+    }
+    .noti_rg{
+        line-height:23px;
+    }
+    .notice .per_img{
+        width:270px;
+        height:265px;
+        float:left;
+    }
+    .notice .noti_tit
+    {
+        font-size:16px;
+        color:#333;
+    }
+    .notice .noti_mes
+    {
+        font-size:14px;
+        color:#999999;
+    }
+    .noti_rg .noti_imm{
+        font-size:14px;
+        color:#ff8800;
+    }
+     .noti_rg .noti_imm a{
+        font-size:14px;
+        color:#ff8800;
+    }
+    .noti_rg .noti_imm img{
+        vertical-align:middle;
+        margin-bottom:3px;
+        margin-left:3px;
+     }
+    .notice .noti_rg
+    {
+        padding-top:70px;
+    }
+    .noti_rg .noti_imm i
+    {
+      width:20px;
+      height:20px;
+      display:block;
+      background: url(images/fb.jpg);
+      position:absolute;
+    }
+</style>
+<!-- 老版弹出框样式，新版出了可以删除 -->
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.autocomplete.css">
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/forwardresume.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/new_forwardposition.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/inviteDialog.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}appJs/system/new_headhunter_index.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/isIdentityAudit.js"></script>
+<link href="{{ STATIC_URL }}css/jjr_index.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/popup.css">
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.autocomplete.min.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/interview.js"></script>
+<div class="clear">1</div>
+<div class="center main">
+<input type="hidden" id="userValidateStatus" value="{{ pu.userValidateStatus }}" />
+<!-- 主体开始左侧开始 -->
+	<div class="main_content">
+		<div class="o_search">
+		<form action="">
+			<div class="search_select">
+				<div>
+					<span>简历</span>
+					<img style="margin-left: 5px;" src="{{ STATIC_URL }}images/o_xjt.png" alt="">
+				</div>
+				<i style="position: absolute;height: 5px;width: 100%;"></i>
+				<ul id="selectItems">
+					<li>职位</li>
+					<li>简历</li>
+					<li>公司</li>
+				</ul>
+			</div>
+			<input class="search_input" type="text" maxlength="35" placeholder="请输入简历关键词:&nbsp;如前端开发等">
+			<a class="search_btn" onclick="queryData()">搜索</a>
+			<div class="clearfix"></div>
+		</form>
+			<div class="hotsearch">
+				<span>热门搜索:&nbsp;</span>
+				<ul>
+					<li>iOS</li>
+					<li>市场推广</li>
+					<li>测试</li>
+					<li>运营</li>
+					<li>产品助理</li>
+					<li>网页设计</li>
+					<li>前端开发</li>
+					<li>产品经理</li>
+					<li>Android</li>
+					<li>移动开发</li>
+					
+				</ul>
+			</div>
+
+			<div class="resume">
+				<ul class="resume_select">
+					<li class="active">匹配的简历
+                    </li>
+					<li>匹配的职位
+                    </li>
+					<li>应聘简历
+                        {% if ajCount %}
+                            <span>{{ ajCount }}</span>
+                        {% endif %}
+                    </li>
+					<li class="slide"></li>
+					<div class="clearfix"></div>
+				</ul>
+			<div class="result">
+				<!-- 匹配的简历 开始-->
+				<div id="ppd_jl">
+					<div class="zpzw">
+							<ul style="height:36px;overflow: hidden; line-height:24.5px;">
+								<li class="leading">招聘职位:</li>
+                                {% if positions %}
+                                    {% for position in positions %}
+                                        <li class="nowrap" title="{{ position.position_name }}" style="max-width: 95px" value="{{ position.id }}" {% if forloop.first %}class="active"{% endif %} onclick="matchResume(this, {{ forloop.counter }})">
+                                            {{ position.position_name }}
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+							</ul>
+					</div>
+                    {% if positions %}
+                    {% else %}
+                        <div id="noMatchData_ppdjl" class="noMatchData">
+                            <div>
+                                    <h2>亲~你还没有发布职位哦！</h2>
+                                    <p>发布职位后我们能根据您的职位要求为您匹配到合适的人才哦~</p>
+                                    <a href="/jobs/position/headhunter/fbdzw" target="_blank" onclick="return isIdentityHeadhunt('3,5', '2')">【职位发布】</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div id="noSendData_ppdjl" class="noSendData" style="display: none;">
+                        <div>
+                                <p>没有匹配到符合职位的简历！</p>
+                        </div>
+                    </div>
+					<ul class="ppd_zw ppd_jl">
+					</ul>
+                        <div class="notice" id="notice" style="display:none;">
+                                    <img src="{{ STATIC_URL }}images/person.png" class="per_img">
+                                    <div class="noti_rg">
+                                      <p class="noti_tit">亲~你还没有发布职位哦！</p>
+                                      <p class="noti_mes">发布职位后我们能根据您的职位要求为您匹配到合适的人才哦~</p>
+                                      <p class="noti_imm"><a href="/jobs/position/headhunter/fbdzw" onclick="return isIdentityHeadhunt('3,5', '2')">立即发布</a> <img src="{{ STATIC_URL }}images/fb.jpg"></p>
+                                    </div>
+                         </div>
+				</div>
+
+				<!-- 匹配的简历 结束-->
+
+				<!-- 匹配的职位 开始-->
+                    <div id="ppd_zw" style="display: none">
+                        {% if resumes %}
+                        {% else %}
+                            <div id="noMatchData_ppdzw" class="noMatchData">
+                                <div>
+                                        <h2>亲~可能您的简历还不够完善所以没能匹配到职位哦，</h2>
+                                        <p>快去完善您的简历吧~</p>
+                                        <a href="/jobs/resume/uploaded" target="_blank">【我的简历库】</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <ul class="ppd_zw" >
+                            {% if resumes %}
+                                {% for resume in resumes %}
+                                    <li style="margin-top: 10px;" onclick="matchPosition('{{ resume.id }}', {{ forloop.counter }})">
+                                        <h2>{{ resume.user_name }}&emsp;|&emsp;
+                                            {% if resume.sex == '女' %}
+                                                <i class="iconfont icon-nv"></i>女
+                                            {% else %}
+                                                <i class="iconfont icon-nan"></i>男
+                                            {% endif %}
+                                            &emsp;
+                                            {% if resume.scurrently_pacece %}
+                                                |&emsp;{{ resume.scurrently_pacece }}&emsp;
+                                            {% endif %}
+                                            {% if resume.scurrently_postaion %}
+                                                |&emsp;{{ resume.scurrently_postaion }}
+                                            {% endif %}
+                                            <span>+</span>
+                                        </h2>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+				<!-- 匹配的职位 结束-->
+
+				<!-- 应聘简历 开始-->
+
+                <div id="yp_jl" style="display: none">
+                    {% if positions %}
+                        <div id="noSendData_ypjl" class="noSendData" style="display: none;">
+                            <div>
+                                    <p>暂时没有符合条件的应聘记录！</p>
+                            </div>
+                        </div>
+
+                    {% else %}
+                        <div id="noMatchData_ypjl" class="noMatchData">
+                            <div>
+                                    <h2>亲~还没有发布职位哦，</h2>
+                                    <p>先发个职位呗~ </p>
+                                    <a href="/jobs/position/headhunter/fbdzw" target="_blank" onclick="return isIdentityHeadhunt('3,5', '2')">【职位发布】</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <ul class="ppd_zw ppd_jl yp_jl" id="tableInfo">
+                        <div class="clearfix"></div>
+                    </ul>
+                </div>
+				<!-- 应聘简历 结束-->
+				
+				<!-- 新增委托 开始-->
+				<div id="xz_wt" style="display: none">
+					<div class="zpzw">
+						
+							<ul id="entrustItems">
+								<li class="leading">
+									<input id="qx" type="checkbox" >
+									<label for="qx">全选</label>
+								</li>
+								<!-- <li onclick="acceptSelectResume()">批量接受</li>
+								<li data-toggle="modal" data-target="#if_jj_Modal" onclick="judgeSelected(this)">批量拒绝</li> -->
+								<li onclick="browseResume()">批量查看</li>
+{#								<li onclick="judgeSelected(this)">批量转发</li>#}
+{#								<li data-toggle="modal" data-target="#message_Modal" onclick="judgeSelected(this)">批量私信</li>#}
+							</ul>
+					</div>
+					<ul class="ppd_zw ppd_jl yp_jl xz_wt clearfix" id="entrustInfo">
+						<div class="clearfix"></div>
+					</ul>
+				</div>
+			</div>
+				<ul class="page_number" id="paginInfo" style="display: none;">
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+
+		</div>
+	</div>
+<!-- 主体左侧内容结束 -->
+
+<!-- 主体侧边内容开始 -->
+    {% include 'jobs/recommendInfo.html' %}
+<!-- 主体侧边内容结束 -->
+<!-- 收藏模态框（Modal） -->
+<div class="modal fade" id="if_sc_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:300px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">收藏</h4>
+            </div>
+            <div class="modal-body t_c">是否确认收藏？</div>
+            <div class="modal-footer ta-c">                
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="collectResume()">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="width:129px;height:auto">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content --> </div>
+</div>
+<!-- /.modal -->
+<!-- 模态框（Modal） -->
+<!-- 待沟通模态框（Modal） -->
+    <div class="modal fade" id="if_dgt_Modal" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:300px">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">待沟通</h4>
+                </div>
+                <div class="modal-body t_c">是否确认待沟通？</div>
+                <div class="modal-footer ta-c">
+                    <button type="button" class="btn btn-primary m-l30" data-dismiss="modal" onclick="dealResume(1)">确认</button>
+                    <button type="button" class="btn-qx m-l5" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+                    
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+        <!-- /.modal -->
+        <!-- 模态框（Modal） -->
+
+<input type="hidden" id="pu_id" value="{{ pu.id }}" />
+<input type="hidden" id="operateId" />
+<input type="hidden" id="operateState" />
+<input type="hidden" id="positionId" />
+<input type="hidden" id="sourceId" />
+<input type="hidden" id="forpuid" />
+<input type="hidden" id="yqname" />
+<input type="hidden" id="puname" />
+<input type="hidden" id="my_phone" value="{{ pu.phone }}" />
+<input type="hidden" id="my_email" value="{{ pu.email }}" />
+</div>
+<!-- 主体结束 -->
+<script type="text/javascript">
+
+</script>
+{% include 'jobs/system/new_footer.html' %}

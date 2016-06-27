@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<title>	</title>
+	<link rel="stylesheet" href="{{ STATIC_URL }}images/images8/pulic.css">
+	<script type="text/javascript" src="{{ STATIC_URL }}images/images8/common.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/core/jquery-1.11.3.min.js"></script>
+      <script type="text/javascript">
+  /*自适应文字大小*/
+/*自适应文字大小*/
+(function(doc, win) {
+  var docEl = doc.documentElement,
+    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+    recalc = function() {
+      var clientWidth = docEl.clientWidth;
+      if (!clientWidth) return;
+      if (clientWidth > 640) {
+        clientWidth = 640;
+      }
+      docEl.style.fontSize = clientWidth / 10 + 'px';
+
+    };
+  if (!doc.addEventListener) return;
+  win.addEventListener(resizeEvt, recalc, false);
+  doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+
+$(function(){
+  $('.ea_selet ul li').each(function(index,el) {
+     $(el).click(function(event) {
+      $('.ea_selet ul li').removeClass('active');
+      $(el).addClass('active');
+      $('.item_ea .ea_info').css('display', 'none');
+      $('#eain'+(index+1)).css('display', 'block');
+     });
+  });
+})
+
+</script>
+</head>
+<body>
+	<section class="content">
+         <div class="bombox">
+         <div class="bomheader"><a class="fh_icon bacimg" href="mobile_dsgl"></a>企业报名入口</div>
+         <ul>
+           <li><input type="text"  name="company" value=""  placeholder="企业名称"/></li>
+           <li><input type="text"  name="position" value=""  placeholder="职位"/></li>
+           <li><input type="text"  name="usename" value=""  placeholder="姓名"/></li>
+           <li><input type="text"  name="lxPhone" value=""  placeholder="手机号"/></li>
+         </ul>
+         <input type="button"  name="" value="完成报名" class="save_btn" style=""/>
+         <p style="margin-top:0.3rem">我们会尽快派专人与您取得联系！</p>
+      </div>
+	</section>
+
+	<script>
+    $(function(){
+        $(".save_btn").click(function(){
+            var $Phone = $(':input[name=lxPhone]');
+            var $usename =$(':input[name=usename]');
+            var $company =$(':input[name=company]');
+            var $position =$(':input[name=position]');
+            var usename =$usename.val();
+            var company =$company.val();
+            var phone = $Phone.val();
+            var position = $position.val();
+            if(company ==''){
+                alert('企业名称不能为空!');
+                return false;
+            }
+              if(position == '') {
+                alert('职位不能为空!');
+                return false;
+            }
+            if(usename ==''){
+                alert('姓名不能为空!');
+                return false;
+            }
+            if(phone == '') {
+                alert('手机号不能为空!');
+                return false;
+            }
+            if (!(/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(phone))) {
+                alert('你输入的手机号码格式不对，请重新输入！');
+                $Phone.val('');
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: "/save_hdenroll",
+                data: {
+                    "pc_name": company, "position": position, "user_name": usename, "phone": phone
+                },
+                dataType: "json",
+                success: function (data) {
+                    if(data.status == '1'){
+                        window.alert('注册成功');
+                        window.location = '/resume/mobile_dsgl';
+                    }else if(data.status == '0'){
+                        window.alert(data.msg);
+                    }else{
+                        window.alert('系统繁忙，请稍后再试');
+                    }
+                }
+            });
+        });
+    })
+</script>
+</body>
+</html>

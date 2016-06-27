@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	
+	<meta content="telephone=no" name="format-detection" />
+	<title>有种你就来！</title>
+	<link rel="stylesheet" href="/static/css/css.css">
+	<link rel="stylesheet" href="/static/css/top.css">
+    <script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+</head>
+<body>
+	<header>
+		<h1>2016&nbsp;怀才当遇</h1>
+		<span class="who"></span>
+		<span class="best"> <span class="word"></span></span>
+		<span class="popular"></span>
+		<span class="company"></span>
+		<div class="b">
+			<a href="#top" class="look">
+				<p>
+					<span>
+						查看企业风云排行榜
+					</span>
+				</p> 
+				<em>
+					<img src="/static/images/h5/top/right.png" alt="">
+				</em>
+			</a>
+			<a href="#register" class="join">
+				<p>
+					<span>
+						我是名企我要参加
+					</span>
+				</p> 
+				<em>
+					<img src="/static/images/h5/top/right.png" alt="">
+				</em>
+			</a>
+		</div>
+	</header>
+	<section id="top">
+		<div class="t">
+			<h1>名企风云榜谁称雄</h1>
+			<h2>人气企业值得加入</h2>
+			<div class="abs">
+				<p>TOP20企业</p>
+				<i></i>
+				<em></em>
+			</div>
+		</div>
+		<div class="m">
+			<ul>
+                {% if companyArray %}
+                    {% for company in companyArray %}
+                        <li onclick="window.location.href='/activity/h5_one?company_id={{ company.id }}'">
+                            <div class="pic">
+                                <img onerror="notfind(this)" src="{{ company.pc_logo | default:'null' }}" alt="">
+                            </div>
+                            <div class="info">
+                                <div class="abs1 l">
+                                    <span class="company">{{ company.pc_name | default:'' }}</span>
+                                </div>
+                                <div class="abs1 r">
+                                    <span class="count">{{ company.supportCount | default:0 }}票</span>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+			</ul>
+		</div>
+	</section>
+
+	<section id="hdlc">
+	<div class="bg_abs"></div>
+		<div class="t">
+			<h1><img src="/static/images/h5/top/hdlc.png" alt=""></h1>
+			<p>本次活动最终解释权归怀才当遇网所有</p>
+		</div>
+		<div class="m">
+			<dl style="left:17%;top: 4%;">
+				<dt class="f_r">1</dt>
+				<dd>
+					<p>打开怀才当遇</p>
+					<span>进入企业主页</span>
+				</dd>
+			</dl>
+			<dl style="left: 42%;top: 22%;">
+				<dt class="f_r">2</dt>
+				<dd>
+					<p>扫描页面右侧二维码</p>
+					<span>生成H5招聘页面</span>
+				</dd>
+			</dl>
+			<dl style="left: 28%;top: 47%;">
+				<dt class="f_l">3</dt>
+				<dd>
+					<p>通过H5招聘末页</p>
+					<span>“点赞”按钮集赞</span>
+				</dd>
+			</dl>
+			<dl style="left: 53%;top: 76%;">
+				<dt class="f_l">4</dt>
+				<dd>
+					<p>集赞量前10名可获得</p>
+					<span>亚马逊自助餐劵2张</span>
+				</dd>
+			</dl>
+		</div>
+	</section>
+	<section id="register">
+		<div class="t">
+			<h1>名企怎么能少我！</h1>
+			<p>我也要参加</p>
+		</div>	
+		<div class="b">
+			
+			<div class="form">
+				<h1>企业方快速注册通道</h1>
+				<form class="registed">
+					{% csrf_token %}
+					<input name="account_type" value="4" type="hidden">
+					<input type="hidden" name="remark" value="{{ remark | default:'' }}" />
+					<ul class="form">
+						<li>
+							<input id="account" class="zh account" name="account" type="text" placeholder="请输入手机号" data-type="account" datatype="m">
+						</li>
+						<div class="hint index1"></div>
+						<li>
+							<input class="mima1 mima" type="password" name="password" placeholder="请输入密码" maxlength="16" oncopy="return false;" onpaste="return false;" oncut="return false;" name="password" datatype="*6-16" >
+						</li>
+						<div class="hint index2"></div>
+<!-- 						<li>
+							<input class="mima2 mima" type="password" placeholder="密码" maxlength="16" oncopy="return false;" onpaste="return false;" oncut="return false;" recheck="password" name="userpassword2" datatype="*6-16">
+						</li>
+						<div class="hint index3"></div> -->
+						<li id="yzm">
+							<input class="yzm" type="text" name="code" maxlength="8" placeholder="请输入验证码"><button class="send" onclick="smsValidation(event);">发送验证码</button>
+						</li>
+					</ul>
+				
+				<div class="v">
+					<!-- <input id="agree" type="checkbox" checked='true'> -->
+					<span id="agree" class="active" onclick="agree()"><i class="iconfont icon-32gougou"></i></span>
+					<label for="agree" onclick="agree()">我已阅读并同意<a href="/system/about#2" target="_blank">《用户协议》</a></label>
+				</div>
+				<button class="register_btn" onclick="register(event)">注册</button>
+				</form>
+			</div>
+		</div>
+	</section>
+		
+<script src="/static/js/jquery.js" type="text/javascript"></script>
+<script src="/static/js/Validform_v5.3.2.js"></script>
+<script>
+    //注册成功后，直接登录，跳到企业引导页
+    function post(URL, account, password) {
+        var temp = document.createElement("form");
+        $(temp).append("{% csrf_token %}");
+        temp.action = URL;
+        temp.method = "post";
+        temp.style.display = "none";
+        var userInput = document.createElement("input");
+        userInput.name = 'account';
+        userInput.value = account;
+        var passwordInput = document.createElement("input");
+        passwordInput.name = 'password';
+        passwordInput.value = password;
+        temp.appendChild(userInput);
+        temp.appendChild(passwordInput);
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    }
+	$(function(){
+		$(".registed").Validform({tiptype:2});
+	})
+	function notfind(obj){
+		$(obj).attr('src', '/static/images/qy_logo.png');
+	};
+	// 微信分享
+    WXJssdk.init(function(wx) {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+            success: function (res) {
+			//alert(JSON.stringify(res));
+            }
+        });
+        // 分享data
+        var shareData = {
+            title: '【报道】2016谁是最佳人气企业？快来看看吧！',
+            desc: '最佳企业人气大PK，赢亚马逊餐劵！有种你就来！！',
+            link: 'http://www.hcdyhr.com/activity/mobile_company',//分享链接地址 自己调整
+            imgUrl: 'http://www.hcdyhr.com/static/images/h5/one/top_logo.jpg',//分享显示的图片
+            success:function(){
+               // alert('shareData success');
+            },
+            cancel:function(){
+               // alert('shareData cancel');
+            },
+            error:function(res){
+               // alert(JSON.stringify(res));
+            }
+        };
+
+        // 分享给朋友
+          wx.onMenuShareAppMessage(shareData);
+        // 分享到朋友圈
+          wx.onMenuShareTimeline(shareData);
+        // 分享到QQ
+          wx.onMenuShareQQ(shareData);
+        // 分享到微博
+          wx.onMenuShareWeibo(shareData);
+    });
+</script>
+<script src="/static/js/top.js"></script>
+</body>
+</html>

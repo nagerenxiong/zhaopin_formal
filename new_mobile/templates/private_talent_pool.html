@@ -1,0 +1,90 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_company.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+$(document).ready(function()
+{
+    $("#clearkey").click(function () {
+        $("#key").val('');
+    });
+    $("#key").focus(function()
+    {
+        var patrn=/^(请输入关键字)/i;
+        var key=$("#key").val();
+        if (patrn.exec(key))
+        {
+            $("#key").val('');
+        }
+    });
+    //打开顶部菜单
+    $("#topmenu_sub").click( function () { 
+        $("#topmenu").slideToggle("fast");
+    });
+    // ajax 获取收到的简历
+    var flag = true;
+    if($(".zsp_job_list a").length<6){
+        $(".more").hide();
+    }
+    $(window).scroll(function(){
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        if(scrollTop + windowHeight == scrollHeight){
+            //getMore执行之后，flag为false防止多次ajax
+            if(flag){
+               getMore();                      
+            }
+        }
+    });
+            
+    function getMore(){
+        var patrn=/^(请输入关键字)/i;
+        var key=$("#key").val();
+        if (patrn.exec(key))
+        {
+            key = "";
+        }
+        //$(this).hide();
+        var offset=$(".zsp_job_list a").length;
+        // var offset=$(".interview_list_content").last().attr('did');
+        if(flag){
+            flag = false;
+            $.get("?act=ajax_collect_resume&offset="+(offset)+"&rows=10&key="+key, function(result){
+                if(result.trim()=="-1"){
+                    flag = true;
+                    $(".more").removeClass("loading_more").addClass("loading_end").text("已经到底部啦");
+                }else{
+                    flag = true;
+                    $(".zsp_job_list").append(result);
+                }
+            }); 
+        }
+    }
+});
+</script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+</script><!--zsp_header -->
+<div class="zsp_job_list">
+	<!---->
+        
+     <div class="nothingTip">
+    	<div class="tipImg">
+    		<img src="/static/new_mobile/images/noSednJob.png" alt="">
+    	</div>
+    </div>
+        <!---->
+</div>
+
+</body></html>

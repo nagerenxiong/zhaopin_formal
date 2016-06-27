@@ -1,0 +1,343 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/new_mobile/css/zsh_common.css" type="text/css">
+<style type="text/css">
+  input[type="text"]{
+    height: 60px;
+  }
+</style>
+<script src="/static/new_mobile/js/jquery.validate.min.js" type="text/javascript" language="javascript"></script>
+<script src="/static/new_mobile/js/formValidate.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $("input[type='text']").focus(function(event) {
+    $(this).blur();
+  });
+  // 创建简历弹出框
+  function showFloatBox() {
+    $("body").prepend("<div class=\"menu_bg_layer\"></div>");
+    $(".menu_bg_layer").height($(document).height());
+    $(".menu_bg_layer").css({ width: $(document).width(), position: "absolute",left:"0", top:"0","z-index":"1","background-color":"#000000"});
+    $(".menu_bg_layer").css("opacity",0.3);
+  }
+  // 期望职位点击
+  $("#jobs_menu").click(function(){
+    showFloatBox();
+    $("#menuJobs").css({ top: ($(window).height() - $('#menuJobs').outerHeight())/2 + $(document).scrollTop() });
+    $("#menuJobs").show();
+  });
+    
+  // 期望薪资点击
+  $("#wage_text").click(function(){
+    showFloatBox();
+    $("#menuWage").css({ top: ($(window).height() - $('#menuWage').outerHeight())/2 + $(document).scrollTop() });
+    $("#menuWage").show();
+    $("#menuWage li").click(function(){
+      $("#wage").val($(this).attr("id"));
+      $("#wage_cn").val($(this).attr("title"));
+      $("#wage_text").val($(this).attr("title")).trigger('blur');
+      $("#menuWage").hide();
+      $(".menu_bg_layer").remove();
+    });
+  });
+    
+  // 工作性质点击
+  $("#nature_menu").click(function(){
+    showFloatBox();
+    $("#menuNature").css({ top: ($(window).height() - $('#menuNature').outerHeight())/2 + $(document).scrollTop() });
+    $("#menuNature").show();
+    $("#menuNature li").click(function(){
+      $("#nature").val($(this).attr("id"));
+      $("#nature_cn").val($(this).attr("title"));
+      $("#nature_text").val($(this).attr("title")).trigger('blur');
+      $("#menuNature").hide();
+      $(".menu_bg_layer").remove();
+    });
+  });
+    // 工作状态点击
+    $("#state_menu").click(function () {
+    showFloatBox();
+        $("#menuState").css({top: ($(window).height() - $('#menuState').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuState").show();
+        $("#menuState li").click(function () {
+            $("#job_state_id").val($(this).attr("id"));
+            $("#job_state").val($(this).attr("title"));
+            $("#state_text").val($(this).attr("title")).trigger('blur');
+            $("#menuState").hide();
+  $(".menu_bg_layer").remove();
+        });
+    });
+  // 期望地区点击
+  $("#district_menu").click(function(){ 
+    showFloatBox();
+    $("#menuDistrict").css({ top: ($(window).height() - $('#menuDistrict').outerHeight())/2 + $(document).scrollTop() });
+    $("#menuDistrict").show();
+  });
+
+  // 期望行业点击
+  $("#trad_menu").click(function(){
+    showFloatBox();
+    $("#menuTrad").css({ top: ($(window).height() - $('#menuTrad').outerHeight())/2 + $(document).scrollTop() });
+    $("#menuTrad").show();
+  });
+  // 关闭弹出框
+    $(".choose_close").click(function(event) {
+      $(this).parent().hide();
+      $(".menu_bg_layer").remove();
+    });
+  // ajax提交保存期望职位
+  $("#resume_save").click(function(event) {
+
+    var postaion_type = $("input[name='postaion_type']").val();
+    var ocp_status=$("input[name=ocp_status]").val();
+    var sdistrict=$("input[name=sdistrict]").val();
+    var wage=$("input[name=wage]").val();
+
+      $.ajax({
+          async: false,
+          type: "POST",
+          url: "/mobile/ajax_save_expect_position",
+          data: {'resume_id': {{ resume.id }}, "expect_position":postaion_type, "position_status":ocp_status,
+                'expect_area': sdistrict, 'expect_pay': wage
+          },
+          dataType: "json",
+          success: function (data) {
+            if (data == "ok") {
+              alert(["修改成功！", 1]);
+                {% if request.session.account_type == '1' %}
+                    window.location.href = '/mobile/personal/resume_edit?resume_id={{ resume_id }}';
+                {% else %}
+                    {% if position_id and position_id != '' %}
+                        window.location.href="/mobile/headhunter/edit_uploaded_resume?resume_id={{ resume_id }}&position_id={{ position_id }}";
+                    {% else %}
+                        window.location.href="/mobile/headhunter/edit_uploaded_resume?resume_id={{ resume_id }}";
+                    {%endif %}
+                {% endif %}
+            } else if(data == "err") {
+              alert(["修改失败！", 2]);
+            } else {
+              alert([data]);
+            }
+          }
+      })
+  });
+});
+</script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+
+
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+
+</script><!--zsp_header -->
+
+<div class="zsp_edu_main_box">
+
+	<div class="zsp_edu_tit">
+    	<h1>求职期望编辑</h1>
+        <p>完善您的简历，更快获得面试邀请</p>
+    </div>
+    
+    
+</div>
+<form method="post" id="Form1">
+	<div class="zsp_input_main_box swiper-slide">
+		<div class="formEleBox">
+            <label>当前状态</label>
+
+            <div class="rightBox overBox" id="state_menu">
+                {% if resume.sposition_status %}
+                    <input readonly type="text" class="create_input formcheck required input_disabled" id="state_text" value="{{ resume.sposition_status }}">
+                    <img src="/static/new_mobile/images/sortDown.png" alt="">
+                    <input name="ocp_status_cn" id="job_state" type="hidden" value="在职，愿意考虑新机会">
+                    <input name="ocp_status" id="job_state_id" type="hidden" value="{{ resume.position_status }}">
+                {% else %}
+                    <input readonly type="text" class="create_input formcheck required input_disabled" id="state_text" value="">
+                    <img src="/static/new_mobile/images/sortDown.png" alt="">
+                    <input name="ocp_status_cn" id="job_state" type="hidden" value="在职，愿意考虑新机会">
+                    <input name="ocp_status" id="job_state_id" type="hidden" value="">
+                {% endif %}
+
+            </div>
+            <div class="menu choose_menu" id="menuState" style="position: absolute; z-index: 1; top: 190.5px; display: none;">
+                <div class="menu_title">工作状态</div>
+                <div class="choose_close"></div>
+                <ul>
+                    {% if position_statusList %}
+                        {% for position_status in position_statusList %}
+                            <li id="{{ position_status.dictionary_value }}" title="{{ position_status.dictionary_name }}">{{ position_status.dictionary_name }}</li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="formEleBox">
+            <label>期望职位</label>
+
+            <div class="rightBox overBox">
+                <input type="text" style="box-sizing:border-box" class="required postaion_name" onClick="positionShow()" id="jobs_menu" placeholder="请选择期望职位" name="" value="{{ resume.sexpect_position | default:'' }}">
+                <input type="hidden" name="postaion_type" class="postaion_type" value="{{ resume.expect_position | default:'' }}">
+                <!--<img src="../images/sortDown.png" alt=""/>-->
+                <!--<input name="intention_jobs" id="intention_jobs" type="hidden" value=""/>-->
+{#                <input name="intention_jobs_id" id="intention_jobs_id" type="hidden" value="{{ resume.expect_position | default:'' }}"/>#}
+            </div>
+            <div class="menu choose_menu" id="menuJobs" style="display:none;position:absolute;z-index:1;">
+                <div class="menu_title">期望职位</div>
+                <div class="choose_close"></div>
+                <div class="area_choose">
+                    <ul class="area_left" id="jobs_left_list"><li class="area_big" rcoid="2" pid="1.2" title="销售管理">销售管理</li><li class="area_big" rcoid="3" pid="1.3" title="销售人员">销售人员</li><li class="area_big" rcoid="4" pid="1.4" title="销售行政商务">销售行政商务</li><li class="area_big" rcoid="5" pid="1.5" title="市场/策划/公关">市场/策划/公关</li><li class="area_big" rcoid="6" pid="1.6" title="客服/技术支持">客服/技术支持</li><li class="area_big" rcoid="7" pid="1.7" title="贸易/采购">贸易/采购</li><li class="area_big" rcoid="20" pid="19.20" title="经营管理">经营管理</li><li class="area_big" rcoid="21" pid="19.21" title="人力资源">人力资源</li><li class="area_big" rcoid="22" pid="19.22" title="行政/后勤">行政/后勤</li><li class="area_big" rcoid="50" pid="49.50" title="财务/审计/税务">财务/审计/税务</li><li class="area_big" rcoid="51" pid="49.51" title="证券/期货/投资/银行">证券/期货/投资/银行</li><li class="area_big" rcoid="52" pid="49.52" title="保险">保险</li><li class="area_big" rcoid="75" pid="74.75" title="计算机应用">计算机应用</li><li class="area_big" rcoid="76" pid="74.76" title="互联网/网络">互联网/网络</li><li class="area_big" rcoid="77" pid="74.77" title="计算机软硬件">计算机软硬件</li><li class="area_big" rcoid="78" pid="74.78" title="IT管理">IT管理</li><li class="area_big" rcoid="79" pid="74.79" title="IT品质/技术支持">IT品质/技术支持</li><li class="area_big" rcoid="80" pid="74.80" title="通信">通信</li><li class="area_big" rcoid="97" pid="96.97" title="建筑">建筑</li><li class="area_big" rcoid="98" pid="96.98" title="房地产">房地产</li><li class="area_big" rcoid="99" pid="96.99" title="物业管理">物业管理</li><li class="area_big" rcoid="117" pid="116.117" title="生产制造/运营">生产制造/运营</li><li class="area_big" rcoid="118" pid="116.118" title="质量/安全管理">质量/安全管理</li><li class="area_big" rcoid="119" pid="116.119" title="汽车">汽车</li><li class="area_big" rcoid="120" pid="116.120" title="机械">机械</li><li class="area_big" rcoid="121" pid="116.121" title="技术工人">技术工人</li><li class="area_big" rcoid="122" pid="116.122" title="服装/纺织品">服装/纺织品</li><li class="area_big" rcoid="137" pid="136.137" title="电子/半导体/电器/仪表">电子/半导体/电器/仪表</li><li class="area_big" rcoid="138" pid="136.138" title="电气">电气</li><li class="area_big" rcoid="139" pid="136.139" title="电力/能源">电力/能源</li><li class="area_big" rcoid="140" pid="136.140" title="化工">化工</li><li class="area_big" rcoid="170" pid="169.170" title="广告">广告</li><li class="area_big" rcoid="171" pid="169.171" title="影视/媒体">影视/媒体</li><li class="area_big" rcoid="172" pid="169.172" title="艺术设计">艺术设计</li><li class="area_big" rcoid="173" pid="169.173" title="新闻出版">新闻出版</li><li class="area_big" rcoid="204" pid="203.204" title="教育/培训">教育/培训</li><li class="area_big" rcoid="205" pid="203.205" title="法律">法律</li><li class="area_big" rcoid="206" pid="203.206" title="咨询">咨询</li><li class="area_big" rcoid="207" pid="203.207" title="翻译">翻译</li><li class="area_big" rcoid="226" pid="225.226" title="医院/医疗">医院/医疗</li><li class="area_big" rcoid="227" pid="225.227" title="制药/医疗器械">制药/医疗器械</li><li class="area_big" rcoid="228" pid="225.228" title="环保">环保</li><li class="area_big" rcoid="242" pid="241.242" title="百货/零售">百货/零售</li><li class="area_big" rcoid="243" pid="241.243" title="保安/家政">保安/家政</li><li class="area_big" rcoid="244" pid="241.244" title="餐饮/旅游/娱乐">餐饮/旅游/娱乐</li><li class="area_big" rcoid="245" pid="241.245" title="美容/健身">美容/健身</li><li class="area_big" rcoid="246" pid="241.246" title="物流/交通/仓储">物流/交通/仓储</li><li class="area_big" rcoid="259" pid="258.259" title="学生/社工/科研">学生/社工/科研</li><li class="area_big" rcoid="260" pid="258.260" title="农/林/牧/渔业">农/林/牧/渔业</li><li class="area_big" rcoid="261" pid="258.261" title="其他">其他</li></ul>
+                    <ul class="area_right" id="jobs_right_list"></ul>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="formEleBox">
+            <label>期望城市</label>
+
+            <div class="rightBox overBox" id="district_menu">
+                {% if resume.sexpect_area %}
+                    <input readonly type="text" class="create_input required formcheck input_disabled" id="district_text" value="{{ resume.sexpect_area | default:'' }}">
+                    <img src="/static/new_mobile/images/sortDown.png" alt="">
+                    <input type="hidden" id="district" name="district" value="">
+                    <input type="hidden" id="sdistrict" name="sdistrict" value="{{ resume.expect_area | default:'' }}">
+                    <input type="hidden" id="district_cn" name="district_cn" value="{{ resume.sexpect_area | default:'' }}">
+                {% else %}
+                    <input readonly type="text" class="create_input required formcheck input_disabled" id="district_text" value="">
+                    <img src="/static/new_mobile/images/sortDown.png" alt="">
+                    <input type="hidden" id="district" name="district" value="">
+                    <input type="hidden" id="sdistrict" name="sdistrict" value="">
+                    <input type="hidden" id="district_cn" name="district_cn" value="">
+                {% endif %}
+            </div>
+            <div class="menu choose_menu" id="menuDistrict" style="position: absolute; z-index: 1; top: 143px; display: none;">
+                <div class="menu_title">期望地区</div>
+                <div class="choose_close"></div>
+                <div class="area_choose">
+                    <ul class="area_left" id="int_area_left"></ul>
+                    <ul class="area_right" id="int_area_right"></ul>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="formEleBox">
+            <label>期望薪资</label>
+
+            <div class="rightBox overBox">
+                <input type="hidden" id="wage" name="wage" value="" >
+            	<input type="text" placeholder="请选择薪资范围" id="wage_text" class="required formcheck" name="wage_cn" style="box-sizing: border-box;" value="{{ resume.sexpect_pay | default:'' }}">
+{#            	<span style="font-size: 14px;position: absolute;right: 0;top: 0;">K<span style="font-size: 12px;">(千元)</span></span>#}
+            </div>
+            <div class="menu choose_menu" id="menuWage" style="display:none;position:absolute;z-index:1;">
+                <div class="menu_title">期望薪资</div>
+                <div class="choose_close"></div>
+                <ul>
+                    {% for salary in salary_list %}
+                        <li id="{{ salary.dictionary_value }}" title="{{ salary.dictionary_name }}">{{ salary.dictionary_name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+{#        <!--新增字段-补充说明-->#}
+{#        <div class="textareaBox">#}
+{#            <label>补充说明（选填）</label>#}
+{##}
+{#            <div class="infoBox">#}
+{#                <textarea maxlength="1000" class="formcheck numberCount" placeholder="补充说明，例如：可以填写您对公司、职位的一些要求" id="extraDes" name="extraDes">{{ resume.self_introduce | default:'' }}</textarea>#}
+{#            </div>#}
+{#            <div class="numTip">#}
+{#                <span>15</span><span>/</span><span>1000</span>#}
+{#            </div>#}
+{#        </div>#}
+{#        #}
+        <input type="button" id="" value="保存" class="formCheckBtn bottom btnUnable" style="display: none;">
+    	<input type="button" id="resume_save" value="保存" class="formCheckBtn bottom btnAble" style="display: inline-block;">
+	</div>
+
+<script type="text/javascript">
+  var tradli = '';
+  $("#trad_list").html(tradli);
+  $("#trad_list li").unbind().click(function(event) {
+    var tradId = $(this).attr("id");
+    var tradTitle = $(this).attr("title");
+    $("#trade").val(tradId);
+    $("#trade_cn").val(tradTitle);
+    $("#trad_text").val(tradTitle).trigger('blur');
+    $("#menuTrad").hide();
+    $(".menu_bg_layer").remove();
+  });
+</script>
+
+  <script type="text/javascript">
+var citystr = '';
+$.ajax({
+    async: false,
+    type: 'post',
+    url: '/mobile/ajax_getAjaxProvinces',
+    dataType: 'json',
+    success: function (data) {
+        if (data.length > 0) {
+            data.forEach(function(province) {
+                citystr += '<li class="area_big" rcoid="' + province.area_value + '" pid="' + province.area_value + '" title="' + province.area_name + '" href="javascript:;">' + province.area_name + '</li>';
+            })
+        }
+    }
+});
+$("#int_area_left").html(citystr);
+$("#int_area_left li").unbind().click(function(){
+  var cid = $(this).attr("rcoid");
+  var cid = $(this).attr("pid");
+  var ctitle = $(this).attr("title");
+  var scitystr = "";
+  if (cid) {
+    $.ajax({
+        async: false,
+        type: 'post',
+        data: {'father_dictionary_value': cid},
+        url: '/mobile/ajax_getAjaxSecondDictionary',
+        dataType: 'json',
+        success: function (data) {
+            if (data.length > 0) {
+                data.forEach(function(dictionary) {
+                    scitystr += '<li class="area_small" rcoid="' + dictionary.dictionary_value + '" title="' + ctitle + '\/' + dictionary.dictionary_name + '" pid="' + cid + '.' + dictionary.dictionary_value + '">' + dictionary.dictionary_name + '</li>';
+                })
+            }
+        }
+    });
+    $("#int_area_right").html(scitystr).show();
+    $("#int_area_right li").click(function(){
+      var districtIds = $(this).attr("pid");
+      var districtIdArray = districtIds.split(".");
+      $("#district").val(districtIdArray[0]);
+      $("#sdistrict").val(districtIdArray[1]);
+      $("#district_cn").val($(this).attr("title"));
+      $("#district_text").val($(this).attr("title")).trigger('blur');
+      $("#menuDistrict").hide();
+      $(".menu_bg_layer").remove();
+    });
+  } else {
+    $("#district").val($(this).attr('pid'));
+    $("#sdistrict").val("0");
+    $("#district_cn").val(ctitle);
+    $("#district_text").val(ctitle).trigger('blur');
+    $("#menuDistrict").hide();
+    $(".menu_bg_layer").remove();
+      }
+    });
+  </script>
+
+</form>
+
+
+<div class="errorTip"></div>
+<script src="/static/new_mobile/js/position.js" type="text/javascript"></script>
+</body></html>

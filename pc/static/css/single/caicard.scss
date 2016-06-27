@@ -1,0 +1,103 @@
+@import "../base.scss";
+@import "../layout.scss";
+
+body {
+	background-color: #f8f8f8;
+}
+.nowrap {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.center_card {
+	width: 1020px;
+	margin: 20px auto  auto;
+	padding: 20px;
+	box-size: border-box;
+	border: 1px solid #eee;
+	background-color: #fff;
+}
+.exchange_box {
+	margin: 40px auto auto;
+	width: 420px;
+}
+.center_card {
+	.title {
+		color: #5c91d9;
+		height: 35px;
+		border-bottom: 1px solid #e0e0e0;
+
+		span {
+			border-bottom: 2px solid #5c91d9;
+			border-bottom: 2px solid #5c91d9;
+			display: inline-block;
+			padding: 0 18px;
+			font-size: 16px;
+			height: 35px;
+		}
+	}
+}
+.exchange_box {
+	font-size: 16px;
+
+	.e_l {
+		width: 95px;
+		display: inline-block;
+		vertical-align: middle;
+		text-align: right;
+	}
+	.e_r {
+		display: inline-block;
+		vertical-align: middle;
+		margin-left: 10px;
+	}
+	.e_r input {
+		width: 310px;
+		border-radius: 5px;
+		border: 1px solid #eee;
+		height: 40px;
+		outline: none;
+		text-indent: 10px;
+		&:focus{
+			box-shadow: none;
+		}
+	}
+	li {
+		overflow: hidden;
+		margin-bottom: 20px;
+	}
+	.confirm_btn {
+		background-color: #5c91d9;
+		border-radius: 5px;
+		color: #fff;
+		width: 150px;
+		height: 50px;
+		line-height: 50px;
+		text-align: center;
+		display: inline-block;
+		font-size: 18px;
+	}
+	.confirm_btn.ml{margin-left: 36px;}
+	.return_btn {
+		margin-left: 36px;
+	}
+}
+.notify_box {
+	padding: 45px 25px 0 25px;text-align:center;
+	dt {
+		font-size: 22px;
+		font-weight: bold;
+		color: #333;
+		border-bottom: 1px dashed #999;
+		padding-bottom: 20px;
+	}
+	dd {
+		text-align-last: left;
+		font-size: 16px;
+		pre {
+			color: #666;white-space: pre-line;text-align: left;
+			padding: 36px;
+			font-family: 'Microsoft YaHei';
+		}
+	}
+}

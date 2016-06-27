@@ -1,0 +1,154 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<style>
+.fsn{
+  width: 30px;height: 30px; margin-top:-10px;margin-right: 15px;; float:right;background:url(/static/new_mobile/images/refresh.png) no-repeat; background-size:100%;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function()
+{	// 刷新简历
+	$(".resume_refresh").click(function(){
+		var id=$(this).attr("pid");
+		$.get("?act=resume_refresh&pid="+id+"", function(data){
+		    if(data=="ok"){
+		    	alert(["刷新简历成功！",1]);
+		    	window.location.reload();
+		    }else if(data="err"){
+		    	alert(["刷新简历失败！",2]);
+		    	window.location.reload();
+		    }else{
+		    	alert([data,2]);
+		    }
+		  });
+	});
+	// 删除简历
+	$(".resume_del").click(function(){
+		var id=$(this).attr("pid");
+		if (!confirm("确认要删除？")) {
+            window.event.returnValue = false;
+        }
+        else
+        {
+        	$.get("?act=resume_del&pid="+id+"", function(data){
+		    if(data=="ok"){
+		    	// alert("删除简历成功");
+		    	window.location.reload();
+		    }else if(data="err"){
+		    	alert(["删除简历失败！",2]);
+		    }else{
+		    	alert([data,2]);
+		    }
+		  });
+        }
+	});
+	// 申请高级简历
+	$("#resume_talent").click(function(){
+		var id=$(this).attr("pid");
+		$.get("?act=resume_talent&pid="+id+"", function(data){
+		    if(data=="ok"){
+		    	alert(["申请高级简历,请等待管理员审核！",3]);
+		    	window.location.reload();
+		    }else if(data="err"){
+		    	alert(["申请失败！",2]);
+		    }
+		  });
+	});
+});
+</script>
+<style type="text/css"></style></head>
+<body >
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+
+// 更新简历更新时间
+function refresh_resume(id) {
+    $.ajax({
+        async: false,
+        type: 'post',
+        data: {'resume_id': id, 'type': 3},
+        url: '/mobile/ajax_save_user_info',
+        dataType: 'json',
+        success: function(data) {
+            if(data != 'err') {
+                alert(['简历更新成功',1]);
+                $(".zsp_myjob_operate_other:first span:last").text(data);
+            }
+        }
+    })
+}
+</script><!--zsp_header -->
+
+
+<div class="zsp_myjob_list_box">
+
+    <div class="zsp_myjob_list_tit">您拥有以下简历</div>
+    <div class="zsp_myjob_ul" style="padding-top: 0;">
+
+        {% if resume_list %}
+            {% for resume in resume_list %}
+                <div class="zsp_myjob_li">
+                    <h3>我的简历</h3>
+                    <div class="zsp_myjob_jd">
+                        <div class="zsp_myjob_jdt"><span style="width:{{ resume.integrity | default:0 }}%;"></span></div>
+                        <div class="zsp_myjob_jd_text" style="width:30%!important;">完整度<span>{{ resume.integrity | default:0 }}</span>%</div>
+                        <i class="fsn" id="resume_refresh" onclick="refresh_resume({{ resume.id }})"></i>
+
+                    </div>
+                    <!--zsp_myjob_jd -->
+                    <div class="zsp_myjob_operate_box">
+                        <a href="/mobile/personal/resume_edit?resume_id={{ resume.id }}" class="zsp_myjob_operate_but">编辑</a>
+                        <div class="zsp_myjob_operate_text">
+                            <div class="zsp_myjob_operate_other">
+                                <span>更新时间：</span>
+                                <span>
+                                    {% if resume.update_date %}
+                                        {{ resume.update_date | date:'Y-m-d H:i' }}
+                                    {% elif resume.add_date %}
+                                        {{ resume.add_date | date:'Y-m-d H:i' }}
+                                    {% endif %}
+                                     </span>
+                            </div>
+                            <div class="zsp_myjob_operate_other">
+                                近期投递/浏览&nbsp;&nbsp;&nbsp;<span>{{ resume.deliver_count | default:0 }}/{{ saw_resume_count | default:0 }}</span>次
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--zsp_myjob_operate_box -->
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        <!--zsp_myjob_li -->
+        		    
+    <!--zsp_myjob_ul -->
+    
+    
+    <div class="zsp_myjob_list_but_box" style="padding: 0;">
+        {% if request.session.account_type == '1' and resume_list %}
+
+        {% else %}
+            <a href="/mobile/personal/info_edit" class="zsp_resume_list_li_add" style="  height: 50px;line-height: 50px;">
+                <i class="fa fa-pencil-square-o"></i>
+                <span>创建新简历</span>
+            </a>
+        {% endif %}
+    </div>
+    <div class="zsp_resume_but_box">
+                <a href="/mobile/personal/search_position_center" class="zsp_resume_but_3">返回个人中心</a>
+            </div>
+
+</div>
+</body></html>

@@ -1,0 +1,123 @@
+<!-- 顶部 -->
+{% include 'jobs/system/header.html' %}
+<script type="text/javascript" src="http://www.luqidong.com/demo/qrcode/js/qrcode.js"></script>
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+<style type="text/css">
+  .content{width:1020px;margin:0 auto;margin-top:20px;background-color: #74beb1;padding-bottom: 80px;}
+  .content .b{padding-left: 139px;}
+  .content .b .t .title{font-size: 25px;color:white;margin-bottom: 15px;}
+  .content .b .t input{width:586px;height:48px;border-radius:5px;border:1px solid #319886;text-indent:15px;font-size: 20px;color:#888;}
+  .content .b .t  a{width:176px;height:52px;background-color: #30a46d;color:white;text-align:center;line-height: 52px;border-radius:5px;margin-left: 5px;display: inline-block;font-size: 22px;}
+   .content .m {margin-top: 80px;}
+  .content .m dt,.content .f dt{width:194px;height:48px;background: url({{ STATIC_URL }}images/tjyj_03.png);line-height: 38px;text-align: center;color:white;font-size: 20px;}
+  .content .m dd{overflow:hidden;margin-top: 15px;color:white;}
+  .content .f {margin-top: 55px;font-size: 22px;color:white;}
+  .content .f dd{margin-top: 5px;padding-left: 0;margin-left: 0;} 
+  .content .m dd div.bshare-custom a{display:block;float: left;width:91px;height:150px;margin:0!important;padding:0!important;margin-right: 38px!important;text-decoration:none;position:relative;}
+  .content .m dd div.bshare-custom a p{text-align: center;font-size: 18px;color:white;position:absolute;bottom:4px;padding:0;margin: 0;width:100%;}
+  a:hover{text-decoration:none;}
+</style>
+<!-- 顶部 -->
+<!-- 内容大框 -->
+<div class="lt_content_box">
+<div class="clear">99999</div>
+  <!-- 猎头会员菜单 -->
+  {% include 'jobs/system/menu_account.html' %}
+  <!-- 猎头会员菜单 -->
+  <div class="content">
+    <img src="{{ STATIC_URL }}images/tycj_03.jpg">
+    <div class="b">
+      <div class="t">
+        <div class="title">邀请分享链接</div>
+        <div align="center" style="position:relative">
+          <input type="text" id="url"  name="registerURL" value="{{ registerURL }}" >
+          <a href="javascript:void(0)" onClick="copyUrl2()">复制</a>         
+          <div id="qrcode" style="position:absolute;right:224px;top:173px;border:3px solid #652565;">
+          </div>
+          <script type="text/javascript">
+             window.onload =function(){
+              var qrcode = new QRCode(document.getElementById("qrcode"), {
+                  width : 200,//设置宽高
+                  height : 200
+              });
+              qrcode.makeCode(document.getElementById("mobileRegisterUrl").value);
+          }
+          </script>
+        </div>
+      </div>
+      <dl class="m">
+        <dt>分享到社交平台</dt>
+        <dd>
+          <!-- <div class="bshare-custom">
+          <div class="bsPromo bsPromo1"></div>
+          <a title="分享到QQ好友" class="bshare-qqim">
+            <div>
+              <img src="{{ STATIC_URL }}images/tjyj_07.png">
+              <p>QQ好友</p>
+            </div>
+          </a>
+          <a title="分享到QQ空间" class="bshare-qzone">
+            <div>
+              <img src="{{ STATIC_URL }}images/tjyj_09.png">
+              <p>QQ空间</p>
+            </div>
+          </a>
+          <a title="分享到新浪微博" class="bshare-sinaminiblog">
+            <div>
+              <img src="{{ STATIC_URL }}images/tjyj_11.png">
+              <p>新浪微博</p>
+            </div>
+          </a>
+        </div>
+        -->
+        <div class="bshare-custom">
+          <a title="分享到QQ好友" class="bshare-qqim" style="background: url({{ STATIC_URL }}images/tjyj_07.png) no-repeat center center;">
+            <p>QQ好友</p>
+          </a>
+          <a title="分享到QQ空间" class="bshare-qzone" style="background: url({{ STATIC_URL }}images/tjyj_09.png) no-repeat center center;">
+            <p>QQ空间</p>
+          </a>
+          <a title="分享到新浪微博" class="bshare-sinaminiblog" style="background: url({{ STATIC_URL }}images/tjyj_11.png) no-repeat center center;">
+            <p>新浪微博</p>
+          </a>
+        </div>
+      <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=3200654e-df2b-4589-824e-d3e6c3b0d59c&amp;pophcol=2&amp;lang=zh"></script>
+<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+        <script type="text/javascript" charset="utf-8">
+        bShare.addEntry({
+            title: " ",
+            url: $("#url").val(),
+            summary: "我在怀才当遇安了个小窝，以后就在这里混了！一切都挺好的，可唯独感觉缺了你......要不，你一起来吧！",
+            pic:'http://www.hcdyhr.com/static/images/logo.jpg'
+        });
+        </script>
+      </dd>
+    </dl>
+    <dl class="f">
+      <dt>活动规则</dt>
+      <dd>
+        <p style="margin-bottom: 3px; margin-top:20px;font-size:19px!important;">1、分享链接或二维码（二维码截图有效）给好友，邀请好友加入怀才当遇招聘</p>
+        <p style="text-indent: 2rem;font-size:19px!important;margin-bottom: 10px;">网，双方即可获得才币奖励。</p>
+        <p style="margin-bottom: 3px;font-size:19px!important">2、仅当被邀请方完成注册，奖励才能生效；邀请方奖励50才币，被邀请方奖励</p>
+        <p style="text-indent: 2rem;margin-bottom: 10px;font-size:19px!important">100才币，活动期间邀请奖励不设次数上限，多邀多得。</p>
+      </dd>
+    </dl>
+  </div>
+</div>
+</div>
+<input type="hidden" id="mobileRegisterUrl" value="{{ mobileRegisterUrl }}" />
+<!-- 内容大框 -->
+<!-- 底部 -->
+<script src="http://qzonestyle.gtimg.cn/qzone/app/qzlike/qzopensl.js#jsdate=20111201" charset="utf-8"></script>
+<script type="text/javascript">
+  function copyUrl2()
+  {
+    var Url2=document.getElementById("url");
+     Url2.select(); // 选择对象
+    document.execCommand("Copy"); // 执行浏览器复制命令
+    alert("已复制好，可贴粘。",1);
+  }
+ </script>
+{% include 'jobs/system/new_footer.html' %}
+<!-- 底部 -->

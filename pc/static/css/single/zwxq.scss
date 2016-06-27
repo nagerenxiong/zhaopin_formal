@@ -1,0 +1,456 @@
+@import "../base.scss";
+@import "../layout.scss";
+body{background-color: #f8f8f8;}
+.nowrap{text-overflow:ellipsis;overflow: hidden;white-space:nowrap; }
+.center{width: 1020px;margin: 0 auto;}
+.left,.f_l{float: left;}.right,.f_r{float: right;}
+.fc{text-align: center;}
+.slide{position: absolute;bottom: 0px;width: 80px;height:2px;background-color: #5391D9;}
+.fz14{font-size:14px;}
+.fz16{font-size:16px;}
+.fw_n{font-weight:normal;}
+b{font-weight:normal;}
+body{background-color:$c_f8;}
+.dddddsw{background-color:white;}
+.o_ewm{
+  .layui-layer-title{
+    line-height: 56px;background-color:#5c91d9;color:#fff;height:54px;padding-top:0px;
+  }
+  .layui-layer-close{
+      background: url(../../images/19_x1.png) no-repeat left center;height:19px;width: 19px;
+    position: relative;top:-8px;
+    }
+  .layui-layer-content{
+    padding:14px;
+    .hcdy_img{
+          position: absolute;
+          width: 42px;
+          height: 42px;
+          border-radius: 5px;
+          left: 50%;
+          top: 50%;
+          margin-top: -21px;
+          margin-left: -21px;
+    }
+    img{
+      margin:0 auto;
+    }
+  }
+}
+.l_box,.r_box{
+		box-sizing:border-box !important;
+		border-radius:4px;background-color:#FFF;
+		border:1px solid #E0E0E0;
+	}
+ .content #zwxq .r_box .headhunter_info .info_top span.o_btn span i{
+        font-size:18px;
+        color:#fff;
+        margin-right:5px;
+       }
+.content{
+	margin:20px auto;width:1020px;min-height:680px;
+	#zwxq{
+		.l_box{
+			.l_box_top{height:auto;background-color: #4f4f4f;position:relative;padding-bottom: 10px;
+				color:#fff;
+				font-size: 16px;
+				.l_box_top_l{float:left;margin-left: 150px;margin-top: 30px;}
+				.l_box_top_r{float:right;width:120px;height:40px;line-height: 40px;text-align: center;background-color: #5c91d9;margin-right: 80px;margin-top: 30px;border-radius: 5px;cursor: pointer;}
+				.p{width:109px;height:77px;background:url(../../images/xuangshang-icon1.png);position:absolute;left:20px;top:-5px;text-align: center;padding-top: 20px;}
+				.p:hover{background:url(../../images/xuanshang-icon.png);}
+			}
+			.l_box_wrap{padding: 38px 20px;border:1px solid #e0e0e0;}
+			.zwxq_header{
+				padding-bottom:15px;border-bottom:1px dashed #E4E4E4;position:relative;
+				.zw_name{
+					font-size: 30px;color:$c_5c;
+					span.company_name{
+						@include fz16;color:$c_33;
+						}
+					}
+					p{
+						@include fz14;
+						span.pay{
+							@include fz18;color:$c_f80;
+						}
+						span.require{
+							color:$c_33;margin:0px 10px 0px 20px;
+						}
+						span.work_area{
+							color: #888;
+							i{
+								margin-left: 10px;
+								img{
+									margin-top:-3px;
+								}
+							}
+						}
+					}
+					.handle{
+						position:absolute;text-align:center;right:0px;top:40px;z-index:10;
+						}
+						.handle>li{
+							cursor: pointer;
+							margin-right: 10px;line-height: 30px;float: left;display:inline-block;border:2px solid #e0e0e0;border-radius:50%;width:36px;height:36px;
+							i{
+								font-size: 22px;margin-left:1px;color:#888;
+								cursor: pointer;
+							}
+							.fenxiang{
+								display: none;margin-left:-40px;margin-top:38px;border:1px solid #e0e0e0;width: 105px;;@include fz12;background-color:white;text-align:left;
+								.word{
+									background-color:$c_f8;color:$c_33;cursor:default;padding:0px 8px;
+								}
+								.word:hover{
+									color: $c_33;
+								}
+								li{
+									padding:5px 8px;cursor:pointer;
+									img{
+										float: left;margin-right:5px;
+									}
+								}
+								li:hover{
+									color: $c_5c;
+								}
+							}
+						}
+						.handle>li.active{
+							border:2px solid $c_5c;
+						}
+						.handle>li:hover{
+							border:2px solid $c_5c;
+							i{
+								color:$c_5c;
+							}
+						}
+						li.fenxiang:hover{
+							.fenxiang{
+								display: block;
+							}
+						}
+					
+				}
+				.welfare{
+					padding-top:20px;
+					ul{
+						width: 480px;float:left;min-height: 65px;margin-bottom: 15px;
+						li{
+							@extend .nowrap;width:60px;text-align:center;
+							margin-right:10px;display:inline-block;background-color:white;border:1px solid #E0E0E0;
+							@include fz12;padding:4px 10px;border-radius:15px;margin-bottom:10px;
+						}
+					}
+					button{
+						float: right;color:white;background-color:$c_5c;@include fz14;display:inline-block;
+						padding:12px 15px;border-radius:4px;border:none;cursor:pointer;
+					}
+					button:hover{
+						background-color:$c_4c;
+					}
+				}
+				.describe{
+					border-top:1px solid #E0E0E0;position:relative;margin-bottom:50px;
+					h1{
+						font-weight: normal;@include fz18;color:$c_5c;display:inline-block;
+						top: -18px;position:absolute;background-color:white;
+					}
+					dl{
+						@include fz14;margin-top:30px;line-height:30px;word-wrap:break-word;
+						dt{
+							color:#888;margin-bottom:20px;word-wrap:break-word;
+						}
+						dd{
+							color:$c_33;margin-bottom:5px;line-height:26px;word-wrap:break-word;
+						}
+					}
+					ol{
+						margin-left: 15px;list-style-type: decimal;
+						li{
+							list-style-type: decimal;
+						}
+					}
+				}
+				.else_info{
+					padding-top:20px;
+					
+					dl{
+						// width:49%;    1
+						margin-top:10px;
+					}
+					dl,dt,dd{
+						display: inline-block;margin-bottom:0px !important;
+					}
+				}
+				.interview{
+					dl{
+						dt{
+							span{float:left;line-height:35px;margin-right:10px;}
+							color:$c_33;margin-bottom: 30px;padding-bottom:20px;border-bottom:1px dashed #e0e0e0;
+							@include fz16;
+							i{
+								width: 20px;height:20px;float:left;margin-top:6px;
+								background:url(../../images/star1.png) no-repeat center center;
+							}
+							i.active{
+								background-image:url(../../images/star.png);cursor: default;
+							}
+							label{
+								font-size: 23px;color:#fe8800;margin-left:10px;
+							}
+						}
+						dd{
+							border-bottom:1px dashed #E4E4E4;
+							img{
+								display: inline-block;width: 55px;height:55px;background-color:#ccc;border-radius:50%;
+							}
+							div{
+								width:650px;margin-left:10px;position:relative;
+								display: inline-block;vertical-align:top;padding-bottom:30px;
+							.info{
+								@include fz14;
+								.name{
+									float: left;
+									@include fz14;margin-right:20px;
+								}
+								.datetime{
+									color:#888;@include fz14;
+								}
+								i{
+									width: 15px;height:15px;float:left;margin-top:6px;
+									background:url(../../images/x_star1.png) no-repeat center center;
+								}
+								i.active{
+									background-image:url(../../images/x_star.png);
+								}
+							}
+							p{
+								
+								label{
+									color:#888;@include fz14;margin-right:5px;
+								}
+							}
+							p.c{
+								margin-top: 5px;word-break: break-all;
+								span{
+									margin-right: 5px;color:$c_5c;
+								}
+							}
+							.reply{
+								margin:10px 0px;padding:0px;display:none;
+								textarea{
+									border-radius:5px;
+									width:620px;display:block;background-color:#F5F5F5;margin-bottom:10px;height:100px;padding:10px;
+								}
+								button{
+									float:right;border-radius:5px;border:none;background-color:$c_5c;color:#FFF;margin-right:10px;padding:8px 40px;
+								}
+								button:hover{
+									background-color:$c_4c;
+								}
+								a{
+									font-size: 12px;
+								}
+							}
+							.hf{
+								cursor: pointer;
+								position:absolute;right:0px;top:25px;color:$c_5c;
+							}
+							.hf:hover{
+								color:$c_4c;
+							}	
+							}
+							margin-bottom: 30px;
+						}
+					}
+				}
+			}
+			.r_box{
+				padding:20px 15px;
+				.company_info{
+					
+					img{display:inline-block;width:78px;height:78px;border-radius:50%;}
+					span.company_name{
+						display: inline-block;
+						width: 110px;
+						margin-left: 8px;
+						font-size:14px;
+						color:#333;
+						i{
+							margin-left: 5px;color:#888;
+						}
+					}
+					.info_top{margin-bottom:20px;}
+					.already{
+						cursor: default;border-radius: 5px;display: block;padding-top: 0px;
+						i{
+							cursor: default;
+						}
+						&:hover{
+							background-color: #5c91d9;
+						}
+					}
+					.no_atten{
+						display: block;
+					}
+					p{
+						margin-bottom:15px; min-height:24px;
+						font-size: 14px;
+						i{
+							display: none;
+						}
+					}
+					p.pic{
+						white-space: nowrap;
+						text-overflow: ellipsis;
+						width: 175px;
+						overflow: hidden;
+						padding-left:36px;
+					}
+				}
+				.headhunter_info .info_top{
+					h1{
+						@include fz16;margin-bottom:20px;
+					}
+					img{
+						float:left;
+					}
+					span.headhunter_name{
+						margin-left: 10px;display:inline-block;margin-top:10px;
+						width:110px;@extend .nowrap;font-size: 14px;cursor: pointer;
+					}
+					span.o_btn{
+						@include fz14;margin-left:10px;margin-top:5px;display:inline-block;border-radius:5px;color:white;
+						background-color:$c_5c;cursor:pointer;
+						i{
+							font-size: 18px;
+						}
+						span{
+							padding:2px 15px;
+						}
+					}
+					span.o_btn:hover{
+						background-color:$c_4c;
+					}
+					p{
+						color:#888;@include fz12;margin-bottom:5px;@extend .nowrap;
+						height: auto;
+						span{
+							color:$c_33;
+						}
+						span.pingfen{
+							color:$c_f80;
+						}
+					}
+
+				}
+				.headhunter_info>p{
+					@include fz14;color:$c_33;margin-bottom:10px;@extend .nowrap;padding-left:36px;
+					background: url("../../images/lt_zwxq.png") no-repeat -125px -5px;
+					i{
+						display: inline;margin-right:20px;
+					}
+				}
+				.attention{
+					margin-bottom: 20px;padding:10px 0px;text-align: center;border-top:1px solid #e0e0e0;
+					border-bottom:1px solid #e0e0e0;
+					div{
+						width: 50%;
+					}
+
+					p{
+						@include fz16;color:$c_33;margin-bottom:0px;
+					}
+					span{
+						@include fz12;color:#888;
+					}
+				}
+				.company_area,.new_message,.position_man{
+					margin-top: 20px;padding-top:30px;border-top:1px solid #e0e0e0;padding-bottom:20px;
+					h1{
+						@include fz16;
+					}
+					p.address,p.lxr{
+						margin-top: 20px;margin-bottom:5px;line-height:25px;
+					}
+					.lxr{
+						word-break: break-all;
+						i{
+							color:#888;font-size:20px;cursor: default;
+						}
+						.name{margin-left:15px;}
+						.position{color:#ff8800;}
+					}
+					.area_img{
+						img{
+							display: inline-block;width:100%;height:185px;
+							background-color:#ccc;
+						}
+						a{
+							display: block;@include fz12;color:$c_5c;text-align:center;
+							}
+					}
+
+				}
+				.new_message{
+					.message1>span{
+						@include fz12;
+					}
+					.message1{
+						margin-top: 25px;
+						i{
+							font-size: 22px;color:#888;
+						}
+						i.icon-duihua1{float:none;margin-right:12px;@include fz20;}
+						p{
+							border-radius:5px;width: 150px;margin-top:10px;line-height:20px;
+							@include fz12;background-color:$c_f4;padding:10px 10px;
+							span{
+								color:$c_5c;cursor:pointer;
+							}
+						}
+						textarea{
+							line-height: 20px;width:160px;border-radius:5px;height:66px;resize: none;border:1px solid #e0e0e0;@include fz12;padding:10px 5px;
+						}
+						button{
+							margin-top: 10px;padding:5px 20px;border-radius:5px;border:none;color:white;background-color:$c_5c;
+						}
+						button:hover{
+							background-color:$c_4c;
+						}
+					}
+				}
+				.position_else{
+					padding-top:30px;border-top:1px solid #e0e0e0;@include fz14;
+					h1{
+						@include fz16;margin-bottom:10px;
+						a{
+							@include fz12;color:#888;float:right;line-height:24px;
+						}
+						a:hover{
+							color:$c_4c;
+						}
+					}
+					p{
+						margin-bottom: 5px;
+						span{display:inline-block}
+						.zw_name{
+							color:$c_5c;overflow: hidden;text-overflow:ellipsis;width:66%;
+							white-space: nowrap;
+
+							    width: 70%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+						}
+						.pay{
+							color:$c_f80;
+						}
+						.work_area{
+							margin-right: 10px;
+						}
+					}
+				}
+			}
+		}
+	}

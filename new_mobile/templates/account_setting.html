@@ -1,0 +1,92 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+    input[type="text"]{
+        line-height: 60px;
+    }
+    .zsp_uc_list{padding-left:0px;}
+    .zsp_uc_list a{
+        padding-left:16px;
+    }
+    .disable{
+        background-color: #f1f1f1;
+    }
+    .disable span{
+        color:#b1b1b1;
+    }
+</style>
+</head>
+<body >
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'menu.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<!--
+ -->
+
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+//$(function(){
+//	//alert(typeof sendPhoneNumber);
+//	if(typeof sendPhoneNumber!='undefined'){
+//		$('.zsp_header').remove();
+//	}
+//})
+</script><!--zsp_header -->
+	<div class="zsp_uc_list">
+
+        <a href="javascript:;" class="zsp_uc_list_a_2">
+            <span>我的账号</span>
+            <strong>{{ pu.phone | default:'请前往认证手机号码' }}</strong>
+            <!--<em>12</em>-->
+        </a>
+        {% if request.session.type != "2" %}
+        <a href="/mobile/lockback_password" class="zsp_uc_list_a_2">
+            <span>修改密码</span>
+            <strong style="padding-top: 15px;"><i class="fa fa-angle-right"></i></strong>
+        </a>
+        {% else %}
+         <a href="javascript:void(0)" class="zsp_uc_list_a_2 disable">
+            <span>修改密码</span>
+            <strong style="padding-top: 15px;"><i class="fa fa-angle-right"></i></strong>
+        </a>
+        {% endif %}
+        {% if isWeixin %}
+            {% if pu.weixin_id and pu.weixin_id != '' %}
+                <a href="/mobile/remove_bind" class="zsp_uc_list_a_2">
+                    <span>退出账号</span>
+                </a>
+            {% else %}
+                <a href="/mobile/bind_wechat" class="zsp_uc_list_a_2">
+                    <span>微信绑定</span>
+                </a>
+            {% endif %}
+        {% else %}
+            <a href="/mobile/log_out" class="zsp_uc_list_a_2">
+                <span>退出账号</span>
+            </a>
+        {% endif %}
+
+        <a href="tel:400-666-4846" class="zsp_uc_list_a_2" style="text-align: left;">
+            <span style="float:none;">客服电话：4006664846</span>
+        </a>
+
+    </div>
+
+	<div class="zsp_resume_but_box">
+        {% if request.session.account_type == "1" %}
+            <a href="/mobile/personal/search_position_center" class="zsp_resume_but_1">返回个人中心</a>
+        {% elif request.session.account_type == "3" or request.session.account_type  == "5" %}
+            <a href="/mobile/headhunter/headhunter_center" class="zsp_resume_but_1">返回个人中心</a>
+        {% else %}
+            <a href="/mobile/company/recruit_user_center" class="zsp_resume_but_1">返回个人中心</a>
+        {% endif %}
+    </div>
+
+</body></html>

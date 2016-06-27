@@ -1,0 +1,536 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script src="{{ STATIC_URL }}js/jquery-1.11.3.js" ></script>
+<script src="{{ STATIC_URL }}js/Validform_v5.3.2.js"></script>
+<script src="/static/js/bootstrap.min.js" ></script>
+<script  src="{{ STATIC_URL }}jsb/ind/layer/layer.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/uploader/jquery.uploadify.min.js"></script>
+<script src="{{ STATIC_URL }}js/isForUploadFile.js" type="text/javascript"></script>
+
+<div class="clear">99</div>
+		{% if request.session.account_type == "3" or request.session.account_type  == "5"  %}
+		    {% if request.session.validStatus == 3 %}
+		        <div class="clear">4</div>
+		    {% else %}
+				<div class="clear">3</div>
+			{% endif %}
+		{% else %}
+			<div class="clear">2</div>	
+		{% endif %}
+	    
+
+	<!-- 顶部 -->
+	<!-- 内容大框 -->
+	<div class="lt_content_box">
+		<!-- 猎头会员菜单 -->
+		{% include 'jobs/system/menu_account.html' %}
+		<!-- 猎头会员菜单 -->
+		
+		<div class="ltml_grid_box center clearfix mt25">
+			<ul  class="nav nav-tabs ltml_grid_ul">
+				<li class="active side_yx_li" style="width:100px">
+					<a href="#home" data-toggle="tab" class="sfyz_title_w" style="width:100px!important;margin-left: 0px">身份验证</a>
+				</li>
+				<li class="slider slide_yx sfyz_slder_w"></li>
+			</ul>
+			<div class="bd_bottom2">
+            {% if account_type != 2 and account_type != 4 %}
+				<div class="sfyz_left">
+                    <div class="sfyz_left_c" style="display: none">
+                    {% if result_type == 1 %}
+
+                            <div class="bd_bottom">
+                                    <i class="iconfont icon-geren" ></i>
+                                    <span class="fz16 ml15">个人身份验证</span>
+                                    <i class="iconfont icon-gantanhao color50" name="hunterStatusSmallLogo" style="font-size: 16px"></i>
+                                    <span class="color50 fz12">个人身份资料尚未提交</span>
+                            </div>
+                            <dl id="showImageDl" style="padding-top: 30px; padding-left: 15px">
+                                <dt class="f_l">
+                                        <i class="iconfont icon-gantanhao color51" id="hunterAuditLogo" style="font-size: 60px"></i>
+                                </dt>
+                                <dd class="sfyz_left_c_dd oh">
+                                        <div style='margin-left: 20px;display:block;margin-top: 35px'>
+                                            <span>尚未提交资料 , </span>
+                                            <span class='t_d_udline' data-toggle='modal' name='perfectHunterSpan' data-target='#myModal'>立即完善资料</span>
+                                        </div>
+                                </dd>
+                        </dl>
+                    {% endif %}
+
+                    {% if result_type == 2 %}
+                        <div class="bd_bottom">
+                                <i class="iconfont icon-geren" style="font-size: 30px"></i>
+                                <span class="fz16 ml15">个人身份验证</span>
+                                <i class="iconfont icon-gantanhao1 color50" name="hunterStatusSmallLogo" style="font-size: 16px"></i>
+                                <span class="color50 fz12">个人身份审核中</span>
+
+                        </div>
+						<dl id="showImageDl">
+							<dt class="f_l">
+								<i class="iconfont icon-gantanhao1 color50" id="hunterAuditLogo" style="font-size: 60px"></i>
+							</dt>
+                            <dd class="sfyz_left_c_dd oh">
+								<ul id="hunterUl">
+									<li>
+										<span class="c_4d">真实姓名 ：</span>
+										<span>{{tPuHeadhunt.real_name  }}</span>
+									</li>
+									<li>
+										<span class="c_4d">身份证号 ：</span>
+										<span>{{tPuHeadhunt.id_card  }}</span>
+									</li>
+									<li>
+										<span class="c_4d">身份证照片上传 ：</span>
+                                        <a title="身份证照片" rel="gb_imageset[photos]" href="{{ tPuHeadhunt.id_card_photo | default:'' }}">
+										    <span class="t_d_udline" id="showCardSpan">已上传身份证点击查看</span>
+                                        </a>
+									</li>
+									<li>
+										<span class="c_4d">上传头像 ：</span>
+                                        <a title="头像" rel="gb_imageset[photos]" href="{{ tPuHeadhunt.head_portrait | default:'' }}">
+										    <span class="t_d_udline" id="showHunterImg" >已上传头像点击查看</span>
+                                        </a>
+									</li>
+								</ul>
+								<div class="hunterMessageDiv" style="margin-left: 20px;display:none;margin-top: 35px">
+									<span class="messageForSubmitInfo">尚未提交资料 ,</span>
+									<span class="t_d_udline"  data-toggle="modal" name="perfectHunterSpan" data-target="#myModal">立即完善资料</span>
+									<i></i>
+								</div>
+							</dd>
+						</dl>
+                    {% endif %}
+
+                    {% if result_type == 3 %}
+                        <div class="bd_bottom">
+                                <i class="iconfont icon-geren" style="font-size: 30px"></i>
+                                <span class="fz16 ml15">个人身份验证</span>
+                                <span class="color50 fz12 forAuditStatusSpan">个人身份已经通过审核</span>
+                        </div>
+						<dl id="showImageDl">
+							<dt class="f_l">
+								<i class="iconfont icon-gou color50" id="hunterAuditLogo" style="font-size: 60px"></i>
+							</dt>
+
+
+                            <dd class="sfyz_left_c_dd oh">
+								<ul id="hunterUl">
+									<li>
+										<span class="c_4d">真实姓名 ：</span>
+										<span>{{tPuHeadhunt.real_name  }}</span>
+									</li>
+									<li>
+										<span class="c_4d">身份证号 ：</span>
+										<span>{{tPuHeadhunt.id_card  }}</span>
+									</li>
+									<li>
+										<span class="c_4d">身份证照片上传 ：</span>
+                                        <a title="身份证照片" rel="gb_imageset[photos]" href="{{ tPuHeadhunt.id_card_photo | default:'' }}">
+										    <span class="t_d_udline" id="showCardSpan">已上传身份证点击查看</span>
+                                        </a>
+									</li>
+									<li>
+										<span class="c_4d">上传头像 ：</span>
+                                        <a title="头像" rel="gb_imageset[photos]" href="{{ tPuHeadhunt.head_portrait | default:'' }}">
+										    <span class="t_d_udline" id="showHunterImg" >已上传头像点击查看</span>
+                                        </a>
+									</li>
+								</ul>
+								<div class="hunterMessageDiv" style="margin-left: 20px;display:block;margin-top: 10px">
+									<span class="forAuditStatusSpan">个人身份已经通过审核 ,</span>
+									<span class="t_d_udline"  data-toggle="modal" name="perfectHunterSpan" data-target="#myModal">立即更新资料</span>
+									<i></i>
+								</div>
+							</dd>
+						</dl>
+                    {% endif %}
+					</div>
+                </div>
+            {% endif %}
+				</div>
+				<div class="sfyz_right">
+					<div class="sfyz_left_c">
+						<div class="bd_bottom">
+							<i class="iconfont icon-company" style="font-size: 30px"></i>
+							<span class="fz16 ml15">企业信息验证</span>
+							<div style="display:none">
+								<i class="iconfont color50 icon-gou ml15"></i>
+								<span class="color50 fz12">已经通过个人身份认证！</span>
+							</div>
+						</div>
+						<dl>
+							<dt class="f_l">
+                                {% if company_audit_type == 1 %}
+								    <i id="companyAuditLogo" class="iconfont icon-gantanhao color51" style="font-size: 60px"></i>
+                                {% endif %}
+                                {% if company_audit_type == 2 %}
+								    <i id="companyAuditLogo" class="iconfont icon-gantanhao1 color50" style="font-size: 60px"></i>
+                                {% endif %}
+                                {% if company_audit_type == 3 %}
+								    <i id="companyAuditLogo" class="iconfont icon-gantanhao color50" style="font-size: 60px"></i>
+                                {% endif %}
+							</dt>
+							<dd class="sfyz_left_c_dd oh">
+								<ul style="display:none">
+									<li>
+										<span class="c_4d">真实姓名 ：</span>
+										<span>{{ tPuHeadhunt.real_name }}</span>
+									</li>
+									<li>
+										<span class="c_4d">身份证号 ：</span>
+										<span>{{ tPuHeadhunt.id_card }}</span>
+									</li>
+									<li>
+										<span class="c_4d">身份证照片上传 ：</span>
+										<span class="t_d_udline">已上传身份证点击查看</span>
+									</li>
+									<li>
+										<span class="c_4d">上传头像 ：</span>
+										<span class="t_d_udline">已上传头像点击查看</span>
+									</li>
+								</ul>
+                                {% if company_audit_type == 1 %}
+                                    <div id="companyMessageDiv"  style="margin-left: 20px;display:block;margin-top: 35px">
+                                        <span>尚未提交资料 ,</span>
+                                        {% if joinedCompanyResult == 1 %}
+                                            {% if request.session.account_type == "3" or request.session.account_type  == "5" %}
+                                                {% if request.session.headHuntValidStatus == 3 %}
+                                                    <span class="t_d_udline"  name="perfectCompanySpan" data-toggle="modal"  data-target="#qyyz_Modal">立即完善资料</span>
+                                                {% else %}
+                                                    <span class="t_d_udline"  onclick="alert('请等您的个人信息认证通过后,再完善企业认证!')">立即完善资料</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span class="t_d_udline"  name="perfectCompanySpan" data-toggle="modal"  data-target="#qyyz_Modal">立即完善资料</span>
+                                            {% endif %}
+                                        {% elif joinedCompanyResult == 2 %}
+                                            {% if isJoinOrQuit == 1 %}
+                                                <span class="t_d_udline"  name="{{ joinedCompanyResult }}" onclick="alertJoinCompanyDialog(this)">立即完善资料</span>
+                                            {% else %}
+                                                <span class="t_d_udline" onclick="layer.alert('您提交的退出企业信息正在审核中，不能进行企业身份认证!');">立即完善资料</span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="t_d_udline"  name="{{ joinedCompanyResult }}" onclick="alertJoinCompanyDialog(this)">立即完善资料</span>
+                                        {% endif %}
+                                        <i></i>
+								    </div>
+                                {% endif %}
+                                {% if company_audit_type == 2 %}
+                                    <div id="companyMessageDiv"  style="margin-left: 20px;display:block;margin-top: 35px">
+                                        <span>企业信息审核中</span>
+                                        <span class="t_d_udline" data-toggle="modal"  name="perfectCompanySpan"  data-target="#qyyz_Modal" style="display: none">立即完善资料</span>
+                                        <i></i>
+                                    </div>
+                                {% endif %}
+								{% if company_audit_type == 3 %}
+                                    <div id="companyMessageDiv"  style="margin-left: 20px;display:block;margin-top: 35px">
+                                        <span></span>
+                                        <span class="t_d_udline" data-toggle="modal"  name="perfectCompanySpan"  data-target="#qyyz_Modal">资料已经通过审核 ,立即更新资料</span>
+                                        <i></i>
+								    </div>
+                                {% endif %}
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+			<div class="left_top_border"></div>
+		</div>
+	</div>
+	<!-- 内容大框 -->
+	<!-- 底部 -->
+	{% include 'jobs/system/new_footer.html' %}
+	<!-- 底部 -->
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="qyyz_Modal" tabindex="-1" role="dialog" 
+	   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" 
+	               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">企业信息验证</h4>
+				</div>
+				<div class="modal-body">
+					<ul class="gryz_ul">
+						<li>
+							<span class="qyyz_span t_r">企业名称</span>
+							<input type="text"  class="ml15" maxlength="20" name="pc_name" id="pc_name" value=""></li>
+{#						<li>#}
+{#							<span  class="qyyz_span t_r" >营业执照号</span>#}
+{#							<input type="text"  class="ml15" maxlength="20" name="bl_number" id="bl_number"></li>#}
+					   {% comment %} <li>
+							<span  class="qyyz_span t_r">营业执照电子文件</span>
+							<input type="button" value="上传文件"  class="ml15" >
+							<span  class="ml15">上传营业执照电子文件，如：某企业营业执照</span>
+						</li>{% endcomment %}
+                        <li style="position:relative">
+                            <span  class="qyyz_span t_r" style="vertical-align: top;margin-top: 10px">营业执照电子文件</span>
+                            <input type="hidden" name="business_license" id="business_license">
+                            <input type="hidden" name="business_license_old" id="business_license_old">
+
+                            <div style="display:inline-block;width:270px;vertical-align: middle;" class="ml15">
+                                <span id="businessLicenseSpan" style="font-size: 16px;width:80px;height:30px;color:white;background-color: #5C91D9;display:block;border-radius: 5px;line-height: 30px;text-align: center;cursor: pointer">上传文件</span>
+                                <span id="business_license_name"></span>
+                            </div>
+                            <span  class="ml15" style="width:211px;float:right;position:absolute;right:0;top:10px">上传营业执照电子文件，如：某企业营业执照</span>
+                        </li>
+						<li>
+							<span  class="qyyz_span t_r">企业座机</span>
+							<input type="text" maxlength="14"  class="ml15" name="tel" id="tel">
+							<span  class="ml15" style="width:205px;float:right;position:absolute;right:0;top: 125px;right: 15px;">例如:&nbsp;&nbsp;079183899300</span>
+							</li>
+						<li>
+							<input type="button" class="btn12" name="cancelSubm" id="cancelSubm" value="取消"  data-dismiss="modal" style="width:120px;background-color:#38b7a9;margin-left: 122px">
+							<input type="button" class="btn12 ml15" value="提交验证信息" data-dismiss="modal"  name="submitCompanyInfo"></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 模态框（Modal） -->
+    {% if account_type != 2 and account_type != 4 %}
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close"
+	               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">个人身份验证</h4>
+				</div>
+				<div class="modal-body">
+					<form name="perfectHunterInfo">
+                        <ul class="gryz_ul">
+                            <li>
+                                <span class="gryz_span t_r">真实姓名</span>
+                                <input type="text"  class="ml15" name="real_name" maxlength="20" id="real_name" value="{{tPuHeadhunt.real_name  }}">
+                            </li>
+
+                            <li>
+                                <span  class="gryz_span t_r">身份证号</span>
+                                <input type="text" maxlength="18"  class="ml15" name="id_card" id="id_card" value="{{tPuHeadhunt.id_card  }}">
+                            </li>
+
+                            <li style="position:relative">
+                                <span  class="gryz_span t_r" style="vertical-align: top;margin-top: 10px">身份证照片上传</span>
+                                <input type="hidden" name="id_card_photo" id="id_card_photo" value="{{ tPuHeadhunt.id_card_photo | default:'' }}">
+                                <input type="hidden" name="id_card_photo_old" id="id_card_photo_old" value="{{ tPuHeadhunt.id_card_photo | default:'' }}">
+                                <div style="display:inline-block;width:270px;vertical-align: middle;" class="ml15">
+                                    <div style="display:inline-block;vertical-align: top;background-color: white;" class="bitian">
+                                    <span id="idCardPhoto"  style="font-size: 16px;width:80px;height:30px;color:white;background-color: #5C91D9;display:block;border-radius: 5px;line-height: 30px;text-align: center;cursor: pointer">上传文件</span>
+                                    <span id="uploadFileName"></span>
+                                </div>
+                                </div>
+                                <span  class="ml15" style="width:211px;float:right;position:absolute;right:0;top:10px">上传身份证正反面文件，如：身份证照片案例</span>
+                            </li>
+
+                            <li>
+                                <span  class="gryz_span t_r f_l">上传头像</span>
+                                <input type="hidden" name="head_portrait" id="head_portrait" value="{{ tPuHeadhunt.head_portrait | default:'' }}">
+                                <input type="hidden" name="head_portrait_old" id="head_portrait_old" value="{{ tPuHeadhunt.head_portrait | default:'' }}">
+                                <div class="f_l ml15" style="width:160px">
+                                    <img style="border-radius: 50%" src="/static/images/ls1.jpg" alt="" width="120" height="120" id="photo_m">
+                                    <span id="head_portraitSpan"  style="font-size: 16px;width:80px;height:30px;color:white;background-color: #5C91D9;display:block;border-radius: 5px;line-height: 30px;text-align: center;cursor: pointer">上传文件</span>
+                                    <span id="head_portrait_name"></span>
+                                </div>
+                                <div class="ml15 f_r">
+                                    <p class="mt20">支持jpg、jpeg、gif、png图片文件</p>
+                                    <p>图片尺寸：120px*120px</p>
+                                    <p>图片大小需小于5MB</p>
+                                </div>
+                            </li>
+
+                            <li style="clear:both"></li>
+                            <li>
+                                <input type="button" class="btn12" name="canselSubmit" id="canselSubmit" value="取消"  data-dismiss="modal" style="width:120px;background-color:#38b7a9;margin-left: 122px">
+                                <input type="button" class="btn12 ml15" name="submitPerfectInfo" value="提交验证信息"  data-dismiss="modal" ></li>
+                        </ul>
+                    </form>
+				</div>
+
+			</div>
+			<!-- /.modal-content -->
+		</div>
+	</div>
+    {% endif %}
+
+
+	<script src="{{ STATIC_URL }}js/common.js" ></script>
+	<script type="text/javascript">
+
+
+
+	$(".c_account_r").click(function(){
+		$(".c_account_r").removeClass("c_account_r_hover");
+		$(this).addClass("c_account_r_hover");
+		$(this).children("input[type=radio]")[0].checked=true;
+	});
+
+
+    $(function(){
+        $(".sfyz_left_c").show();
+{#     企业信息验证：   company_audit_type == 2: 审查中，3：审查通过#}
+        if("{{company_audit_type }}" == "3"){
+            $.ajax({
+                type: "POST",
+                url: "/ajax_getCompanyInfo",
+                data: {},
+                dataType: "json",
+                success: function(data){
+                    if(data.msg == 'success'){
+                        $("#pc_name").val(data.pc_name);
+{#                        $("#bl_number").val(data.bl_number);#}
+                        $("#business_license").val(data.business_license);
+                        $("#business_license_old").val(data.business_license);
+                        $("#tel").val(data.tel);
+                    }else{
+                        alert("发生内部错误!")
+                    }
+                }
+            });
+            $("#companyAuditLogo").attr("class", "iconfont icon-gou color50");
+        }
+
+        $(":button[name=submitCompanyInfo]").click(function(){
+            var pc_name = $("#pc_name").val();
+{#            var bl_number = $("#bl_number").val();#}
+             var reg2 = /[.](JPG|JPEG|PNG|GIF|BMP)$/;
+            var business_license = $("#business_license").val();
+            if(reg2.test(business_license.toUpperCase()) == false){
+                alert("营业执照文件格式不正确");
+                $("#business_license").val($("#business_license")[0].defaultValue);
+                return false;
+            }
+            var business_license_old = $("#business_license_old").val();
+            if(business_license != business_license_old){
+                cutFileToRealPath(business_license, 1, $("#business_license"));
+                business_license = $("#business_license").val();
+            }
+
+            var tel = $("#tel").val();
+            var regTel = /^(0[0-9]{2,3}-)?([2-9][0-9]{6,7})+(-[0-9]{1,4})?$/;
+            var regTel = /^[0-9]*$/;
+            if(regTel.test(tel) == false){
+                alert("座机号码不合法");
+                $("#tel").val($("#tel")[0].defaultValue);
+                return false;
+            }
+            if($.trim(pc_name) == "" || business_license == "" || tel == ""){
+                alert("您输入的信息不完整!");
+                return false;
+            }
+
+             $.ajax({
+                type: "POST",
+                url: "/ajax_perfectCompanyInfo",
+                data: {"pc_name": pc_name, "business_license": business_license, "tel": tel },
+                dataType: "json",
+                success: function(data){
+                    if(data.validStatus == '2'){
+{#                        $("#cancelSubm").click();#}
+                        alert("企业信息更新完毕，请耐心等待审核!");
+                        $("span[name=perfectCompanySpan]").hide();
+                         $("#companyMessageDiv").find("span:first").text("企业信息审核中");
+{#                        $("#companyMessageDiv").find("span:eq(1)").hide();#}
+                         $("#companyAuditLogo").attr("class", "iconfont icon-gantanhao1 color50");
+                        $("#companyAuditLogo").attr("font-size", "60px")
+                    } else if(data.validStatus == '3') {
+                        alert("企业信息更新完毕!")
+                    }
+                }
+            });
+        });
+
+        {#        个人身份验证， result_type: True： 为审查中  #}
+        $(":button[name=submitPerfectInfo]").click(function(){
+            var real_name = $("#real_name").val();
+            {#            身份证号验证  #}
+            var id_card = $("#id_card").val();
+            var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+            if(reg.test(id_card) == false){
+                alert("身份证号码输入不合法");
+                $("#id_card").val($("#id_card")[0].defaultValue);
+                return false;
+            }
+            var id_card_photo = $("#id_card_photo").val();
+            var reg2 = /[.](JPG|JPEG|PNG|GIF|BMP)$/;
+            if(reg2.test(id_card_photo.toUpperCase()) === false){
+                alert("身份证图片格式不正确");
+                $("#id_card_photo").val($("#id_card_photo")[0].defaultValue);
+                return false;
+            }
+            var head_portrait = $("#head_portrait").val();
+            if(reg2.test(head_portrait.toUpperCase()) === false){
+                alert("头像图片格式不正确");
+                $("#head_portrait").val($("#head_portrait")[0].defaultValue);
+                return false;
+            }
+             // 从临时目录剪切文件到真实目录
+            var id_card_photo_old = $("#id_card_photo_old").val();
+            var head_portrait_old = $("#head_portrait_old").val();
+            // 如果头像有变动的话调用剪切文件方法
+            if(id_card_photo != id_card_photo_old) {
+                cutFileToRealPath(id_card_photo, 1, $("#id_card_photo"));
+                id_card_photo = $("#id_card_photo").val();
+            }
+            if(head_portrait != head_portrait_old) {
+                cutFileToRealPath(head_portrait, 1, $("#head_portrait"));
+                head_portrait = $("#head_portrait").val();
+            }
+
+            if($.trim(real_name) == "" || id_card == "" || id_card_photo == "" || head_portrait == ""){
+                alert("您输入的信息不完整!");
+                return false;
+            }
+             $.ajax({
+                type: "POST",
+                url: "/ajax_perfectHunterInfo",
+                data: {"real_name": real_name, "id_card": id_card, "id_card_photo": id_card_photo, "head_portrait": head_portrait },
+                dataType: "json",
+                success: function(data){
+                    if(data == 1){
+                        alert("用户信息更新完毕!");
+                        $("#hunterUl").find("li:first").find("span:eq(1)").text(real_name);
+                        $("#hunterUl").find("li:eq(1)").find("span:eq(1)").text(id_card);
+                        $("#id_card_photo").val(id_card_photo);
+                        $("#head_portrait").val(head_portrait);
+                        $("#showCardSpan").parent().attr("href", id_card_photo);
+                        $("#showHunterImg").parent().attr("href", head_portrait);
+                        $("#hunterAuditLogo").attr("class", "iconfont icon-gantanhao1 color50");
+                        $("#hunterAuditLogo").attr("font-size", "60px");
+                        $("i[name=hunterStatusSmallLogo]").attr("class", "iconfont icon-gantanhao1 color50");
+                        $("i[name=hunterStatusSmallLogo]").attr("font-size", "16px");
+                        $("i[name=hunterStatusSmallLogo]").next("span:first").text("个人身份审核中");
+                        $("#showImageDl").find("span:first").text("个人身份审核中");
+                        $(".forAuditStatusSpan").text("个人身份审核中");
+                        $(".hunterMessageDiv span").hide();
+                        $(".messageForSubmitInfo").hide();
+                        $("span[name=perfectHunterSpan]").hide();
+                    }else if(data == 2){
+                        $(".showHunterImg").parent().attr('href', head_portrait);
+                        alert("用户信息更新完毕!");
+                    } else {
+                        alert("更新失败!");
+                    }
+                }
+            });
+           })
+         })
+        // 弹出不能进行企业认证的弹框
+        function alertJoinCompanyDialog(obj) {
+            var tpcJoinResult = $(obj).attr("name");
+            if(tpcJoinResult == '2') {
+                layer.alert("您提交的加入企业信息正在审核中，不能进行企业身份认证!");
+            } else {
+                layer.alert("您已加入企业，不能进行企业身份认证!");
+            }
+        }
+	</script>
+</body>
+</html>

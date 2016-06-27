@@ -1,0 +1,128 @@
+@charset "UTF-8";
+@import "http://at.alicdn.com/t/font_1458875755_3417337.css";
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, fieldset, button, input, textarea, th, td {
+  margin: 0;
+  padding: 0; }
+
+body, button, input, select, textarea {
+  font: 12px/1.5 "Microsoft YaHei","\5FAE\8F6F\96C5\9ED1",\5b8b\4f53,sans-serif; }
+
+a, a:link, a:visited, a:hover, a:active {
+  text-decoration: none; }
+
+a, a:link, a:visited, a:hover, a:active, input, textarea, :focus {
+  outline: 0; }
+
+textarea {
+  padding: 10px; }
+
+img, iframe {
+  border: none;
+  text-decoration: none; }
+
+li {
+  list-style-type: none; }
+
+.nowrap {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap; }
+
+/*danzhi*/
+/*lan*/
+/*shenlan*/
+/*ju*/
+/*danhui*/
+/*淡灰*/
+.c_99 {
+  color: #999 !important; }
+
+.c_66 {
+  color: #666 !important; }
+
+.c_33 {
+  color: #333 !important; }
+
+.c_5c {
+  color: #5c91d9 !important; }
+
+.c_f6 {
+  color: #ff6666 !important; }
+
+.cursor {
+  cursor: pointer; }
+
+.oh {
+  overflow: hidden; }
+
+.f_l {
+  float: left; }
+
+.f_r {
+  float: right; }
+
+.fz12 {
+  font-size: 12px; }
+
+.fz14 {
+  font-size: 14px; }
+
+.fz16 {
+  font-size: 16px; }
+
+.fz18 {
+  font-size: 18px; }
+
+.fz20 {
+  font-size: 20px; }
+
+.border {
+  border: 1px solid #e0e0e0; }
+
+.mt5 {
+  margin-top: 5px; }
+
+.mt10 {
+  margin-top: 10px; }
+
+.mt20 {
+  margin-top: 20px; }
+
+.mt30 {
+  margin-top: 30px; }
+
+.jl_txt_hide {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 72px;
+  text-overflow: initial; }
+
+.clearfix:after {
+  *zoom: 1;
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden; }
+
+.clearfix {
+  *zoom: 1; }
+
+.center {
+  margin: 0 auto;
+  width: 1020px;
+  overflow: visible; }
+
+.icon-nv {
+  color: #ff8800;
+  cursor: default; }
+
+.icon-nan {
+  color: #5c91d9;
+  cursor: default; }
+
+.h20 {
+  height: 20px; }
+
+/*# sourceMappingURL=base.css.map */

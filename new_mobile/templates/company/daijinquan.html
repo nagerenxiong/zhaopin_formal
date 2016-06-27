@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>怀才当遇</title>
+    <meta name="author" content="怀才当遇">
+    <link href="/static/new_mobile/css/common.css" rel="stylesheet" type="text/css">
+    <link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+    <link href="/static/new_mobile/css/user_company.css" rel="stylesheet" type="text/css">
+    <link href="/static/new_mobile/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+    <link href="/static/new_mobile/css/zsh_common.css" rel="stylesheet" type="text/css">
+    <script src="/static/new_mobile/js/hm.js"></script><script src="/static/new_mobile/js/jquery.js" type="text/javascript"></script>
+    <script src="/static/new_mobile/js/cache_classify.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/new_mobile/js/jquery.common.js" type="text/javascript"></script>
+    <script src="/static/new_mobile/js/formValidate.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function()
+        {
+            //打开顶部菜单
+            $("#topmenu_sub").click( function () {
+                $("#topmenu").slideToggle("fast");
+            });
+        });
+    </script>
+<style type="text/css"></style></head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+var sWinUserAgent=navigator.userAgent.toLowerCase();
+//alert(typeof JavaScriptInterface);
+if(sWinUserAgent.indexOf('hijobsapp')!=-1){
+    $('.zsp_header').remove();
+}
+</script>
+<div class="zsp_jops_ticket_ul">
+    <div class="common_tit_box" style="border-bottom:0; text-align:center; margin-bottom:0; background-color:#f1f5f8;"></div>
+</div>
+     <div class="nothingTip">
+        <div class="tipImg">
+        </div>
+        <p style="font-size:14px; line-height:20px;">您目前没有代金券，平台即将开放此功能</p>
+    </div>
+<div class="errorTip"></div></body></html>

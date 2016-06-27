@@ -1,0 +1,478 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style2.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/basic.css">
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/forwardposition.js"></script>
+<div class="lt_content_box wdjlk">
+	<!-- 猎头会员菜单开始 -->
+    <div class="nav2">
+	    {% include 'jobs/system/menu_position.html' %}
+    </div>
+	<!-- 猎头会员菜单结束 -->
+	<div class="clear">3</div>
+	{% if request.session.account_type == "2" or request.session.account_type  == "4" %}
+		<div class="clear">2</div>
+		{% else %}
+		<div class="clear">4</div>
+		{% endif %}
+	<div class="center mt25" >
+		<!-- 猎头会职位管理内容开始 -->
+		<div class="dleft">
+
+			<div class="center lt_jlgltb ">
+				<div class="tjxjl fz16" style="cursor: pointer;" onclick="addNewPosition()">
+
+					添加新职位
+				</div>
+				<div class="jlglss ss">
+						<input name="searchname" type="text" class="jlssk fz14 ss_input" style="border:0px;width:390px;" placeholder="输入职位名称" />
+
+						<button class="jsseach" onclick="search()" >
+						搜索
+						</button>
+				</div>
+			</div>
+			<!-- 猎头会员已下线的职位开始 -->
+			<div class="ssjg p9 mt25">
+				<div class="bkdw"></div>
+				<div class="biaolm m10">
+					<div class="biaot2 fz16">
+						<ul>
+							<li><a href="zwgl" onmouseover="this.style.cssText='text-decoration:none;'">已发布的职位</a></li>
+							<li><a href="yxxdzw" onmouseover="this.style.cssText='text-decoration:none;'">已下线的职位</a></li>
+							<li class="bthover"><a href="draft">职位草稿箱</a></li>
+						</ul>
+					</div>
+					<div class="qhann">
+					</div>
+				</div>
+				<div class="tjsx m10">
+					<input name="" type="checkbox" value="" id="allcheck">
+					<i class="ml5 mr5 fn">全选</i>
+					<input name="" type="hidden" class="tjann" />
+					<input name="" type="button" value="批量删除" class="tjann" data-toggle="modal" data-target="#sc_Modal" onclick="judgeSelected(this)"></div>
+				<!-- 猎头会员已下线的职位图片列表开始 -->
+				<div id="noSendData_yxxdzw" class="noSendData" style="display: none;">
+				    <div>
+				            <p>暂无职位草稿！</p>
+				    </div>
+				</div>
+                <form action="fbPostion" method="post" id="fbform">
+                    {% csrf_token %}
+				<div class="tuplb sigenr mt5" >
+                    <div id="table1" style="overflow: hidden;min-height: 200px"></div>
+                    <div class="lthy_pager" id="page1">
+					</div>
+				</div>
+				<!-- 猎头会员已下线的职位图片列表结束 -->
+			</form>
+            </div>
+			<!-- 猎头会员已下线的职位结束 -->
+		</div>
+		<!-- 猎头会职位管理内容结束 -->
+		<div class="xright">
+			<!-- 侧边栏 -->
+			<!-- 猎头会员英才举荐开始 -->
+            {% include 'jobs/recommendResume.html' %}
+			<!-- 猎头会员英才举荐结束 -->
+			<!-- 侧边栏 -->
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+
+<div class="modal fade" id="sc_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog"style="width: 295px;">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">确认删除</h4>
+				</div>
+				<div class="modal-body t_c">
+					是否确认删除
+				</div>
+				<div class="modal-footer">					
+		             <button type="button" class="btn btn-primary" data-dismiss="modal" style="width:auto;height:auto" onclick="dealPosition('delete')">是</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">否</button>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+
+<div class="modal fade" id="fb_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog"style="width: 295px;">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">确认发布</h4>
+				</div>
+				<div class="modal-body t_c">
+					是否确认发布
+				</div>
+				<div class="modal-footer">					
+		             <button type="button" class="btn btn-primary" data-dismiss="modal" style="width:auto;height:auto" onclick="dealPosition('publish')">是</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">否</button>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+
+<div class="modal fade" id="fbmany_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog"style="width: 300px;">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">确认批量发布</h4>
+				</div>
+				<div class="modal-body t_c">
+					是否确认批量发布
+				</div>
+				<div class="modal-footer">					
+		             <button type="button" class="btn btn-primary" data-dismiss="modal" style="width:auto;height:auto"  onclick="dealPosition('publish')">是</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">否</button>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+<div class="modal fade" id="scmany_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog"style="width: 433px;">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">确认批量删除</h4>
+				</div>
+				<div class="modal-body t_c">
+					是否确认批量删除
+				</div>
+				<div class="modal-footer">					 
+		             <button type="button" class="btn btn-primary" data-dismiss="modal" style="width:auto;height:auto" onclick="dealPosition('delete')">是</button>
+                     <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">否</button>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+
+
+{% include 'jobs/system/new_footer.html' %}
+<input type="hidden" id="positionId" />
+<input type="hidden" id="operateState" />{# 操作类型，是单个还是多个#}
+<script src="{{ STATIC_URL }}js/common.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script>
+    var pagination1;
+    var sql = 'source_id = {{ request.session.pu_id }} and Position_Status=2 ';
+    var querySql = sql;
+    var file_website = '';
+    $(function(){
+        file_website = $('#file_website').val();
+        querySql += ' order by last_update_date desc';
+        pagination1=new pagin("page1","V_Position_Search","",encodeURI(querySql),"",6,"paginBind","pagination1");
+    })
+    function paginBind(dataInfo){
+        $("#table1").empty();
+    	//无数据处理
+    	if(dataInfo==""){
+    	    $('#noSendData_yxxdzw').css('display', 'block');
+    	    $(".page_number").hide();
+    	    return;
+    	}else{
+    	    $('#noSendData_yxxdzw').css('display', 'none');
+    	    $(".page_number").show();
+    	}
+        $(dataInfo).each(function() {
+
+            // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this)
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            if($.trim(array[23])=="")
+            	array[23] ="经验不限";
+            if($.trim(array[26])=="")
+            	array[26] ="学历不限";
+            var content="";
+            content+='     <div class=\"zwmp1 p10\">';
+            content+='				<div class="zwmp1_k">';
+            content+='					<div class="zwmp1_k1">';
+            content+='						<ul>';
+            content+='							<li style=\"width:200px;\" title=\"'+array[3]+'\"> <b class="fz18 c3"   style="cursor: pointer;font-weight:normal;" onclick="window.open(\'/jobs/position/company/fbdzw?positionID='+array[0]+'\')">'+array[3]+'</b>';
+            content+='							</li>';
+            content+='							<li style="color:#333!important;">'+array[55]+'</li>';
+            content+='							<li><span title=\"'+array[6]+'&nbsp;'+array[19]+'\" class=\"nowrap1\" style=\"border-right:none;max-width:120px\">'+array[6]+'</span>';
+            content+='								<i class="fn fz16 cf8 pl5">'+array[19]+'</i>';
+            content+='							</li>';
+            content+='							<li title=\"'+array[14]+'  |  '+array[23]+'  |  '+array[26]+'>'+array[14]+'  |  '+array[23]+'  |  '+array[26]+' </li>';
+            content+='							<li style="color:#333">编辑日期：'+array[48].substring(0,11)+' 刷新';
+            content+='							</li>';
+            content+='						</ul>';
+            content+='					</div>';
+            content+='					<div class="zwmp1_k2">';
+            content+='						<div class="zwmp1_k2_Le">';
+            content+='							<input name="check" type="checkbox" value='+array[0]+' />';
+            content+='						</div>';
+            content+='						<div class="zwmp1_k2_Ri">';
+            content+='							<input name="" type="button" value="发布" class="gnanys release_position_button" onclick="setDelId('+array[0]+', \'release\', this)"/>';
+            content+='							<input name="" type="button" value="预览" class="gnanys" onclick="viewPosition(' + array[0] + ')" />';//预览链接
+            content+='							<input name="" type="button" value="删除" class="gnanys" onclick="setDelId('+array[0]+', \'delete\', this)" data-toggle="modal" data-target="#sc_Modal" />';
+            content+='						</div>';
+            content+='					</div>';
+            content+='				</div>';
+            content+='				<div class="zwmp1_k3"></div>';
+            content+='				<div class="zwmp1_k4">';
+            content+='					<img src="'+ file_website+array[56]+'" width="90" height="90" border="0" align="absmiddle"   style="cursor: pointer;border-radius:50%;" onclick="window.open(\'/jobs/position/company/fbdzw?positionID='+array[0]+'\')" onerror="notfind(this, 2)" />';
+            content+='				</div>';
+            content+='			</div>';
+            $("#table1").append(content);
+        });
+    }
+
+    function  setDelId(id, type, obj){
+        if(type == 'release') {
+            var flag = true;
+            $.ajax({
+                async: false,
+                url: "/ajax_isPublicPositionOK",
+                type: "POST",
+                dataType: "json",
+                success: function(data) {
+                    if(data == 0) {
+                        alert("您可以同时运作的职位数量已达到最大，不可以再发布新职位!",4);
+                        $(".release_position_button").attr("onclick", "alert('您可以同时运作的职位数量已达到最大，不可以再发布新职位!',4)");
+                        flag = false;
+                    } else if(data == -1) {
+                        alert('请身份认证后再发布职位!', 4);
+                        $(".release_position_button").attr('onclick', 'alert("请身份认证后再发布职位!",4);');
+                        flag = false;
+                    }else if(data == -2){
+                        isIdentityCompany('{{ request.session.account_type }}', '2');
+{#                        hint("您尚未完成企业身份认证，暂时只能发布1次职位<br>想要发布更多，请点击<span class='light' onclick='openNewAuditPageForTpcUser()'>前往认证&nbsp;></span>");#}
+                        flag = false;
+                    }
+                }
+            });
+            if(flag == false)
+                return false;
+            $(obj).attr('data-toggle', "modal");
+            $(obj).attr('data-target', "#fb_Modal");
+        }
+        $("#positionId").val(id);
+        $('#operateState').val('simple');
+    }
+{#        function fbzw(){#}
+{#                location.href="fbPostion?id="+$("#delid").val();#}
+{#        }#}
+{#        function Delzw(){#}
+{#                location.href="delPostion?id="+$("#delid").val();#}
+{#        }#}
+        $("#allcheck").click(function(){
+        var ids = document.getElementsByName("check");
+        if(document.getElementById("allcheck").checked == true){
+              for(var i=0;i<ids.length;i++){
+                  if($(ids[i]).parent().parent().parent().parent().parent().parent().css("display")=="block"){
+                    ids[i].checked=true;
+                      }
+                }
+        }else{
+           for(var i=0;i<ids.length;i++){
+                    ids[i].checked=false;
+                };
+        }
+      });
+{#    function scmany(){#}
+{#         var check = document.getElementsByName("check");#}
+{#        if(check.length==0){#}
+{#            alert("请选择需要删除的职位！");#}
+{#            return#}
+{#        }#}
+{#        var resumeid="";#}
+{#        for(var i=0;i<check.length;i++) {#}
+{#            if (check[i].checked == true) {#}
+{#                resumeid += check[i].value + ",";#}
+{#            }#}
+{#        }#}
+{#         location.href="delPostion?check="+resumeid;#}
+{#    }#}
+{#     function fbmany(){#}
+{#             var check = document.getElementsByName("check");#}
+{#         alert(check.length)#}
+{#            if(check.length==0){#}
+{#                alert("请选择需要重新发布的职位！");#}
+{#                return#}
+{#            }#}
+{#            $('#fbform').submit();#}
+{#        }#}
+        function search(){
+            var name=$("[name=searchname]").val();
+            querySql = sql + ' and position_name like "%' + name + '%"';
+            querySql += ' order by last_update_date desc';
+            pagination1=new pagin("page1","V_Position_Search","",encodeURI(querySql),"",6,"paginBind","pagination1");
+{#            location.href="yxxdzw?name="+name;#}
+        }
+        function datesearch(){
+            var date=$("[name=date]").val();
+{#            location.href="yxxdzw?date="+date;#}
+        }
+    function setName(name,email){
+        var title=name+"*"+email;
+        $("#zftitle").val(title)
+    }
+    function sendEmail(){
+        var title=$("#zftitle").val()
+        var pathnum=title.indexOf("*")
+        pathnum=parseInt(pathnum)
+        var email=title.substring(pathnum+1,title.length);
+        var emailContent=$("#emailContent").val();
+    }
+    function searchlxr(){
+        var name=$("#searchname").val();
+        $.ajax({
+                    type: "POST",
+                    url: "../ajax_findPerson",
+                    data: {"searchname": name},
+                    dataType: "json",
+                    success: function (data) {
+                        var newul = $("#recentContact");
+                        newul.empty();
+                        for(var i = 0;i < data.length;i++){
+                        var area = data[i];
+                        newul.append("<li><span class=\"ml25\" onclick=\"setName('"+area.fields.contact_name+"','" + area.fields.email+"')\">"+area.fields.contact_name+"</span></li>");
+                    }
+                    }
+                })
+    }
+
+     //职位查看
+    function viewPosition(positionId){
+        window.open('/resume/zwxq?positionId=' + positionId, '_blank');
+    }
+
+    //判断是否选中
+    function judgeSelected(obj){
+        $('#operateState').val('multi');
+        var checkboxes = $('input[name="check"]:checked');
+        if(checkboxes.length == 0){
+            $('.tjann').attr('data-target', '');
+            window.alert('请选择要操作的数据',4);
+            return false;
+        }
+        if($('.tjann').index($(obj)) == 1){
+            $('.tjann').eq(1).attr('data-target', '#sc_Modal');
+            var positionIds = [];
+            for(var m = 0;m < checkboxes.length;m++){
+                positionIds.push(checkboxes.eq(m).val());
+            }
+{#            doForwardPosition(positionIds)#}
+        }
+    }
+    //处理简历，跳转到简历处理页面
+    function dealResume(obj){
+        if($(obj).text() != '0份'){
+            window.open('/resume/h_tddjl', '_blank');
+        }
+    }
+    //处理职位（刷新和下线）
+    function dealPosition(type){
+        //type操作类型，publish(发布), delete(删除)
+        if($('#operateState').val() == 'simple'){
+            var positionId = $('#positionId').val();
+            $.ajax({
+                type: "POST",
+                url: "/ajax_dealPosition",
+                data: {"positionId": positionId, 'operateType': type},
+                dataType: "json",
+                success: function (data) {
+                    if(data.msg == 'success'){
+                        if(type == 'publish'){
+                            window.alert('发布成功',1);
+                            window.location="/jobs/position/success_recommend?"+'position_id='+positionId;
+                        }else{
+                            window.alert('删除成功',1);
+                        }
+                        pagination1 = new pagin("page1","V_Position_Search","",encodeURI(querySql),"",6,"paginBind","pagination1");
+                    }else if(data.msg == 'unvalid'){
+                        isIdentityCompany('{{ request.session.account_type }}', '2');
+                    }else{
+                        window.alert(data.msg,4);
+                    }
+                }
+            })
+        }else{
+            var checkboxes = $('input[name="check"]:checked');
+            var positionIds = [];
+            for(var m = 0;m < checkboxes.length;m++){
+                positionIds.push(checkboxes.eq(m).val());
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax_dealPosition",
+                    data: {"positionIds": positionIds, 'operateType': type},
+                    dataType: "json",
+                    success: function (data) {
+                        if(data.msg == 'success'){
+                            if(type == 'publish'){
+                                window.alert('批量发布成功',1);
+                            }else{
+                                window.alert('批量删除成功',1);
+                            }
+                            document.getElementById("allcheck").checked = false;
+                            pagination1 = new pagin("page1","V_Position_Search","",encodeURI(querySql),"",6,"paginBind","pagination1");
+                        }else{
+                            window.alert(data.msg,4);
+                        }
+                    }
+                })
+            }
+        }
+    }
+    //时间下拉
+    $(".jlsjk").click(function(event) {
+        $(".date_ul").slideDown(150);
+    });
+    $(".jlxzrq").mouseleave(function(event) {
+        $(".date_ul").slideUp(150);
+    });
+    $(".date_ul li").click(function(event) {
+        $(".jlsjk").val($(this).text());
+        if($(this).text() == '3天内'){
+            querySql = sql + ' and DATE_SUB(CURDATE(), INTERVAL 3 DAY) < DATE(Last_Update_Date)';
+        }else if($(this).text() == '一周内'){
+            querySql = sql + ' and DATE_SUB(CURDATE(), INTERVAL 7 DAY) < DATE(Last_Update_Date)';
+        }else if($(this).text() == '一月内'){
+            querySql = sql + ' and DATE_SUB(CURDATE(), INTERVAL 1 MONTH) < DATE(Last_Update_Date)';
+        }else{
+            querySql = sql;
+            $('.jlsjk').val('');
+        }
+        $(".date_ul").slideUp(150);
+        querySql += ' order by last_update_date desc';
+        pagination1=new pagin("page1","V_Position_Search","",encodeURI(querySql),"",6,"paginBind","pagination1");
+    });
+
+function addNewPosition(){
+{#    var flag = isIdentityAudit('2,3,4,5', '2');#}
+{#    if(flag == true) {#}
+    window.open('/jobs/position/company/fbdzw', '_blank');
+{#    }#}
+}
+</script>

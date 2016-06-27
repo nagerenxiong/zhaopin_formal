@@ -1,0 +1,243 @@
+{% include 'header.html' %}
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_1452761480_1150522.css">
+<style type="text/css">
+body {
+    background: #F1F1F1;
+    font-family: "Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "Î¢ÈíÑÅºÚ", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
+}
+    *{box-sizing:border-box;}
+    .top{height:50px;line-height: 50px;text-align: center;background-color:#fff;}
+    .top strong{font-size: 16px;}
+    .top span{font-size:14px;position:absolute;right:10px;color:#D6737E;font-weight:bold;}
+    .login_change_type span,.reg_change_type span {
+    display: inline-block;
+    width: 50%;
+    color: #6C6C6C;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    font-size: 14px;
+}
+.login_change_type span.active,.reg_change_type span.active {
+    background-color: #F7F7F7;
+}
+.right_line{border-right:1px solid #D5D5D5;}
+.login_content{padding:10px;}
+input{border:0;background-color:transparent;outline:none;}
+input:-webkit-autofill {
+-webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+}
+.account_box,.password_box,.phone_box,.code_box{border:1px solid #CACACA;padding-left: 10px;height:50px;line-height: 50px;background-color:#fff;margin: 10px 0;font-size:16px;}
+.account_box input,.password_box input{margin-left: 10px;}
+.password_box .iconfont{float: right;margin-right: 10px;color:#DBDBDB;font-size: 14px;}
+#login_btn,#quick_login_btn,#register_btn{width:100%;height:50px;color:#fff;background-color:#A2C7F3;text-align: center;font-size: 18px;border-radius: 6px;}
+#get_code_btn,#get_reg_code_btn{font-size: 14px;float: right;margin-right: 10px;}
+.code{width:30%;}
+.login_logo{text-align:center;position:absolute;bottom:30px;}
+.login_logo img{width:100%;}
+</style>
+<div class="top"> <strong>登录</strong>
+    <span id="change_btn">注册</span>
+</div>
+
+<div class="login_change_type">
+    <span class="right_line">短信快捷登录</span><span  class="active">普通登录</span>
+</div>
+<div class="reg_change_type" style="display:none">
+    <span class="right_line">我是人才</span><span  class="active">我是企业HR</span>
+</div>
+<form id="login_form" action="/mobile/login" method="post">
+    <div class="login_content">
+        <div class="account_box ">
+            <span>账号</span>
+            <input type="text" placeholder="请输入账号" name="account" id="account" maxlength="20"></div>
+        <div class="password_box">
+            <span>密码</span>
+            <input type="password"placeholder="请输入密码" name="password" id="hide_pass" onkeydown="$('#show_pass').val(this.value)"  onkeyup="$('#show_pass').val(this.value)" maxlength="20" >
+            <input type="text"placeholder="请输入密码" name="password" onkeydown="$('#hide_pass').val(this.value)" onkeyup="$('#hide_pass').val(this.value)" id="show_pass" style="display:none" maxlength="20">
+            <i class="iconfont icon-shurukuangchakanmima" id="check_pass"></i>
+        </div>
+        <div>
+            <input type="submit" onclick="return validLogin()" value="登录" id="login_btn"></div>
+    </div>
+</form>
+<form action="/mobile/quick_login" method="post" id="quick_login_form" style="display:none">
+    <div class="login_content">
+        <div class="phone_box ">
+            <span>手机号</span>
+            <input type="text" placeholder="请输入绑定的手机号码" name="phone" id="phone" maxlength="20"></div>
+        <div class="code_box">
+            <span>验证码</span>
+            <input type="text"placeholder="请输入验证码" name="code" id="code" class="code" maxlength="10" >
+            <span id="get_code_btn">获取验证码</span>
+        </div>
+        <div>
+            <input type="submit" onclick="return validQuickLogin()" value="登录" id="quick_login_btn"></div>
+    </div>
+</form>
+<form action="/mobile/login_register" method="post" id="register_form" style="display:none">
+    <div class="register_content">
+        <div class="phone_box">
+            <span>手机号</span>
+            <input type="text" placeholder="请输入手机号" name="reg_phone" id="reg_phone" maxlength="20"></div>
+        <div class="code_box">
+            <span>验证码</span>
+            <input type="text"placeholder="请输入验证码" name="reg_code" id="reg_code" class="code" maxlength="10" >
+            <span id="get_reg_code_btn">获取验证码</span>
+        </div>
+         <div class="password_box">
+            <span>密码</span>
+            <input type="password"placeholder="请设置密码" name="reg_password" id="reg_hide_pass" onkeydown="$('#reg_show_pass').val(this.value)"  onkeyup="$('#reg_show_pass').val(this.value)" maxlength="20" >
+            <input type="text"placeholder="请设置密码" name="reg_password" onkeydown="$('#reg_hide_pass').val(this.value)" onkeyup="$('#reg_hide_pass').val(this.value)" id="reg_show_pass" style="display:none" maxlength="20">
+            <i class="iconfont icon-shurukuangchakanmima" id="reg_check_pass"></i>
+        </div>
+        <div>
+            <input type="submit" onclick="return validRegister()" value="注册" id="register_btn"></div>
+    </div>
+</form>
+<div class="login_logo">
+    <img src="/static/new_mobile/images/login_logo.png" >
+</div>
+<script>
+//登陆--查看密码
+ $("#check_pass").click(function(){
+    if($("#show_pass").css('display')=='none')
+    {
+        $(this).css('color','#666');
+        $("#show_pass").show().val($("#hide_pass").val());
+        $("#hide_pass").hide();
+    }
+    else
+    {
+        $(this).css('color','#DBDBDB');
+        $("#show_pass").hide();
+        $("#hide_pass").show().val($("#show_pass").val());
+    }
+ })
+ $(".login_change_type span").click(function(){
+    $(".login_change_type span").removeClass('active')
+         $(this).addClass('active');
+         var index=$(this).index();
+         if(index==0)
+         {
+           $("#quick_login_form").show();
+           $("#login_form").hide();
+         }
+         else
+         {
+            $("#quick_login_form").hide();
+           $("#login_form").show();
+         }
+ })
+ //注册-选择角色
+ $(".reg_change_type span").click(function(){
+    $(".reg_change_type span").removeClass('active')
+         $(this).addClass('active');
+         var index=$(this).index();
+         if(index==0)
+         {
+
+         }
+         else
+         {
+
+         }
+ })
+ //切换登陆注册
+ $("#change_btn").click(function(){
+    if($(this).text()=="注册"){
+        $(this).text('登录').prev().text('注册');
+        $("#quick_login_form").hide();
+        $("#login_form").hide();
+        $(".login_change_type").hide();
+        $(".reg_change_type").show();
+        $("#register_form").show();
+    }
+    else if($(this).text()=="登录")
+    {
+        $(this).text('注册').prev().text('登录');
+        $("#quick_login_form").hide();
+        $("#login_form").show();
+        $(".login_change_type").show();
+        $(".reg_change_type").hide();
+        $("#register_form").hide();
+    }
+ })
+ //快速登陆获取验证码
+ $("#get_code_btn").click(function(){
+
+ })
+ //注册获取验证码
+ $("#get_reg_code_btn").click(function(){
+
+ })
+
+var phoneReg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
+var emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+ function validPhone(phoneId)
+ {
+    var phone=$.trim($("#"+phoneId).val());
+    if(phone == '') {
+        alert(['请输入手机号',2]);
+        $("#phone").val('');
+        return false;
+    }
+    if (!phoneReg.test(phone)) {
+        alert(['手机号输入不合法',2]);
+        $("#phone").val('');
+        return false;
+    }
+}
+function validPassword(passwordId) {
+    var password=$("#"+passwordId).val().trim();
+    if(password=='') {
+        alert(['请输入密码',2]);
+        return false;
+    }
+    if(password.length<6) {
+        $("#"+passwordId).val('');
+        alert(['您的密码至少包含6个字符!',2]);
+        return false;
+    }
+}
+function validCode(codeId)
+{
+    var codeId=$("#"+codeId).val().trim();
+    if(codeId=='') {
+        alert(['请输入验证码',2]);
+        return false;
+    }
+}
+
+
+//普通登陆
+function validLogin()
+{
+    var account=$.trim($("#account").val());
+    if(account == '') {
+        alert(['请输入账号',2]);
+        $("#account").val('');
+        return false;
+    }
+    if (!phoneReg.test(account)&&!emailReg.test(account)) {
+        alert(['账号输入不合法',2]);
+        $("#account").val('');
+        return false;
+    }
+    if(validPassword("hide_pass")==false)return false;
+}
+//快速登陆
+function validQuickLogin()
+{
+    if(validPhone("phone")==false)return false;
+    if(validCode("code")==false)return false;
+}
+//注册
+function validRegister(){
+    if(validPhone("reg_phone")==false)return false;
+    if(validCode("reg_code")==false)return false;
+    if(validPassword("reg_hide_pass")==false)return false;
+}
+</script>
+</body>
+</html>

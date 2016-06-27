@@ -1,0 +1,163 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+<div class="lt_content_box wdjlk">
+	<!-- 猎头会员菜单开始 -->
+	<ul class="nav nav-tabs center lthy_nav">
+		<li>
+			<a href="#">职位搜索</a>
+		</li>
+		<li>
+			<a href="#" >职位发布</a>
+		</li>
+		<li>
+			<a href="#">我投递的职位</a>
+		</li>
+		<li>
+			<a href="#">职位过滤器</a>
+		</li>
+		<li class="active">
+			<a href="#">职位管理</a>
+		</li>
+		<li>
+			<a href="#" >企业信息管理</a>
+		</li>
+		<li>
+			<a href="#">职位收藏</a>
+		</li>
+		<li>
+			<a href="#">简历订阅器</a>
+		</li>
+	</ul>
+	<!-- 猎头会员菜单结束 -->
+	<div class="clear"></div>
+	<div class="center lt_jlgltb mt30">
+		<div class="zw_glxss">
+			<form action="" method="get">
+				<input name="" type="text" class="zw_glxss_k fz14" style="border:0px;" value="输入过滤器名称">
+				<input name="" type="button" class="zw_glxss_n fz18" style="border:0px;" value="搜索"></form>
+		</div>
+		<div class="zw_glxtj"> <i class="iconfont icon-tianjia pr5" style="font-size:19px;"></i>
+			添加职位过滤器
+		</div>
+	</div>
+	<div class="center">
+
+		<!-- 猎头会员职位过滤器主内容开始 -->
+		<div class="dleft">
+        	
+            
+            <!-- 猎头会员职位过滤器开始 -->
+            <div class="ssjg p9 mt30">
+            	<div class="bkdw"></div>
+                <div class="biaolm m10">
+                	<div class="biaot2 fz16">
+                    	<ul>
+                       	  <li class="bthover">职位过滤器</li>                 
+                        </ul>
+                	</div>
+                    
+                </div>
+                
+                
+                
+                <div class="zw_glx_gg m10 c6"><i class="iconfont icon-gantanhao pr5 cr" style="font-size:18px;"></i>职位过滤器的栏目全部为选填项目，当您设置好了条件过滤器将把所有不符合条件的简历过滤！</div>
+              	<!-- 猎头会员职位过滤器表单开始 -->
+                 
+                 <div class="zw_glx_bdk">
+                 	<ul>
+                    	<li>
+                        	<div class="bd_Le">职位过滤器名称</div>
+                            <div class="bd_Ri"><input name="" type="text" class="zw_btk"></div>
+                        </li>
+                    </ul>
+                    <ul>
+                    	<li>
+                        	<div class="bd_Le">当前所在地</div>
+                            <div class="bd_Ri"><select name="" class="zw_btk1"></select></div>
+                        </li>
+                    </ul>
+                    <ul>
+                    	<li>
+                        	<div class="bd_Le">所属领域</div>
+                            <div class="bd_Ri"><input name="" type="text" class="zw_btk2"></div>
+                        </li>
+                    </ul>
+                    <ul>
+                    	<li>
+                        	<div class="bd_Le">薪资范围</div>
+                            <div class="bd_Ri"><input name="" type="text" class="zw_btk3"> <b class="fn fz14 pl10 pr10">月薪 ——</b> <input name="" type="text" class="zw_btk3"> <b class="fn fz14 pl10 pr10">月薪</b></div>
+                        </li>
+                    </ul>
+                    <ul>
+                    	<li>
+                        	<div class="bd_Le">工作经验</div>
+                            <div class="bd_Ri"><input name="" type="text" class="zw_btk4"> <b class="fn fz14 pl10 pr10">及以上</b> </div>
+                        </li>
+                    </ul>
+                    <ul>
+                    	<li>
+                        	<div class="bd_Le">最低学历</div>
+                            <div class="bd_Ri"><select name="" class="zw_btk1"></select> <b class="fn fz14 pl10 pr10">及以上</b> </div>
+                        </li>
+                    </ul>
+                    <ul>
+                    	<li>
+                        	<div class="bd_Le">年龄</div>
+                            <div class="bd_Ri"><input name="" type="text" class="zw_btk3"> <b class="fn fz14 pl10 pr10"> ——</b><input name="" type="text" class="zw_btk3">  </div>
+                        </li>
+                    </ul>
+                    <ul>
+                    	<li>
+                        	<div class="bd_Le">性别</div>
+                            <div class="bd_Ri">
+                            	<div class="zw_btk5 mr5" style="cursor: pointer"><i class="iconfont icon-nan" style="font-size:16px;"></i> 男</div>
+                                <div class="zw_btk5 mr5" style="cursor: pointer"><i class="iconfont icon-nv" style="font-size:16px;"></i> 女</div>
+                                <div class="zw_btk5 mr5" style="cursor: pointer"> 不限</div>
+                            </div>
+                        </li>
+                    </ul>
+                 </div>
+                 
+                 
+                 <div class="zw_glx_ann m10">
+                 	<div class="zw_glx_n">保存</div>
+                 </div>
+                <!-- 猎头会员职位过滤器表单结束 -->
+                
+                
+            </div>
+            <!-- 猎头会员职位过滤器结束 -->
+        </div>
+		<!-- 猎头会员职位过滤器主内容结束 -->
+
+		<div class="xright">
+			<!-- 侧边栏 -->
+
+			<div class="zw_wdglx mt30">
+				<div class="zw_wdbt">我的职位过滤器</div>
+				<div class="zw_bgld">
+					被过滤的简历
+					<div class="zw_bgld_g">20</div>
+				</div>
+			</div>
+
+			<!-- 侧边栏 -->
+		</div>
+
+		<div class="clear"></div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(".bd_Ri div").click(function(){
+        $(".bd_Ri div").attr('class', 'zw_btk5 mr5');
+        $(this).attr('class', 'zw_btk6 mr5');
+	})
+</script>
+{% include 'jobs/system/footer.html' %}

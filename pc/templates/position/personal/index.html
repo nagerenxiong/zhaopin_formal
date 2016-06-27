@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <title>Registed</title>
+
+  <link rel="shortcut icon" href="../favicon.ico">
+  <link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+  <link href="{{ STATIC_URL }}jobs/css/grid.css" media="screen" rel="stylesheet" type="text/css">
+
+  <script src="{{ STATIC_URL }}js/jquery-1.7.2.min.js" ></script>
+  <script src="{{ STATIC_URL }}js/html5.js" ></script>
+  <script src="{{ STATIC_URL }}js/jflow.plus.js"></script>
+  <script src="{{ STATIC_URL }}js/jquery.carouFredSel-5.2.2-packed.js"></script>
+  <script src="{{ STATIC_URL }}js/checkbox.js"></script>
+  <script src="{{ STATIC_URL }}js/radio.js"></script>
+  <script src="{{ STATIC_URL }}js/selectBox.js"></script>
+
+  <script>
+	$(document).ready(function() {
+		$("select").selectBox();
+	});
+  </script>
+
+  <script>
+	$(document).ready(function(){
+		$("#myController").jFlow({
+			controller: ".control", // must be class, use . sign
+			slideWrapper : "#jFlowSlider", // must be id, use # sign
+			slides: "#slider",  // the div where all your sliding divs are nested in
+			selectedWrapper: "jFlowSelected",  // just pure text, no sign
+			width: "984px",  // this is the width for the content-slider
+			height: "480px",  // this is the height for the content-slider
+			duration: 400,  // time in miliseconds to transition one slide
+			prev: ".slidprev", // must be class, use . sign
+			next: ".slidnext", // must be class, use . sign
+			auto: true
+		});
+	});
+  </script>
+  <script>
+	$(function() {
+	  $('#list_product').carouFredSel({
+		prev: '#prev_c1',
+		next: '#next_c1',
+		auto: false
+	  });
+          $('#list_product2').carouFredSel({
+		prev: '#prev_c2',
+		next: '#next_c2',
+		auto: false
+	  });
+	  $('#list_banners').carouFredSel({
+		prev: '#ban_prev',
+		next: '#ban_next',
+		scroll: 1,
+		auto: false
+	  });
+	  $(window).resize();
+	});
+  </script>
+  <script>
+       $(document).ready(function(){
+	      $("button").click(function(){
+		     $(this).addClass('click')
+	      });
+       })
+  </script>
+
+</head>
+<body>
+{#  <div class="container_12">#}
+{#    <iframe width="100%" height="250px" name="top" scrolling="no" frameborder="0" src="top.html"></iframe>#}
+{#  </div>#}
+
+  <div class="clear"></div>
+
+  <section id="main" class="entire_width">
+    <div class="container_12">
+        <div id="content">
+	        <div class="grid_12">
+			    <h1 class="page_title">个人用户首页</h1>
+                <a href="personal/edit_userinfo.html">个人信息完善</a>
+		    </div><!-- .grid_12 -->
+		<div class="grid_6" style="width: 100%;">
+			<!-- .registed -->
+        </div><!-- .grid_6 -->
+       </div><!-- #content -->
+
+      <div class="clear"></div>
+    </div><!-- .container_12 -->
+  </section><!-- #main -->
+
+  <div class="clear"></div>
+
+{#  <div class="container_12">#}
+{#    <iframe width="100%" height="260px" name="footer" scrolling="no" frameborder="0" src="footer.html"></iframe>#}
+{#  </div>#}
+</body>
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+</html>

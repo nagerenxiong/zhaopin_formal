@@ -1,0 +1,431 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_1441872318_8012588.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/module.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/single/new_qygl.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/jquery.knob.min.js"></script>
+<script src="{{ STATIC_URL }}js/xiuxiu.js" type="text/javascript"></script>
+<!-- <script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script> -->
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}appJs/account/new_qygl.js"></script>
+<script>
+//下划线根据active初始化位置
+jQuery(document).ready(function($) {
+    $("dd.word_content").niceScroll();
+    $("#share").hover(function() {
+        $(".bshare-custom").show();
+    }, function() {
+        $(".bshare-custom").hide();
+    });
+    //    $(".chebian").hover(function() {
+    //      $(".showche").animate({ width: 'show', opacity: 'show' }, 'slow');
+    //      $(".chebian").hide();
+    //   // }, function() {
+    //   // 	 setTimeout('$(".showche").hide("slow")',10000);
+    // });
+    $(".chebian").mouseover(function(event) {
+        $(".showche").animate({
+            width: 'show',
+            opacity: 'show'
+        }, 'slow');
+        $(".chebian").hide();
+    });
+    $(".showche").mouseleave(function(event) {
+        $('.showche').hide();
+        $(".chebian").show();
+    });
+    $('.qclose').click(function(event) {
+        $('.showche').hide();
+        $(".chebian").show();
+        // $(".chebian").animate({ width: 'show', opacity: 'show' }, 'slow');
+    });
+
+});
+</script>
+<style type="text/css">
+.page_number li {
+    padding: 0 10px!important;
+    height: auto!important;
+}
+
+.icon-fenxiang2:hover {
+    color: #5C91D9!important;
+}
+
+.chebian {
+    position: absolute;
+    top: 87px;
+    right: -2px;
+}
+
+.chebian img {
+    width: 54px;
+    height: 97px;
+    display: block;
+}
+
+.showche {
+    width: 141px;
+    height: 409px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    display: none;
+    z-index: 999;
+    background: url(/static/images/new_images/showxiala.jpg) no-repeat;
+}
+
+.ewm {
+    width: 117px;
+    margin-left: 10px;
+    height: 117px;
+    margin-top: 258px;
+    border: 2px solid #de3d1d;
+}
+
+.cmwz {
+    color: #030303;
+    font-size: 11px;
+    text-align: center;
+    margin-top: 6px;
+}
+</style>
+{# {% include 'jobs/system/menu_account.html' %}#}
+<input type="hidden" id="inviteURL" value="{{ pc.activeUrl }}">
+<div class="clear">99</div>
+<div class="o_page" style="position:relative;!important">
+    {% if pc.sMyJoinedCompany != 1 %}
+    <div class="chebian"><img src="/static/images/new_images/erwma.png"></div>
+    <div class="showche">
+        <div class="ewm" id="qrcode">
+            {# 二维码 #}
+        </div>
+        <div class="cmwz">扫描生成企业动态场景</div>
+    </div>
+    {% endif %}
+    <!-- 主体头部 start -->
+    <div class="qygl_top">
+        <div class="preview clearfix operate_info">
+            <div class="head_portrait f_l">
+                <img id="omg1" class="tx" src="{{ file_website }}{{ pc.pc_logo | default:'null'}}" alt="" onerror="notfind(this)"> {% if request.session.account_type == "" %}
+                <div class="status">
+                    <span>企业信息完整度<b>{{ pc.integrity|default:0 }}%</b></span>
+                </div>
+                {% endif %}
+            </div>
+            <div class="f_l company_intro">
+                <h1>
+				<span class="c_name nowrap" id="btit">{{ pc.pc_name | default:'' }}&nbsp;</span>
+{#                <i class="iconfont icon-lianjie"></i>#}
+                <a href="javascript:void(0);" id="companyUrl" {% if pc.pc_url %}title="{{ pc.pc_url }}"{% else %}style="display: none;"{% endif %}><img src="{{ STATIC_URL }}images/sl.png">&nbsp;</a>
+{#                迅雷科技#}
+				<span class="rz">
+                    {% if audit_result == 3 %}
+                        V&nbsp;已认证
+                    {% else %}
+                        &nbsp;未认证
+                    {% endif %}
+                </span>
+				<span class="star">
+                   {% for index in pc.range %}
+                        {% if index < pc.tpcTotalEvaluations %}
+                            <i class="active"></i>
+                        {% else %}
+                            <i></i>
+                        {% endif %}
+                   {% endfor %}
+                </span>
+			</h1>
+                <h2>
+                {% if pc.short_introduce %}
+                    <dd>{{ pc.short_introduce | safe }}</dd>
+                {% endif %}
+{#      大型上市垂直互联网公司，专注通过互联网服务，提升中国人的消费品质#}
+            </h2>
+            </div>
+            {% if pu.companyId %} {% if pu.companyId == 1 %}
+            <div class="agent_exit exitCompanyDiv" style="cursor: pointer;" data-toggle="modal" data-target="#is_okModal">申请退出</div>
+            {% elif pu.companyId == 2 %}
+            <div class="agent_exit">退出企业审核中</div>
+            {% endif %} {% endif %}
+            <div class="f_r fenx" id="share" style="margin-top: 120px;text-align: right">
+                <div class="fenxiang bshare-custom">
+                    <div class="word">分享到</div>
+                    <a title="分享到QQ空间" class="bshare-qzone" href="javascript:void(0);" style="background-image:url(/static/images/qqkj.png)">QQ空间</a>
+                    <a title="分享到新浪微博" class="bshare-sinaminiblog" href="javascript:void(0);" style="background-image:url(/static/images/xinlang.png)">新浪微博</a>
+                    <a title="分享到微信" href="javascript:void(0);" style="background-image:url(/static/images/weixin.png)" id="weixinBtn">微信</a>
+                    <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script>
+                    <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+                </div>
+                <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script>
+                <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+            </div>
+        </div>
+    </div>
+    <!-- 主体头部 end -->
+    <!-- 主体内容 start -->
+    <div class="qygl_main clearfix">
+        <ul class="content_select clearfix">
+            <li class="active" style="text-align: center">公司主页</li>
+            <li>招聘职位<span>{{ positionCount|default:0 }}</span></li>
+            <li class="slide"></li>
+        </ul>
+        <!-- 左侧内容 start -->
+        <div class="left">
+            <div class="qyzy">
+                <dl>
+                    <dt id="gsjs">公司介绍</dt>
+                    <div class="preview">
+                        <dd class="word_content">
+                            {% if pc.introduce %} {{ pc.introduce | safe }} {% else %}
+                            <p style="text-align: center;color:#888;line-height: 100px;height:100px;margin: 0px">该公司尚未添加公司介绍~</p>
+                            {% endif %}
+                        </dd>
+                        {% if imageList %}
+                        <dd class="pic clearfix">
+                            <ul id="viewImages">
+                                {% for img in imageList %}
+                                <li><img src="{{ file_website }}{{ img }}" alt="" onerror="notfind(this)"></li>
+                                {% endfor %}
+                            </ul>
+                            <ol class="zy">
+                                <li>
+                                    <i class="iconfont icon-zuojiantou f_l"></i>
+                                </li>
+                                <li>
+                                    <i class="iconfont icon-youjiantou f_r"></i>
+                                </li>
+                            </ol>
+                        </dd>
+                        {% else %} {% endif %}
+                    </div>
+                </dl>
+                <dl class="company_product clearfix">
+                    <dt id="gscp">公司产品</dt>
+                    <div class="preview" id="productDiv">
+                        {% if productList %} {% for product in productList %}
+                        <dd>
+                            <input type="hidden" value="{{ product.id }}" />
+                            <img src="{{ file_website }}{{ product.photo|default:'' }}" alt="" onerror="notfind(this)">
+                            <h1>{{ product.product_name|default:'' }}</h1>
+                            <p>{{ product.introduce|default:''}}</p>
+                        </dd>
+                        {% endfor %} {% else %}
+                        <p style="text-align: center;color:#888;line-height: 100px;height:100px;margin: 0px;margin-left: -15px">该公司尚未添加公司产品~</p>
+                        {% endif %}
+                    </div>
+                </dl>
+                <dl class="company_area">
+                    <dt id="gswz">公司位置</dt>
+                    <dd>
+                        {% if pc.address %}
+                        <div id="allmap"></div>
+                        <p class="preview"><span>{{ pc.address|default:'' }}</span>
+                        </p>
+                        {% else %}
+                        <p style="font-size: 14px;letter-spacing: 1px;text-align: center;color:#888;line-height: 100px;height:100px;margin: 0px">该公司尚未添加公司位置~</p>
+                        {% endif %}
+                    </dd>
+                </dl>
+            </div>
+            <div class="zqzw">
+                <div class="fbdzw">
+                    <ul class="sstj clearfix positionType">
+                        <h2>职位：</h2>
+                        <li class="active">全部</li>
+                     <!--    {# {% if positionTypes %}#} {# {% for positionType in positionTypes %}#} {#
+                        <li>{{ positionType }}</li>#} {# {% endfor %}#} {# {% endif %}#} -->
+                    </ul>
+                    <div class="fbzwjg">
+                        <ul id="positionsPaginBody">
+                            <li>
+                            </li>
+                        </ul>
+                        <div id="positionPaginInfo"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 左侧内容 end -->
+        <!-- 右侧内容 start -->
+        <div class="right">
+            <div class="company_info">
+                <h1>公司基本信息</h1>
+                <p style="background: url('{{ STATIC_URL }}images/qyzy_side.png') no-repeat left 2px;">LV&nbsp;&nbsp;{{ pc.pc_level|default:0 }}</p>
+                <p style="background: url('{{ STATIC_URL }}images/qyzy_side.png') no-repeat left -37px;" class="preview">{{ pc.locationname|default:'' }}</p>
+                <p style="background: url('{{ STATIC_URL }}images/qyzy_side.png') no-repeat left -79px;" class="preview">{{ pc.scalename|default:'' }}</p>
+                <p style="background: url('{{ STATIC_URL }}images/qyzy_side.png') no-repeat left -119px;" class="preview">{{ pc.naturename|default:'' }}</p>
+                <p style="background: url('{{ STATIC_URL }}images/qyzy_side.png') no-repeat left -162px;" class="preview">{{ pc.businessname|default:'' }}</p>
+            </div>
+            <div class="highlights">
+                <h1>企业亮点</h1>
+                <ul class="clearfix preview">
+                    {% if labelList %} {% for label in labelList %} {% if label != '' %}
+                    <li title="{{ label }}">{{ label }}</li>
+                    {% endif %} {% endfor %} {% endif %}
+                </ul>
+            </div>
+            <dl class="b jl_upload">
+                <dd>
+                    <div class="qyylti1 active">
+                        <a href="#gsjs">
+                        	公司介绍
+                        	<i class="iconfont icon-ditu"></i>
+                        </a>
+                    </div>
+                    <div class="qyylti2">
+                        <a href="#gscp">
+	                        公司产品
+	                        <i class="iconfont icon-ditu"></i>
+	                    </a>
+                    </div>
+                    <div class="qyylti3">
+                        <a href="#gswz">
+	                        公司位置
+	                        <i class="iconfont icon-ditu"></i>
+	                    </a>
+                    </div>
+                </dd>
+            </dl>
+            <script>
+            $(".tieshang").click(function(event) {
+                $(this).siblings('ul').append("<li>" + $(this).siblings('input').val() + "<i class='iconfont icon-cha'></i></li>")
+            });
+            </script>
+        </div>
+        <!-- 右侧内容 end -->
+    </div>
+    <!-- 主体内容 end -->
+</div>
+<div id="clx" style="display: none">
+    <div id="photoBox">
+    </div>
+</div>
+<input type="hidden" id="pc_id" value="{{ pc.id }}" />
+<input type="hidden" id="business" value="{{ pc.business }}" />
+<input type="hidden" id="businessname" value="{{ pc.businessname }}" />
+<input type="hidden" id="pc_images" value="{{ pc.pc_images }}" />
+<input type="hidden" id="urlPath" value="{{ pc.pc_url|default:'' }}" />
+<input type="hidden" id="operateId" />
+<input type="hidden" id="account_type" value="{{ request.session.account_type }}" />
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=dG44joucgDmPp7aWmNd9F4WU"></script>
+<script src="{{ STATIC_URL }}js/lib/ind/layer/layer.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {	              
+        var btit= $.trim($('#btit').text());
+        if(btit == "江西林垦科技有限公司" || btit == "博能集团" || btit == "江西优联投资发展有限责任公司" || btit == "星火众创空间运营管理有限公司" || btit == "江西互联智园商业运营管理集团公司"){
+            $('.content_select li').eq(0).text($('.content_select li').eq(0).text().substring(2, 4)).css('width', '64px');
+            $('.company_info h1').text($('.company_info h1').text().substring(2, 8));
+            $('.highlights h1').text($('.highlights h1').text().substring(2, 8));
+            $('#gsjs').text($('#gsjs').text().substring(2, 4));
+            $('#gscp').text($('#gscp').text().substring(2, 4));
+            $('#gswz').text($('#gswz').text().substring(2, 4));
+            var html='';
+            html +='<dd><div class="qyylti1 active"><a href="#gsjs">介绍<i class="iconfont icon-ditu"></i>';
+            html +='</a></div><div class="qyylti2"><a href="#gscp">产品<i class="iconfont icon-ditu"></i>';
+	        html +='</a></div><div class="qyylti3"><a href="#gswz">位置<i class="iconfont icon-ditu"></i></a></div></dd>';
+            $('.jl_upload').html(html); 
+        }
+        $("#weixinBtn").click(function(event) {
+            layer_index = layer.open({
+                type: 1,
+                area: ['280px', '260px'],
+                title: '怀才当遇二维码<em class="c_abs"></em>',
+                skin: 'o_layer o_ewm',
+                shadeClose: true, //点击遮罩关闭
+                content: "<img src='/static/images/index_.jpg' width='175px' height='175px'/>"
+            });
+        });
+        $(".positionType li").click(function() {
+            var positionType = $(this).text();
+            if (positionType == "全部") {
+                positionType = "";
+            }
+            // 发布的职位分页
+            var company_id = $('#pc_id').val();
+            if (company_id != '') {
+                var sql = 'company_id=' + company_id + ' and  position_status=1 and Postaion_TypeName like"%' + positionType + '%"  order by add_date desc';
+                if ($('#account_type').val() == '1') {
+                    sql = 'rewards_money=0 and company_id=' + company_id + ' and  position_status=1 and Postaion_TypeName like"%' + positionType + '%"  order by add_date desc';
+                }
+                loadData = new pagin("positionPaginInfo", "V_Position_Search", "", encodeURI(sql), "", 10, "positionPagin", "loadData");
+            }
+        })
+    })
+    // 百度地图API功能
+var map = new BMap.Map("allmap");
+var local = new BMap.LocalSearch(map, {
+    pageCapacity: 1,
+    renderOptions: {
+        map: map
+    }
+});
+local.search($("#allmap").siblings('p.preview').children('span').eq(0).text().substr(3));
+
+
+function zczt(){
+
+}
+
+// function getUrlParam(name) {
+//     //构造一个含有目标参数的正则表达式对象  
+//     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+//     //匹配目标参数  
+//     var r = window.location.search.substr(1).match(reg);
+//     //返回参数值  
+//     if (r != null) return unescape(r[2]);
+//     return null;
+// }
+
+// 退出企业申请
+function exit_company() {
+    $.ajax({
+        type: "POST",
+        url: "/ajax_quitJoinCompany",
+        dataType: "json",
+        success: function(data) {
+            if (data == '1') {
+                window.alert("您的申请已接受，请耐心等待管理员的审核！");
+                $('.exitCompanyDiv').text("退出企业审核中")
+            } else {
+                window.alert('申请失败');
+            }
+        }
+    })
+}
+if (window.location.href.indexOf("showPosition=true") > 0) {
+    $(".content_select li")[1].click();
+}
+</script>
+<script type="text/javascript" src="http://www.luqidong.com/demo/qrcode/js/qrcode.js"></script>
+<script type="text/javascript">
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+    width: 116, //设置宽高
+    height: 116
+});
+qrcode.makeCode(document.getElementById("inviteURL").value);
+</script>
+{% include 'jobs/system/new_footer.html' %}
+<div style="display: none;" class="modal fade" id="is_okModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:300px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">信息</h4>
+            </div>
+            <div class="modal-body t_c" style="line-height: 30px">您确定要退出该企业吗？
+                <div></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="exit_company()">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

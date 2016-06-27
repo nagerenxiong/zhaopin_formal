@@ -1,0 +1,702 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_company.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/new_mobile/css/swiper.css">
+<link rel="stylesheet" href="/static/new_mobile/css/zsc_common.css">
+<link rel="stylesheet" href="/static/new_mobile/css/zsh_common.css">
+<style type="text/css">
+    input[type='text']{line-height: 60px;}
+    .textareaBox{width:92%;margin:0 auto;}
+    .textareaBox:focus{box-shadow: 0px 0px 1px 1px #89b7d9;}
+    .formEleBox{line-height:60px;}
+</style>
+<script src="/static/new_mobile/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script src="/static/new_mobile/js/swipe.js" type="text/javascript"></script>
+<script src="/static/new_mobile/js/formValidate.js" type="text/javascript"></script>
+<script src="/static/new_mobile/js/zsc_commone.js" type="text/javascript"></script>
+<script type="text/javascript">
+        $(document).ready(function () {
+            isCouldPublicPosition();
+            $('.zsp_create_pc_link_clear').click(function(){
+                $('.zsp_create_job_pc_link').hide();
+            });
+            // 创建简历弹出框
+            function showFloatBox() {
+                $("body").prepend("<div class=\"menu_bg_layer\"></div>");
+                $(".menu_bg_layer").height($(document).height());
+                $(".menu_bg_layer").css({ width: $(document).width(), position: "absolute",left:"0", top:"0","z-index":"2","background-color":"#000000"});
+                $(".menu_bg_layer").css("opacity",0.3);
+            }
+
+            // 职位性质点击
+            $("#nature_menu").click(function () {
+                  showFloatBox();
+                $("#menuNature").css({top: ($(window).height() - $('#menuNature').outerHeight()) / 2 + $(document).scrollTop()});
+                $("#menuNature").show();
+                $("#menuNature li").click(function () {
+                    $("#nature").val($(this).attr("id"));
+                    $("#nature_cn").val($(this).attr("title"));
+                    $("#nature_text").val($(this).attr("title")).trigger('blur');
+                    $("#menuNature").hide();
+                      $(".menu_bg_layer").remove();
+                });
+            });
+
+            // 期望职位点击
+            $("#jobs_menu").click(function () {
+                positionShow();
+            });
+
+            // 工作经验点击
+            $("#experience_menu").click(function () {
+                  showFloatBox();
+                $("#menuExperience").css({top: ($(window).height() - $('#menuExperience').outerHeight()) / 2 + $(document).scrollTop()});
+                $("#menuExperience").show();
+                $("#menuExperience li").click(function () {
+                    $("#experience").val($(this).attr("id"));
+                    $("#experience_cn").val($(this).attr("title"));
+                    $("#experience_text").val($(this).attr("title")).trigger('blur');
+                    $("#menuExperience").hide();
+                      $(".menu_bg_layer").remove();
+                });
+            });
+
+            // 月薪点击
+            $(".month_money").click(function () {
+                $(this).blur();
+                  showFloatBox();
+                $("#menuWage").css({top: ($(window).height() - $('#menuWage').outerHeight()) / 2 + $(document).scrollTop()});
+                $("#menuWage").show();
+            });
+
+            $("#menuWage li").click(function () {
+                $(":input[name=wage_cn]").val($(this).attr("id"));
+                $(".month_money").val($(this).attr("title")).trigger('blur');
+                $("#menuWage").hide();
+                  $(".menu_bg_layer").remove();
+            });
+
+            // 学历点击
+            $("#education_menu").click(function () {
+                  showFloatBox();
+                $("#menuEducation").css({top: ($(window).height() - $('#menuEducation').outerHeight()) / 2 + $(document).scrollTop()});
+                $("#menuEducation").show();
+                $("#menuEducation li").click(function () {
+                    $("#education").val($(this).attr("id"));
+                    $("#education_cn").val($(this).attr("title"));
+                    $("#education_text").val($(this).attr("title")).trigger('blur');
+                    $("#menuEducation").hide();
+                      $(".menu_bg_layer").remove();
+                });
+            });
+
+            // 性别点击
+            $("#sex_menu").click(function () {
+                  showFloatBox();
+                $("#menuSex").css({top: ($(window).height() - $('#menuSex').outerHeight()) / 2 + $(document).scrollTop()});
+                $("#menuSex").show();
+                $("#menuSex li").click(function () {
+                    $("#sex").val($(this).attr("id"));
+                    $("#sex_cn").val($(this).attr("title"));
+                    $("#sex_text").val($(this).attr("title")).trigger('blur');
+                    $("#menuSex").hide();
+                      $(".menu_bg_layer").remove();
+                });
+            });
+
+            // 工作地区点击
+            $("#district_menu").click(function () {
+                  showFloatBox();
+                $("#menuDistrict").css({top: ($(window).height() - $('#menuDistrict').outerHeight()) / 2 + $(document).scrollTop()});
+                  $("#menuDistrict").show();
+            });
+
+            // 关闭弹出框
+            $(".choose_close").click(function (event) {
+                $(this).parent().hide();
+                $(".menu_bg_layer").remove();
+            });
+
+            $('#onePage').bind("swipeleft", function () {
+                $.mobile.changePage('second.html', {transition: "slide"});
+            });
+            
+            
+            $('.month_money').keyup(function() {
+                var othis = $(this);
+                var wage_cn = '';
+                var nThisVal=othis.val();
+                if(nThisVal.length>3){
+                    othis.val(nThisVal.substring(0,3));
+                }
+                othis.parent().parent().find('.month_money').each(function(index, el) {
+                    wage_cn += $(this).val() + 'k-';
+                });
+                wage_cn = wage_cn.substring(0, wage_cn.length - 1);
+                $("input[name='wage_cn']").val(wage_cn);
+            })
+        });
+    </script>
+</head>
+<body>
+<!-- 创建职位页面 -->
+<form action="/mobile/company/release_position" method="post" id="form6">
+    <input type="hidden" name="is_to_validate" class="is_to_validate" value="0" />
+    <input type="hidden" name="position_status" class="position_status" value="1">
+    <div class="swiper-container swiper-no-swiping swiper-container-horizontal">
+        <div class="swiper-wrapper swiper-slide-jobinfo">
+            <div class="swiper-slide swiper-slide-active" style="width: 375px; margin-right: 30px;">
+                <div class="comTop">
+                    <div class="pointBox stepOne" style="background:none">
+                        <div class="circlePoint midP">
+                            <span>1</span>
+                        </div>
+{#                        <div class="circlePoint sideRightP">#}
+{#                            <span>2</span>#}
+{#                        </div>#}
+                    </div>
+                    <h2>基本信息</h2>
+
+                    <h3>Step 1/5</h3>
+                </div>
+
+                <div class="comMid">
+                    <div class="formEleBox errorBox">
+                        <label>职位名称</label>
+
+                        <div class="rightBox">
+                            <input class="formcheck required" placeholder="请输入职位名称，如：销售经理" type="text" name="jobs_name" style="line-height: 60px">
+                            <input name="position_value" value="" type="hidden"></div>
+                    </div>
+                    <!-- <div class="formEleBox errorBox">
+                        <label>招聘人数</label>
+
+                        <div class="rightBox">
+                            <input class="formcheck required" maxlength="2" placeholder="请输入招聘人数，最多不超过20人" name="jobs_count" style="line-height: 60px;background-color: #fff;" type="text" onKeyUp="key_number(this)" onKeyDown="key_number(this)">
+                            <input name="position_count" value="" type="hidden"></div>
+                    </div> -->
+                    <div class="formEleBox errorBox">
+                        <label>职位类别</label>
+
+                        <div class="rightBox" id="jobs_menu">
+                            <input type="text" class="create_input formcheck required input_disabled" id="jobs_text" readonly>
+                            <img src="/static/new_mobile/images/sortDown.png" alt="">
+                            <input type="hidden" name="postaion_type" class="postaion_type">
+                        </div>
+
+                    </div>
+
+                    <div class="formEleBox errorBox salary_requier">
+                        <label>职位年薪</label>
+
+                        <div class="rightBox">
+                            <input type="text" class="formcheck month_money min_salary"   style="float:right;width: 48%;box-sizing: border-box;">
+                            <!-- <span style="font-size: 14px;">
+                                K
+                                <span style="font-size: 12px;">(千元)</span>
+                            </span> -->
+                            <input name="wage_cn" type="hidden" value=""></div>
+
+                    </div>
+                </div>
+
+                <div class="formCheckBtn bottom btnUnable">下一步</div>
+                <div class="formCheckBtn bottom btnAble next-btn" style="display: none;">下一步</div>
+            </div>
+            <div class="swiper-slide swiper-slide-next" style="width: 375px; margin-right: 30px;">
+                <div class="comTop">
+                    <div class="pointBox overBox" style="background: none;">
+                        <div class="circlePoint sideLeftP prev-btn swiper-button-disabled"> <i class="fa fa-chevron-left"></i>
+                        </div>
+                        <div class="circlePoint midP">
+                            <span>2</span>
+                        </div>
+{#                        <div class="circlePoint sideRightP">#}
+{#                            <span>3</span>#}
+{#                        </div>#}
+                    </div>
+                    <h2>职位要求</h2>
+
+                    <h3>Step 2/5</h3>
+                </div>
+
+                <div class="comMid">
+                    <div class="formEleBox">
+                        <label>工作年限</label>
+
+                        <div class="rightBox overBox errorBox">
+                            <div id="experience_menu">
+                                <input type="text" class="create_input formcheck required input_disabled" id="experience_text" readonly>
+                                <img src="/static/new_mobile/images/sortDown.png" alt="">
+                                <input name="experience" type="hidden" id="experience" value="">
+                                <input name="experience_cn" type="hidden" id="experience_cn" value=""></div>
+                            <!--<div class="check_box yearCheck">
+                            <label>
+                                <input type="checkbox" class="yearCheckInput" name="graduate"/>
+                                应届毕业生
+                            </label>
+                        </div>
+                        -->
+                    </div>
+
+                </div>
+                <div class="formEleBox errorBox">
+                    <label>学历要求</label>
+
+                    <div class="rightBox" id="education_menu">
+                        <input type="text" class="create_input formcheck required input_disabled" id="education_text" readonly>
+                        <img src="/static/new_mobile/images/sortDown.png" alt="">
+                        <input name="education" type="hidden" id="education" value="">
+                        <input name="education_cn" type="hidden" id="education_cn" value=""></div>
+
+                </div>
+                <div class="formEleBox errorBox">
+                    <label>工作性质</label>
+
+                    <div class="rightBox" id="nature_menu">
+                        <input type="text" class="create_input formcheck required input_disabled" id="nature_text" readonly>
+                        <img src="/static/new_mobile/images/sortDown.png" alt="">
+                        <input name="nature" id="nature" type="hidden" value="">
+                        <input name="nature_cn" id="nature_cn" type="hidden" value=""></div>
+                </div>
+            </div>
+
+            <div class="formCheckBtn bottom btnUnable">下一步</div>
+            <div class="formCheckBtn bottom btnAble next-btn" style="display: none;">下一步</div>
+        </div>
+        <div class="swiper-slide" style="width: 375px; margin-right: 30px;">
+            <div class="comTop">
+                <div class="pointBox overBox" style="background:none">
+                    <div class="circlePoint sideLeftP prev-btn swiper-button-disabled"> <i class="fa fa-chevron-left"></i>
+                    </div>
+                    <div class="circlePoint midP">
+                        <span>3</span>
+                    </div>
+{#                    <div class="circlePoint sideRightP">#}
+{#                        <span>4</span>#}
+{#                    </div>#}
+                </div>
+                <h2>岗位职责</h2>
+
+                <h3>Step 3/5</h3>
+            </div>
+
+            <div class="comMid">
+                <div class="textareaBox errorBox">
+                    <label>岗位职责</label>
+
+                    <div class="infoBox">
+                        <textarea placeholder="请填写岗位职责" maxlength="1000" class="formcheck required numberCount" name="position_describe"></textarea>
+                        <input type="hidden" name="position_describe_val">
+                    </div>
+                    <div class="numTip">
+                        <span>0</span>
+                        <span>/</span>
+                        <span>1000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="formCheckBtn bottom btnUnable">下一步</div>
+            <div class="formCheckBtn bottom btnAble next-btn" style="display: none;">下一步</div>
+        </div>
+        <div class="swiper-slide" style="width: 375px; margin-right: 30px;">
+            <div class="comTop">
+                <div class="pointBox overBox" style="background:none">
+                    <div class="circlePoint sideLeftP prev-btn swiper-button-disabled"> <i class="fa fa-chevron-left"></i>
+                    </div>
+                    <div class="circlePoint midP">
+                        <span>4</span>
+                    </div>
+{#                    <div class="circlePoint sideRightP">#}
+{#                        <span>4</span>#}
+{#                    </div>#}
+                </div>
+                <h2>职位要求</h2>
+
+                <h3>Step 4/5</h3>
+            </div>
+
+            <div class="comMid">
+                <div class="textareaBox errorBox">
+                    <label>职位要求</label>
+
+                    <div class="infoBox">
+                        <textarea placeholder="请填写职位要求" maxlength="1000" class="formcheck required numberCount" name="contents"></textarea>
+                        <input type="hidden" name="contents_val">
+                    </div>
+                    <div class="numTip">
+                        <span>0</span>
+                        <span>/</span>
+                        <span>1000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="formCheckBtn bottom btnUnable">下一步</div>
+            <div class="formCheckBtn bottom btnAble next-btn" style="display: none;">下一步</div>
+        </div>
+        <div class="swiper-slide" style="width: 375px; margin-right: 30px;">
+            <div class="comTop">
+                <div class="pointBox stepFour" style="background:none">
+                    <div class="circlePoint sideLeftP prev-btn swiper-button-disabled">
+                        <i class="fa fa-chevron-left"></i>
+                    </div>
+                    <div class="circlePoint midP">
+                        <span>5</span>
+                    </div>
+                </div>
+                <h2>职位联系人</h2>
+
+                <h3>Step 5/5</h3>
+            </div>
+
+            <div class="comMid">
+                <div class="formEleBox">
+                    <label>姓名</label>
+
+                    <div class="rightBox">
+                        <input class="formcheck required" placeholder="请输入姓名" type="text" name="contact" value="{{ contact_user_name | default:'' }}"></div>
+                </div>
+                <div class="formEleBox errorBox">
+                    <label>任职岗位</label>
+
+                    <div class="rightBox">
+                        <input class="formcheck required" placeholder="请输入任职岗位" type="text" name="position" value=""></div>
+                </div>
+                <div class="formEleBox">
+                    <label>手机号</label>
+
+                    <div class="rightBox">
+                        <input class="formcheck telCheck" placeholder="请输入手机号" type="text" name="telephone" value="{{ contact_phone | default:'' }}"></div>
+                </div>
+                <div class="formEleBox errorBox">
+                    <label>邮箱</label>
+
+                    <div class="rightBox">
+                        <input class="formcheck emailCheck" placeholder="请输入联系邮箱" type="text" name="email" value="{{ contact_email | default:'' }}"></div>
+                </div>
+            </div>
+            <input name="ticketmoney" type="hidden" value="">
+            <input name="yiyouquan" type="hidden" value="">
+            <input name="ticketid" type="hidden" value="">
+            <input name="xuanshang" type="hidden" value="">
+            <input class="formCheckBtn bottom btnUnable" type="button" value="发布" style="display: inline-block;">
+            <div class="formCheckBtn bottom btnAble subminDisable" onClick="is_publish_position()" style="display: none;">发布</div>
+{#            <input class="formCheckBtn bottom btnUnable" type="button" value="发布" style="display: inline-block;">#}
+{#            <input class="formCheckBtn bottom btnAble subminDisable" type="button" value="发布" style="display: none;">#}
+            <a href="javascript:;" class="savedraft" id="jobs_draft" onClick="save_to_position_draft()">保存草稿</a>
+            <!--<div class="create_job_but" id="create_job_but">发布</div>
+        -->
+        <!--    <div class="formCheckBtn bottom btnAble" id="create_job_but_no" style="display: none;">发布中...</div>
+    -->
+</div>
+</div>
+
+
+<!-- 发布认证弹出框-->
+<div class="confirm_dh1">
+        <div class="ztcont1">
+            <span>发布失败</span>
+            <p style="padding-top:9px">您尚未完成企业身份认证，暂时只能发布1次职位,<br/>请先完成认证再发布职位</p>
+            <div class="btn_save1"><a href="javascript:void(0)" onClick="approve()" class="ensure_ex1">去认证</a><a href="javascript:void(0);" class="ex_close1" onClick="mmedclose()">取消</a></div>
+        </div>
+   </div>
+   <div class="modal_wrap"></div>
+
+<input type="hidden" class="create_input" name="days" value="11">
+<input type="hidden" class="create_input" name="amount" value="11">
+<input name="sex" type="hidden" id="sex" value="1">
+<input name="sex_cn" type="hidden" id="sex_cn" value="男">
+<input type="hidden" id="district" name="district" value="4">
+<input type="hidden" id="sdistrict" name="sdistrict" value="92">
+<input type="hidden" id="district_cn" name="district_cn" value="重庆市/渝中区"></div>
+<input type="hidden" name="add_mode" value=""></form>
+<div class="menu choose_menu" id="menuWage" style="display:none;position:absolute;z-index:3;">
+<div class="menu_title">年薪</div>
+<div class="choose_close"></div>
+<ul>
+{% if salaryList %}
+                        {% for salary in salaryList %}
+<li id="{{ salary.dictionary_value }}" title="{{ salary.dictionary_name }}">{{ salary.dictionary_name }}</li>
+{% endfor %}
+                    {% endif %}
+</ul>
+</div>
+
+<div class="menu choose_menu" id="menuExperience" style="display:none;position:absolute;z-index:3;">
+<div class="menu_title">工作年限</div>
+<div class="choose_close"></div>
+<ul>
+{% if work_year_List %}
+    <li id="" title="不限">不限</li>
+    {% for work_year in work_year_List %}
+        <li id="{{ work_year.dictionary_value }}" title="{{ work_year.dictionary_name }}">{{ work_year.dictionary_name }}</li>
+    {% endfor %}
+{% endif %}
+</ul>
+</div>
+
+<div class="menu choose_menu" id="menuEducation" style="display:none;position:absolute;z-index:3;">
+<div class="menu_title">学历</div>
+<div class="choose_close"></div>
+<ul>
+{% if diplomas %}
+    <li id="" title="不限">不限</li>
+    {% for diploma in diplomas %}
+        <li id="{{ diploma.dictionary_value }}" title="{{ diploma.dictionary_name }}">{{ diploma.dictionary_name }}</li>
+    {% endfor %}
+{% endif %}
+</ul>
+</div>
+
+<div class="menu choose_menu" id="menuNature" style="display:none;position:absolute;z-index:3;">
+<div class="menu_title">职位性质</div>
+<div class="choose_close"></div>
+<ul>
+{% if expect_work_natureList %}
+                        {% for nature in expect_work_natureList %}
+<li id="{{ nature.dictionary_value }}" title="{{ nature.dictionary_name }}">{{ nature.dictionary_name }}</li>
+{% endfor %}
+                    {% endif %}
+</ul>
+</div>
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        nextButton: '.next-btn',
+        prevButton: '.prev-btn',
+        spaceBetween: 30,
+        onTouchStart : function() {
+            //触碰滑块是的事件
+            alert(['OMG you touch the slide!'])
+        }
+    });
+</script>
+<script type="text/javascript">
+    var citystr = '';
+    $.each(QS_city_parent, function (pindex, pval) {
+        if (pval) {
+            var citys = pval.split(",");
+            citystr += '<li class="area_big" rcoid="' + citys[0] + '" pid="' + citys[0] + '" title="' + citys[1] + '" href="javascript:;">' + citys[1] + '</li>';
+        }
+    });
+    $("#area_left").html(citystr);
+    $("#area_left li").unbind().click(function () {
+        var cid = $(this).attr("rcoid");
+        var cid = $(this).attr("pid");
+        var ctitle = $(this).attr("title");
+        var scitystr = "";
+        if (QS_city[cid]) {
+            var ccitysArray = QS_city[cid].split("|");
+            scitystr += '<li class="area_small" rcoid="0" title="' + ctitle + '/不限" pid="' + cid + '.0" href="javascript:;">不限</li>';
+            $.each(ccitysArray, function (cindex, cval) {
+                if (cval) {
+                    var ccitys = cval.split(",");
+                    scitystr += '<li class="area_small" rcoid="' + ccitys[0] + '" title="' + ctitle + '\/' + ccitys[1] + '" pid="' + cid + '.' + ccitys[0] + '">' + ccitys[1] + '</li>';
+                }
+            });
+            $("#area_right").html(scitystr).show();
+            $("#area_right li").click(function () {
+                var districtIds = $(this).attr("pid");
+                var districtIdArray = districtIds.split(".");
+                $("#district").val(districtIdArray[0]);
+                $("#sdistrict").val(districtIdArray[1]);
+                $("#district_cn").val($(this).attr("title"));
+                $("#district_text").val($(this).attr("title")).trigger('blur');
+                $("#menuDistrict").hide();
+                  $(".menu_bg_layer").remove();
+            });
+        } else {
+            $("#district").val($(this).attr('pid'));
+            $("#sdistrict").val("0");
+            $("#district_cn").val(ctitle);
+            $("#district_text").val(ctitle).trigger('blur');
+            $("#menuDistrict").hide();
+              $(".menu_bg_layer").remove();
+        }
+    }); 
+</script>
+
+<script src="/static/new_mobile/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    wx.config({
+        debug: false,
+        appId: 'wx8a9b8a64aa7bb0e1',
+        timestamp: '1449888535',
+        nonceStr: 'I7OWSxhlDdTc4Ebn',
+        signature: 'fed1efd4c2ea3aeb5faa3a9486b9ba78c5d051fa',
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'chooseImage',
+            'previewImage',
+            'uploadImage',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'showMenuItems',
+            'hideMenuItems',
+            'scanQRCode'
+        ]
+    });
+
+    var WxImage = {
+        choose: function () {
+            wx.scanQRCode({
+                needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                success: function (res) {
+                    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+                }
+            });
+        }
+    };
+
+    wx.ready(function () {
+        document.querySelector('#RichScan').onclick = WxImage.choose;
+    });
+
+    // 保存到职位草稿箱
+    function save_to_position_draft() {
+        var contact =$(":input[name=contact]").val();
+        if (contact == '') {
+            alert(['请输入姓名', 4]);
+            return false;
+        }
+        var position =$(":input[name=position]").val();
+        if (position == '') {
+            alert(['请输入任职岗位', 4]);
+            return false;
+        }
+        var telephone =$(":input[name=telephone]").val();
+        if (telephone == '') {
+            alert(['请输入手机号', 4]);
+            return false;
+        }
+        var email =$(":input[name=email]").val();
+        if (email == '') {
+            alert(['请输入联系邮箱', 4]);
+            return false;
+        }
+        var contents =$("textarea[name=contents]").val();
+        contents = contents.replace(/</g,'&lt;');
+        contents = contents.replace(/>/g,'&gt;');
+        contents = contents.replace(/\n/g,'<br>')
+        $("input[name=contents_val]").val(contents);
+        var position_describe = $(":input[name=position_describe]").val();
+        position_describe = position_describe.replace(/</g,'&lt;');
+        position_describe = position_describe.replace(/>/g,'&gt;');
+        position_describe = position_describe.replace(/\n/g,'<br>');
+        $("input[name=position_describe_val]").val(position_describe);
+
+        $(".position_status").val(2);
+        $("#form6").submit();
+    }
+
+    // 是否发布职位
+    function is_publish_position() {
+        $(".position_status").val(1);
+
+        var contents =$("textarea[name=contents]").val();
+        contents = contents.replace(/</g,'&lt;');
+        contents = contents.replace(/>/g,'&gt;');
+        contents = contents.replace(/\n/g,'<br>')
+        $("input[name=contents_val]").val(contents);
+        var position_describe = $(":input[name=position_describe]").val();
+        position_describe = position_describe.replace(/</g,'&lt;');
+        position_describe = position_describe.replace(/>/g,'&gt;');
+        position_describe = position_describe.replace(/\n/g,'<br>')
+        $("input[name=position_describe_val]").val(position_describe);
+        var validStatus = '{{ validStatus | default:0 }}';
+        if(validStatus == '1') {
+            // var flag = confirm('您好！您的企业还未认证，我们已将职位标记为已下线状态，请您电脑登陆 www.hcdyhr.com 认证企业信息后再重新发布职位~', 3);
+            // if(flag == true) {
+            //     $(".is_to_validate").val(1);
+            //     $(".position_status").val(0);
+            //     $("#form6").submit();
+            // }
+            var flag = isCouldPublicPosition();
+            if(flag == false) {
+                $('.modal_wrap').css('display', 'block');
+                $('.confirm_dh1').css('display', 'block');
+                $(".position_status").val(2);
+                return false;
+            }
+
+{#             $(".is_to_validate").val(1);#}
+             $(".position_status").val(1);
+             $("#form6").submit();
+            
+{#            setTimeout(function(){$("#form6").submit();},3000)#}
+        } else if (validStatus == '2') {
+            var flag = isCouldPublicPosition();
+            if(flag == false) {
+                alert(['您好！您的企业信息正在认证中，我们已将此职位保存至草稿箱，请您企业信息认证通过后再重新发布职位吧~', 3]);
+                $(".position_status").val(2);
+            }
+            $("#form6").submit();
+{#            alert(['您好！您的企业信息正在认证中，我们已将此职位保存至草稿箱，请您企业信息认证通过后再重新发布职位吧~', 3]);#}
+{#            $(".position_status").val(2);#}
+{#            setTimeout(function(){$("#form6").submit();},2000);#}
+        }  else {
+            var flag2 = isCouldPublicPosition();
+            if(flag2 == false) {
+                return false;
+            }
+            $("#form6").submit();
+        }
+    }
+
+    function key_number(obj) {
+        if(obj.value.length == 1){
+            obj.value = obj.value.replace(/[^1-9]/g, '');
+        }else if(obj.value.length == 2){
+            if(obj.value.substr(0,1) == 1){
+                obj.value = obj.value.replace(/[^0-9]/g, '');
+            }
+           else{
+                obj.value = 20;
+            }
+        }
+    }
+
+function mmedclose(){
+        $('.modal_wrap').css('display', 'none');
+        $('.confirm_dh1').css('display', 'none');
+}
+function approve(){          
+        alert(["该职位已经保存到草稿箱", 1]);
+        setTimeout(function(){
+            $(".position_status").val(2);
+            $("#form6").submit();
+        },2000);
+}
+
+// 判断是否还可以发布职位
+function isCouldPublicPosition(){
+    var flag = true;
+    if('{{ pos.position_status | default:'' }}' != '1'){
+        $.ajax({
+            async: false,
+            url: "/ajax_isPublicPositionOK",
+            type: "POST",
+            dataType: "json",
+            success: function(data) {
+                if(data == 0) {
+                    alert(["鉴于您当前的等级，无法再发布新职位!",4]);
+                    $(".subminDisable").attr('onclick', 'alert(["鉴于您当前的等级，无法再发布新职位!",4]);');
+                    flag = false;
+                }else if(data == -2){
+                    alert(["您尚未完成企业身份认证，暂时只能发布1次职位",4]);
+                    $(".subminDisable").attr('onclick', 'alert(["您尚未完成企业身份认证，暂时只能发布1次职位",4]);');
+                    flag = false;
+                }
+            }
+        })
+    }
+    return flag;
+}
+
+</script>
+<script src="/static/new_mobile/js/position.js" type="text/javascript"></script>
+<div class="errorTip"></div>
+</body>
+</html>

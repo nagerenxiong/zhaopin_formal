@@ -1,0 +1,415 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style1.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/uploadify.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script src="{{ STATIC_URL }}js/jquery.uploadify.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/downLoad.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/report.js"></script>
+<style>
+.reporcont{
+    width:431px!important;}
+</style>
+<script style="text/javascript">
+function jjrtx(obj,x){
+
+    if(x%2==0){
+        obj.src="/static/images/jjr_tx1.png" ;
+    }else{
+        obj.src="/static/images/jjr_tx.png";
+    }
+}
+    $(function(){
+        if('{{ msg | default:'' }}' != '') {
+            alert('{{ msg }}', 4);
+        }
+{#         是否具有编辑权限#}
+        var flag = "{{ host }}";
+        if(flag == "True"){
+            $(":input[name=editInfo]").show();
+            $("dl[name=commentDl]").hide()
+        }
+        else{
+            $(":input[name=attendedList]").show();
+            $(":input[name=reportList]").show();
+            $(":input[name=commentList]").show();
+            var bought = "{{ bought }}";
+            if(bought == "True")
+                $(":input[name=downloadList]").show();
+            else
+                $(":input[name=buyList]").show()
+        }
+
+        // 购买 list
+        $(":input[name=buyList]").click(function(){
+            var flag = confirm("您确定要花费 {{ vListEvaluation.gold }} 才币购买此List吗？");
+            if(!flag) {
+                return false;
+            }
+            var $this = $(this);
+            $.ajax({
+                type: "POST",
+                url: "/ajax_buyList",
+                data: {"listId": "{{ vListEvaluation.id }}", "gold": "{{ vListEvaluation.gold }}", "ownerPuId": "{{ vListEvaluation.pu_id }}" },
+                dataType: "json",
+                success: function(data) {
+                    if(data.status == '1') {
+                        alert("发生异常",4)
+                    } else if(data.status == '5') {
+                        alert("才币余额不足",4)
+                    }  else if(data.msg == 'success'){
+                        $("dl[name=commentDl]").show();
+                        alert("list购买成功!",1);
+                        $this.hide();
+                        $(":input[name=downloadList]").show();
+                    } else {
+                        alert(data.msg)
+                    }
+                }
+            });
+        })
+        // 收藏 list
+        $(":input[name=attendedList]").click(function(){
+            $.ajax({
+                type: "POST",
+                url: "/ajax_collectList",
+                data: {"listId": "{{ vListEvaluation.id }}"},
+                dataType: "json",
+                success: function(data){
+                   
+                    if(data.msg=="收藏成功!"){
+                        alert(data.msg,1); 
+                    }
+                    else{
+                        alert(data.msg,4); 
+                    }
+                }
+            })
+        })
+
+        // 编辑 list
+        $(":input[name=editInfo]").click(function(){
+            window.location.href = "list?id=" +{{ vListEvaluation.id }};
+        })
+
+{#         显示 平均星数#}
+        var levels = {{ vListEvaluation.evaluation_stars | default:5 }};
+      
+        for(var i = 1; i < 6; i++){
+              if(i <= levels){$("#avg_star").append('<img src="/static/images/hungsexingxing.png">');
+                console.log(i);
+              }
+              else{
+                $("#avg_star").append('<img src="/static/images/huisexingxing.png">');
+            }
+        }
+
+        // 下载List 并插入下载记录
+        $(":input[name=downloadList]").click(function(){
+            window.location.href = '/jobs/account/insertListDownloadHistory?list_id={{ vListEvaluation.id }}';
+{#            $.ajax({#}
+{#                type: "POST",#}
+{#                url: "/jobs/account/insertListDownloadHistory",#}
+{#                data: {'listId': '{{ vListEvaluation.id }}'},#}
+{#                dataType: "json",#}
+{#                async: false,#}
+{#                success: function(data){#}
+{#                    if(data.status == 0){#}
+{#                        var times = parseInt("{{ vListEvaluation.downloadcount }}") + 1;#}
+{#                        $(".downloadTimes").text(times);#}
+{#                    }#}
+{#                }#}
+{#            });#}
+        })
+    });
+
+</script>
+
+<!-- 内容大框 -->
+<div class="lt_content_box">
+    <input type="hidden" id="attachment" value="{{ vListEvaluation.file_path }}">
+	<!-- 猎头会员菜单 -->
+    {% include 'jobs/system/menu_list.html' %}
+	<!-- 猎头会员菜单 -->
+    <div class="clear">n</div>
+    <dib class="clear">n</dib>
+	<div class="ltml_grid_box center clearfix mt25">
+    <ul id="myTab" class="nav nav-tabs ltml_grid_ul" >
+            <li class="active side_li" style="width: auto;">
+                <a href="#ssml" data-toggle="tab" style="color:#c8161d">标题: {{ vListEvaluation.title }}</a>
+            </li>
+        </ul>
+		<!-- <ul  class="nav nav-tabs ltml_grid_ul">
+                    <span>标题: {{ vListEvaluation.title }}</span>
+		</ul> -->
+		<div class="i_l_t">
+            <br>
+			<div>
+				<dl class="f_l">
+					<span class="i_l_t_l f_l">描述：</span>
+				    <span style="width: 260px;display: block;overflow: hidden;">{{ vListEvaluation.description }}</span>
+				</dl>
+				<dl class="f_r" style="width:260px;">
+					<span  class="i_l_t_l f_l">所属行业：</span>
+					<span style="display: block;overflow: hidden;">{{ vListEvaluation.businessname }}</span>
+				</dl>
+			</div>
+			<div>
+				<dl class="f_l">
+					<span class="i_l_t_l f_l">年份：</span>
+					<span>{{ vListEvaluation.compile_year }}</span>
+				</dl>
+				<dl class="f_r" style="width:260px">
+					<span  class="i_l_t_l f_l">人数：</span>
+					<span>{{ vListEvaluation.people_numbername }}</span>
+				</dl>
+			</div>
+			<div>
+				<dl class="f_l">
+					<span class="i_l_t_l f_l">有无座机：</span>
+					<span>{{ vListEvaluation.isphonename }}</span>
+				</dl>
+				<dl class="f_r" style="width:260px">
+					<span  class="i_l_t_l f_l">有无手机：</span>
+					<span>{{ vListEvaluation.ismobilephonename }}</span>
+				</div>
+				<div>
+					<dl class="f_l">
+						<span class="i_l_t_l f_l">有无邮箱：</span>
+						<span>{{ vListEvaluation.isemailname }}</span>
+					</dl>
+					<dl class="f_r" style="width:260px">
+						<span  class="i_l_t_l f_l">地区：</span>
+						<span>{{ vListEvaluation.area }}</span>
+					</div>
+					<div>
+						<dl class="f_l">
+							<span class="i_l_t_l f_l">下载次数：</span>
+							<span class="downloadTimes">{{ vListEvaluation.downloadcount }}</span>
+						</dl>
+						<dl class="f_r" style="width:260px">
+							<span  class="i_l_t_l f_l">上传日期：</span>
+							<span>{{ vListEvaluation.add_date }}</span>
+						</div>
+						<div>
+							<dl class="f_l">
+								<span>资源评价星级：</span>
+								<span id="avg_star">
+								</span>
+							</dl>
+							<dl class="f_r" style="width:260px">
+								<span  class="i_l_t_l f_l">售价：</span>
+								<span><img src="{{ STATIC_URL }}images/111_03.png">&nbsp;&nbsp;{{ vListEvaluation.gold }}</span>
+							</div>
+						</div>
+						<div class="i_l_i_box">
+                            <input type="button" name="editInfo" value="编辑修改"class="input_i2" style="display: none">
+                            <input type="button" name="buyList" value="购买list" class="input_i1" style="display: none">
+                            <input type="button" name="downloadList" value="下载list" class="input_i1" style="display: none">
+                            <input type="button" name="attendedList" value="收藏list" class="input_i1" style="display: none">
+                            <input type="button" name="reportList" value="举报" class="input_i1" style="display: none"  onclick="showreport(1, {{ vListEvaluation.id }})" class="reportBlock">
+                            <a class="evaluate" href="#bottom"><input type="button" name="commentList" value="我要评价" class="input_i1" style="display: none"></a>
+                        </div>
+                        <dl class="zypj_box" {% if not host and not bought %}style="display: none;"{% endif %}>
+							<dt>
+								<span>资源评价</span>
+							</dt>
+							<dd class="mt20">
+								<div class="lthy_pager">
+                                    <div class="tuplb sigenr mt5" id="tableInfo" style="overflow: hidden;
+                                    min-height:80px!important;">
+                                    </div>
+                                    <div class="wenzlb sigenr mt15" style="display:none" id="articleInfo">
+                                    </div>
+                                    <div class="lthy_pager" id="paginInfo">
+                                    </div>
+								</div>
+							</dd>
+						</dl>
+                        {% if host or bought %}
+                            <dl class="zypj_box zypj_p_box" name="commentDl">
+                        {% else %}
+                            <dl class="zypj_box zypj_p_box" name="commentDl" style="display: none">
+                        {% endif %}
+							<dt>
+								<span>资源评价</span>
+							</dt>
+							<dd>
+                                <form method="post" name="form">
+                                    <div class="mt20" id="starLevel">
+                                        <span id="bottom">评价星级：</span>
+                                        <img src="/static/images/hungsexingxing.png" title="很差"  name="1" style="cursor: pointer">
+                                        <img title="较差" src="/static/images/hungsexingxing.png" name="2" style="cursor: pointer">
+                                        <img title="还行" src="/static/images/hungsexingxing.png"  name="3" style="cursor: pointer">
+                                        <img title="不错" src="/static/images/hungsexingxing.png" name="4" style="cursor: pointer">
+                                        <img title="非常好" src="/static/images/hungsexingxing.png" name="5" style="cursor: pointer">
+                                        <input type="hidden" name="star_level" value="5">
+                                        <input type="hidden" name="listid" value="{{ vListEvaluation.id }}">
+                                        <!-- <span class="c_d2">对该资源评分，可获取1金币</span> -->
+                                    </div>
+                                    <!-- <div class="mt10">
+                                        <span>评价内容：</span><span style="color:#999">一个资源可评价一次，评价通过审核后，自动返还您1金币</span>
+                                    </div> -->
+                                    <div class="mt10">
+                                        <textarea name="content" class="pl_box" placeholder="请输入您的评论"></textarea>
+                                    </div>
+                                    <div>
+                                        <input type="submit" value="发布评价" class="pj_btn f_r">
+    									<input type="hidden" name="isanonymity" value="0">
+                                        <span style="float: left;margin-top: 10px;">是否匿名评价</span>
+                                        <div style="float: left;margin-top: 5px;margin-left: 20px;padding-right: 15px;" class="slidebtn">否×<span class="check">√是 <input type="button"></span></div>
+
+                                    </div>
+                                    <input type="hidden" class="evaluation_count" value="{{ evaluation_count | default:0 }}" >
+                                </form>
+							</dd>
+						</dl>
+						<div class="left_top_border"></div>
+					</div>
+				</div>
+				<!-- 内容大框 -->
+				<script type="text/javascript">$('#btn_upload').uploadify({buttonImage:'../{{ STATIC_URL }}images/scl_03.png',buttonClass:'list_upload',width:'84',height:'31'});
+                    var loadData;
+                    var t_id = {{ vListEvaluation.id }};
+                    var sql = 'ListID=' + t_id + " order by add_date desc ";
+                    var file_website = $('#file_website').val();
+                    $(function(){
+{#                         加载评论 和 分页方法#}
+                        loadData = new pagin("paginInfo", "V_COMMENT_USER", "", encodeURI(sql), "", 5, "paginBind", "loadData");
+
+                        $(".pj_btn").click(function(){
+                            var evaluation_count = $(".evaluation_count").val();
+                            if(evaluation_count > 0) {
+                                alert('您已经评论过该 List 哦~', 4);
+                                return false;
+                            }
+                            var content = $("textarea[name=content]").val();
+                            if(content == "请输入您的评论"){
+                                alert("请输入您的评论",2);
+                                return false;
+                            }
+                            var len = $.trim(content).length;
+                            if(len < 10){
+                                alert("评论不能少于10个字符", 4);
+                                return false;
+                            }
+                            var ser = $("form[name=form]").serialize();
+                            var url = "/ajax_insertComment?" + ser;
+                            $.get(url,function(data){
+                                var dat = eval("(" + data + ")")
+                                if(dat.msg == "success"){
+                                    loadData = new pagin("paginInfo", "V_COMMENT_USER", "", encodeURI(sql), "", 5, "paginBind", "loadData");
+                                    $("textarea[name=content]").val("");
+                                    alert("评论发表成功!", 1)
+                                    $(".evaluation_count").val('1');
+                                }
+                                else{
+                                    alert("发生内部错误!",4)
+                                }
+                            });
+                            return false;
+                         })
+                    })
+                    if( '{{host}}'=='False' && '{{bought}}'== 'False' ){
+                        $(".evaluate").attr('href', 'javascript:alert("请先购买list",2)');
+                    }
+                     //动态加载页面绑定数据
+                    function paginBind(dataInfo){
+{#                        //图片列表数据加载 #}
+                        $("#tableInfo").empty();
+                        $("#articleInfo").empty();
+                        $(dataInfo).each(function(i){
+                            
+                             // 处理值为 null 的字段
+                            var len = $(this).length;
+                            var array = $(this);
+                            for(var n = 0; n < len; n ++){
+                                if(array[n] == null){
+                                    array[n] = "&nbsp;"
+                                }
+                            }
+                            if($.trim(array[8])=="")
+                                array[8] = "null";
+                            var sex = array[9].substr(array[9].length-2,1);
+                            if(sex == "")
+                                sex = 1;
+                            //图片列表数据加载
+                            var content = '';
+                            content += '<div style="width: 100%; clear:both;" class="active"><img src="'+ file_website + array[8]+ '" onerror="jjrtx(this,'+sex+')" width="66" height="66" class="f_l">';
+                            if($(this)[4] == 1){
+                                content += '<div class="f_l"><div><span class="f_bold fz16">' + array[7] + '</span>';
+                            }else{
+                                content += '<div class="f_l"><div><span class="f_bold fz16">匿名</span>';
+                            }
+                            for(var i = 1; i <= 5; i ++){
+                                if(i <= array[3])
+                                    content += '<img src="/static/images/hungsexingxing.png">';
+                                else
+                                    content += '<img src="/static/images/huisexingxing.png">';
+                            }
+                            content += '</div><p style="word-break:break-all;width:740px;">' + array[5] + '</p></div><span class="f_r" style="margin-top:15px!important;">' + array[6] + '</span></div>'
+                            $("#tableInfo").append(content);
+                            //文章列表数据加载
+                        })
+                    }
+
+                    // 举报 list
+                    function reportList(){
+                        //举报类型
+                        var report_type = 1;
+                        // 被举报人 Id
+                        var forpuid = "{{ vListEvaluation.pu_id }}";
+                        // 被举报对象 Id
+                        var beReported_objectId = "{{ vListEvaluation.id  }}";
+                        // 备注
+                        var reportContent = $("textarea[name=cause]").val();
+                        if(reportContent == ""){
+                            alert("举报内容不能为空",4);
+                            return false;
+                        }
+                        // 举报原因
+                        var report = $("select[name=report_type]").val();
+                        $.ajax({
+                            url: "/ajax_ltjb",
+                            type: "POST",
+                            data: {"report_type": report_type, "forpuid": forpuid, "report": report,
+                                        "reportContent": reportContent, "forpuid": forpuid, "beReported_objectId": beReported_objectId},
+                            dataType: "json",
+                            success: function(data){
+                                if (data.status == "1"){
+                                    alert("举报成功!",1);
+                                    $("textarea[name=cause]").val("");
+                                } else
+                                    alert("举报失败!",4)
+                            }
+                        })
+                    }
+        ///slidebtn
+        var slidebtn_x= 0;
+        $(".slidebtn").click(function(event) {
+            if(slidebtn_x ==0){
+             $(this).find('span').animate({width:"30px",paddingLeft:"0px"}, 300).removeClass('check');
+            $(":input[name=isanonymity]").val("1");
+             slidebtn_x=1;}
+            else{
+                $(this).find('span').animate({width:"80px",paddingLeft:"15px"}, 300).addClass('check');
+                slidebtn_x=0;
+                $(":input[name=isanonymity]").val("0");
+            }
+        });
+
+        //鼠标滑过星星效果
+        $("#starLevel img").mouseenter(function(event) {
+            var number = $(this).index();
+            $("#starLevel img").attr('src', '{{ STATIC_URL }}images/huisexingxing.png');
+            for (var i = 0; i <number; i++) {
+                 $("#starLevel img").eq(i).attr('src', '{{ STATIC_URL }}images/hungsexingxing.png');
+                 
+            }
+            $(":input[name=star_level]").val(number);
+        });
+    </script>
+    {% include 'jobs/system/new_footer.html' %}

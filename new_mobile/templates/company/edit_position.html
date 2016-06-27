@@ -1,0 +1,432 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_company.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/new_mobile/css/zsh_common.css">
+<style type="text/css">
+  input[type="text"]{
+    height: 60px;
+  }
+  .textareaBox{
+  	    box-shadow: 0px 0px 1px 1px #ddd;-webkit-box-shadow: 0px 0px 1px 1px #ddd;
+  }
+</style>
+<script src="/static/new_mobile/js/formValidate.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function()
+{	// 弹出框
+	  function showFloatBox() {
+	    $("body").prepend("<div class=\"menu_bg_layer\"></div>");
+	    $(".menu_bg_layer").height($(document).height());
+	    $(".menu_bg_layer").css({ width: $(document).width(), position: "absolute",left:"0", top:"0","z-index":"1","background-color":"#000000"});
+	    $(".menu_bg_layer").css("opacity",0.3);
+	  }
+
+		// 职位性质点击
+		$("#nature_menu").click(function(){
+		    showFloatBox();
+		    $("#menuNature").css({ top: ($(window).height() - $('#menuNature').outerHeight())/2 + $(document).scrollTop() });
+		    $("#menuNature").show();
+		    $("#menuNature li").click(function(){
+			    $("#nature").val($(this).attr("id"));
+			    $("#nature_cn").val($(this).attr("title"));
+			    $("#nature_text").val($(this).attr("title")).trigger('blur');
+			    $("#menuNature").hide();
+			    $(".menu_bg_layer").remove();
+		    });
+		});
+
+		// 期望职位点击
+		$("#jobs_menu").click(function(){
+		   positionShow();
+		});
+
+		// 工作经验点击
+	  	$("#experience_menu").click(function(){
+		    showFloatBox();
+		    $("#menuExperience").css({ top: ($(window).height() - $('#menuExperience').outerHeight())/2 + $(document).scrollTop() });
+		    $("#menuExperience").show();
+		    $("#menuExperience li").click(function(){
+			    $("#experience").val($(this).attr("id"));
+			    $("#experience_cn").val($(this).attr("title"));
+			    $("#experience_text").val($(this).attr("title")).trigger('blur');
+			    $("#menuExperience").hide();
+			    $(".menu_bg_layer").remove();
+		    });
+	  	});
+
+	  	// 月薪点击
+	  	$("#wage_text").click(function(){
+		    showFloatBox();
+		    $("#menuWage").css({ top: ($(window).height() - $('#menuWage').outerHeight())/2 + $(document).scrollTop() });
+		    $("#menuWage").show();
+		    $("#menuWage li").click(function(){
+			    $("#wage").val($(this).attr("id"));
+			    $("#wage_cn").val($(this).attr("title"));
+			    $("#wage_text").val($(this).attr("title")).trigger('blur');
+			    $("#menuWage").hide();
+			    $(".menu_bg_layer").remove();
+		    });
+	  	});
+
+	  	// 学历点击
+	  	$("#education_menu").click(function(){
+		    showFloatBox();
+		    $("#menuEducation").css({ top: ($(window).height() - $('#menuEducation').outerHeight())/2 + $(document).scrollTop() });
+		    $("#menuEducation").show();
+		    $("#menuEducation li").click(function(){
+			    $("#education").val($(this).attr("id"));
+			   	$("#education_cn").val($(this).attr("title"));
+			    $("#education_text").val($(this).attr("title")).trigger('blur');
+			    $("#menuEducation").hide();
+			    $(".menu_bg_layer").remove();
+		    });
+	  	});
+	  	    
+	  	// 性别点击
+	  	$("#sex_menu").click(function(){
+		    showFloatBox();
+		    $("#menuSex").css({ top: ($(window).height() - $('#menuSex').outerHeight())/2 + $(document).scrollTop() });
+		    $("#menuSex").show();
+		    $("#menuSex li").click(function(){
+			    $("#sex").val($(this).attr("id"));
+			   	$("#sex_cn").val($(this).attr("title"));
+			    $("#sex_text").val($(this).attr("title")).trigger('blur');
+			    $("#menuSex").hide();
+			    $(".menu_bg_layer").remove();
+		    });
+	  	});
+
+	  	// 工作地区点击
+	  	$("#district_menu").click(function(){ 
+		    showFloatBox();
+		    $("#menuDistrict").css({ top: ($(window).height() - $('#menuDistrict').outerHeight())/2 + $(document).scrollTop() });
+		    $("#menuDistrict").show();
+		});
+
+	  	// 关闭弹出框
+		  $(".choose_close").click(function(event) {
+		    $(this).parent().hide();
+		    $(".menu_bg_layer").remove();
+		  });
+	// ajax 发布职位
+	$("#create_job_but").click(function(){
+
+        var position_id = $(".position_id").val();
+		var jobs_name =$("input[name=jobs_name]").val();
+		var topclass =$("input[name=topclass]").val();
+        var wage =$("input[name=wage]").val();
+        var experience = $(":input[name=experience]").val();
+        var education =$("input[name=education]").val();
+        var nature =$("input[name=nature]").val();
+		var contents =$("textarea[name=contents]").val();
+		contents = contents.replace(/</g,'&lt;');
+		contents = contents.replace(/>/g,'&gt;');
+		contents = contents.replace(/\n/g,'<br>')
+        var contact_user_name = $(":input[name=contact]").val();
+        var contact_current_post = $(":input[name=position]").val();
+        var contact_phone = $(":input[name=telephone]").val();
+        var contact_email = $(":input[name=email]").val();
+
+        var position_describe = $(":input[name=position_describe]").val();
+        position_describe = position_describe.replace(/</g,'&lt;');
+		position_describe = position_describe.replace(/>/g,'&gt;');
+		position_describe = position_describe.replace(/\n/g,'<br>')
+        $.ajax({
+            async: false,
+            type: 'post',
+            data: {'position': jobs_name, 'topclass': topclass, 'wage': wage, 'experience': experience,
+                'education': education, 'nature': nature, 'contents': contents, 'position_id': position_id,
+                'contact_user_name': contact_user_name, 'contact_current_post': contact_current_post,
+                'contact_phone': contact_phone, 'contact_email': contact_email, 'position_describe': position_describe},
+            url: '/mobile/ajax_update_Position',
+            dataType: 'json',
+            success: function (data) {
+                if(data == 'ok') {
+                    alert(["职位更新成功", 1]);
+                    setTimeout(function(){
+                    	window.location.href = '/mobile/company/view_position?position_id=' + position_id;
+                    },2000);
+                    
+                } else {
+                    alert(["职位更新失败"]);
+                }
+            }
+        });
+	});
+	textareaContent();
+ 	$('.month_money').keyup(function() {
+		var othis = $(this);
+		var wage_cn = '';
+		othis.parent().parent().find('.month_money').each(function(index, el) {
+			wage_cn += $(this).val() + 'k-';
+		});
+		wage_cn = wage_cn.substring(0, wage_cn.length - 1);
+		$("input[name='wage_cn']").val(wage_cn);
+	})
+});
+
+
+function textareaContent(){
+	var sVal=$('.textarea_content textarea').val();
+	if(sVal.indexOf('</section>')>0){
+		$('.textarea_content').html('<br/><span style="font-size:14px; color:#9daeb7;">请在PC端编辑此项！</span>');
+	}
+}
+</script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+</script>
+<!--zsp_header -->
+
+<div class="zsp_resume_box">
+
+<div class="zsp_resume_header">
+	<div class="zsp_resume_head" style="border: none;">
+		<h1 style="height:40px; line-height:40px;">编辑职位</h1>
+	</div>
+</div>
+
+<form>
+	<div>
+		<div class="comMid swiper-slide">
+			<input type="hidden" class="position_id" value="{{ position.id }}" >
+			<div class="formEleBox">
+				<label>职位名称</label>
+
+				<div class="rightBox">
+					<input class="formcheck required" placeholder="请输入职位名称，如：销售经理" type="text" name="jobs_name" value="{{ position.position_name | default:'' }}" style="line-height: 60px;"></div>
+			</div>
+			<div class="formEleBox">
+				<label>职位类别</label>
+
+				<div class="rightBox" id="jobs_menu">
+					<input type="text" class="create_input formcheck required input_disabled" id="jobs_text" readonly value="{{ position.postaion_typename | default:'' }}">
+					<img src="/static/new_mobile/images/sortDown.png" alt="">
+					<input name="topclass" id="topclass" type="hidden" value="{{ position.postaion_type | default:'' }}">
+					<input name="category" id="category" type="hidden" value="4">
+					<input name="subclass" id="subclass" type="hidden" value="569">
+					<input name="category_cn" id="category_cn" type="hidden" value="{{ position.postaion_typename | default:'' }}"></div>
+			</div>
+			<!-- <div class="formEleBox">
+				<label>职位月薪</label>
+				<div class="rightBox">
+					<input class="formcheck month_money min_salary" value="111" placeholder="最低月薪" type="number" style="width: 48%;padding-right: 50px;box-sizing: border-box;">
+					<span style="font-size: 14px;position: absolute;right: 50%;top: 0;">
+						K
+						<span style="font-size: 12px;">(千元)</span>
+					</span>
+					<input class="formcheck month_money max_salary" value="111" placeholder="最高月薪" type="number" style="width: 48%;padding-right: 50px;box-sizing: border-box;">
+					<span style="font-size: 14px;position: absolute;right: 0;top: 0;">
+						K
+						<span style="font-size: 12px;">(千元)</span>
+					</span>
+					<input name="wage_cn" type="hidden" value="111k-111k">
+				</div>
+			</div> -->
+			<div class="formEleBox">
+				<label>期望薪资</label>
+
+				<div class="rightBox overBox">
+					<input type="hidden" id="wage" name="wage" value="" >
+					<input type="text" placeholder="请输入期望薪资（K）" id="wage_text" class="required formcheck" name="wage_cn" style="box-sizing: border-box;height: 60px" value="{{ position.payname | default:'' }}">
+					
+					<!-- <span style="font-size: 14px;position: absolute;right: 0;top: 0;">
+						K
+						<span style="font-size: 12px;">(千元)</span>
+					</span> -->
+				</div>
+				<div class="menu choose_menu" id="menuWage" style="display:none;position:absolute;z-index:1;">
+					<div class="menu_title">期望薪资</div>
+					<div class="choose_close"></div>
+					<ul>
+						{% for salary in salary_list %}
+						<li id="{{ salary.dictionary_value }}" title="{{ salary.dictionary_name }}">{{ salary.dictionary_name }}</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+
+			<div class="formEleBox">
+				<label>工作年限</label>
+
+				<div class="rightBox overBox">
+					<div id="experience_menu">
+						<input type="text" class="create_input formcheck required input_disabled" id="experience_text" readonly value="{{ position.work_yearname | default:'' }}">
+						<img src="/static/new_mobile/images/sortDown.png" alt="">
+						<input name="experience" type="hidden" id="experience" value="{{ position.work_year | default:'' }}">
+						<input name="experience_cn" type="hidden" id="experience_cn" value="{{ position.work_yearname | default:'' }}"></div>
+					<!--<div class="check_box yearCheck">
+					<label>
+						<input type="checkbox" class="yearCheckInput" name="graduate"/>
+						应届毕业生
+					</label>
+				</div>
+				-->
+			</div>
+			<div class="menu choose_menu" id="menuExperience" style="display:none;position:absolute;z-index:1;">
+				<div class="menu_title">工作年限</div>
+				<div class="choose_close"></div>
+				<ul>
+					{% if work_year_List %}
+                            {% for work_year in work_year_List %}
+					<li id="{{ work_year.dictionary_value }}" title="{{ work_year.dictionary_name }}">{{ work_year.dictionary_name }}</li>
+					{% endfor %}
+                        {% endif %}
+				</ul>
+			</div>
+		</div>
+		<div class="formEleBox">
+			<label>学历要求</label>
+
+			<div class="rightBox" id="education_menu">
+				<input type="text" class="create_input formcheck required input_disabled" id="education_text" readonly value="{{ position.diplomaname | default:'' }}" >
+				<img src="/static/new_mobile/images/sortDown.png" alt="">
+				<input name="education" type="hidden" id="education" value="{{ position.diploma | default:'' }}">
+				<input name="education_cn" type="hidden" id="education_cn" value="{{ position.diplomaname | default:'' }}"></div>
+			<div class="menu choose_menu" id="menuEducation" style="display:none;position:absolute;z-index:1;">
+				<div class="menu_title">学历</div>
+				<div class="choose_close"></div>
+				<ul>
+					{% if diplomas %}
+                            {% for diploma in diplomas %}
+					<li id="{{ diploma.dictionary_value }}" title="{{ diploma.dictionary_name }}">{{ diploma.dictionary_name }}</li>
+					{% endfor %}
+                        {% endif %}
+				</ul>
+			</div>
+		</div>
+		<div class="formEleBox">
+			<label>工作性质</label>
+
+			<div class="rightBox" id="nature_menu">
+				<input type="text" class="create_input formcheck required input_disabled" id="nature_text" readonly value="{{ position.work_naturename | default:'' }}">
+				<img src="/static/new_mobile/images/sortDown.png" alt="">
+				<input name="nature" id="nature" type="hidden" value="{{ position.work_nature | default:'' }}">
+				<input name="nature_cn" id="nature_cn" type="hidden" value="{{ position.work_naturename | default:'' }}"></div>
+			<div class="menu choose_menu" id="menuNature" style="display:none;position:absolute;z-index:1;">
+				<div class="menu_title">职位性质</div>
+				<div class="choose_close"></div>
+				<ul>
+					{% if expect_work_natureList %}
+                            {% for nature in expect_work_natureList %}
+					<li id="{{ nature.dictionary_value }}" title="{{ nature.dictionary_name }}">{{ nature.dictionary_name }}</li>
+					{% endfor %}
+                        {% endif %}
+				</ul>
+			</div>
+		</div>
+
+        <div class="formEleBox">
+            <label>职位联系人</label>
+
+            <div class="rightBox">
+                <input class="formcheck required" placeholder="请输入姓名" type="text" name="contact" maxlength="5" value="{{ position.contact_user_name | default:'' }}"></div>
+        </div>
+
+        <div class="formEleBox">
+            <label>任职岗位</label>
+
+            <div class="rightBox">
+                <input class="formcheck required" placeholder="请输入任职岗位" type="text" name="position" maxlength="20" value="{{ position.contact_current_post | default:'' }}"></div>
+        </div>
+
+        <div class="formEleBox">
+            <label>联系电话</label>
+
+            <div class="rightBox">
+                <input class="formcheck telCheck" placeholder="请输入手机号" type="text" name="telephone" value="{{ position.contact_phone | default:'' }}"></div>
+        </div>
+
+        <div class="formEleBox">
+            <label>邮箱</label>
+
+            <div class="rightBox">
+                <input class="formcheck emailCheck" placeholder="请输入联系邮箱" type="text" name="email" value="{{ position.contact_email | default:'' }}"></div>
+        </div>
+
+		<div class="textareaBox">
+			<label>岗位职责</label>
+			<div class="textarea_content">
+				<div class="infoBox">
+					<textarea class="formcheck numberCount" placeholder="请填写岗位职责" name="position_describe">{{ position.position_describe | safe | default:'' }}</textarea>
+				</div>
+				<div class="numTip count1">
+					<span>16</span>
+					<span>/</span>
+					<span>1000</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="textareaBox">
+			<label>职位要求</label>
+			<div class="textarea_content">
+				<div class="infoBox">
+					<textarea class="formcheck numberCount" placeholder="请填写职位要求" name="contents">{{ position.demand | safe | default:'' }}</textarea>
+				</div>
+				<div class="numTip count2">
+					<span>16</span>
+					<span>/</span>
+					<span>1000</span>
+				</div>
+			</div>
+		</div>
+		<div class="formCheckBtn bottom btnUnable" style="display: block;">保存</div>
+		<div class="formCheckBtn bottom btnAble" id="create_job_but" style="display: none;">保存</div>
+	</div>
+</div>
+
+<input type="hidden" name="add_mode" value="0"></form>
+<script src="/static/new_mobile/js/position.js" type="text/javascript"></script>
+<script type="text/javascript">
+	          $.each(QS_jobs_parent, function(pindex, pval) {
+	            if(pval) {
+	              var jobs = pval.split(",");
+	              var sjobsArray = QS_jobs[jobs[0]].split("|");
+	              $.each(sjobsArray, function(sindex, sval) {
+	                if(sval) {
+	                  var sjobs = sval.split(",");
+	                  jobstr += '<li class="area_big" rcoid="'+sjobs[0]+'" pid="'+jobs[0]+'.'+sjobs[0]+'" title="'+sjobs[1]+'">'+sjobs[1]+'</li>';
+	                }
+	              });
+	            }
+	          });
+              $.ajax({
+                async: false,
+                type: 'post',
+                url: '/mobile/ajax_getAjaxPosition',
+                dataType: 'json',
+                success: function (data) {
+                    data.forEach(function(position) {
+                        jobstr += '<li class="area_big" rcoid="'+ position.position_value +'" pid="'+ position.position_value +'" title="'+ position.position_name +'">'+position.position_name+'</li>';
+                    })
+                }
+              });
+</script>
+
+</div>
+<div class="errorTip"></div>
+<script>
+	$(function(){
+
+		$('.count1').find('span').eq(0).text($("textarea[name=contents]").val().replace(/<br>/g,'\n').length);
+		$('.count2').find('span').eq(0).text($("textarea[name=position_describe]").val().replace(/<br>/g,'\n').length);
+		$("textarea[name=contents]").val( $("textarea[name=contents]").val().replace(/<br>/g,'\n') );
+	    $("textarea[name=contents]").val( $("textarea[name=contents]").val().replace(/<br\/>/g,'\n') );
+	    $("textarea[name=position_describe]").val( $("textarea[name=position_describe]").val().replace(/<br>/g,'\n') );
+	    $("textarea[name=position_describe]").val( $("textarea[name=position_describe]").val().replace(/<br\/>/g,'\n') );
+	})
+</script>
+</body>
+</html>

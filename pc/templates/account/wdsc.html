@@ -1,0 +1,148 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style1.css">
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<!-- 内容大框 -->
+
+<div class="lt_content_box">
+	<!-- 猎头会员菜单 -->
+	{% include 'jobs/system/menu_list.html' %}
+    <div class="clear">4</div><div class="clear">2</div>
+	<!-- 猎头会员菜单 -->
+	<!-- 猎头名录数据表 -->
+	<div class="ltml_grid_box center mt25">
+		<ul id="myTab" class="nav nav-tabs ltml_grid_ul bg_ie6" style="overflow:hidden;">
+			<li class="active side_li ">
+				<a href="/jobs/account/wdsc" >我上传的List</a>
+			</li>
+            <li>
+                 <a href="/jobs/account/wdxz" >我购买的List</a>
+            </li>
+		</ul>
+		<div id="myTabContent" class="tab-content bg_ie6">
+			<div class="tab-pane in active" id="ssml">
+				<table class="ltml_grid bg_ie6" >
+					<thead>
+						<tr >
+							<th width="100" style="text-align: center">标题</th>
+							<th class="cur_poi" width="90" >
+								售价<i class="iconfont icon-shangxia fz12 time_sort " id="price"></i>
+							</th>
+							<th width="80">
+								所属行业
+							</th>
+							<th width="70">年份<i class="iconfont icon-shangxia fz12 time_sort " id="compoleYear"></i></th>
+							<th width="100">下载次数<i class="iconfont icon-shangxia fz12 time_sort " id="downloadTimes"></i></th>
+							<th width="108">上传日期<i class="iconfont icon-shangxia fz12 time_sort " id="uploadDate"></i></th>
+							<th width="160">操作</th>
+						</tr>
+					</thead>
+					<tbody id="tableInfo" >
+					</tbody>
+				</table>
+				<div class="lthy_pager">
+					<ul class="pagination pagination-sm lthy_pager" id="paginInfo">
+					</ul>
+				</div>
+			</div>
+			<div class="left_top_border"></div>
+		</div>
+	</div>
+	<!-- 猎头名录数据表 -->
+</div>
+<!-- 内容大框 -->
+<script>
+    var loadData;
+    var sql = "PU_ID={{ pu.id }} ";
+    var querySql = sql;
+    $(function(){
+{#                         加载评论 和 分页方法#}
+        loadData = new pagin("paginInfo", "V_LIST_EVALUATION", "", encodeURI(sql), " id desc", 5, "paginBind", "loadData");
+        var price = "asc";
+        var compoleYear = "asc";
+        var downloadTimes = "asc";
+        var uploadDate = "asc";
+        $(".icon-shangxia").click(function(){
+            var sql = " pu_id={{ pu.id }}";
+            if($(this).attr("id") == "price"){
+                sql += " order by Gold " + price;
+                if(price == "asc")
+                    price = "desc"
+                else
+                    price = "asc"
+            }
+            if($(this).attr("id") == "compoleYear"){
+               sql += " order by Compile_Year " + compoleYear
+                if(compoleYear == "asc")
+                    compoleYear = "desc"
+                else
+                    compoleYear = "asc"
+            }
+            if($(this).attr("id") == "downloadTimes"){
+                sql += " order by downloadcount " + downloadTimes;
+                if(downloadTimes == "asc")
+                    downloadTimes = "desc"
+                else
+                    downloadTimes = "asc"
+            }
+            if($(this).attr("id") == "uploadDate"){
+                sql += " order by add_date " + uploadDate;
+                if(uploadDate == "asc")
+                    uploadDate = "desc"
+                else
+                    uploadDate = "asc"
+            }
+            loadData = new pagin("paginInfo", "V_LIST_EVALUATION", "", encodeURI(sql), "", 5, "paginBind", "loadData");
+        })
+        $(".deleteA").click(function(){
+            return confirm("你确定要删除此list的所有记录吗？")
+        })
+    })
+     //动态加载页面绑定数据
+    function paginBind(dataInfo){
+        //图片列表数据加载
+        $("#tableInfo").empty();
+        $("#articleInfo").empty();
+        $("#tableInfo").append('<tr id="hehe"><td></td></tr>')
+        $(dataInfo).each(function(i){
+
+            // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this)
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            //图片列表数据加载
+            var content = "";
+            content += "<tr><td>";
+            content += "<a href='/account/list?id=" +array[0] + "'>" + array[2] + "</a></td>";
+            content +=  "<td><img src='{{ STATIC_URL }}images/111_03.png'>&nbsp;&nbsp;" + array[16] + "</td>"
+            content +=  "<td>" + array[5] + "</td>";
+            content +=  "<td>" + array[6] + "</td>";
+            content +=  "<td>" + array[22] + "</td>";
+            content +=  "<td>" + array[20].substring(0, array[20].length - 9) + "</td>";
+            content += "<td>";
+
+            content += '<form style="display:inline-block" method="post" action="/jobs/account/insertListDownloadHistory">';
+            content += '    <input type="hidden" name="list_id" value="' + array[0] + '">';
+            content +="     <a href='javascript:void(0);' class='download btn' onclick='$(this).parent().submit();'>下载</a>";
+            content +="</form>";
+
+            content +="<a href='/account/del_list?id=" + array[0] + "' class='deleteA btn btn-danger'>删除</a></td></tr>";
+            $("#tableInfo").append(content)
+            //文章列表数据加载
+            $("#tableInfo tr").not("#hehe").each(function(index, el) {
+                if($(this).index()%2==0){
+                    $(this).css('background', '#f8f8f8');
+                }
+            });
+        })
+    }
+
+</script>
+{% include 'jobs/system/new_footer.html' %}

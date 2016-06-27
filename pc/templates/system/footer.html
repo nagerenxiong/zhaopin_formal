@@ -1,0 +1,165 @@
+	<!-- 底部 -->
+<script>
+	$(function(){
+	$(".gsss_r_t2 a").click(function(){
+		$("#condition").val($(this).text());
+	})
+	$(".gr_rsch span").click(function(){
+		$(".gr_glxss_k").val($(this).text());
+	});
+	//圆形进度条
+	function circlejdt(o,b){
+			var d = b/100*360;
+			var l = b.children('#c_l').children('.c_mark');
+			var r = b.children('#c_r').children('.c_mark');
+			l.css("transform","rotate(0deg)");r.css("transform","rotate(0deg)")
+			if(d<180)
+			{
+				r.css("transform","rotate("+d+"deg)");
+				$("#w_mark").text(Math.round(b)+"%");
+			}
+			else{
+					if(d<360){
+						d = d-180;
+						r.css("transform","rotate(180deg)");
+						l.css("transform","rotate("+d+"deg)");
+						$("#w_mark").text(Math.round(b)+"%");
+					}
+					else{
+						l.css("transform","rotate(180deg)");r.css("transform","rotate(180deg)");
+						$("#w_mark").text("100%");
+					}
+			}
+		}
+
+})
+	//下拉
+	var $oButton = $(".oSlide").siblings('input[type="button"]');
+	$oButton.parent().css({
+		overflow: 'visible',
+		position: 'relative'
+	});
+	$oButton.click(function(event) {
+		$(this).siblings('.oSlide').slideToggle(150);
+	});
+	$(".oSlide li").click(function(event) {
+		$(this).parent().siblings('input[type="button"]').val($(this).text());
+	});
+
+</script>
+
+	<div class="re_bottom">
+		<div class="center">
+			<div class="clearfix">
+				<dl style="margin-top:20px;" class="f_l">
+					<dt style="font-size:16px;">
+						<i class="iconfont icon-lianjie"></i>
+						合作企业
+					</dt>
+					<dd>
+						<a href="http://www.jxhsh.com.cn/" target="_blank">
+							<img src="/static/images/1.jpg" alt=""></a>
+						<a href="http://www.greenlandsc.com/" target="_blank">
+							<img src="/static/images/2.jpg" alt=""></a>
+						<a href="http://www.futureholdings.com.cn/" target="_blank">
+							<img src="/static/images/3.jpg" alt=""></a>
+						<a href="http://www.renhe.com/" target="_blank">
+							<img src="/static/images/4.jpg" alt=""></a>
+						<a href="http://www.yonyou.com/" target="_blank">
+							<img src="/static/images/5.jpg" alt=""></a>
+					</dd>
+				</dl>
+				<ul class="f_r">
+					<li>
+						<a target="_blank" class="iconfont icon-weibo" href="http://weibo.com/u/5626746238" style="font-size: 32px"></a>
+						<p>关注微博</p>
+					</li>
+					<li>
+						<a class="iconfont icon-weixin" href="javascript:void(0)" style="font-size: 32px"></a>
+						<p>关注微信</p>
+					</li>
+					<li>
+						<a class="iconfont icon-dianhua1" href="javascript:void(0)"style="font-size: 32px"></a>
+						<p>联系我们</p>
+					</li>
+					<li>
+						<a class="iconfont icon-yijianfankui"  style="font-size: 32px" id="yjfk_btn"></a>
+						<p>意见反馈</p>
+					</li>
+				</ul>
+			</div>
+			<!-- 底部链接和备案 -->
+			<div class="re_bottom_menu">
+				<a href="/about" target="_blank" >关于我们</a>
+				<span>|</span>
+				<!--<a href="/system/flsm" target="_blank">法律申明</a>
+				<span>|</span>-->
+				<a href="/system/help" target="_blank">使用帮助</a>
+				<span>|</span>
+				<a href="/privacy" target="_blank">用户协议</a>
+				<!--<span>|</span>
+				<a href="/system/wzsy" target="_blank">网站索引</a>
+				<span>|</span>
+				<a href="javascript:alert('攻城狮紧张建设中，感谢关注怀才当遇！')" >移动版</a>-->
+				<p>
+					Copyright © 2015 hcdyhr.com赣ICP备12347441号-1   hcdyhr.com 保留所有版权 使用这些服务遵守用户协议
+				</p>
+			</div>
+			<!-- 底部链接和备案 -->
+		</div>
+	</div>
+	<!-- 底部 -->
+	<!-- 右悬浮层 -->
+	<div id="yxf">
+        <ul>
+            <li>
+            	<div class="oli" style="background:url({{ STATIC_URL }}images/yxf_tb.png) no-repeat center 15px;">
+            	</div>
+            	<span class="xf_yellow">回到顶部</span>
+            </li>
+            <li>
+            	<div class="oli" style="background:url({{ STATIC_URL }}images/yxf_tb.png) no-repeat center -30px;">
+            	</div>
+            	<span class="xf_yellow">意见反馈</span>
+            </li>
+            <li>
+            	<div class="oli" style="background:url({{ STATIC_URL }}images/yxf_tb.png) no-repeat center -75px;">
+            	</div>
+            	<span class="xf_yellow">---</span>
+            </li>
+            <li>
+
+            	<div class="oli" style="background:url({{ STATIC_URL }}images/yxf_tb.png) no-repeat center -120px;">
+            	</div>
+            	<span class="xf_yellow">联系我们</span>
+            </li>
+        </ul>
+    </div>
+    <script>
+    	$(function(){
+            $(window).resize(function(){
+                $("#yxf").css("top",($(window).height()/2-100)+"px");
+            });
+            $(window).resize();
+            $("#yxf li").eq(0).click(function(event) {
+            	$('body,html').stop(true,false).animate({scrollTop: 0},300);
+            });
+            $("#yxf li").mouseover(function(event) {
+            	$(this).find("span").stop(true,false).animate({right:"0px"}, 150)
+            });
+            $("#yxf li").mouseout(function(event) {
+            	$("#yxf li").find("span").stop(true,false).animate({right:"-150px"}, 150)
+            });
+});
+    	//阻止默认行为
+    	function maopao(){
+    		if ( e && e.stopPropagation )
+　　            e.stopPropagation();
+            else
+　　            window.event.cancelBubble = true;
+            return false;
+    	}        
+    </script>
+	<script src="{{ STATIC_URL }}js/common.js" ></script>
+</body>
+</html>

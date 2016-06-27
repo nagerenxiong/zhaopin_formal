@@ -1,0 +1,238 @@
+	<!-- 顶部 -->
+	{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+	<!-- 顶部 -->
+	<!-- 内容大框 -->
+	<div style="background:#f6f6f6">
+		<div class="center clearfix">
+			<!-- 修改个人信息 -->
+			<dl class="grxx_info f_l ">
+				<dt class="bd_bottom1">
+
+					<span>账号ID: {{ pu.account }}</span>
+					<div class="slider"></div>
+				</dt>
+				<dd class="bd_bottom1">
+					<div class="cyqy_box">
+						常用企业：
+						<div class="btn-group">
+							<button type="button" class="btn btn-info">某某某公司</button>
+							<button type="button" class="btn btn-info">某某某公司</button>
+							<button type="button" class="btn btn-info">某某某公司</button>
+							<button type="button" class="btn btn-info">某某某公司</button>
+							<button type="button" class="btn btn-info">某某某公司</button>
+						</div>
+					</div>
+                    <form method="post" action="/forms/" name="TPuRecruitmentCompanyForm">
+
+                        {% csrf_token %}
+	                <input type="hidden" name="forms_name" value="TPuRecruitmentCompanyForm" />
+	                <input type="hidden" name="token" value="{{form_token}}" />
+                        <input type="hidden" name="id" value="{{company.id}}" />
+                        <input type="hidden" name="pu_id" value="{{pu.id}}" />
+					<table class="cyqy_table">
+						<tbody>
+							<tr>
+								<td align="right" width="158">招聘企业名称：</td>
+								<td width="220">
+									<input type="text" name="show_name" value="{{company.show_name}}" class="input_txt"></td>
+								<td align="left">
+									<input type="button"  value="新增企业" class="cyqy_info_btn grxx_info_btn_bg" id="add_btn"></td>
+							</tr>
+							<tr>
+								<td align="right">招聘企业备注名称：</td>
+								<td>
+									<input type="text"  name="remark_name" value="{{company.remark_name}}" class="input_txt"></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td align="right">企业性质：</td>
+								<td>
+									<input type="text" name="" class="input_txt"></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td align="right">所属行业：</td>
+								<td>
+									<input type="text" name="" class="input_txt"></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td align="right">企业规模：</td>
+								<td>
+									<input type="text" name="" class="input_txt"></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td align="right">企业简介：</td>
+								<td colspan="2">
+									<textarea name=""></textarea>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+                </dd>
+				<dd class="t_c">
+					<input type="submit" name="" value="保存" placeholder="" class="grxx_info_btn grxx_info_btn_bg">
+					<input type="submit" name="" value="添加到企业分类" placeholder="" class="grxx_info_btn grxx_info_btn_bg1"></dd>
+				<div class="left_top_border"></div>
+			</dl>
+			<!-- 修改个人信息 -->
+			<!-- 侧边栏 -->
+			<div class="grxx_sidebar f_r">
+				<div class="add_cal_btn">
+					<i class="iconfont icon-tianjia"></i>
+					添加新企业分类
+				</div>
+				<div class="grxx_sidebar_b">
+					<dl>
+						<dt class="my_cal_title">我的企业分类</dt>
+						<dd class="cal_tree_dd">
+							<div class="panel-group" id="accordion">
+								<div class="panel panel-default">
+									<div class="panel-heading clearfix">
+
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed">
+											<i class="iconfont icon-jinlingyingcaiwangtubiao12 f_r fz14"></i>
+											<span class="f_l">上市公司</span>
+										</a>
+									</div>
+									<div id="collapseOne" class="panel-collapse in" style="height:auto">
+										<div class="panel-body">
+											<ul class="cal_tree_ul">
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+											</ul>
+											<div class="qyxxgl_pager_box clearfix mt10">
+												<span class="f_r">下一页</span>
+												<span class="f_l">上一页</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading clearfix">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="">
+											<i class="iconfont icon-jinlingyingcaiwangtubiao12 f_r fz14"></i>
+											<span class="f_l">上市公司</span>
+										</a>
+									</div>
+									<div id="collapseTwo" class="panel-collapse collapse" style="height: 0px;">
+										<div class="panel-body">
+											<ul class="cal_tree_ul">
+												<li>某某某上市股份有dsf限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+											</ul>
+											<div class="qyxxgl_pager_box clearfix mt10">
+												<span class="f_r">下一页</span>
+												<span class="f_l">上一页</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading clearfix">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse3" class="collapsed" aria-expanded="false">
+											<i class="iconfont icon-jinlingyingcaiwangtubiao12 f_r fz14"></i>
+											<span class="f_l">上市公司</span>
+										</a>
+									</div>
+									<div id="collapse3" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+										<div class="panel-body">
+											<ul class="cal_tree_ul">
+												<li>某某某上市股份有dsf限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+
+											</ul>
+											<div class="qyxxgl_pager_box clearfix mt10">
+												<span class="f_r">下一页</span>
+												<span class="f_l">上一页</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading clearfix">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse4" class="collapsed" aria-expanded="false">
+											<i class="iconfont icon-jinlingyingcaiwangtubiao12 f_r fz14"></i>
+											<span class="f_l">上市公司</span>
+										</a>
+									</div>
+									<div id="collapse4" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+										<div class="panel-body">
+											<ul class="cal_tree_ul">
+												<li>某某某上市股份有dsf限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+
+											</ul>
+											<div class="qyxxgl_pager_box clearfix mt10">
+												<span class="f_r">下一页</span>
+												<span class="f_l">上一页</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading clearfix">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse5" class="collapsed" aria-expanded="false">
+											<i class="iconfont icon-jinlingyingcaiwangtubiao12 f_r fz14"></i>
+											<span class="f_l">上市公司</span>
+										</a>
+									</div>
+									<div id="collapse5" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+										<div class="panel-body">
+											<ul class="cal_tree_ul">
+												<li>某某某上市股份有dsf限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+												<li>某某某上市股份有限公司</li>
+
+											</ul>
+											<div class="qyxxgl_pager_box clearfix mt10">
+												<span class="f_r">下一页</span>
+												<span class="f_l">上一页</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</dd>
+					</dl>
+				</div>
+			</div>
+			<!-- 侧边栏 -->
+		</div>
+	</div>
+	<!-- 内容大框 -->
+	<!-- 底部 -->
+	{% include 'jobs/system/new_footer.html' %}
+    <!-- 底部 -->

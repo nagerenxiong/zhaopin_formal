@@ -1,0 +1,825 @@
+{% include 'header.html' %}
+	<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+	<link href="/static/new_mobile/css/zsl_login.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="/static/new_mobile/css/zsh_common.css">
+    <link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+    	<style>
+		.grbq_li{
+			    float: left;
+			    width: 19%;
+			    height: 30px;
+			    line-height: 30px;
+			    text-align: center;
+			    background-color: #1470B3;
+			    color: #FFF;
+			    margin: 10px 3% 0px;
+			    overflow: hidden;
+			}
+			input[type='text'],input[type='tel']{
+				line-height: 60px;
+			}
+          .ver_codes{float: left;
+           font-size: 24px;
+           height: 43px;
+		   width: 95px;
+		   margin-top:8px;
+		   text-align: center;
+		   line-height:49px;
+		   font-weight: bold;
+		   color:#169bec;
+		   background: url(/static/new_mobile/images/yzm.png) no-repeat;
+		   font-family: "华文彩云";
+	     }
+	</style>
+    <script src="/static/new_mobile/js/swipe.js" type="text/javascript"></script>
+    
+    <script type="text/javascript">
+		
+		// 创建简历弹出框
+		function showFloatBox() {
+			$("body").prepend("<div class=\"menu_bg_layer\"></div>");
+			$(".menu_bg_layer").height($(document).height());
+			$(".menu_bg_layer").css({ width: $(document).width(), position: "absolute",left:"0", top:"0","z-index":"2","background-color":"#000000"});
+			$(".menu_bg_layer").css("opacity",0.3);
+		}
+
+        // 产生随机数
+        function show_randow_num() {
+            var random_num = '';
+            for(var i = 0; i < 4; i ++) {
+                random_num += String(Math.floor(Math.random() * 10))
+            }
+            $(".random_num").text(random_num);
+        }
+		
+		$(document).ready(function() {
+            // 随机数
+            show_randow_num();
+
+			// 出生年份填充
+			var myDate = new Date();
+			var y = myDate.getFullYear();
+			y = y - 15;
+			var ymin = y - 35;
+			var yearHtm = "";
+			for (i = y; i >= ymin; i--) {
+				yearHtm += "<li title=\"" + i + "\">" + i + "年</li>";
+			}
+			$("#menuYear ul").html(yearHtm);
+
+		
+			// 出生年份点击
+			$("#year_menu").click(function () {
+				showFloatBox();
+				$("#menuYear").css({top: ($(window).height() - $('#menuYear').outerHeight()) / 2 + $(document).scrollTop()});
+				$("#menuYear").show();
+				$("#menuYear li").click(function () {
+					$("#birthdate").val($(this).attr("title"));
+					$("#year_text").val($(this).attr("title") + "年").trigger('blur');
+					$("#menuYear").hide();
+			 $(".menu_bg_layer").remove();
+				});
+			});
+					
+            // 工作经验点击
+            $("#experience_menu").click(function () {
+                  showFloatBox();
+                $("#menuExperience").css({top: ($(window).height() - $('#menuExperience').outerHeight()) / 2 + $(document).scrollTop()});
+                $("#menuExperience").show();
+                $("#menuExperience li").click(function () {
+                    $("#experience").val($(this).attr("id"));
+                    $("#experience_cn").val($(this).attr("title"));
+                    $("#experience_text").val($(this).attr("title")).trigger('blur');
+                    $("#menuExperience").hide();
+                    $(".menu_bg_layer").remove();
+                });
+            });
+			$("#Step1").show();
+			$("#Step2").hide();
+			//打开顶部菜单
+			$("#topmenu_sub").click(function() {
+				$("#topmenu").slideToggle("fast");
+			});
+			
+			
+			//
+			$("#username").focus(function() {
+				var patrn = /^(请填写手机号)/i;
+				var key = $("#username").val();
+				if (patrn.exec(key)) {
+					$("#username").val('');
+				}
+			});
+			//打开顶部菜单
+			$(".user_type_s .list").click(function() {
+				$(".user_type_s .list").removeClass("h");
+				$(this).addClass("h");
+				if ($(this).attr('id') == 'e') {
+					$("#minput").hide();
+					$("#einput").show();
+				} else {
+					$("#minput").show();
+					$("#einput").hide();
+				}
+			});
+			//发送手机验证
+			var mobileinterval; //调度器对象。
+			var mobileSendTime = 0;
+			clearInterval(mobileinterval);
+			var clearTimeOutNum = null;
+			$(function() {
+				var mobiletime = 1000;
+
+				function mobilerun() {
+					mobileinterval = setInterval(mobilefun, mobiletime);
+				}
+				$("#mobilesend a").click(function() {
+					if (!$("#mobilesend").is(":hidden")) {
+						var tel =  /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+						if ($("#username").val() == '') {
+							clearTimeout(clearTimeOutNum);
+							var errorMsg = '请填写手机号';
+							$('.errorTip').text(errorMsg).fadeIn();
+							clearTimeOutNum = setTimeout(function() {
+								$('.errorTip').text(errorMsg).fadeOut();
+							}, 2000)
+						} else if (!tel.test($("#username").val())) {
+							clearTimeout(clearTimeOutNum);
+							var errorMsg = '手机号错误';
+							$('.errorTip').text(errorMsg).fadeIn();
+							clearTimeOutNum = setTimeout(function() {
+								$('.errorTip').text(errorMsg).fadeOut();
+							}, 2000)
+						} else {
+							$("#mobilesend").hide();
+							var mobile = $("#username").val();
+							$("#Form1").append("<input type='hidden' name='username' id='username' value='" + mobile + "'>");
+                            $.ajax({
+                                async: false,
+                                type: "POST",
+                                url: "/mobile/ajax_send_register_msg",
+                                data: {"code": "abc", "mobile": mobile},
+                                dataType: "json",
+                                success: function (msg) {
+                                    if (msg == "1") {
+                                        mobileSendTime = 60; // 设置倒计时开始时间
+                                        $("#remainTime").html('('+mobileSendTime+')');
+                                        mobilerun();
+                                        $("#mobilesendsucceed").show();
+                                        $("#displaymobilesend").show();
+                                        $("#mobile_verifycode").attr("disabled", "");
+                                    } else {
+                                        $("#mobile").attr("disabled", "");
+                                        $("#displaymobilesend").hide();
+                                        $("#mobilesendsucceed").hide();
+                                        clearTimeout(clearTimeOutNum);
+                                        var errorMsg = data;
+                                        $('.errorTip').text(errorMsg).fadeIn();
+                                        clearTimeOutNum = setTimeout(function() {
+                                            $('.errorTip').text(errorMsg).fadeOut();
+                                        }, 2000);
+                                    }
+                                }
+                            })
+						}
+					}
+				});
+			});
+
+			function mobilefun() {
+					if (mobileSendTime > 0) {
+						mobileSendTime--;
+						$("#remainTime").html('('+mobileSendTime+')');
+					} else {
+						$("#mobilesend").show();
+						$('#mobilesend a').html('重新获取');
+						$("#remainTime").html('');
+						$("#mobilesended").hide();
+						$("#mobilesendsucceed").hide();
+						$("#displaymobilesend").hide();
+						clearInterval(mobileinterval);
+					};
+				}
+				//发送手机验证完毕
+
+            $("#saveBasicInfo").click(function(){
+                var realname = $("input[name='realname']").val();
+                var email = $("input[name='email']").val();
+                if(realname == ""){
+                    $('.errorTip').text("姓名不能为空").fadeIn();
+                    clearTimeOutNum = setTimeout(function() {
+                        $('.errorTip').text(" ").fadeOut();
+                    }, 2000);
+                }else{
+                    if(email == ""){
+                        $('.errorTip').text("邮箱不能为空").fadeIn();
+                        clearTimeOutNum = setTimeout(function() {
+                            $('.errorTip').text(" ").fadeOut();
+                        }, 2000);
+                    }else{
+                        if(!(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]w+)*$/.test(email))){
+                            $('.errorTip').text("请输入正确的邮箱").fadeIn();
+                            clearTimeOutNum = setTimeout(function() {
+                                $('.errorTip').text(" ").fadeOut();
+                            }, 2000);
+                        }else{
+                            $("#Form1").submit();
+                        }
+                    }
+                }
+            })
+		});
+	</script>
+</head>
+<body>
+	<div class="errorTip"></div>
+	<div id="Step1">
+        <div class="zsp_header">
+            <a href="/mobile/login_register" class="zsp_header_logo"><img src="/static/new_mobile/images/logo.png"></a>
+        </div>
+                
+        <script type="text/javascript">
+		var sWinUserAgent=navigator.userAgent.toLowerCase();
+		if(typeof JavaScriptInterface!='undefined'||sWinUserAgent.indexOf('hijobsapp')!=-1){
+            $('.zsp_header').remove();
+        }
+        </script>
+        <div class="zsp_shenqing_head">
+        	<a href="/mobile/login_register">已有账号，去登录</a>
+        	<h1>快速申请</h1>
+        </div>
+        
+		<!--<div class="zsl_reg_text">注册账号：</div>-->
+
+		<form method="post" action="">
+				<div class="formEleBox" id="logo">
+                        <label>个人头像</label>
+                        <div id="sc" class="rightBox" style="height: 60px;">
+                            <div class="logoBox">
+                                <img id="tx" src="/static/images/boy_default_logo.png">
+                            </div>
+                        </div>
+                        <input id="sctx" type="file" value="" style="display: none;">
+                        <input type="hidden" name="head_portrait" >
+                    </div>
+            <div class="swiper-slide">
+                <div class="formEleBox errorBox">
+                    <label>手机号</label>
+        
+                    <div class="rightBox">
+                        <input class="telCheck formcheck1" name="username" placeholder="请输入您的手机号码" id="username" onchange="isPhoneUseful(this)" type="tel">
+                    </div>
+                </div>
+
+                <div class="formEleBox">
+                    <div class="ver_codes random_num" onclick="show_randow_num()">
+                        5321
+                    </div>
+
+                    <div class="rightBox">
+                        <input class="formcheck1" style="width: 84%!important;float: right;" name="verification_code" placeholder="请输入验证码" id="verification_code" type="text">
+                    </div>
+                </div>
+                
+                <div class="formEleBox">
+                    <label>验证码<span id="remainTime"></span></label>
+        
+                    <div class="rightBox" style="position:relative">
+                    	<div class="zsp_yzm_but" id="mobilesend"><a href="javascript:;">点击获取</a></div>
+                        <input class="formcheck1" name="txtinput" placeholder="请输短信入验证码" id="verifycode" onchange="isCodeVarify()" type="text">
+                    </div>
+                </div>
+                
+                
+                <div class="formEleBox errorBox">
+                    <label>姓名</label>
+        
+                    <div class="rightBox">
+                        <input class="required formcheck1" id="fullname" placeholder="请输入您的姓名" type="text" name="text" value="">
+                    </div>
+                </div>
+                    
+                <div class="formEleBox errorBox">
+                    <label>出生年份</label>
+        
+                    <div class="rightBox" id="year_menu">
+                        <input readonly="" type="text" class="create_input required formcheck1 input_disabled" id="year_text" value="">
+                        <img src="/static/new_mobile/images/sortDown.png" alt="">
+                        <input name="birthdate" id="birthdate" type="hidden" value="">
+                    </div>
+                   
+                </div>
+                    
+                <div class="formEleBox errorBox">
+                    <label>工作经验</label>
+        
+                    <div class="rightBox" id="experience_menu">
+                        <input readonly="" type="text" class="create_input required formcheck1 input_disabled" id="experience_text" value="">
+                        <img src="/static/new_mobile/images/sortDown.png" alt="">
+                        <input name="experience" type="hidden" id="experience" value="">
+                        <input name="experience_cn" type="hidden" id="experience_cn" value="">
+                    </div>
+
+                </div>
+
+                <div class="formEleBox errorBox">
+                    <label>邮箱</label>
+                    <div class="rightBox">
+                        <input class="emailCheck formcheck1" name="email" id="email" type="text" placeholder="请输入常用邮箱" onchange="isEmailUseful(this)" value="">
+                    </div>
+                </div>
+                <div class="textareaBox errorBox text_num_min">
+                    <label>自我介绍</label>
+
+                    <div class="infoBox">
+                        <textarea maxlength="1000" class="formcheck1 numberCount textarea_required" placeholder="告诉他为什么选择你而不是别人" name="contents"></textarea>
+                    </div>
+                    <div class="numTip">
+                        <span>0</span><span>/</span><span>2000</span>
+                    </div>
+                </div>
+				<div id="grbq" class="formEleBox errorBox" style="height:auto;line-height: auto;">
+					<label style="display:block;width:100%">个人标签<span style="float: right;" onclick="changeLabel()">换一换</span></label>
+					<ul class="grbq">
+						
+					</ul>
+					<div id="grbq_data" style="overflow:hidden;float:left;width:100%">
+						<span class="grbq_li" onclick="grbq_click(this)"></span>
+						<span class="grbq_li" onclick="grbq_click(this)"></span>
+						<span class="grbq_li" onclick="grbq_click(this)"></span>
+						<span class="grbq_li" onclick="grbq_click(this)"></span>
+						<span class="grbq_li" onclick="grbq_click(this)"></span>
+						<span class="grbq_li" onclick="grbq_click(this)"></span>
+						<span class="grbq_li" onclick="grbq_click(this)"></span>
+					</div>
+				</div>
+				<input type="hidden" name="utype" id="utype" value="1">
+				<div class="user_reg_box error" style="display:none">
+				</div>
+                <input class="formcheckBtn bottom btnAble subminDisable" id="reg" type="button" value="立即申请" onclick="register_new_User()">
+                <div class="loginAbleBtn bottom btnUnable" style="margin-bottom:10px;" >立即申请</div>
+			</div>
+
+			<div class="user_reg_box error" style="display:none"></div>
+		</form>
+	</div>
+
+	<div id="Step2" style="display: none;">
+		<div class="zsl_regtwo_wrap">
+			<img src="/static/new_mobile/images/zsl_xiaozhao.png" alt="小招logo">
+			<h3>快速完善信息</h3>
+			<p>便于大家认识你</p>
+		</div>
+		<form id="Form1" name="Form1" method="post">
+			<div class="pwdBox">
+				<input name="realname" type="text" placeholder="请输入姓名" maxlength="30">
+			</div>
+			<div class="pwdBox">
+				<input name="email" type="text" placeholder="请输入邮箱">
+			</div>
+			<input type="button" class="loginAbleBtn" id="saveBasicInfo" style="display: block;border: 0;" value="保存">
+		</form>
+	</div>
+    <div class="menu choose_menu" id="menuYear" style="display:none;position:absolute;z-index:3;">
+        <div class="menu_title">出生年份</div>
+        <div class="choose_close"></div>
+        <ul>
+            {% for year in year_array %}
+                <li title="{{ year }}">{{ year }}年</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <div class="menu choose_menu" id="menuExperience" style="display:none;position:absolute;z-index:3;">
+      <div class="menu_title">工作年限</div>
+      <div class="choose_close"></div>
+      <ul>
+          {% if work_year_List %}
+              {% for work_year in work_year_List %}
+                  <li id="{{ work_year.dictionary_value }}" title="{{ work_year.dictionary_name }}">{{ work_year.dictionary_name }}</li>
+              {% endfor %}
+          {% endif %}
+      </ul>
+    </div>
+
+
+
+<script type="text/javascript">
+$(".formcheck1").blur(function(){
+	var checkFormFag=true;
+	$(".formcheck1").each(function(i,e){
+		if($(e).val()=='')
+		{
+			checkFormFag=false;
+		}
+	})
+	if(checkFormFag)
+	{
+		  $(".loginAbleBtn.btnUnable").hide();
+	   $("#reg").show();
+	}
+	else
+	{
+		$(".loginAbleBtn.btnUnable").show();
+	   $("#reg").hide();
+	}
+})
+
+
+	// 关闭弹出框
+	$(".choose_close").click(function (event) {
+		$(this).parent().hide();
+		$(".menu_bg_layer").remove();
+	});
+    var jobstr = '';
+    $.each(QS_jobs_parent, function (pindex, pval) {
+        if (pval) {
+            var jobs = pval.split(",");
+            var sjobsArray = QS_jobs[jobs[0]].split("|");
+            $.each(sjobsArray, function (sindex, sval) {
+                if (sval) {
+                    var sjobs = sval.split(",");
+                    jobstr += '<li class="area_big" rcoid="' + sjobs[0] + '" pid="' + jobs[0] + '.' + sjobs[0] + '" title="' + sjobs[1] + '">' + sjobs[1] + '</li>';
+                }
+            });
+        }
+    });
+    $("#jobs_left_list").html(jobstr);
+    $("#jobs_left_list li").unbind().click(function () {
+        var rid = $(this).attr("rcoid");
+        var rpid = $(this).attr("pid");
+        var rtitle = $(this).attr("title");
+        var sjobstr = "";
+        if (QS_jobs[rid]) {
+            var cjobsArray = QS_jobs[rid].split("|");
+            sjobstr += '<li class="area_small" rcoid="0" title="' + rtitle + '/不限" pid="' + rpid + '.0">不限</li>';
+            $.each(cjobsArray, function (cindex, cval) {
+                if (cval) {
+                    var cjobs = cval.split(",");
+                    sjobstr += '<li class="area_small" rcoid="' + cjobs[0] + '" title="' + rtitle + '\/' + cjobs[1] + '" pid="' + rpid + '.' + cjobs[0] + '">' + cjobs[1] + '</li>';
+                }
+            });
+            $("#jobs_right_list").html(sjobstr).show();
+            $("#jobs_right_list li").click(function () {
+                var chid = new Array();
+                chid = $(this).attr('pid').split(".");
+                $("#topclass").val(chid[0]);
+                $("#category").val(chid[1]);
+                $("#subclass").val(chid[2]);
+                $("#jobs_text").val($(this).attr("title")).trigger('blur');
+                $("#category_cn").val($(this).attr("title"));
+                $("#menuJobs").hide();
+                  $(".menu_bg_layer").remove();
+            });
+        } else {
+            var tchid = new Array();
+            tchid = $(this).attr('pid').split(".");
+            $("#topclass").val(tchid[0]);
+            $("#category").val(tchid[1]);
+            $("#subclass").val("0");
+            $("#jobs_text").val(rtitle).trigger('blur');
+            $("#category_cn").val(rtitle);
+            $("#menuJobs").hide();
+              $(".menu_bg_layer").remove();
+        }
+    });
+</script>
+<script type="text/javascript">
+    var citystr = '';
+    $.each(QS_city_parent, function (pindex, pval) {
+        if (pval) {
+            var citys = pval.split(",");
+            citystr += '<li class="area_big" rcoid="' + citys[0] + '" pid="' + citys[0] + '" title="' + citys[1] + '" href="javascript:;">' + citys[1] + '</li>';
+        }
+    });
+    $("#area_left").html(citystr);
+    $("#area_left li").unbind().click(function () {
+        var cid = $(this).attr("rcoid");
+        var cid = $(this).attr("pid");
+        var ctitle = $(this).attr("title");
+        var scitystr = "";
+        if (QS_city[cid]) {
+            var ccitysArray = QS_city[cid].split("|");
+            scitystr += '<li class="area_small" rcoid="0" title="' + ctitle + '/不限" pid="' + cid + '.0" href="javascript:;">不限</li>';
+            $.each(ccitysArray, function (cindex, cval) {
+                if (cval) {
+                    var ccitys = cval.split(",");
+                    scitystr += '<li class="area_small" rcoid="' + ccitys[0] + '" title="' + ctitle + '\/' + ccitys[1] + '" pid="' + cid + '.' + ccitys[0] + '">' + ccitys[1] + '</li>';
+                }
+            });
+            $("#area_right").html(scitystr).show();
+            $("#area_right li").click(function () {
+                var districtIds = $(this).attr("pid");
+                var districtIdArray = districtIds.split(".");
+                $("#district").val(districtIdArray[0]);
+                $("#sdistrict").val(districtIdArray[1]);
+                $("#district_cn").val($(this).attr("title"));
+                $("#district_text").val($(this).attr("title")).trigger('blur');
+                $("#menuDistrict").hide();
+                  $(".menu_bg_layer").remove();
+            });
+        } else {
+            $("#district").val($(this).attr('pid'));
+            $("#sdistrict").val("0");
+            $("#district_cn").val(ctitle);
+            $("#district_text").val(ctitle).trigger('blur');
+            $("#menuDistrict").hide();
+              $(".menu_bg_layer").remove();
+        }
+    });
+function grbq_click(obj){
+	if($("#grbq .grbq li").length>7)
+		{
+			$('.errorTip').text('最多只能选8个!').fadeIn();
+        	return false;
+		}
+	var isok = true;
+	_val = $(obj).text();
+	$(".grbq li").each(function(index, el) {
+		if(_val == $(el).text()){
+			alert(["已有该标签",2]);
+			isok = false;
+		}
+	});
+	if(isok)
+		$(".grbq").append('<li onclick="grbq_lose(this)">'+_val+'</li>');
+		
+};
+function grbq_lose(obj){
+	$(obj).remove();
+}
+//上传头像点击事件
+$("#sc").click(function(event) {
+    	$("#sctx").click();
+    });
+
+$("#sctx").bind("change", fOnChange);
+
+function fOnChange(){
+
+  var oFile = this.files[0],
+    sName = this.files[0].fileName, 
+    sFileType = oFile.type;
+    var nSize = 0,
+    nModTime;
+  // Android下读不到type信息，从文件名中解析
+  // if(!sFileType){
+  //   sFileType = "image/" + sName.split(".").pop().toLowerCase();
+  // }
+	photoExt=sFileType.substr(sFileType.lastIndexOf(".")).toLowerCase();//获得文件后缀名
+  // 读取文件大小、修改时间等信息
+  	var oUploadInfo = {
+    name : oFile.name || oFile.fileName,
+    size : oFile.size/1000 || oFile.fileSize/1000,
+    blob : oFile,
+    type : oFile.type
+  	};
+  //图片大小限制单位kb
+  // if(oUploadInfo.size>30){
+  //   alert("图片不能大于30kb");
+  //   return false;
+  // }
+	if(oUploadInfo.type !="image/png" && oUploadInfo.type !="image/jpg" && oUploadInfo.type !="image/jpeg" && oUploadInfo.type !="image/gif"){
+  		alert(["图片支持jpg、jpeg、gif、png格式",2]);
+  		return false;
+	}
+	var oImg = $("#tx");//接收图片的DOM元素
+	// 使用FileReader读取
+	var oReader = new FileReader();
+	oReader.onload = function(e){
+  	var sBase64 = e.target.result;
+  	// 部分Android下base64字符串格式不完整
+  		if(window.gIsAndroid && sBase64.indexOf("data:image/") != 0){
+    		var sMime = sName.split(".").pop().toLowerCase();
+    		sBase64 = sBase64.replace("base64,", "image/" + sMime + ";base64,");
+  		}
+	  	oImg.attr('src', sBase64);
+	  	sBase64 = null;
+	}
+	oReader.readAsDataURL(oFile);
+}
+
+function isPhoneUseful(obj) {
+    var $phone = $(obj);
+    var phone = $phone.val();
+    var reg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+    if (!reg.test(phone)) {
+        $phone.val("");
+         alert(['你输入的手机号码格式不对，请重新输入',2]);
+        return false;
+    }
+    $.ajax({
+        async: false,
+        type: "POST",
+        url: "/ajax_isPhoneUseful",
+        data: {"phone": phone},
+        dataType: "json",
+        success: function (data) {
+            if (data.status == '1') {
+                // 手机可用
+            } else if(data.status == '0') {
+                $phone.val("");
+                 alert(['该号码已被使用，请重新输入',2]);
+            }
+        }
+    });
+}
+
+function isEmailUseful(obj) {
+    var emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/g;
+    var $email = $(obj);
+    var email = $email.val();
+    if(!emailReg.test(email)){
+        alert(['你输入的邮箱格式不对，请重新输入',2])
+        $email.val("");
+        return false;
+    }
+    $.ajax({
+        async: false,
+        type: "POST",
+        url: "/ajax_isEmailUseful",
+        data: {"email": email},
+        dataType: "json",
+        success: function (data) {
+            if (data.status == '1') {
+                // 邮箱可用
+            } else {
+                $email.val("");
+                 alert(['该邮箱已注册!',2]);
+            }
+        }
+    });
+}
+
+// 验证码
+function isCodeVarify() {
+
+    var $audit_code = $("#verifycode");
+    var reg = /^[0-9]{6}$/;
+    if(!reg.test($audit_code.val())){
+        $audit_code.val('');
+         alert(['验证码格式不正确',2]);
+    }
+}
+
+// 上传用户头像
+function is_upload_head_portrait() {
+    var flag = false;
+    var fileContent = $("#tx").attr("src");
+    var contentStart = 'data:image';
+    var fileContentArray = fileContent.split(contentStart);
+    if(fileContentArray.length != 2) {
+        return false;
+    }
+    $.ajax({
+        async: false,
+        type: 'post',
+        data: {'fileContent': fileContentArray[1]},
+        url: '/mobile/ajax_uploadUserHeadPortrait',
+        dataType: 'json',
+        success: function(data) {
+            if(data == 0) {
+                alert(['请选择有效的图片!',2]);
+            } else {
+                $(":input[name=head_portrait]").val(data);
+                flag = true;
+            }
+        }
+    });
+    return flag;
+}
+
+
+
+// 用户注册
+function register_new_User() {
+    // 上传头像
+    is_upload_head_portrait();
+    var head_portrait = $(":input[name=head_portrait]").val();
+    if(head_portrait == '') {
+            alert(['请上传头像!',2]);
+            return false;
+        }
+
+    var phone = $("#username").val();
+    if(phone == '') {
+        alert(['请输入手机号!',2]);
+        return false;
+    }
+    var die_code = $("#verification_code").val();
+    if(die_code != $(".random_num").text()) {
+        alert(['请输入正确的验证码!',2]);
+        return false;
+    }
+    var code = $("#verifycode").val();
+    if(code == '') {
+        alert(['请输入手机验证码!',2]);
+        return false;
+    }
+    var user_name = $("#fullname").val();
+    if(user_name == '') {
+        alert(['请输入您的姓名!',2]);
+        return false;
+    } else if(user_name.length > 5) {
+        var flag = confirm('您的名字过长了哦~我们将会对它进行截取哦');
+        if(flag == false) {
+            return false;
+        }
+        user_name = user_name.substr(0, 5);
+    }
+    var birthdate = $("#birthdate").val();
+    if(birthdate == '') {
+        alert(['请选择出生年份!',2]);
+        return false;
+    }
+    var work_year = $("#experience").val();
+    if(work_year == '') {
+        alert(['请选择工作经验!',2]);
+        return false;
+    }
+    var email = $("#email").val();
+    if(email == '') {
+        alert(['请输入邮箱号!',2]);
+        return false;
+    }
+    var contents = $(":input[name=contents]").val();
+    if(contents == '') {
+        alert(['请输入自我介绍!',2]);
+        return false;
+    }
+    var labels = '';
+    $(".grbq li").each(function() {
+        if(labels == '') labels = $(this).text();
+        else             labels += '**' + $(this).text();
+    });
+    $(".subminDisable").attr('disabled', 'disabled').css('background-color', '#c1c1c1');
+    $.ajax({
+        async: false,
+        type: 'post',
+        data: {'head_portrait': head_portrait, 'phone': phone, 'die_code': die_code, 'code': code,
+                'user_name': user_name, 'birthdate': birthdate, 'work_year': work_year, 'email': email,
+                'contents': contents, 'labels': labels, 'account_type': 1, 'sourceId': '{{ sourceId }}',
+                'positionId': '{{ position_id }}'},
+        url: '/mobile/ajax_register_new_User',
+        dataType: 'json',
+        success: function(data) {
+            if(data == 'ok') {
+            	alert(['申请成功',1]);
+				setTimeout(function(){
+					window.location.href = '/mobile/login_register'
+				}
+					,2000);
+            } else {
+                alert([data,2]);
+                $(".subminDisable").removeAttr('disabled').css('background-color', '');
+            }
+        }
+    })
+
+}
+ var labelData;
+ var pageIndex = 1;
+ //获取个人标签
+    $.ajax({
+        type: "POST",
+        url: "/ajax_dictionary",
+        data: {
+            "p_value": '11999000'
+        },
+        dataType: "json",
+        success: function(data) {
+            labelData = data;
+        }
+    });
+var labelData;
+//换一换标签
+function changeLabel() {
+        $("#grbq_data").empty();
+        var count = pageIndex * 8;
+        if (count >= labelData.length) {
+            count = labelData.length;
+            for (var i = (pageIndex - 1) * 8; i < count; i++) {
+                $("#grbq_data").append("<span onclick='grbq_click(this)' class='grbq_li'>" + labelData[i].dictionary_name + "</span>");
+            }
+            pageIndex = 1;
+        } else {
+            for (var i = (pageIndex - 1) * 8; i < count; i++) {
+                $("#grbq_data").append("<span onclick='grbq_click(this)' class='grbq_li'>" + labelData[i].dictionary_name + "</span>");
+            }
+            pageIndex++;
+        }
+    }
+setTimeout(function(){
+	$("#grbq span")[0].click();
+},500)
+</script>
+<script>
+	function key_number(txt,span){
+		$(txt).on('keydown keyup', function(event) {
+			$(span).text($(this).val().length);
+		});
+	}
+	key_number($(".infoBox textarea"),$(".numTip span").eq(0));
+</script>
+
+<div class="errorTip"></div></body></html>

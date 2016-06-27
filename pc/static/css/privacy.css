@@ -1,0 +1,84 @@
+﻿body {
+	font: 14px/22px "Hiragino Sans GB", "微软雅黑", "宋体"
+}
+.content {
+	color: #555;
+	position: relative;
+	line-height: 28px;
+	width: 680px;
+	margin: 35px auto;
+	padding: 0px 60px 50px 60px;
+	background-color: #FAFAFA
+}
+.content .title {
+	text-indent: 0px;
+	top: -10px;
+	left: 90px;
+	position: absolute;
+	font-size: 24px;
+	line-height: 43px;
+	color: white;
+	font-weight: normal;
+	background-color: #5c91d9;
+	padding: 0px 20px 0px 20px
+}
+.content .title em {
+	position: absolute;
+	background: url(../images/privacy.png) no-repeat;
+	width: 6px;
+	height: 8px;
+	left: -6px;
+	top: 0px
+}
+.content span {
+	margin: 0px 10px 0px 50px
+}
+.content div {
+	padding-top: 80px
+}
+.content dt {
+	margin-top: 20px;
+	font-weight: bold;
+	font-size: 16px
+}
+.content dt span {
+	margin: 0px 5px
+}
+.content div, .content dd, .content p {
+	text-indent: 2em
+}
+.footer {
+	width: 100%;
+	background-color: #505050;
+	text-align: center;
+	margin-top: -10px;
+	height: 148px;
+	padding-top: 50px
+}
+.footer ul {
+	display: inline-block;
+	padding-top: 20px;
+	margin-bottom: 15px;
+	border-top: 1px solid #E4E4E4;
+	width: 1020px;
+	color: #fff;
+}
+.footer ul li {
+	display: inline-block;
+	color: #fff;
+	margin: 0px 10px;
+	vertical-align: middle
+}
+.footer ul li a {
+	font-size: 14px;
+	color: #fff;
+}
+.footer ul li a:hover {
+	text-decoration: underline
+}
+.footer p {
+	color: #999;
+	font-size: 14px
+}
+
+/*# sourceMappingURL=privacy.css.map */

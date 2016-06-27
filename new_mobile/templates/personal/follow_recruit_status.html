@@ -1,0 +1,94 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsh_common.css" rel="stylesheet" type="text/css">
+<style>
+@import "http://at.alicdn.com/t/font_1465712390_2049143.css";
+    .pr{position: relative;}
+     .reward_icon {color: #ffffff;width: 95px; text-align: center; background-color: #ff6d6d; border-radius: 12px; height: 24px;line-height: 22px;   float: right; position: absolute; right: 10%; top: 0px;}  
+</style>
+<script type="text/javascript">
+$(document).ready(function()
+{   // 职位链接跳转
+    $(".list_centent").click(function(){
+        var url =$(this).attr("url");
+        window.location.href=""+url+"";
+    }); 
+});
+</script>
+</head>
+<body style="height:100%;">
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'|| typeof sendPhoneNumber!='undefined'){
+    $('.zsp_header').remove();
+}
+</script>    <!--zsp_header -->
+    <div class="zsp_send_list">
+        {% if deliver_position_list %}
+            {% for position_result in deliver_position_list %}
+                <a href="/mobile/personal/deliver_results?position_id={{ position_result.position_id }}&deal_status={{ position_result.dispose_status }}&resume_id={{ position_result.resume_id }}&ajInfo_id={{ position_result.id }}" class="zsp_send_li">
+                    <div class="zsp_job_li_fang"><img src="{{ request.session.file_website }}{{ position_result.pc_logo | default:'' }}" onerror="notfindimg(this)"></div>
+
+                    <div class="zsp_job_li_main pr">
+                        {% if position_result.rewards_money > 0 %}
+                        <div class="reward_icon"><i class="iconfont icon-qianbao"></i>悬赏:￥{{ position_result.rewards_money }}</div>
+                        {% endif %}
+                        <div class="zsp_send_icon"><i class="fa fa-angle-right"></i></div>
+                        <h3>{{ position_result.position | default:'' }}</h3>
+
+                        <div class="zsp_send_li_content">
+
+                            <p>{{ position_result.pc_name | default:'' }}</p>
+                            <div class="zsp_send_li_other">
+                                <span>当前状态：</span>
+                                    {% if position_result.dispose_status == 1 or position_result.dispose_status == 5 or position_result.dispose_status == 6 %}
+                                        <div class="zsp_send_other_state_1">企业HR待定</div>
+                                    {% elif position_result.dispose_status == 2 %}
+                                        <div class="zsp_send_other_state_1">邀约面试</div>
+                                    {% elif position_result.dispose_status == 3 or position_result.dispose_status == 7 %}
+                                        <div class="zsp_send_other_state_1">不合适</div>
+                                    {% elif position_result.dispose_status == 4 %}
+                                        <div class="zsp_send_other_state_1">已入职</div>
+                                    {% else %}
+                                        <div class="zsp_send_other_state_1">新推荐</div>
+                                    {% endif %}
+                            </div> 
+                            <div class="zsp_send_li_other" style="position:relative">
+                                <span>申请时间：</span>
+                                <span>{{ position_result.deliver_time | date:'Y-m-d' }}</span>
+                               <!--  <i style="position: absolute;right: 0px;top: -10px; font-size: 20px; color: red;">●</i> -->
+                            </div>
+                            {% if request.session.account_type != '1' %}
+                                <div class="zsp_send_li_other">
+                                    <span>使用简历：</span>
+                                    <span>{% if position_result.user_name %}{{ position_result.user_name }}的简历{% endif %}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+            {% else %}
+                <div class="nothingTip">
+                    <div class="tipImg">
+                        <img src="/static/new_mobile/images/wsj.png" alt="">
+                    </div>
+                    <p>你还没有投递的职位</p>
+                    <div class="goBtn"><a href="/mobile/reward_position">查看热招职位</a></div>
+                </div>
+        {% endif %}
+    </div>
+
+
+{#      <div class="zsp_resume_but_box" style="position: fixed;bottom:0px;width:100%;border-top:1px solid #f1f5f8;">#}
+{#            <a style="margin-top: 0px;" href="/mobile/personal/search_position_center" class="zsp_resume_but_3">返回个人中心</a>#}
+{#        </div>#}
+</body></html>

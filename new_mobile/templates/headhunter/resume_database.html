@@ -1,0 +1,63 @@
+{% include 'header.html' %}
+
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css"></head>
+<style type="text/css" media="screen">
+    @import "http://at.alicdn.com/t/font_1465203639_3312619.css";
+    .fa-angle-right{float: right;font-size:26px;color:#E4E4E4;}
+    .zsp_job_list_li{line-height: 30px;color:#333;font-size: 16px;padding:0;margin-bottom: 0;}
+    .zsp_job_list_li .ml{margin-left: 10px;}
+    .zsp_job_list_li div{width:90%;border-bottom:1px solid #EDEDED;margin:0 auto;padding:10px 0;}
+    .zsp_job_list_li.a{border:0;}
+    .zsp_job_list_li_count{height:30px;padding:10px 0px;margin:0 auto;width:90%;position: relative;height: 40px;}
+    .zsp_job_list_li_count span{position:absolute;font-size: 14px;bottom:0.4rem;color:#555}
+    .zsp_job_list_li_count a{width:34%;height:40px;position:absolute;bottom:0.4rem;right:0px; 
+        background-color:#00baff;border-radius:4px;-webkit-border-radius:4px;text-align:center;
+        color:#fff;padding:0px 2%;font-size:15px;line-height:40px;margin: 5px 0px;}
+    .zsp_job_list_li_count .icon-tianjia{color:#fff;font-size:17px;padding-right:5px;}
+    
+</style>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_job_list">
+    <div class="zsp_job_list_li_count"><span>共有{{ all_count }}份简历</span>
+        <a href="/mobile/personal/info_edit">
+            <i class="iconfont icon-tianjia"></i><i>添加新简历</i>
+        </a>
+    </div>
+    <a href="/mobile/headhunter/uploaded_resume?source=upload" class="zsp_job_list_li">
+        <div>
+            <i class="fa fa-angle-right"></i>
+             <span>我上传的简历</span><span class="ml">( {{ upload_count }} )</span>
+        </div>
+    </a>
+    <a href="/mobile/headhunter/buy_resume?source=purchase" class="zsp_job_list_li">
+        <div>
+            <i class="fa fa-angle-right"></i>
+             <span>我购买的简历</span><span class="ml">( {{ purchase_count }} )</span>
+        </div>
+    </a>
+    <a href="/mobile/headhunter/commission_resume?source=receive_entrust" class="zsp_job_list_li">
+        <div>
+            <i class="fa fa-angle-right"></i>
+             <span>委托给我的简历</span><span class="ml">( {{ receive_entrust_count }} )</span>
+        </div>
+    </a>
+    <a href="/mobile/headhunter/buy_resume?source=forward" class="zsp_job_list_li">
+        <div>
+            <i class="fa fa-angle-right"></i>
+             <span>转发给我的简历</span><span class="ml">( {{ forward_count }} )</span>
+        </div>
+    </a>
+    <a href="/mobile/headhunter/buy_resume?source=collect" class="zsp_job_list_li">
+        <div>
+            <i class="fa fa-angle-right"></i>
+             <span>我收藏的简历</span><span class="ml">( {{ collect_Count }} )</span>
+        </div>
+    </a>
+</div>
+</body>
+</html>

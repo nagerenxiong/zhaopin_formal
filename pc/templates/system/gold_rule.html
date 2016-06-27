@@ -1,0 +1,128 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" href="{{STATIC_URL}}css/style2.css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/css.css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/tabel.css">
+<div class="clear">99</div><div class="clear">2</div>
+<div class="nav2" style="width:1020px;">
+	<ul id="menu">
+        <li>
+            <a href="/system/exp_rule">等级规则<i class="iconfont icon-xia1"></i></a>
+        </li>
+        <li>
+            <a href="/system/gold_rule">才币规则<i class="iconfont icon-xia1"></i></a>
+        </li>
+        <li>
+            <a href="/system/privilege">我的特权<i class="iconfont icon-xia1"></i></a>
+        </li>
+ 	</ul>
+</div>
+
+<div class="cont" style="margin-top: 30px;">
+	<h1 class="o_title"><span class="line"></span>什么是才币？</h1>
+	<table class="o_tb">
+		<tr class="eef6ff">
+			<td class="pl3">才币是怀才当遇网经纪人会员专属的虚拟货币，是人才经纪人在怀才当遇日常行为中获得的奖励。才币可用于购买简历、list。</td>
+		</tr>
+	</table>
+	<h1 class="o_title"><span class="line"></span>才币获取规则</h1>
+	<table class="o_tb">
+		<tr class="eef6ff">
+			<td class="pl3" style="width:28%">操作</td>
+			<td style="width:10%">才币值</td>
+			<td style="width:10%">上限</td>
+			<td style="text-align: center;">说明</td>
+		</tr>
+		<tr>
+			<td class="pl3">对应聘来的简历快速反馈</td>
+			<td class="o_value">+2</td>
+			<td class="o_value">80</td>
+			<td>
+				<p>
+					对应聘来的候选人简历快速反馈“合适”、不合适”或“待沟通”。每日最多得80点。
+				</p>
+				<a href="resume/h_tddjl" target="_blank" class="wr_info">立即前往</a>
+			</td>
+		</tr>
+		<tr class="eef6ff">
+			<td class="pl3">回复消息</td>
+			<td class="o_value">+1</td>
+			<td class="o_value">30</td>
+			<td>
+				<p>
+					首次回复消息可得，每日最高可得30点。
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="pl3">加入企业</td>
+			<td class="o_value">+50</td>
+			<td class="o_value">50</td>
+			<td>
+				<p>
+					首次申请加入企业。
+				</p>
+				<a href="system/jjrsy" class="wr_info">立即加入</a>
+			</td>
+		</tr>
+		<tr class="eef6ff">
+			<td class="pl3">推荐职位</td>
+			<td class="o_value">+10</td>
+			<td class="o_value">150</td>
+			<td>
+				<ol>
+					<li>每天前15次成功推荐职位，每日最高可获得150点。</li>
+					<li>一周内推荐同一个候选人只能获得一次奖励</li>
+					<li>对同一个人选推荐，每周可获得一次奖励。</li>
+					<li>不可重复推荐同一个职位给相同的人。</li>
+				</ol>
+			</td>
+		</tr>
+	</table>
+	
+	<h1 class="o_title"><span class="line"></span>才币惩罚规则</h1>
+	<table class="o_tb">
+		<tr class="eef6ff">
+			<td class="pl3" style="width: 20%;">操作</td>
+			<td style="width:27%;">才币值</td>
+			<td style="text-align: center;">说明</td>
+		</tr>
+		<tr style="height:105px;">
+			<td class="pl3">回复私信违规</td>
+			<td class="o_value">-15/条</td>
+			<td >
+				<ol>
+					<li>回复广告、色情及违法信息；</li>
+					<li>信息内容不尊重候选人，对候选人有恶意中伤；</li>
+					<li>信息中附带网址、微信、微博等联系方式；</li>
+					<li>其他经用户举报属实的违规信息。</li>
+				</ol>
+			</td>
+		</tr>
+		<tr class="eef6ff">
+			<td class="pl3">发布重复职位</td>
+			<td class="o_value">-30/条</td>
+			<td style="text-align: left;">
+				发布两个（及以上）职位信息内容一致的职位。
+			</td>
+		</tr>
+		<tr>
+			<td class="pl3">发布虚假职位</td>
+			<td class="o_value">-100/条</td>
+			<td style="text-align: left;">经核实职位描述中有虚假信息</td>
+		</tr>
+		<tr class="eef6ff">
+			<td class="pl3">恶意举报</td>
+			<td class="o_value">-100</td>
+			<td style="text-align: left;">
+				单日举报不属实数量≥10条，一次性扣除100才币。
+			</td>
+		</tr>
+		<tr>
+			<td class="pl3">上传违规简历、职位</td>
+			<td class="o_value">-100</td>
+			<td style="text-align: left;">简历内容带有广告、色情及违法信息，被证实。</td>
+		</tr>
+	</table>
+	<p class="e52525">注：以上行为，视情节的严重程度，将做出账户禁用或封号处理</p>
+</div>
+{% include 'jobs/system/new_footer.html' %}

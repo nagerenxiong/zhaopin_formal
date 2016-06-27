@@ -1,0 +1,488 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/new_mobile/css/zsh_common.css" type="text/css">
+<style type="text/css">
+@import "http://at.alicdn.com/t/font_1465712390_2049143.css";
+input[type='text'] {
+    height: 60px;
+}
+
+body,
+html {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.formTagBox {
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    background: #fff;
+    border-bottom: 1px solid #e6e6e6;
+    padding-bottom: 10px;
+}
+
+.formAboutBox {
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    background: #fff;
+    padding-bottom: 10px;
+}
+
+.formTagBox ul {
+    overflow: hidden;
+    width: 120%;
+    margin-left: -4%;
+    margin-top: 5px;
+    outline: none;
+}
+
+.formTagBox li {
+    float: left;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    text-align: center;
+    box-sizing: border-box;
+    margin: 5px 1%;
+    width: 28%;
+    height: 26px;
+    line-height: 26px;
+    color:#555;
+}
+
+#about_txa {
+    width: 100%;
+    margin-top: 10px;
+    overflow: hidden;
+    padding: 10px;
+    height: 110px;
+    border: 1px solid #d9d9d9;
+    box-sizing: border-box;
+}
+
+#font_count {
+    text-align: right;
+    color: #E70014;
+    margin-top:8px;
+}
+
+.save_box {
+    text-align: center;
+    padding-top: 2px;
+    padding-bottom: 20px;
+    background-color: #fff;
+}
+
+.save_box input {
+    background: #0098dd;
+    color: #fff;
+    text-align: center;
+    width: 92%;
+    margin: 0px auto;
+    padding: 10px 0px;
+    border: 0;
+    border-radius: 4px;
+    font-size: 20px;
+}
+
+#chang_tag {
+    float: right;
+    color: #1470b3;
+}
+
+#aleady_tag .bjs {
+    background-color: #00baff;
+    color: #fff;
+    border: 1px solid #00baff;
+}
+
+.bjs i {
+    font-size: 10px;
+    color: #fff;
+    float: right;
+    margin-right: 10px;
+}
+
+.jtz {
+    position: absolute;
+    right: 0;
+    top: 1px;
+    width: 15px;
+    color: #afafaf;
+    font-size:14px;
+}
+</style>
+<script src="/static/new_mobile/js/jquery.validate.min.js" type="text/javascript" language="javascript"></script>
+<script src="/static/new_mobile/js/formValidate.js" type="text/javascript"></script>
+</head>
+
+<body>
+    {% if request.session.pu_id %} {% include 'menu_personal.html' %} {% else %} {% include 'login_Modal.html' %} {% endif %}
+    <!--zsp_header -->
+    <div class="zsp_edu_main_box">
+        <!-- <div class="zsp_edu_tit">
+        <h1>个人资料编辑</h1>
+        <p>完善个人资料，可以让大家更多地了解你</p>
+    </div> -->
+        <form id="Form1" method="post" action="/mobile/headhunter/headhunter_lead_page">
+            <input type="hidden" name="headhunt_id" value="{{ headhunt.id | default:'' }}">
+            <input type="hidden" name="label_str" class="label_str">
+            <div class="comMid swiper-slide">
+                <div class="formEleBox" style="height:90px; margin-bottom:10px;border-top:1px solid #e6e6e6; border-bottom:1px solid #e6e6e6">
+                    <label style="line-height: 90px;">头像</label>
+                    <div class="rightBox">
+                        <input id="sctx" type="file" style="display: none;">
+                        <img id="o_logo" src="{{ request.session.file_website }}{{ headhunt.head_portrait | default:'' }}" alt="上传头像" onerror="this.src='/static/new_mobile/images/p_b_por.png'" style="width: 70px;border-radius: 50%;top: 12px;height: 70px;right:25px">
+                        <i class="iconfont icon-fanhui-copy-copy jtz" style="top:20px"></i>
+                        <input type="hidden" name="head_portrait" value="{{ headhunt.head_portrait | default:'' }}">
+                    </div>
+                    <script>
+                    $(function() {
+                        $("#o_logo").click(function(event) {
+                            $("#sctx").click();
+                        });
+                    })
+                    </script>
+                </div>
+                <div class="formEleBox">
+                    <label>姓名</label>
+
+                    {% if request.session.headHuntValidStatus == 3 %}
+                    <div class="rightBox">
+                       <span style="float: right;margin-right: 22px;color:#666">{{ headhunt.real_name }}</span>
+                        <i class="iconfont icon-fanhui-copy-copy jtz"></i>
+                    </div>
+                    {% else %}
+                    <div class="rightBox">
+                        <input class="required formcheck" placeholder="请输入您的姓名" type="text" name="fullname" value="{{ headhunt.real_name | default:'' }}" maxlength="5" id="name_txt">
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="formEleBox">
+                    <label>擅长行业</label>
+                    <div class="rightBox overBox" id="trade_box">
+                        <input readonly type="text" class="create_input" id="trad_text" name="trade_cn" value="{{ headhunt.businessname  | default_if_none:'' }}">
+                        <i class="iconfont icon-fanhui-copy-copy jtz"></i>
+                        <input type="hidden" class="industry_type" name="industry_type" value="{{ headhunt.business  | default_if_none:'' }}">
+                    </div>
+                </div>
+                <div class="formEleBox">
+                    <label>擅长职能</label>
+                    <div class="rightBox overBox" id="position_box">
+                        <input readonly type="text" class="create_input" id="jobs_text" value="{{ headhunt.postname  | default_if_none:'' }}">
+                         <i class="iconfont icon-fanhui-copy-copy jtz"></i>
+                        <input type="hidden" name="postaion_type" class="postaion_type" value="{{ headhunt.post  | default_if_none:'' }}">
+                    </div>
+                </div>
+           <!--      <div class="formEleBox">
+                    <label>您的头衔</label>
+                    <div class="rightBox overBox" id="honor_box">
+                        <input readonly type="text" class="create_input required formcheck input_disabled" id="honor_txt" value="{{ headhunt.headhunt_levelname  | default_if_none:'' }}">
+                        <input id="headhunter_level" name="headhunter_level" type="hidden" value="{{ headhunt.headhunt_level  | default_if_none:'' }}">
+                         <i class="iconfont icon-fanhui-copy-copy jtz"></i>
+                    </div>
+                    <div class="menu choose_menu" id="menuhonor" style="position: absolute; z-index: 1;display: none;">
+                        <div class="menu_title">选择头衔</div>
+                        <div class="choose_close"></div>
+                        <ul>
+                            {% if headNames %} {% for head_name in headNames %}
+                            <li id="{{ head_name.dictionary_value }}" title="{{ head_name.dictionary_name }}">{{ head_name.dictionary_name }}</li>
+                            {% endfor %} {% endif %}
+                        </ul>
+                    </div>
+                </div> -->
+                <div class="formEleBox">
+                    <label>工作年限</label>
+                    <div class="rightBox overBox" id="experience_box">
+                        <input readonly type="text" class="create_input required formcheck input_disabled" id="experience_txt" value="{{ headhunt.work_timename | default:'' }}">
+                        <input name="experience" type="hidden" id="experience" value="{{ headhunt.working_time | default:'' }}">
+                         <i class="iconfont icon-fanhui-copy-copy jtz"></i>
+                </div>
+                <div class="menu choose_menu" id="menuExperience" style="display:none;position:absolute;z-index:1;">
+                    <div class="menu_title">工作年限</div>
+                    <div class="choose_close"></div>
+                    <ul>
+                        {% if workyears %} {% for work_year in workyears %}
+                        <li id="{{ work_year.dictionary_value }}" title="{{ work_year.dictionary_name }}">{{ work_year.dictionary_name }}</li>
+                        {% endfor %} {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="formEleBox" style="border-bottom:1px solid #e6e6e6;">
+                <label>所在城市</label>
+                <div class="rightBox" id="area_box">
+                    <input readonly type="text" class="create_input city_name required formcheck input_disabled" id="area_txt" value="{{ headhunt.locationname | default:'' }}">
+                    <input type="hidden" class="city_value" name="city_value" value="{{ headhunt.location | default:'' }}">
+                     <i class="iconfont icon-fanhui-copy-copy jtz"></i>
+            </div>
+    </div>
+    <div class="formTagBox">
+        <div style="padding-top:10px;font-size:14px;">
+            选择标签<span id="chang_tag" onClick="changeLabel()">换一换</span>
+        </div>
+        <ul id="select_tag">
+            <li>美女多</li>
+        </ul>
+        <div style="padding-top:5px;font-size:14px;">
+            已选
+        </div>
+        <ul id="aleady_tag">
+            {% if labelList %} {% for label in labelList %}
+            <li class="bjs">{{ label }} <i class="iconfont icon-chacha"></i></li>
+            {% endfor %} {% endif %}
+        </ul>
+    </div>
+    <div class="formAboutBox">
+        <div style="padding-top:10px;font-size:14px;">
+            个人简介
+        </div>
+        <div>
+            <textarea name="about_txa" id="about_txa" placeholder="请输入个人简介" onMouseDown="s(event,this)" maxlength="30">{{ pu.introduction | default:'' }}</textarea>
+            <div id="font_count">
+                <span class="fontcou" style="color:#ff6b12"></span><span style="color:#222">/30</span>
+            </div>
+        </div>
+    </div>
+    <div class="save_box">
+        <input type="submit" onClick="return savaInfo()" value="保存">
+    </div>
+    </div>
+    </form>
+    </div>
+    <script src="/static/new_mobile/js/trade.js"></script>
+    <script src="/static/new_mobile/js/position.js"></script>
+    <script src="/static/new_mobile/js/area.js"></script>
+    <script>
+    //选择标签
+    $("#select_tag").on('click', 'li', function() {
+        if ($("#aleady_tag li").length > 7) {
+            alert(['不能选择超过8个', 2]);
+            return;
+        }
+        var flag = true;
+        _this = $(this);
+        $("#aleady_tag li").each(function(index, el) {
+            if (_this.text() == $(el).text()) {
+                alert(['已存在该标签', 2]);
+                flag = false;
+                return false;
+            }
+        });
+        if (flag)
+            var detai = $(this).attr('class','bjs').append('<i class="iconfont icon-chacha"></i>');
+            $("#aleady_tag").append(this);
+    })
+    $("#aleady_tag").on('click', '#aleady_tag li', function() {
+        // $("#select_tag").append(this);
+        $(this).remove();
+    })
+
+
+    var pageIndex = 1;
+    var labelData;
+    //获取猎头标签
+    $.ajax({
+        type: "POST",
+        url: "/ajax_dictionary",
+        data: {
+            "p_value": '12001000'
+        },
+        dataType: "json",
+        success: function(data) {
+            labelData = data;
+            changeLabel();
+        }
+    });
+    //换一换标签
+    function changeLabel() {
+        $("#select_tag").empty();
+        var count = pageIndex * 8;
+
+        if (count >= labelData.length) {
+            count = labelData.length;
+            for (var i = (pageIndex - 1) * 8; i < count; i++) {
+                $("#select_tag").append("<li>" + labelData[i].dictionary_name + "</li>");
+            }
+            pageIndex = 1;
+        } else {
+            for (var i = (pageIndex - 1) * 8; i < count; i++) {
+                $("#select_tag").append("<li>" + labelData[i].dictionary_name + "</li>");
+            }
+            pageIndex++;
+        }
+    }
+    //简介字数控制
+    $("#about_txa").bind('input', function(event) {
+        var len = $(this).val().trim().length;
+        $(".fontcou").text(len);
+    });
+    $(".fontcou").text($("#about_txa").val().trim().length);
+    // $("#about_txa").input();
+    //擅长行业
+    $("#trade_box").click(function() {
+        tradeShow();
+    })
+    $("#position_box").click(function() {
+            positionShow();
+        })
+        //头衔
+    $("#honor_box").click(function() {
+        showFloatBox();
+        $("#menuhonor").css({
+            top: ($(window).height() - $('#menuhonor').outerHeight()) / 2 + $(document).scrollTop()
+        });
+        $("#menuhonor").show();
+    })
+    $("#menuhonor").on('click', 'li', function() {
+            $("#honor_txt").val($(this).attr('title'));
+            $("#headhunter_level").val($(this).attr('id'));
+            closeFloatBox();
+        })
+        //工作年限
+    $("#experience_box").click(function() {
+        showFloatBox();
+        $("#menuExperience").css({
+            top: ($(window).height() - $('#menuExperience').outerHeight()) / 2 + $(document).scrollTop()
+        });
+        $("#menuExperience").show();
+    })
+    $("#menuExperience").on('click', 'li', function() {
+            $("#experience_txt").val($(this).attr('title'));
+            $("#experience").val($(this).attr('id'));
+            closeFloatBox();
+        })
+        //所在城市
+    $("#area_box").click(function() {
+            areaShow();
+        })
+        //上传头像功能
+    $("#sctx").on("change", fOnChange);
+
+    function fOnChange() {
+        var oFile = this.files[0],
+            sName = this.files[0].fileName,
+            sFileType = oFile.type;
+        var nSize = 0,
+            nModTime;
+        // Android下读不到type信息，从文件名中解析
+
+        // if(!sFileType){
+        //   sFileType = "image/" + sName.split(".").pop().toLowerCase();
+        // }
+        photoExt = sFileType.substr(sFileType.lastIndexOf(".")).toLowerCase(); //获得文件后缀名
+        // 读取文件大小、修改时间等信息
+        var oUploadInfo = {
+            name: oFile.name || oFile.fileName,
+            size: oFile.size / 1000 || oFile.fileSize / 1000,
+            blob: oFile,
+            type: oFile.type
+        };
+        //图片大小限制单位kb
+        // if(oUploadInfo.size>30){
+        //   alert("图片不能大于30kb");
+        //   return false;
+        // }
+        if (oUploadInfo.type != "image/png" && oUploadInfo.type != "image/jpg" && oUploadInfo.type != "image/jpeg" && oUploadInfo.type != "image/gif") {
+            alert(["图片支持jpg、jpeg、gif、png格式"]);
+            return false;
+        }
+        var oImg = $("#o_logo"); //接收图片的DOM元素
+
+        // 使用FileReader读取
+        var oReader = new FileReader();
+        oReader.onload = function(e) {
+            var sBase64 = e.target.result;
+            // 部分Android下base64字符串格式不完整
+            if (window.gIsAndroid && sBase64.indexOf("data:image/") != 0) {
+                var sMime = sName.split(".").pop().toLowerCase();
+                sBase64 = sBase64.replace("base64,", "image/" + sMime + ";base64,");
+            }
+            oImg.attr('src', sBase64);
+            sBase64 = null;
+        }
+        oReader.readAsDataURL(oFile);
+    }
+    //保存信息提交事件
+    function savaInfo() {
+        var img_data = $("#o_logo").attr('src');
+        var img_path = is_upload_head_portrait(img_data, 1);
+        if (img_path != '') {
+            $(":input[name=head_portrait]").val(img_path);
+        }
+
+        if ($("#name_txt").val().trim() == '') {
+            alert(['请输入您的姓名', 2]);
+            return false;
+        }
+        if ($("#trad_text").val().trim() == '') {
+            alert(['请输入擅长行业', 2]);
+            return false;
+        }
+        if ($("#jobs_text").val().trim() == '') {
+            alert(['请输入擅长职能', 2]);
+            return false;
+        }
+        // if ($("#honor_txt").val().trim() == '') {
+        //     alert(['请输入您的头衔', 2]);
+        //     return false;
+        // }
+        if ($("#experience_txt").val().trim() == '') {
+            alert(['请输入工作年限', 2]);
+            return false;
+        }
+        if ($("#area_txt").val().trim() == '') {
+            alert(['请输入所在城市', 2]);
+            return false;
+        }
+        if ($("#aleady_tag li").length > 0) {
+            var label_str = '';
+            $("#aleady_tag li").each(function() {
+                if (label_str == '') label_str = $(this).text();
+                else label_str += '**' + $(this).text();
+            })
+            $(".label_str").val(label_str);
+        }
+        return true;
+    }
+
+    function s(e, a) {
+        if (e && e.preventDefault)
+            e.preventDefault();
+        else
+            window.event.returnValue = false;
+        a.focus();
+    }
+
+
+    // 上传用户头像
+    function is_upload_head_portrait(fileContent, file_type) {
+        var img_path = '';
+        var contentStart = 'data:image';
+        var fileContentArray = fileContent.split(contentStart);
+        if (fileContentArray.length != 2) {
+            return img_path;
+        }
+        $.ajax({
+            async: false,
+            type: 'post',
+            data: {
+                'fileContent': fileContentArray[1],
+                'file_type': file_type
+            },
+            url: '/mobile/ajax_upload_image_type',
+            dataType: 'json',
+            success: function(data) {
+                if (data != 0) {
+                    img_path = data;
+                }
+            }
+        });
+        return img_path;
+    }
+    </script>
+</body>
+
+</html>

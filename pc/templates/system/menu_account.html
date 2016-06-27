@@ -1,0 +1,44 @@
+
+<link href="{{ STATIC_URL }}css/style2.css" media="screen" rel="stylesheet" type="text/css">
+ <div class="nav2">
+<ul id="menu" >
+    {% if request.session.account_type == "3" or request.session.account_type == "5" %}
+        <li>
+            <a href="/jobs/system/jjrsy">个人主页<i class="iconfont icon-xia1"></i></a>
+        </li>
+    {% elif request.session.account_type == "1" %}
+        <li>
+            <a href="/jobs/account/grxxsz">个人主页<i class="iconfont icon-xia1"></i></a>
+        </li>
+{#    {% elif request.session.account_type == "4" %}#}
+{#        <li>#}
+{#            <a href="/jobs/account/new_qygl"  onclick=" return isIdentityAudit('4', '2')">个人主页<i class="iconfont icon-xia1"></i></a>#}
+{#        </li>#}
+    {% endif %}
+    <li>
+        <a href="/jobs/account/zhsz">账号设置<i class="iconfont icon-xia1"></i></a>
+    </li>
+    {% if request.session.account_type == "5" and request.session.validStatus == 3  %}
+        <li>
+            <a href="/jobs/account/lthy">企业管理<i class="iconfont icon-xia1"></i></a>
+		</li>
+    {% endif %}
+    {% if request.session.account_type == "3" or request.session.account_type == "5" %}
+        <li>
+ 			<a href="/jobs/account/new_sfyz">身份验证<i class="iconfont icon-xia1"></i></a>
+ 		</li>
+    {% endif %}
+{#        <li>#}
+{# 			<a href="/jobs/account/skzh" onclick=" return isIdentityAudit('3,5', '1,2')">收款账号<i class="iconfont icon-xia1"></i></a>#}
+{# 		</li>#}
+    {% if request.session.account_type == "3" or request.session.account_type == "5" %}
+        <li>
+ 			<a href="/jobs/account/jljsyx">简历接收邮箱<i class="iconfont icon-xia1"></i></a>
+ 		</li>
+    {% endif %}
+     <li>
+        <a href="/jobs/account/tjyj">推荐有奖<i class="iconfont icon-xia1"></i></a>
+    </li>
+ 		
+ </ul>
+ </div> 

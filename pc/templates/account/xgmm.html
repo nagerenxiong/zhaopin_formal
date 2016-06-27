@@ -1,0 +1,74 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+	<!-- 内容大框 -->
+	<div class="lt_content_box" style="padding-bottom: 100px">
+		<div class="ltml_grid_box center clearfix fz12 lthy_xxglmb_color c_33" style="margin-top: 30px">
+			<ul  class="nav nav-tabs ltml_grid_ul">
+				<li class="active side_yx_li">
+					<a href="#home" data-toggle="tab">修改密码</a>
+				</li>
+				<li class="slider slide_yx"></li>
+			</ul>
+				<ul class="xgmm_center">
+					<li><div class="f_l t_r">请输入当前的密码:</div><div  class="f_l"><input type="password" maxlength="16" oncopy="return false;" onpaste="return false;" oncut="return false;" id="oldpassword" datatype="*6-15" errormsg="您输入的密码不符合要求"></div><div class="oh"><span class="Validform_checktip"></span></div></li>
+					<li><div class="f_l t_r">请输入新密码:</div><div class="f_l"><input type="password" maxlength="16"  oncopy="return false;" onpaste="return false;" oncut="return false;" value="" name="userpassword" id="newpwd1" datatype="*6-15" errormsg="您输入的密码不符合要求"></div><div class="oh"><span class="Validform_checktip"></span></div></li>
+					<li><div class="f_l t_r">再次输入新密码:</div><div class="f_l"><input type="password" maxlength="16" oncopy="return false;" onpaste="return false;" oncut="return false;" datatype="*" recheck="userpassword" id="newpwd2" errormsg="您两次输入的账号密码不一致！" ></div><div class="oh"><span class="Validform_checktip"></span></div></li>
+				</ul>
+                <div class="xgmm_sava_btn_box">
+                    <input type="button" value="保存" class="lthy_xxglmb_btn">
+                </div>
+			<div class="left_top_border"></div>
+		</div>
+	</div>
+	<!-- 内容大框 -->
+	<!-- 底部 -->
+	{% include 'jobs/system/new_footer.html' %}
+	<!-- 底部 -->
+<script type="text/javascript">
+    //修改密码
+        $('.lthy_xxglmb_btn').click(function(){
+            var oldpassword = $('#oldpassword').val();
+            var newpwd1 = $('#newpwd1').val();
+            var newpwd2 = $('#newpwd2').val();
+            if(oldpassword == ''){
+                window.alert("原密码不能为空，请输入原密码！");
+                return false;
+            }
+            if(newpwd1 == '' || newpwd2 == ''){
+                window.alert("新密码不能为空，请输入新密码！");
+                return false;
+            }
+            if(newpwd1 != newpwd2){
+                window.alert("新密码不一致，请重新输入！");
+                return false;
+            }
+            if(oldpassword == newpwd1){
+                window.alert("原密码与新密码一直，无需修改");
+                return false;
+            }
+            if(newpwd1.length<6 || newpwd2.length<6){
+                 window.alert("密码长度不能小于6位");
+                 return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: "../ajax_updatePassword",
+                data: {"oldpassword": oldpassword, "newpassword": newpwd1},
+                dataType: "json",
+                success: function (data) {
+                    if(data.msg == "修改成功！") {
+                        window.alert("密码修改完成，新密码已生效！")
+                    }else{
+                        window.alert(data.msg);
+                    }
+                }
+            })
+        })
+</script>
+</body>
+</html>

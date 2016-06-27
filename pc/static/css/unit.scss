@@ -1,0 +1,164 @@
+@charset "utf-8";
+@import "base";
+// 简历设置标题样式
+@mixin jl_title($_width,$_bdColor,$_ftColor)
+{
+	width:$_width;
+	@include fz20;
+	color:$_ftColor;
+	text-align: center;
+	position:relative;
+	i{@include fz25;margin-right: 5px;}
+	border-bottom:1px solid $_bdColor;
+	.c{position:absolute;left:50%;margin-left: -55px;margin-top:-18px;background-color: white;padding:0 15px;}
+}
+.jl_title{
+	@include jl_title(650px,$c_ee,$c_33);
+}
+// 简历设置标题样式
+// 简历编辑
+.edit,.m_edit{
+	color:$c_99;
+	float: right;
+	i{margin-right: 3px;}
+	cursor: pointer;
+}
+// 简历编辑
+// 进度条
+@mixin jdt($color,$color1,$width,$height)
+{
+	span{display:block;background-color:$color;height:100%;}
+	width:$width;
+	height:$height;
+	border-radius:5px;
+	overflow: hidden;
+	background-color:$color1;
+}
+.jl_jdt{
+	@include jdt($c_5c,$c_ee,203px,8px);
+}
+.tag{
+	width:470px;
+}
+@mixin tag($width,$width1,$height)
+{
+	width:$width;
+	li{float: left;width:$width1;text-align: center;height:$height;line-height:$height;border-radius: 5px;border:1px solid $c_ee;}
+}
+.jl_tag{
+	@include tag(480px,102px,31px);li{margin-right: 15px;margin-top: 5px;}
+	i{
+		display: none;
+	}
+	li:hover{
+		i{
+			display: inline;
+		}
+	}
+}
+// 进度条
+// 下拉列表
+.selectControl{		
+	i{float: right;color:$c_99;font-size: 13px;margin:0!important;}
+	background-color: white;
+	border-radius: 3px;
+	padding:0 10px;
+	cursor: pointer;
+	font-size: 14px;
+	position:relative;	
+	.selectControlList{
+		z-index: 99;
+		position:absolute;
+		width:100%;
+		left:0;	
+		top:100%;
+		display:none;		
+		background-color: #eae8e8;
+		li{
+			padding:0 10px;
+			color:#333;
+		}
+		li:hover{
+			background-color: #dddada;
+		}
+	}
+	span{display:inline-block;width:100%;margin:0;height:40px;line-height:40px}
+}
+// 下拉列表
+// 按钮
+@mixin button($width,$height,$bgColor,$color)
+{
+	display:inline-block;
+	width:$width;
+	height:$height;
+	background-color:$bgColor;
+	color:$color;
+	text-align: center;
+	line-height: $height;
+	cursor: pointer;
+	border-radius: 5px;
+}
+.jl_button{
+	@include button(87px,40px,$c_5c,white);
+}
+.sex_button_nan{
+	@include button(67px,40px,white,$c_99);
+	border:1px solid transparent;
+	font-size: 14px;
+	i{margin-right: 3px;}
+}
+.sex_button_nv{
+	@include button(67px,40px,white,$c_5c);
+	border:1px solid transparent;
+	font-size: 14px;
+	i{margin-right: 3px;}
+}
+.sex_button .sex_button_nan.active,.sex_button .sex_button_nv.active{
+	border:1px solid $c_5c;
+}
+.view_contact{@include button(95px,25px,transparent,$c_f80);border:1px solid $c_f80;border-radius: 20px;}
+// 按钮
+@mixin input_txt($width,$height,$bgColor,$color)
+{
+	width:$width;
+	height:$height;
+	background-color: $bgColor;
+	color:$color;	
+	border: 1px solid white;
+	font-size: 14px;
+	padding:0 10px;
+}
+.jl_input_txt{
+	@include input_txt(274px,auto,white,$c_33);
+	min-height:39px;
+	line-height:39px;
+	border-radius:5px;display:inline-block;
+}
+.jl_input_txt1{
+	@include input_txt(120px,41px,white,$c_33);display:inline-block;
+}
+.name_txt{
+	@include input_txt(122px,41px,white,$c_33);
+	font-size: 25px;	
+	border-radius: 5px;
+}
+@mixin textarea($width,$height)
+{
+  width:$width;
+  height:$height;  
+  resize:none;
+  border:none;
+}
+.jl_textarea{
+	@include textarea(567px,134px);
+}
+// 拖动进度条
+ #tdJdt{position: relative; width: 200px;border: 1px solid transparent;margin-top:5px;}
+ #tdJdt #tdJdt_bg{height: 10px;  border: 1px solid #ddd; border-radius: 5px; overflow: hidden;}
+ #tdJdt #tdJdt_bg #tdJdt_bgColor{background: #5c91d9; width: 0; height: 10px; border-radius: 5px;}
+ #tdJdt #bt{width: 15px; height: 15px; background: url(/static/images/dd_03.png) no-repeat center center; border-radius: 17px; overflow: hidden; position: absolute; left: 0px;  top: 0px;margin-left: -7px;margin-top:-1px; cursor: pointer;}
+ #tdJdt #tip{width: 200px; margin: 0 auto; font-size: 16px; line-height: 2em;}
+// 拖动进度条
+
+.bitian{background: url(../images/bitian.png) no-repeat left 8px;text-indent: 10px;}
+

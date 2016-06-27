@@ -1,0 +1,191 @@
+<!DOCTYPE HTML>
+<html>
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <title>Registed</title>
+
+  <link rel="shortcut icon" href="../favicon.ico">
+  <link href="{{ STATIC_URL }}jobs/css/style.css" media="screen" rel="stylesheet" type="text/css">
+  <link href="{{ STATIC_URL }}jobs/css/grid.css" media="screen" rel="stylesheet" type="text/css">
+
+  <script src="{{ STATIC_URL }}js/jquery-1.7.2.min.js" ></script>
+  <script src="{{ STATIC_URL }}js/html5.js" ></script>
+  <script src="{{ STATIC_URL }}js/jflow.plus.js"></script>
+  <script src="{{ STATIC_URL }}js/jquery.carouFredSel-5.2.2-packed.js"></script>
+  <script src="{{ STATIC_URL }}js/checkbox.js"></script>
+  <script src="{{ STATIC_URL }}js/radio.js"></script>
+  <script src="{{ STATIC_URL }}js/selectBox.js"></script>
+
+	<script src="{{ STATIC_URL }}js/jquery.uploadify.js" ></script>
+    <style>
+        #tb th {
+            border-left:1px solid #D5D5D5;
+        }
+        #tb td {
+            text-align:left;
+        }
+        #tb input {
+            width:200px;
+        }
+    </style>
+  <script>
+      $(document).ready(function () {
+          $("select").selectBox();
+      });
+  </script>
+
+  <script>
+      $(document).ready(function () {
+          $("#myController").jFlow({
+              controller: ".control", // must be class, use . sign
+              slideWrapper: "#jFlowSlider", // must be id, use # sign
+              slides: "#slider",  // the div where all your sliding divs are nested in
+              selectedWrapper: "jFlowSelected",  // just pure text, no sign
+              width: "984px",  // this is the width for the content-slider
+              height: "480px",  // this is the height for the content-slider
+              duration: 400,  // time in miliseconds to transition one slide
+              prev: ".slidprev", // must be class, use . sign
+              next: ".slidnext", // must be class, use . sign
+              auto: true
+          });
+      });
+  </script>
+  <script>
+      $(function () {
+          $('#list_product').carouFredSel({
+              prev: '#prev_c1',
+              next: '#next_c1',
+              auto: false
+          });
+          $('#list_product2').carouFredSel({
+              prev: '#prev_c2',
+              next: '#next_c2',
+              auto: false
+          });
+          $('#list_banners').carouFredSel({
+              prev: '#ban_prev',
+              next: '#ban_next',
+              scroll: 1,
+              auto: false
+          });
+          $(window).resize();
+      });
+
+  </script>
+  <script>
+      $(document).ready(function () {
+          $("button").click(function () {
+              $(this).addClass('click')
+          });
+      })
+  </script>
+    
+</head>
+<body>
+{#  <div class="container_12">#}
+{#    <iframe width="100%" height="250px" name="top" scrolling="no" frameborder="0" src="../top.html"></iframe>#}
+{#  </div>#}
+
+  <div class="clear"></div>
+  
+  <section id="main" class="entire_width">
+    <div class="container_12">      
+        <div id="content">
+	        <div class="grid_12">
+			    <h1 class="page_title">个人信息完善</h1>
+		    </div>
+		<div class="grid_6" style="width: 98%;">
+            <form method="post" enctype="multipart/form-data" action="/forms/">
+                {% csrf_token %}
+                <input type="hidden" name="forms_name" value="TPuForm" />
+                <input type="hidden" name="id" value="{{ pu.id }}" />
+                <input type="text" name="pwd" value="{{ pu.pwd }}" />
+                <input type="hidden" name="token" />
+                <input type="hidden" name="labels" value="{{ pu.labels }}" />
+                <input type="hidden" name="add_date" value="{{ pu.add_date }}" />
+                <input type="text" name="recommended_id" value="{{ pu.recommended_id }}" />
+                <table id="tb" border="1">
+                    <tr>
+                        <th style="width:100px;">账号：</th>
+                        <td><input type="text" name="account" value="{{ pu.account }}" /></td>
+                        <th rowspan="3" colspan="2">
+                            <img src="{{ pu.head_portrait }}" width="100" height="100" id="imgUrl" />
+                            <span id="btn_upload"></span>
+                            <script type="text/javascript">
+                                $('#btn_upload').uploadify({
+                                    uploader:'/upload_script',
+                                    buttonText : '上传图片',
+                                    onUploadSuccess : function(file, data, response){
+                                        if (data['ret'] == '1') {
+                                            //上传成功处理
+{#                                            $('#imgUrl').val(data['save_name']);#}
+                                            var addr = data['save_name'];
+                                            var repHead = addr.substring(0, addr.indexOf('static'));
+
+                                            addr = addr.replace(repHead, '../../');
+                                            var srcurl = addr.replace('\\', '/').replace('\\', '/');
+                                            $('#headp').val(srcurl);
+                                            $('#imgUrl').attr('src', srcurl);
+                                        } else {
+                                            //上传失败处理
+                                        }
+
+                                    }
+                                });
+                            </script>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="width:100px;">姓名：</th>
+                        <td><input type="text" name="user_name" value="{{ pu.user_name }}" /></td>
+                    </tr>
+                    <tr>
+                        <th style="width:100px;">邮箱：</th>
+                        <td><input type="text" name="email" value="{{ pu.email }}" /></td>
+                    </tr>
+                    <tr>
+                        <th style="width:100px;">手机号码：</th>
+                        <td><input type="text" name="phone" value="{{ pu.phone }}" /></td>
+                        <th style="width:100px;">账户类型：</th>
+                        <td><input type="text" name="account_type" value="{{ pu.account_type }}" /></td>
+                    </tr>
+                    <tr>
+                        <th style="width:100px;">用户等级：</th>
+                        <td><input type="text" name="account_level" value="{{ pu.account_level }}" /></td>
+                        <th style="width:100px;">用户状态：</th>
+                        <td><input type="text" name="state" value="{{ pu.state }}" /></td>
+                    </tr>
+                    <tr>
+                        <th style="width:100px;">金币：</th>
+                        <td><input type="text" name="gold" value="{{ pu.gold }}" /></td>
+                        <th style="width:100px;">头像：</th>
+                        <td><input type="text" name="head_portrait" value="{{ pu.head_portrait }}" id="headp" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" align="center">
+                            <input type="submit" value="修改" />
+                        </td>
+                    </tr>
+                </table>
+		    </form>
+			<!-- .registed -->
+        </div><!-- .grid_6 -->
+       </div><!-- #content -->
+       
+      <div class="clear"></div>
+    </div><!-- .container_12 -->
+  </section><!-- #main -->
+  
+  <div class="clear"></div>
+    
+{#  <div class="container_12">#}
+{#    <iframe width="100%" height="260px" name="footer" scrolling="no" frameborder="0" src="../footer.html"></iframe>#}
+{#  </div>#}
+</body>
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+</html>

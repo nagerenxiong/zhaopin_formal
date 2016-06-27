@@ -1,0 +1,249 @@
+{% include 'jobs/system/header.html' %}
+<!DOCTYPE HTML>
+<html>
+	<!-- Added by HTTrack -->
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<!-- /Added by HTTrack -->
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<title>信息模板设置</title>
+	<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+    <script src="{{ STATIC_URL }}js/scroll.js" ></script>
+	<script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js" ></script>
+	<script src="{{ STATIC_URL }}js/common.js" ></script>
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+	<script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<!-- 顶部 -->
+    
+	<!-- 顶部 -->
+	<!-- 内容大框 -->
+	<div class="lt_content_box">
+		<!-- 猎头会员菜单 -->
+        {% include 'jobs/system/menu_account.html' %}
+		<!-- 猎头会员菜单 -->
+        <div class="clear"></div>
+    <div class="clear">3</div>
+        <script>
+        if({{request.session.account_type}} !=1)
+        {
+            $(".clear").eq(1).text(6);
+        }
+</script>
+		<div class="ltml_grid_box center clearfix fz12 lthy_xxglmb_color mt25">
+			<ul  class="nav nav-tabs ltml_grid_ul">
+				<li class="active side_yx_li">
+					<a href="#home" data-toggle="tab">信息模板设置</a>
+				</li>
+				<li class="slider slide_yx"></li>
+			</ul>
+			<div class="lthy_xxglmb_title mt20 lthy_xxglmb_border lthy_xxglmb_bgc">
+				全部模板
+			</div>
+			<div class="lthy_xxglmb_title_b"></div>
+			<div class="lthy_xxglmb_box lthy_xxglmb_border clearfix">
+				 	<div class="lthy_xxglmb_box_l f_l">
+				 		<ul>
+                            {% if tpuModels %}
+                                {% for tpumodel in tpuModels %}
+                                    <li style="cursor: pointer;" onclick="getUpdateData({{ tpumodel.id }})">
+                                        <input type="hidden" name="modelId" value="{{ tpumodel.id }}" />{{ tpumodel.model_name }}
+                                        <span class="f_r" style="display:none">
+                                            <i class="iconfont icon-xiugaichujia"></i>
+                                            <i class="iconfont icon-shanchu"></i>
+                                        </span>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+{#				 			<li>拒绝面试来的简历模板<span class="f_r" style="display:none"><i class="iconfont icon-xiugaichujia"></i><i class="iconfont icon-shanchu"></i></span></li>#}
+{#				 			<li>拒绝面试来的简历模板<span class="f_r" style="display:none"><i class="iconfont icon-xiugaichujia"></i><i class="iconfont icon-shanchu"></i></span></li>#}
+{#				 			<li>拒绝面试来的简历模板<span class="f_r" style="display:none"><i class="iconfont icon-xiugaichujia"></i><i class="iconfont icon-shanchu"></i></span></li>#}
+{#				 			<li>拒绝面试来的简历模板<span class="f_r" style="display:none"><i class="iconfont icon-xiugaichujia"></i><i class="iconfont icon-shanchu"></i></span></li>#}
+				 		</ul>
+				 		<div class="xxmbsz_newmodal mt20 pl10" id="add_modal_btn">
+				 			<i class="iconfont icon-tianjia"></i>新建模版
+				 		</div>
+				 	</div>
+                    <form action="xxmbsz.html" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" id="id" />
+                        <div class="lthy_xxglmb_box_r f_r">
+                            <div>
+                                模版名称:
+                            </div>
+                            <div>
+                                <input type="text" name="name" class="lthy_xxglmb_bgc lthy_xxglmb_border" id="name" maxlength="16">
+                            </div>
+                            <div>
+                                模版内容:
+                            </div>
+                            <div>
+                                <textarea name="content" class="lthy_xxglmb_bgc lthy_xxglmb_border" id="content" maxlength="200" style="resize: none"></textarea>
+                            </div>
+                            <div class="t_r">
+                                <input type="submit" value="保存模版" onclick="return saveModel();" class="lthy_xxglmb_btn">
+                            </div>
+                        </div>
+                    </form>
+			</div>
+			<div class="lthy_xxglmb_border mt10 lthy_xxglmb_modal">
+				<dl>
+					<dt>示例一：</dt>
+					<dd><p>模板名称：应聘不合适</p><p>模板内容：感谢您的应聘，您的简历我已阅。从您以往经历来看，和这个职位的吻合度不是很高，希望我们能在下一个机会中合作！感谢您的关注，祝事业顺利！</p></dd>
+				</dl>
+				<dl>
+					<dt>示例二：</dt>
+					<dd><p>模板名称：应聘不合适</p><p>模板内容：感谢您的应聘，您的简历我已阅。从您以往经历来看，和这个职位的吻合度不是很高，希望我们能在下一个机会中合作！感谢您的关注，祝事业顺利！</p></dd>
+				</dl>
+			</div>
+			<div class="left_top_border"></div>
+		</div>
+	</div>
+	<!-- 内容大框 -->
+	<!-- 底部 -->
+    {% include 'jobs/system/new_footer.html' %}
+	<!-- 底部 -->
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="bank_modal" tabindex="-1" role="dialog" 
+	   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" 
+	               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">添加银行卡</h4>
+				</div>
+				<div class="modal-body clearfix" id="bank_modal_body">
+					<span><input type="radio" name="bank_radio" value=""><i class="iconfont icon-pufa"></i>中国建设银行</span><span><input type="radio" name="bank_radio" value=""><i class="iconfont icon-pufa"></i>中国建设银行</span><span><input type="radio" name="bank_radio" value=""><i class="iconfont icon-pufa"></i>中国建设银行</span><span><input type="radio" name="bank_radio" value=""><i class="iconfont icon-pufa"></i>中国建设银行</span><span><input type="radio" name="bank_radio" value=""><i class="iconfont icon-pufa"></i>中国建设银行</span><span><input type="radio" name="bank_radio" value=""><i class="iconfont icon-pufa"></i>中国建设银行</span><span><input type="radio" name="bank_radio" value=""><i class="iconfont icon-pufa"></i>中国建设银行</span><span><input type="radio" name="bank_radio" value=""><i class="iconfont icon-pufa"></i>中国建设银行</span><span><input type="radio" name="bank_radio" value=""><i class="iconfont icon-pufa"></i>中国建设银行</span><span><input type="radio" name="bank_radio" value=""><i class="iconfont icon-pufa"></i>中国建设银行</span><span><input type="radio" name="bank_radio" value=""><i class="iconfont icon-pufa"></i>中国建设银行</span><span><input type="radio" name="bank_radio" value=""><i class="iconfont icon-pufa"></i>中国建设银行</span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" 
+	               data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary">下一步</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->	
+		</div>
+		<!-- /.modal -->	
+	</div>
+	<script src="{{ STATIC_URL }}js/common.js" ></script>
+	<script type="text/javascript">
+        $("#add_modal_btn").click(function(){
+
+            if($(".lthy_xxglmb_box_l ul li").length>10)return;
+{#            $(".lthy_xxglmb_box_l ul").append(emt);#}
+            var modelType = 'add';
+            $.ajax({
+                type: "POST",
+                url: "/ajax_model",
+                data: {"modelType": modelType},
+                dataType: "json",
+                success: function(data){
+                    var emt='<li><input type="hidden" name="modelId" value="' + data.id + '" />新增模板<span class="f_r" style="display:none"><i class="iconfont icon-xiugaichujia"></i><i class="iconfont icon-shanchu"></i></span></li>';
+                    $(".lthy_xxglmb_box_l ul").append(emt);
+{#                    window.alert(data.msg);#}
+                }
+            });
+        })
+        $(document).on('click', '.icon-shanchu', function(event) {
+            if(window.confirm("你确定要删除该信息模板吗？")){
+                var id = $(this).parent().parent().find('input:first').val();
+                var updateId = $('#id').val();
+                var modelType = 'delete';
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax_model",
+                    data: {"modelType": modelType, "id": id},
+                    dataType: "json",
+                    success: function(data){
+                        window.alert(data.msg);
+                        if(id == updateId){
+                            $('#id').val("");
+                            $("#name").val("");
+                            $("#content").val("");
+                        }
+                    }
+                });
+                $(this).parent().parent().remove();
+            }
+        });
+        switchTab(".lthy_xxglmb_box li");
+        $(".c_account_r").click(function(){
+            $(".c_account_r").removeClass("c_account_r_hover");
+            $(this).addClass("c_account_r_hover");
+            $(this).children("input[type=radio]")[0].checked=true;
+            $
+        })
+        $(document).on('click','.icon-xiugaichujia',function(event){
+            var id = $(this).parent().parent().children('input:first').val();
+            getUpdateData(id);
+    {#            var id=$(this).parent().parent().attr('data-id');#}
+{#            var id = $(this).parent().parent().find('input:first').val();#}
+{#            var modelType = 'query';#}
+{#            $.ajax({#}
+{#                type: "POST",#}
+{#                url: "/ajax_model",#}
+{#                data: {"modelType": modelType, "id": id},#}
+{#                dataType: "json",#}
+{#                success: function(data){#}
+{#                    $('#id').val(data.id);#}
+{#                    $("#name").val(data.model_name);#}
+{#                    $("#content").val(data.content);#}
+{#                }#}
+{#            });#}
+        })
+        //获得要修改的数据
+        function getUpdateData(id){
+            var modelType = 'query';
+            $.ajax({
+                type: "POST",
+                url: "/ajax_model",
+                data: {"modelType": modelType, "id": id},
+                dataType: "json",
+                success: function(data){
+                    $('#id').val(data.id);
+                    $("#name").val(data.model_name);
+                    $("#content").val(data.content);
+                }
+            });
+        }
+        function qiehuan(stor){
+            stor.children('span').mouseover(function(){
+                stor.children().css('border', '3px solid #ebebeb');
+                $(this).css('border', '3px solid #d21d30');
+            })
+            stor.children('span').click(function(){
+              $(this).children("input[type=radio]")[0].checked=true;
+            })
+        }
+        function addLi(stor){
+            $(stor).ap
+        }
+        qiehuan($('#bank_modal_body'));
+
+        function saveModel(){
+            var modelname = $('#name').val();
+            var content = $('content').val();
+            if(modelname == ""){
+                window.alert("请输入模板名称！");
+                return false;
+            }
+            if(content == ""){
+                window.alert("请输入模板内容！");
+                return false;
+            }
+            return true;
+        }
+	</script>
+</body>
+</html>

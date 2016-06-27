@@ -1,0 +1,606 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style1.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.autocomplete.css" />
+<link rel="stylesheet" href="{{ STATIC_URL }}css/uploadify.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script src="{{ STATIC_URL }}js/jquery.uploadify.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.autocomplete.min.js" ></script>
+<!-- 内容大框 -->
+<div class="lt_content_box scjl">
+    <input type="hidden" value="{{ resumeID }}" id="resumeID">
+    <input type="hidden" id="attachment" value="{{ vResumeInfo.attachment }}" >
+    <input type="hidden" id="user_name" value="{{ vResumeInfo.user_name }}" >
+    <div class="center clearfix">
+        <div class="left">
+            <div class="left_box">
+                <div class="bd_bottom1">
+                    <span class="t" >隐私设置</span>
+                    <div class="slider wdgz_silder"></div>
+                </div>
+            <form name="updateResumeForm">
+                <ul class="set_box" style="position:relative;">
+                    <input name="id" type="hidden" value="{{ vResumeInfo.id }}">
+                    <li class="cp">
+                        <span class="f_r publicContext"></span>
+                        <span>是否开放简历</span>
+                        <div class="set_b"style="position:relative;top:0px;left:-24px;display:none;height:200px;background:white;width:570px;border:1px solid #eeeeee">
+                        {% for isp in isPublic %}
+                        <div class="li">
+                            <input id="publicContext{{ forloop.counter }}" type="radio" name="isPublic" value="{{ isp.dictionary_value }}" >
+                            <label for="publicContext{{ forloop.counter }}">{{ isp.dictionary_name }}</label>
+                        </div>
+                        {% endfor %}
+{#                        <div style="position:absolute;bottom:10px;*bottom:30px;margin-left: 5%">#}
+{#                            <input type="button" name="" value="确 认" class="button1" onclick="$(this).parent().parent().hide()">#}
+{#                            <input type="button" name="" value="取 消" class="button2 ml15" onclick="$(this).parent().parent().hide()">#}
+{#                        </div>#}
+                    </div>
+                    </li>
+                    
+                    {% if IsHeadhunt > 0 %}
+
+                    <li class="cp isForGoldToBuy">
+                        <span class="f_r choseIsForBuy">选择购买方式</span>
+                        <span>是否可购买简历</span>
+                        <div class="set_b"style="position:relative;top:0px;left:-24px;display:none">
+                        <div class="set_b_box">
+                            <div class="s_right">
+                                <div class="mt10" >
+                                    <span>请输入您简历金币购买的数量</span>
+                                </div>
+                                <div class="mt10">
+                                    <img src="{{ STATIC_URL }}images/111_03.png" alt="">
+
+                                    <span>金币</span>
+                                </div>
+                                <div class="mt10">
+                                    <input type="text" name="gold" value="" class="txt_gs">
+                                </div>
+                                <div class="mt10">备注：</div>
+                                <div class="mt10">出售简历成功后，平台将收取20个金币为手续费</div>
+                            </div>
+                            <div  style="height: 160px;float:right"></div>
+                            <div style="clear:both"></div>
+                            <div class="s_left">
+                                <div style="position:relative;height:100%;zoom:1">
+                                    <div>
+                                        <input type="radio" name="isbuy" value="1">
+                                        <label>选择金币购买</label>
+                                    </div>
+                                    <div class="mt10">
+                                        <input type="radio" name="isbuy" value="0" >
+                                        <label>免费查看</label>
+                                    </div>
+{#                                    <div style="position:absolute;bottom:10px;*bottom:30px">#}
+{#                                        <input type="button" name="" value="确 认" class="button1">#}
+{#                                        <input type="button" name="" value="取 消" class="button2 ml15"  onclick="setGold()"></div>#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </li>
+                    {% endif %}
+                {% if IsHeadhunt == 0 %}
+                    <li>
+                        <input type="checkbox" name="is_show_name" value="1" class="f_r">
+                        <label for="is_show_name" class="f_r">是</label>
+                        <span>是否显示姓名</span>
+                        
+                    </li>
+                    <li>
+                        <input type="checkbox" name="is_show_phone" value="1" class="f_r">
+                        <label for="is_show_phone" class="f_r">是</label>
+                        <span>是否显示联系方式</span>
+                        
+                    </li>
+                    <li>
+                        <input type="checkbox" name="isAcceptInvite" value="1" class="f_r">
+                        <label for="isAcceptInvite" class="f_r">否</label>
+                        <span>是否接受职位邀请</span>
+                    </li>
+                {% endif %}
+                    <li class="cp notForCompanyLi">
+                        <span class="f_r isSearchForCompany"></span>
+                        <input type="hidden" name="qyid" />
+                        <span>企业屏蔽</span>
+                        <div class="set_b"style="position:relative;top:0px;left:-24px;display:none">
+                        <div class="set_b_box">
+                            <div class="s_right">
+                                {% if companys %}
+                                    {% for company in companys %}
+                                        <div class="mt10">
+                                            <span name="{{ company.id }}">{{ company.pc_name }}</span><span class="del_btn">X</span>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="mt10">
+                                    <input id="searchCompany" style="width: 270px;" type="text" name="searchCompany" value=""class="txt_gs w300"  autocomplete="off">
+                                    <input type="hidden" name="forSearchCompanyIds" value="{{ tre.uc_id }}" >
+                                </div>
+                                <div class="mt10">
+                                    <input type="button" name="add_btn_gs2" value="添 加" class="button2 add_btn_gs" ></div>
+                            </div>
+                            <div  style="height: 160px;float:right"></div>
+                            <div style="clear:both"></div>
+                            <div class="s_left">
+                                <div style="position:relative;height:100%;zoom:1">
+                                    <div>
+                                        <input id="isSearchForCompany1" type="radio" name="isSearchForCompany" value="1" >
+                                        <label for="isSearchForCompany1">我不希望某些企业搜索到我</label>
+                                    </div>
+                                    <div class="mt10">
+                                        <input id="isSearchForCompany2" type="radio" name="isSearchForCompany" value="0" >
+                                        <label for="isSearchForCompany2">让所有企业都能搜索到</label>
+                                    </div>
+{#                                    <div style="position:absolute;bottom:10px;*bottom:30px">#}
+{#                                        <input type="button" name="" value="确 认" class="button1">#}
+{#                                        <input type="button" name="" value="取 消" class="button2 ml15"></div>#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </li>
+
+                    <li class="cp notForHeadHuntLi">
+                        <span class="f_r isSearchForHeadHunt"></span>
+                        <input type="hidden" name="ltid" />
+                        <span>猎头屏蔽</span>
+                        <div class="set_b"style="position:relative;top:0px;left:-24px;display:none">
+                        <div class="set_b_box">
+                            <div class="s_right">
+                                {% if headHunts %}
+                                    {% for headHunt in headHunts %}
+                                        <div class="mt10">
+                                            <span name="{{ headHunt.id }}">{{ headHunt.real_name }}</span><span class="del_btn">X</span>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="mt10">
+                                    <input type="text" name="isSearchHeadHunt" value="" class="txt_gs" style="width: 270px;">
+                                    <input type="hidden" name="forSearchHeadHuntIds">
+                                </div>
+                                <div class="mt10">
+                                    <input type="button" name="add_btn_gs2" value="添 加" class="button2 add_btn_gs" ></div>
+                            </div>
+                            <div  style="height: 160px;float:right"></div>
+                            <div style="clear:both"></div>
+                            <div class="s_left">
+                                <div style="position:relative;height:100%;zoom:1">
+                                    <div>
+                                        <input id="isSearchForHeadHunt1" type="radio" name="isSearchForHeadHunt" value="1" >
+                                        <label for="isSearchForHeadHunt1">我不希望某些猎头搜索到我</label>
+                                    </div>
+                                    <div class="mt10">
+                                        <input id="isSearchForHeadHunt2" type="radio" name="isSearchForHeadHunt" value="0" >
+                                        <label for="isSearchForHeadHunt2">让所有猎头都能搜索到</label>
+                                    </div>
+{#                                    <div style="position:absolute;bottom:10px;*bottom:30px">#}
+{#                                        <input type="button" name="" value="确 认" class="button1">#}
+{#                                        <input type="button" name="" value="取 消" class="button2 ml15"></div>#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </li>
+                    
+                </ul>
+            </form>
+            </div>
+            <div class="b">
+                <input type="button" class="button f_r ml15 saveResumeUpdateButton" name="" value="保存">
+                <a href="/resume/grnl?resumeID={{ resumeID }}" onclick="resumeJump('pxjl')"  class="f_l return_a fz18 mt10">返回：个人能力</a>
+            </div>
+        </div >
+    {% include 'jobs/resume/resumeRight.html' %}
+    </div>
+</div>
+<!-- 内容大框 -->
+<!-- 模态框（Modal） -->
+			<div class="modal fade" id="qy_modal" tabindex="-1" role="dialog"
+			   aria-labelledby="myModalLabel" aria-hidden="true">
+			   <div class="modal-dialog"style="width:850px">
+			      <div class="modal-content" >
+			         <div class="modal-header">
+			            <button type="button" class="close" data-dismiss="modal" id="qyclose"
+			               aria-hidden="true">x
+			            </button>
+			            <h4 class="modal-title" id="myModalLabel">
+			               所属企业
+			            </h4>
+			         </div>
+			         <div class="modal-body t_c">
+			            搜素企业：<input type="text" id="queryCondition"><input type="button" value="搜索" onclick="queryCompany()">
+			             <div>
+			            	<img src="{{ STATIC_URL }}images/gh_03.png" alt="">
+			            </div>
+			            <ul class="ssqy_ul_box clearfix" id="companyul">
+			            </ul>
+			         </div>
+			      </div><!-- /.modal-content -->
+			   </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+<!-- 模态框（Modal） -->
+			<div class="modal fade" id="lt_modal" tabindex="-1" role="dialog"
+			   aria-labelledby="myModalLabel" aria-hidden="true">
+			   <div class="modal-dialog"style="width:850px">
+			      <div class="modal-content" >
+			         <div class="modal-header">
+			            <button type="button" class="close" data-dismiss="modal" id="ltclose"
+			               aria-hidden="true">x
+			            </button>
+			            <h4 class="modal-title" id="myModalLabel">
+			               所属猎头
+			            </h4>
+			         </div>
+			         <div class="modal-body t_c">
+			            搜素猎头：<input type="text" id="queryHead"><input type="button" value="搜索" onclick="queryLt()">
+			             <div>
+			            	<img src="{{ STATIC_URL }}images/gh_03.png" alt="">
+			            </div>
+			            <ul class="ssqy_ul_box clearfix" id="headul">
+			            </ul>
+			         </div>
+			      </div><!-- /.modal-content -->
+			   </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+<script type="text/javascript">
+$(function() {
+    $('#upload_jl').uploadify({
+        'onUploadSuccess': function (file, data, response) {
+            alert(data.save_name);
+        },
+        'onUploadStart': function (file) {
+            $("#upload_photo_sfyz").uploadify("settings", "formData", { 'fileType': 4 });
+        }
+    });
+    $("[name=add_btn_gs1]").click(function () {
+        var gs_name = $(this).parent().prev().children('.txt_gs').val();
+        if (gs_name != "")
+            $(this).parent().prev().before('<div class="mt10"><input type="hidden" name="qy" value="' + $("[name=qyid]").val() + '"><span>' + gs_name + '</span><span class="del_btn">X</span></div>');
+        // 删除过滤的猎头/企业
+        $(".del_btn").click(function () {
+            $(this).parent().remove();
+        });
+    });
+    // 增加新猎头/企业
+    $("[name=add_btn_gs2]").click(function () {
+        var $parent = $(this).parent();
+        var gs_name = $parent.prev().children('.txt_gs').val();
+        var id = $parent.prev().children(":hidden").val();
+        if(id == ""){
+            alert("请输入有效项再进行添加");
+            $parent.prev().children('.txt_gs').val("");
+            return false;
+        }
+        // 置空企业/猎头名
+        $parent.prev().children('.txt_gs').val("");
+        $parent.prev().children(":hidden").val("");
+        // 过滤选中过的企业/猎头
+        var flag = false;
+        $parent.parent().find("span").each(function(){
+           if(parseInt($(this).attr("name")) == id){
+               alert("您已添加过此项");
+               flag = true;
+               return false;
+           }
+        });
+        if(flag){
+            return false;
+        }
+        if (gs_name != "")
+            $parent.prev().before('<div class="mt10"><span name="' + id + '">' + gs_name + '</span><span class="del_btn">X</span></div>');
+        // 删除过滤的猎头/企业
+        $(".del_btn").click(function () {
+            $(this).parent().remove();
+        });
+    });
+    $(".s_left .button1").click(function () {
+        var t = $(this).parent().parent().find("input[type='radio']:checked").next().html();
+        var index = $(".left_box .set_b").index($(this).parent().parent().parent().parent().parent());
+        $(".set_box .cp").eq(index).children('.f_r').html(t);
+        $(this).parent().parent().parent().parent().parent().hide();
+    });
+    $(".s_left .button2").click(function () {
+        $(this).parent().parent().parent().parent().parent().hide();
+    });
+    // 删除过滤的猎头/企业
+     $(".del_btn").click(function () {
+        $(this).parent().remove();
+     });
+    $(".s_left input[type='radio']").click(function () {
+        var i = $(".left_box .set_b").index($(this).parent().parent().parent().parent().parent());
+        var index = $(".left_box .set_b").eq(i).find(".s_left input[type='radio']").index($(this));
+        if (index == 1 || index == 2) {
+            $(".left_box .set_b").eq(i).find(".s_right").hide();
+        }
+        else {
+            $(".left_box .set_b").eq(i).find(".s_right").show();
+        }
+    });
+    $(".set_box .cp").click(function () {
+        if ($(this).find(".set_b").css("display") == "none") {
+            var index = $(".set_box .cp").index($(this));
+            $(".scjl .set_b").stop(true.false).slideUp().eq(index).slideDown();
+        }
+        else {
+            $(this).find('.set_b').stop(true.false).slideUp();
+        }
+    });
+    $(".set_b").click(function (event) {
+        event.stopPropagation();
+    });
+        // 回显表单
+
+        // 个人
+    if("{{ IsHeadhunt }}" == "0"){
+        // 显示姓名
+        var is_show_name = "{{ tPu.isname }}";
+        // 显示电话
+        var is_show_phone = "{{ tPu.iscontact }}";
+        // 是否接受职位邀请
+        var isAcceptInvite = "{{ tPu.isinvite }}";
+        $(":checkbox[name=is_show_name][value="  + is_show_name + "]").attr("checked", true);
+        $(":checkbox[name=is_show_phone][value="  + is_show_phone + "]").attr("checked", true);
+        $(":checkbox[name=isAcceptInvite][value="  + isAcceptInvite + "]").attr("checked", true);
+    }else{
+        // 是否可购买
+        var isbuy = "{{ vResumeInfo.isbuy }}";
+        if(isbuy != ""){
+            $(":radio[name=isbuy][value=" + isbuy + "]").attr("checked", true);
+            $(".choseIsForBuy").text($(":radio[name=isbuy]:checked").next().text());
+            if(isbuy == "0"){
+                $(":input[name=gold]").val("");
+                $(".isForGoldToBuy .s_right").hide();
+            }
+        }
+        // 所需金币
+        var gold = "{{ vResumeInfo.gold }}";
+        if(gold != "None" && gold != ""){
+            $(":input[name=gold]").val(gold);
+        }
+        $(":input[name=gold]").change(function(){
+            var reg = /^[0-9]*$/g;
+            if(!reg.test($.trim($(this).val()))){
+                alert("请输入合法的金币数");
+                $(this).val("")
+                return false;
+            }
+        });
+        // 回显文字
+        $(":input[name=gold]").change(function(){
+            var reg = /^[0-9]*$/g;
+            if(!reg.test($.trim($(this).val()))){
+                alert("请输入合法的金币数");
+                $(this).val("");
+                return false;
+            }
+        });
+    }
+        var isPublic = "{{ vResumeInfo.isopen }}";
+        var companys = "{{ companys }}".length;     // 数组 为空时是2
+        var headHunts = "{{ headHunts }}".length;   // 数组 为空时是2
+        if(companys == 2){
+            $(":radio[name=isSearchForCompany][value='0']").attr("checked", true);
+            $(".notForCompanyLi .s_right").hide();
+        } else{
+            $(":radio[name=isSearchForCompany][value='1']").attr("checked", true);
+        }
+        // 过滤可搜索猎头
+        if(headHunts == 2){
+            $(":radio[name=isSearchForHeadHunt][value='0']").attr("checked", true);
+            $(".notForHeadHuntLi .s_right").hide();
+        } else{
+            $(":radio[name=isSearchForHeadHunt][value='1']").attr("checked", true);
+        }
+        $(":radio[name=isPublic][value=" + isPublic + "]").attr("checked", true);
+        $(":radio[name=isSearchForCompany][value=" + isPublic + "]").attr("checked", true);
+
+        // 回显显示文字
+        $(".publicContext").text($('input:radio[name="isPublic"]:checked').next().text());
+        $(".isSearchForCompany").text($(':radio[name="isSearchForCompany"]:checked').next().text());
+        $(".isSearchForHeadHunt").text($(":radio[name=isSearchForHeadHunt]:checked").next().text());
+        // 点击文字回显
+        $(":radio[name=isPublic]").click(function(){
+            var context = $(this).next().text();
+            $(".publicContext").text(context);
+        });
+        $(":radio[name=isSearchForCompany]").click(function(){
+            var context = $(this).next().text();
+            $(".isSearchForCompany").text(context);
+        });
+        $(":radio[name=isSearchForHeadHunt]").click(function(){
+            var context = $(this).next().text();
+            $(".isSearchForHeadHunt").text(context);
+        });
+        $(":radio[name=isbuy]").click(function(){
+            var context = $(this).next().text();
+            $(".choseIsForBuy").text(context);
+        });
+
+    // 点击保存按钮
+    $(".saveResumeUpdateButton").click(
+            function(){
+        var count = parseInt("{{ IsHeadhunt }}");
+        //  猎头信息
+        var id = $(":input[name=id]").val();
+        // 是否公开简历
+        var isPublic = $(":input[name=isPublic]:checked").val();
+        if(isPublic == ""){
+            alert("请选择是否公开简历");
+            return false;
+        }
+        // 企业屏蔽 单选框
+        var isSearchForCompany = $(":radio[name=isSearchForCompany]:checked").val();
+        // 企业屏蔽 输入框 隐藏域的Ids
+        var searchCompanyIds = [];
+        $(".notForCompanyLi .mt10").each(function(){
+            var id = $(this).find("span:first").attr("name");
+            if(id != null && id != "")
+                searchCompanyIds.push(id);
+        });
+        //猎头屏蔽 单选框
+        var isSearchForHeadHunt = $(":radio[name=isSearchForHeadHunt]:checked").val();
+        //猎头屏蔽 输入框
+        var searchHeadHuntIds = [];
+        $(".notForHeadHuntLi .mt10").each(function(){
+            var id = $(this).find("span:first").attr("name");
+            if(id != null && id != "")
+                searchHeadHuntIds.push(id);
+        });
+        // 猎头简历设置
+        if(count > 0){
+            // 是否可购买
+            var isbuy = $(":radio[name=isbuy]:checked").val();
+            // 购买所需金币
+            var gold = $(":input[name=gold]").val();
+             $.ajax({
+                    type: "POST",
+                    url: "/jobs/resume/ajax_saveHeadHuntInfo",
+                    data: {"id": id, "isPublic": isPublic, 'isbuy': isbuy,'gold':gold, 'isSearchForCompany':isSearchForCompany,
+                                'searchCompanyIds': searchCompanyIds, 'isSearchForHeadHunt': isSearchForHeadHunt, 'searchHeadHuntIds': searchHeadHuntIds},
+                    dataType: "json",
+                    success: function(data){
+                        if(data.status == 1){
+                            alert("设置成功!")
+                        }else{
+                            alert("发生内部错误")
+                        }
+                    }
+            });
+        //个人
+         } else {
+            //是否显示姓名
+            var is_show_name = $(":checkbox[name=is_show_name]").is(":checked");
+            //是否显示联系方式
+            var is_show_phone = $(":checkbox[name=is_show_phone]").is(":checked");
+            //是否接受职位邀请
+            var isAcceptInvite = $(":checkbox[name=isAcceptInvite]").is(":checked");
+            $.ajax({
+                type: "POST",
+                url: "/jobs/resume/ajax_savePersonalInfo",
+                data: {"id": id, 'isPublic': isPublic,'is_show_name':is_show_name,
+                        'is_show_phone':is_show_phone,'isAcceptInvite':isAcceptInvite,
+                        'isSearchForCompany':isSearchForCompany,'searchCompanyIds': searchCompanyIds,
+                        'isSearchForHeadHunt': isSearchForHeadHunt, 'searchHeadHuntIds': searchHeadHuntIds},
+                dataType: "json",
+                success: function(data){
+                    if(data.status == 1)
+                        window.alert("设置成功");
+                    else
+                        alert("保存失败")
+                }
+            });
+        }
+    });
+        setCompanyAutoComplete();
+        setHeadHuntAutoComplete();
+{#        $(".ac").hide();#}
+
+});
+
+// 自动补全猎头
+function setHeadHuntAutoComplete(){
+    $.ajax({
+        type: "POST",
+        url: "/jobs/resume/ajax_getAllHeadHuntInfo",
+        async: false,
+        dataType: "json",
+        success: function(data){
+            $(":input[name=isSearchHeadHunt]").AutoComplete({
+                'data': data,
+                'itemHeight': 20,
+                'width': 'auto',
+                'afterSelectedHandler': function(data) {
+                    $(":input[name=isSearchHeadHunt]").next().val(data.label)
+                }
+                ,'listStyle': 'custom',
+                'emphasis': false,
+                'createItemHandler': function(index, data) {
+                    return data.value; // 文本显示为绿色，并在前后使用'--'包裹
+                }
+            }).AutoComplete('show');
+        }
+    })
+}
+
+// 自动补全公司
+function setCompanyAutoComplete(){
+    $.ajax({
+        type: "POST",
+        url: "/jobs/resume/ajax_getAllCompanyInfo",
+        async: false,
+        dataType: "json",
+        success: function(data){
+            $("#searchCompany").AutoComplete({
+                'data': data,
+                'itemHeight': 20,
+                'width': 'auto',
+                'afterSelectedHandler': function(data) {
+                    //$(":input[name='searchCompany']").next().val(data.label)
+                    $("#searchCompany").next().val(data.label)
+                }
+                ,'listStyle': 'custom',
+                'emphasis': false,
+                'createItemHandler': function(index, data) {
+                    return data.value; // 文本显示为绿色，并在前后使用'--'包裹
+                }
+            }).AutoComplete('show');
+        }
+    })
+}
+
+
+//搜索公司
+function queryCompany(){
+    var condition = $('#queryCondition').val();
+    $.ajax({
+        type: "POST",
+        url: "/jobs/resume/ajax_queryCompany",
+        data: {"condition": condition},
+        dataType: "json",
+        success: function (data) {
+            $('#companyul').children().remove();
+            for(var i = 0;i < data.length;i++){
+                var company = data[i];
+                var em = '<li class="clearfix"><div class="ssqy_box f_l"><img src="{{ STATIC_URL }}images/gh_04.png" alt="" ></div><div class="f_l ml15" style="text-align: left;_display:inline"><div>' + company.fields.pc_name + '</div>';
+                    em += '<div class="mt10"><input type="button" name="" value="确认" onclick="setCompany('+company.pk+",'"+company.fields.pc_name+'\')" style="width:68px;height:24px;color:white;text-align: center;line-height: 24px;background:#5c91d9;border:none"></div></div></li>';
+                $('#companyul').append(em);
+            }
+        }
+    });
+}
+//搜索猎头
+function queryLt(){
+    var condition = $('#queryHead').val();
+    $.ajax({
+        type: "POST",
+        url: "/jobs/resume/ajax_queryHead",
+        data: {"condition": condition},
+        dataType: "json",
+        success: function (data) {
+            $('#headul').children().remove();
+            for(var i = 0;i < data.length;i++){
+                var company = data[i];
+                var em = '<li class="clearfix"><div class="ssqy_box f_l"><img src="{{ STATIC_URL }}images/gh_04.png" alt="" ></div><div class="f_l ml15" style="text-align: left;_display:inline"><div>' + company.fields.real_name + '</div>';
+                    em += '<div class="mt10"><input type="button" name="" value="确认" onclick="setHead('+company.pk+",'"+company.fields.real_name+'\')" style="width:68px;height:24px;color:white;text-align: center;line-height: 24px;background:#5c91d9;border:none"></div></div></li>';
+                $('#headul').append(em);
+            }
+        }
+    });
+}
+function setCompany(id,name){
+    $("[name=qyid]").val(id);
+    $("[name=searchCompany]").val(name);
+    $("#qyclose").click();
+}
+function setHead(id,name){
+   $("[name=ltid]").val(id);
+   $("[name=searchlt]").val(name);
+   $("#ltclose").click()
+}
+
+</script>
+{% include 'jobs/system/new_footer.html' %}

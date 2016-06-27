@@ -1,0 +1,91 @@
+@function s($size){
+	@return 10rem*$size/$sjt;
+}
+$sjt : 750;//设计图宽度percentage1334
+html{
+	font-size: 64px;
+}
+html,body{
+	position: relative;width:100%;height:100%;overflow:hidden;
+}
+body{
+	background:#5c91d9;
+}
+.abs{
+	height:percentage(238/1334);
+}
+header{
+	text-align: center;
+	img{
+		width:s(518);height:s(220);
+		animation: header 2s ;
+	}
+}
+.abs1{
+	height:percentage(120/1334);
+}
+section{
+	width:s(580);margin:0 auto;
+	.phone{
+		display: block;font-size: s(26);width:100%;
+		border:none;border-bottom:1px solid #fff;
+		background-color:#5c91d9;color:#fff;
+		padding-bottom: s(12);
+	}
+	.btn{
+		display: block;margin-top: s(45);width:100%;
+		height:s(90);border-radius:s(3);
+		border:1px solid #fff;font-size: s(26);
+		background-color:#5c91d9;color:#fff;
+	}
+}
+.hint{
+	position:fixed;top:0px;left:0px;text-align: center;
+	font-size: s(20);color:#FFF;line-height: s(60);
+	height:s(60);width:100%;background-color:#df3d3e;
+	transition:all 0.5s;-webkit-transition:all 0.5s;
+	transform:translateY(s(-60));-webkit-transform:translateY(s(-60));
+	&.active{
+		transform:translateY(s(0));-webkit-transform:translateY(s(0));
+	}
+}
+#pc_name{
+	font-weight:bold;margin:0px s(10);font-size: 0.5rem;
+}
+// @keyframes header{
+// 	0%{transform:translateY(s(-200)) rotate(-45deg);}
+// 	20%{transform:translateY(s(200)) rotate(-20deg);}
+// 	40%{transform:translateY(s(0)) rotate(-5deg);}
+// 	100%{transform:translateY(s(0)) rotate(0deg);}
+// }
+// @-webkit-keyframes header{
+// 	0%{transform:translateY(s(-200)) rotate(-45deg);}
+// 	20%{transform:translateY(s(200)) rotate(-20deg);}
+// 	40%{transform:translateY(s(0)) rotate(-5deg);}
+// 	100%{transform:translateY(s(0)) rotate(0deg);}
+// }
+ .c_modal{
+        position: fixed;left:50%;top:50%;border-radius: 5px;
+        padding:s(25) s(35) s(60) s(35);width:80%;box-sizing:border-box;
+        color:#fff;line-height: s(50);display: none;
+    }
+    .c_modal h1{
+        font-size: s(32);letter-spacing:1px;
+    }
+    .c_modal p{
+        font-size: s(28);
+    }
+    .c_modal .c_abs{
+        background-color: #5b9bca;opacity: 1;position: absolute;;
+        width:100%;height:100%;left:0px;top:0px;border-radius: 5px;
+        z-index: -1;
+    }
+    .c_modal .btn_list{
+        display: block;margin:20px auto 0;
+        text-align: center;
+    }
+    .f_l{float:left;}.f_r{float:right;}
+    .c_modal button{
+        background-color: #fff;color:#5b9bca;border-radius: 5px;
+        border:none;font-size: s(28);width:s(220);height:s(50);
+    }

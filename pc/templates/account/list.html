@@ -1,0 +1,352 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style1.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul_old.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<script src="{{STATIC_URL }}js/uploader/uploader.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.uploadify.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/isForUploadFile.js" type="text/javascript"></script>
+<style> 
+  .modal_box>h3>em{
+       width: 770px;
+       height: 532px;  }
+
+
+</style>
+<script>
+    $(function(){
+        $("#filename_list").niceScroll();
+        BusinessulControls("businessulDiv1","{{ vListEvaluation.businessname | default:"" }}","{{ vResumeInfo.business | default:"" }}",
+                'width:300px;margin-top:5px;height:auto;font-size:14px;');
+
+        // 表单的回显
+        if("{{ vListEvaluation }}" != ""){
+            var compile_year = "{{ vListEvaluation.compile_year }}";
+            var people_number = "{{ vListEvaluation.people_number }}";
+            var isphone = "{{ vListEvaluation.isphone }}";
+            var ismobilephone = "{{ vListEvaluation.ismobilephone }}";
+            var isemail = "{{ vListEvaluation.isemail }}";
+            var enabled = "{{ vListEvaluation.enabled }}";
+            $("select[name=compile_year]").find("option[value="+compile_year +"]").attr("selected", true);
+            $("select[name=people_number]").find("option[value="+people_number +"]").attr("selected", true);
+            $(":radio[name=isphone][value="+isphone +"]").attr("checked", true);
+            $(":radio[name=ismobilephone][value="+ismobilephone +"]").attr("checked", true);
+            $(":radio[name=isemail][value="+isemail +"]").attr("checked", true);
+            $(":radio[name=enabled][value="+enabled +"]").attr("checked", true);
+        }
+
+        $(":input[name=gold]").change(function(){
+            var reg = /^([1-9][0-9]{0,3})|0$/;
+            if(!reg.test($(":input[name=gold]").val())){
+                alert("才币输入不合法，请重新输入!",4);
+                $(":input[name=gold]").val($(":input[name=gold]")[0].defaultValue);
+                return false;
+            }
+        });
+
+{#        输入不为空 #}
+        $(":input[class=list_submit]").click(function(){
+            if($(":input[name=title]").val() == ""){
+                alert("标题不能为空!",4);
+                $(":input[name=title]").val($(":input[name=title]")[0].defaultValue);
+                return false;
+            }
+            if($("textarea[name=description]").val() == ""){
+                alert("描述不能为空!",4);
+                $("textarea[name=description]").val($("textarea[name=description]")[0].defaultValue);
+                return false;
+            }
+            if($(":input[name=file_path]").val() == ""){
+                alert("附件不能为空!",4);
+                $(":input[name=file_path]").val($(":input[name=file_path]")[0].defaultValue);
+                return false;
+            }
+            if($(":input[name=businessulValue]").val() == ""){
+                alert("行业不能为空!",4);
+                $(":input[name=businessulValue]").val($(":input[name=businessulValue]")[0].defaultValue);
+                return false;
+            }
+            if($(":input[name=area]").val() == ""){
+                alert("地区不能为空!",4);
+                $(":input[name=area]").val($(":input[name=area]")[0].defaultValue);
+                return false;
+            }
+            var reg = /^([1-9][0-9]{0,3})|0$/;
+            if(!reg.test($(":input[name=gold]").val())){
+                alert("才币输入不合法，请重新输入!",4);
+                $(":input[name=gold]").val($(":input[name=gold]")[0].defaultValue);
+                return false;
+            }
+
+        })
+    })
+</script>
+<!-- 内容大框 -->
+<div class="lt_content_box">
+	<!-- 猎头会员菜单 -->
+	{% include 'jobs/system/menu_list.html' %}
+	<!-- 猎头会员菜单 -->
+    <div class="clear">4</div><div class="clear">3</div>
+	<div class="ltml_grid_box center clearfix mt25">
+		<ul  class="nav nav-tabs ltml_grid_ul">
+			<li class="active side_yx_li">
+				<a href="#home" data-toggle="tab" style="color:#5c91d9;width:100px!important">List上传</a>
+			</li>
+		</ul>
+		<div class="jsyx_alert mt20"> <i class="iconfont icon-jinlingyingcaiwangtubiao21"></i>
+			温馨提示：附件中请勿包含与通讯录无关的内容。如有发现，将立即删除并扣除违规所得全部才币！
+		</div>
+		<div>
+			<form action="" method="post" >
+                <input type="hidden" name="id" value="{{ vListEvaluation.id }}">
+				<ul class="list_info_box">
+					<li>
+						<span class="list_span">标题:</span>
+						<input type="text" name="title" value="{{ vListEvaluation.title }}" placeholder="" class="list_w bitian" maxlength="16"></li>
+					<li>
+						<span class="list_span" style="vertical-align: top;">描述:</span>
+						<textarea name="description" maxlength="100" style="resize: none;" class="list_w bitian">{{ vListEvaluation.description }}</textarea>
+					</li>
+					<li>
+						<span class="list_span" style="vertical-align: top">附件:</span>
+                        <input type="hidden" name="file_path" id="file_path" value="{{ vListEvaluation.file_path }}">
+                        <input type="hidden" name="old_file_path" id="old_file_path" value="{{ vListEvaluation.file_path }}">
+						<div style="display:inline-block;vertical-align: top;background-color: white;" class="bitian">
+							<span id="openUploader" style="font-size: 16px;width:80px;height:30px;color:white;background-color: #5C91D9;display:block;border-radius: 5px;line-height: 30px;text-align: center;cursor: pointer" onclick="uploadDifferentFile('5MB', ['pdf', 'ppt', 'txt', 'wps','doc','docx','xls','xlsx'], 5, false,  '若从其它网站下载的excel简历，请将文件另存为.docx格式后上传', 'file_path', 'uploadFileName')">上传文件</span>
+                            <span id="uploadFileName"></span>
+						</div>
+                        <div id="filename_list" style="display:none;vertical-align: top;width:200px;height:100px;overflow-y:auto;border: 1px solid #EEE">
+                        </div>
+					</li>
+					<li>
+						<span class="list_span" style="vertical-align: top;line-height: 40px">行业:</span>
+{#                     <input readonly="readonly" onclick="showBusinessul(this,1)" value="{{ vListEvaluation.businessname }}" type="text" id="businessulName"  name="businessulName"  placeholder="选择行业" class="w300"  readonly="readonly" >#}
+{#                        <div id="businessulDiv"></div>#}
+                        <div id="businessulDiv1" class="bitian" onclick="BusinessulControlsShow(1,this)"></div>
+                     <input id="businessulValue" name="businessulValue" type="hidden" value="{{ vListEvaluation.business }}">
+
+					</li>
+					<li>
+						<span class="list_span">年份:</span>
+{#							<option value="{{ vListEvaluation.compile_year }}"></option>#}
+                        <select name="compile_year" value="{{ vListEvaluation.compile_year }}" class="list_w">
+                             {% if years %}
+                                {% for year in years %}
+                                    <option value="{{ year }}">{{ year }}</option>
+                                {% endfor %}
+                             {% endif %}
+                        </select>
+					</li>
+					<li>
+						<span class="list_span">人数:</span>
+						<select name="people_number" >
+                            {% if company_sizes %}
+                                {% for company_size in company_sizes %}
+                                    <option value="{{ company_size.dictionary_value }}">{{ company_size.dictionary_name }}</option>
+                                {% endfor %}
+                            {% endif %}
+						</select>
+                        <span>注：大概范围，如：500人左右</span>
+					</li>
+					<li>
+						<span class="list_span">有无座机:</span>
+{#                        <input id="isphone1" type="radio" name="isphone" value="12149000" checked/>#}
+{#                        <label for="isphone1">不限</label>#}
+                        <input id="isphone2" type="radio" name="isphone" checked="true" value="12148000"/>     <label for="isphone2">全部有</label>
+                        <input id="isphone3" type="radio" name="isphone" value="12147000"/>     <label for="isphone3">多数有</label>
+                        <input id="isphone4" type="radio" name="isphone" value="12146000"/>     <label for="isphone4">少数有</label>
+						<span>注：资料中含有座机号码的数量</span>
+					</li>
+					<li>
+						<span class="list_span">有无手机:</span>
+{#							<option value="{{ vListEvaluation.ismobilephone }}">{{ vListEvaluation.ismobilephonename }}</option>#}
+{#                        <input id="ismobilephone1" type="radio" name="ismobilephone" value="12140000" checked/>#}
+{#                        <label for="ismobilephone1">不限</label>#}
+                        <input id="ismobilephone2" type="radio" name="ismobilephone" checked="true" value="12139000"/>
+                        <label for="ismobilephone2">全部有</label>
+                        <input id="ismobilephone3" type="radio" name="ismobilephone" value="12138000"/> 
+                        <label for="ismobilephone3">多数有</label>
+                        <input id="ismobilephone4" type="radio" name="ismobilephone" value="12137000"/>
+                        <label for="ismobilephone4">少数有</label>
+						<span>注：资料中含有手机号码的数量</span>
+					</li>
+					<li>
+						<span class="list_span">有无邮箱:</span>
+{#							<option value="{{ vListEvaluation.isemail }}">{{ vListEvaluation.isemailname }}</option>#}
+{#						<input id="isemail" type="radio" name="isemail" value="12144000" checked/>#}
+{#                        <label for="isemail1">不限</label>#}
+                        <input id="isemail1" type="radio" name="isemail" checked="true" value="12143000"/>
+                        <label for="isemail2">全部有</label>
+                        <input id="isemai3" type="radio" name="isemail" value="12142000"/>
+                        <label for="isemail3">多数有</label>
+                        <input id="isemail4" type="radio" name="isemail" value="12141000"/>
+                        <label for="isemail4">少数有</label>
+						<span>注：资料中含
+                        有Email号码的数量</span>
+					</li>
+					<li>
+						<span class="list_span ">地区:</span>
+                        <input readonly="readonly"  onclick="showArea(this,1)" value="{{ vListEvaluation.area }}" type="text" name="area" id="area"  placeholder="选择地区" class="w300 bitian"   >
+                        <input type="hidden" value="" name="areaValue">
+                        <span>注：资料中所涉及的地区</span>
+                    </li>
+					<li>
+						<span class="list_span">售价:</span>
+						<input type="text" maxlength="4" class="bitian" name="gold" value="{{ vListEvaluation.gold }}" placeholder="" ><b>才币</b>
+						<span>注：最高售价不能超过9999个才币</span>
+					</li>
+                    <li>
+						<span class="list_span">是否启用:</span>
+                        <input id="enabled1" type="radio" name="enabled" value="1" checked/>
+                        <label for="enabled1">启用</label>
+                        <input id="enabled2" type="radio" name="enabled" value="0"/>
+                        <label for="enabled2">不启用</label>
+					</li>
+			</ul>
+			<div class="list_submit_box">
+				<input type="submit" name="" id="" value="" class="list_submit"/>
+			</div>
+		</form>		
+	</div>
+	<div class="left_top_border"></div>
+</div>
+</div>
+<script>
+var abc = 0;
+    $(function(){
+
+
+        //擅长行业弹框事件处理
+		$("#businessul li").click(function(){
+
+			var value = $(this).children('input:first').val();//获得擅长行业的值
+            var obj = $(this).parent();
+            $.ajax({//异步获取行业下的子类
+                type: "POST",
+                url: "/ajax_dictionary",
+                data: {"p_value": value},
+                dataType: "json",
+                success: function(data){
+                    var child = $('#childbusiness');
+                    child.children().remove();
+                    child.css('display','');
+                    var newul = child;
+                    obj.after(newul);
+                    //动态添加子行业
+                    for(var i = 0;i < data.length;i++){
+                        var area = data[i];
+                        newul.append('<li style="width:160px;height:70px;"><input type="hidden" value="' + area.dictionary_value + '" /><span>' + area.dictionary_name + '</span></li>');
+                    }
+                    //给子行业标签加事件，把值带到选择框里
+                    newul.children().click(function(){
+                        var project = $('.schy_tag_ul:first');//选择项目的div
+                        var count = project.children('span').length;
+                        if(count == 1){
+                            window.alert('只能选择一个行业！',4);
+                            return
+                        }else{
+                            project.append('<span style="width:200px;">'+$(this).children('span').text()+'<i><a href="javascript:void(0);" style="color: white;">x</a></i></span>');
+                            $('.qbhy_ul:last').append('<li><input type="hidden" value="' + $(this).children('input').val() + '"/><span>'+$(this).children('span').text()+'</span></li>');
+
+                            $(":hidden[name=business]").val($(this).children('input').val())
+{#                            $(":hidden[name=business]").val($(this).children('span').text())#}
+                            $("select[name=business]").find("option:selected").remove()
+                            $("select[name=business]").append("<option selected value=" + $(this).children('input').val() + ">" + $(this).children('span').text() + "</option>")
+
+                            project.children('span').children('i').click(function(){
+                                var objli = this;
+                                $('.qbhy_ul:last').children().each(function(){
+                                    if($(this).text() + 'x' == $(objli).parent().text()){
+                                        $(this).remove();
+                                    }
+                                });
+                                $(this).parent().remove();
+                            });
+                        }
+                        newul.children().children('span').removeClass();
+                        $(this).children('span').addClass('active');
+                    })
+                    //调整子行业ul的高度
+                    newul.children('li').css('width', '120px');
+                    if(data.length < 7){
+                        newul.css('height', '80px');
+                    }else if(data.length < 13){
+                        newul.css('height', '150px');
+                    }else if(data.length < 19){
+                        newul.css('height', '190px');
+                    }else{
+                        newul.css('height', '230px');
+                    }
+                }
+            });
+		})
+
+        //擅长行业弹框事件处理
+		$("#areasul li").click(function(){
+			var value = $(this).children('input:first').val();//获得擅长行业的值
+            var obj = $(this).parent();
+            $.ajax({//异步获取行业下的子类
+                type: "POST",
+                url: "/ajax_dictionary",
+                data: {"p_value": value},
+                dataType: "json",
+                success: function(data){
+                    var child = $('#childAreas');
+                    child.children().remove();
+                    child.css('display','');
+                    var newul = child;
+                    obj.after(newul);
+                    //动态添加子行业
+                    for(var i = 0;i < data.length;i++){
+                        var area = data[i];
+                        newul.append('<li style="width:160px;height:70px;"><input type="hidden" value="' + area.dictionary_value + '" /><span>' + area.dictionary_name + '</span></li>');
+                    }
+                    //给子行业标签加事件，把值带到选择框里
+                    newul.children().click(function(){
+                        var project = $('.schy_tag_ul:eq(1)');//选择项目的div
+                        var count = project.children('span').length;
+                        if(count == 1){
+                            window.alert('只能选择一个地区！',4);
+                            return
+                        }else{
+                            project.append('<span style="width:200px;">'+$(this).children('span').text()+'<i><a href="javascript:void(0);" style="color: white;">x</a></i></span>');
+                            $('.qbhy_ul:last').append('<li><input type="hidden" value="' + $(this).children('input').val() + '"/><span>'+$(this).children('span').text()+'</span></li>');
+                            $(":input[name=area]").val($(this).children('span').text())
+                            $(":hidden[name=business]").val($(this).children('input').val())
+{#                            $(":hidden[name=business]").val($(this).children('span').text())#}
+                            project.children('span').children('i').click(function(){
+                                var objli = this;
+                                $('.qbhy_ul:last').children().each(function(){
+                                    if($(this).text() + 'x' == $(objli).parent().text()){
+                                        $(this).remove();
+                                    }
+                                });
+                                $(this).parent().remove();
+                            });
+                        }
+                        newul.children().children('span').removeClass();
+                        $(this).children('span').addClass('active');
+                    })
+                    //调整子行业ul的高度
+                    newul.children('li').css('width', '120px');
+                    if(data.length < 7){
+                        newul.css('height', '80px');
+                    }else if(data.length < 13){
+                        newul.css('height', '150px');
+                    }else if(data.length < 19){
+                        newul.css('height', '190px');
+                    }else{
+                        newul.css('height', '230px');
+                    }
+                }
+            });
+		})
+         $(":input[name=area]").blur();
+    })
+
+</script>
+{% include 'jobs/system/new_footer.html' %}

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta content="telephone=no" name="format-detection" />
+    <title>2015赣商论坛暨“绿地杯”江西经济影响年度人物评选</title>
+    <link rel="stylesheet" href="/static/css/css.css">
+    <link rel="stylesheet" href="/static/css/annual.css">
+    <script src="/static/js/jquery-1.11.3.min.js"></script>
+     <script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+    <script src="/static/js/snow.js"></script>
+     <style>
+       canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      position: fixed;
+      pointer-events: none;}
+    </style>
+     <script>
+          // 自适应文字大小 start
+    (function(doc, win) {
+      var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function() {
+          var clientWidth = docEl.clientWidth;
+          if (!clientWidth) return;
+          // if(clientWidth<=640)
+            docEl.style.fontSize = clientWidth / 10 + 'px';
+        };
+      if (!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+     </script>
+</head>
+<body>
+
+    <header style="padding-top: 5.9rem; height:5.29rem!important; width:10rem!important;background-image: url(/static/images/h5/annual/header3.png)">
+    </header>
+    <div style="height:35px;"></div>
+    <section class="awards">
+        <div class="blue_line"></div> 
+        <div class="t1" style="margin-left:10px!important; margin-bottom:-18px">
+            <div class="gzhc"></div>
+            <p><div style="font-weight: bolder;display:inline-block;font-size:0.4rem!important;color:#fff;margin-right:0.5rem; margin-left:1.8rem">关注怀才当遇</div><div style="font-size:0.4rem!important;display:inline-block;color:#fff;margin-right:0.5rem;">了解更多活动信息</div></p>
+        </div> 
+
+   </section>    
+       <section class="bb1" style="margin-bottom:40px;">        
+        <dl>
+            <dt>各位候选人、各位网友：</dt>
+            <dd>
+               2015“绿地杯”江西经济影响力年度人物评选活动自12月3日正式启动以来，得到了广大网友和社会各界的高度关注与大力支持，截止12月30日下午6点，在人民网江西频道、新华网江西频道、凤凰网江西频道、中国江西网（大江网）、怀才当遇网等5大网站12个投票端口，共计获得超过200万张网络投票。12月30日晚上，经专家评审团第三次会议投票（占70%分值），并结合网络投票结果（占30%分值），最终评选出“2015江西经济影响力年度人物大奖”获得者10名、以及专项奖获得者12名。
+            </dd>
+        </dl>
+    </section>
+
+
+    <script>
+    $(function(){
+       $('#choman li .up').each(function(index,el){
+          $(el).click(function(){
+                $('#tkinfo'+(index+1)).css('display','block');
+          });
+       });
+    })
+    </script>
+
+    <section class="top_result" id="top">
+        <div class="apprai_ti">2015江西经济影响力年度人物获得者10名</div>      
+        <ul class="man" id="choman">
+             <!-- <div class="grade">
+                    <p>网络投票：<span>106332票</span></p>
+                    <p>专家评分：<span>80分</span></p>
+                    <p>综合总分：<span>128分</span></p>
+                </div> -->
+            <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1003.jpg" alt="">                   
+                </div>
+                <div class="info f_r">
+                    <h1>
+                        <span class="name">陈  昕</span>
+                        <span class="position">总裁</span>
+                    </h1>
+                    <p class="company">中节能晶和照明有限公司</p>                  
+                </div>
+                <button class="up">查看获奖理由</button>
+                <div class="tkinfo" id="tkinfo1">
+                   <div class="tkinfo_ti">获奖理由</div>
+                   <p style="text-indent:2em;">在LED照明行业普通不景气的背景下，陈昕调整思路，深化国内市场的品牌建设，拓展国外市场的渠道建设，让晶和照明在国内国际更个市场同时开花，思路决定出路，结果证明了陈昕的选择是正确的。LED作为江西的特色优势产业，需要更多像陈昕这样的职业经理人，让我们的企业、产品走出去，走上去。</p>
+                   <span onclick="closefd()">关闭</span>
+                </div>
+            </li>
+           <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1005.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <h1>
+                        <span class="name">邓国平</span>
+                        <span class="position">董事长</span>
+                    </h1>
+                    <p class="company">新干国际箱包皮具产业园</p>                  
+                </div>
+                <button class="up">查看获奖理由</button>
+                <div class="tkinfo" id="tkinfo2">
+                   <div class="tkinfo_ti">获奖理由</div>
+                   <p style="text-indent:2em;">箱包生产是江西新干的特色支柱产业，但如何去改变以往的"小、散、乱"的行业现象，邓国平想到了建立产业园，打造箱包节这一思路，做大了"新干箱包"的产业和品牌。面对互联网的机遇与挑战，邓国平又想到主动对接电子商务，让新干箱包插上互联网的翅膀，飞得更高、飞得更远！</p>
+                   <span onclick="closefd()">关闭</span>
+                </div>
+            </li>
+            <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1004.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <h1>
+                        <span class="name">符小贤</span>
+                        <span class="position">总经理</span>
+                    </h1>
+                    <p class="company">江西用友软件有限责任公司</p>                  
+                </div>
+                <button class="up">查看获奖理由</button>
+                <div class="tkinfo" id="tkinfo3">
+                   <div class="tkinfo_ti">获奖理由</div>
+                    <p style="text-indent:2em;">符小贤一步一个脚印，从一个普通的实施顾问做起，成长为江西用友的总经理，并且带领数百人的团队，让江西用友成为江西本土规模最大、最专业的信息化服务商。用友是江西人创造的全国性品牌，王文京让用友回到江西，符小贤让用友真正根植江西，江西需要更多的用友、更多的符小贤式的实干家！</p>
+                   <span onclick="closefd()">关闭</span>
+                </div>
+            </li>
+            <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1009.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <h1>
+                        <span class="name">龚  斌</span>
+                        <span class="position">董事长</span>
+                    </h1>
+                    <p class="company">赣州虔东稀土集团股份有限公司</p>                  
+                </div>
+                <button class="up">查看获奖理由</button>
+                <div class="tkinfo" id="tkinfo4">
+                   <div class="tkinfo_ti">获奖理由</div>
+                   <p style="text-indent:2em;">稀土是大自然给予江西的宝藏，如何更好的开发与利用这一宝藏，让江西的特色优势资源为全世界所用，龚斌以数十年如一日的奋斗，为江西打造了一家全国领先的稀土企业。在此过程中，对科学技术的重视与利用，也为虔东稀土的发展壮大发挥了殊为重要的作用。</p>
+                   <span onclick="closefd()">关闭</span>
+                </div>
+            </li>
+           <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1012.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <h1>
+                        <span class="name">姜  江</span>
+                        <span class="position">总经理</span>
+                    </h1>
+                    <p class="company">江西光大国际旅行社有限公司</p>                  
+                </div>
+                <button class="up">查看获奖理由</button>
+                <div class="tkinfo" id="tkinfo5">
+                   <div class="tkinfo_ti">获奖理由</div>
+                   <p style="text-indent:2em;">"江西风景独好"的品牌，需要更多优秀的企业家来为之擦亮，姜江就是这样一位企业家，用15年的努力，让更多的全球、全国游客走进江西，爱上江西。与此同时，姜江不仅做好自己的企业，还试图带领更多的姐妹们，让江西的女企业家抱团发展，真正形成江西企业家市场的半边天，如今，她做到了！江西真好，姜江真美！</p>
+                   <span onclick="closefd()">关闭</span>
+                </div>
+            </li>
+           <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1016.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <h1>
+                        <span class="name">刘持海</span>
+                        <span class="position">总  裁</span>
+                    </h1>
+                    <p class="company">南昌中环互联信息服务股份有限公司</p>                  
+                </div>
+                <button class="up">查看获奖理由</button>
+                <div class="tkinfo" id="tkinfo6">
+                   <div class="tkinfo_ti">获奖理由</div>
+                   <p style="text-indent:2em;">说到中环，大多数会想到南昌最大的二手房交易商，然而今天的中环，在刘持海的带领下，已经不止于传统的二手房交易，已经进入到在线交易，房产金融等领域，正在构建一个基于房产买卖的全产业链的金融大平台。创新是一个企业发展的灵魂，正是不断的创新，让中环成为江西的一张名片！</p>
+                   <span onclick="closefd()">关闭</span>
+                </div>
+            </li>
+            <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1020.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <h1>
+                        <span class="name">刘润根</span>
+                        <span class="position">董事长</span>
+                    </h1>
+                    <p class="company">江西百胜门控设备有限公司</p>                  
+                </div>
+                <button class="up">查看获奖理由</button>
+                <div class="tkinfo" id="tkinfo7">
+                   <div class="tkinfo_ti">获奖理由</div>
+                   <p style="text-indent:2em;">百胜门控是一家"隐形冠军"，作为国内智能门控行业的领导品牌，在江西却一直默默无闻。刘润根数十年如一日，专注于技术研发，使公司形成了国内领先的技术优势，并且成为行业标准的制定者。如今，百胜门控正在进行二次创业，建设全自动的智能化制造基地，以构建全球领先的竞争优势。专业、专注，这种工匠精神，刘润根名至实归！</p>
+                   <span onclick="closefd()">关闭</span>
+                </div>
+            </li>
+           <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1028.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <h1>
+                        <span class="name">孙宁</span>
+                        <span class="position">总裁</span>
+                    </h1>
+                    <p class="company">江西联创光电科技股份有限公司</p>                  
+                </div>
+                <button class="up">查看获奖理由</button>
+                <div class="tkinfo" id="tkinfo8">
+                   <div class="tkinfo_ti">获奖理由</div>
+                   <p style="text-indent:2em;">作为浙江大学和同济大学的毕业生，孙宁身上充分体现了"务实"和"创新"两大特色。在担任联创光电这家江西知名的上市公司总裁后，他旗帜鲜明的提出了自己的施政理念，即"以利润为中心"，而不是单纯的追求销售额，并在此基础上，提出了"生产经营+投资并购"双轮驱动发展战略，这些政策措施的落实，对于做大做强联创光电，居功至伟。</p>
+                   <span onclick="closefd()">关闭</span>
+                </div>
+            </li>
+            <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1030.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <h1>
+                        <span class="name">王远青</span>
+                        <span class="position">董事长</span>
+                    </h1>
+                    <p class="company">江西远成汽车技术股份有限公司</p>                  
+                </div>
+                <button class="up">查看获奖理由</button>
+                <div class="tkinfo" id="tkinfo9">
+                   <div class="tkinfo_ti">获奖理由</div>
+                  <p style="text-indent:2em;"> 远成，作为一家传统的汽车悬架生产制造企业，正在与用友软件合作，实施ERP计划和信息化改造，实现与互联网的有效嫁接。与此同时，及时走向资本市场，让资本助力企业的发展，王远青在这方面，再次先人一步，领先于行业，再一次成为同行业的标杆！</p>
+                   <span onclick="closefd()">关闭</span>
+                </div>
+            </li>
+            <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1039.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <h1>
+                        <span class="name">章学方</span>
+                        <span class="position">总经理</span>
+                    </h1>
+                    <p class="company">南昌华南城有限公司总经理</p>                  
+                </div>
+                <button class="up">查看获奖理由</button>
+                <div class="tkinfo" id="tkinfo10">
+                   <div class="tkinfo_ti">获奖理由</div>
+                   <p style="text-indent:2em;">在南昌率先投资百亿元，建设超大规模的批发市场，华南城首开先河，其胆识和魅力，非常人可及，四年已过，华南城的建设速度超出预期，取得阶段性成功，可喜可贺！更为重要的是，华南城的建设，为南昌九龙湖新城的建设开路，助推了这一区域的快速发展，居功至伟！</p>
+                   <span onclick="closefd()">关闭</span>
+                </div>
+            </li>
+        </ul>
+
+
+      <div class="apprai_ti" style="margin-top:0.5rem">2015江西经济影响力年度人物专项奖12名</div>      
+      <ul class="man">
+            <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1038.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <div class="awards_ti"><img src="/static/images/h5/annual/jiangbei.png">&nbsp;&nbsp;品牌影响力奖</div>
+                    <h1>
+                        <span class="name">张建新</span>
+                        <span class="position">董事长</span>
+                    </h1>
+                    <p class="company">江西草珊瑚药业有限公司</p>                  
+                </div>
+            </li>
+               <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1007.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <div class="awards_ti"><img src="/static/images/h5/annual/jiangbei.png">&nbsp;&nbsp;品牌影响力奖</div>
+                    <h1>
+                        <span class="name">丁炎山</span>
+                        <span class="position">董事长</span>
+                    </h1>
+                    <p class="company">江西省真牛食品有限公司</p>                  
+                </div>
+            </li>
+               <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1032.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <div class="awards_ti"><img src="/static/images/h5/annual/jiangbei.png">&nbsp;&nbsp;品牌影响力奖</div>
+                    <h1>
+                        <span class="name">吴向阳</span>
+                        <span class="position">董事长</span>
+                    </h1>
+                    <p class="company">婺源县乡村文化发展有限公司</p>                  
+                </div>
+            </li>
+               <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1008.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <div class="awards_ti"><img src="/static/images/h5/annual/jiangbei.png">&nbsp;&nbsp;品牌影响力奖</div>
+                    <h1>
+                        <span class="name">淦  垒</span>
+                        <span class="position">董事长</span>
+                    </h1>
+                    <p class="company">江西垒旺实业发展集团有限公司</p>                  
+                </div>
+            </li>
+             <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1029.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <div class="awards_ti"><img src="/static/images/h5/annual/jiangbei.png">&nbsp;&nbsp;互联网+创新奖</div>
+                    <h1>
+                        <span class="name">王国彬</span>
+                        <span class="position">CEO</span>
+                    </h1>
+                    <p class="company">土巴兔装修网</p>                  
+                </div>
+            </li>
+             <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1023.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <div class="awards_ti"><img src="/static/images/h5/annual/jiangbei.png">&nbsp;&nbsp;互联网+创新奖</div>
+                    <h1>
+                        <span class="name">梅国良</span>
+                        <span class="position">董事长</span>
+                    </h1>
+                    <p class="company">江西华兴信息产业有限公司</p>                  
+                </div>
+            </li>
+             <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1031.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <div class="awards_ti"><img src="/static/images/h5/annual/jiangbei.png">&nbsp;&nbsp;互联网+创新奖</div>
+                    <h1>
+                        <span class="name">吴万送</span>
+                        <span class="position">董事长</span>
+                    </h1>
+                    <p class="company">江西欧龙供暖工程有限公司</p>                  
+                </div>
+            </li>
+             <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1013.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <div class="awards_ti"><img src="/static/images/h5/annual/jiangbei.png">&nbsp;&nbsp;互联网+创新奖</div>
+                    <h1>
+                        <span class="name">李  伟</span>
+                        <span class="position">董事长</span>
+                    </h1>
+                    <p class="company">江西盈科行网络信息股份有限公司</p>                  
+                </div>
+            </li>
+             <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1033.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <div class="awards_ti"><img src="/static/images/h5/annual/jiangbei.png">&nbsp;&nbsp;互联网+创新奖</div>
+                    <h1>
+                        <span class="name">杨宇乐</span>
+                        <span class="position">董事长</span>
+                    </h1>
+                    <p class="company">江西企业服务股份有限公司</p>                  
+                </div>
+            </li>
+                <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1010.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <div class="awards_ti"><img src="/static/images/h5/annual/jiangbei.png">&nbsp;&nbsp;互联网+创新奖</div>
+                    <h1>
+                        <span class="name">胡婧璐</span>
+                        <span class="position">总经理</span>
+                    </h1>
+                    <p class="company">江西乐美电子商务有限公司</p>                  
+                </div>
+            </li>
+                <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1022.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <div class="awards_ti"><img src="/static/images/h5/annual/jiangbei.png">&nbsp;&nbsp;金融创新贡献奖</div>
+                    <h1>
+                        <span class="name">廖志民</span>
+                        <span class="position">董事长</span>
+                    </h1>
+                    <p class="company">江西金达莱环保股份有限公司</p>                  
+                </div>
+            </li>
+                <li class="clearfix">
+                <div class="tx1">
+                    <img src="/uploadFile/tptx/1018.jpg" alt="">
+                </div>
+                <div class="info f_r">
+                    <div class="awards_ti"><img src="/static/images/h5/annual/jiangbei.png">&nbsp;&nbsp;走出去贡献奖</div>
+                    <h1>
+                        <span class="name">刘洪源</span>
+                        <span class="position">董事长</span>
+                    </h1>
+                    <p class="company">江西中格集团</p>                  
+                </div>
+            </li>
+        </ul>
+    </section>
+    
+
+     <div class="b">
+            <div class="maodian clearfix" style="width:88%!important;">
+                <a class="f_l" href="/activity/tpresult" style="width:4.39444rem!important">
+                <span style="text-indent: 0.4rem;">查看投票排名</span>
+                <i><img src="/static/images/h5/annual/yjt.png" alt=""></i></a>
+                <a class="f_r" href="/activity/annual"><span>参选人员</span>
+                <i><img src="/static/images/h5/annual/yjt.png" alt=""></i></a>
+            </div>
+      </div>
+    <div class="footer1">
+        2015江西经济影响力年度人物评选活动组委会<br>
+        2015年12月30日
+    </div>
+
+    <script>
+
+     function closefd()
+    {
+         $('.tkinfo').hide();
+    }
+      // 微信分享
+    WXJssdk.init(function(wx) {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+            success: function (res) {
+            //alert(JSON.stringify(res));
+            }
+        });
+        // 分享data
+        var shareData = {
+            title: '重磅！2015"江西经济影响力人物"新鲜出炉！',
+            desc: '江西年度人物评选结果揭晓，22位企业家成为万众瞩目的赣商骄子',
+            link: 'http://www.hcdyhr.com/activity/rankresult',//分享链接地址 自己调整
+            imgUrl: 'http://www.hcdyhr.com/static/images/h5/annual/fenm.jpg',//分享显示的图片
+            success:function(){
+               // alert('shareData success');
+            },
+            cancel:function(){
+               // alert('shareData cancel');
+            },
+            error:function(res){
+               // alert(JSON.stringify(res));
+            }
+        };
+
+        // 分享给朋友
+          wx.onMenuShareAppMessage(shareData);
+        // 分享到朋友圈
+          wx.onMenuShareTimeline(shareData);
+        // 分享到QQ
+          wx.onMenuShareQQ(shareData);
+        // 分享到微博
+          wx.onMenuShareWeibo(shareData);
+    });
+
+    $(document).ready( function() {
+        $("canvas.snow").let_it_snow({
+              windPower: 3,
+              speed: 1,
+              count: 250,
+              size: 0,
+          });
+          $("canvas.flake").let_it_snow({
+              windPower: -3,
+              speed: 1,
+              count: 20,
+              size: 10,
+              image: "/static/images/white-snowflake.png"
+          });
+      });
+    </script>
+</body>
+  <canvas width="100%" height="100%" class="snow"></canvas>
+  <canvas width="100%" height="100%" class="flake"></canvas>
+</html>

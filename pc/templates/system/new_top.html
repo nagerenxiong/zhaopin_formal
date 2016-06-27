@@ -1,0 +1,506 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/module.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/hint.css">
+<script src="{{ STATIC_URL }}js/o.js"></script>
+<script  src="{{ STATIC_URL }}js/lib/base/excanvas.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.knob.min.js"></script>
+<script  src="{{ STATIC_URL }}js/lib/ind/layer/layer.js" type="text/javascript"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/isIdentityAudit.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/hint.js"></script>
+<style>
+	.icon-nv{color: #F80;margin-right: 3px;}.icon-nan{color: #5c91d9;margin-right: 3px;}
+	canvas{position: absolute;}
+</style>
+<!-- <body> -->
+<!-- 头部开始-->
+	<div class="header">
+		<div class="center" style="height: 185px;">
+
+			<div class="header_logo">
+			{% if request.session.account_type == "1" %}
+				<a href="/system/new_personal_index" style="display: inline-block">
+			{% elif request.session.account_type == "3" or request.session.account_type  == "5" %}
+				<a href="/system/new_headhunter_index" style="display: inline-block">
+			{% else %}
+				<a href="/system/new_company_index" style="display: inline-block">
+			{% endif %}
+				<img src="{{ STATIC_URL }}images/o_logo.png" alt="">
+			</a>
+			</div>
+			
+			<ul class="header_info">
+                {% if request.session.account_type == "1" %}
+			<!-- 求职者 -->
+            <a href="/jobs/resume/new_jlsz" class="chang_col" target="_blank">
+                <li class="name" style="display: block">{{ pu.user_name }}</li>
+				<li style="background-position: left -190px;" title="被关注">
+                    <!-- <span>被关注</span> -->
+                    <span>{{ attentionCount|default:0 }}</span>
+                </li>
+				<li style="margin-right: 0px;background-position: left -155px;" title="被访问">
+                    <!-- <span>被访问</span> -->
+                    <span>{{ pv|default:0 }}</span>
+                </li>
+            </a>
+			<!-- 求职者 -->
+                {% elif request.session.account_type == "3" or request.session.account_type  == "5" %}
+			<!-- 经纪人 -->
+				<li class="name" style="display: block">
+
+                    {{ headhunter.real_name }}
+                </li>
+				<li title="服务企业" style="background-position: left -123px;">
+                    <!-- <img src="{{ STATIC_URL }}images/fwqy.png" alt="">  -->
+                    <span>{{ headhunter.serviceCount | default:"0" }}</span>
+                </li>
+<!-- 				<li title="经验值"> 
+                    <span>{{ pu.experience_value | default:"0" }}</span>
+                </li> -->
+				<li title="面试" style="background-position: left -90px;"> 
+                    <!-- <img src="{{ STATIC_URL }}images/ms.png" alt=""> -->
+                    <span>{{ headhunter.interviewCount | default:"0" }}</span>
+                </li>
+				<li title="举荐" style="background-position: left -58px;"> 
+                    <!-- <img src="{{ STATIC_URL }}images/jj.png" alt=""> -->
+                    <span>{{ headhunter.sendCount | default:"0" }}</span>
+                </li>
+                <li title="才币" style="background-position: left -28px;">
+                    <a href="/jobs/account/jbgl" target="_blank">
+                        <!-- <img src="{{ STATIC_URL }}images/cb.png" alt=""> -->
+                        <span>{{ pu.gold | default:"0" }}</span>
+                    </a>
+                </li>
+				<li id="my_level" onclick="window.open('/system/privilege','_blank')" style="margin-right: 0px;background-position: left 1px;">
+                    <!-- <img src="{{ STATIC_URL }}images/dj.png" alt="">  -->
+                    <span>{{ pu.account_level }}</span>
+                    <div class="o_level">
+                        <p class="t">我的等级<em class="o_sj"></em></p>
+                        <div class="b">
+                            <span class="o_lv f_l">Lv.{{ pu.account_level | default:0 }}</span>
+                            <div class="f_r">
+                                <span class="exp">(<em>{{ pu.experience_value | default:0 }}</em>/{{ pu.level_max | default:100000 }})</span>
+                                <span class="o_jindu">
+                                    <b style="width:{{ pu.level_rate | default:0 }}%;"></b>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+			<!-- 经纪人 -->
+                {% else %}
+			<!-- 企业HR -->
+				<li class="name" style="display: block">{{ tpc.pc_short_name }}</li>
+				<li style="background-position: left -224px;" title="招聘职位">
+                    <a href="/jobs/position/company/zwgl" target="_blank">
+                        <!-- <span>招聘职位</span>  -->
+                        <span>{{ publishCount|default:0 }}</span>
+                    </a>
+                </li>
+				<li style="background-position: left -190px;" title="被关注">
+                    <!-- <span>被关注 </span> -->
+                    <span>{{ pu.attentionCount|default:0 }}</span>
+                </li>
+				<li style="background-position: left -155px;" title="被访问">
+                    <!-- <span>被访问</span>  -->
+                    <span>{{ pu.pv|default:0 }}</span>
+                </li>
+				<li style="background-position: left -28px;" title="才币">
+                    <a href="/jobs/account/jbgl" target="_blank">
+                        <!-- <span>才币</span>  -->
+                        <span>{{ pu.gold | default:"0" }}</span>
+                    </a>
+                </li>
+				<li id="my_level" style="margin-right: 0px;background-position: left 1px;">
+                    <!-- <span>等级</span>  -->
+                    <span>{{ pu.account_level }}</span>
+                    <div class="o_level">
+                        <p class="t">我的等级<em class="o_sj"></em></p>
+                        <div class="b">
+                            <span class="o_lv f_l">Lv.{{ pu.account_level | default:0 }}</span>
+                            <div class="f_r">
+                                <span class="exp">(<em>{{ pu.experience_value | default:0 }}</em>/{{ pu.level_max | default:100000 }})</span>
+                                <span class="o_jindu">
+                                    <b style="width:{{ pu.level_rate | default:0 }}%;"></b>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+			<!-- 企业HR -->
+                {% endif %}
+			</ul>
+			<ul class="header_list">
+                {% if request.session.account_type == "1" %}
+			 <!-- 求职者 -->
+				<li><a href="/resume/personal/tddjl" style="background-position:27px 0px">投递箱</a></li>
+				<li><a href="/position/personal/zwsc" style="background-position:-66px 0px">收藏夹</a></li>
+				<li class="grxx"><a href="/jobs/resume/new_jlsz" style="background-position:-154px 0px">隐私设置</a></li>
+				<li class="grxx" style="background-image: none">
+                    {% if request.session.user_name %}
+                        <a class="nowrap" href="javascript:void(0);" style="background-position:-252px 0px">
+                            {{ request.session.user_name }}
+                        </a>
+                    {% else %}
+                        <a class="nowrap" href="javascript:void(0);" style="background-position:-252px 0px" title="{{ request.session.account }}">
+                            {{ request.session.account|slice:"7" }}...
+                        </a>
+                    {% endif %}
+					<i class="iconfont icon-orcile msg_dian"></i>
+					<i class="iconfont icon-xiajiantou" style="position: absolute;"></i>
+					<ul>
+						<li><a href="/jobs/account/zhsz">账号设置</a></li>
+						<li><a href="/jobs/account/znxx">站内消息<span name="msgInfo"></span></a></li>
+						<li><a href="/jobs/account/wdgz">我的关注</a></li>
+{#						<li><a href="/jobs/account/jbgl">才币管理</a></li>#}
+						<li><a href="/jobs/account/txl">通讯录</a></li>
+						<li><a href="/jobs/system/logout">退出</a></li>
+					</ul>
+				</li>
+				<!-- 求职者 end-->
+                {% elif request.session.account_type == "3" or request.session.account_type  == "5" %}
+                    <!-- 经纪人 -->
+                    <li><a href="/jobs/position/headhunter/fbdzw" style="background-position:23px 0px" onclick="return isIdentityHeadhunt('3,5', '2')">发布职位</a></li>
+                    <li><a href="/jobs/resume/uploaded" style="background-position:-70px 0px">简历库</a></li>
+                    {% if request.session.account_type  == "5" %}
+                        <li><a href="/jobs/account/new_qygl" style="background-position:-163px 0px" onclick=" return isIdentityAudit('3,5', '2')">企业信息</a></li>
+                    {% elif request.session.validStatus == 3  or request.session.isJoinedCompany %}
+                        <li><a href="/jobs/account/new_qyyl?isMyJoinedCompany=join" style="background-position:-163px 0px">企业信息</a></li>
+                    {% elif request.session.validStatus == 2  or request.session.isApplyJoinedCompany == 1 %}
+                        <li><a href="javascript:void(0);" onclick=" return isIdentityAudit('3,5', '2')" style="background-position:-163px 0px">企业信息</a></li>
+                    {% else %}
+                        <li><a href="/jobs/position/notes" style="background-position:-163px 0px">企业信息</a></li>
+                    {% endif %}
+                    <li class="grxx" style="background-image: none">
+                    {% if request.session.user_name %}
+                        <a class="nowrap" href="javascript:void(0);" style="background-position:-252px 0px">
+                            {{ request.session.user_name }}
+                        </a>
+                    {% else %}
+                        <a class="nowrap" href="javascript:void(0);" style="background-position:-252px 0px" title="{{ request.session.account }}">
+                            {{ request.session.account|slice:"7" }}...
+                        </a>
+                    {% endif %}
+                        <i class="iconfont icon-orcile msg_dian"></i>
+                        <i class="iconfont icon-xiajiantou"></i>
+                        <ul>
+                            <li><a href="/jobs/system/jjrsy">个人主页</a></li>
+                            <li>
+                                <a href="/jobs/account/zhsz">账号设置</a>
+                            </li>
+                            <li><a href="/jobs/account/znxx">站内消息<span name="msgInfo"></span></a></li>
+                            <li><a href="/jobs/account/wdgz">我的关注</a></li>
+                            <li><a href="JavaScript:void(0);" onclick="myWallet()">我的钱包</a></li>
+                            <li><a href="/system/privilege" target="_blank">我的特权</a></li>
+                            <li><a href="/jobs/account/jbgl">才币管理</a></li>
+                            <li><a href="/jobs/account/txl">通讯录</a></li>
+                            <li><a href="/jobs/system/logout">退出</a></li>
+                        </ul>
+                    </li>
+                <!-- 经纪人 end-->
+                {% else %}
+                <!-- 企业HR -->
+
+				<li><a href="/jobs/position/company/fbdzw" style="background-position:22px 0px">发布职位</a></li>
+				<li><a href="/jobs/position/qytddjll" style="background-position:-68px 0px">工作平台</a></li>
+				<li><a href="/jobs/account/new_qygl" style="background-position:-162px 0px">公司主页</a></li>
+				<li class="grxx" style="background-image: none">
+                    {% if request.session.user_name %}
+                        <a class="nowrap" href="javascript:void(0);" style="background-position:-252px 0px;">
+                            {{ request.session.user_name }}
+                        </a>
+                    {% else %}
+                        <a class="nowrap" href="javascript:void(0);" style="background-position:-252px 0px;" title="{{ request.session.account }}">
+                            {{ request.session.account|slice:"7" }}...
+                        </a>
+                    {% endif %}
+
+					<i class="iconfont icon-orcile msg_dian"></i>
+					<i class="iconfont icon-xiajiantou"></i>
+					<ul>
+                        <li><a href="/jobs/account/new_qygl">公司主页</a></li>
+						<li><a href="/jobs/account/zhsz">账号设置</a></li>
+                        <li><a href="/jobs/account/znxx">站内消息<span name="msgInfo"></span></a></li>
+						<li><a href="/jobs/account/wdgz">我的关注</a></li>
+                        <li><a href="JavaScript:void(0);" onclick="myWallet()">我的钱包</a></li>
+						<li><a href="/jobs/account/jbgl"  onclick=" return isIdentityAudit('2,4', '2')">才币管理</a></li>
+						<li><a href="/jobs/account/txl">通讯录</a></li>
+						<li><a href="/jobs/system/logout">退出</a></li>
+					</ul>
+				</li>
+				<!-- 企业HR end-->
+                {% endif %}
+			</ul>
+			<div class="clearfix"></div>
+
+			<div class="head_portrait">
+				<!-- value为圆形进度条的百分比 -->
+                {% if request.session.account_type == "1" %}
+				    <input class="knob" style="display: none;background:#ffffff;border-radius:50%;" data-width="170" data-height="170" data-skin="tron" data-displayInput="true" value="{{ resume.integrity | default:0 }}">
+				{% elif request.session.account_type == "2" or request.session.account_type == "4" %}
+                    <input class="knob" style="display: none;background:#ffffff;border-radius:50%;" data-width="170" data-height="170" data-skin="tron" data-displayInput="true" value="{{ tpc.integrity | default:0 }}">
+                {% else %}
+                    <input class="knob" style="display: none;background:#ffffff;border-radius:50%;" data-width="170" data-height="170" data-skin="tron" data-displayInput="true" value="{{ tpc.integrity | default:0 }}">
+				{% endif %}
+                <img class="tx" src="{{ request.session.file_website }}{{ request.session.head_portrait | default:'null'}}"  onclick="intoManiPage('{{ request.session.account_type }}')"
+                     alt="" onerror="notfind(this, '{{ request.session.account_type }}', '{{ request.session.sex }}')">
+
+
+				<div class="status">
+                    {% if request.session.account_type == "1" %}
+				<!-- 求职者 -->
+					<p>
+                        <span style="vertical-align: middle;">简历完整度</span>
+                        <b style="vertical-align: middle;">{{ resume.integrity | default:0 }}%</b>
+                        <a style="vertical-align: middle;" onclick="editResume()" class="edit_ico"></a>
+                        <a style="vertical-align: middle;" onclick="reflushResume()" class="refresh_icon"></a>
+                    </p>
+				<!-- 求职者 -->
+				    {% elif request.session.account_type == "3" or request.session.account_type  == "5" %}
+				<!-- 经纪人 -->
+					<span>
+                        {% if auditCount == 3 %}
+                            <img class="v" src="{{ STATIC_URL }}images/v.png" alt="">已认证人才经纪人
+                        {% elif auditCount == 1 %}
+                            <a href="/account/new_sfyz" target="_blank">
+                                <img class="v" src="{{ STATIC_URL }}images/v1.png" alt="">未认证人才经纪人
+                            </a>
+                        {% else %}
+                            <img class="v" src="{{ STATIC_URL }}images/v1.png" alt="">认证审核中……
+                            <script>
+                            	$(".status").css('left', '17px').click(function(event) {
+                            		window.open("/jobs/account/new_sfyz");
+                            	});
+                            </script>
+                        {% endif %}
+                    </span>
+				<!-- 经纪人 -->
+                    {% else %}
+				<!-- 企业HR -->
+					<p>
+                     <span style="vertical-align: middle;">企业信息完整度</span>
+                        <b style="vertical-align: middle;">{{ tpc.integrity | default:0 }}%</b>
+                        <a href="/account/new_qygl"  class="qy_xg"></a>
+                     </p>
+                    {% endif %}
+				<!-- 企业HR -->
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- 	头部结束 -->
+
+<!-- 导航开始 -->
+	<div class="nav">
+		<div class="center">
+			<ul>
+			<!-- 求职者 -->
+                {% if request.session.account_type == "1" %}
+				<li class="active"><a href="/system/new_personal_index">首页</a></li>
+				<li class="right"><a href="/jobs/resume/new_jlsz">我的简历</a></li>
+				<li class="right"><a href="/system/new_agent_search">人才经纪人</a></li>
+				<li><a href="/position/npositionsearch">搜索职位</a>
+                <img src="{{ STATIC_URL }}images/xsj_03.png" class="jtgl">  
+                    <div class="menu_hide">
+                     <span><a href="/jobs/position/npositionsearch">搜索职位</a></span>
+                     <span><a href="/jobs/position/ncompanysearch">搜索公司</a></span>
+                     <span><a href="/gzptsy?businessValue=H0001">IT互联网</a></span>
+                     <span><a href="/gzptsy?businessValue=H0005">房地产</a></span>
+                     <span><a href="/gzptsy?businessValue=H0012">金融</a></span>
+                     <span><a href="/gzptsy?businessValue=H0008">制造业</a></span>
+                     <span><a href="/gzptsy?businessValue=H0009">消费品</a></span>
+                     <span><a href="/gzptsy?businessValue=H0006" class="clear_b_b">农林牧渔</a></span>
+                     </div>
+                </li>
+				<li class="slide"></li>
+			<!-- 求职者 -->
+                {% elif request.session.account_type == "3" or request.session.account_type  == "5" %}
+			<!-- 经纪人 -->
+				<li class="active"><a href="/jobs/system/new_headhunter_index">首页</a></li>
+				<li><a href="/jobs/resume/new_resume_search">简历管理</a>  
+                <img src="{{ STATIC_URL }}images/xsj_03.png" class="jtgl">                
+                    <div class="menu_hide">                      
+                        <span><a href="/resume/new_resume_search">找人才</a></span>
+                        <span><a href="/resume/uploaded">我的人才库</a></span>
+                        <span><a href="/resume/h_tddjl" onclick=" return isIdentityHeadhunt('3,5', '2')">工作平台</a></span>
+                        <span><a href="/resume/myDeliveryResume" class="clear_b_b">推荐记录</a></span>
+                    </div>
+                </li>
+				<li class="right"><a href="/jobs/account/wdsc">我的List</a>
+                <img src="{{ STATIC_URL }}images/xsj_03.png" class="jtgl">    
+                <div class="menu_hide">
+                     <span><a href="/account/search_list">搜索List</a></span>
+                     <span><a href="/account/wdsc">我的List</a></span>
+                     <span><a href="/account/list">上传List</a></span>
+                     <span><a href="/account/wdxz">我的下载</a></span>
+                     <span><a href="/account/shouchang" class="clear_b_b">我的收藏</a></span>
+                    </div>
+                </li>
+				<li class="right"><a href="/jobs/position/headhunter/naagentsearch">职位管理</a>
+                <img src="{{ STATIC_URL }}images/xsj_03.png" class="jtgl">   
+                    <div class="menu_hide">
+                     <span><a href="/position/headhunter/fbdzw" onclick="return isIdentityHeadhunt('3,5', '2')">职位发布</a></span>
+                     <span><a href="/position/headhunter/zwgl">职位管理</a></span>
+                     <span><a href="/position/headhunter/naagentsearch">搜索职位</a></span>
+                     <span><a href="/position/headhunter/zwdyq" onclick="return onlyHeadhuntCompany();">职位订阅器</a></span>
+                     <span><a href="/position/headhunter/zpqygl" onclick="return onlyHeadhuntCompany();">招聘企业管理</a></span>
+                     <span><a href="/position/headhunter/zwsc" class="clear_b_b">收藏的职位</a></span>
+                    </div>
+                </li>
+				<li class="slide"></li>
+			<!-- 经纪人 -->
+			    {% else %}
+			<!-- 企业HR -->
+				<li class="active"><a href="/jobs/system/new_company_index">首页</a></li>
+				<li><a href="/jobs/position/qytddjl">简历管理</a>
+               <img src="{{ STATIC_URL }}images/xsj_03.png" class="jtgl">     
+                    <div class="menu_hide">
+                     <span><a href="/jobs/resume/new_resume_search">找人才</a></span>
+                     <span><a href="/jobs/resume/wscdjl">我的人才库</a></span>
+                     <span><a href="/jobs/position/qytddjll" class="clear_b_b">工作平台</a></span>
+                    </div>
+                </li>
+                <li class="right"><a href="/system/new_agent_search">经纪人管理</a>
+                <img src="{{ STATIC_URL }}images/xsj_03.png" class="jtgl">     
+                <div class="menu_hide">
+                     <span><a href="/system/new_agent_search">搜索经纪人</a></span>
+                     <span><a href="/jobs/position/yjpp" onclick="return isIdentityAudit('2,4', '2');">匹配到的经纪人</a></span>
+                     <span><a href="/jobs/position/hzdlt" onclick="return isIdentityAudit('2,4', '2');">合作中的经纪人</a></span>
+                     <span><a href="/jobs/position/hzgdlt" onclick="return isIdentityAudit('2,4', '2');" class="clear_b_b">合作过的经纪人</a></span>
+                     </div></li>
+				<li class="right"><a href="/jobs/position/company/zwgl">职位管理</a>
+               <img src="{{ STATIC_URL }}images/xsj_03.png" class="jtgl">     
+                <div class="menu_hide">
+                     <span><a href="/jobs/position/company/fbdzw">职位发布</a></span>
+                     <span><a href="/jobs/position/company/zwgl" class="clear_b_b">职位管理</a></span>
+                    </div></li>{% comment %} onclick=" return isIdentityAudit('2,4', '2')"{% endcomment %}
+				<li class="slide"></li>
+                {% endif %}
+			</ul>
+		</div>
+	</div>
+{% if request.session.account_type == "3" or request.session.account_type  == "5" %}
+{% else %}
+	<div id="info_nav" class="center clearfix" style="margin-top: 40px;">
+    
+		
+    
+        <img src="{{ STATIC_URL }}images/o_gg.jpg" alt="">
+    
+	</div>
+{% endif %}
+    <input type="hidden" value="{{ request.session.account_type }}" class="loginAccountType">
+    <input type="hidden" value="{{ request.session.isJoinedCompany }}" class="isJoinedCompany">
+    <input type="hidden" id="userValidateStatus" value="{{ pu.userValidateStatus }}" />
+<!-- 导航结束 -->
+<script type="text/javascript">
+    var file_website = "{{ request.session.file_website }}";
+    var cash_website = "{{ request.session.cash_website }}";
+    $(function(){
+        getIsSelectInfo();
+    });
+
+	$(".top").css({display:"none",position:"fixed",top:"0px",width:"100%",zIndex:"10"});
+	$(window).scroll(function(event) {
+		if($(this).scrollTop()>200){
+			$(".top").slideDown(150);
+		}else{
+			$(".top").slideUp(150);
+		}
+
+	});
+
+    //刷新简历
+    function reflushResume(){
+        var resumeId = $('#resumeId').val();
+        if(resumeId != ''){
+            $.ajax({
+                type: "POST",
+                url: "/ajax_flushResume",
+                data: {"resumeId": resumeId},
+                dataType: "json",
+                success: function (data) {
+                    if(data.msg == 'success'){
+                        window.alert("成功刷新简历");
+                    }
+                }
+            })
+        }else{
+            window.alert('你还没有简历，请先填写简历');
+        }
+    }
+    //编辑简历
+    function editResume(){
+       window.open('/jobs/resume/new_jlsz', '_blank');
+    }
+    
+
+	$(function(){
+		$(".knob").knob({	   
+            thickness: .1,
+            fgColor: '#ff8800',
+            bgColor: '#e4e4e4',
+            displayInput:false,
+            readOnly:true
+        });
+	})
+
+    //获取消息
+    function getIsSelectInfo(){
+        $.ajax({
+            type: "POST",
+            url: "/ajax_getIsSelectInfo/",
+            dataType: "text",
+            success: function(data){
+                if(data != $("span[name='msgInfo']").text()){
+                    if(data == "0"){
+                        $(".msg_dian").hide();
+                        $("span[name='msgInfo']").hide();
+                    }
+                    else {
+                        $(".msg_dian").show();
+                        $("span[name='msgInfo']").show();
+                        if(data.length>2)
+                            $("span[name='msgInfo']").text("99");
+                        else
+                            $("span[name='msgInfo']").text(data);
+                    }
+                }
+            }
+        });
+    }   
+    //我的钱包
+    function myWallet(){ 
+         var tempwindow=window.open();        
+        $.ajax({
+            type: "POST",
+            url: "/ajax_intoMyWallet",
+            dataType: "json",           
+            success: function (data) {
+                if(data.status == '2'){                   
+                     tempwindow.location='/account/transfer?type=phone';
+                }else if(data.status == '3'){                   
+                     tempwindow.location='/account/transfer?type=email';
+                }else if(data.status == '1'){
+                    var  code = data.result;
+                    tempwindow.location=cash_website + '/api/login_api?code=' + encodeURIComponent(code);
+                }
+            }           
+        })     
+    }
+    //头像点击事件
+    function intoManiPage(account_type){
+        if(account_type == '1'){
+            window.open('/jobs/resume/new_jlsz', '_blank');
+        }else if(account_type == '3' || account_type == '5'){
+            window.open('/jobs/system/jjrsy', '_blank');
+        }else if(account_type == '2' || account_type == '4'){
+            window.open('/jobs/account/new_qygl', '_blank');
+        }
+    }
+    function noValidateDialog() {
+        layer.alert("企业信息尚未验证，点击[<a href='/jobs/account/new_sfyz' style='color: blue'>前往验证</a>]");
+    }
+</script>

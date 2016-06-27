@@ -1,0 +1,204 @@
+﻿{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/new_pocomm_seach.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style2.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css">
+{% if request.session.account_type == '1' %}
+<div class="clear">2</div>
+{% else %}
+<div class="clear">3</div>
+ {% endif %}
+
+<div class="clear">1</div>
+    {% if request.session.account_type == '1' %}
+        <div class="nav2 mt25" style="width:1020px!important">
+            <ul>
+                <li>
+                    <a href="/position/npositionsearch">职位搜索<i class="iconfont icon-xia1"></i></a>
+                </li>
+                <li>
+                    <a href="/position/ncompanysearch" class="nav2hover">公司搜索<i class="iconfont icon-xia1"></i></a>
+                </li>
+            </ul>
+        </div>
+    {% elif request.session.account_type == '3' or request.session.account_type == '5' %}
+        <div class="nav2">
+            {% include 'jobs/system/menu_position.html' %}
+        </div>
+    {% endif %}
+
+
+
+    <script type="text/javascript" >
+       $(function () {
+                $(".ssxl").click(function() {
+            if ($(this).find('ul').css("display") == "none") {
+                $(this).find('ul').slideDown(300);
+            } else {
+            $(this).find('ul').slideUp(300);
+            }
+    });
+         $(".ssxl ul").children('li').click(function(){
+            $(".ssxl ul").slideUp(150);
+            var zw=$(".ssxl").children("span").text();
+            $(".ssxl").children("span").text($(this).text());
+            $(this).text("");
+            if(zw == '公司'){
+                $('.gsss_r_t2').css('display', '');
+                $('#condition').attr('placeholder', '请输入职位关键字');
+            }else{                
+                $('.gsss_r_t2').css('display', 'none');
+                $('#condition').attr('placeholder', '请输入公司关键字');
+            }
+            $(this).text(zw);
+         })       
+        $(".ssxl").mouseleave(function(event) {
+            $(this).find('ul').delay(200).slideUp(300);
+        });
+        });
+ </script>
+
+
+	<div style="height:25px; clear:both;"></div>
+	<div class="main">
+		<div class="s_condition">
+			<div id="positionmid" style="padding-bottom:30px!important;">
+				<!-- 搜索筛选 -->
+				<ul class="category_ds">
+					<div class="details">
+						<li id="comm_scale">
+							<span class="title">公司规模：</span>
+							<a href="javascript:void(0);" data-value="" class="active">不限</a>
+                            {% if companyScales %}
+                                {% for scales in companyScales %}
+                                    {% if forloop.counter != 1 %}
+                                        <a href="javascript:void(0);" data-value="{{ scales.dictionary_value }}">{{ scales.dictionary_name }}</a>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+						</li>
+						<li id="comm_nature">
+							<span class="title">公司性质：</span>
+							<a href="javascript:void(0);" data-value="" class="active">不限</a>
+                            {% if companyNatures %}
+                                {% for nature in companyNatures %}
+                                    <a href="javascript:void(0);" data-value="{{ nature.dictionary_value }}">{{ nature.dictionary_name }}</a>
+                                {% endfor %}
+                            {% endif %}
+						</li>
+						<li id="comm_field">
+							<span class="title">所属领域：</span>
+							<a href="javascript:void(0);" data-value="" class="active">不限</a>
+                            {% if businesses %}
+                                {% for business in businesses %}
+                                    {% if forloop.counter == 7 %}
+                                        <div id="more_mes" class="more_mes">
+                                    {% endif %}
+                                    <a href="javascript:void(0);" data-value="{{ business.industry_value }}">{{ business.industry_name }}</a>
+                                    {% if forloop.counter == 12 %}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            <div class="more1" style="cursor: pointer;">更多<i></i></div>
+						</li>
+				</div>
+
+				          <li id="choice_re" class="dn">
+				            <span class="title">公司规模：</span>
+				            <a href="javascript:void(0);" class="active" id="scale">500人-1000人</a>
+				            <span class="title">公司性质：</span>
+				            <a href="javascript:void(0);" class="active" id="nature">不限</a>
+				            <span class="title">所属领域：</span>
+				            <a href="javascript:void(0);" class="active" id="field">互联网/游戏/软件</a>
+				          </li>
+				<li>
+		            <span class="title">工作地点：</span>
+		            <div class="choice_city">
+		              <p class="city_p" data-value="">选择省份
+		                <img src="/static/images/new_images/xjt.png" alt=""></p>
+		              <ul class="xl_mes" style="height:100px!important;">
+		                <li value="">不限</li>
+                        {% if areaes %}
+                            {% for area in areaes %}
+                                <li value="{{ area.dictionary_value }}">{{ area.dictionary_name }}</li>
+                            {% endfor %}
+                        {% endif %}
+		              </ul>
+		            </div>
+		            <div class="choice_city ml15">
+		              <p class="city_p" data-value="">选择地市
+		                <img src="/static/images/new_images/xjt.png" alt=""></p>
+		              <ul class="xl_mes" style="height:100px!important;">
+		                <li value="">不限</li>
+		              </ul>
+		            </div>
+		          </li>
+				</ul>
+
+
+                {% if request.session.account_type == '3' or request.session.account_type == '5' %}
+                        <div class="seach_des" style="width:700px!important">
+                        <div class="gsss_r_t1">
+                            <div class="ssxl ss_div"><span>公司</span> 
+                                <img style="margin-left:5px;" src="/static/images/h_xjt.gif">
+                                <ul style="display: none;">
+                                    <li>职位</li>
+                                </ul>
+                            </div>
+                        <input class="ss_input" type="text" placeholder="请输入公司关键字" id="condition" style="float:left;vertical-align: top;" onkeydown="judgeEntry(event)" maxlength="50">
+                        <a class="ss_anniu" href="javascript:void(0);" onclick="queryData()">搜索</a>
+                        </div>
+                         <div style="height:40px; clear:both;" id="heclear"></div>
+                        </div>
+                        {% else %}
+                           <div class="seach_des" style="width:660px!important">
+                               <div class="gsss_r_t1">
+                                <input class="ss_input" type="text" placeholder="请输入公司关键字" id="condition" style="float:left;vertical-align: top;" onkeydown="judgeEntry(event)" maxlength="50">
+                                    <a class="ss_anniu" href="javascript:void(0);" onclick="queryData()">搜索</a>
+                                </div>
+                                <div style="height:40px; clear:both;" id="heclear"></div>
+                            </div>
+               {% endif %}
+						
+
+
+
+
+				<div class="sh_submit">收起<i></i></div>
+			</div>
+
+			<div id="res_des">
+				<div class="sere_nav">
+					<div class="result_left">
+						搜索结果： 共
+						<span id="resultCount">0个</span>
+						公司
+					</div>
+					<div class="page_right">
+                      <i class="left_icon" onclick="pageTurn('up')" style="cursor: pointer;"></i>
+                      <span>0</span>
+                      /<b>0</b> <i class="right_icon" onclick="pageTurn('down')" style="cursor: pointer;"></i>
+                      </div>
+				</div>
+                <div id="noSendData" class="noSendData" style="display: none;">
+                    <div>
+                        <p>暂无匹配的搜索结果</p>
+                    </div>
+                </div>
+				<ul class="sea_list pchoi">				
+
+		        </ul>
+</div>
+        </div>
+
+    <div class="lthy_pager mabt" id="paginInfo" style="margin-top:80px">
+
+</div>
+
+</div>
+<input type="hidden" id="initData" value="{{ condition }}" />
+<input type="hidden" id="pu_id" value="{{ pu.id }}" />
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script src="{{ STATIC_URL }}appJs/position/new_company_search.js" type="text/javascript" charset="utf-8"></script>
+{% include 'jobs/system/new_footer.html' %}

@@ -1,0 +1,282 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style1.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/uploadify.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script src="{{ STATIC_URL }}js/jquery.uploadify.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul_old.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+<!-- 内容大框 -->
+<div class="lt_content_box">
+    {% include 'jobs/system/menu_list.html' %}
+    <div class="clear">4</div>
+    <div class="clear">1</div>
+	<!-- 猎头会员菜单 -->
+    <div class="ltml_grid_box center clearfix mt25">
+        <ul class="nav nav-tabs ltml_grid_ul">
+            <li class="active side_yx_li">
+                <a href="#home" data-toggle="tab" style="color:#5c91d9;width:100px!important">List搜索</a>
+            </li>
+        </ul>
+        <div>
+            <input type="hidden" name="business">
+            <ul class="list_info_box">
+                <li>
+                    <span class="list_span" style="vertical-align: top;
+line-height: 40px;">行&nbsp;&nbsp;&nbsp;业:</span>
+{#                     <input readonly="readonly" onclick="showBusinessul(this,1)" value="" type="text" id="businessulName" name="businessulName"  placeholder="选择行业" class="w300"   >#}
+                    <div id="businessulDiv1" onclick="BusinessulControlsShow(3,this)"></div>
+                    <input id="businessulValue" name="businessulValue" type="hidden" value="">
+                </li>
+
+                <li>
+                    <span class="list_span">年&nbsp;&nbsp;&nbsp;份:</span>
+                    <select class="cup" name="compile_year" value="{{ tListInfo.compile_year }}" class="list_w">
+                        <option value="0" selected>不限</option>
+                        {% if years %}
+                            {% for year in years %}
+                                <option value="{{ year }}">{{ year }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </li>
+                <li class="sl_a_box">
+                    <span class="list_span">手&nbsp;&nbsp;&nbsp;机:</span>
+
+                    <input id="r_phone1" type="radio" name="ismobilephone" value="12140000" checked/>
+                    <label for="r_phone1">不限</label>
+
+                    <input id="r_phone2" type="radio" name="ismobilephone" value="12139000"/>
+                    <label for="r_phone2">全部有</label> 
+
+                    <input id="r_phone3" type="radio" name="ismobilephone" value="12138000"/>
+                    <label for="r_phone3">多数有</label>
+
+                    <input id="r_phone4" type="radio" name="ismobilephone" value="12137000"/>
+                    <label for="r_phone4">少数有</label>
+                </li>
+                <li class="sl_a_box">
+                    <span class="list_span">邮&nbsp;&nbsp;&nbsp;箱:</span>
+
+                    <input id="r_email1" type="radio" name="isemail" value="12144000" checked/>
+                    <label for="r_email1">不限</label>
+
+                    <input id="isemail2" type="radio" name="isemail" value="12143000"/>
+                    <label for="isemail2">全部有</label>
+
+                    <input id="isemail3" type="radio" name="isemail" value="12142000"/>
+                    <label for="isemail3">多数有</label>
+
+                    <input id="isemail4" type="radio" name="isemail" value="12141000"/>
+                    <label for="isemail4">少数有</label>
+                </li>
+                <li>
+                    <span class="list_span">关键词:</span><input type="text" name="description" placeholder="请输入您查找的关键词" maxlength="16" style="width:302px;margin-left:3px;">
+                    <input type="button" name="search_list" id="" class="s_list_submit" value="搜索List" />
+                    <a href="/account/list"><input type="button" name="uploadList" value="List上传"class="s_list_submit1"></a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-pane in active" id="ssml">
+            <table class="ltml_grid">
+                <thead>
+                <tr>
+                    <th width="206">标题</th>
+                    <th class="cur_poi" width="99">售价<i title="升序排列" class="iconfont icon-shangxia fz12 time_sort " id="price"></i></th>
+                    <th width="98">年份<i title="升序排列"  class="iconfont icon-shangxia fz12 time_sort " id="compoleYear"></i></th>
+                    <th width="80">人数</th>
+                    <th width="80">手机</th>
+                    <th width="63">邮箱</th>
+                    <th width="63">地区</th>
+                    <th width="100" style="cursor:pointer">下载次数<i title="升序排列"  class="iconfont icon-shangxia fz12 time_sort " id="downloadTimes"></i></th>
+                    <th width="120" style="cursor:pointer">上传日期<i title="升序排列"  class="iconfont icon-shangxia fz12 time_sort " id="uploadDate"></i></th>
+                    <th width="160">资源评价星级<i title="升序排列"  class="iconfont icon-shangxia fz12 time_sort " id="starLevel"></i></th>
+                </tr>
+                </thead>
+                <tbody id="tableInfo"  style="overflow: hidden">
+                
+                </tbody>
+            </table>
+            <div class="lthy_pager" id="paginInfo">
+            </div>
+        </div>
+        <div class="left_top_border"></div>
+    </div>
+    <!-- 猎头会员菜单 -->
+</div>
+<script type="text/javascript">$('#btn_upload').uploadify({buttonImage:'/{{ STATIC_URL }}images/scl_03.png',buttonClass:'list_upload',width:'84',height:'31'});</script>
+<script>
+    var loadData;
+    $(function(){
+        var order_sql =  " add_date desc";
+        loadData = new pagin("paginInfo", "V_LIST_EVALUATION", "", ' pu_id != {{ pu_id }} and enabled = 1 ', encodeURI(order_sql), 5, "paginBind", "loadData");
+
+        //  Business 新控件
+        BusinessulControls("businessulDiv1","","",
+                'width:300px;margin-top:5px;height:auto;font-size:14px;');
+
+        $(":button[name=search_list]").click(function(){
+            var Business = $("#businessulValue").val();
+            var sql = " pu_id != " + {{ pu_id }} +" and enabled = 1 and ";
+            if(Business != ""){
+                sql += '(';
+                var businesses = Business.split(",");
+                for(var i = 0; i < businesses.length; i ++ ){
+                    sql += 'business like "%' + businesses[i] + '%" or '
+                }
+                sql = sql.substring(0, sql.length - 3) + ') and ';
+            }
+{#                 sql += "Business like \"%" + Business + "%\" and ";#}
+            var Compile_Year = $("select[name=compile_year]").val();
+            if(Compile_Year != "" && Compile_Year != "0"){
+                sql += " Compile_Year=" + Compile_Year + " and "
+            }
+            var IsMobilePhone = $(":radio[name=ismobilephone]:checked").val();
+            if(IsMobilePhone != "12140000")
+                sql +=  " IsMobilePhone = " + IsMobilePhone + " and ";
+            var IsEmail = $(":radio[name=isemail]:checked").val();
+            if (IsEmail != "12144000")
+                sql += " IsEmail=" + IsEmail + " and ";
+            var description = $(":input[name=description]").val();
+             if( description == "请输入您查找的关键词"){
+                 description = "";
+             }
+             sql +=  " description like \"%"+ description + "%\" or title like \"%"+ description + "%\"";
+             loadData = new pagin("paginInfo", "V_LIST_EVALUATION", "", encodeURI(sql), "", 5, "paginBind", "loadData");
+        })
+        var price = "asc";
+        var compoleYear = "asc";
+        var downloadTimes = "asc";
+        var uploadDate = "asc";
+        var starLevel = "asc";
+        $(".icon-shangxia").click(function(){
+            if($("#tableInfo").find("tr").length == 0)
+                return false;
+            var Business = $("#businessulValue").val();
+            var sql = " enabled = 1 and ";
+            if(Business != "")
+                 sql += "Business like\"%" + Business + "%\" and ";
+            var Compile_Year = $("select[name=compile_year]").val();
+            if(Compile_Year != "" && Compile_Year != "0"){
+                sql += " Compile_Year=" + Compile_Year + " and "
+            }
+            var IsMobilePhone = $(":radio[name=ismobilephone]:checked").val();
+            if(IsMobilePhone != "12140000")
+                sql +=  " IsMobilePhone = " + IsMobilePhone + " and ";
+            var IsEmail = $(":radio[name=isemail]:checked").val();
+            if (IsEmail != "12144000")
+                sql += " IsEmail=" + IsEmail + " and ";
+            var description = $(":input[name=description]").val();
+             if( description == "请输入您查找的关键词"){
+                 description = "";
+             }
+             sql +=  " description like \"%"+ description + "%\" or title like \"%"+ description + "%\"";
+            if($(this).attr("id") == "price"){
+                sql += " order by Gold " + price;
+                if(price == "asc"){
+                    price = "desc";
+                    $(this).attr('title', '降序排列');
+                }
+                else{
+                    price = "asc";
+                    $(this).attr('title', '升序排列');
+                }
+            }
+            if($(this).attr("id") == "compoleYear"){
+                sql += " order by Compile_Year " + compoleYear
+                if(compoleYear == "asc"){
+                    compoleYear = "desc";
+                    $(this).attr('title', '降序排列');
+                }
+                else{
+                    compoleYear = "asc"
+                    $(this).attr('title', '升序排列');
+                }
+            }
+            if($(this).attr("id") == "downloadTimes"){
+                sql += " order by downloadcount " + downloadTimes;
+                if(downloadTimes == "asc"){
+                    downloadTimes = "desc";
+                    $(this).attr('title', '降序排列');
+                }
+                else{
+                    downloadTimes = "asc";
+                    $(this).attr('title', '升序排列');
+                }
+            }
+            if($(this).attr("id") == "uploadDate"){
+                sql += " order by add_date " + uploadDate;
+                if(uploadDate == "asc"){
+                    uploadDate = "desc";
+                    $(this).attr('title', '降序排列');
+                }
+                else{
+                    uploadDate = "asc";
+                    $(this).attr('title', '升序排列');
+                }
+            }
+            if($(this).attr("id") == "starLevel"){
+                sql += " order by levels " + starLevel;
+                if(starLevel == "asc"){
+                    starLevel = "desc";
+                    $(this).attr('title', '降序排列');
+                }
+                else{
+                    starLevel = "asc";
+                    $(this).attr('title', '升序排列');
+                }
+            }
+            loadData = new pagin("paginInfo", "V_LIST_EVALUATION", "", encodeURI(sql), "", 5, "paginBind", "loadData");
+        })
+    })
+     //动态加载页面绑定数据
+    function paginBind(dataInfo){
+        //图片列表数据加载
+        $("#tableInfo").empty();
+        $("#articleInfo").empty();
+        $("#tableInfo").append('<tr id="hehe"><td></td></tr>')
+        $(dataInfo).each(function(i){
+            // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this)
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            var content = '';
+            content += '<tr><td><a href="/account/info_list?id=' + array[0] + '">' + array[2] + '</a></td>'
+            content +=  '<td style="color:#C8161D;"><img src="{{ STATIC_URL }}images/111_03.png">' + array[16] + '</td>'
+            content +=  '<td>' + array[6] + '</td>'
+            content +=  '<td>' + array[8] + '</td>'
+            content +=  '<td>' + array[12] + '</td>'
+            content +=  '<td>' + array[14] + '</td>'
+            content +=  '<td>' + array[15] + '</td>'
+            content +=  '<td>' + array[22] + '</td>'
+            content +=  '<td>' + array[20].substring(0, array[20].length - 9) + "</td>"
+            content += '<td>';
+            var stars = array[21];
+            if(array[21] == '&nbsp;') {
+                stars = 5;
+            }
+            for(var i = 1; i <= 5; i ++){
+                if(i <= stars)
+                    content += '<i class="iconfont icon-wujiaoxing" style="color:#f7b913"></i>';
+                else
+                    content += '<i class="iconfont icon-wujiaoxing"style="color:#cfcfd2"></i>';
+            }
+            content += '</td></tr>'
+            $("#tableInfo").append(content)
+            //文章列表数据加载
+            $("#tableInfo tr").not("#hehe").each(function(index, el) {
+                if($(this).index()%2==0){
+                    $(this).css('background', '#f8f8f8');
+                }
+            });
+        })
+    }
+</script>
+{% include 'jobs/system/new_footer.html' %}

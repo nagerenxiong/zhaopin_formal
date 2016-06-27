@@ -1,0 +1,153 @@
+charset "UTF-8";
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, fieldset, button, input, textarea, th, td {
+  margin: 0;
+  padding: 0; }
+
+body, button, input, select, textarea {
+  font: 12px/1.5 "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", \5b8b\4f53, sans-serif; }
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; }
+
+html {
+  font-size: 75px;
+  overflow: hidden; }
+
+body {
+  width: 10rem;
+  overflow: hidden;
+  font-family: "Microsoft YaHei","微软雅黑",Verdana, Arial, Helvetica, sans-serif;
+  max-width: 640px; }
+
+a, a:link, a:visited, a:hover, a:active {
+  text-decoration: none; }
+
+em, i {
+  font-style: normal; }
+
+a, a:link, a:visited, a:hover, a:active, input, textarea, :focus {
+  outline: 0; }
+
+textarea {
+  padding: 10px; }
+
+img, iframe {
+  border: none;
+  text-decoration: none; }
+
+li {
+  list-style-type: none; }
+
+.nowrap {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap; }
+
+.clearfix:after {
+  *zoom: 1;
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden; }
+
+.clearfix {
+  *zoom: 1; }
+
+.center {
+  width: 1200px;
+  margin: 0 auto; }
+
+.fl {
+  float: left; }
+
+.fr {
+  float: right; }
+
+.hide {
+  display: none; }
+
+.height_auto {
+  height: initial !important;
+  height: auto !important; }
+
+/*initial colors*/
+/*主要内容01*/
+/*主要内容02*/
+/*弱化的文字*/
+/*提示文字*/
+/*醒目突出文字*/
+/*链接字体颜色*/
+/*数字文本颜色*/
+/*边框颜色*/
+/*边框颜色*/
+.nc01 {
+  color: #ff6b12; }
+
+.nc02 {
+  color: #333; }
+
+::-moz-placeholder {
+  color: #c8c8c8; }
+
+::-webkit-input-placeholder {
+  color: #c8c8c8; }
+
+:-ms-input-placeholder {
+  color: #c8c8c8; }
+
+a {
+  color: #333; }
+
+a.link_01,
+a.link_01:link,
+a.link_01:visited {
+  color: #007eb2; }
+
+a.link_01:hover,
+a.link_01:active {
+  color: #007eb2;
+  text-decoration: underline; }
+
+a.link_02,
+a.link_02:link,
+a.link_02:visited {
+  color: #333; }
+
+a.link_02:hover,
+a.link_02:active {
+  color: #007eb2; }
+
+/*box-shadow*/
+.table {
+  display: table; }
+  .table > * {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle; }
+  .table > .tal {
+    text-align: left; }
+  .table > .tar {
+    text-align: right; }
+  .table > .vat {
+    vertical-align: top; }
+  .table > .vab {
+    vertical-align: bottom; }
+
+.moudle_shadow {
+  -moz-box-shadow: 0px 1px 3px 0px #e0dddd;
+  -webkit-box-shadow: 0px 1px 3px 0px #e0dddd;
+  -ms-box-shadow: 0px 1px 3px 0px #e0dddd;
+  -o-box-shadow: 0px 1px 3px 0px #e0dddd;
+  box-shadow: 0px 1px 3px 0px #e0dddd; }
+
+.rotate180 {
+  -moz-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg); }
+
+/*# sourceMappingURL=reset.css.map */

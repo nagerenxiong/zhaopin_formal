@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+    <textarea id="phone_list" rows="10" cols="100"></textarea><br/>
+    <input type="button" id="submit_btn" value="提交" onclick="multiRegister()" /><br/>
+    <span id="error_info"></span><br/>
+    <span id="failure_phone"></span><br/>
+    <span id="exist_phone"></span>
+</body>
+<script type="text/javascript">
+    function multiRegister(){
+        var phones = $('#phone_list').val();
+        var phone_list = phones.split('\n');
+        var results = '';
+        var error_info = '号码：';
+        var failure_phone = '注册失败电话：';
+        var exist_phone = '已注册电话：';
+        for(var m = 0;m < phone_list.length;m++){
+            var phone = $.trim(phone_list[m]);
+            if((/^1\d{10}$/.test(phone))){
+                results += phone + ',';
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "/system/registerCompanyAccount",
+                    data: {"phone": phone},
+                    dataType: "json",
+                    success: function (data) {
+                        if(data == 0){
+                            failure_phone += phone + ',';
+                        }else if(data == 2){
+                            exist_phone += phone + ',';
+                        }else if(data == 3){
+                            if(error_info != '号码：'){
+                                error_info += ',' + phone;
+                            }else{
+                                error_info += phone;
+                            }
+                        }
+                    }
+                });
+            }else{
+                if(error_info != '号码：'){
+                    error_info += ',' + phone;
+                }else{
+                    error_info += phone;
+                }
+            }
+        }
+        if(error_info != '号码：'){
+            error_info += '格式不对';
+            $('#error_info').text(error_info);
+        }
+        $('#failure_phone').text(failure_phone);
+        $('#exist_phone').text(exist_phone);
+    }
+</script>
+</html>

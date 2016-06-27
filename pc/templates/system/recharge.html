@@ -1,0 +1,159 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css"><style link=""></style>
+<style type="text/css">
+   .cz_table{width:450px;margin: 0 auto;font-size: 18px;}
+ 
+tr{height:50px;}
+.c1{color:#ff8800;font-style:normal;}
+.c{font-size: 14px;margin-left: 10px;}
+.zfb1{display:none;cursor: pointer;}
+.zfb{cursor: pointer;}
+.ljcz_btn{width:150px;height:50px;background-color:#5c91d9;line-height:50px;text-align: center;color:white;font-size: 18px;display:inline-block;border-radius: 5px;}
+.return_btn{color:#5c91d9;margin-left: 38px; font-family:"微软雅黑"; font-size:16px;}
+.re_bottom{margin-top: 0;}
+
+</style>
+<script type="text/javascript" href="{{ STATIC_URL }}js/lib/ind/layer/layer.js"></script>
+<div style="background-color: #f8f8f8;padding-top:20px;padding-bottom: 50px;">
+    <div class="center" style="background-color: white;border:1px solid #eeeeee;padding-bottom: 200px;padding-top:35px;">
+         <table class="cz_table">
+            <tr><td width="105">当前账号：</td><td>{{ pu.email|default:pu.phone }}</td></tr>
+            <tr><td>购买才币：</td><td><input maxlength="8" type="text" oncopy="return false;" oncut="return false;" onpaste="return false;" class="gold"   style="height:40px;width:155px;border:1px solid #eee;color:#ff8800;margin-right: 10px;border-radius: 4px;text-indent: 10px;font-size: 18px;">个</td></tr>
+            <tr><td>应付金额：</td><td><em class="c1"></em>元<span class="c" style="color:#999">(规则：才币与人民币1:1充值)</span></td></tr>
+            <tr><td></td><td><a href="javascript:void(0)" class="ljcz_btn">立即充值</a><a href="/account/jbgl" class="return_btn">返回</a></td></tr>
+        </table>
+    </div>
+</div>
+<!-- <div id="isSuccess" style="display:none">  
+  <img src="/static/images/gth.jpg" alt="">
+      <p class="isSuccess_p">请在新打开的页面上完成付款</p>
+      <span>付款完成前请不要关闭此窗口。</span>
+      <div class="btn_list">
+          <button class="success l_btn" onclick="successBuy()">支付成功</button>
+          <button class="fail l_btn">失败重新支付</button>
+      </div>  
+</div> -->
+<div id="o_pay" class="o_pay" style="display: none;">
+    <p class="t" >请在新打开的页面上完成付款</p>
+    <span class="h">付款完成前请不要关闭此窗口，完成付款后请根据您的情况点击下面的按钮</span>
+    <div class="btn_list">
+        <button class="success l_btn" onclick="successBuy()">已成功付款</button>
+        <button class="fail l_btn" onclick="flushPage()">失败重新支付</button>
+    </div>
+    <div class="footer active">
+        <p onclick="parent_ac(this)">支付常见问题<span></span></p>
+        <dl>
+            <dt>1、网上银行已经扣款，但显示仍未充值成功，怎么办？</dt>
+            <dd>
+                请不要担心，因银行数据未及时传输，可稍后刷新页面查看，如较长时间仍未支付成功，请联系怀才当遇客服电话400-1158-114
+            </dd>
+            <dt>2、我在网上银行重复付款了，怎么办？</dt>
+            <dd>
+                请不要担心，因银行数据未及时传输，可稍后刷新页面查看，如较长时间仍未支付成功，请联系怀才当遇客服电话400-1158-114
+            </dd>
+        </dl>
+    </div>
+</div>
+<script type="text/javascript">
+    $(".zfb").click(function(event) {
+       $(".zfb1").show();
+       $(this).hide();
+    });
+     $(".zfb1").click(function(event) {
+        $(".zfb").show();
+       $(this).hide();
+     });
+    $(".ljcz_btn").click(function(){
+        var source_gold = $('.c1').text();
+        if(parseInt(source_gold) > 0){
+            var tempwindow=window.open();
+            //加密参数
+            $.ajax({
+                type: "POST",
+                url: "/ajax_encryptParamters",
+                data: {"trade_type": "TR-003", "source_gold": source_gold},
+                dataType: "json",
+                success: function (data) {
+                    if(data.status == '1'){
+                        var layer_index = layer.open({
+                            title: "<h1>充值是否成功</h1>",
+                            type: 1,
+                            area: '507px',
+                            closeBtn: false,
+                            shadeClose:false,  
+                            fix:true,
+                            maxmin:false,
+                            skin:'qb_hint',                      
+                            content: $('#o_pay'),
+                            success:function(layero, index){
+                                var o_index = index;
+                                $(layero).find('.success').click(function(event) {
+                                    layer.close(o_index);
+                                });
+                                $(layero).find('.fail').click(function(event) {
+                                    layer.close(o_index);
+                                });
+                            }
+                        });
+                        var code = data.result;                        
+                        tempwindow.location=cash_website + '/api/pay?code=' + encodeURIComponent(code);
+                    }else if(data.status == '2'){
+                        tempwindow.location='/account/transfer?type=phone';
+                        // window.alert('请进入账号设置绑定手机号，再购买才币');
+                    }else if(data.status == '3'){
+                        tempwindow.location='/account/transfer?type=email';
+                        // window.alert('请进入账号设置绑定邮箱，再购买才币');
+                    }
+                }
+            });
+        }else{
+            window.alert('请输入大于0的数字',4);
+        }
+    });
+    function parent_ac(obj){
+        if($(obj).parent().hasClass('active')){
+            $(obj).parent().removeClass('active')
+        }else{
+            $(obj).parent().addClass('active');
+        }
+    }
+    //改变应充金额
+    function changeRechargeCount(obj){
+        $('.c1').text($(obj).val());
+    }
+    //支付成功（成功购买才币）
+    function successBuy(){
+        $.ajax({
+            type: "POST",
+            url: "/ajax_judgeBuyGold",
+            dataType: "json",
+            success: function (data) {
+                if(data.status == '1'){
+                    window.location = '/system/success_recharge';
+                }else if(data.status == '2'){
+                    window.alert('购买才币失败，请确认是否已付款！',4);
+                }else{
+
+                }
+            }
+        });
+    } 
+    $(".gold").keyup(function(event) {
+        if(this.value.length==1){
+             this.value=this.value.replace(/[^0-9]/g,'');
+        }
+        this.value=this.value.replace(/[^0-9]/g,'');
+        $('.c1').text(this.value);
+    });
+    $(".gold").keydown(function(event) {
+        if(this.value.length==1){
+             this.value=this.value.replace(/[^0-9]/g,'');
+        }
+        this.value=this.value.replace(/[^0-9]/g,'');
+        $('.c1').text(this.value);
+    });
+
+
+
+</script>
+{% include 'jobs/system/new_footer.html' %}

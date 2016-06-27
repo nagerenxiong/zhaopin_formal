@@ -1,0 +1,190 @@
+{% include 'header.html' %}
+<title>申请认证</title>
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+</head>
+<style>
+html{
+	height:100%;
+}
+body{
+	height:100%;
+}
+	header,section,footer{
+		padding:0 5%;
+	}
+	header{
+		padding-top: 10px;min-height:33%;
+	}
+	header h1{
+		font-size: 14px;color:#ff6666;
+	}
+	header dl dt{
+		margin-top: 15px;font-size: 14px;color:#333;margin-bottom: 5px;
+	}
+	header dl dd{
+		font-size: 14px; color:#999;line-height: 1.5;
+	}
+	section{
+		height:400px;width:90%;margin:10px auto;
+	}
+	section #scyyzz{
+		width: 288px;margin:0 auto;
+		height: 400px;
+	}
+	section img{
+		width:100%;height:100%;
+			}
+	#file{
+		display: none;
+	}
+	footer{
+		padding-bottom: 10px;
+	}
+	.o_btn{
+		width:100%;height:50px;background-color: #1470b3;text-align: center;color:#fff;display: block;margin: 0 auto;
+		border:none;border-radius: 5px;font-size: 14px;
+	}
+	.disabled{
+		background-color: #c9c9c9;	
+	}
+</style>
+
+<body>
+	{% if request.session.pu_id %} {% include 'menu_personal.html' %} {% else %} {% include 'login_Modal.html' %} {% endif %}
+	<header>
+		<h1>验证须知:</h1>
+		<dl>
+			<dt>公司全称</dt>
+			<dd>1、<img src="/static/new_mobile/images/bitian.png" alt="">全称应和营业执照保持一致，否则无法通过审核</dd>
+			<dd>2、如需要修改请发邮件至hihi@hcdyhr.com</dd>
+
+			<dt>公司的营业执照</dt>
+			<dd>1、<img src="/static/new_mobile/images/bitian.png" alt="">请提供有效年检期间内的《企业法人营业执照》副本</dd>
+			<dd>2、该营业执照怀才当遇只用作公司认证使用，请放心上传</dd>
+		</dl>
+	</header>
+	<section>
+		<div class="scyyzz" id="scyyzz">
+			<img id="img" src="/static/new_mobile/images/scyyzz1.png" alt="">
+			<input accept="image/*" capture="camera" type="file" id="file">
+		</div>
+	</section>
+	<footer>
+		<button disabled="true" class="o_btn disabled" onclick="submit_card_photo()">提交审核</button>
+	</footer>
+</body>
+<script>
+$("#img").bind('click', function(event) {
+        $('#file').click();
+});
+	$("#file").on("change", fOnChange);
+
+	function fOnChange(){
+	  	var oFile = this.files[0],
+	  	sFileType = oFile.type;
+	  if(oFile){
+	  	$('.o_btn').removeAttr('disabled').removeClass('disabled');
+	  }else{
+	  	$('.o_btn').attr('disabled', 'true').addClass('disabled');
+	  }
+	  // Android下读不到type信息，从文件名中解析
+	  // if(!sFileType){
+	  //   sFileType = "image/" + sName.split(".").pop().toLowerCase();
+	  // }
+	  // 读取文件大小、修改时间等信息
+		  var oUploadInfo = {
+		    name : oFile.name || oFile.fileName,
+		    size : oFile.size/1000 || oFile.fileSize/1000,
+		    type : oFile.type
+		  };
+		photoExt=sFileType.substr(sFileType.lastIndexOf(".")).toLowerCase();//获得文件后缀名
+
+		  
+		  //图片大小限制单位kb
+		  // if(oUploadInfo.size>30){
+		  //   alert("图片不能大于30kb");
+		  //   return false;
+		  // }
+	if(oUploadInfo.type !="image/png" && oUploadInfo.type !="image/jpg" && oUploadInfo.type !="image/jpeg" && oUploadInfo.type !="image/gif"){
+	  alert(["图片支持jpg、jpeg、gif、png格式",3]);
+	  return false;
+	}
+	var oImg = $("#img");//接收图片的DOM元素
+
+	// 使用FileReader读取
+	var oReader = new FileReader();
+	oReader.onload = function(e){
+	  var sBase64 = e.target.result;
+	  // 部分Android下base64字符串格式不完整
+	  if(window.gIsAndroid && sBase64.indexOf("data:image/") != 0){
+	    var sMime = oFile.fileName.split(".").pop().toLowerCase();
+	    sBase64 = sBase64.replace("base64,", "image/" + sMime + ";base64,");
+	  }
+	  oImg.attr('src', sBase64);
+	  sBase64 = null;
+	}
+	oReader.readAsDataURL(oFile);
+
+	}
+
+
+    // 上传营业执照
+    function submit_card_photo() {
+        var photo_path = is_upload_pc_logo();
+        if(photo_path == '' || photo_path == 'err') {
+            alert(['亲，请上传营业执照再提交哦~', 3]);
+            return false;
+        } else {
+            $.ajax({
+                async: false,
+                type: 'post',
+                data: {'file_path': photo_path, 'type': 3},
+                url: '/mobile/ajax_upload_resume_headPortrait',
+                dataType: 'json',
+                success: function(data) {
+                	console.log(data)
+                    if(data == 'ok') {
+                        alert(['营业执照上传成功，我们将尽快为您审核!', 1]);
+                        setTimeout(function(){
+                            var position_id = '{{ position_id | default:'' }}';
+                            if(position_id != '') {
+                                window.location.href = '/mobile/company/view_position?position_id={{ position_id }}';
+                            } else {
+                                window.location.href = '/mobile/company/recruit_user_center';
+                            }
+                        },3000);
+                    } else {
+                        alert(['营业执照上传失败', 2]);
+                    }
+                }
+            });
+
+        }
+    }
+    // 是否上传 pc_logo
+        function is_upload_pc_logo() {
+            var photo_path = '';
+            var fileContent = $("#img").attr("src");
+            var contentStart = 'data:image';
+            var fileContentArray = fileContent.split(contentStart);
+            if(fileContentArray.length != 2) {
+                return false;
+            }
+            $.ajax({
+                async: false,
+                type: 'post',
+                data: {'fileContent': fileContentArray[1], 'file_type': 8},
+                url: '/mobile/ajax_upload_image_type',
+                dataType: 'json',
+                success: function(data) {
+                    if(data != 0) {
+                        photo_path = data;
+                    }
+                }
+            });
+            return photo_path;
+        }
+</script>
+</html>

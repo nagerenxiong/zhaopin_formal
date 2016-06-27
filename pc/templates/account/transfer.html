@@ -1,0 +1,22 @@
+{% include 'jobs/system/header.html' %}
+	<!-- 请进入账号设置绑定邮箱再进行此操作 -->
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/joinagcom.css">   
+     <div class="main" style="height:600px;margin-top: 20px;padding-top:90px;">
+        <div class="crcom_top">
+          请进入账号设置绑定{{ bind_type }}再进行此操作  <a href="/account/zhsz"><span>验证{{ bind_type }}</span><i></i></a><span id="timer">6</span>
+        </div>       
+     </div>
+    <script type="text/javascript">
+    	var timer=setInterval(function(){     	
+    	    var t=$("#timer").text()*1;
+    	    t--;
+    	    if(t<0)   
+    	    {
+    	    	clearInterval(timer);  
+    	    	location.href="/account/zhsz";
+    	    	return;  	  
+    	    }
+    		$("#timer").text(t);
+    	},1000)
+    </script> 
+{% include 'jobs/system/new_footer.html' %}

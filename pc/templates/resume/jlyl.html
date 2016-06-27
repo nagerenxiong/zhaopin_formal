@@ -1,0 +1,1413 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.autocomplete.css">
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/popup.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<link href="{{ STATIC_URL }}css/kongjian.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/popup.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/single/jlsz.css">
+<script type="text/javascript" src="{{ STATIC_URL }}js/report.js"></script>
+<style>
+.fenxiang {
+    display: none;
+    margin-left: -40px;
+    margin-top: 2px;
+    border: 1px solid #e0e0e0;
+    width: 105px;
+    font-size: 12px;    
+
+}
+.fenxiang .word {
+    background-color: #f8f8f8;
+    color: #333;
+    cursor: default;
+    padding: 0px 8px;
+    height: 30px;
+    line-height: 30px;
+}
+.fenxiang a {
+    display: block!important;
+    height: 45px;
+    line-height: 45px;
+    margin-left: 10px;
+    text-indent: 20px;
+    text-align: left;
+    background-repeat: no-repeat;
+    background-position: left center!important;
+}
+#fenxiang_box:hover .fenxiang{display:block!important;color:red;}
+</style>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/popup.css">
+<script type="text/javascript" src="{{ STATIC_URL }}js/interview.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.autocomplete.min.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/forwardresume.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/autoMatching.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/downLoad.js"></script>
+<div class="clear">2</div>
+<div class="content">
+    <div class="center">
+        <div class="accout_info">
+            <div class="l">
+                <div class="n">    
+                     <input type="hidden" id="wsResum_value" class="knob" data-width="170" data-height="170" data-skin="tron" data-displayInput="true" value="{{ wsResume }}">
+                    <div class="m">
+                        <img src="{{ request.session.file_website }}{{ resume.head_portrait | default:'none'}}" width="140" height="140" onerror="notfind(this, 1, '{{ resume.sex }}')"></div>
+                    <div class="b" style="width:150px;">
+                        简历完整度
+                        <span class="fz16">{{ resume.integrity }}%</span>
+                    </div>
+                </div>
+            </div>
+            <ul class="c">
+                <li class="li_mb10">
+                    <span class="c1">{{ resume.user_name | default_if_none:'' }}</span> <i class="iconfont icon-{% if resume.sex == "男" %}nan{% else %}nv{% endif %}"></i>
+                    <span>{{ resume.sex | default_if_none:'' }}</span>
+                    <span>{{ age }}岁</span>
+                    <span>{{ resume.sdiploma | default_if_none:'' }}</span>
+                    <span>{{ resume.scurrently_pacece | default_if_none:'' }}</span>
+                    <span>{{ resume.smarital | default:'' }}</span>
+{#                    <span>未婚</span> #}
+{#                    <div  class="select3" data-key="" data-value="">#}
+{#                            <span>请选择</span>#}
+{#                            <ul class="selectControlList" >#}
+{#                                <li>未分组</li>#}
+{#                                 <li>未分组</li>#}
+{#                            </ul>#}
+{#                    </div>                    #}
+                </li>
+                <li class="c2 li_mb15">
+                    {% if resume.self_assessment %}
+                        {{ resume.self_assessment | safe }}
+                    {% endif %}
+                </li>
+                <li class="li_mb7">
+                    <span>{{ resume.currently_company|default:'' }}</span>
+                    <span>|</span>
+                    <span>{{ resume.scurrently_postaion|default:'' }}</span>
+                    <span>|</span>
+                    <span>{{ resume.sworkyear|default:'' }}经验</span>
+{#                    <span>|</span>#}
+{#                    <span>互联网</span>#}
+                </li>
+                <li>
+                    {% if resume.recordCount > 0 or resume.isMyResume %}
+                        {% if  resume.phone  %}
+                            <span class="showPhoneSpan">手机:{{ resume.phone }}</span>
+                        {% endif %}
+                        {% if resume.email  %}
+                            <span class="showEmailSpan">邮箱:{{ resume.email }}</span>
+                        {% endif %}
+                    {% else %}
+                        {% if  resume.phone  %}
+                        <span class="showPhoneSpan">手机:***********</span>
+                        {% endif %}
+                        {% if resume.email  %}
+                        <span class="showEmailSpan">邮箱:***********</span>
+                        {% endif %}
+                        {% if validStatus == 3 %}
+                            <span class="look_info watchContactSpan" onclick="buyResume({{ resume.id }}, {{ resume.resume_source }}, {{ resume.source_id }})">查看联系方式</span>
+                        {% else %}
+                            <span class="look_info notValided">查看联系方式</span>
+                        {% endif %}
+                    {% endif %}
+
+                </li>
+            </ul>
+            <!-- {% if  type == 'souChang' or  type == 'jianLiKu'  %}
+                <div class="r">
+                    <div class="delete" data-toggle="modal" data-target="#if_del_Modal"><i class="iconfont icon-shanchu1"></i><span>删除</span></div>
+                </div>
+            {% endif %} -->
+        {% if not resume.isMyResume %}
+            <div class="operate">
+                {% if validStatus == 3 %}
+                    <a class="o_btn f_r clearfix toAttentionButton" href="javascript:void(0)" style="display:none"  data-toggle="modal" data-target="#gz_Modal">
+                    <i class="iconfont icon-tianjiayuangong"></i>关注
+                    </a>
+                    <a class="o_btn1 f_r clearfix" href="javascript:void(0)" style="display:none">
+                        <i class="iconfont icon-tianjiayuangong"></i>已互粉
+                    </a>
+                    <a class="o_btn2 f_r clearfix cancelAttentionButton" href="javascript:void(0)" style="display:none" data-toggle="modal" data-target="#gz_Modal">
+                        <i class="iconfont icon-tianjiayuangong"></i>取消关注
+                    </a>
+                {% else %}
+                    <a class="o_btn f_r clearfix notValided" href="javascript:void(0)">
+                        <i class="iconfont icon-tianjiayuangong"></i>关注
+                    </a>
+                {% endif %}
+
+
+                <div class="clearfix"> </div>
+                <ul class="operate_info">
+                    {% if validStatus == 3 %}
+                        <li onclick="showreport(2, {{ resume.id }})" class="reportBlock"  title="举报">
+                            <i class="iconfont icon-jubao"></i>
+                        </li>
+                        <li data-toggle="modal" data-target="#message_Modal" title="私信" onclick="setAcceptName('{{ resume.user_name | default_if_none:'' }}')">
+                            <i class="iconfont icon-duihua1"></i>
+                        </li>
+                    {% else %}
+                        <li class="notValided" title="举报">
+                        <i class="iconfont icon-jubao"></i>
+                        </li>
+                        <li class="notValided" title="私信">
+                            <i class="iconfont icon-duihua1"></i>
+                        </li>
+                    {% endif %}
+                    <li  onclick="favoriteResume('{{ resume.id }}')" title="收藏">
+                        <i class="iconfont icon-shoucangjia"></i>
+                    </li>
+                    <li class="fenxiang" id="fenxiang_box" title="分享">
+                        <i class="iconfont icon-fenxiang"></i>
+                        <div class="fenxiang bshare-custom" style="background-color: white;">
+                        <div class="word">分享到</div>
+                                <a title="分享到QQ空间" class="bshare-qzone" href="javascript:void(0);" style="background-image:url({{ STATIC_URL }}images/qqkj.png)">QQ空间</a>
+                                <a title="分享到新浪微博" class="bshare-sinaminiblog" href="javascript:void(0);" style="background-image:url({{ STATIC_URL }}images/xinlang.png)">新浪微博</a>
+                                <a title="分享到微信" href="javascript:void(0);"style="background-image:url({{ STATIC_URL }}images/weixin.png)" id="weixinBtn">微信</a>
+                                <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script>
+                                <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="center border" style="background: white;">
+    <div class="privacy ">
+    </div>
+    <div class="content_box">    
+        <div class="l_box l">
+            <dl >
+                <dt class="clearfix h20">
+                    <div class="jl_title">
+                        <div class="c o">
+                            <i class="iconfont icon-705danxiangongzuo"></i>
+                            <span id="grnlId">自我评价</span>
+                        </div>
+                    </div>
+                </dt>
+                <dd class="jl_content_box clearfix jl_grjn mt20">
+                    <p  class="gwpj zwpj safe">
+                        {% if resume.self_introduce %}
+                            {{ resume.self_introduce | safe }}
+                        {% endif %}
+                    </p>
+                </dd>
+            </dl>
+            <dl class="mt30">
+                <dt  class="h20">
+                    <div class="jl_title">
+                        <div class="c" style="background-position: 10px 3px;">
+                            <!-- <i class="iconfont icon-gongzuojingyan"></i> -->
+                            <span id="qzyyId">求职意向</span>
+                        </div>
+                    </div>                   
+                </dt>
+                <dd class="jl_info mb50">
+                    <div style="clear: both"></div>
+                    <div>
+                        <span class="c_99">求职状态：</span>
+                        <span id="sposition_status" class="c_33">{{ resume.sposition_status | default_if_none:"" }}</span>
+                    </div>
+                    <div class="oh">
+                        <div class="f_l">
+                            <span class="c_99">目前年薪：</span>
+                            <span id="scurrently_salary" class="c_33">{{ resume.scurrently_salary | default_if_none:"" }}</span>
+                        </div>
+                        <div class="f_l">
+                            <span class="c_99 ml65">期望年薪：</span>
+                            <span id="sexpect_pay" class="c_33">{{ resume.sexpect_pay | default_if_none:"" }}</span>
+                        </div>
+                    </div>
+                    <div class="oh">
+                        <div class="f_l">
+                            <span class="c_99">期望工作性质：</span>
+                            <span id="sexpect_work_nature" class="c_33">{{ resume.sexpect_work_nature | default_if_none:"" }}</span>
+                        </div>
+                        <div class="f_l">
+                            <span class="c_99 ml65">到岗时间：</span>
+                            <span id="swork_time" class="c_33">{{ resume.swork_time | default_if_none:"" }}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="c_99">期望工作地点：</span>
+                        <span id="sArea" class="c_33">{{ sArea | default_if_none:"" }}</span>
+                    </div>
+                    <div>
+                        <span class="c_99">期望行业：</span>
+                        <span id="sIndustry" class="c_33">{{ sIndustry | default_if_none:"" }}</span>
+                    </div>
+                    <div>
+                        <span class="c_99">期望职位：</span>
+                        <span id="sPosition" class="c_33">{{ sPosition | default_if_none:"" }}</span>
+                    </div>
+                </dd>                
+            </dl>
+            <dl class="mt30">
+                <dt id="work_title" class="h20">
+                    <div class="jl_title">
+                        <div class="c" style="background-position: 10px -35px;">
+                            <!-- <i class="iconfont icon-qiwanggongzuo"></i> -->
+                            <span id="gzjlId">工作经历</span>
+                        </div>
+                    </div>                
+                </dt>
+                {% for trw in trwList %}
+                <dd style="clear:both;"></dd>
+                <dd class="jl_content_box clearfix">
+                    <div class="l l_box">
+                        <div>
+                            <i class="iconfont icon-time"></i>
+                            <span>{{ trw.sposition|default:'' }}</span>
+                            <input type="hidden" value="{{ trw.position }}" >
+                        </div>
+                        <div class="b">
+                            <div>
+                                <b>{{ trw.start_time | date:"Y/m" }}-{{ trw.end_time | date:"Y/m" }}</b>
+                                <input type="hidden" value="{{ trw.start_time }}|{{ trw.end_time }}">
+                            </div>
+                            <div class="mt5">
+                                下属<b>{{ trw.ssubordinate|default:'无' }}</b>
+                                <input type="hidden" value="{{ trw.subordinate }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="r r_box">
+                        <div class="min_height"></div>
+                        <dl>
+                            <dt>
+{#                                <div class="edit" datatype="gzjlEdit_m" onclick="gzjlEdit(this)"  >#}
+{#                                    <i class="iconfont icon-xiugaiziliao"></i>#}
+{#                                    编辑#}
+{#                                </div>#}
+                                <input type="hidden" value="{{ trw.id }}" >
+                                <span>{{ trw.company_name|default:'' }} | {{ trw.sindustry|default:'' }}</span>
+                                <input type="hidden" value="{{ trw.industry }}" >
+                            </dt>
+                            <dd class="safe">
+                            {% if trw.work_duty %}
+                                {{ trw.work_duty | safe }}
+                            {% endif %}
+                            </dd>
+                            
+                        </dl>
+                    </div>
+                </dd>
+                {% endfor %}                
+            </dl>
+            <dl class="mt30">
+                <dt id="education_title" class="h20">
+                    <div class="jl_title">
+                        <div class="c" style="background-position: 10px -75px;">
+                            <!-- <i class="iconfont icon-jiaoyujingli"></i> -->
+                            <span id="jyjlId">教育经历</span>
+                        </div>
+                    </div>                    
+                </dt>
+                {% for tre in treList %}
+                <dd style="clear:both;"></dd>
+                <dd class="jl_content_box clearfix">
+                    <div class="l l_box">
+                        <div>
+                            <i class="iconfont icon-time"></i>
+                            <b>{{ tre.start_time | date:"Y/m" }}-{{ tre.end_time | date:"Y/m" }}</b>
+                            <input type="hidden" value="{{ tre.start_time }}|{{ tre.end_time }}">
+                        </div>
+                        <div class="b"></div>
+                    </div>
+                    <div class="r r_box">
+                        <div class="min_height"></div>
+                        <dl>
+                            <dt>
+{#                                <div class="edit" datatype="jyjlEdit_m" onclick="jyjlEdit(this)">#}
+{#                                    <i class="iconfont icon-xiugaiziliao"></i>#}
+{#                                    编辑#}
+{#                                </div>#}
+                                <input type="hidden" value="{{ tre.id }}" >
+                                <span>{{ tre.uc_name }} | {{ tre.smajor|default:'' }} | {{ tre.sdiploma }}</span>
+                                <input type="hidden" value="{{ tre.uc_id }}|{{ tre.major }}|{{ tre.diploma }}">
+                            </dt>
+                            <dd class="safe">
+                                {% if tre.major_describe %}
+                                    {{ tre.major_describe | safe }}
+                                {% endif %}
+                            </dd>
+                        </dl>
+                    </div>
+                </dd>
+                {% endfor %}            
+            </dl>
+            <dl class="mt30">
+                <dt id="item_title" class="h20">
+                    <div class="jl_title">
+                        <div class="c" style="background-position: 10px -118px;">
+                            <!-- <i class="iconfont icon-xiangmu"></i> -->
+                            <span id="xmjlId">项目经历</span>
+                        </div>
+                    </div>                   
+                </dt>
+                {% for tri in triList %}
+                <dd style="clear:both;"></dd>
+                <dd class="jl_content_box clearfix">
+                    <div class="l l_box">
+                        <div>
+                            <i class="iconfont icon-time"></i>
+                            <span>{{ tri.item_name|default:'' }}</span>
+                        </div>
+                        <div class="b">
+                            <div>
+                                <b>{{ tri.start_time | date:"Y/m" }}-{{ tri.end_time | date:"Y/m" }}</b>
+                                <input type="hidden" value="{{ tri.start_time }}|{{ tri.end_time }}">
+                            </div>
+                            <div class="mt5">
+                                <b>{{ tri.job|default:'' }}</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="r r_box">
+                        <div class="min_height"></div>
+                        <dl>
+                            <dt>
+{#                                <div class="edit" datatype="xmjlEdit_m" onclick="xmjlEdit(this)">#}
+{#                                    <i class="iconfont icon-xiugaiziliao"></i>#}
+{#                                    编辑#}
+{#                                </div>#}
+                                <input type="hidden" value="{{ tri.id }}" >
+                                <span>{{ tri.company_id|default:'' }}</span>
+                            </dt>
+                            <dd class="c_33">
+                                <span class="safe">{{ tri.duty| safe }}</span>
+                            </dd>
+                            <dd>
+                                <span class="safe">
+                                    {% if tri.item_describe %}
+                                        {{ tri.item_describe | safe }}
+                                    {% endif %}
+                                </span>
+                            </dd>
+                        </dl>
+                    </div>
+                </dd>
+                {% endfor %}             
+            </dl>
+            <dl class="mt30">
+                <dt id="training_title" class="h20">
+                    <div class="jl_title">
+                        <div class="c" style="background-position: 7px -156px;">
+                            <!-- <i class="iconfont icon-boshimao"></i> -->
+                            <span id="pxjlId">培训经历</span>
+                        </div>
+                    </div>                   
+                </dt>
+                {% for trt in trtList %}
+                <dd style="clear:both;"></dd>
+                <dd class="jl_content_box clearfix">
+                    <div class="l l_box">
+                        <div>
+                            <i class="iconfont icon-time"></i>
+                            <span>{{ trt.course|default:'' }}</span>
+                        </div>
+                        <div class="b clb">
+                            <div>
+                                <b>{{ trt.start_time | date:"Y/m" }}-{{ trt.end_time | date:"Y/m" }}</b>
+                                <input type="hidden" value="{{ trt.start_time }}|{{ trt.end_time }}">
+                            </div>
+                            <div class="mt5">
+                                <b>{{ trt.area|default:'' }}</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="r r_box">
+                        <div class="min_height"></div>
+                        <dl>
+                            <dt>
+{#                                <div class="edit" datatype="pxjlEdit_m" onclick="pxjlEdit(this)">#}
+{#                                    <i class="iconfont icon-xiugaiziliao"></i>#}
+{#                                    编辑#}
+{#                                </div>#}
+                                <input type="hidden" value="{{ trt.id }}" >
+                                <span>{{ trt.institution | default:'' }} | {{ trt.certificate | default:'' }}</span>
+                            </dt>
+                            <dd>
+                                <span class="safe">
+                                    {% if trt.training_describe %}
+                                        {{ trt.training_describe | safe }}
+                                    {% endif %}
+                                </span>
+                            </dd>
+                        </dl>
+                    </div>
+                </dd>
+                {% endfor %}             
+            </dl>
+            <dl class="mt30">
+                <dt class="clearfix h20">
+                    <div class="jl_title">
+                        <div class="c" style="background-position: 10px -201px;">
+                            <!-- <i class="iconfont icon-jineng"></i> -->
+                            <span id="grnlId">个人技能</span>
+                        </div>
+                    </div>                   
+                </dt>
+                <dd class="jl_content_box clearfix jl_grjn mt20">
+                    <div id="skill_title" ></div>
+                    {% for trs in trsList %}
+                    <div class="clearfix">
+                        <div class="f_l w1">{{ trs.skill_name|default:'' }}</div>
+                        <div class="f_l w2">
+                            <div class="jl_jdt">
+                                <span style="width:{{ trs.level_attained_value }}%"></span>
+                                <input type="hidden" value="{{ trs.level_attained_value }}">
+                                <input type="hidden" value="{{ trs.level_attained }}">
+                            </div>
+                        </div>
+                        <div class="f_l w3">{{ trs.slevel_attained|default:'' }}</div>
+{#                        <div class="edit" datatype="grjlEdit_m" onclick="grjlEdit(this)" >#}
+{#                            <i class="iconfont icon-xiugaiziliao"></i>#}
+{#                            编辑#}
+{#                        </div>#}
+                        <input type="hidden" value="{{ trs.id }}">
+                    </div>
+                    {% endfor %}
+                </dd>            
+            </dl>
+
+            {% if resume.account_type != 1 %}
+                <dl style="margin-top: 63px;">
+                <dt class="clearfix h20">
+                    <div class="jl_title">
+                        <div class="c o">
+                            <i class="iconfont icon-705danxiangongzuo"></i>
+                            <span id="grnlId">顾问评价</span>
+                        </div>
+                    </div>
+                </dt>
+                <dd class="jl_content_box clearfix jl_grjn mt20">
+                    <p id="edit_evaluation_show" class="gwpj safe">
+                        {% if resume.evaluation %}
+                            {{ resume.evaluation | safe }}
+                        {% endif %}
+                    </p>
+                </dd>
+                <dd class="h tag_h">
+                    <textarea id="edit_evaluation" class="o_txtarea" placeholder="请输入评价内容"></textarea>
+                    <div class="b mt20 w1">
+                        <span onclick="EvaluationSave(this)" class="active">确认</span>
+                        <span class="cancel">取消</span>
+                    </div>
+                </dd>
+            </dl>
+            {% endif %}
+
+            <dl  style="margin-top: 63px;">
+                <dt class="clearfix h20">
+                    <div class="jl_title">
+                        <div class="c" style="background-position: 10px -243px;">
+                            <!-- <i class="iconfont icon-biaoqian"></i> -->
+                            <span id="grbqId">个人标签</span>
+                        </div>
+                    </div>                   
+                </dt>
+                <dd class="jl_content_box clearfix jl_grjn mt20">
+                    <ul class="jl_tag" id="jlTagListShow">
+                        {% for labels in labelsList %}
+                            {% if labels and labels != '' %}
+                                <li>{{ labels }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </dd>          
+            </dl>
+            {% if resume.resume_source == 1 %}
+                <div class="chuangye mt20 bj">
+                    <span>你有创业的打算吗？</span>
+                    <div class="btn_list">
+
+                        {% if resume.is_entrepreneur == '1' %}
+                            <button onclick="danxuan(this)" class="o_btn active">有</button>
+                        {% else %}
+                            <button onclick="danxuan(this)" class="o_btn active">暂时没有</button>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="r r_box">
+            {% if not resume.isMyResume %}
+                <ul class="t yr clearfix" style="padding-left: 0px">
+                {% if validStatus == 3 %}
+                    <li onclick="recommend('{{ resume.isinvite }}', '{{ resume.id }}')">
+                        <div>
+                            <i class="iconfont icon-tuijian1"></i>
+                        </div>
+                        <div>推荐职位</div>
+                    </li>
+                    <li onclick="doForwardResume([{{ resume.id }}])">
+                        <div>
+                            <i class="iconfont icon-zhuanfa"></i>
+                        </div>
+                        <div>转发简历</div>
+                    </li>
+                    <li onclick="showCheck('{{ resume.id }}', '{{ resume.user_name }}', '{{ exportType }}')">
+                        <div>
+                            <i class="iconfont icon-daochushuju"></i>
+                        </div>
+                        <div>导出简历</div>
+                    </li>
+                {% else %}
+                        <li class="notValided">
+                        <div>
+                            <i class="iconfont icon-tuijian1"></i>
+                        </div>
+                        <div>推荐职位</div>
+                    </li>
+                    <li class="notValided">
+                        <div>
+                            <i class="iconfont icon-zhuanfa"></i>
+                        </div>
+                        <div>转发简历</div>
+                    </li>
+                    <li class="notValided">
+                        <div>
+                            <i class="iconfont icon-daochushuju"></i>
+                        </div>
+                        <div>导出简历</div>
+                    </li>
+                {% endif %}
+            </ul>
+            {% endif %}
+
+            {% if type == '0' or type == '5' %}
+                <dl class="b mt20 clearfix" id="jl_upload">
+{#                    {% if resume.recordCount == 0 and resume.isMyResume == false %}#}
+{#                        <button class="choose f_l watchContactSpan" onclick="o_show('gold',{{ resume.id }})">联系方式</button>#}
+{#                    {% endif %}#}
+                    <button class="choose f_r" onclick="o_show('bhs', {{ resume.id }})">不合适</button>
+                </dl>
+            {% elif type == '1' %}
+                <dl class="b mt20 clearfix" id="jl_upload">
+                    <button class="choose f_l" onclick="o_show('mstz', {{ resume.id }},  '{{ resume.email }}')">面试</button>
+                    <button class="choose f_r" onclick="o_show('bhs', {{ resume.id }})">不合适</button>
+                </dl>
+            {% elif type == 'weiTuo' %}
+                <dl class="b mt20 clearfix" id="jl_upload">
+                    <button class="choose f_l" onclick="acceptResume()">接受</button>
+                    <button class="choose f_r" data-toggle="modal" data-target="#if_jj_Modal" >拒绝</button>
+                </dl>
+            {% elif type == 'souSuo' %}
+                {% if resume.recordCount == 0 and resume.isMyResume == false %}
+                    <dl class="b mt20 clearfix" id="jl_upload">
+                        <button class="choose f_l watchContactSpan" style="width:100%" onclick="buyResume({{ resume.id }}, {{ resume.resume_source }}, {{ resume.source_id }})">查看联系方式</button>
+                    </dl>
+                {% endif %}
+            {% elif type == 'jianLiKu' %}
+                <dl class="b mt20 clearfix" id="jl_upload">
+                    <button class="choose f_l" style="width:100%" onclick="autoMatchingPosition({{ resume.id }})">匹配职位</button>
+                </dl>
+            {% elif type == 'souChang' %}
+                <dl class="b mt20 clearfix" id="jl_upload">
+                    {% if resume.recordCount == 0 and resume.isMyResume == false %}
+                        <button class="choose f_l watchContactSpan" onclick="o_show('gold',{{ resume.id }})">联系方式</button>
+                    {% endif %}
+                    <button class="choose f_r" onclick="autoMatchingPosition({{ resume.id }})">匹配职位</button>
+                </dl>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+<!-- 拒绝模态框（Modal） -->
+    <div class="modal fade" id="if_jj_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:300px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">拒绝</h4>
+                </div>
+                <div class="modal-body t_c">是否确认拒绝委托？拒绝理由：<div><textarea name="" id="reject" cols="40" rows="3"></textarea></div></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="sureReject" onclick="rejectResume()">确认</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+<!-- 面试模态框（Modal） -->
+    <div class="modal fade" id="ms_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:300px">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">面试</h4>
+                </div>
+                <div class="modal-body t_c" style="text-align: left;">面试说明：<div><textarea name="" id="interViewReason" cols="40" rows="3" style="width:250px;"></textarea></div></div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="sureInterview" onclick="dealResume(2)">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+<!-- 不合适模态框（Modal） -->
+    <div class="modal fade" id="if_bhs_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:300px">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">不合适</h4>
+                </div>
+                <div class="modal-body t_c">是否确认不合适？不合适理由：<div><textarea style="resize: none;;width:250px;" name="" id="reason" cols="40" rows="3"></textarea></div></div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="sureImproper" onclick="dealResume(3)">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+    </div>
+<!-------------------------------------- 私信弹窗 -------------------------------------->
+<div class="modal fade" id="message_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:610px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">发送私信</h4>
+            </div>
+            <div class="modal-body t_c">
+                <div  class="message_Modal_box">
+
+                </div>
+                <div  class="modal_wdgz mt10">
+                <i class="iconfont icon-iconfontmoban2"></i>
+                <div class="dialog" style="display:none">
+                    <ul class="list" style="  overflow: auto; height: 244px; ">
+                        {% for tmodel in tmodels %}
+                            <li>
+                                <span style="color:#666">{{ tmodel.model_name }}</span>
+                                <span style="margin-left: 30px;color:#b5b5b5">
+                                    {% if tmodel.content|length > 20 %}
+                                        {{ tmodel.content|slice:"20" }} ...
+                                    {% else %}
+                                        {{ tmodel.content }}
+                                    {% endif %}
+                                </span>
+                                <input type="hidden" value="{{ tmodel.content }}" >
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="t_c">
+                        <input type="button" name="" class="re_btn" value="确认">
+                        <input type="button" name="" class="qx_btn ml15" value="取消"></div>
+                </div>
+            </div>
+                <div class="message_Modal_box1 mt10">
+                    <textarea name=""  style="resize:none;color:#666" id="letterContent" placeholder="请输入私信内容"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" style="background:#5c91d9" id="send" onclick="sendLetter({{ resume.source_id }})">发送</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+<!-------------------------------------- 关注弹窗 -------------------------------------->
+<div class="modal fade" id="gz_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog"style="width:300px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">关注</h4>
+            </div>
+            <div class="modal-body t_c" id="attentionHeadhunt">是否确认关注该名片？</div>
+            <div class="modal-footer">
+                <input type="hidden" id="cancelId" value="19">
+                <input type="hidden" id="cancelGroupId" value="136">
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="attentionHeadHunt()">确认</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+
+<!-- 删除简历模态框（Modal） -->
+<div class="modal fade" id="if_del_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:300px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">删除简历</h4>
+            </div>
+            <div class="modal-body t_c">是否确认删除该简历？</div>
+            <div class="modal-footer" style="border:none;">
+                <input type="hidden" id="cancelId" />
+                <input type="hidden" id="cancelGroupId" />
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteResume()">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+
+            </div>
+        </div>
+        <!-- /.modal-content --> </div>
+</div>
+<div class="dcjl">      
+      <div class="hcbtn">
+       <div><span>请选择要导出的模板类型</span>
+            <img src="/static/images/new_images/colseck.png" onclick="PositionControlsClose()" class="dcclose"></div>
+      <div class="hcdy" onclick="exportResume('{{ resume.id }}', '{{ resume.user_name }}', 'hcdy')">怀才当遇</div>
+      <div class="sdjl" onclick="exportResume('{{ resume.id }}', '{{ resume.user_name }}', 'sdjl')">仕道金略</div>
+     </div>
+</div> 
+<div class="modal_wrap" style="display:none;"></div>
+
+<input type="hidden" id="ajInfoId" value="{{ ajInfoId }}" />
+<input type="hidden" id="attachment" />
+<!-- 公共方法 -->
+<script  src="{{ STATIC_URL }}js/lib/base/common.js"></script>
+<!-- 弹出框插件 -->
+<script  src="{{ STATIC_URL }}js/lib/ind/layer/layer.js" type="text/javascript"></script>
+<!-- 圆形滚动条插件 -->
+<script  src="{{ STATIC_URL }}js/excanvas.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.knob.min.js"></script>
+<!-- 页面js -->
+<script  src="{{ STATIC_URL }}js/lib/ind/layer/layer.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $("#weixinBtn").click(function(event) {
+        layer_index=layer.open({
+            type: 1,
+            area: ['280px', '260px'],
+            title:'怀才当遇二维码<em class="c_abs"></em>',
+            skin:'o_layer o_ewm',
+            shadeClose: true, //点击遮罩关闭
+            content:"<img src='/static/images/index_.jpg' width='175px' height='175px'/>"             
+        });
+    });
+    $(".select1").select({
+        width: '273px',
+        height: '41px'
+    });
+    $(".select2").select({
+        width: '122px',
+        height: '41px'
+    });
+     $(".select3").select({
+        width: '60px',
+        height: '26px',
+        style:'background-color:transparent;border:1px solid #888;display:inline-block;color:white;font-size:12px'
+    });
+     $(".knob").knob({
+        thickness: .05,
+        fgColor: '#ff8800',
+        bgColor: '#e4e4e4',
+        displayInput: false,
+        readOnly: true
+    });
+
+    $(function(){
+        var flag;
+        // 自动判断是否已经关注过改猎头
+        showAttentionStatus(flag);
+
+        // 取消关注按钮
+        $(".cancelAttentionButton").click(function(){
+           $("#attentionHeadhunt").text('是否确认取消关注该名片？');
+        });
+
+        // 关注按钮
+        $(".toAttentionButton").click(function() {
+            $("#attentionHeadhunt").text('是否确认关注该名片？');
+        })
+    });
+    // 切换关注状态
+    function attentionHeadHunt() {
+        var tpuIdsArray = "{{ resume.source_id }}".split(",");
+        $.ajax({
+            type: "post",
+            url: "/ajax_attentionedSwap",
+            data: {"tpuIds": tpuIdsArray},
+            dataType: "json",
+            success: function(data){
+                if(data.status == '0') {
+                    $(".toAttentionButton").show();
+                    $(".cancelAttentionButton").hide();
+                    alert("您已达到关注人数的上限!",4);
+                } else if(data.msg == "error"){
+                    $(".toAttentionButton").show();
+                    $(".cancelAttentionButton").hide();
+                    alert("发生内部错误",2);
+                }else if(data.msg == 'isAttentioned'){
+                    $(".cancelAttentionButton").show();
+                    $(".toAttentionButton").hide();
+                    alert("关注成功!",1);
+                } else if(data.msg == 'noAttentioned') {
+                    $(".cancelAttentionButton").hide();
+                    $(".toAttentionButton").show();
+                    alert("取消关注成功!",1)
+                }
+            }
+        })
+    }
+    // 展示关注此简历拥有人的状态
+    function showAttentionStatus(flag){
+        $.ajax({
+            type: "post",
+            url: "/ajax_showAttentionState",
+            data: {"tpu_id":  '{{ resume.source_id }}'},
+            dataType: "json",
+            async: false,
+            success: function(data) {
+                if (data.msg == "success") {
+                    // 已添加啊过关注
+                    $(".cancelAttentionButton").show();
+                    $(".toAttentionButton").hide();
+                    flag = true;
+                } else {
+                    // 尚未关注过
+                    $(".toAttentionButton").show();
+                    $(".cancelAttentionButton").hide();
+                    flag = false;
+                }
+            }
+        });
+    }
+    //设置私信接收人姓名
+    function setAcceptName(user_name){
+        if($('.message_Modal_box').children().length == 0){
+            var em = '<span>' + user_name + '</span>';
+            $('.message_Modal_box').append(em);
+        }
+    }
+
+    //发送私信(职位发布人ID和姓名)
+    function sendLetter(source_id){
+        if($('.message_Modal_box').children().length == 0){
+            window.alert("私信接收人不能为空！",4);
+            return;
+        }
+        var letterContent = $('#letterContent').val();
+        if(letterContent == ''){
+            window.alert("请填写私信内容！",4);
+            $('#send').attr('data-dismiss', '');
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/ajax_sendLetter",
+            data: {"attentionId": source_id, "letterContent": letterContent},
+            dataType: "json",
+            success: function (data) {
+                if (data.msg != 'success') {
+                    window.alert(data.msg,4);
+                }else{
+                    $('#send').attr('data-dismiss', 'modal');
+                    window.alert('发送成功！',1);
+                    $("#letterContent").val("");
+                }
+            }
+        })
+    }
+     //收藏职位
+    function favoriteResume(resumeId){
+        $.ajax({
+            type: "POST",
+            url: "/ajax_collectResume",
+            data: {"resumeId": resumeId},
+            dataType: "json",
+            success: function (data) {
+                if(data.msg == 'success'){
+                    window.alert('收藏成功',1);
+                }else if(data.msg == 'exist'){
+                    window.alert('你已收藏该简历，无需收藏！',4);
+                }else{
+                    window.alert(data.msg,4);
+                }
+            }
+        })
+    }
+
+    //举报用户（发布职位人）
+    function reportUser(source_id, resumeId){
+        var reportContent = $('#reportContent').val();
+        if(reportContent == ""){
+            alert("请输入举报理由",4);
+            return false;
+        }
+        var report = $('#report').val();
+        $.ajax({
+            type: "POST",
+            url: "/ajax_ltjb",
+            data: {"report_type": '2', "forpuid": source_id,"report":report,"reportContent":reportContent, 'beReported_objectId': resumeId},
+            dataType: "json",
+            success: function (data) {
+                if(data.status == '1') {
+                    window.alert('举报成功',1);
+                    $("#reportContent").val("");
+                } else if(data.status == '2') {
+                    alert('您今天已经举报过该简历了!',4);
+                } else {
+                    alert('发生内部错误',2)
+                }
+            }
+        });
+    }
+
+    //简历处理事件
+    function dealResume(type){
+        //type 0-待处理，1-待沟通，2-面试，3-不合适，4-已入职，5-已过滤
+        var content = '';
+        if(type == '3'){
+            //判断是否是不合适操作，如果是要填写不合适理由
+            content = $('#reason').val();
+            if(content == ''){
+                window.alert('请输入不合适理由！',4);
+                $('#sureImproper').attr('data-dismiss', '');
+                return;
+            }else{
+                $('#sureImproper').attr('data-dismiss', 'modal');
+            }
+        } else if(type == '2'){
+            //判断是否是面试操作，如果是要填写面试说明
+            content = $('#interViewReason').val();
+            if(content == ''){
+                window.alert('请输入面试说明！',4);
+                $('#sureInterview').attr('data-dismiss', '');
+                return;
+            }else{
+                $('#sureInterview').attr('data-dismiss', 'modal');
+            }
+        }
+        $.ajax({
+            type: "POST",
+            url: "/ajax_dealResume",
+            data: {"ajInfoId": $('#ajInfoId').val(), "type": type, "content": content},
+            dataType: "json",
+            success: function (data) {
+                if (data.msg != 'success') {
+                    window.alert(data.msg,4);
+                }else{
+                    $("#jl_upload").hide();
+                    window.alert('处理完成！',1)
+                }
+            }
+        })
+    }
+
+    //接受简历
+    function acceptResume(){
+        $.ajax({
+            type: "POST",
+            url: "/ajax_acceptResume",
+            data: {"resumeId": "{{ resume.id }}"},
+            dataType: "json",
+            success: function (data) {
+                if (data.msg == 'success') {
+                    $("#jl_upload").hide();
+                    window.alert('简历已接受！',4);
+                } else {
+                    window.alert(data.msg,4);
+                }
+            }
+        });
+    }
+    //拒绝简历
+    function rejectResume(){
+        var content = $('#reject').val();
+        if(content == ''){
+            window.alert('拒绝理由不能为空，请输入拒绝理由！',4);
+            $('#sureReject').attr('data-dismiss', '');
+            return ;
+        }
+        $('#sureReject').attr('data-dismiss', 'modal');
+        $.ajax({
+            type: "POST",
+            url: "/ajax_rejectResume",
+            data: {"resumeId": "{{ resume.id }}", "content": content},
+            dataType: "json",
+            success: function (data) {
+                if (data.msg == 'success') {
+                    $("#jl_upload").hide();
+                    window.alert('简历已拒绝！',4);
+                } else {
+                    window.alert(data.msg,4);
+                }
+            }
+        });
+    }
+//查看联系方式（购买简历）
+function buyResume(resume_id, resume_source, source_id){
+    //当是过滤简历或待处理简历时，可直接查看联系方式
+    if(location.href.indexOf('type=0') != -1 || location.href.indexOf('type=5') != -1){
+        o_show('lxfs', resume_id);
+        $('#myPhone').val('{{ pu.phone|default:"" }}');
+        $('#myEmail').val('{{ pu.email|default:"" }}');
+    }else if(resume_source == 1 || source_id == -1){
+        o_show('gold', resume_id);
+    }else{
+{#        if(isCouldWatchResume()){#}
+            lj_pay(resume_id);
+{#        }else{#}
+{#            window.alert("您今天所能查看的简历数已达最大，不能再查看简历!");#}
+{#        }#}
+    }
+}
+    //查看联系方式
+    function viewResumeContact(obj){
+        var phone = $('#myPhone').val();
+        if($.trim(phone) == ''){
+            window.alert('请输入您的联系方式',4);
+            return;
+        }else if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(phone))){
+            window.alert('你输入的电话号码格式不对，请重新输入',4);
+            return;
+        }
+        var email = $('#myEmail').val();
+        var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+        if($.trim(email) == ''){
+            window.alert('请输入您的邮箱地址',4);
+            return;
+        }else if(!reg.test(email)){
+            window.alert('你输入的邮箱格式不对，请重新输入',4);
+            return;
+        }
+        var ajInfoIds = [];
+        ajInfoIds.push($('#ajInfoId').val());
+        $.ajax({
+            type: "POST",
+            url: "/ajax_viewResume",
+            data: {"ajInfoIds": ajInfoIds, "email": email, "phone": phone},
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 0) {
+                    window.alert(data.msg,4);
+                }else{
+                    $('.showPhoneSpan').text('手机:' + data.phone);
+                    $('.showEmailSpan').text('邮件:' + data.email);
+                    $('.look_info').hide();
+                    window.alert('处理完成！',1);
+                }
+            }
+        });
+        $(obj).hide(300);
+    }
+    //推荐职位时判断是否设置了允许推荐
+    function recommend(isInvite, resume_id){
+        if(isInvite == '1'){
+            o_show('yq', resume_id);
+        }else{
+            window.alert('该简历不接受推荐职位',4);
+        }
+    }
+//删除简历
+function deleteResume(){
+    var deleteType;
+    // 1为我的简历库简历删除（修改简历状态），2为我收藏的简历删除（删除关系），3为委托给我的简历删除（删除关系）
+    if('{{ type }}' == 'souChang'){
+       deleteType  = "2";
+    } else if('{{ type }}' == 'jianLiKu') {
+        deleteType = "1";
+    }
+    var groupId = "{{ groupId | default_if_none:''}}";
+    if(groupId == '') {
+        alert("您不能对该简历进行删除操作!",4);
+        return false;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/ajax_deleteResume",
+        data: {"resumeId": "{{ resume.id }}", "groupId": groupId, "deleteType": deleteType},
+        dataType: "json",
+        success: function (data) {
+            if(data.msg == 'success'){
+                alert("删除成功!",1);
+                if(deleteType  == "2") {
+                    setTimeout('window.location.href="/resume/wscdjl"', 1000); //这里实现延迟1秒跳转
+                } else {
+                    setTimeout('window.location.href="/resume/wdjlk"', 1000); //这里实现延迟1秒跳转
+                }
+            } else {
+                alert("发送内部错误!",2);
+            }
+        }
+    })
+}
+
+//面试处理
+function interviewDeal(obj){
+    var textValue = '';
+    var interviewTitle = $('#interviewTitle').val();
+    if($.trim(interviewTitle) == ''){
+        window.alert('请输入面试主题',4);
+        return;
+    }
+    var interviewTime = $('#interviewTime').text();
+    if($.trim(interviewTime) == ''){
+        window.alert('请选择面试时间',4);
+        return;
+    }
+    var interviewPlace = $('#interviewPlace').val();
+    if($.trim(interviewPlace) == ''){
+        window.alert('请输入面试地点',4);
+        return;
+    }
+    var contactName = $('#contactName').val();
+    if($.trim(contactName) == ''){
+        window.alert('请输入联系人',4);
+        return ;
+    }
+    var contactPhone = $('#contactPhone').val();
+    if($.trim(contactPhone) == ''){
+        window.alert('请输入联系电话',4);
+        return;
+    }else if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(contactPhone))){
+        window.alert('你输入的手机号码格式不对，请重新输入',4);
+        return;
+    }
+    var note = $('#remark').val();
+    if($.trim(note) == ''){
+        window.alert('请填写补充内容',4);
+        return;
+    }
+    textValue += interviewTitle + ':';
+    textValue += '<p>'+note+'</p>';
+    textValue += '<p>面试时间：'+interviewTime+'</p>';
+    textValue += '<p>面试地点：'+interviewPlace+'</p>';
+    textValue += '<p>联系人：'+contactName+'</p>';
+    textValue += '<p>联系电话：'+contactPhone+'</p>';
+    var ajInfoIds = [];
+    ajInfoIds.push($('#ajInfoId').val());
+    $.ajax({
+        type: "POST",
+        url: "/ajax_interviewDeal",
+        data: {"ajInfoIds": ajInfoIds, "interviewTime": interviewTime, "interviewPlace": interviewPlace, "note": note,
+                "contactName": contactName, "contactPhone": contactPhone, "content": textValue},
+        dataType: "json",
+        success: function (data) {
+            if (data.status == 0) {
+                window.alert(data.msg,4);
+            }else{
+                $('#reason').val('');
+                $("#jl_upload").hide();
+                window.alert('处理完成！',1);
+            }
+        }
+    });
+    $(obj).hide(300);
+}
+//不合适处理
+function improperDeal(obj){
+    var content = $('#improper').val();
+    dealMethod('3', content);
+    $(obj).hide(300);
+}
+//简历处理方法
+function dealMethod(type, content) {
+    var ajInfoId = $('#ajInfoId').val();
+    if (ajInfoId != '') {
+        $.ajax({
+            type: "POST",
+            url: "/ajax_dealResume",
+            data: {"ajInfoId": ajInfoId, "type": type, "content": content},
+            dataType: "json",
+            success: function (data) {
+                if (data.msg != 'success') {
+                    window.alert(data.msg,4);
+                } else {
+                    $('#reason').val('');
+                    $("#jl_upload").hide();
+                    window.alert('处理完成！',1)
+                }
+            }
+        })
+    }
+}
+    //导出类型
+    function showCheck(resume_id, user_name, exportType){
+        if(exportType == '1'){
+            $('.modal_wrap').show();
+            $('.dcjl').show();
+        }else{
+            exportResume(resume_id, user_name);
+        }
+    }
+    //导出简历
+    function exportResume(resume_id, user_name, exportType){
+        PositionControlsClose();
+        $.ajax({
+            type: "POST",
+            url: "/exportResume",
+            data: {"resume_id": resume_id, 'exportType': exportType},
+            dataType: "json",
+            success: function (data) {
+                if(data.status == '1'){
+                    $('#attachment').val(data.filePath);
+                    downLoad(user_name);
+                }else{
+                    window.alert('导出失败',2);
+                }
+            }
+        });
+    }
+ function PositionControlsClose() {
+        $(".dcjl").hide();
+        $(".modal_wrap").hide();
+    }
+// 审核未通过 提示信息
+$(".notValided").click(function(){
+    doAlertToAudit("{{ validStatus }}")
+});
+</script>
+
+<!-- <button onclick="lj_pay()">支付</button> -->
+<script>
+    function lj_pay(resume_id){         
+        layer.open({
+            type: 1,
+            area: ['700px', '530px'],
+            title:"<h1>提示信息</h1>",
+            fix: true, //不固定
+            maxmin: false,
+            skin: 'qb_hint',
+            area: '507px',
+            closeBtn:"1",
+            moveOut:false,
+            btn:['立即支付'],
+            content: $("#o_pay1"),
+            success:function(layero, index){
+                $(".layui-layer-btn0").click(function(event) {    
+                    var tempwindow=window.open();                     
+                    //加密参数
+                    $.ajax({
+                        type: "POST",
+                        url: "/ajax_encryptParamters",
+                        data: {"resume_id": resume_id, "trade_type": "TR-004"},
+                        dataType: "json",
+                        success: function (data) {
+                            if(data.status == '1'){
+                                var code = data.result;                               
+                                tempwindow.location=cash_website + '/api/pay?code=' + encodeURIComponent(code);
+                                is_pay();
+                            }else if(data.status == '2'){
+                                 tempwindow.location='/account/transfer?type=phone';
+                                // window.alert('请进入账号设置绑定手机号，再购买简历');
+                            }else if(data.status == '3'){
+                                 tempwindow.location='/account/transfer?type=email';
+                                // window.alert('请进入账号设置绑定邮箱，再购买简历');
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    function is_pay(){
+        layer.open({
+            type: 1,
+            title:"<h1>怀才当遇钱包提醒</h1>",
+            fix: true, //不固定
+            maxmin: false,
+            skin: 'qb_hint',
+            closeBtn:false,
+            area: '507px',           
+            content: $("#o_pay"),
+            success:function(layero, index){
+                var o_index = index;
+                $(layero).find('.success').click(function(event) {
+                    layer.close(o_index);
+                });
+                $(layero).find('.fail').click(function(event) {
+                    layer.close(o_index);
+                });
+                
+            }
+        });
+    }
+
+    function parent_ac(obj){
+        if($(obj).parent().hasClass('active')){
+            $(obj).parent().removeClass('active')
+        }else{
+            $(obj).parent().addClass('active');
+        }
+    }
+    //支付成功（成功购买简历）
+    function successBuy(resume_id){
+        $.ajax({
+            type: "POST",
+            url: "/ajax_judgeViewResume",
+            data: {"resume_id": resume_id},
+            dataType: "json",
+            success: function (data) {
+                if(data.status == '1'){
+                    $('.showPhoneSpan').text('手机:' + data.phone);
+                    $('.showEmailSpan').text('邮件:' + data.email);
+                    $('.look_info').hide();
+                }else if(data.status == '2'){
+                    window.alert('购买简历失败，请确认是否已付款！',4);
+                }else{
+
+                }
+            }
+        });
+    }
+    //刷新页面
+    function flushPage(){
+        window.location.reload();
+    }
+    //头部一些信息为空时
+    $(".accout_info .c li.li_mb7 span").each(function(index, el) {
+        if($(this).text()=="" || $(this).text()=="经验"){
+            $(this).next("span").remove();
+            $(this).remove();
+        }
+    });
+
+</script>
+
+<div id="o_pay1" class="o_pay" style="display: none;">
+    <p>查看这份简历需要花<span>￥{{ resume.gold|default:0 }}</span>元！您确定要查看吗？</p>
+</div>
+
+<div id="o_pay" class="o_pay" style="display: none;">
+    <p class="t" >请在新打开的页面上完成付款</p>
+    <span class="h">付款完成前请不要关闭此窗口，完成付款后请根据您的情况点击下面的按钮</span>
+    <div class="btn_list">
+        <button class="success l_btn" onclick="successBuy('{{ resume.id }}')">已成功付款</button>
+        <button class="fail l_btn" onclick="flushPage()">失败重新支付</button>
+    </div>
+    <div class="footer">
+        <p onclick="parent_ac(this)">支付常见问题<span></span></p>
+        <dl>
+            <dt>1、网上银行已经扣款，但显示仍未充值成功，怎么办？</dt>
+            <dd>
+                请不要担心，因银行数据未及时传输，可稍后刷新页面查看，如较长时间仍未支付成功，请联系怀才当遇客服电话400-1158-114
+            </dd>
+            <dt>2、我在网上银行重复付款了，怎么办？</dt>
+            <dd>
+                请不要担心，因银行数据未及时传输，可稍后刷新页面查看，如较长时间仍未支付成功，请联系怀才当遇客服电话400-1158-114
+            </dd>
+        </dl>
+    </div>
+</div>
+<!-- 将含有safe类的元素里的/n转换为br -->
+<script>
+    $(".safe").each(function(index, el) {
+        $(el).html($(el).text().replace(/\n/g,'<br/>'));
+    });
+</script>
+{% include 'jobs/system/new_footer.html' %}

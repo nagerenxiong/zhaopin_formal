@@ -1,0 +1,106 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+        $(document).ready(function()
+        {
+            //打开顶部菜单
+            $("#topmenu_sub").click( function () {
+                $("#topmenu").slideToggle("fast");
+            });
+            // 职位链接跳转
+            $(".list_centent").click(function(){
+                var url =$(this).attr("url");
+                window.location.href=""+url+"";
+            });
+        });
+    </script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+    $('.zsp_header').remove();
+}
+</script>
+<!--zsp_header -->
+
+<div class="zsp_send_list">
+<a href="#" class="zsp_job_list_li">
+    <div class="zsp_job_li_top">
+        <!--<div class="zsp_job_li_fang">
+        <img src="images/4.jpg" />
+    </div>
+    -->
+    <div class="zsp_job_li_tit_ml">
+        <div class="zsp_job_li_h">
+            <span>
+                <i class="fa fa-angle-right"></i>
+            </span>
+            <h3>体育总编</h3>
+        </div>
+        <div class="zsp_job_li_tit_other">新浪</div>
+    </div>
+</div>
+<div class="zsp_job_li_other">
+    <div class="zsp_job_li_other_icon">
+        <i class="fa fa-map-marker"></i>
+        <span>北京市</span>
+    </div>
+    <div class="zsp_job_li_other_icon">
+        <i class="fa fa-jpy"></i>
+        <span>面议</span>
+    </div>
+    <div class="zsp_job_li_other_icon">
+        <i class="fa fa-graduation-cap"></i>
+        <span>全职</span>
+    </div>
+</div>
+</a>
+<!--zsp_job_list_li -->
+</div>
+<!--zsp_job_list -->
+
+<div class="zsp_send_main_box">
+<h2>职位申请状态跟踪</h2>
+<div class="zsp_send_steps_box zsp_send_steps_1">
+<div class="zsp_send_steps_itme">
+    <i class="fa fa-check"></i> <strong>投递成功</strong>
+</div>
+<span></span>
+<div class="zsp_send_steps_itme_2">
+    <i class="fa fa-check"></i> <strong>简历被查看</strong>
+</div> <em></em>
+<div class="zsp_send_steps_itme_over">
+    <i class="fa fa-check"></i>
+    <strong>邀请面试</strong>
+</div>
+</div>
+</div>
+
+<!--发送面试邀请后显示 look==3-->
+
+<div class="zsp_resume_but_box">
+<a href="#" class="zsp_resume_but_3" style="margin-top: 0;">返回我的投递</a>
+</div>
+
+<!--发送面试邀请后显示 look==3-->
+<div class="zsp_footer_fixed_height">
+<iframe></iframe>
+</div>
+<div class="zsp_personal_fixed_box">
+<div class="zsp_footer_job_but_box">
+<!--未选择-->
+<!--选择赴约-->
+<!--拒绝赴约-->
+</div>
+</div>
+
+</body>
+</html>

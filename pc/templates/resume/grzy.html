@@ -1,0 +1,273 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<!--[if IE 6]>
+<script type="text/javascript">
+$(document).ready(function(){
+   $(".pGryz_l_a .box").height($(".pGryz_l .list1 ").height());
+});
+</script>
+<![endif]-->
+<script type="text/javascript">
+    function resumeJump(url){
+        if($("#resumeID").val() != ""){
+            window.location.href = url + "?resumeID=" + $("#resumeID").val();
+        }
+    }
+</script>
+<div class="clear">3</div>
+<link rel="stylesheet" type="text/css" href="../../static/css/style1.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<!-- 内容大框 -->
+<div class="lt_content_box">
+    <input type="hidden" id="resumeID" value="{{ resumeID }}" >
+	<div class="center clearfix" style="padding-top: 20px">
+		<div class="f_l pGryz_l">
+			<div class="list1">
+				<div class="pGryz_l_b f_r">
+					<ul class="f_l info_ul">
+						<li>
+							<span class="f_bold fz20 name">{{ resume.user_name }}</span>
+							<span>{{ resume.sex }}</span>
+                            <span>{{ resume.birthday }}</span>
+							<span>{{ resume.currently_pacece }}</span>
+						</li>
+						<li>
+							<span>等级</span>
+							<span class="gold">LV{{ pu.account_level }}</span>
+							<span>金币</span>
+							<img src="/static/images/111_03.png">
+							<span class="gold">{{ pu.gold }}</span>
+						</li>
+						<li>
+							<span>手机</span>
+							<span>{{ resume.phone|default:'' }}</span>
+						</li>
+						<li>
+							<span>邮箱</span>
+							<span>{{ resume.email|default:'' }}</span>
+						</li>
+					</ul>
+					<img src="{{ resume.head_portrait }}" class="f_l" width="145" height="145" style="border-radius: 50%">
+					<div style="clear:both"></div>
+					<p class="f_l">{{ resume.currently_company }} ● {{ resume.currently_postaion }} ● {% for year in workyearList %}{% if resume.workyear == year.dictionary_value %}{{ year.dictionary_name }} {% endif %} {% endfor %} </p>
+					<div class="remark mt20 oh" style="float:none">
+						{{ resume.self_assessment }}
+						<div class="grjj_border_l"></div>
+						<div class="grjj_border_r"></div>
+					</div>
+					<ul class="grxx_tag_box clearfix mt20 oh">
+                        {% if labelList %}
+                            {% for label in labelList %}
+                                {% if label != '' %}
+                                    <li>{{ label }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+					</ul>
+				</div>
+				<div class="clear"></div>
+				<div class="pGryz_l_a">
+					<div class="box">
+						<img src="/static/images/grzy_03.png"></div>
+				</div>
+
+			</div>
+			<div class="list2" style="margin-top: 1px">
+				<div class="pGryz_l_b f_r">
+					<ul>
+						<li>
+							<span>求职状态：</span>
+							<span> {{resume.position_status|default:'' }}</span>
+						</li>
+						<li class="clearfix">
+							<div class="f_l">
+								<span>目前年薪：</span>
+								<span>{{ resume.currently_salary|default:'' }}  </span>
+							</div>
+							<div >
+								<span>期望年薪：</span>
+								<span>  {{ resume.expect_pay|default:'' }}</span>
+							</div>
+							
+						</li>
+						<li class="clearfix">
+							<div >
+								<span>期望工作地点：</span>
+								<span>{{ resume.expect_area|default:'' }}</span>
+							</div>
+							<div class="f_l">
+								<span>期望工作性质：</span>
+								<span>{{ resume.expect_work_nature|default:'' }}</span>
+							</div>
+						</li>
+						<li>
+							<span>期望行业：</span>
+							<span>{{ resume.expect_industry|default:'' }}</span>
+						</li>
+						<li>
+							<span>期望职位：</span>
+							<span>{{ resume.expect_position|default:'' }}</span>
+						</li>
+					</ul>
+				</div>
+				<div class="clear"></div>
+				<div class="pGryz_l_a">
+					<div class="box">
+						<img src="/static/images/grzy_06.png">
+                    </div>
+				</div>
+				<div class="r_icon">求职意向</div>
+			</div>
+			<div class="list3" style="margin-top: 1px">
+				<div class="pGryz_l_b f_r">
+					<ul>
+                        {% for work in workList %}
+						<li>{{ work.company_name }} ● {{ work.position }} ● 电子商务{%  for bus in business %} {% if resume.industry == bus.dictionary_value %}{{ bus.dictionary_name }} {% endif %} {% endfor %}</li>
+						<li class="clearfix">
+							<span>{{ work.start_time }} — {{ work.end_time }}</span>
+							<span>{%  for bus in  Subordinate%} {% if work.subordinate == bus.dictionary_value %}{{ bus.dictionary_name }} {% endif %} {% endfor %}</span>
+						</li>
+						<li>
+							{{ work.work_duty }}
+						</li>
+                        {% endfor %}
+					</ul>
+				</div>
+				<div class="clear"></div>
+				<div class="pGryz_l_a">
+					<div class="box">
+						<img src="../../static/images/grzy_08.png"></div>
+				</div>
+				<div class="r_icon">工作经历</div>
+			</div>
+			<div class="list4"style="margin-top: 1px">
+				<div class="pGryz_l_b f_r">
+					<ul>
+                        {% for edu in eduList %}
+						<li>{{ edu.uc_name }} ●  {{  edu.major }} ●
+                            {%  for bus in  diploma%} {% if edu.diploma == bus.dictionary_value %}{{ bus.dictionary_name }} {% endif %} {% endfor %}</li>
+						<li class="clearfix">
+							<span>{{ edu.start_time }} — {{ edu.end_time }}</span>
+						</li>
+						<li>
+							{{ edu.major_describe }}
+						</li>
+                        {% endfor %}
+					</ul>
+				</div>
+				<div class="clear"></div>
+				<div class="pGryz_l_a">
+					<div class="box">
+						<img src="../../static/images/grzy_10.png"></div>
+				</div>
+				<div class="r_icon">教育经历</div>
+			</div>
+			<div class="list5" style="margin-top: 1px">
+				<div class="pGryz_l_b f_r">
+					<ul>
+                        {% for item in itemList %}
+						<li>{{ item.company_id }}● {{ item.item_name }} </li>
+						<li class="clearfix">{{ item.job }} ●{{ item.duty }}</li>
+						<li>
+							{{ item.item_describe }}工作内容模拟文字信息内容文字稿，工作内容模拟文字信息内容文字稿，工作内容模拟文字信息内容文字稿，工作内容模拟文字信息内容文字稿。。。
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+				<div class="clear"></div>
+				<div class="pGryz_l_a">
+					<div class="box">
+						<img src="../../static/images/grzy_13.png"></div>
+				</div>
+				<div class="r_icon">项目经历</div>
+			</div>
+			<div class="list6" style="margin-top: 1px">
+				<div class="pGryz_l_b f_r">
+					<ul>
+                        {% for tran in tranList %}
+						<li>{{ tran.institution }} ● {{ tran.area }} ● {{ tran.course }}</li>
+						<li class="clearfix">{{ tran.start_time }} —— {{ tran.end_time }}</li>
+						<li>
+							{{ tran.training_describe }}
+						</li>
+                        {% endfor %}
+					</ul>
+				</div>
+				<div class="clear"></div>
+				<div class="pGryz_l_a">
+					<div class="box">
+						<img src="../../static/images/grzy_15.png"></div>
+				</div>
+				<div class="r_icon">培训经历</div>
+			</div>
+			<div class="list7" style="margin-top: 1px">
+				<div class="pGryz_l_b f_r" style="border-bottom: 0">
+					<ul>
+                        {% for skill in skillList %}
+						<li>
+							<span>{{ skill.user_name }}---</span>
+							<span>{%  for bus in  Level_Attained%} {% if skill.level_attained == bus.dictionary_value %}{{ bus.dictionary_name }} {% endif %} {% endfor %}</span>
+						</li>
+                        {% endfor %}
+					</ul>
+				</div>
+				<div class="clear"></div>
+				<div class="pGryz_l_a">
+					<div class="box">
+						<img src="../../static/images/grzy_17.png"></div>
+				</div>
+				<div class="r_icon">个人能力</div>
+			</div>
+		</div>
+		<ul class="zwyl_s_l oh f_r">
+            
+                <li onclick="favoritePosition(19)">
+                    <i class="iconfont icon-xiangsituijian"></i><br>收藏
+                </li>
+                <li data-toggle="modal" data-target="#message_Modal" onclick="setAcceptName('旷茜')">
+                    <i class="iconfont icon-duanxin"></i><br>发送私信
+               </li>
+                <li data-toggle="modal" data-target="#jb_Modal">
+                    <i class="iconfont icon-jubao1"></i><br>举报用户
+               </li>
+                
+                    <li data-toggle="modal" data-target="#tdjl_Modal">
+                        <i class="iconfont icon-jianlitoudi"></i><br>投递简历
+                    </li>
+                
+            
+		</ul>
+		<div class="f_r pGryz_r" style="padding-bottom: 20px">
+			<div class="clearfix bd_bottom2" style="padding-left: 40px;height:100px">
+				<div class="f_l t_c " style="width:90px;padding-left: 0px"> <i class="iconfont icon-tianjiayuangong " style="font-size: 36px"></i>
+					<br>
+					<span>被关注人数</span>
+					<br>
+					<span class="c_c8">{{ resume.attentionCount|default:0 }}</span>
+				</div>
+				<div class="f_l t_c" style="width:90px;padding-left: 0px">
+					<i class="iconfont icon-chakan" style="font-size: 45px"></i>
+					<br>
+					<span>被访问人数</span>
+					<br>
+					<span class="c_c8">{{ resume.pv|default:0 }}</span>
+				</div>
+			</div>
+			<div style="margin:0 auto;width:90%;height:50px;line-height: 50px">
+				<span>简历完整度：</span><span style="color:#d21d30">{{ wsResume }}%</span>
+			</div>
+			<div class="jdt">
+				<span style="width:{{ wsResume }}%"></span>
+			</div>
+            {% if pu.id == resume.source_id %}
+                <div class="wsjl">
+                    <input type="button" onclick="resumeJump('scjl')" value="完善简历" class="btn61">
+                </div>
+            {% endif %}
+		</div>
+	</div>
+</div>
+
+{% include 'jobs/system/new_footer.html' %}

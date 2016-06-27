@@ -1,0 +1,246 @@
+.dialog,
+.dialog__overlay {
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 999;
+}
+
+.dialog{
+	position: fixed;
+	display: -webkit-flex;
+	display: flex;
+	/*-webkit-align-items: center;*/
+	/*-webkit-justify-content: center;*/
+	/*align-items: center;*/
+	/*justify-content: center;*/
+	pointer-events: none;
+}
+
+.dialog__overlay {
+	position: absolute;
+	z-index: 1;
+	background: rgba(1,1,1,0.6);
+	opacity: 0;
+	-webkit-transition: opacity 0.3s;
+	transition: opacity 0.3s;
+	-webkit-backface-visibility: hidden;
+}
+
+.dialog--open .dialog__overlay {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.dialog__content {
+	width: 50%;
+	max-width: 560px;
+	min-width: 300px;
+	background: #fff;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-bottom: 30px;
+	padding-top: 20px;
+	text-align: center;
+	position: relative;
+	z-index: 5;
+	opacity: 0;
+	margin: auto;
+	margin-top: 25%;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px; 
+}
+
+.dialog--open .dialog__content {
+	pointer-events: auto;
+}
+
+.dialog.dialog--open .dialog__content,
+.dialog.dialog--close .dialog__content {
+	-webkit-animation-duration: 0.3s;
+	animation-duration: 0.3s;
+	-webkit-animation-fill-mode: forwards;
+	animation-fill-mode: forwards;
+}
+
+.dialog.dialog--open .dialog__content {
+	-webkit-animation-name: anim-open;
+	animation-name: anim-open;
+}
+
+.dialog.dialog--close .dialog__content {
+	-webkit-animation-name: anim-close;
+	animation-name: anim-close;
+}
+
+@-webkit-keyframes anim-open {
+	0% { opacity: 0; -webkit-transform: scale3d(1.1, 1.1, 1); }
+	100% { opacity: 1; -webkit-transform: scale3d(1, 1, 1); }
+}
+
+@keyframes anim-open {
+	0% { opacity: 0; -webkit-transform: scale3d(1.1, 1.1, 1); transform: scale3d(1.1, 1.1, 1); }
+	100% { opacity: 1; -webkit-transform: scale3d(1, 1, 1); transform: scale3d(1, 1, 1); }
+}
+
+@-webkit-keyframes anim-close {
+	0% { opacity: 1; }
+	100% { opacity: 0; -webkit-transform: scale3d(0.9, 0.9, 1); }
+}
+
+@keyframes anim-close {
+	0% { opacity: 1; }
+	100% { opacity: 0; -webkit-transform: scale3d(0.9, 0.9, 1); transform: scale3d(0.9, 0.9, 1); }
+}
+
+.md-content hr{
+	margin-top: 30px; 
+	height: 1px; 
+	background-color: #DFDFDF; 
+	border-width: 0px;
+}
+
+.md-content .md-close{
+	margin-bottom: -10px; 
+	margin-top: 10px; 
+	width: 200px; 
+	height: 40px; 
+	font-weight: bold;
+	font-size: 18px;
+	padding-top: 6px;
+	padding-left: 25%;
+	color: white;
+	background: url(../images/p_bug_call.png); 
+}
+
+.md-content .p_buy_title{
+	font-weight: bold; 
+	font-size: 18px; 
+	text-align: center; 
+	color: black;
+}
+
+.p_buy_content{
+	margin-top: 20px;
+	color: #4B4B4B; 
+	font-size: 14px;
+}
+
+.md-content .p_buy_l{
+	float: left;
+	font-weight: bold; 
+	font-size: 18px; 
+	text-align: center; 
+	color: black;
+}
+
+.p_buy_cancel{
+	margin-left:25%;
+	width: 8%;
+}
+
+.md-content .p_buy_hr{
+	margin-top: 15px;
+	margin-left: -20px;
+	width: 300px;
+}
+
+.p_l_s{
+	width: 8%; 
+	float: left; 
+}
+
+.p_l_t{
+	font-size: 16px; 
+	font-weight: bold; 
+	color: #383838; 
+	margin-left: -130px;
+	margin-top: -32px;
+}
+
+.mui-table-view-cell .p_buy_hr_b{
+	margin-top: 20px; 
+	width: 480px; 
+	margin-right: 0px; 
+	padding-right: 0px;
+}
+
+.md-content .button_next{
+	margin-bottom: -10px; 
+	margin-top: 10px; 
+	font-weight: bold; 
+	font-size: 16px; 
+	padding-top: 10px; 
+	padding-bottom: 10px; 
+	width: 90%; 
+	border-width: 0px; 
+	background-color:#75D56D; 
+	color: white;
+	text-align: center;
+	border-radius: 4px;
+}
+
+.p_b_top{
+	margin-top: -10px;
+}
+
+.p-l-table{
+	min-height: 200px;
+}
+
+.p-l-bg{
+	background-color: white;
+}
+
+.md-content .p-l-s{
+	margin-left: -20px; 
+	margin-top: 0px; 
+	width: 300px;
+}
+
+.md-content .button_two_shang{
+	margin-bottom: -10px; 
+	margin-top: 10px; 
+	font-weight: bold; 
+	font-size: 16px; 
+	padding-top: 10px; 
+	padding-bottom: 10px; 
+	width: 40%; 
+	border-width: 1px; 
+	background-color:white; 
+	color: #707070;
+	text-align: center;
+	border-radius: 4px;
+	border-color:#707070;
+}
+
+.md-content .button_two_xia{
+	margin:10px 0px -10px 20px;
+	font-weight:bold; 
+	font-size:16px; 
+	padding-top:11px; 
+	padding-bottom:11px; 
+	width:40%; 
+	border-width:0px; 
+	background-color:#75D56D; 
+	color: white;
+	text-align: center;
+	border-radius:4px;
+}
+
+.md-content .button_two_finish{
+	margin:10px 0px -10px 20px;
+	font-weight:bold; 
+	font-size:16px; 
+	padding-top:11px; 
+	padding-bottom:11px; 
+	width:40%; 
+	border-width:0px; 
+	background-color:#75D56D; 
+	color: white;
+	text-align: center;
+	border-radius:4px;
+}

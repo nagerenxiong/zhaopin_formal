@@ -1,0 +1,131 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style1.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<!-- 内容大框 -->
+<div class="lt_content_box">
+	<!-- 猎头会员菜单 -->
+	{% include 'jobs/system/menu_list.html' %}
+	<div class="clear">4</div><div class="clear">5</div>
+	<!-- 猎头会员菜单 -->
+	<!-- 猎头名录数据表 -->
+	<div class="ltml_grid_box center mt25">
+		<ul id="myTab" class="nav nav-tabs ltml_grid_ul">
+			<li class="active side_li">
+				<a href="#ssml" data-toggle="tab" style="color:#5c91d9">我的收藏</a>
+			</li>
+		</ul>
+		<div id="myTabContent" class="tab-content ">
+			<div class="tab-pane in active" id="ssml">
+				<table class="ltml_grid" style="padding-right: 10px">
+					<thead>
+						<tr>
+							<th width="100" style="text-align: left;padding-left: 30px">标题</th>
+							<th class="cur_poi" width="100" >
+								售价<i class="iconfont icon-shangxia fz12 time_sort " id="price"></i>
+							</th>
+							<th width="60" class="cur_poi">
+								年份<i class="iconfont icon-shangxia fz12 time_sort " id="compoleYear"></i>
+							</th>
+							<th width="80"class="cur_poi">
+								人数
+							</th>
+							<th width="80">
+								手机
+							</th>
+							<th width="80">
+								邮箱
+							</th>
+							<th width="80">
+								地区
+							</th>
+							<th width="100"class="cur_poi">下载次数
+							</th>
+							<th width="120"class="cur_poi">上传日期</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody id="tableInfo"  style="overflow: hidden">
+                    </tbody>
+				</table>
+				<div class="lthy_pager" id="paginInfo">
+                </div>
+			</div>
+			<div class="left_top_border"></div>
+		</div>
+	</div>
+	<!-- 猎头名录数据表 -->
+</div>
+<script>
+ var loadData;
+    $(function() {
+        var sql = "puId={{ puId }}";
+        loadData = new pagin("paginInfo", "V_LIST_COLLECT", "", encodeURI(sql), "", 5, "paginBind", "loadData");
+        var price = "asc";
+        var compoleYear = "asc";
+        $(".icon-shangxia").click(function () {
+            var sql = "puid={{ puId }}";
+            if ($(this).attr("id") == "price"){
+                sql += " order by Gold " + price;
+                if(price == "asc")
+                    price = "desc"
+                else
+                    price = "asc"
+            }
+            if ($(this).attr("id") == "compoleYear"){
+                sql += " order by Compile_Year " + compoleYear
+                if(compoleYear == "asc")
+                    compoleYear = "desc"
+                else
+                    compoleYear = "asc"
+            }
+            loadData = new pagin("paginInfo", "V_LIST_COLLECT", "", encodeURI(sql), "", 5, "paginBind", "loadData");
+        })
+        $(".c_btn2").click(function () {
+            return confirm("你确定要取消收藏此List吗?")
+        })
+    })
+     //动态加载页面绑定数据
+    function paginBind(dataInfo){
+        //图片列表数据加载
+        $("#tableInfo").empty();
+        $("#articleInfo").empty();
+        $("#tableInfo").append('<tr id="hehe"><td></td></tr> ')
+        $(dataInfo).each(function(i){
+
+            // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this)
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            var content = "";
+            content += "<tr><td><a href='/account/info_list?id=" + array[0] + "'>" + array[2] + "</a></td>"
+            content +=  "<td><img src='{{ STATIC_URL }}images/111_03.png'>&nbsp;&nbsp;" + array[16] + "</td>"
+            content +=  "<td>" + array[6] + "</td>"
+            content +=  "<td>" + array[8] + "</td>"
+            content +=  "<td>" + array[12] + "</td>"
+            content +=  "<td>" + array[14] + "</td>"
+            content +=  "<td>" + array[15] + "</td>"
+            content +=  "<td>" + array[22] + "</td>"
+            content +=  "<td>" + array[23].substring(0, array[20].length - 9) + "</td>"
+            content += " <td style='padding-right: 10px'>"
+            content += "<a href='/account/cancelCollect?listId="  + array[0] + "'><input type='button'value='取消收藏' class='c_btn2' style='width:80px' ></a>"
+            content += "</td></tr>"
+            $("#tableInfo").append(content)
+            //文章列表数据加载
+            $("#tableInfo tr").not("#hehe").each(function(index, el) {
+                if($(this).index()%2==0){
+                    $(this).css('background', '#f8f8f8');
+                }
+            });
+        })
+    }
+</script>
+<!-- 内容大框 -->
+{% include 'jobs/system/new_footer.html' %}

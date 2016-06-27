@@ -1,0 +1,832 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.autocomplete.css">
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/popup.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/forwardresume.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.autocomplete.min.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/interview.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/lib/ind/layer/layer.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/autoMatching.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/uploader/jquery.uploadify.min.js"></script>
+<style>
+    .sajl_btn{background:url({{ STATIC_URL }}images/addjl_03.png) no-repeat;width:234px!important;height:57px!important;}
+    #file_upload{width:234px!important;height:57px!important;}
+    .selectJl_l{position: relative;width:234px;float:left;}
+    #file_upload object{left:0;}
+    .o_layer{
+        border-radius: 5px;
+    }
+
+    .o_layer .layui-layer-title{padding-top:10px;font-size:18px;background-color: #FFF;height:56px;border-radius: 5px 5px 0px 0px;}
+
+    .o_layer .layui-layer-setwin{top:25px;}
+    .layui-layer-content{height:auto!important;border-radius: 0px 0px 5px 5px;}
+    #some_file_queue{width:98%;margin:auto auto 30px auto;padding: 5px;}
+    .wcljl_li i{border-radius:50%;position:absolute;top:-8px;right:-8px;background-color:#FF8702;width:22px;height:22px;color:#fff;text-align: center;line-height: 22px;font-size: 12px;}
+    .c_abs{
+        position: absolute;display: block;width:100%;height:100%;box-sizing:content-box;z-index: -1;
+        padding: 10px;background-color:#333;filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=50);opacity: 0.5;left:-10px;top:-10px;border-radius: 5px;
+    }
+     #SWFUpload_0:hover{
+        background: url(/static/images/addjl_04.png) no-repeat;
+    }
+    .layui-layer-ico {
+       background: url(/static/images/alert_11.png) no-repeat!important;
+    }
+</style>
+<!-- 内容大框 -->
+<input type="hidden" id="userValidateStatus" value="{{ pu.userValidateStatus }}" />
+<div class="lt_content_box wdjlk">
+    <!-- 猎头会员菜单开始 -->
+    {% include 'jobs/system/menu_resume.html' %}
+    <!-- 猎头会员菜单结束 -->
+
+    <div class="clear">2</div>
+    <div class="clear">2</div>
+
+    <div class="center lt_jlgltb mt25">
+        {% if request.session.account_type == "3" or request.session.account_type  == "5" %}
+              <div class="fz16" onclick="addNewJl()" style="cursor: pointer;background-color:#5C91D9;float:left;color:#fff;width:150px;height:38px;border-radius: 5px;text-align: center;line-height: 38px;margin-right: 10px">
+                <img src="{{ STATIC_URL }}images/fj_06.png" width="18" height="18"/>
+                    上传附件简历
+                </div>
+           <a href="/jobs/resume/new_jlsz">
+                <div class="tjxjl fz16"  style="cursor: pointer"> <i class="iconfont icon-cloudiconfontshangchuan21" style="font-size:24px"></i>
+                    创建新简历
+                </div>
+            </a>
+        {% endif %}
+        <div class="jlglss ss qy_ss">
+{#            <form action="" method="get">#}
+                <input name="" type="text" class="jlssk fz14 ss_input" style="border:0px;height:38px!important;" placeholder="输入简历名称" id="condition" onkeydown="judgeEntry()">
+                <input name="" type="button" class="jlssan fz18 ss_anniu" style="border:0px;height:38px!important;" value="搜索" onclick="queryResume()">
+{#            </form>#}
+        </div>
+{#        <div class="jlxzrq">#}
+{#            <input name="" type="text" class="jlsjk fz14" style="border:0px;" placeholder="请选择日期">#}
+{#            <div class="jlsjan fz18"> <i class="iconfont icon-rili fz16" style="font-size:24px;"></i>#}
+{#            </div>#}
+{#            <ul class="date_ul" style="display: none;">#}
+{#                <li>请选择日期</li>#}
+{#                {% if publishDates %}#}
+{#                    {% for publishDate in publishDates %}#}
+{#                        <li value="{{ publishDate.dictionary_value }}">{{ publishDate.dictionary_name }}</li>#}
+{#                    {% endfor %}#}
+{#                {% endif %}#}
+{#                <li>最近一个月</li>#}
+{#                <li>最近两个月</li>#}
+{#            </ul>#}
+{#        </div>#}
+    </div>
+    <div class="center">
+        <!-- 猎头会员搜索结果主内容开始 -->
+        <div class="dleft">
+            <!-- 猎头会员搜索结果开始 -->
+            <div class="ssjg p9 mt25">
+                <div class="bkdw"></div>
+                <div class="biaolm m10">
+                    <div class="biaot2 fz16">
+                        <ul>
+                            {% if pu.account_type != 2 and pu.account_type != 4 %}
+                                <li style="cursor: pointer" onclick="loadHref('/resume/wdjlk')">我的简历库</li>
+                            {% endif %}
+                            <li style="cursor: pointer" onclick="loadHref('/resume/wscdjl')">我收藏的简历</li>
+                            {% if pu.account_type != 2 and pu.account_type != 4 %}
+                                <li style="cursor: pointer" onclick="loadHref('/resume/wtdjl')">委托给我的简历</li>
+                            {% endif %}
+                            <li style="cursor: pointer" class="bthover" onclick="loadHref('/resume/myViewResume')">我查看的简历</li>
+                             {% if pu.account_type != 2 and pu.account_type != 4 %}
+                             <li style="cursor: pointer;position:relative" class="wcljl_li" onclick="loadHref('/resume/wcljl')">未处理简历
+                                {% if count %}
+                                    <i>{{ count }}</i>
+                                {% endif %}
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                    <div class="qhann">
+                        <ul>
+{#                            <li class="sige fz12 sigehs"><i class="iconfont icon-liebiao fsn" style="font-size:24px;"></i> 图片列表</li>#}
+{#                            <li class="sige fz12"><i class="iconfont icon-list fsn" style="font-size:18px;"></i>　文章列表</li>#}
+                        </ul>
+                    </div>
+                </div>
+                <div class="tjsx m10">
+                        <input name="" type="checkbox" value="" id="checkAll">
+                        <i class="ml5 mr5 fn">全选</i>
+                        {% if pu.userValidateStatus == 3 %}
+                            <input name="" type="button" value="批量私信" class="tjann" data-toggle="modal" data-target="#sxmessage_Modal" onclick="judgeSelected(this)">
+                        {% endif %}
+              </div>
+                <!-- 猎头会员搜索结果图片列表开始 -->
+
+                <!-- 猎头会员搜索结果文章列表结束 -->
+                <div id="noSendData_wckdjl" class="noSendData" style="display: none;">
+                    <div>
+                            <p>暂无购买的简历！</p>
+                    </div>
+                </div>
+                <!-- 猎头会员搜索结果图片列表开始 -->
+                <div class="tuplb sigenr mt5" id="tableInfo" style="overflow: hidden">
+
+
+                    <div class="clear"></div>
+
+                </div>
+                <!-- 猎头会员搜索结果图片列表结束 -->
+                <!-- 猎头会员搜索结果文章列表开始 -->
+{#                <div class="wenzlb sigenr mt15" style="display: none;" id="articleInfo">#}
+{##}
+{#                    <div class="clear"></div>#}
+{#                </div>#}
+                <!-- 分页接收div -->
+                <div class="lthy_pager" id="paginInfo">
+
+                </div>
+            </div>
+            <!-- 猎头会员搜索结果结束 --> </div>
+        <!-- 猎头会员搜索结果主内容结束 -->
+
+        <input type="hidden" id="sourceId" />
+        <input type="hidden" id="operateState" />
+        <input type="hidden" id="operateIndex" />
+        <div class="xright mt25">
+            <!-- 侧边栏 -->
+            {% include 'jobs/recommendResume.html' %}
+
+            <!-- 侧边栏 --> </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!-- 内容大框 -->
+       <!-- 匹配模态框（Modal） -->
+    <div class="modal fade" id="pp_Modal" tabindex="-1" role="dialog"   aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:695px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">一键匹配</h4>
+                </div>
+                <div class="modal-body t_c">
+                    <div class="t">
+                        <img src="../../static/images/ls_03.png" alt="" width="55" height="55" class="f_l">
+                        <dl class="f_l ml15" style="text-align: left">
+                            <dt><span class="f_bold">欧阳星星</span><i class="icon-nv iconfont c_c8"></i><span>女</span><span class="ml15">南昌</span><span>|</span><span>10年以上</span><span>|</span><span>本科</span><span>|</span><span>24岁</span></dt>
+                            <dd>
+                                <span class="c_c8">产品市场运营部总监</span><span class="ml15">北京和君设计创意传媒股份有限公司</span>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div>
+                        <img src="../../static/images/ls_07.png" alt="">
+                    </div>
+                    <ul class="list">
+                        <li>
+                            <div>
+                               <div class="f_l">
+                                   <div class="q">
+                                    <p>41%</p>
+                                    <p>匹配值</p>
+                                  </div>
+                                  <div>
+                                      <a href="#">[企业直招]</a>
+                                  </div>
+                               </div>
+                                <div class="f_l ml15">
+                                   <p><span class="f_bold">详情页设计师</span><span class="c_c8 ml15">8K-20K</span></p>
+                                   <p>北京市和君设计有限公司</p>
+                                   <p>互联网/电子商务/网游 </p>
+                                   <p>南昌 | 3年-5年 | 本科</p>
+                                 </div>
+                            </div>
+                            <div style="clear:both"></div>
+                            <div class="s">
+                                <span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                               <div class="f_l">
+                                   <div class="q">
+                                    <p>41%</p>
+                                    <p>匹配值</p>
+                                  </div>
+                                  <div>
+                                     <a href="#">[企业直招]</a>
+                                  </div>
+                               </div>
+                                <div class="f_l ml15">
+                                   <p><span class="f_bold">详情页设计师</span><span class="c_c8 ml15">8K-20K</span></p>
+                                   <p>北京市和君设计有限公司</p>
+                                   <p>互联网/电子商务/网游 </p>
+                                   <p>南昌 | 3年-5年 | 本科</p>
+                                 </div>
+                            </div>
+                            <div style="clear:both"></div>
+                            <div class="s">
+                                <span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span>
+                            </div>
+                        </li>
+                       <li>
+                            <div>
+                               <div class="f_l">
+                                   <div class="q">
+                                    <p>41%</p>
+                                    <p>匹配值</p>
+                                  </div>
+                                  <div>
+                                     <a href="#">[企业直招]</a>
+                                  </div>
+                               </div>
+                                <div class="f_l ml15">
+                                   <p><span class="f_bold">详情页设计师</span><span class="c_c8 ml15">8K-20K</span></p>
+                                   <p>北京市和君设计有限公司</p>
+                                   <p>互联网/电子商务/网游 </p>
+                                   <p>南昌 | 3年-5年 | 本科</p>
+                                 </div>
+                            </div>
+                            <div style="clear:both"></div>
+                            <div class="s">
+                                <span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span>
+                            </div>
+                        </li>
+                       <li>
+                            <div>
+                               <div class="f_l">
+                                   <div class="q">
+                                    <p>41%</p>
+                                    <p>匹配值</p>
+                                  </div>
+                                  <div>
+                                     <a href="#">[企业直招]</a>
+                                  </div>
+                               </div>
+                                <div class="f_l ml15">
+                                   <p><span class="f_bold">详情页设计师</span><span class="c_c8 ml15">8K-20K</span></p>
+                                   <p>北京市和君设计有限公司</p>
+                                   <p>互联网/电子商务/网游 </p>
+                                   <p>南昌 | 3年-5年 | 本科</p>
+                                 </div>
+                            </div>
+                            <div style="clear:both"></div>
+                            <div class="s">
+                                <span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="mt20">
+                    <div class="div1">
+ <div class="right-div2">
+     <div class="right-div3"></div>
+    </div>
+    <div class="left-div2">
+     <div class="left-div3"></div>
+    </div>
+</div>
+<div class="div4"><span>0</span>%</div>
+                        <div class="g">
+                            查看更多
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+        <!-- /.modal -->
+        <!-- 模态框（Modal） -->
+
+        <!-- /.modal -->
+        <!-- 模态框（Modal） -->
+    <input type="hidden" id="pu_id" value="{{ pu.id }}" />
+  <!-- 模态框（Modal） -->
+<input type="hidden" id="file_count" value="{{ file_count }}" />
+<div id="selectJl" style="display:none;text-align: center">
+<div class="selectJl_l" style="margin-left: 5px">
+    <input type="file" name="file_upload" id="file_upload"  />
+</div>
+<div style="clear:both"></div>
+<div style="text-align: left;margin-left: 10px;">
+        <div style="margin-top:6px;color:#777"><span style="color:#ff6666">提示：</span>只支持word 格式文件，文件大小不能超过5M
+        <p class="f_r o_count" style="color:#ff6666">
+            已选择<span id="sc_select">0</span>份，
+            成功<span id="sc_success">0</span>份，
+            失败<span id="sc_error">0</span>份
+        </p>
+        </div>
+</div>
+<div id="some_file_queue" style="margin-top: 15px;height:240px;overflow-x:hidden;overflow-y: auto" >
+    <div id="uploadCount" style="text-align: center;margin-top: 100px;"></div>
+</div>
+   <a  href="javascript:$('#file_upload').uploadify('upload','*');" style="background:#5c91d9;color:#fff;width:120px;height:40px;line-height: 40px;display:inline-block;border-radius: 5px;" id="start_upload">开始上传</a><a  href="" style="background:#5c91d9;color:#fff;width:120px;height:40px;line-height: 40px;display:inline-block;border-radius: 5px;margin-left: 10px" id="finish_btn" >完成</a>
+</div>
+<script type="text/javascript">
+var o_sc={
+    success:0,//已经上传成功的简历数量
+    error:0,//已经上传失败的简历数量
+    select:0,//当前选择的简历数量
+    close:''
+}
+    var loadData;
+    var pu_id = $('#pu_id').val();
+    var sql = 'id in (select trv.resume_id from T_Resume_View trv where trv.pu_id = ' + pu_id + ')';
+    var querySql = sql;
+    var file_website = '';
+    $(function(){
+        file_website = $('#file_website').val();
+        querySql = sql + ' order by update_date desc';
+        loadData = new pagin("paginInfo", "V_Resume_Info", "", querySql, "", 6, "paginBind", "loadData");
+
+    })
+    //动态加载页面绑定数据
+    function paginBind(dataInfo){
+        //图片列表数据加载
+        $("#tableInfo").empty();
+        if(dataInfo == ""){
+            $('#noSendData_wskdjl').css('display', 'block');
+            $(".page_number").hide();
+            return;
+        }else{
+            $('#noSendData_wskdjl').css('display', 'none');
+            $(".page_number").show();
+        }
+        var userValidateStatus = $("#userValidateStatus").val();
+        $(dataInfo).each(function(i) {
+
+            // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this);
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            if($.trim(array[4]) == ""){
+                    array[4] = "null";
+                }
+            if(array[35]=="nbsp;"|| array[35] =="None")
+                array[35]=="";
+            else
+                array[35]="&nbsp;|&nbsp"+array[35];
+
+            if(array[36]=="nbsp;"|| array[36] =="None")
+                array[36]=="";
+            else
+                array[36]="&nbsp;|&nbsp"+array[36];
+
+            var o_age = parseInt(new Date().getFullYear()) - array[6];
+            if(isNaN(o_age)){
+                o_age ="";
+            }else{
+                o_age = "&nbsp;|&nbsp;"+o_age+"岁";
+            }
+            //图片列表数据加载
+            var content = '';
+            content += '<div class="jlmp1 m10"><div class="jlmp1_k1"><div class="mpLe"><div class="mpxp">';
+            content += '<img src="'+ file_website+array[4]+'" width="88" height="88" border="0" align="absmiddle"  style="cursor: pointer;" onclick="viewResume('+array[0]+')" onerror="notfind(this, 1, \''+array[5]+'\')"></div>';
+            var positionStatus = array[47].substring(0, array[47].indexOf('，'));
+            var positontit=array[47];
+            if(positionStatus == '在职'){
+                    content += '<div class="mpqzxx2 mt6 fz14">';
+                    content += '<i class="iconfont icon-bishiyong" style="font-size:15px;"></i>在职';
+                }
+                else if(positionStatus == '已离职')
+                {
+                    content += '<div class="mpqzxx1 mt6 fz14">';
+                    content += '<i class="iconfont icon-xin fz16"></i>求职中';
+                }
+                else if(positontit == '暂时不想找工作')
+                {
+                    content += '<div class="mpqzxx2 mt6 fz14">';
+                    content += '<i class="iconfont icon-bishiyong" style="font-size:15px;"></i>在职';                 
+                }
+                else{
+                    content += '<div style="width:70px; height:22px;">';
+            }
+            content += '</div><div class="mpjlly mt6 fz12" onclick="browseResume('+array[0]+')">';
+            switch($(this)[1]){
+                case 1:
+                    content += '【个人】';
+                    break;
+                case 2:
+                    content += '【经纪人】';
+                    break;
+                case 3:
+                    content += '【企业】';
+                    break;
+                default:
+                    break;
+            }
+            content += '</div><input type="hidden" value="'+array[2]+'" /></div><div class="mpRi"><ul>';
+            content += '<li class="c3"> <b class="fz16 fn fb"  style="cursor: pointer;" onclick="viewResume('+array[0]+')">  '+array[3]+'  </b>';
+            if(array[5] == "女"){
+                content += '<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>';
+            }else{
+                content += '<i class="iconfont icon-nan cr" style=" font-size:14px;"></i>';
+            }
+            content += ' '+array[5]+' ';
+            content += '</li><li class="fz14 cr pt10" title=\"'+array[38]+'\">'+array[38]+'</li><li class="fz12 pt10 c3" title=\"'+array[19]+'\">'+array[19]+'</li>';
+            content += '<li class="fz12 pt8 c3 txt_hide" title="'+array[37]+''+array[35]+''+array[36]+''+o_age+'">'+array[37]+''+array[35]+''+array[36]+''+o_age+'</li>';
+            content += '<li class="fz12 pt8 c3"><i class="iconfont icon-shijian fsn c9" style="font-size:14px"></i> &nbsp;'+array[32].substring(0, 10)+' 更新</li>';
+            content += '</ul></div></div><div class="jlmp1_k3"><div class="gnaj_Le"><input name="input" type="checkbox" value="'+array[2]+'"></div>';
+            content += '<div class="gnaj_Ri">';
+            content += '<input type="hidden" name="resumeId" value="'+array[0]+'" />';
+            content += '<input name="input" type="button" value="推荐" class="gnanys" onclick="recommend(\''+array[54]+'\', \''+array[2]+'\', '+array[0]+', \''+array[3]+'\', '+array[1]+')">';
+            content += '<input name="input" type="button" value="转发" class="gnanys" onclick="doForwardResume([' + array[0] + '])">';
+            content += '<input name="input" type="button" value="私信" class="gnanys" data-toggle="modal" data-target="#sxmessage_Modal" onclick="getOperateDatass(this, \'' + array[3] + '\', ' + array[2] + ')">';
+            content += '</div><div class="sx_sc"><ul><li>';
+            content += '</li>';
+            content += '<li>';
+            content += '</li></ul></div></div>';
+            $("#tableInfo").append(content);
+            //文章列表数据加载  前期主要实现图片列表
+        })
+    }
+    //推荐职位时判断是否设置了允许推荐
+    function recommend(isInvite, source_id, resume_id, resume_name, resume_source){
+        if(isInvite == '1'){
+            o_show('yq', source_id, '', resume_id, resume_name, resume_source);
+        }else{
+            window.alert('该简历不接受推荐职位');
+        }
+    }
+    //搜索按钮按下entry键事件
+    function judgeEntry(){
+        if(event.keyCode == 13){
+            queryResume();
+        }
+    }
+    //查询简历
+    function queryResume(){
+        var keywords = $('#condition').val();
+        querySql = sql;
+        //关键字
+        if($.trim(keywords) != ''){
+            var keywordList = keywords.split('，');
+            var positionSql = ' (SELECT T_SYS_Position.Position_Name FROM T_SYS_Position WHERE T_SYS_Position.Position_Value = V_Resume_Info.Currently_Postaion)';
+            var locationSql = ' (select T_SYS_Dictionary.dictionary_name from T_SYS_Dictionary where T_SYS_Dictionary.dictionary_value = V_Resume_Info.Currently_Pacece)';
+            for(var m = 0;m < keywordList.length;m++){
+                if(m == 0){
+                    querySql += ' and (find_in_set("' + $.trim(keywordList[m]) + '", keywords)';
+                }else{
+                    querySql += ' or find_in_set("' + $.trim(keywordList[m]) + '", keywords)';
+                }
+                querySql += ' or ' + locationSql + ' like "%' + $.trim(keywordList[m]) + '%"';
+                querySql += ' or ' + positionSql + ' like "%' + $.trim(keywordList[m]) + '%"';
+                querySql += ' or user_name like "%' + $.trim(keywordList[m]) + '%"';
+
+                //期望职位处理
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "/ajax_get_position_for_name",
+                    data: {"key_name": keywordList[m]},
+                    dataType: "json",
+                    success: function (data) {
+                        $(data["msg"]).each(function(){
+                           querySql += ' or Expect_Position like "%' + this[0] + '%"'
+                        });
+                    }
+                });
+            }
+            querySql += ')';
+        }
+        querySql += ' order by update_date desc';
+        loadData = new pagin("paginInfo", "V_Resume_Info", "", encodeURI(querySql), "", 6, "paginBind", "loadData");
+    }
+
+    $("#zf_Modal .message_Modal_box span label").click(function(event) {
+       $(this).parent().remove();
+    });
+    $(".icon-iconfonticon").click(function(){
+        $(this).parent().parent().remove();
+    })
+
+    //全选事件
+    $('#checkAll').click(function(){
+        var checkboxes;
+        if($('#tableInfo').css("display") != 'none'){
+            checkboxes = $("#tableInfo input[type='checkbox']");
+        }else{
+            checkboxes = $("#articleInfo input[type='checkbox']");
+        }
+        if($(this).is(":checked")){
+             for(var i= 0;i<checkboxes.length;i++){
+                checkboxes[i].checked=true;
+            }
+        }else{
+            for(var i= 0;i<checkboxes.length;i++){
+                checkboxes[i].checked=false;
+            }
+        }
+    })
+
+    //判断是否有选中的人
+    function judgeSelected(obj){
+        var checkboxes;
+        if($('#tableInfo').css("display") != 'none'){
+            checkboxes = $("#tableInfo input[type='checkbox']:checked");
+        }else{
+            checkboxes = $("#articleInfo input[type='checkbox']:checked");
+        }
+        if(checkboxes.length == 0){
+            window.alert("请选择要操作的数据！");
+            $('.tjann').attr('data-target', '');
+            return false
+        }else{
+            $('.tjann').eq(0).attr('data-target', '#sxmessage_Modal');
+        }
+        if($(obj).val() == '批量私信'){
+           //
+{#            $('.message_Modal_box').children().remove();#}
+            var user_name_str = '';
+            var source_id_str = '';
+            for(var m = 0;m < checkboxes.length;m++){
+                var source_id = checkboxes.eq(m).parent().parent().parent().children('div:eq(0)').children('div:eq(0)').children('input').val();
+                var username = checkboxes.eq(m).parent().parent().parent().children('div:eq(0)').children('div').eq(1).children('ul').children('li:eq(0)').children('b').text();
+{#                var em = '<span>' + username + '<label>x</label></span>';#}
+{#                $('.message_Modal_box').append(em);#}
+                if(source_id_str == ''){
+                    source_id_str = source_id
+                }else{
+                    source_id_str += ',' + source_id
+                }
+                if(user_name_str == ''){
+                    user_name_str = username;
+                }else{
+                    user_name_str += ',' + username;
+                }
+            }
+            getOperateDatass(this, user_name_str, source_id_str);
+        }
+        $('#operateState').val('multi');
+    }
+
+    $(document).on('mouseover','.panel-heading',function(){
+        $(".panel-heading").removeClass('active');
+        $(".wdgz_cal_tree_ul li").removeClass('active');
+        $(this).addClass('active');
+    })
+    $(document).on('mouseout','.panel-heading',function(){
+        $(".panel-heading").removeClass('active');
+        $(".wdgz_cal_tree_ul li").removeClass('active');
+    })
+    $(document).on('mouseover','.wdgz_cal_tree_ul li',function(){
+
+        $(".panel-heading").removeClass('active');
+        $(".wdgz_cal_tree_ul li").removeClass('active');
+        $(this).addClass('active');
+    })
+    $(document).on('mouseout','.cal_tree_dd #accordion',function(){
+
+        $(".panel-heading").removeClass('active');
+        $(".wdgz_cal_tree_ul li").removeClass('active');
+    })
+
+    $("#add_btn").click(function(){
+        $(".cyqy_table input[type=text]").val("");
+    })
+    //======= 信息模版
+    $(".icon-iconfontmoban2").click(function(){
+     $(".dialog").show();
+    })
+    $(".qx_btn").click(function(){
+         $(".dialog").hide();
+    })
+    $("#add_btn").click(function(){
+        $(".cyqy_table input[type=text]").val("");
+    })
+    $(".dialog li").click(function(){
+        $(".dialog li").removeClass('active');
+        $(this).addClass('active');
+    })
+    $(".dialog li").dblclick(function(){
+         confirms.call(this);
+    })
+    $(".modal_wdgz .re_btn").click(function(){
+        confirms.call(this);
+    })
+    function confirms(){
+        $("#letterContent").val($(".dialog li.active").children('input').val());
+        $(this).parent().parent().hide();
+    }
+
+    //添加转发接收人
+    function addContact(obj){
+        var em = '<span>' + $(obj).children('span').text() + '<label>x</label></span>';
+        $('.message_Modal_box').append(em);
+        $(".message_Modal_box label").click(function(){
+            $(this).parent().remove();
+        })
+    }
+    //页面跳转（我的简历库，我收藏的简历，委托给我的简历页面切换）
+    function loadHref(url){
+        window.location = url;
+    }
+    //查看简历
+    function viewResume(resumeId){
+        window.open('/resume/new_jlyl?resumeID='  + resumeId, '_blank');
+    }
+    //添加简历
+    function addResume(){
+        var flag = isIdentityAudit('3,5', '1,2');
+        if(flag == true) {
+            window.open('/resume/scjl', '_blank');
+        }
+    }
+    //时间下拉
+    $(".jlsjk").click(function(event) {
+        $(".date_ul").slideDown(150);
+    });
+    $(".jlxzrq").mouseleave(function(event) {
+        $(".date_ul").slideUp(150);
+    });
+    $(".date_ul li").click(function(event) {
+        $(".jlsjk").val($(this).text());
+        if($(this).text() == '3天内'){
+            querySql = sql + ' and DATE_SUB(CURDATE(), INTERVAL 3 DAY) < DATE(Update_Date)';
+        }else if($(this).text() == '一周内'){
+            querySql = sql + ' and DATE_SUB(CURDATE(), INTERVAL 7 DAY) < DATE(Update_Date)';
+        }else if($(this).text() == '一月内'){
+            querySql = sql + ' and DATE_SUB(CURDATE(), INTERVAL 1 MONTH) < DATE(Update_Date)';
+        }else{
+            querySql = sql;
+            $('.jlsjk').val('');
+        }
+        $(".date_ul").slideUp(150);
+        loadData = new pagin("paginInfo", "V_Resume_Info", "", encodeURI(querySql), "", 6, "paginBind", "loadData");
+    });
+       $(function(){
+            $(".name_span").click(function(event) {
+                $(".name_span").siblings('.num_group').css('display', 'block').siblings('.add_up_re_btn').css('display', 'none').parent().css({
+                    background: 'white',
+                    color: '#333'
+                });
+                $(this).siblings('.num_group').css('display', 'none').siblings('.add_up_re_btn').css('display', 'block').parent().css({
+                    background: '#F97717',
+                    color: 'white'
+                });
+            });
+        });
+  var uploadCount=50;
+    var str='<div id="${fileID}" class="uploadify-queue-item" style="overflow:hidden;height:30px;line-height:30px;">';
+    str+='<div style="float:left"><img src="{{ STATIC_URL }}images/xtb2.png" style="margin-right:10px;vertical-align:middle;margin-left:10px"/>';
+    str+='<span class="fileName" style="vertical-align:middle;display:inline-block;width:460px;text-align:left">${fileName}</span><span\
+    style="display:inline-block;width:120px;text-align:left">${fileSize}</span><span class="data" style="color:#5c91d9"></span></div>\
+    <div style="float:left;margin-right:10px;text-align:right;width:43px;">';
+str+='<div class="cancel" style="display:inline"><a href="javascript:$(\'#${instanceID}\').uploadify(\'cancel\',';
+str+='\'${fileID}\')"><img src="{{ STATIC_URL }}images/new_images/close.png" /></a></div></div></div>';
+    $("#file_upload").uploadify({
+        'buttonText':'',
+        'buttonCursor':'pointer',
+        'width':'234px',
+        'height':'57px',
+        'auto':false,
+        'multi':true,
+        'fileSizeLimit':'5MB',
+        'successTimeout': 60000,
+        'queueSizeLimit' : uploadCount,
+        'uploadLimit' : uploadCount,
+        'buttonClass':'sajl_btn',
+        'swf':'/static/js/uploader/uploadify.swf',
+        'itemTemplate':str,
+        'removeCompleted' : false,
+        'queueID'  : 'some_file_queue',
+        'fileTypeDesc' : 'Any old file you want...',
+        'fileTypeExts' : '*.doc; *.docx;',
+        'uploader': '/fileupload/',
+        'onUploadStart': function(file) {
+                $('#file_upload').uploadify('disable', true);
+                    $("#file_upload").uploadify("settings", "formData", {
+                        'fileType': 5
+                    });
+                },
+        'onUploadSuccess': function(file, data, response){
+            var file_path = JSON.parse(data).save_name;
+            var file_name = file.name;
+            o_sc.success ++;
+            $("#sc_success").text(o_sc.success);
+            $("#some_file_queue").scrollTop((o_sc.success+o_sc.error-4)*32);
+            // 保存简历附件
+            $.ajax({
+                type: "POST",
+                url: "/saveResumeFile",
+                data: {"file_path": file_path, "file_name": file_name},
+                dataType: "json",
+                success: function (data) {
+                    if(data.status == '1'){
+                        
+                    }else{
+                    }
+                    
+                }
+            });
+            // location.href='/resumeFileUpload?file_path=' + file_path;
+            // $(".uploadify-queue-item .cancel a").text("");
+
+          },
+        'onUploadError':function(file){
+            if(o_sc.close != file.id){
+                o_sc.error ++;
+                $("#sc_error").text(o_sc.error);
+            }
+        },
+        'onUploadComplete' : function(file) {
+{#            $('.layui-layer-title').text("选择您需要添加的简历类型哦~您还可以上传" + file_count + "份简历");#}
+{#            location.href = '/resume/wcljl';#}
+
+        },
+        'onDialogOpen':function() {
+            if(uploadCount<=0)
+            {
+                $('#file_upload').uploadify('disable',true);
+            }
+            else
+            {
+        $("#finish_btn").css('background', 'rgb(204, 204, 204)').attr('href','javascript:void(0)');
+                $('#file_upload').uploadify('settings','queueSizeLimit',uploadCount);
+                $('#file_upload').uploadify('settings','uploadLimit',uploadCount);
+            }
+        },
+        'onCancel' : function(file) {
+            $("#"+file.id+" .cancel img").remove();
+            o_sc.select--;
+            $("#sc_select").text(o_sc.select);
+            o_sc.close = file.id;
+        },
+        'onSelect':function(){
+            $("#uploadCount").hide();
+            $('.o_count').show();
+            var znxx_content=document.getElementById('some_file_queue');
+            znxx_content.scrollTop=znxx_content.scrollHeight;
+            $("#some_file_queue").css('border', '1px solid #CCC');
+            o_sc.select =$("#some_file_queue .uploadify-queue-item").length;
+            $("#sc_select").text(o_sc.select);
+
+        },
+        'onSelectError' : function(file,errorCode,errorMsg) {
+            console.log(errorCode);
+            if(errorCode=="-110")
+            alert('请上传不超过5Mb大小的文件',2);
+           else if(errorCode=="-130")
+             alert('请上传word文档',2);
+
+        },
+        'onQueueComplete' : function(queueData) {
+            $('#file_upload').uploadify('disable',false);
+            $("#finish_btn").css('background', '#5c91d9').attr('href','javascript:layer.close(layer_index);loadwcljl();');
+        }
+    });
+        function loadwcljl(){
+            location.href='/resume/wcljl';
+        }
+        function addNewJl() {
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "/getResumeFileCount",
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == '1') {
+                        file_count = data.file_count;
+                    } else {
+                        window.alert(data.msg);
+                    }
+                }
+            });
+            uploadCount = 500 - file_count;
+            o_sc.success=0;
+            o_sc.error=0;
+            o_sc.select=0;
+            $("#sc_success").text(o_sc.success);
+            $("#sc_error").text(o_sc.error);
+            $("#sc_select").text(o_sc.select);
+            $("#some_file_queue").css('borderColor', 'transparent');
+            $(".o_count").hide();
+            if (uploadCount <= 0){alert('已经上传了500份',4);return;}
+            layer_index = layer.open({
+                title: "简历上传<em class='c_abs'></em>",
+                type: 1,
+                area: ['788px', 'auto'],
+                skin: 'o_layer',
+                shade: [0.7, '#393D49'],
+                content: $("#selectJl"),
+                success: function (layero, index) {
+                    // if (uploadCount >= 50)
+                    //     uploadCount = 50;
+                    $("#uploadCount").show().html('该账号还能再上传<span style="color:#ff6666;font-size:16px;">'+uploadCount+'</span>份未处理附件简历,单次上传不能超过50份');
+                    $("#finish_btn").css('background', '#ccc').attr('href','javascript:void(0)');
+                    $('#some_file_queue .uploadify-queue-item').remove();
+                }
+            });
+        }
+    </script>
+{% include 'jobs/system/new_footer.html' %}

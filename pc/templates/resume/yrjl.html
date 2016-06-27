@@ -1,0 +1,585 @@
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/inviteDialog.js"></script>
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<!--[if IE 6]>
+<script type="text/javascript">
+$(document).ready(function(){
+   $(".pGryz_l_a .box").height($(".pGryz_l .list1 ").height());
+});
+</script>
+<![endif]-->
+<div class="clear">2</div>
+<link rel="stylesheet" type="text/css" href="/static/css/style1.css">
+<!-- 内容大框 -->
+<div class="lt_content_box">
+    <input type="hidden" id="resumeID" value="{{ resumeID }}" >
+	<div class="center clearfix mt25">
+		<div class="f_l pGryz_l">
+			<div class="list1">
+				<div class="pGryz_l_b f_r">
+					<ul class="f_l info_ul">
+						<li>
+							<span class="f_bold fz20 name">{{ vResumeInfo.user_name | default:''}}</span>
+							<i style="color:#F699B4" class="iconfont icon-nv"></i>
+							<span>{{ vResumeInfo.sex | default:''}}</span>
+                            <span>{{ vResumeInfo.yearold | default:''}}</span>
+							<span>{{ vResumeInfo.scurrently_pacece | default:''}}</span>
+						</li>
+						<li>
+							<span>手机</span>
+							<span>{{ vResumeInfo.phone|default:'' }}</span>
+						</li>
+						<li>
+							<span>邮箱</span>
+							<span>{{ vResumeInfo.email|default:'' }}</span>
+						</li>
+						 <li>{% comment %}{% for year in workyearList %}{% if vResumeInfo.workyear == year.dictionary_value %}{{ year.dictionary_name }} {% endif %} {% endfor %} {% endcomment %}
+						 	<span>{{ vResumeInfo.currently_company | default:''}} ● {{ vResumeInfo.scurrently_postaion | default:''}} ● {{ vResumeInfo.sworkyear | default:'' }}工作经验 ● {{ vResumeInfo.sexpect_industry | default:'' }} </span>
+						 </li>
+                         <li>
+                             <span>学历</span>
+                             <span>{{ vResumeInfo.sdiploma | default:'' }}</span>
+                         </li>
+                         <li>
+							<span>婚姻状况</span>
+							<span>{{ vResumeInfo.sMarital|default:'' }}</span>
+						 </li>
+					</ul>
+                    {% if vResumeInfo.sex == "女" %}
+                        <img src="{{ vResumeInfo.head_portrait|default:'/static/images/defaultPhoto/nv.jpg' }}" class="f_l" width="145" height="145" style="border-radius: 50%">
+                    {% else %}
+                        <img src="{{ vResumeInfo.head_portrait|default:'/static/images/defaultPhoto/nan.jpg' }}" class="f_l" width="145" height="145" style="border-radius: 50%">
+                    {% endif %}
+					<div style="clear:both"></div>
+					<!-- <p class="f_l">{{ vResumeInfo.currently_company | default:''}} ● {{ vResumeInfo.currently_postaion | default:''}} ● {% for year in workyearList %}{% if vResumeInfo.workyear == year.dictionary_value %}{{ year.dictionary_name }} {% endif %} {% endfor %} </p> -->
+					<div class="remark oh" style="float:none;top:15px;color:#555;">
+						{{ vResumeInfo.self_assessment | default_if_none:""}}
+						<div class="grjj_border_l"></div>
+						<div class="grjj_border_r"></div>
+					</div>
+					<ul class="grxx_tag_box clearfix oh yrjl_ld" style="margin-top:35px;">
+                        {% if labelList %}
+                            {% for label in labelList %}
+                                {% if label != '' %}
+                                    <li>{{ label }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+					</ul>
+				</div>
+				<div class="clear"></div>
+				<div class="pGryz_l_a">
+					<div class="box">
+						<img src="/static/images/grzy_03.png"></div>
+				</div>
+
+			</div>
+
+        {% if vResumeInfo.evaluation %}
+            {% if account_type == 3 or account_type == 5 %}
+            <div class="list7 list8" style="margin-top: 1px">
+                <div class="pGryz_l_b f_r" style="">
+                <span></span>
+                    <ul style="position:relative;padding:15px 25px;">
+                        {{ vResumeInfo.evaluation }}
+                    </ul>
+                </div>
+                <div class="clear"></div>
+                <div class="pGryz_l_a">
+                    <div class="box" style="">
+                        <img src="/static/images/gwpj.png"></div>
+                </div>
+                <div class="r_icon">顾问评价</div>
+            </div>
+            {% endif %}
+        {% endif %}
+
+
+			<div class="list2" style="margin-top: 1px">
+				<div class="pGryz_l_b f_r">
+					<ul>
+						<li>
+							<span>求职状态：</span>
+							<span> {{vResumeInfo.position_status |default:'' }}</span>
+						</li>
+						<li class="clearfix">
+							<div class="f_l">
+								<span>目前年薪：</span>
+								<span>{{ vResumeInfo.currently_salary |default:'' }}  </span>
+							</div>
+							<div >
+								<span>期望年薪：</span>
+								<span>  {{ vResumeInfo.expect_pay |default:'' }}</span>
+							</div>
+
+						</li>
+						<li class="clearfix">
+							<div >
+								<span>期望工作地点：</span>
+								<span>{{ vResumeInfo.sexpect_area |default:'' }}</span>
+							</div>
+							<div class="f_l">
+								<span>期望工作性质：</span>
+								<span>{{ vResumeInfo.expect_work_nature |default:'' }}</span>
+							</div>
+						</li>
+						<li>
+							<span>期望行业：</span>
+							<span>{{ vResumeInfo.sexpect_industry |default:'' }}</span>
+						</li>
+						<li>
+							<span>期望职位：</span>
+							<span>{{ vResumeInfo.sexpect_position |default:'' }}</span>
+						</li>
+                        <li>
+							<span>到岗时间：</span>
+							<span>{{ vResumeInfo.swork_time |default:'' }}</span>
+						</li>
+					</ul>
+				</div>
+				<div class="clear"></div>
+				<div class="pGryz_l_a">
+					<div class="box">
+						<img src="/static/images/grzy_06.png">
+                    </div>
+				</div>
+				<div class="r_icon">求职意向</div>
+			</div>
+
+        {% if workList %}
+			<div class="list3" style="margin-top: 1px">
+				<div class="pGryz_l_b f_r">
+					<ul>
+                        {% for work in workList %}
+                        <li>{{ work.company_name }} ● {{ work.position }} ●  {{ work.industry }}</li>
+						<li class="clearfix">
+							<span>{{ work.start_time }} — {{ work.end_time }}</span>
+                            <span>{{ work.subordinate }}</span>
+						</li>
+						<li>
+							{{ work.work_duty }}
+						</li>
+                        <li><hr></li>
+                        {% endfor %}
+					</ul>
+				</div>
+				<div class="clear"></div>
+				<div class="pGryz_l_a">
+					<div class="box">
+						<img src="/static/images/grzy_08.png"></div>
+				</div>
+				<div class="r_icon">工作经历</div>
+			</div>
+        {% endif %}
+
+        {% if eduList %}
+            <div class="list4"style="margin-top: 1px">
+                <div class="pGryz_l_b f_r">
+                    <ul>
+                        {% for edu in eduList %}
+                        <li>{{ edu.uc_name }} ●  {{  edu.major }} ● {{ edu.diploma }}</li>
+                        <li class="clearfix">
+                            <span>{{ edu.start_time }} — {{ edu.end_time }}</span>
+                        </li>
+                        <li>
+                            {{ edu.major_describe }}
+                        </li>
+                        <li><hr></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="clear"></div>
+                <div class="pGryz_l_a">
+                    <div class="box">
+                        <img src="/static/images/grzy_10.png"></div>
+                </div>
+                <div class="r_icon">教育经历</div>
+            </div>
+        {% endif %}
+
+        {% if itemList %}
+			<div class="list5" style="margin-top: 1px">
+				<div class="pGryz_l_b f_r">
+					<ul>
+                        {% for item in itemList %}
+						<li>{{ item.company_id }}● {{ item.item_name }} </li>
+						<li class="clearfix">{{ item.job }} ●{{ item.duty }}</li>
+						<li><span>{{ item.start_time }} — {{ item.end_time }}</span></li>
+                        <li>
+							{{ item.item_describe }}
+						</li>
+                        <li><hr></li>
+						{% endfor %}
+					</ul>
+				</div>
+				<div class="clear"></div>
+				<div class="pGryz_l_a">
+					<div class="box">
+						<img src="/static/images/grzy_13.png"></div>
+				</div>
+				<div class="r_icon">项目经历</div>
+			</div>
+        {% endif %}
+
+
+        {% if tranList %}
+			<div class="list6" style="margin-top: 1px">
+				<div class="pGryz_l_b f_r">
+					<ul>
+                        {% for tran in tranList %}
+						<li>{{ tran.institution }} ● {{ tran.area }} ● {{ tran.course }}</li>
+						<li class="clearfix">{{ tran.start_time }} —— {{ tran.end_time }}</li>
+                        <li>
+                            <span>获得证书:</span>
+                            <span>{{ tran.certificate }}</span>
+                        </li>
+						<li>
+							{{ tran.training_describe }}
+						</li>
+                        <li><hr></li>
+                        {% endfor %}
+					</ul>
+				</div>
+				<div class="clear"></div>
+				<div class="pGryz_l_a">
+					<div class="box">
+						<img src="/static/images/grzy_15.png"></div>
+				</div>
+				<div class="r_icon">培训经历</div>
+			</div>
+        {% endif %}
+
+
+        {% if skillList %}
+			<div class="list7" style="margin-top: 1px">
+				<div class="pGryz_l_b f_r" style="border-bottom: 0">
+					<ul>
+                        {% for skill in skillList %}
+						<li>
+							<span>{{ skill.skill_name }}---</span>
+							<span>{%  for bus in  Level_Attained%} {% if skill.level_attained == bus.dictionary_value %}{{ bus.dictionary_name }} {% endif %} {% endfor %}</span>
+						</li>
+                        {% endfor %}
+					</ul>
+				</div>
+				<div class="clear"></div>
+				<div class="pGryz_l_a">
+					<div class="box">
+						<img src="/static/images/grzy_17.png"></div>
+				</div>
+				<div class="r_icon">个人能力</div>
+			</div>
+        {% endif %}
+        </div>
+
+         {% if pu.id != vResumeInfo.source_id %}
+
+		    <ul class="zwyl_s_l oh f_r">
+                <li onclick="favoritePosition('{{ vResumeInfo.id }}')">
+                    <i class="iconfont icon-xiangsituijian"></i><br>收藏
+                </li>
+                <li data-toggle="modal" data-target="#message_Modal" onclick="setAcceptName('{{ vResumeInfo.user_name }}')">
+                    <i class="iconfont icon-duanxin"></i><br>发送私信
+               </li>
+                <li data-toggle="modal" data-target="#jb_Modal">
+                    <i class="iconfont icon-jubao1"></i><br>举报用户
+               </li>
+               <li onclick="showInviteDialog({{ pu.id }},{{ vResumeInfo.source_id }})">
+                   <i class="iconfont icon-jianlitoudi"></i><br>推荐
+               </li>
+		    </ul>
+
+        {% endif %}
+        <div style="float: right;width:260px">
+            {% if pu.id == vResumeInfo.source_id %}
+                {% if pu.account_type == 1 %}
+                <div class="yrjl_r_t_t">
+                    <a href="/resume/personal/tddjl" target="_blank">
+                        <i class="iconfont icon-xiangziline" style="font-size: 36px"></i>
+                        <div class="mt10">投递箱</div>
+                    </a>
+                    <a href="/position/personal/zwsc" target="_blank">
+                        <i class="iconfont icon-xingxing" style="font-size: 36px"></i>
+                        <div class="mt10">收藏夹</div>
+                    </a>
+                    <a href="/position/personal/zwdyq" target="_blank">
+                        <i class="iconfont icon-dingyue" style="font-size: 36px"></i>
+                        <div class="mt10">订阅器</div>
+                    </a>
+                </div>
+                {% endif %}
+            {% endif %}
+        	<div class="f_r pGryz_r mt20" style="padding-bottom: 20px;">
+			<div class="clearfix bd_bottom2" style="padding-left: 40px;height:100px">
+				<div class="f_l t_c " style="width:90px;padding-left: 0px"> <i class="iconfont icon-tianjiayuangong " style="font-size: 36px"></i>
+					<br>
+					<span>被关注人数</span>
+					<br>
+					<span class="c_c8">{{ vResumeInfo.attentionCount|default:0 }}</span>
+				</div>
+				<div class="f_l t_c" style="width:90px;padding-left: 0px">
+					<i class="iconfont icon-chakan" style="font-size: 45px"></i>
+					<br>
+					<span>被访问人数</span>
+					<br>
+					<span class="c_c8">{{ vResumeInfo.pv|default:0 }}</span>
+				</div>
+			</div>
+            {% if pu.id == vResumeInfo.source_id %}
+                <div style="margin:0 auto;width:90%;height:50px;line-height: 50px">
+                    <span>简历完整度：</span><span style="color:#d21d30">{{ wsResume }}%</span>
+                </div>
+                <div class="jdt">
+                    <span style="width:{{ wsResume }}%"></span>
+                </div>
+                <div class="wsjl">
+                    <input type="button" onclick="window.location.href ='/jobs/resume/scjl?resumeID={{ resumeID | default:'' }}'" value="完善简历" class="btn61">
+                </div>
+            {% endif %}
+            </div>
+		</div>
+
+        </div>
+        </div>
+{#        自己的简历#}
+
+<!-- 举报模态框（Modal） -->
+	<div class="modal fade" id="jb_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog"style="width: 390px;">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">举报用户</h4>
+				</div>
+				<div class="modal-body t_c">
+					<select id="report">
+                        {% for report in reportList %}
+						    <option value="{{ report.id }}">{{ report.dictionary_name }}</option>
+                        {% endfor %}
+					</select>
+					<textarea id="reportContent" placeholder="举报理由"></textarea>
+				</div>
+				<div class="modal-footer">
+					 <button type="button" class="btn btn-primary" data-dismiss="modal" style="background:#5c91d9" onclick="reportUser({{ vResumeInfo.id }})">确认</button>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+ <!-- 模态框（Modal） -->
+<!-- 投递简历模态框（Modal） -->
+<div class="modal fade" id="tdjl_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:800px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">投递简历</h4>
+            </div>
+            <div class="modal-body">
+                <div class="f_l content_l_b">
+                    <ul id="selectPosition">
+                        <li>
+                            <img src="{{ STATIC_URL }}images/meituan.jpg" style="float:left" class="ml15 mt10">
+                            <div class="f_l">
+                                <h2 class="f_bold">淘宝详情页设计师</h2>
+                                <p>北京和君设计传媒创意有限公司</p>
+                                <p>互联网/电子商务/网游</p>
+                            </div>
+                            <div class="ppd_box2 f_r">
+                                <div class="t">41%</div>
+                                <div>匹配值</div>
+                            </div>
+                            <div style="clear:both"></div>
+                            <p>
+                                [企业直招]
+                                <label class="ml15">月薪:</label>
+                                <span style="padding-left: 0">8K-20K</span>
+                            </p>
+                            <p>
+                                南昌  |  3年-5年  |  本科  |  2015-15-15
+                                <a href="#">发布</a>
+                            </p>
+                            <p class="l_b_jx">
+                                <span>绩效奖金</span>
+                                <span>绩效奖金</span>
+                                <span>绩效奖金</span>
+                                <span>绩效奖金</span>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="f_r">
+                    <div class="fz20" style="color:#000">选择投递的简历类型</div>
+                    <div class="fz12 mt10">提示：选择系统简历将提高您在企业方的简历匹配度</div>
+                    <div class="mt10 oh">
+                        <div class="btn68 active f_l">
+                            <i class="iconfont icon-iconfont02"></i>
+                            平台简历
+                        </div>
+                        <span class="f_l ml15 is_select" style="margin-top: 12px;">已选择</span>
+                    </div>
+                    <div class="mt10">
+                        <div class="btn68 f_l">
+                            <i class="iconfont icon-shangchuan"></i>
+                            上传简历
+                        </div>
+                        <span class="f_l ml15 is_select" style="margin-top: 12px;display:none">已选择</span>
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" name="" value="确认投递" data-dismiss="modal" style="width:120px;height:30px;background-color: #5c91d9;color:white;border:none;border-radius: 5px" onclick="sendResume({{ position.source_id }}, {{ position.id }})"></div>
+        </div>
+        <!-- /.modal-content --> </div>
+</div>
+
+<!-------------------------------------- 私信弹窗 -------------------------------------->
+    <div class="modal fade" id="message_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:610px">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">发送私信</h4>
+                </div>
+                <div class="modal-body t_c">
+                    <div  class="message_Modal_box">
+
+                    </div>
+                    <div  class="modal_wdgz mt10">
+                    <i class="iconfont icon-iconfontmoban2"></i>
+                    <div class="dialog" style="display:none">
+                        <ul class="list" style="  overflow: auto; height: 244px; ">
+                            {% for tmodel in tmodels %}
+                                <li>
+                                    <span style="color:#666">{{ tmodel.model_name }}</span>
+                                    <span style="margin-left: 30px;color:#b5b5b5">
+                                        {% if tmodel.content|length > 20 %}
+                                            {{ tmodel.content|slice:"20" }} ...
+                                        {% else %}
+                                            {{ tmodel.content }}
+                                        {% endif %}
+                                    </span>
+                                    <input type="hidden" value="{{ tmodel.content }}" >
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="t_c">
+                            <input type="button" name="" class="re_btn" value="确认">
+                            <input type="button" name="" class="qx_btn ml15" value="取消"></div>
+                    </div>
+                </div>
+                    <div class="message_Modal_box1 mt10">
+                        <textarea name="" maxlength="1000" style="resize:none;color:#666" id="letterContent" placeholder="请输入私信内容"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" style="background:#5c91d9" id="send" onclick="sendLetter({{ vResumeInfo.source_id }})">发送</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+<script>
+     $(function(){
+        // 如果未填写简历， 则自动进行跳转
+        if(!"{{ resumeID }}") {
+            alert("您尚未填写简历信息，正在跳转完善简历页面...");
+            setTimeout("window.location.href = '/jobs/resume/scjl'", 2000);
+        }
+        // 猎头进行特殊处理
+    	if("{{request.session.account_type}}" == "2" || "{{request.session.account_type}}" == "4"){
+            $(".nav_box #nav li").removeClass('active');
+            $(".nav_box #nav li").eq(1).addClass('active');
+        }
+    });
+     //举报用户（发布职位人）
+    function reportUser(source_id){
+        var reportContent = $('#reportContent').val();
+        if(reportContent == ""){
+            alert("请填写举报内容");
+            return false;
+        }
+        var report = $('#report').val();
+        $.ajax({
+            type: "POST",
+            url: "/ajax_ltjb",
+            data: {"report_type": 2, "forpuid": "{{ vResumeInfo.source_id }}","report":report,
+                            "reportContent":reportContent, "beReported_objectId": "{{ resumeID }}" },
+            dataType: "json",
+            success: function (data) {
+                if(data.status == '1') {
+                    alert('举报成功');
+                } else if(data.status == '2') {
+                    alert('您今天已经举报过该简历了!');
+                } else {
+                    alert('发生内部错误')
+                }
+            }
+        });
+    }
+
+     //收藏职位
+    function favoritePosition(resumeId){
+        $.ajax({
+            type: "POST",
+            url: "/ajax_collectResume",
+            data: {"resumeId": resumeId},
+            dataType: "json",
+            success: function (data) {
+                if(data.msg == 'success'){
+                    window.alert('收藏成功',1);
+                }else if(data.msg == 'exist'){
+                    window.alert('你已收藏该简历，无需收藏！');
+                }else{
+                    window.alert(data.msg);
+                }
+            }
+        })
+    }
+
+     //设置私信接收人姓名
+    function setAcceptName(user_name){
+        $('.message_Modal_box').empty();
+        $('.message_Modal_box').append('<span>' + user_name + '</span>');
+    }
+
+     //发送私信(职位发布人ID和姓名)
+    function sendLetter(source_id){
+        var letterContent = $('#letterContent').val();
+        if(letterContent == ''){
+            window.alert("请填写私信内容！");
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/ajax_sendLetter",
+            data: {"attentionId": source_id, "letterContent": letterContent},
+            dataType: "json",
+            success: function (data) {
+                if (data.msg != 'success') {
+                    window.alert(data.msg);
+                }else{
+                    $("#letterContent").val("");
+                    $('#send').attr('data-dismiss', 'modal');
+                    window.alert('发送成功！')
+                }
+            }
+        })
+    }
+
+    //最后一栏去除下边框线
+    $(".pGryz_l>div").eq($(".pGryz_l>div").index($(".pGryz_l>div").length-1)).children('.pGryz_l_b').css("border-bottom","none");
+    //性别图标
+    if("{{ vResumeInfo.sex}}"=="男") {
+        $(".info_ul i").removeClass('icon-nv').addClass('icon-nan').css("color","#1E8FFD");
+    }
+
+</script>
+{% include 'jobs/system/new_footer.html' %}

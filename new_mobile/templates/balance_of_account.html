@@ -1,0 +1,107 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+	if(typeof sendPhoneNumber!='undefined'||typeof JavaScriptInterface!='undefined'){
+		$('.zsp_header').remove();
+	}
+</script>
+<div class="zsp_balance_main">
+    <div class="zsp_balance_head">
+    	<h1>账户余额</h1>
+        <span>{{ gold_count | default:0 }}</span>
+        <a href="JavaScript:void(0);" class="c_b_btn" onClick="myWallet()">我的钱包</a>
+    </div>
+</div>
+<script>
+var page = 1;
+$(function() {
+    show_balance_details();
+});
+function show_balance_details() {
+    $.ajax({
+        async: false,
+        type: 'post',
+        data: {'pagesize': 10, 'page': page},
+        url: '/mobile/ajax_send_request_for_record',
+        dataType: 'json',
+        success: function (data) {
+            if(data == "err"){
+                alert(["展示失败"]);
+            } else {
+                show_every_details(data);
+                page += 1;
+            }
+        }
+    });
+}
+
+function show_every_details(data){
+    var content = "";
+    $(".zsp_resume_but_box").remove();
+    $(data).each(function() {
+        var array = $(this);
+        var len = array.length;
+
+        content = '<div class="zsp_uc_list">';
+        // if($('.money_detail').length == 0) {
+        //     content += '    <div class="zsp_uc_list_a_2 money_detail">';
+        //     content += '        <span>余额明细</span>';
+        //     content += '    </div>';
+        // }
+
+        content += '    <ul>';
+        content += '    <li style="margin-top: 10px;">';
+        if (array[1] > 0) {
+            content += '        <span style="float:right;font-size: 16px;margin-top: 10px;margin-right: 16px;">+' + array[1] + '</span>';
+        } else {
+            content += '        <span style="float:right;font-size: 16px;margin-top: 10px;margin-right: 16px;">-' + array[2] + '</span>';
+            //array[0] = '购买简历';//array[0]是消费状态，但是扣了金额 也是 充值字样 ，这里 现在为负时，改成购买简历
+        }
+
+        content += '        <div style="float:left">';
+        content += '            <div style="font-size: 19px;color:#4D6573;">' + array[0] + '</div>';
+        content += '            <div style="color: #ACAFB5;padding-top: 5px;">' + array[4] + '</div>';
+        content += '        </div>';
+        content += '    </li>';
+        content += '    </ul>';
+        content += '</div>';
+        $("body").append(content);
+    });
+    // if(data.length > 0) {
+    //     content = '<div class="zsp_resume_but_box" onclick="show_balance_details()">';
+    //     content += '  <a href="javascript:;" id="jobMore" class="zsp_resume_but_4 more">查看更多</a>';
+    //     content += '</div>';
+    //     $("body").append(content);
+    // }
+}
+
+//我的钱包
+function myWallet(){
+    $.ajax({
+        type: "POST",
+        url: "/ajax_intoMyWallet",
+        dataType: "json",
+        success: function (data) {
+            if(data.status == '2'){
+                alert(['请绑定手机号码再进行此操作', 4]);
+            }else if(data.status == '3'){
+                alert(['请绑定邮箱再进行此操作', 4]);
+            }else if(data.status == '1'){
+                var  code = data.result;
+                window.location.href ='{{ cash_website }}/api/login_api?code=' + encodeURIComponent(code);
+            }
+        }
+    })
+}
+</script>
+</body></html>

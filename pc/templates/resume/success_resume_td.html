@@ -1,0 +1,70 @@
+{% include 'jobs/system/header.html' %}
+<style type="text/css">
+    .center.content{border:1px solid #e0e0e0;margin-top: 25px;margin-bottom: 20px;padding-bottom: 50px;box-shadow:0 0 5px #eeeded;}
+    .c_top{
+        background:url({{ STATIC_URL }}images/resume_03.jpg) no-repeat;
+        width:325px;
+        height: 200px;
+        margin:50px auto auto;
+        padding-left: 355px;
+        padding-top: 60px;
+    }
+    .c_top p{
+        font-size: 20px;
+    }
+    .c_top p em{color:#5c91d9;font-style: normal;}
+    .c_top div{margin-top:40px ;font-size: 12px;}
+    .c_top a{color:#5c91d9;text-decoration:underline;}
+    .position  dt{border-bottom:1px solid #eee;margin-bottom:30px;position:relative;}
+    .position  dt span{position:absolute;font-size: 18px;background-color:#fff;top:-10px;}
+    .position dd a{float: left;margin:0 40px;text-align: center;width:70px;overflow: hidden;display:block;}
+    .position dd a img{width:60px;height:60px;}
+    .position{margin:0 auto;width:750px;}
+    .position dd{overflow: hidden;}
+    .position .p1{font-size: 12px;color:#333;text-overflow:ellipsis;overflow: hidden;white-space: nowrap;}
+    .position .p2{font-size: 12px;color:#fd5f39;}
+    .position .p3{font-size: 12px;color:#888;}
+    .position .more{text-align:right;padding-top: 20px;}
+    .position .more a{float: right;color:#5c91d9;}
+    .company{margin-top: 20px;}
+    .company .p1{font-size: 15px;color:#333;}
+    .company .p2{font-size: 12px;color:#888;}
+    .company dd a{width:90px;margin:0 30px;}
+
+</style>
+<div class="center content">
+    <div class="c_top">
+           <p>简历<em>投递成功</em>，请静候佳音！</p>
+           <div>
+               <a href="/resume/zwxq?positionId={{ position_id }}">继续查看该职位></a>
+           </div>
+    </div>
+    {% if new_positions %}
+        <dl class="position">
+            <dt><span>相似的职位</span></dt>
+            <dd>
+                {% for near_position in new_positions %}
+                    <a href="/resume/zwxq?positionId={{ near_position.id }}">
+                        <img style="border-radius: 50%" src="{{ request.session.file_website }}{{ near_position.pc_logo }}" onerror="notfind(this,0)" ><p class="p1" title="{{ near_position.position_name }}">{{ near_position.position_name }}</p><p class="p2">{{ near_position.payname|default:'' }}</p><p class="p3">{{ near_position.pc_name|default:'' }}</p>
+                    </a>
+                {% endfor %}
+            </dd>
+            <dd class="more">
+                <a href="/position/npositionsearch">查看更多></a>
+            </dd>
+        </dl>
+    {% endif %}
+    {% if companys %}
+    <dl class="position company">
+        <dt><span>和这家相似的公司</span></dt>
+        <dd>
+            {% for company in companys %}
+                <a href="/account/new_qyyl?companyId={{ company.id }}">
+                    <img style="border-radius: 50%" src="{{ request.session.file_website }}{{ company.pc_logo }}" onerror="notfind(this,0)" ><p class="p1" title="{{ company.pc_name }}">{{ company.pc_name }}</p><p class="p2">{{ company.businessname|default:'' }}</p>
+                </a>
+            {% endfor %}
+        </dd>
+    </dl>
+    {% endif %}
+</div>
+{% include 'jobs/system/new_footer.html' %}

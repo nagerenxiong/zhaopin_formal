@@ -1,0 +1,598 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/new_mobile/css/zsh_common.css" type="text/css">
+<link rel="stylesheet" href="/static/new_mobile/css/swiper.css" type="text/css">
+<style type="text/css">
+    input[type='text']{
+        height: 60px;
+        border:0;
+    }
+.formTagBox{width: 100%;padding: 0 20px;box-sizing: border-box;background: #fff;margin-bottom: 2px;padding-bottom: 20px;}
+.formAboutBox{width: 100%;padding: 0 20px;box-sizing: border-box;background: #fff;margin-bottom: 2px;padding-bottom: 10px;}
+.formTagBox ul{overflow:hidden;width: 120%;margin-left: -4%;margin-top:10px;}
+.formTagBox li{float: left;border: 1px solid #999;border-radius: 5px;text-align: center;box-sizing: border-box;margin: 5px 1%;width: 28%;}
+#about_txa{width:100%;margin-top:10px;border-radius: 5px;overflow:hidden;padding:10px;height:80px;box-sizing:border-box;}
+#font_count{text-align:right;color:#E70014;}
+.save_box,.next_box{text-align:center;margin-top:20px;margin-bottom: 20px;}
+.save_box input,.next_box input,.btn_disbile{background:#1470B3;color:#fff;text-align: center;padding:10px 50px;border:0;border-radius: 5px;font-size: 20px;}
+#chang_tag{float:right;}
+.formIdBox{width: 100%;padding:0 20px 0px 20px;box-sizing: border-box;background: #fff;margin-bottom: 2px;overflow: hidden;}
+.formIdBox .rightBox{float:right;}
+.formIdBox label{height:53px;line-height: 53px;font-size: 16px;}
+.sc_id_box{border:1px dashed #b5b5b5;border-radius:10px;padding:10px;margin-top: 20px;text-align: center;
+}
+.sc_id_box img{vertical-align: middle;}
+
+</style>
+<script src="/static/new_mobile/js/jquery.validate.min.js" type="text/javascript" language="javascript"></script>
+<script src="/static/new_mobile/js/formValidate.js" type="text/javascript"></script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<script>
+    $(document).ready(function()
+    {
+        clearInterval(show_logo);
+    });
+</script>
+<div class="zsp_edu_main_box">
+    <div class="zsp_edu_tit">
+        <h1>个人资料编辑</h1>
+        <p>完善个人资料，可以让大家更多地了解你</p>
+    </div>
+    <form id="Form1" method="post" action="/mobile/headhunter/headhunter_lead_page">
+        <div class="comMid  swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="formEleBox" style="height:90px;">
+                        <label style="line-height: 90px;">头像</label>
+                        <div class="rightBox">
+                            <input id="sctx" type="file" style="display: none;">
+                            <img id="o_logo" src="/static/new_mobile/images/p_b_por.png" alt="上传头像" style="width:70px; height:70px;border-radius:50%;top:5px" onerror="this.src='/static/new_mobile/images/p_b_por.png'">
+                            <input type="hidden" class="head_portrait" name="head_portrait" value=""></div>
+                        <script>
+                    $(function(){
+                        $("#o_logo").click(function(event) {
+                            $("#sctx").click();
+                        });
+                    })
+                </script>
+
+                    </div>
+                    <div class="formEleBox">
+                        <label>姓名</label>
+                        <div class="rightBox">
+                            <input class="required formcheck" placeholder="请输入您的姓名" type="text" name="fullname" value="" maxlength="5" id="name_txt"></div>
+                    </div>
+                    <div class="formEleBox">
+                        <label>擅长行业</label>
+                        <div class="rightBox overBox" id="trade_box">
+
+                            <input readonly type="text" class="create_input" id="trad_text" name="trade_cn" value="">
+                            <img src="/static/new_mobile/images/sortDown.png" alt="">
+                            <input type="hidden" class="industry_type" name="industry_type" value="">
+                            <input type="hidden" class="industry_name" name="industry_name" value=""></div>
+                    </div>
+                    <div class="formEleBox">
+                        <label>擅长职能</label>
+                        <div class="rightBox overBox" id="position_box">
+                            <input readonly type="text" class="create_input" id="jobs_text" value="">
+                            <img src="/static/new_mobile/images/sortDown.png" alt="">
+                            <input type="hidden" name="postaion_type" class="postaion_type">
+                        </div>
+                    </div>
+                    <!-- <div class="formEleBox">
+                        <label>您的头衔</label>
+                        <div class="rightBox overBox" id="honor_box">
+                            <input readonly type="text" class="create_input required formcheck input_disabled" id="honor_txt" value="">
+                            <input value="" id="headhunter_level" name="headhunter_level" type="hidden">
+                            <img src="/static/new_mobile/images/sortDown.png" alt=""></div>
+                    </div> -->
+                    <div class="formEleBox">
+                        <label>工作年限</label>
+                        <div class="rightBox overBox" id="experience_box">
+                            <input readonly type="text" class="create_input required formcheck input_disabled" id="experience_txt" value="">
+                            <input name="experience" type="hidden" id="experience" value="">
+                            <img src="/static/new_mobile/images/sortDown.png" alt=""></div>
+                    </div>
+                    <div class="formEleBox">
+                        <label>所在城市</label>
+                        <div class="rightBox" id="area_box">
+                            <input readonly type="text" class="create_input city_name required formcheck input_disabled" id="area_txt" value="">
+                            <input type="hidden" class="city_value" name="city_value" value="">
+                            <img src="/static/new_mobile/images/sortDown.png" alt=""></div>
+                    </div>
+                    <div class="next_box">
+                        <input type="button"  class="btn_disbile" style="background-color:#B0BEC5;" value="下一步">
+                        <input type="button"  class="next_btn o_one" value="下一步"   style="display:none"></div>
+                </div>
+                <div class="swiper-slide">
+                    <input type="hidden" class="label_str" name="label_str">
+                    <div class="formTagBox">
+                        <div style="padding-top:20px;">
+                            已选择标签
+                            <span id="chang_tag" onClick="changeLabel()">换一换</span>
+                        </div>
+                        <ul id="aleady_tag" class="aleady_tag"></ul>
+                        <div style="margin-top:10px;">选择标签</div>
+                        <ul id="select_tag">
+                            <li>测试测试</li>
+                        </ul>
+                    </div>
+                    <div class="formAboutBox">
+                        <div style="padding-top:10px;">个人简介</div>
+                        <div>
+                            <textarea name="about_txa" id="about_txa" placeholder="请输入个人简介"></textarea>
+                            <div id="font_count">( 0/30 )</div>
+                        </div>
+                    </div>
+                    <div class="next_box">
+                        <input type="button"  class="btn_disbile o_two1" style="background-color:#B0BEC5;" value="下一步">
+                        <input type="button" class="next_btn o_two" value="下一步"  style="display:none"></div>
+            </div>
+            <div class="swiper-slide">
+                <div class="formIdBox" style="height:51px;overflow:hidden;">
+                    <label>身份证号</label>
+                    <div class="rightBox">
+                        <input class="required formcheck" placeholder="请输入您的身份证号" type="text" name="id_txt" value="" maxlength="20" id="id_txt" style="height:51px;font-size: 14px;"></div>
+                    <!-- <div>上传身份证照片</div>
+                    <div>
+                        <img src="/static/new_mobile/images/sfz_03.png" alt="上传身份证" style="width:80px;height:50px;">
+                        </div> -->
+                    </div> 
+                    <div class="sc_id_box" style="background-color:#F1F5F8;">
+                        <input id="scId" type="file" style="display: none;">
+                        <img src="/static/new_mobile/images/sfz_10.png"  style="width:55px;"><img src="/static/new_mobile/images/sfz_07.png" style="width:190px;margin-left: 10px;height:115px"  id="id_photo" >
+                        <input type="hidden" name="id_photo" class="id_card_photo" value="">
+                         <script>
+                        $(function(){
+                            $("#id_photo").click(function(event) {
+                                $("#scId").click();
+                            });
+                        })
+                        </script>
+                    </div>
+                            
+              <div class="save_box">
+                    <input class="o_save" type="submit" onClick="return savaInfo();" value="保存" ><br>
+                    <input type="submit" onClick="return jumpSavaInfo()" value="暂时跳过"  style="background:none;border:0;color:#666;font-size: 12px">
+                </div>
+              
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+<!-- 头衔     弹出插件 -->
+<div class="menu choose_menu" id="menuhonor" style="position: absolute;display: none;">
+<div class="menu_title">选择头衔</div>
+<div class="choose_close"></div>
+<ul>
+    {% if headNames %}
+        {% for head_name in headNames %}
+            <li id="{{ head_name.dictionary_value }}" title="{{ head_name.dictionary_name }}">{{ head_name.dictionary_name }}</li>
+        {% endfor %}
+    {% endif %}
+</ul>
+</div>
+<!-- 工作年限 -->
+<div class="menu choose_menu" id="menuExperience" style="display:none;position:absolute;z-index:1;">
+    <div class="menu_title">工作年限</div>
+    <div class="choose_close"></div>
+    <ul>
+        {% if workyears %}
+            {% for work_year in workyears %}
+                <li id="{{ work_year.dictionary_value }}" title="{{ work_year.dictionary_name }}">{{ work_year.dictionary_name }}</li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+</div>
+<script src="/static/new_mobile/js/trade.js"></script>
+<script src="/static/new_mobile/js/position.js"></script>
+<script src="/static/new_mobile/js/area.js"></script>
+<script src="/static/new_mobile/js/swipe.js" ></script>
+<script>
+     //简介字数控制
+     $("#about_txa").keyup(function(){
+        var len=$(this).val().trim().length;
+         if(len > 29){
+            $(this).val($(this).val().substring(0,29));
+           }
+        $("#font_count").text(len+'/30');
+     })
+     $("#about_txa").keydown(function(){
+        var len=$(this).val().trim().length;
+         if(len > 29){
+            $(this).val($(this).val().substring(0,29));
+           }
+        $("#font_count").text(len+'/30');
+     })
+     $("#about_txa").focus(function(event) {
+         var len=$(this).val().trim().length;
+         if(len > 29){
+            $(this).val($(this).val().substring(0,29));
+           }
+        $("#font_count").text(len+'/30');
+     });
+     $("#about_txa").blur(function(){
+        var len=$(this).val().trim().length;
+         if(len > 29){
+            $(this).val($(this).val().substring(0,29));
+           }
+        $("#font_count").text(len+'/30');
+     })
+     //擅长行业
+     $("#trade_box").click(function(){
+        tradeShow();
+        showFloatBox();
+     })
+     $("#position_box").click(function(){
+        positionShow();
+     })
+     //头衔
+     $("#honor_box").click(function(){
+        showFloatBox();
+        $("#menuhonor").css({
+        top: ($(window).height() - $('#menuhonor').outerHeight()) / 2 + $(document).scrollTop()
+        });
+        $("#menuhonor").show();
+     })
+     $("#menuhonor").on('click','li',function(){
+        $("#honor_txt").val($(this).attr('title'));
+         $("#headhunter_level").val($(this).attr('id'));
+        closeFloatBox();
+     })
+     //工作年限
+     $("#experience_box").click(function(){
+         showFloatBox();
+         $("#menuExperience").css({
+        top: ($(window).height() - $('#menuExperience').outerHeight()) / 2 + $(document).scrollTop()
+        });
+        $("#menuExperience").show();
+     })
+     $("#menuExperience").on('click','li',function(){
+        $("#experience_txt").val($(this).attr('title'));
+        $("#experience").val($(this).attr('id'));
+        closeFloatBox();
+     })
+     //所在城市
+     $("#area_box").click(function(){
+        areaShow();
+     })
+      //上传头像功能
+    $("#sctx").on("change", fOnChange);
+     function fOnChange() {
+       var oFile = this.files[0],
+         sName = this.files[0].fileName,
+         sFileType = oFile.type;
+       var nSize = 0,
+         nModTime;
+       // Android下读不到type信息，从文件名中解析
+
+       // if(!sFileType){
+       //   sFileType = "image/" + sName.split(".").pop().toLowerCase();
+       // }
+       photoExt = sFileType.substr(sFileType.lastIndexOf(".")).toLowerCase(); //获得文件后缀名
+       // 读取文件大小、修改时间等信息
+       var oUploadInfo = {
+         name: oFile.name || oFile.fileName,
+         size: oFile.size / 1000 || oFile.fileSize / 1000,
+         blob: oFile,
+         type: oFile.type
+       };
+       //图片大小限制单位kb
+       // if(oUploadInfo.size>30){
+       //   alert("图片不能大于30kb");
+       //   return false;
+       // }
+       if (oUploadInfo.type != "image/png" && oUploadInfo.type != "image/jpg" && oUploadInfo.type != "image/jpeg" && oUploadInfo.type != "image/gif") {
+         alert(["图片支持jpg、jpeg、gif、png格式"]);
+         return false;
+       }
+       var oImg = $("#o_logo"); //接收图片的DOM元素
+
+       // 使用FileReader读取
+       var oReader = new FileReader();
+       oReader.onload = function(e) {
+         var sBase64 = e.target.result;
+         // 部分Android下base64字符串格式不完整
+         if (window.gIsAndroid && sBase64.indexOf("data:image/") != 0) {
+           var sMime = sName.split(".").pop().toLowerCase();
+           sBase64 = sBase64.replace("base64,", "image/" + sMime + ";base64,");
+         }
+         oImg.attr('src', sBase64);
+         sBase64 = null;
+       }
+       oReader.readAsDataURL(oFile);
+       $("#o_logo").attr('data-ok', '1');
+       next_one();
+     }
+     //保存信息提交事件
+    function savaInfo(){
+        var label_str = '';
+        $(".aleady_tag li").each(function() {
+            if(label_str == '')     label_str = $(this).text();
+            else                    label_str += '**' + $(this).text();
+        });
+        $(".label_str").val(label_str);
+        if($("#id_txt").val().trim()==""){
+            alert(["请输入您的身份证号",2]);
+            return false;
+        }
+       // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
+       var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+       if(reg.test($("#id_txt").val().trim()) === false)
+       {
+           alert(["身份证输入不合法"]);
+           return  false;
+       }
+        if($("#id_photo").attr('src')=='/static/new_mobile/images/sfz_07.png')
+        {
+            alert(["请上传身份证照片",2]);
+            return false;
+        }
+         return valid_save_headhunter_info();
+    }
+    var nextId=0;
+    var mySwiper = new Swiper ('.swiper-container', {
+    onlyExternal:true,
+    nextButton: '.next_btn',
+    // prevButton: '.prev_btn',
+    // onInit:function(){
+    //     if(mySwiper.activeIndex==0)
+    //     {
+
+    //     }
+    // }
+    onSlideChangeEnd:function(mySwiper){
+      nextId=mySwiper.activeIndex
+    }
+    // prevButton: '.swiper-button-prev'
+  })
+  $(".next_btn").click(function(event) {
+      $('body').scrollTop(0);
+  });
+  $("#about_txa").on('change keydown keyup', function(event) {
+      if( $(this).val() ==""){
+            $(".o_two1").css('display', 'inline-block');
+            $(".o_two").css('display', 'none');
+
+      }else{
+            $(".o_two").css('display', 'inline-block');
+            $(".o_two1").css('display', 'none');
+      }
+  });
+  function next_one()
+    {
+        var fag=true;
+        var $nextBox=$(".swiper-slide").eq(nextId).children('.next_box');
+        $(".swiper-slide-active input[type='text']").each(function(index, el) {
+            if($(el).val().trim()=="")
+            {
+                fag=false;
+            }
+        });
+        if($("#o_logo").attr('data-ok') !='1'){
+            fag = false;
+        }
+        if(fag)
+        {
+            $nextBox.children('.btn_disbile').hide();
+            $nextBox.children('.next_btn').show();
+        }
+        else
+        {
+            $nextBox.children('.next_btn').hide();
+            $nextBox.children('.btn_disbile').show();
+        }
+    }
+  function next_two() {
+    var $nextBox=$(".swiper-slide").eq(nextId).children('.next_box');
+     if($("#aleady_tag li").length==0||$("#about_txa").val().trim()=='')
+     {
+        $nextBox.children('.next_btn').hide();
+        $nextBox.children('.btn_disbile').show();
+     }
+     else
+     {
+        $nextBox.children('.btn_disbile').hide();
+        $nextBox.children('.next_btn').show();
+     }
+  }
+  $("#about_txa").keyup(function(){
+    next_two();
+  });
+    $(".swiper-slide:eq(0) input[type='text']").blur(function(event) {
+        next_one();
+    });
+    $(document).on('click','.choose_menu',function(){
+        next_one();
+    })
+    //选择标签
+    $("#select_tag").on('click','li',function(){
+        if($("#aleady_tag li").length>7)
+        {
+            alert(['不能选择超过8个',2]);
+            return;
+        }
+        if ($("#aleady_tag:contains(" + $(this).attr('text') + ")").length == 0) {
+            $("#aleady_tag").append(this);
+        } else {
+            alert(['您已选择该标签', 2]);
+            return false;
+        }
+        next_two();
+    })
+    $("#aleady_tag").on('click','#aleady_tag li',function(){
+        $("#select_tag").append(this);
+        next_two();
+    })
+
+var pageIndex = 1;
+var labelData;
+//获取猎头标签
+$.ajax({
+    type: "POST",
+    url: "/ajax_dictionary",
+    data: {
+        "p_value": '12001000'
+    },
+    dataType: "json",
+    success: function(data){
+        labelData = data;
+        changeLabel();
+    }
+});
+//换一换标签
+function changeLabel(){
+    $("#select_tag").empty();
+    var count = pageIndex * 8;
+
+    if(count >= labelData.length){
+        count = labelData.length;
+        for(var i=(pageIndex-1)*8; i < count; i++){
+            $("#select_tag").append("<li>"+ labelData[i].dictionary_name +"</li>");
+        }
+        pageIndex = 1;
+    }
+    else{
+        for(var i=(pageIndex-1)*8; i < count; i++){
+            $("#select_tag").append("<li>"+ labelData[i].dictionary_name +"</li>");
+        }
+        pageIndex++;
+    }
+}
+
+   //上传身份证功能
+    $("#scId").on("change", fOnChange1);
+     function fOnChange1() {
+       var oFile = this.files[0],
+         sName = this.files[0].fileName,
+         sFileType = oFile.type;
+       var nSize = 0,
+         nModTime;
+       // Android下读不到type信息，从文件名中解析
+
+       // if(!sFileType){
+       //   sFileType = "image/" + sName.split(".").pop().toLowerCase();
+       // }
+       photoExt = sFileType.substr(sFileType.lastIndexOf(".")).toLowerCase(); //获得文件后缀名
+       // 读取文件大小、修改时间等信息
+       var oUploadInfo = {
+         name: oFile.name || oFile.fileName,
+         size: oFile.size / 1000 || oFile.fileSize / 1000,
+         blob: oFile,
+         type: oFile.type
+       };
+       //图片大小限制单位kb
+       // if(oUploadInfo.size>30){
+       //   alert("图片不能大于30kb");
+       //   return false;
+       // }
+       if (oUploadInfo.type != "image/png" && oUploadInfo.type != "image/jpg" && oUploadInfo.type != "image/jpeg" && oUploadInfo.type != "image/gif") {
+         alert(["图片支持jpg、jpeg、gif、png格式"]);
+         return false;
+       }
+
+       var oImg = $("#id_photo"); //接收图片的DOM元素
+
+       // 使用FileReader读取
+       var oReader = new FileReader();
+       oReader.onload = function(e) {
+         var sBase64 = e.target.result;
+         // 部分Android下base64字符串格式不完整
+         if (window.gIsAndroid && sBase64.indexOf("data:image/") != 0) {
+           var sMime = sName.split(".").pop().toLowerCase();
+           sBase64 = sBase64.replace("base64,", "image/" + sMime + ";base64,");
+         }
+         oImg.attr('src', sBase64);
+         sBase64 = null;
+       }
+       oReader.readAsDataURL(oFile);
+     }
+     //保存信息提交事件
+    var checkSubmitFlg = false;
+    function valid_save_headhunter_info() {
+        // 头像
+        var img_data = $("#o_logo").attr('src');
+        var img_path = is_upload_head_portrait(img_data, 1);
+        if(img_path == 0) {
+            alert(['头像不合法']);
+            return false;
+        } else {
+            $(".head_portrait").val(img_path);
+        }
+        // 身份证号
+        img_data = $("#id_photo").attr('src');
+        img_path = is_upload_head_portrait(img_data, 8);
+        if(img_path == 0) {
+            alert(['身份证照片错误', 2]);
+            return false;
+        } else {
+            $(".id_card_photo").val(img_path);
+        }
+        if(checkSubmitFlg==false)
+        {
+        checkSubmitFlg=true;
+        return true;
+        }
+        {
+            return false; 
+        }
+        $(".o_save").css('background-color', '#e0e0e0').attr('disabled', 'disabled');
+    }
+    function jumpSavaInfo(){
+        var label_str = '';
+        $(".aleady_tag li").each(function() {
+            if(label_str == '')     label_str = $(this).text();
+            else                    label_str += '**' + $(this).text();
+        });
+        $(".label_str").val(label_str);
+        // 头像
+        var img_data = $("#o_logo").attr('src');
+        var img_path = is_upload_head_portrait(img_data, 1);
+        if(img_path == 0) {
+            alert(['头像不合法']);
+            return false;
+        } else {
+            $(".head_portrait").val(img_path);
+        }
+        if(checkSubmitFlg==false)
+        {
+        checkSubmitFlg=true;
+        return true;
+        }
+        {
+            return false; 
+        }
+    }
+    // 上传用户头像
+    function is_upload_head_portrait(fileContent, file_type) {
+        var img_path = '';
+        var contentStart = 'data:image';
+        var fileContentArray = fileContent.split(contentStart);
+        if(fileContentArray.length != 2) {
+            return 0;
+        }
+        $.ajax({
+            async: false,
+            type: 'post',
+            data: {'fileContent': fileContentArray[1], 'file_type': file_type},
+            url: '/mobile/ajax_upload_image_type',
+            dataType: 'json',
+            success: function(data) {
+                img_path = data;
+                alert(["提交成功，正在审核中",1]);
+            }
+        });
+        return img_path;
+    }
+</script>
+</body>
+</html>

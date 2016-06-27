@@ -1,0 +1,214 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/new_mobile/css/zsh_common.css" type="text/css">
+<script src="/static/new_mobile/js/formValidate.js" type="text/javascript"></script>
+<style>
+.grbq_li {
+	float: left;
+	width: 19%;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	background-color: #1470B3;
+	color: #FFF;
+	margin: 10px 2.5% 0px;
+	overflow: hidden;
+}
+.grbq li{
+    margin: 10px 2% 0px!important;
+}
+input[type='text'], input[type='tel'] {
+	line-height: 60px;
+}
+.ver_codes {
+	float: left;
+	font-size: 24px;
+	height: 43px;
+	width: 95px;
+	margin-top: 8px;
+	text-align: center;
+	line-height: 49px;
+	font-weight: bold;
+	color: #169bec;
+	background: url('/static/new_mobile/images/yzm.png') no-repeat;
+	font-family: "华文彩云";
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function()
+{
+	// 提交 表单
+	$("#label_submit").click(function(){
+		var labels = '';
+        $(".grbq li").each(function() {
+            if(labels == '') labels = $(this).text();
+            else             labels += '**' + $(this).text();
+        });
+        $.ajax({
+            async: false,
+            type: 'post',
+            data: {'labels': labels, 'resume_id': '{{ resume_id }}', 'type': 1},
+            url: '/mobile/ajax_save_user_info',
+            dataType: 'json',
+            success: function(data) {
+                if(data == 'ok') {
+                    alert(['更新成功', 1]);
+                    {% if request.session.account_type == '1' %}
+                        window.location.href = '/mobile/personal/resume_edit?resume_id={{ resume_id }}';
+                    {% else %}
+                        {% if position_id != '' %}
+                            window.location.href="/mobile/headhunter/edit_uploaded_resume?resume_id={{ resume_id }}&position_id={{ position_id|default:'' }}";
+                        {% else %}
+                            window.location.href="/mobile/headhunter/edit_uploaded_resume?resume_id={{ resume_id }}";
+                        {% endif %}
+                    {% endif %}
+                } else {
+                    alert(['修改失败',2]);
+                }
+            }
+        })
+
+	});
+});
+
+
+$(".grbq li").each(function() {
+        if(labels == '') labels = $(this).text();
+        else             labels += '**' + $(this).text();
+    });
+
+ var labelData;
+ var pageIndex = 1;
+{% if request.session.account_type == '1' %}
+    //获取个人标签
+    $.ajax({
+        type: "POST",
+        url: "/ajax_dictionary",
+        data: {
+            "p_value": '11999000'
+        },
+        dataType: "json",
+        success: function(data) {
+            labelData = data;
+        }
+    });
+{% else %}
+    //获取猎头标签
+    $.ajax({
+        type: "POST",
+        url: "/ajax_dictionary",
+        data: {
+            "p_value": '12001000'
+        },
+        dataType: "json",
+        success: function(data){
+            labelData = data;
+            changeLabel();
+        }
+    });
+{% endif %}
+
+var labelData;
+//换一换标签
+function changeLabel() {
+        $("#grbq_data").empty();
+        var count = pageIndex * 8;
+        if (count >= labelData.length) {
+            count = labelData.length;
+            for (var i = (pageIndex - 1) * 8; i < count; i++) {
+                $("#grbq_data").append("<span onclick='grbq_click(this)' class='grbq_li'>" + labelData[i].dictionary_name + "</span>");
+            }
+            pageIndex = 1;
+        } else {
+            for (var i = (pageIndex - 1) * 8; i < count; i++) {
+                $("#grbq_data").append("<span onclick='grbq_click(this)' class='grbq_li'>" + labelData[i].dictionary_name + "</span>");
+            }
+            pageIndex++;
+        }
+    }
+setTimeout(function(){
+	$("#grbq span")[0].click();
+},500)
+
+function grbq_click(obj){
+	if($("#grbq .grbq li").length>7)
+		{
+			$('.errorTip').text('最多只能选8个!').fadeIn();
+        	return false;
+		}
+	var isok = true;
+	_val = $(obj).text();
+	$(".grbq li").each(function(index, el) {
+		if(_val == $(el).text()){
+			alert(["已有该标签"]);
+			isok = false;
+		}
+	});
+	if(isok)
+		$(".grbq").append('<li onclick="grbq_lose(this)">'+_val+'</li>');
+		
+};
+function grbq_lose(obj){
+	$(obj).remove();
+}
+
+</script>
+</head><body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+</script> 
+<!--zsp_header -->
+
+<div class="zsp_edu_main_box">
+    <div class="zsp_edu_tit">
+        <h1>个人标签编辑</h1>
+        <p>完善您的简历，更快获得面试邀请</p>
+    </div>
+    <form id="Form1" method="post">
+        <div class="zsp_input_main_box swiper-slide">
+            <div id="grbq" class="formEleBox errorBox" style="height:auto;line-height: auto;">
+                <label style="display:block;width:100%">个人标签<span style="float: right;" onClick="changeLabel()">换一换</span></label>
+                <ul class="grbq">
+                    {% if labels_list %}
+                        {% for label in labels_list %}
+                            <li onClick="grbq_lose(this)">{{ label }}</li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+                <div id="grbq_data" style="overflow:hidden;float:left;width:100%;padding-bottom:10px;"></div>
+            </div>
+            <input type="hidden" name="pid" value="198816">
+            <div class="edit_work_exp_but_group">
+                <div class="edit_exp_save_but halfCheckBtnOk" style="display: block;"> <a class="able" id="label_submit">保存</a> </div>
+                <div class="edit_exp_cancel_but" onclick="cancelBack()" style="cursor: pointer;"> <a>取消</a> </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="errorTip"></div>
+</body>
+<script type="text/javascript">
+    function cancelBack(){
+        {% if request.session.account_type == '1' %}
+            window.location = '/mobile/personal/resume_edit?resume_id={{ resume_id }}';
+        {% else %}
+            {% if position_id != '' %}
+                window.location.href="/mobile/headhunter/edit_uploaded_resume?resume_id={{ resume_id }}&position_id={{ position_id|default:'' }}";
+            {% else %}
+                window.location.href="/mobile/headhunter/edit_uploaded_resume?resume_id={{ resume_id }}";
+            {% endif %}
+        {% endif %}
+    }
+</script>
+</html>

@@ -1,0 +1,305 @@
+{% include 'jobs/system/new_top.html' %}
+<!-- 主体开始 -->
+<link href="{{ STATIC_URL }}css/qyhr_index.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/popup.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/hint.css" media="screen" rel="stylesheet" type="text/css">
+<!-- <link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css"> -->
+<!-- 主体开始 -->
+<!-- 老版弹出框样式，新版出了可以删除 -->
+<script src="{{STATIC_URL}}js/hint.js"></script>
+<style type="text/css">
+    .yqzd .header{height:auto;background-color:transparent;}
+    #tableInfoForInvite li{box-sizing:border-box;}
+    .notice{
+        width:509px;
+        height:289px;
+        margin:0 auto;
+    }
+    .noti_rg{
+        line-height:23px;
+    }
+    .notice .per_img{
+        width:270px;
+        height:265px;
+        float:left;
+    }
+    .notice .noti_tit
+    {
+        font-size:16px;
+        color:#333;
+    }
+    .notice .noti_mes
+    {
+        font-size:14px;
+        color:#999999;
+    }
+    .noti_rg .noti_imm{
+        font-size:14px;
+        color:#ff8800;
+    }
+     .noti_rg .noti_imm a{
+        font-size:14px;
+        color:#ff8800;
+    }
+    .noti_rg .noti_imm img{
+        vertical-align:middle;
+        margin-bottom:3px;
+        margin-left:3px;
+     }
+    .notice .noti_rg
+    {
+        padding-top:70px;
+    }
+    .noti_rg .noti_imm i
+    {
+      width:20px;
+      height:20px;
+      display:block;
+      background: url(images/fb.jpg);
+      position:absolute;
+    }
+
+
+</style>
+<!-- 老版弹出框样式，新版出了可以删除 -->
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.autocomplete.css">
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/forwardresume.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/inviteDialog.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.autocomplete.min.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/interview.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}appJs/system/new_company_index.js"></script>
+<div class="clear">1</div>
+<div class="center main">
+<!-- 主体开始左侧开始 -->
+	<div class="main_content">
+		<div class="o_search">
+		<form action="">
+			<div class="search_select">
+				<div>
+					<span>简历</span>
+					<img style="margin-left: 5px;" src="{{ STATIC_URL }}images/o_xjt.png" alt="">
+				</div>
+				<i style="position: absolute;height: 5px;width: 100%;"></i>
+				<ul id="selectItems">
+					<li>简历</li>
+					<li>人才经纪人</li>
+            	</ul>
+
+
+
+                <script>
+                $(function(){
+                    $("#selectItems").children('li').click(function(){
+                        var gonsi=$('.search_select').find('span').text();
+                            if(gonsi == '简历'){
+                                $('.search_input').attr('placeholder', '请输入简历关键词: 如前端开发等');
+                            }else{                
+                                $('.search_input').attr('placeholder', '请输入经纪人关键词');
+                            }
+                            $(this).text(zw);
+                    })    
+                })                   
+                </script>
+
+
+			</div>
+			<input class="search_input" type="text" maxlength="35" placeholder="请输入简历关键词:&nbsp;如前端开发等">
+			<a class="search_btn" onclick="queryData()">搜索</a>
+			<div class="clearfix"></div>
+		</form>
+			<div class="hotsearch">
+				<span>
+{#                    热门搜索:&nbsp;#}
+                </span>
+
+			</div>
+
+			<div class="resume">
+				<ul class="resume_select">
+					<li class="active">智能匹配
+{#                        {% if positions %}#}
+{#                            <span>{{ positions|length }}</span>#}
+{#                        {% endif %}#}
+                    </li>
+					<li>应聘简历
+                        {% if ajCount > 0 %}
+                            <span>{{ ajCount }}</span>
+                        {% endif %}
+                    </li>
+					<li class="slide"></li>
+					<div class="clearfix"></div>
+				</ul>
+                <div class="result">
+                    <!-- 匹配的简历 开始-->
+                    <div id="ppd_jl">
+                        <div class="zpzw">
+                                <ul style="height:36px;overflow: hidden;" id="zpzw_ti">
+                                    <li class="leading">招聘职位:</li>
+                                    {% if positions %}
+                                        {% for position in positions %}
+                                            <li class="nowrap" title="{{ position.position_name }}" style="max-width: 95px" value="{{ position.id }}" {% if forloop.first %}class="active"{% endif %} onclick="matchResume(this, {{ forloop.counter }})">
+                                                {{ position.position_name }}
+                                            </li>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                </ul>
+                        </div>
+                        {% if positions %}
+                        {% else %}
+                            <div id="noMatchData_znpp" class="noMatchData">
+                                <div>
+                                        <h2>亲~你还没有发布职位哦！</h2>
+                                        <p>我们会根据您发布的职位为您匹配合适的人才哦~</p>
+                                <a href="/jobs/position/company/fbdzw" target="_blank">【职位发布】</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div id="noSendData_znpp" class="noSendData" style="display: none;">
+                            <div>
+                                    <p>没有匹配到符合条件的简历！</p>
+                            </div>
+                        </div>
+                        <ul class="ppd_zw ppd_jl">
+                              
+                        </ul>
+                    </div>
+                    <!-- 匹配的简历 结束-->
+
+                    <!-- 应聘简历 开始-->
+                    <div id="yp_jl" style="display: none">
+                        {% if positions %}
+                            {% if pu.allAjCount == 0 %}
+
+                                <div id="noSendData_ypjl" class="noSendData" style="display: none;">
+                                    <div>
+                                            <p>没有匹配到符合条件的简历！</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div id="noMatchData_ypjl" class="noMatchData">
+                                <div>
+                                        <h2>亲~你还没有发布职位哦！</h2>
+                                        <p>先发个职位呗~</p>
+                                        <a href="/jobs/position/company/fbdzw" target="_blank">【职位发布】</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if pu.allAjCount > 0 %}
+
+                            <div id="noSendData_ypjl" class="noSendData" style="display: none;">
+                                <div>
+                                        <p>没有匹配到符合条件的简历！</p>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <ul class="ppd_zw ppd_jl yp_jl" id="tableInfo"> 
+                            <div class="clearfix"></div>
+                        </ul>
+                    </div>
+                    <!-- 应聘简历 结束-->
+
+                </div>
+				<ul class="page_number" id="paginInfo" style="display: none;">
+
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+
+		</div>
+	</div>
+<!-- 主体左侧内容结束 -->
+
+<!-- 主体侧边内容开始 -->
+    {% include 'jobs/recommendInfo.html' %}
+<!-- 主体侧边内容结束 -->
+</div>
+<!-- 主体结束 -->
+<!-- 收藏模态框（Modal） -->
+<div class="modal fade" id="if_sc_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:300px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">收藏</h4>
+            </div>
+            <div class="modal-body t_c">是否确认收藏？</div>
+            <div class="modal-footer ta-c">                
+                <button type="button" class="btn btn-primary m-l30" data-dismiss="modal" onclick="collectResume()">确认</button>
+                <button type="button" class="btn-qx m-l5" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content --> </div>
+</div>
+<!-- /.modal -->
+<!-- 模态框（Modal） -->
+<!-- 待沟通模态框（Modal） -->
+    <div class="modal fade" id="if_dgt_Modal" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:300px">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">待沟通</h4>
+                </div>
+                <div class="modal-body t_c">是否确认待沟通？</div>
+                <div class="modal-footer ta-c">                   
+                    <button type="button" class="btn btn-primary m-l30" data-dismiss="modal" onclick="dealResume(1)">确认</button>
+                    <button type="button" class="btn-qx m-l5" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+        <!-- /.modal -->
+        <!-- 模态框（Modal） -->
+<!-- 不合适模态框（Modal） -->
+    <div class="modal fade" id="if_bhs_Modal" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:300px">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">不合适</h4>
+                </div>
+                <div class="modal-body t_c">是否确认不合适？不合适理由：<div><textarea name="" id="reason" cols="40" rows="3"></textarea></div></div>
+                <div class="modal-footer ta-c">                    
+                    <button type="button" class="btn btn-primary m-l30" data-dismiss="modal" id="sureImproper" onclick="dealResume(3)">确认</button>
+                    <button type="button" class="btn-qx m-l5" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+        <!-- /.modal -->
+        <!-- 模态框（Modal） -->
+        <!-- /.modal -->
+        <!-- 模态框（Modal） -->
+<input type="hidden" id="pu_id" value="{{ pu.id }}" />
+<input type="hidden" id="operateId" />
+<input type="hidden" id="positionId" />
+<input type="hidden" id="sourceId" />
+<input type="hidden" id="forpuid" />
+<input type="hidden" id="yqname" />
+<input type="hidden" id="puname" />
+<input type="hidden" id="my_phone" value="{{ pu.phone }}" />
+<input type="hidden" id="my_email" value="{{ pu.email }}" />
+<input type="hidden" id="userValidateStatus" value="{{ pu.userValidateStatus }}" />
+<script type="text/javascript">
+</script>
+<script>
+    $("img").each(function(index, el) {
+        if($(this).attr('src')==null){
+            $(this).attr('src', '/static/images/xl.jpg');
+        }
+    });
+    $(function(){
+        $('#zpzw_ti').find('li').eq(1).attr('class', 'nowrap active');
+    })
+</script>
+
+{% include 'jobs/system/new_footer.html' %}

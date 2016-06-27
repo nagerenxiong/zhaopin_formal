@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<title></title>
+	<link rel="stylesheet" href="/static/css/css.css">
+	<link rel="stylesheet" href="/static/activity/h5_ydy/css/h5_ydy.css">
+	<script src="/static/js/zepto.min.js"></script>
+	<script>
+		var u = navigator.userAgent, app = navigator.appVersion;
+		var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+		var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+		// 自适应文字大小 start
+		(function(doc, win) {
+		  var docEl = doc.documentElement,
+		    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+		    recalc = function() {
+		      var clientWidth = docEl.clientWidth;
+		      var clientHeight = docEl.clientHeight;
+		      var x = (clientHeight/clientWidth);
+		      if (!clientWidth) return;
+		      // if (clientWidth > 640) {
+		      //   clientWidth = 640;
+		      // }       
+		      docEl.style.fontSize = clientWidth / 10 + 'px';
+		     $("header .b").width($("header .b").height())
+		    };
+		  if (!doc.addEventListener) return;
+		  win.addEventListener(resizeEvt, recalc, false);
+		  doc.addEventListener('DOMContentLoaded', recalc, false);
+		})(document, window);
+	</script>
+</head>
+<body>
+	<header>
+		<div class="b">
+			<div class="phone"></div>
+			<ul>
+				<li class="i1"></li>
+				<li class="i2"></li>
+				<li class="i3"></li>
+				<li class="i4"></li>
+				<li class="i5"></li>
+				<li class="i6"></li>
+				<li class="i7"></li>
+			</ul>
+		</div>
+	</header>
+	<section>
+		<div class="b"></div>
+	</section>
+	<div>
+		<p>致力高品质专属人才服务</p>
+	</div>
+	<footer>
+		<button onclick="location.href='http://beta.hcdyhr.com/mobile/autoLogin'">进入怀才当遇</button>
+	</footer>
+	<script src="/static/new_mobile/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+	<script>
+		$(function(){
+			setTimeout(function(){
+				location.href="http://beta.hcdyhr.com/mobile/autoLogin";
+			},8000)
+		})
+	</script>
+</body>
+</html>

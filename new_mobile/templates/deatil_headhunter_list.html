@@ -1,0 +1,688 @@
+{% include 'header.html' %}
+	<link rel="stylesheet" href="/static/new_mobile/css/mui.css">
+	<link rel="stylesheet" href="/static/new_mobile/css/kfw.css">
+	<link rel="stylesheet" href="/static/new_mobile/css/zsc_common.css">
+	<link href="http://at.alicdn.com/t/font_1451958208_536425.css" rel="stylesheet">
+    <script charset="UTF-8" src="/static/new_mobile/js/btn_phone.min.js"></script>
+	<script type="text/javascript" src="/static/new_mobile/js/global.js"></script>
+	<script type="text/javascript" src="/static/new_mobile/js/mui.min.js"></script>
+	<script type="text/javascript" src="/static/new_mobile/js/app.js"></script>
+	<style type="text/css">
+	#MECHAT-BTN-1 .MECHAT_ARROW{width:12px;height:20px;position:absolute;top:50%;right:0;margin-top:-10px;background:url('//meiqia.com/images/icon_mb@2x.png') 0 -40px no-repeat;background-size:40px auto}#MECHAT-BTN-1,#MECHAT-BTN-2{position:fixed;background:#00c8ab;z-index:2147483647;display:none;}#MECHAT-BTN-1{width:100%;left:0;bottom:0;opacity:.95;overflow:hidden;padding:10px 0;display:none;}#MECHAT-BTN-2{top:50%;right:15px;width:40px;height:40px;padding:1px;border-radius:50%;}#MECHAT-BTN-1 .MECHAT_BAR_tb{display:table;margin:0 auto;max-width:80%;height:40px}#MECHAT-BTN-1 .MECHAT_BAR_cell{position:relative;display:table-cell;vertical-align:middle;padding-left:55px;padding-right:24px;color:#fff;font-size:14px}#MECHAT-BTN-1 .MECHAT_BAR_CHAT{position:absolute;top:50%;left:0;margin-top:-20px}#MECHAT-BTN-2 .MECHAT_FLOAT_CHAT,#MECHAT-BTN-1 .MECHAT_BAR_CHAT{display:inline-block;overflow:hidden;border-radius:50%;width:40px;height:40px}#MECHAT-BTN-1 .MECHAT_TIPS,#MECHAT-BTN-2 .MECHAT_TIPS{position:absolute;display:inline-block;left:30px;top:-5px;background:#f00;min-width:14px;height:14px;padding:2px;line-height:14px;text-align:center;font-size:12px;border-radius:50px;color:#fff;display:none;}#MECHAT-SOUND{width:0;height:0;position:absolute;top:0;left:0;}.mechat-color-default{background-color:#36afa5;background-image:-webkit-linear-gradient(top,#36afa5,#3f887f);background-image:linear-gradient(top,#36afa5,#3f887f)}.mechat-color-gray{background-color:#bdbdbd;background-image:-webkit-linear-gradient(top,#bdbdbd,#8a8a8a);background-image:linear-gradient(top,#bdbdbd,#8a8a8a)}.mechat-color-blue{background-color:#5082db;background-image:-webkit-linear-gradient(top,#5082db,#206a9c);background-image:linear-gradient(top,#5082db,#206a9c)}.mechat-color-green{background-color:#17bd36;background-image:-webkit-linear-gradient(top,#17bd36,#2d7d4d);background-image:linear-gradient(top,#17bd36,#2d7d4d)}.mechat-color-red{background-color:#e51818;background-image:-webkit-linear-gradient(top,#e51818,#911);background-image:linear-gradient(top,#e51818,#911)}.mechat-color-purple{background-color:#e260a0;background-image:-webkit-linear-gradient(top,#e260a0,#93177b);background-image:linear-gradient(top,#e260a0,#93177b)}.mechat-color-orange{background-color:#eb9317;background-image:-webkit-linear-gradient(top,#eb9317,#a56506);background-image:linear-gradient(top,#eb9317,#a56506);}
+	#fy_load{display:none;}
+	</style>
+</head>
+<body class="mui-ios mui-ios-8 mui-ios-8-0">
+	<link rel="stylesheet" href="/static/new_mobile/css/kfwalter.css">
+	<script src="/static/new_mobile/js/mechat.js" charset="UTF-8" async></script>
+	<script src="/static/new_mobile/js/modernizr.custom.js"></script>
+	<script src="/static/new_mobile/js/kfwalter.js"></script>
+	<style>
+	body,html{background-color:#fff;}
+	.clearfix:after { *zoom:1; content: "."; display: block; height:0; clear:both; visibility: hidden;}
+.clearfix { *zoom:1; }
+	.o_h2{
+		    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+	}
+	.l_zml_pdetail__til__a{
+		width:2px;
+		height:16px;
+		background-color: #00c9ff;
+		float: left;
+		margin-right: 5px;margin-top: 2px;
+	}
+	.l_zml_pdetail__til{
+		font-size: 12px;
+		color: #949494;
+	}
+	.l_zml_pdetail__sign{
+		width:10px;vertical-align: middle;
+	}
+	.l_zml_pdetial__pay{
+		position: absolute;
+		top: 8%;
+		right: 20px;
+		color: red;
+	}
+	.l_zml_pdetial_bg{
+		background-color: white;
+	}
+	.l_zml_pdetial__sign{
+		margin-top: -10px;
+		padding-left:10px;
+	}
+	.l_zml_pdetial__sign img{
+		width:25px;
+		margin-bottom:-5px;
+	}
+	.l_zml_pdetial__sign span{
+		color:#f6a63a;
+		font-size:14px;
+	}
+	.l_zml_pdetial__des--pos-have{
+		margin-top:-30%;
+	}
+	.l_zml_pdetial__des--pos-no{
+		margin-top:-25%;
+	}
+	.l_zml_pdetial__ping__a{
+		color:#666666;
+		margin-right: 5px;
+		font-size: 13px;
+	}
+	.l_zml_pdetial__ping__b{
+		color:#ff8800;
+		font-size: 14px;
+	}
+	.l_zml_pdetial__phone{
+		margin-top:10px;
+	}
+	.l_zml_pdetial__boarder{
+		background-color:#dddddd;
+		border: 0px;
+		height: 1px;
+	}
+	.l_zml_pdetial__tro{
+		padding-left: 20px;
+		padding-top: 20px;
+	}
+	.l_zml_pdetial__space{
+		margin-top: 20px;
+		height:10px;
+		width: 100%;
+		background-color:#f0f0f0;
+	}
+	.l_zml_pdetial__kong{
+		width: 50%;
+		margin-left: 25%;
+		margin-top:50px;
+	}
+	
+	.kfw_wy_providerinfo_content_1{
+		margin-left: 40%;
+    	width: 35%;
+	}
+	.jjrbq{
+		margin-left: 20px;
+	}
+	.jjrbq span{
+		font-size: 12px;padding:2px 5px;display: inline-block;
+		border-radius: 3px;border:1px #e0e0e0 solid ;margin-right: 5px;
+		margin-top: 5px;color:#333;line-height: 1.5;
+	}
+	.zsp_header{
+		height:48px;overflow: visible;;
+	}
+	.p_info{
+		margin-left: 20px;
+	}
+	.p_info dt{
+		font-size: 14px;font-weight: bold;color:#000;
+	}
+	.p_info dd{
+		font-size: 12px;color:#666;margin-bottom: 10px;
+	}
+	.c_pj b{
+		font-size: 34px;color:#ff8800;font-weight: normal;
+	}
+	.c_pj p{
+		margin-bottom: 0px;color:#333;margin-top: 10px;text-indent: 20px;
+	}
+	.c_pj ul{
+		float:right;width:58%;
+
+	}
+	.c_pj .xx{
+			margin-left: 10px;
+		}
+	.c_pj i{color:#ff8800;}
+	.yhpj .t{
+		margin-top: 10px;
+	}
+	.yhpj img{
+		width:24px;height:24px;border-radius: 50%;vertical-align: middle;
+		background-color: #e0e0e0;
+	}
+	.yhpj .name{
+		vertical-align: middle;color:#666;font-size: 14px;
+	}
+	.yhpj i{
+		color:#ff8800;
+	}
+	.yhpj p{
+		margin-bottom: 0px;padding-right: 20px;
+	}
+	.fsx{height:50px;margin-top: 10px;}
+</style>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+    $('.zsp_header').remove();
+}
+</script><!--zsp_header -->
+	<div class="mui-content l_zml_pdetial_bg">
+		<div class="mui-slider p-b-d-title" data-slider="1">
+
+			<div class="imgtu" style="vertical-align: top;display: inline-block;width: 75px; height: 75px; border-radius: 50%;  margin-left: 20px; transform: translate3d(0px, 0px, 0px) translateZ(0px);">
+			 <script>
+                  var content="";
+                   var card ='{{ headHunt.id_card }}';
+						if(card.substr(-2,1)%2 == 0)
+						{
+						   sex='女';
+						}
+						else
+						{
+							sex='男';
+						}
+				 content='<img style="width: 75px; height: 75px; border-radius: 50%;" class="head_protrait" src="{{ request.session.file_website }}{{ headhunt_pu.head_portrait | default:'' }}" onerror="notfind(this,\''+sex+'\',5)">';
+               $('.imgtu').html(content);
+                </script>
+                {% if headHunt.account_level != 0 %}
+                 <span class="p-b-info-2" style="margin-left: 23px;font-weight: normal;;margin-top: 3px;display: block;">LV{{ headHunt.account_level}}</span>
+                 {% endif %}
+			</div>
+			<div style="vertical-align: middle;width:55%;margin:0px;display: inline-block;margin-left: 5%;" class="p-b-pj-info l_zml_pdetial__des--pos-no kfw_wy_providerinfo_content_1">
+				<div>
+					<span class="p-b-info-1" style="font-size: 16px;">{{ headHunt.real_name | default:'' }}</span>	
+					<span class="l_zml_pdetail__til" style="margin-left:10px;">{{ headHunt.headhunt_levelname | default:'' }}</span>				
+				</div>
+				<div>
+					<span class="l_zml_pdetial__ping__a">好评率</span>
+					<span class="l_zml_pdetial__ping__b">{{ headHunt.praise_rate | default:100 }}%</span>
+				</div>
+				<div>
+					<p style="margin-bottom: 0px;font-size: 12px">已接受<span style="color:#ff8800;margin:0 5px;font-size: 14px;">{{ headHunt.resume_count | default:0 }}</span>份委托简历</p>
+				</div>
+				<div>
+					<img class="l_zml_pdetail__sign" src="/static/new_mobile/images/l_location.png" alt="地址">
+					<span class="l_zml_pdetail__til">{{ headHunt.locationname | default:'' }}&nbsp;|</span>					
+					<span class="l_zml_pdetail__til">{{ headHunt.work_timename | default:'' }}</span>
+				</div>
+				
+				<!-- <div>
+					<img class="l_zml_pdetail__sign" src="/static/new_mobile/images/l_zili.png" alt="资历">
+                    <span class="l_zml_pdetail__til">{{ headHunt.add_date | date:'Y-m' }}</span>
+                </div> -->
+				<div>
+{#					<span class="l_zml_pdetial__ping__a">近3个月服务</span>#}
+{#					<span class="l_zml_pdetial__ping__b">146单(写死)</span>#}
+				</div>
+				<div class="l_zml_pdetial__phone">
+
+                    {% if request.session.account_type == '1' %}
+                        {% if entrustCount > 0 %}
+                            <button class="p_call_4 trigger">已委托简历</button>
+                        {% else %}
+                            <button onClick="entrust_resume()" class="p_call_4 trigger trwet">委托</button>
+                        {% endif %}
+                    {% endif %}
+				</div>
+			</div>
+			<div class="jjrbq">
+                {% if labelList %}
+                    {% for label in labelList %}
+                        {% if label != '' %}
+                            <span>{{ label }}</span>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+			<hr class="l_zml_pdetial__boarder" style="width:94%;">
+			<dl class="p_info">
+				<dt><span class="l_zml_pdetail__til__a">&nbsp;</span>擅长行业：</dt>
+				<dd>{{ headHunt.businessname  | default_if_none:'' }}</dd>
+				<dt><span class="l_zml_pdetail__til__a">&nbsp;</span>擅长职能：</dt>
+				<dd>
+					{{ headHunt.postname | default_if_none:'' }}
+				</dd>
+				<hr class="l_zml_pdetial__boarder" style="width:100%;margin-left: -10px;">
+				<dt><span class="l_zml_pdetail__til__a">&nbsp;</span>个人简介</dt>
+				<dd>{{ headhunt_pu.introduction | default_if_none:'' }}</dd>
+			</dl>
+		</div>
+
+
+<hr class="l_zml_pdetial__boarder">
+<div class="p-b-d-content">
+<span class="l_zml_pdetail__til__a">&nbsp;</span>
+<span class="o_h2">用户评价</span>
+<div class="c_pj clearfix">
+	<div style="float:left;margin-top: 15px;">
+		<b class=""> {{ headHunt.praise_rate | default:100 }}%</b>
+		<p class="" style="color:#666">好评率</p>
+	</div>
+	<ul class="count">
+		<li>
+			<span style="color:#666">({{ evaluationCount5 }})</span>
+			<span class="xx">
+			<i class="iconfont icon-xing"></i>
+			<i class="iconfont icon-xing"></i>
+			<i class="iconfont icon-xing"></i>
+			<i class="iconfont icon-xing"></i>
+			<i class="iconfont icon-xing"></i>
+			</span>
+		</li>
+		<li>
+			<span style="color:#666">({{ evaluationCount4 }})</span>
+			<span class="xx">
+			<i class="iconfont icon-xing"></i>
+			<i class="iconfont icon-xing"></i>
+			<i class="iconfont icon-xing"></i>
+			<i class="iconfont icon-xing"></i>
+			</span>
+		</li>
+		<li>
+			<span style="color:#666">({{ evaluationCount3 }})</span>
+			<span class="xx">
+			<i class="iconfont icon-xing"></i>
+			<i class="iconfont icon-xing"></i>
+			<i class="iconfont icon-xing"></i>
+			</span>
+		</li>
+		<li>
+			<span style="color:#666">({{ evaluationCount2 }})</span>
+			<span class="xx">
+			<i class="iconfont icon-xing"></i>
+			<i class="iconfont icon-xing"></i>
+			</span>
+		</li>
+		<li>
+			<span style="color:#666">({{ evaluationCount1 }})</span>
+			<span class="xx">
+			<i class="iconfont icon-xing"></i>
+			</span>
+		</li>
+	</ul>
+</div>
+<div class="p-b-s-d-pingjia-3">
+</div>
+</div>
+<div class="p-b-d-content-yx-pj">
+<span class="l_zml_pdetail__til__a">&nbsp;</span>
+<span class="o_h2">评价</span>
+<ul class="yhpj recommend_list">
+
+</ul>
+</div>
+<style>
+	.fbdzw {padding-top:10px; margin-bottom: 30px;}
+	.fbdzw h1{font-size: 16px;line-height: 22px;padding-bottom: 5px;padding-left:20px;}
+	.fbdzw h1 span{vertical-align: middle;}
+	.fbdzw img{
+		width:48px;height:48px;vertical-align: top;
+	}
+	.fbdzw p{margin-bottom: 0px;}
+	.fbdzw li{
+		border-bottom:1px solid #e0e0e0;padding:0px 20px;
+	}
+	.fbdzw .t {
+		margin-top: 10px;
+	}
+	.fbdzw .t  div{
+		vertical-align: top;display: inline-block;margin-left: 10px;
+	}
+	.fbdzw .b {
+		margin-top: 10px;margin-bottom: 10px;
+	}
+	.fbdzw .b span{
+		color:#9daeb7;margin-right: 15px;font-size: 12px;
+	}
+	.fbdzw .b span i{
+		margin-right: 5px;
+	}
+	.fbdzw button{width:100%;}
+	.fbdzw .position{font-size: 16px;color:#11363f;}
+	.fbdzw .c_name{color:#333;}
+	.fsx{width: 100%; background-color: #3eaf0e;border-radius: 0px; color: #fff; margin-top: 5px; font-size: 15px;}
+</style>
+<hr class="l_zml_pdetial__boarder">
+<div class="fbdzw">
+	<h1><span class="l_zml_pdetail__til__a">&nbsp;</span><span class="o_h2">发布的职位</span></h1>
+	<ul id="position_ul">
+	</ul>
+	</div>
+
+    {% if headhunt_pu.phone %}
+        <a href="tel:{{ headhunt_pu.phone }}" class="zsp_resume_but_2" style="z-index: 9000;">
+            <button class="fsx">电话联系</button>
+        </a>
+    {% endif %}
+
+
+<div id='evaluation_list' class="evaluation_list" style="display: none;"></div>
+    <div style="display: none;" class="positionPaginInfo" id="positionPaginInfo"></div>
+<!--底部预留-->
+{#<div class="p-b-cell-bottom"></div>#}
+{#<div class="p-b-cell-bottom"></div>#}
+{#<div class="p-b-cell-bottom"></div>#}
+</div>
+
+<div id="somedialog" class="dialog">
+<div class="dialog__overlay"></div>
+<div class="dialog__content" style="margin-top:60px;">
+<div class="dialog-inner md-content">
+<p class="p_buy_l">
+&nbsp;&nbsp;免费电话咨询&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+<img class="p_buy_cancel" src="/static/new_mobile/images/b_cancel.png" data-dialog-close="">
+<div id="p_l_next">
+<hr class="p_buy_hr">
+<p class="p_call_1">输入您的手机号提交成功后，系统将同时呼叫您和服务者的电话双方即可接听开始通话。</p>
+<input class="p_call_2" id="callmobile" type="tel" placeholder="请输入您的手机号">
+<hr class="p-l-s">
+<input type="button" class="button_two_shang" onClick="clickbuttoncancel()" value="取消">
+<input type="button" class="button_two_xia" onClick="clickbuttonsub()" value="提交"></div>
+
+<div id="p_l_finish" style="display: none;">
+<hr class="p_buy_hr">
+<p class="p_call_3">正在呼叫，请注意接听来电</p>
+<img style="width:43px;" src="/static/new_mobile/images/call_backwait_b.png">
+<img style="width:120px;" src="/static/new_mobile/images/call_backwait.gif">
+<img style="width:43px;" src="/static/new_mobile/images/call_backwait_p.png">
+
+<hr class="p-l-s" style="margin-top: 20px;">
+<input type="button" class="button_two_shang" style="width:60%;" value="关闭" onClick="clickbuttoncancel()"></div>
+</div>
+</div>
+</div>
+
+<div class="confirm_dh1">
+        <div class="ztcont1">
+            <p>您确定要委托简历给此人才经纪人吗?</p>
+            <div class="btn_save1"><a href="javascript:void(0)" class="ensure_ex1" onClick="ensure()">确定</a><a href="#" class="ex_close1" onClick="mmedclose()">取消</a></div>
+        </div>
+</div>
+ <div class="modal_wrap"></div>
+<script>
+	function goRedirect()
+	{
+		window.location.href = '/weixin/product/buy/key/gerenshebaogongjijin/pd/608.html?pid=1&cid=3302&aid=39';
+	}
+	function first()
+	{
+		$('#p_l_next').attr('style', 'display: block;');
+		$('#p_l_finish').attr('style', 'display: none;');
+		$('.p_call_2').val('');
+	}
+
+	function clickbuttoncancel(){
+		$('.p_buy_cancel').click();
+	}
+
+	function clickbuttonsub(){
+		var providerid = '608';
+		var productid = '149';
+		var callmobile = $("#callmobile").val();
+		if ('' == callmobile)
+		{
+		$("#callmobile").focus();
+			drawToast('请输入手机号码');
+			return false;
+		}
+		if (!checkMobile(callmobile))
+		{
+			$("#callmobile").focus();
+			drawToast('手机号码格式有误');
+			return false;
+		}
+		$.getJSON("/api/twowaycall/dial?mobile=" + callmobile + "&providerid=" + providerid + "&productid=" + productid + '&displaynbr=01056239278' ,
+			function(result){
+				if (result.ret)
+				{
+					document.getElementById('p_l_next').style.display = 'none';
+					document.getElementById('p_l_finish').style.display = '';
+				}
+				else
+				{
+					alert([result.msg]);
+				}
+			}
+		);
+	}
+
+	function goRedirect(){
+		window.location.href="/weixin/product/buy/key/gerenshebaogongjijin/pd/608.html?pid=1&cid=3302&aid=39";
+	}
+
+	(function() {
+		var dlgtrigger = document.querySelector('[data-dialog]');
+		if (undefined != dlgtrigger){
+			somedialog = document.getElementById(dlgtrigger.getAttribute('data-dialog')),
+			dlg = new DialogFx(somedialog);
+			dlgtrigger.addEventListener('click', dlg.toggle.bind(dlg));
+		}
+	})();
+</script>
+<div>
+<div id="MECHAT-BTN-1">
+<div class="MECHAT_BAR_tb">
+<div class="MECHAT_BAR_cell">
+<span style="color:#fff;font-size:16px;line-height: 20px;">我们在线，点击对话</span>
+<span class="MECHAT_BAR_CHAT">
+<img src="/static/new_mobile/images/icon_mb@2x.png" alt="" width="40px" height="60px"></span>
+<span class="MECHAT_TIPS">1</span>
+<span class="MECHAT_ARROW"></span>
+</div>
+</div>
+</div>
+<div id="MECHAT-BTN-2">
+<span class="MECHAT_FLOAT_CHAT">
+<img src="/static/new_mobile/images/icon_mb@2x.png" alt="" width="40px" height="60px"></span>
+<span class="MECHAT_TIPS">1</span>
+</div>
+</div>
+{#<script src="/static/new_mobile/js/button"></script>#}
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script>
+    var loadData;
+    $(function() {
+
+        var sql = 'Object_Type=2 and Evaluation_Object_ID={{ headHunt.pu_id }}';
+        loadData = new pagin("evaluation_list", "V_AJ_Evaluation", "", sql, "", 2, "evaluationPagin", "loadData");
+        // 职位分页
+        {% if request.session.account_type == '1' %}
+            sql = "source_id= {{ headHunt.pu_id }} and  position_status=1 and rewards_money=0 order by add_date desc";
+        {% else %}
+            sql = "source_id= {{ headHunt.pu_id }} and  position_status=1 order by add_date desc";
+        {% endif %}
+
+        loadData = new pagin("positionPaginInfo", "V_Position_Search", "", encodeURI(sql), "", 7, "positionPagin", "loadData");
+    });
+
+function evaluationPagin(data) {
+    // 根据跳转不同的处理页面
+    var html = '';
+    $(data).each(function () {
+        // 处理值为 null 的字段
+        var len = $(this).length;
+        var array = $(this);
+        for (var n = 0; n < len; n++) {
+            if (array[n] == null) {
+                array[n] = ""
+            }
+        }
+
+        var photo = array[10];
+        if(photo == '') {
+            if(array[11] == '男') {
+                photo = '/static/new_mobile/images/boy_default_logo.png';
+            } else {
+                photo = '/static/new_mobile/images/girl_default_logo.png';
+            }
+
+        }
+        html += '<li>';
+        html += '   <div class="t">';
+        html += '       <img src="' + photo + '" alt="" onerror="notfind(this,\''+array[11]+'\',1)">';
+        if(array[4] == 1) {
+            html += '           <span class="name">匿名用户</span>';
+        } else {
+            html += '           <span class="name">' + array[9] + '</span>';
+        }
+        html += '   </div>';
+        html += '   <div class="m">';
+        html += '       <p>' + array[6] + '</p>';
+        html += '   </div>';
+        html += '   <div class="b">';
+        if(array[5] != '') {
+            for(var i = 0; i < 5; i++) {
+                if(i < array[5])    html += '       <i class="iconfont icon-xing"></i>';
+            }
+        }
+        html += '       <p>' + array[8] + '</p>';
+        html += '   </div>';
+        html += '</li>';
+        html += '<li></li>';
+    });
+
+    if(html != '') {
+        $(".recommend_list").append(html);
+    }
+}
+
+
+
+//动态加载页面绑定数据
+function positionPagin(dataInfo){
+     //图片列表数据加载
+    var html = '';
+    $(dataInfo).each(function(i) {
+        // 处理值为 null 的字段
+        var len = $(this).length;
+        var array = $(this);
+        for (var n = 0; n < len; n++) {
+            if (array[n] == null) {
+                array[n] = "&nbsp;"
+            }
+        }
+        html += '<a href="/mobile/personal/position_detail?position_id=' + array[0] + '" class="zsp_job_list_li">';
+        html += '   <div class="zsp_job_li_top">';
+        var protrait = array[56];
+        if(protrait == '&nbsp;' || protrait == '') {
+            protrait = '/static/mobile/images/qy_logo.png';
+        }
+        html += '       <div class="zsp_job_li_fang"><img src="' + file_website + protrait + '" onerror="notfindimg(this)" ></div>';
+        html += '       <div class="zsp_job_li_tit" style="margin-top:6px;">';
+        html += '           <div class="zsp_job_li_h" style="margin:0px;">';
+        html += '               <span><i class="fa fa-angle-right"></i></span>';
+        html += '               <h3 style="margin:0px;">' + array[3] + '</h3>';
+        html += '            </div>';
+        html += '            <div class="zsp_job_li_tit_other">';
+        html +=                 array[55];
+        html += '            </div>';
+        html += '       </div>';
+        html += '   </div>';
+        html += '   <div class="zsp_job_li_other  redPW">';
+        html += '       <div class="zsp_job_li_other_icon">';
+        html += '           <i class="fa fa-map-marker"></i>';
+        html += '           <span>' + array[59] + '</span>';
+        html += '       </div>';
+        html += '       <div class="zsp_job_li_other_icon">';
+        html += '           <i class="fa fa-jpy"></i>';
+        html += '           <span>' + array[19] + '</span>';
+        html += '       </div>';
+        html += '       <div class="zsp_job_li_other_icon">';
+        html += '           <i class="fa fa-graduation-cap"></i>';
+        if(array[26] == "&nbsp;"){
+            html += '           <span>学历不限</span>';
+        }
+        else{
+            html += '           <span>' + array[26] + '</span>';
+        }
+
+        html += '       </div>';
+        html += '   </div>';
+        html += '</a>';
+
+    });
+    $("#position_ul").append(html);
+}
+
+
+
+
+// 委托简历
+function entrust_resume() {
+	$('.confirm_dh1').css('display', 'block');
+	$('.modal_wrap').css('display', 'block');
+}
+function ensure(){
+	    $.ajax({
+        type: "POST",
+        url: "/ajax_entrustResume",
+        data: {"for_pu_id": '{{ headhunt_pu.id }}'},
+        dataType: "json",
+        success: function (data) {
+            if (data.msg == 'success') {
+                $(".l_zml_pdetial__phone").empty().append('<button class="p_call_4 trigger">已委托简历</button>');
+                alert(["简历委托成功!",1]);
+                mmedclose();
+            } else if(data.msg == 'exist') {
+                alert(["您不能重复将简历委托给该人才经纪人!",2]);
+            } else {
+                alert(["发生内部错误!"]);
+            }
+        }
+    })
+}
+function mmedclose(){
+            $('.modal_wrap').css('display', 'none');
+            $('.confirm_dh1').css('display', 'none');
+         }
+</script>
+
+<script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+<script>
+    var head_protrait = '{{ headhunt_pu.head_portrait }}';
+    setTimeout(function() {
+        head_protrait = $(".imgtu img").attr('src');
+    }, 700);
+    var desc1 = '{% if headHunt.businessname %}擅长行业：{{ headHunt.businessname }}{% endif %}';
+    desc1 += '{% if headHunt.postname %}\n擅长职能：{{ headHunt.postname }}{% endif %}';
+    var title = '怀才当遇——{{ headHunt.headhunt_levelname | default:'初级人才经纪人' }} {{ headHunt.real_name | default:'' }} 好评率{{ headHunt.praise_rate | default:'100' }}%';
+    // 微信分享
+    WXJssdk.init(function(wx) {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+            success: function (res) {
+			//alert(JSON.stringify(res));
+            }
+        });
+        // 分享data
+        var shareData = {
+            title: title,
+            desc: desc1,
+            link: '{{ request.session.web_site }}/mobile/deatil_headhunter_list?headhunt_id={{ headHunt.id }}&resume_count={{ headHunt.resume_count | default:0 }}',//分享链接地址 自己调整
+            imgUrl: '{{ request.session.web_site }}' + head_protrait,//分享显示的图片
+            success:function(){
+               // alert('shareData success');
+            },
+            cancel:function(){
+               // alert('shareData cancel');
+            },
+            error:function(res){
+               // alert(JSON.stringify(res));
+            }
+        };
+
+        // 分享给朋友
+          wx.onMenuShareAppMessage(shareData);
+        // 分享到朋友圈
+          wx.onMenuShareTimeline(shareData);
+        // 分享到QQ
+          wx.onMenuShareQQ(shareData);
+        // 分享到微博
+          wx.onMenuShareWeibo(shareData);
+    });
+</script>
+</body>
+</html>

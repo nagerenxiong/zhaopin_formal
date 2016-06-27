@@ -1,0 +1,218 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style1.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/uploadify.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script src="{{ STATIC_URL }}js/jquery.uploadify.js" ></script>
+<!-- 内容大框 -->
+<div class="lt_content_box scjl">
+    <input type="hidden" id="resumeID" value="{{ resumeID }}" >
+    <input type="hidden" id="attachment" value="{{ tri.attachment }}" >
+    <input type="hidden" id="user_name" value="{{ tri.user_name }}" >
+    <div class="center clearfix">
+        <div class="left">
+        <div class="left_box">
+             <div class="bd_bottom1">
+                <span class="t">个人能力</span>
+                <div class="slider wdgz_silder"></div>
+            </div>
+            {% for trs in trsList %}
+            <ul class="info"  style="position:relative">
+            <li>
+                <input type="hidden" name="trsID" value="{{ trs.id }}" >
+            
+                    <input type="text" name="skill_name" maxlength="20" value="{{ trs.skill_name }}" placeholder="技能名称"  class="w300">
+                </li>
+                <li>
+                    <select name="level_attained" class="w300" id="diploma" onchange="yzDiploma(this)">
+                        <option value="0">掌握程度</option>
+                        {% for level_attained in level_attainedList %}
+                            {% if level_attained.dictionary_value == trs.level_attained %}
+                                <option value="{{ level_attained.dictionary_value }}" selected="selected" >{{ level_attained.dictionary_name }}</option>
+                            {% else %}
+                                <option value="{{ level_attained.dictionary_value }}" >{{ level_attained.dictionary_name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select><span class="ml25"style="color:#ff6a6a" id="yzdiploma"></span>
+                </li>
+            <input type="button" class="button f_r ml15" id="obcan" name="" value="保存" onclick="editSkill(this)" >
+            <div class="oosc">
+                    <i style="" class="iconfont icon-shanchu"></i>
+                    <input class="button f_r ml15" id="oscan" name="{{ trs.id }}" value="删除该个人能力" data-target="#if_del_Modal" data-toggle="modal" onclick="del_Modal=this" type="button">
+                </div>
+            </ul>
+
+            {% endfor %}
+            <hr>
+            <div class="add_btn"  onclick="add_grnl()">
+                <i class="iconfont icon-tianjia2"></i><span>添加新的个人能力</span>
+            </div>
+        </div>
+            <div class="b">
+                
+                 <input style="margin-right:15px;" type="button" name="next" class="button f_r "  onclick="window.location.href= '/jobs/resume/jlsz?resumeID={{ tri.id }}'"  value="下一步" >
+                <a  onclick="resumeJump('pxjl')" class="f_l return_a fz18 mt10">返回：培训经历</a>
+            </div>
+        </div >
+        {% include 'jobs/resume/resumeRight.html' %}
+    </div>
+</div>
+<!-- 内容大框 -->
+<script type="text/javascript">
+$(function(){
+    if($("ul[class=info]").length == 0 ){
+        add_grnl();
+    }
+})
+
+function add_grnl(){
+    var str="";
+    str += "<ul class=\"info\" style=\"position:relative\">";
+    str += "                <input type=\"hidden\" name=\"trsID\" value=\"\" >";
+    // str += "                <i onclick=\"delSkill(this)\"  class=\"iconfont icon-shanchu fz24 gzjl_shanchu_btn\" style=\"position:absolute;right: 0;top:0;color:#999;cursor: pointer\"></i>";
+    str += "                <li>";
+    str += "                    <input id='test' maxlength=\"20\" type=\"text\" name=\"skill_name\" value=\"\" placeholder=\"技能名称\" class=\"w300\">";
+    str += "                </li>";
+    str += "                <li>";
+    str += "                 <select name=\"level_attained\" class=\"w300\" onchange=\"yzDiploma(this)\">";
+    str += "                     <option value=\"0\" selected=\"selected\">掌握程度</option>";
+                        {% for level_attained in level_attainedList %}
+                            {% if trs.level_attained == level_attained.dictionary_value %}
+    str += "                            <option value=\"{{ level_attained.dictionary_value }}\" selected=\"selected\" >{{ level_attained.dictionary_name }}</option>";
+                            {% else %}
+    str += "                            <option value=\"{{ level_attained.dictionary_value }}\">{{ level_attained.dictionary_name }}</option>";
+                            {% endif %}
+                        {% endfor %}
+    str += "                 </select><span class=\"ml25\"style=\"color:#ff6a6a\" id=\"yzdiploma\"></span>";
+    str += "              </li>";
+    str += "                <input type=\"button\" class=\"button f_r ml15\" id=\"obcan\" name=\"\" value=\"保存\" onclick=\"editSkill(this)\" >";
+    str += "         <ul style=\"height:43px;position:relative;width:220px;\">";
+    str += "            <i style=\"position:relative;left:50px;top:20px;color:white;font-size:20px;\" class=\"iconfont icon-shanchu\" ></i>";
+    str += "            <input type=\"button\" class=\"button f_r ml15\" id=\"oscan\" name=\"\" value=\"删除该个人能力\" onclick=delSkill(this) >";
+    str += "        </ul>"
+    str += "            </ul>";
+    str += "            <hr>";
+
+    $(".add_btn").before(str);
+}
+
+function editSkill(obj){
+    var pro = $(obj).parent();
+
+    var skill_name=$(pro).find("input[name='skill_name']").val();//技能名称
+    var level_attained=$(pro).find("select[name='level_attained']").val();//掌握程度
+
+    var trsID = $(pro).find("input[name='trsID']").val();//主键ID
+
+    //验证
+    if(skill_name == ""){
+        alert("请输入技能名称");
+        return false;
+    }
+    var len = skill_name.length;
+    if(len > 100){
+        alert("您输入的技能名称不合法");
+        $(":input[name=skill_name]").val("");
+        return false;
+    }
+    if(level_attained == 0){
+        alert("请选择技能掌握程度");
+        return false;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/ajax_editSkill",
+        data: {
+            "skill_name": skill_name,
+            "level_attained": level_attained,
+            "trsID":trsID,
+            "resumeID": $("#resumeID").val(),
+            "type" : "edit"
+        },
+        dataType: "json",
+        success: function(data){
+            if(data.trsID != ""){
+                $(pro).find("input[name='trsID']").val(data.trsID);
+                $("#grnl").text("[完成]");
+                $("#wsRes").text(data.wsres+"%");
+                $("span#jdt").animate({width: data.wsres+ "%"}, 100);
+                var $del = $(obj).nextAll("ul").find(":input");
+                $del.attr("name", data.trsID);
+                $del.attr("name", data.triID);
+                $del.attr("data-target", "#if_del_Modal");
+                $del.attr("data-toggle", "modal");
+                $del.attr("onclick", "del_Modal=this");
+                alert("保存成功");
+            }
+            else{
+                alert("保存失败");
+            }
+        }
+    });
+}
+
+function delSkill(obj){
+     var id = $(obj).attr("name");
+    if(id == ""){
+        //删除元素
+        $(obj).parent().parent().next("hr").remove();
+        $(obj).parent().parent().remove();
+    } else {
+        // // var flag = confirm("你确定要删除此项吗?");
+        // if(flag == false)
+        //     return false;
+        $.ajax({
+            type: "POST",
+            url: "/ajax_editSkill",
+            data: {
+                "type": "del",
+                "resumeID": "{{ tri.id }}",
+                "trsID": id
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.count != null) {
+                     //删除元素
+                    $(obj).parent().parent().next("hr").remove();
+                    $(obj).parent().parent().remove();
+
+                    if($("ul[class=info]").length == 0 ) {
+                        add_grnl();
+                        $("#grnl").text("");
+                    }
+                    $("#wsRes").text(data.wsres + "%");
+                    $("span#jdt").animate({width: data.wsres + "%"}, 100);
+                    alert("删除成功");
+                }
+                else {
+                    alert("删除失败");
+                }
+            }
+        });
+    }
+
+}
+var del_Modal = 0;
+</script>
+<div class="modal fade" id="if_del_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:300px">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">删除该个人能力</h4>
+                </div>
+                <div class="modal-body t_c">是否确认删除该个人能力？</div>
+                <div class="modal-footer">
+                    <input type="hidden" id="cancelId" />
+                    <input type="hidden" id="cancelGroupId" />
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="delSkill(del_Modal)">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="">取消</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+{% include 'jobs/system/new_footer.html' %}

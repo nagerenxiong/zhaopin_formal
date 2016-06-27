@@ -1,0 +1,469 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/single/jjrsy.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/module.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/kongjian.css">
+<style type="text/css">
+	.edit_icon,.edit_font{vertical-align: middle;}
+	.edit_icon{margin-right: 5px;}
+	.wikz li {  font-weight: normal;width: 20.2%!important;  }
+</style>
+<script src="{{ STATIC_URL }}js/lib/base/excanvas.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.knob.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<script>
+	$(function(){
+		$(".knob").knob({	   
+            thickness: .05,
+            fgColor: '#ff8800',
+            bgColor: '#e4e4e4',
+            displayInput:false,
+            readOnly:true
+        });
+	})
+</script>
+<div class="clear">99</div>
+<div class="bg" style="background-color: #F8F8F8!important">
+<div class="content " >
+	<div class="main">
+	<!-- 基本信息 -->
+		<div class="jbxx">
+			<div class="clearfix" >
+				<div class="l">
+				    <div class="n">
+				        <input class="knob" data-width="170" data-height="170" data-skin="tron" data-displayInput="true" value="">
+				        <div class="m">
+				            <img src="{{ request.session.file_website }}{{ request.session.head_portrait | default:'null'}}"  alt="" onerror="notfind(this, 3, '{{ request.session.sex }}')">
+				        </div>
+				        <img src="{{ STATIC_URL}}images/cannen.png" class="camera" id="camera">
+				        <div class="yz">
+                            <span>
+                            {% if auditCount == 3 %}
+                            <img class="v" src="{{ STATIC_URL }}images/v.png" alt="">已认证人才经纪人
+                        {% elif auditCount == 1 %}
+                            <a href="/account/new_sfyz" target="_blank">
+                                <img class="v" src="{{ STATIC_URL }}images/v1.png" alt="">未认证人才经纪人
+                            </a>
+                        {% else %}
+                            <img class="v" src="{{ STATIC_URL }}images/v1.png" alt="">认证审核中……
+                        {% endif %}
+                            </span>
+			        	</div>
+			    	</div>   
+				</div>
+				<div class="c c_33">
+					<p class="fz16 xx">
+					<span class="fz25">{{ pu.user_name }}</span>
+					<span>{{ pu.sex }}</span>
+					<span class="c_f80">LV{{ pu.account_level }}</span>
+                    
+                    <!-- <span class="o_jd">
+                    	<b style="width:{{ pu.level_rate | default:'0' }}%;"></b>
+                    </span> -->
+                     <span>
+						{% for range in pu.range %}
+						    {% if range < pu.account_level %}
+						        <i class="starb1"></i>
+						    {% else %}
+						        <i class="starb1"></i>
+						    {% endif %}
+						{% endfor %}
+					  </span>
+					</p> 
+					
+					<p id="introduction" class="fz16">{{ pu.introduction | safe }}</p>
+                    <p>
+                        <span class="c_99">企业名称：</span>
+                        {% if pu.joinedCompanyResult == 3 %}
+                            <span class="qy" id="companyname">{{ vph.pc_name | default_if_none:"" }}</span>
+                            {% if pu.applyQuitCount == 0 %}
+                                <span data-toggle="modal" data-target="#is_okModal" class="tcqy c_99 quitCompanySpan" style="color:#5c91d9;" >申请退出企业</span>
+                            {% else %}
+                                <span class="tcqy">退出企业审核中</span>
+                            {% endif %}
+                        {% elif pu.joinedCompanyResult == 2 %}
+                            {% if pu.isJoinOrQuit == 1 %}
+                                <span class="join_company isAuditingJoinCompany">加入企业审核中</span>
+                            {% else %}
+                                <span class="join_company">退出企业审核中</span>
+                            {% endif %}
+                        {% else %}
+                            {% if pu.tpcAuditResult == 2 %}
+                               <span class="join_company" name="2" onclick="alertJoinCompanyDialog(this)">申请加入企业</span>
+                            {% elif pu.tpcAuditResult == 3 %}
+                                <span>{{ pu.pc_name }}</span>
+                            {% else %}
+                                {% if request.session.headHuntValidStatus == 3 %}
+                                    <span class="join_company" onclick="window.location.href='/position/notes'">申请加入企业</span>
+                                {% else %}
+                                    <span class="join_company" onclick="isIdentityAudit('3,5', '1')">申请加入企业</span>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    </p>
+					<p>
+                        <span class="c_99">擅长行业：</span><span class="hy" id="businessname">{{ vph.businessname | default_if_none:"" }}</span>
+                    </p>
+                    <p>
+                        <span class="c_99">擅长职能 : </span><span id="postname">{{ vph.postname | default_if_none:"" }}</span>
+                    </p>
+				</div>
+				<div class="r ">
+					<p class="cz c_99 cur"><img src="{{ STATIC_URL }}images/icon_05.png" width="13" height="13" class="edit_icon"></i><span class="edit_font">编辑</span></p>
+				
+					<div class="lxxx fz14 c_33">
+					<p class="dianhua"><span>{{ pu.phone |default:" &nbsp;"}}</span></p>
+					<p class="yx"><span>{{ pu.email |default:" &nbsp;"}}</span></p>
+					</div>
+				</div>
+			</div>
+			<div class="db">
+				<ul class="clearfix">
+					<li> <p>{{ pu.attentionCount|default:0 }}</p> 被关注</li>
+					<li><p>{{ pv|default:0 }}</p>近期访问</li>
+					<li><p>{{ interviewCount }}</p>面试</li>
+					<!--<li><p>{{ joinCount }}</p>offer</li>-->
+				</ul>
+			</div>
+		</div>
+		<!-- 个人信息编辑 -->
+		<div class="grxxbj dis" >
+{#		 	<div class="clearfix">#}
+{#				<div class="f_l">#}
+{#	                <div class="c_99">姓名</div>#}
+{#	                <div class="mt10">#}
+{#	                    <input value="将欣欣" class="name_txt" type="text">#}
+{#	                </div>#}
+{#	            </div>#}
+{#	            <div class="f_l">#}
+{#	                <div class="c_99">性别</div>#}
+{#	                <div class="sex_button">#}
+{#	                    <div id="edit_sex" class="sex_button_nan mt10 f_l">#}
+{#	                        <i class="iconfont icon-nan"></i>#}
+{#	                        <span>男</span>#}
+{#	                    </div>#}
+{#	                    <div class="sex_button_nv mt10 f_l">#}
+{#	                        <i class="iconfont icon-nv"></i>#}
+{#	                        <span>女</span>#}
+{#	                    </div>#}
+{#	                </div>#}
+{#	            </div>#}
+{#	        </div>#}
+	        <div class="c_99 mt10">个人简介</div>
+	        <div class="mt10">
+                <input id="edit_introduction" class="jl_input_txt grjj bitian" maxlength="34" value="{{ pu.introduction }}" type="text"><span class="tj c_r">(<i>0</i>/34)</span>
+            </div>
+            <div class="c_99 mt10">擅长行业</div>
+	         <div class="mt10" style="position:relative;">
+               <div id="edit_businessname" class="bitian jl_input_txt sc" onclick="BusinessulControlsShow(3,this)" style="min-height: 40px">
+{#                   <dl style="height:25px;float:left"></dl><span style="color:#999">请选行业</span>#}
+               </div>
+                <input id="edit_business" type="hidden">
+            </div>
+            <div class="c_99 mt10">擅长职能</div>
+	         <div class="mt10" style="position:relative;">
+               <div id="edit_postname" class="bitian jl_input_txt sc" onclick="PositionControlsShow(3,this)" >
+{#                   <dl style="height:25px;float:left"></dl><span style="color:#999">请选职能</span>#}
+               </div>
+                <input id="edit_post" type="hidden">
+            </div>
+	        
+            <div class="b mt20 ">
+                <span onclick="baseSave(this,1)" class="active">保存</span>
+                <span class="cancel">取消</span>
+            </div>
+            
+		</div>
+		<!-- 中间导航部分开始 -->
+		<div class="mid clearfix">
+			<!-- 左边 -->	
+			<div class="zb">
+				<ul class=" qh clearfix">
+					<li class="active">正在发布的职位 </li>
+					<li class="headhuntEvaluation">服务评价 <span >( {{ totalEvaluationCount | safe }} )</span></li>
+				</ul>
+				<!-- 正在发布的职位内容 -->
+				<div class="fbdzw" >
+{#					<ul id="positionType" class="sstj clearfix">#}
+{#					 	<h2>职位：</h2>                                 #}
+{#						<li data="all" class="active">全部</li>#}
+{#                        {% for key,value in positionTypeList.items %}#}
+{#                            <li data="{{ key }}">{{ value }}</li>#}
+{#                        {% endfor %}#}
+{#					</ul>#}
+					<div class="fbzwjg">
+						<ul id="positionsPaginBody"></ul>
+                        <div class="lthy_pager" id="positionPaginInfo"></div>
+					</div>
+				</div>
+				<!-- 服务评价内容 -->
+				<div class="fwpj dis">
+					<div class="pjxx clearfix">
+						<div class="f_l">
+						<p class="pjz"><span >{{ vph.praise_rate | default_if_none:0 }}</span>%</p>
+						<p>好评率</p>
+						</div>
+						<ul class="f_l">
+							<li>
+								<span class="z">({{ evaluationCount5 }})</span>
+								<span class="star evaluationStar">
+									<i class="starb1"></i>
+									<i class="starb1"></i>
+									<i class="starb1"></i>
+									<i class="starb1"></i>
+									<i class="starb1"></i>
+								</span>
+								<span class="jdt">
+									<span  class="goodEvaluationRate5" style="width: {{ evaluationPercent5 }}"></span>
+								</span>
+							</li>
+							<li>
+								<span class="z">({{ evaluationCount4 }})</span>
+								<span class="star evaluationStar">
+									<i class="starb1"></i>
+									<i class="starb1"></i>
+									<i class="starb1"></i>
+									<i class="starb1"></i>
+									<i class="starb"></i>
+								</span>
+								<span class="jdt">
+									<span class="goodEvaluationRate4" style="width: {{ evaluationPercent4 }}"></span>
+								</span>
+							</li>
+							<li>
+								<span class="z">({{ evaluationCount3 }})</span>
+								<span class="star evaluationStar">
+									<i class="starb1"></i>
+									<i class="starb1"></i>
+									<i class="starb1"></i>
+									<i class="starb"></i>
+									<i class="starb"></i>
+								</span>
+								<span class="jdt">
+									<span class="goodEvaluationRate3" style="width: {{ evaluationPercent3 }}"></span>
+								</span>
+							</li>
+							<li>
+								<span class="z">({{ evaluationCount2 }})</span>
+								<span class="star evaluationStar">
+									<i class="starb1"></i>
+									<i class="starb1"></i>
+									<i class="starb"></i>
+									<i class="starb"></i>
+									<i class="starb"></i>
+								</span>
+								<span class="jdt">
+									<span class="goodEvaluationRate2" style="width: {{ evaluationPercent2 }}"></span>
+								</span>
+							</li>
+							<li>
+								<span class="z">({{ evaluationCount1 }})</span>
+								<span class="star evaluationStar">
+									<i class="starb1"></i>
+									<i class="starb"></i>
+									<i class="starb"></i>
+									<i class="starb"></i>
+									<i class="starb"></i>
+								</span>
+								<span class="jdt">
+									<span class="goodEvaluationRate1" style="width: {{ evaluationPercent1 }}"></span>
+								</span>
+							</li>
+						</ul>
+					</div>
+					<ul class="pjxq">
+						<h2 style="font-size:14px;">全部评价</h2>
+                        <ul class="evaluationBody" id="evaluationUl"></ul>
+                        <div id="evaluationPaginInfo"></div>
+					</ul>
+				</div>
+				<!-- 页码 page -->
+			</div>
+			<!-- 右边 -->
+			<div class="yb">
+				<ul>
+					<li class="ybjbxx">
+						<h2>基本信息
+							<span class="c_99 f_r cur" ><img src="{{ STATIC_URL }}images/icon_05.png" width="13" height="13" class="edit_icon"></i><span class="edit_font">编辑</span></span>
+							<!-- <span class="c_5c f_r cur dis" ><i class="iconfont icon-cha"></i>取消</span> -->
+						</h2>
+						<ul class="xxlb"  >
+							<li style="padding-left: 0">
+                                <img src="{{ STATIC_URL}}images/icon_07.png" width="17" height="20" style="margin-right:13px;">
+                                <span id="locationname">{{ vph.locationname | default_if_none:'' }}</span>
+                                <input id="location" type="hidden" value="{{ vph.location }}" >
+                            </li>
+							<li class="tx tp">
+<!--                                  <img src="{{ STATIC_URL}}images/icon_10.png" width="17" height="22" style="margin-right:13px;"> -->
+                                <span id="headhunt_levelname">{{ vph.headhunt_levelname | default_if_none:'' }}</span>
+                                <input id="headhunt_level" type="hidden" value="{{ vph.headhunt_level }}" >
+                            </li>
+							<li class="jytp">
+                                <i class=""></i>
+                                <span id="work_timename">{{ vph.work_timename | default_if_none:'' }}</span>
+                                <input id="working_time" type="hidden" value="{{ vph.working_time }}" >
+                            </li>
+						</ul>
+						<!-- 基本信息编辑 -->
+						<div class="jbxxbj h dis" >
+							<div class="c_99">所在地</div>
+                    		<div class="mt10">
+		                        <div class="bitian selectControl" data-key="" data-value="">
+		                            <input id="edit_locationname" style="width:143px;cursor: pointer" type="text" class="jl_input_txt" onclick="showArea(this,1)" value="{{ sArea }}">
+                                    <input type="hidden"  id="edit_location" value="{{ resume.expect_area }}">
+		                        </div>
+                    		</div>
+							<div class="c_99 mt10">头衔</div>
+                    		<div class="mt10">
+		                        <div id="edit_headhunt_level" class="bitian selectControl" data-key="" data-value="">
+		                            	<span id="edit_headhunt_levelname">请选择 <i class="iconfont icon-xia1"></i></span>
+		                            <ul class="selectControlList" >
+                                        {% for headName in headNames%}
+                                            <li data-key="{{ headName.dictionary_value }}" >{{ headName.dictionary_name }}</li>
+                                        {% endfor %}
+		                            </ul>
+		                        </div>
+                    		</div>
+							<div class="c_99 mt10">工作经验</div>
+                    		<div class="mt10">
+		                        <div id="edit_working_time" class="bitian selectControl" data-key="" data-value="">
+		                            	<span id="edit_work_timename" >请选择 <i class="iconfont icon-xia1"></i></span>
+		                            <ul class="selectControlList" >
+		                            	{% for workYear in workYears%}
+                                            <li data-key="{{ workYear.dictionary_value }}" >{{ workYear.dictionary_name }}</li>
+                                        {% endfor %}
+		                            </ul>
+		                        </div>
+                    		</div>
+                    		<div class="mt20 b">
+					            <span onclick="baseSave(this,2)" class="active">保存</span>
+					            <span class="cancel">取消</span>
+            				</div>
+						</div>
+					</li>
+					<li class="grbq">
+						<h2 class="mt30">个人标签
+							<span class="c_99 f_r cur"><img src="{{ STATIC_URL }}images/icon_05.png" width="13" height="13" class="edit_icon"></i><span class="edit_font">编辑</span></span>
+							<!-- <span class="c_5c f_r cur dis" class="dis"><i class="iconfont icon-cha"></i>取消</span> -->
+						</h2>
+						<ul id="lables" class="bq bqxx clearfix">
+                            {% for label in labelList %}
+							<li>{{ label }}</li>
+                            {% endfor %}
+						</ul>
+						<!-- 个人标签编辑 -->
+						<div class="grbqbj h dis"  >
+							<div class="c_99 mt10">我的标签</div>
+							<ul id="edit_labels" class="bq clearfix mt10" id="jlTagList">
+							</ul>
+							<div class="c_5c mt30 cur" id="changBtn" onclick="changeLabel()" ><i class="iconfont icon-shuaxin"></i>换一换</div>
+							<ul class="bq bq1 clearfix mt10 " id="jlTag">
+							</ul>
+							<div class="c_r">最多只能选择8个标签</div>
+							<div class="mt30"><input type="text" maxlength="6" class="" /><a id="jl_tag_button">贴上</a></div>
+							<div class="b mt20 w">
+				                <span onclick="baseSave(this,3)" class="active">保存</span>
+				                <span class="cancel">取消</span>
+            				</div>
+						</div>
+					</li>
+					<!-- 服务过的企业开始 -->
+					<li class="fwgdqy">
+						<h2 class="mt30">服务过的企业
+							<span class="c_99 f_r cur" ><i class="iconfont icon-jiahao"></i>添加</span>
+							<span class="c_5c f_r cur dis" class="dis"><i class="iconfont icon-cha"></i>取消</span>
+						</h2>
+						<!-- 服务过的企业编辑 -->
+                        <div class="fwqybj h dis">
+                            <div class="c_99 mt10">公司名称</div>
+                            <div class="mt10">
+                                <input id="edit_company" class="bitian gs_input_txt" value="" type="text">
+                            </div>
+                            <div class="b mt20">
+                                <span onclick="server_companySave(this)" class="active">保存</span>
+                                <span class="cancel">取消</span>
+                                <b class="c_r" onclick="fwgdqy_sc(this)">删除本条</b>
+                            </div>
+                        </div>
+						<ul id="serve_company" class="fwqylb">
+                            {% for serve_company in serve_companyList %}
+                                {% if serve_company.0 != '' %}
+                                <li class="fwqy">
+                                    <div class="clearfix fwqyxx">
+                                        <div class="f_l fwqymc" >
+                                            <span>{{ serve_company.0 }}</span>
+                                            <input type="hidden" value="{{ serve_company.1 }}" >
+                                        </div>
+                                        <div class="f_r">
+                                            <span class="c_99 f_r cur" onclick="edit_server_company(this)"><img src="{{ STATIC_URL }}images/icon_05.png" width="13" height="13" class="edit_icon"></i><span class="edit_font">编辑</span></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>	
+	</div>
+</div>
+</div>
+<input type="hidden" id="pu_id" value="{{ pu.id }}" >
+<input type="hidden" id="headhuntID" value="{{ vph.id }}" >
+<input type="hidden" id="business" value="{{ vph.business | default_if_none:""  }}" >
+<input type="hidden" id="businessname" value="{{ vph.businessname | default_if_none:"" }}" >
+<input type="hidden" id="post" value="{{ vph.post | default_if_none:""  }}" >
+<input type="hidden" id="postname" value="{{ vph.postname | default_if_none:""  }}" >
+<input type="hidden" id="isApplyedJoinCompany">
+<script type="text/javascript" src="{{ STATIC_URL }}appJs/system/jjrsy.js"></script>
+
+{% include 'jobs/system/new_footer.html' %}
+<!-- 模态框（Modal） -->
+			<div class="modal fade" id="qy_modal" tabindex="-1" role="dialog"aria-labelledby="myModalLabel" aria-hidden="true">
+			   <div class="modal-dialog" style="width:850px">
+			      <div class="modal-content" >
+			         <div class="modal-header">
+			            <button type="button" class="close closeSearchCompanyDialog" data-dismiss="modal"
+			               aria-hidden="true">×
+			            </button>
+			            <h4 class="modal-title" id="myModalLabel">
+			               所属企业
+			            </h4>
+			         </div>
+			         <div class="modal-body t_c">
+			            搜素企业：<input type="text" id="queryCondition" style="border-radius: 5px;text-indent: 5px;line-height: 30px;width: 250px;margin: 0px 10px 10px 0px;"><input type="button" value="搜索" style="background-color: #5c91d9;color:white;padding: 5px 20px;border-radius: 4px" onclick="queryCompany()">
+			             <div>
+			            	<img src="{{ STATIC_URL }}images/gh_03.png" alt="">
+			            </div>
+			            <ul class="ssqy_ul_box clearfix" id="companyul">
+
+			            </ul>
+			         </div>
+			      </div><!-- /.modal-content -->
+			   </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+		<!-- 底部 -->
+
+		<div style="display: none;" class="modal fade" id="is_okModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:300px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">信息</h4>
+                </div>
+                <div class="modal-body t_c" style="line-height: 30px">您确定要退出该企业吗？<div></div></div>
+                <div class="modal-footer">
+                	<button type="button" class="btn btn-primary" data-dismiss="modal"   onclick="exit_company()">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>

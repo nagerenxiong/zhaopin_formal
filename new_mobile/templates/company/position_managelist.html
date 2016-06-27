@@ -1,0 +1,59 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link href="http://at.alicdn.com/t/font_1451985787_9008727.css" rel="stylesheet" type="text/css">
+<script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+</head>
+<body>
+
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+
+    <div class="zsp_header_fixed"></div>
+    <div class="zsp_job_search_box">
+        <div class="zsp_job_search_input_bg">
+            <div class="zsp_job_search_input">
+                <div class="zsp_job_input_but" id="clearkey"><i class="fa fa-search so_sub"></i></div>
+                            <div class="zsp_job_search_inp">
+                            <input name="key" type="text" id="key" class="keyinput" value="" placeholder="请输入职位名称"></div>            
+            </div>
+        </div>   
+    </div>
+   <div class="posmanlist">
+       <ul>
+           <li> <a href="/mobile/company/position_manage?status=1">
+                    <i class="issue"></i>
+                    <div class="wire"><span>已发布的职位</span><em>{{ online_position_count | default:0 }}</em></div>
+                </a>
+           </li>
+   <!--     <li> <a href="/mobile/company/position_manage?status=1">
+                    <i class="reward"></i>
+                    <div class="wire"><span>悬赏职位</span><em>{{ reward_position_count | default:0 }}</em></div>
+                </a>
+           </li> -->
+           <li> <a href="/mobile/company/position_manage?status=2">
+                    <i class="drafts"></i>
+                    <div class="wire"><span>职位草稿箱</span><em>{{ drift_position_count | default:0 }}</em></div>
+                </a>
+           </li>
+          <li> <a href="/mobile/company/position_manage?status=0">
+                    <i class="insert"></i>
+                    <div class="wire" style="border-bottom:none!important"><span>已下线的职位</span><em>{{ offline_position_count | default:0 }}</em></div>
+                </a>
+           </li>
+       </ul>
+   </div>
+</body>
+<script type="text/javascript">
+$(function() {
+    $("#clearkey").click(function() {
+        var key = $("#key").val();
+        window.location.href = '/mobile/company/position_manage?status=5&key=' + key;
+    })
+})
+</script>
+</html>

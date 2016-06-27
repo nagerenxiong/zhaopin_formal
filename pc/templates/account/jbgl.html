@@ -1,0 +1,271 @@
+<!DOCTYPE HTML>
+<html>
+	<!-- Added by HTTrack -->
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<!-- /Added by HTTrack -->
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<title>才币管理</title>
+  <link rel="shortcut icon" href="{{ STATIC_URL }}images/idel1.ico" type="image/x-icon">
+	<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+ <script src="{{ STATIC_URL }}js/scroll.js" ></script>
+	<script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js" ></script>
+	<script src="{{ STATIC_URL }}js/bootstrap.min.js" ></script>
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+	<script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+{% if flag == 1 %}
+<body onload="$('#cz').click(),init()">
+{% else %}
+<body onload="init()">
+{% endif %}
+	<!-- 顶部 -->
+{% include 'jobs/system/header.html' %}
+	<!-- 顶部 -->
+  <div class="clear">99</div>
+	<!-- 内容大框 -->
+	<div class="mt25" style="min-height:700px;">
+		<div class="jbgl_content" >
+        <!-- <span class="spanx"></span>
+        <span class="spany"></span> -->
+			<div class="clearfix">
+
+        {% if pu.head_portrait %}
+            <img src="{{ request.session.file_website }}{{ pu.head_portrait }}" alt="" class="f_l ml25" style="border-radius: 50%; width:100px; height:100px;">
+        {% else %}
+            {% if request.session.account_type == '2' or request.session.account_type == '4' %}
+                <img src="/static/images/qy_logo.png" alt="" class="f_l ml25" width="10%" style="border-radius: 50%; width:100px; height:100px;">
+            {% else %}
+                <img src="null" alt="" class="f_l ml25" width="10%" style="border-radius: 50%" onerror="notfind(this, 3, '{{ request.session.sex }}')">
+            {% endif %}
+        {% endif %}
+        
+        <ul class="f_l ml25">
+					<li class="mt10 c_33">
+						<span>用户账号：</span>
+						<span>{{ request.session.account | default:'' }}</span>
+					</li>
+					<li class="mt10">
+						<span>才币余额：</span>
+						<span class="fz20 c_c8">{{ pu.gold }}</span>
+						<img src="{{ STATIC_URL }}images/111_03.png" alt="" class="ml15">
+						<input type="button" name="" value="充值" onclick="recharge()" class="btn61 fz12 ml25">
+            <input type="button" name="" value="才才卡兑换" onclick="recharge1()" class="btn61 fz12 ml25" style="width: 100px;">
+{#						<input type="button" name="" value="其他获取方式" class="btn62 fz12 ml25" style="color:#7b7b7b;left: 50px;">#}
+                    </li>
+				</ul>
+			</div>
+			<ul class="bd_bottom2 jbgl_tab clearfix mt20" style="position:relative;">
+                <li class="f_l active side_li"  >
+					<a id="jy" href="javascript:void(0)" style="text-decoration:none;">才币交易记录</a>
+                    <li class="slider" id="jyslid"></li>
+				</li>
+				<li class="f_l side_li" style="margin-left: 20px;" >
+					<a id="cz" href="javascript:void(0)" style="text-decoration:none;">才币充值记录</a>
+                    <li class="slider"  id="czslid" style="left: 100px;display: none;margin-left: 3px;"></li>
+				</li>
+
+			</ul>
+            <div id="jbjy">
+               <div class="tab-pane" style="padding-bottom: 50px;" >
+				<ul class="jbgl_table_top">
+					<li style="width:210px">交易时间</li>
+					<li style="width:130px">收入/支出</li>
+					<li style="width:130px;">才币数量</li>
+					<li style="width:486px">收支详情</li>
+				</ul>
+                   <div class="jbgl_table_top1">
+                   </div>
+                <ul class="jbgl_table" id="table1" name="jbtable">
+                    </ul>
+                <div class="t_c" id="page1"></div>
+		    </div>
+</div>
+           <div id="jbcz" style="display: none">
+			<div class="tab-pane" style="padding-bottom: 50px;">
+				<ul class="jbgl_table_top">
+					<li style="width:200px">充值时间</li>
+					<li style="width:130px">充值/提现</li>
+					<li style="width:120px;">才币数量</li>
+					<li style="width:486px">收支详情</li>
+				</ul>
+				<div class="jbgl_table_top1"></div>
+				<ul class="jbgl_table" id="table2" name="jbtable">
+
+ 				</ul>
+			</div>
+			<div class="t_c" id="page2">
+			</div>
+
+            </div>
+	</div></div>
+	<!-- 内容大框 -->
+	<!-- 底部 -->
+	{% include 'jobs/system/new_footer.html' %}
+	<!-- 底部 -->
+	<script src="{{ STATIC_URL }}js/common.js" ></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+    <script>
+        Date.prototype.format = function(format)
+{
+    var o =
+    {
+        "M+" : this.getMonth()+1, //month
+        "d+" : this.getDate(),    //day
+        "h+" : this.getHours(),   //hour
+        "m+" : this.getMinutes(), //minute
+        "s+" : this.getSeconds(), //second
+        "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+        "S" : this.getMilliseconds() //millisecond
+    }
+    if(/(y+)/.test(format))
+    format=format.replace(RegExp.$1,(this.getFullYear()+"").substr(4 - RegExp.$1.length));
+    for(var k in o)
+    if(new RegExp("("+ k +")").test(format))
+    format = format.replace(RegExp.$1,RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
+    return format;
+}
+         var pagination1;
+        var pagination2;
+        function init(){
+             var oUl=document.getElementById('table1');
+             var aLi=oUl.getElementsByTagName('li');
+
+             for(var i=0; i< aLi .length; i++) {
+                 if (i % 2 == 0)  //取模 求余数
+                 {
+                     aLi[i].style.background = '#F8F8F8';
+                 }
+             }
+            var oUl=document.getElementById('table2');
+             var aLi=oUl.getElementsByTagName('li');
+
+             for(var i=0; i< aLi .length; i++) {
+                 if (i % 2 == 0)  //取模 求余数
+                 {
+                     aLi[i].style.background = '#F8F8F8';
+                 }
+             }
+        }
+        $("#jy").click(function(){
+            $("#jbjy").show()
+            $("#jbcz").hide()
+            $("#jyslid").show()
+            $("#czslid" ).hide()
+        })
+         $("#cz").click(function(){
+            $("#jbjy").hide()
+            $("#jbcz").show()
+            $("#jyslid").hide()
+            $("#czslid").show()
+        })
+
+      $(function(){
+          // 充值、提现
+          var sql2 = 'Account_ID = {{ pu.id }} and operation_code  in (100, 105, 300) order by id desc';
+          pagination2=new pagin("page2","T_Gold_Record","",sql2,"",5,"paginBind2","pagination2");
+          // 消费记录
+          var sql = 'Account_ID = {{ pu.id }} order by id desc';
+          pagination1=new pagin("page1","T_Gold_Record","",sql,"",5,"paginBind","pagination1");
+  });
+
+
+    function paginBind(dataInfo){
+        $("#table1").empty();
+        $(dataInfo).each(function() {
+
+             // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this);
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            var content=""
+            content += "          <li>";
+            content += "		   	<div style=\"width:190px\">";
+            content += "				<span  class=\"jbgl_table_t\">" + array[14].substring(0,11) + "</span>";
+            content += "			</div>";
+            content += "";
+            content += "			<div style=\"width:130px\">";
+            if (array[5] < 0) {
+              array[5]=(array[5]+'').replace(/-/g,'-&nbsp;');
+                 content += "               <span  style=\"color:red\">" + array[5] + "</span>";
+            }
+            else{
+                content += "               <span  style=\"color:green\">+&nbsp;" + array[5] + "</span>";
+            }
+        content+= "             </div>";
+		content+= "			<div style=\"width:130px;\">";
+		content+= "				<img src=\"/static/images/111_03.png\" alt=\"\"><span style=\"vertical-align:middle;margin-left:5px\">"+array[8]+"</span></div>";
+		content+= "			<div style=\"width:486px\" class=\"jbgl_line_height\">";
+		content+= "				"+array[2]+"";
+		content+= "			</div>";
+		content+= "		   </li>";
+        $("#table1").append(content);
+    });
+    if(dataInfo == '') {
+        $("#table1").append("<li style=' text-align: center; line-height: 82px'>暂无记录</li>");
+    }
+}
+
+    function paginBind2(dataInfo){
+
+        $("#table2").empty();
+        $(dataInfo).each(function(){
+             // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this);
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            var content=""
+            content += "          <li>";
+            content += "		   	<div style=\"width:190px\">";
+            content += "				<span  class=\"jbgl_table_t\">" + array[14].substring(0,11) + "</span>";
+            content += "			</div>";
+            content += "";
+            content += "			<div style=\"width:130px\">";
+            if (array[5] < 0) {
+                 content += "               <span  style=\"color:red\">-" + array[5] + "</span>";
+            }
+            else{
+                content += "               <span  style=\"color:green\">+" + array[5] + "</span>";
+            }
+            content+= "             </div>";
+            content+= "			<div style=\"width:130px;\">";
+            content+= "				<img src=\"/static/images/111_03.png\" alt=\"\">"+array[8]+"</div>";
+            content+= "			<div style=\"width:486px\" class=\"jbgl_line_height\">";
+            content+= "				"+array[2]+"";
+            content+= "			</div>";
+            content+= "		   </li>";
+           $("#table2").append(content);
+        });
+        if(dataInfo == '') {
+            $("#table2").append("<li style=' text-align: center; line-height: 82px'>暂无记录</li>");
+        }
+    }
+        //充值
+        function recharge(){
+            window.open('/system/recharge', '_blank');
+        } 
+        function recharge1(){
+            window.open('/system/exchange_caicard', '_blank');
+        }
+
+    </script>
+</body>
+</html>

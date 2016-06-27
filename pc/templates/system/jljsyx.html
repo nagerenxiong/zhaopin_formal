@@ -1,0 +1,195 @@
+<!-- 顶部 -->
+    {% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+	<!-- 顶部 -->
+	<!-- 内容大框 -->
+	<div class="lt_content_box">
+		<!-- 猎头会员菜单 -->
+		{% include 'jobs/system/menu_account.html' %}
+        <!-- 猎头会员菜单 -->
+        <div class="clear">99</div>
+
+        {% if request.session.account_type == "3" or request.session.account_type  == "5"  %}
+            {% if request.session.validStatus == 3 %}
+                <div class="clear">5</div>
+            {% else %}
+                <div class="clear">4</div>
+            {% endif %}
+        {% else %}
+            <div class="clear">2</div>  
+        {% endif %}
+
+
+		<div class="ltml_grid_box center clearfix mt25">
+			<ul  class="nav nav-tabs ltml_grid_ul">
+				<li class="active side_yx_li" style="width: auto">
+					<a href="#home" data-toggle="tab" >设置简历接收邮箱</a>
+				</li>
+				<li class="slider slide_yx"></li>
+			</ul>
+			<div class="jsyx_alert mt20" style="text-align: center;background-color: #FDFDEF;border:1px solid #F5F5D3">
+				<i class="iconfont icon-jinlingyingcaiwangtubiao41"></i>
+				设置简历接收邮箱能把投递你给的简历同步自动抄送给你设置好的邮箱哦！
+			</div>
+			<form action="/jobs/account/jljsyx" method="post" >
+            {% csrf_token %}
+            <div class="clearfix mt20 bd_bottom2" style="padding-bottom: 10px;">
+				<!-- 接收邮箱 -->
+				<dl class="jsyx_box f_l">
+					<dt class="bd_bottom1">
+						<span>接收邮箱</span>
+					</dt>
+					<dd>
+						<ul id="request_email">
+                            {% if tpucontacts %}
+                                {% for tpucontact in tpucontacts %}
+                                    <li>
+                                        <input type="hidden" value="{{ tpucontact.id }}" class="hidiput"/>
+                                        姓名:<input type="text" name="username" value="{{ tpucontact.recipient_name }}" placeholder="" class="input_w">邮箱地址：<input type="text" name="email" value="{{ tpucontact.recipient_email }}" class="input_w1"><i class="iconfont icon-jianhao" ></i>
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                <li>
+                                    姓名:<input type="text" name="username" value="" placeholder="" class="input_w">邮箱地址：<input type="text" name="email" value="" class="input_w1"><i class="iconfont icon-jiahao" ></i>
+                                </li>
+                            {% endif %}
+						</ul>
+					</dd>
+				</dl>
+				<!-- 接收邮箱 -->
+				<!-- 通讯录 -->
+				<dl class="txl_box f_r">
+					<dt class="bd_bottom1"><span>从通讯录中选择</span></dt>
+					<dd class="scr_con">
+						 {% if contacts %}
+                                    {% for contact in contacts %}
+                                        <a class="list-group-item" data-name="{{ contact.contact_name }}" data-email="{{ contact.email }}">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ contact.contact_name }}</a>
+                                    {% endfor %}
+                                {% endif %}
+					</dd>
+				</dl>
+				<!-- 通讯录 -->
+			</div>
+			<div class="f_r jsyx_btn_box">
+				<input type="submit" name="save" id="save_btn" value="保存" onclick="return saveUpdate();" placeholder="" class="grxx_info_btn grxx_info_btn_bg">
+				<input type="button" name="" id="reset_btn" value="清空重置" placeholder="" class="grxx_info_btn grxx_info_btn_bg"></div>
+			</form>
+			<div class="left_top_border"></div>
+		</div>
+	</div>
+	<!-- 内容大框 -->
+	<!-- 底部 -->
+	{% include 'jobs/system/new_footer.html' %}
+	<!-- 底部 -->
+	<script src="../static/js/common.js" ></script>
+    <script type="text/javascript">
+        $(".scr_con .list-group-item").each(function(index, el) {
+            $(el).click(function(event) {
+                var username=$(el).attr("data-name");
+                var email=$(el).attr("data-email");
+                var isConstaint=false;
+                var length = $("#request_email").children('li').length;
+                if(length == 1){
+                    $("#request_email .icon-jiahao").removeClass('icon-jiahao').addClass("icon-jianhao");
+                }else{
+                    $("#request_email .icon-jiahao").remove();
+                }
+                $("#request_email li").each(function(index, el) {
+                    if($(el).children(".input_w").val()==username&&(el).children(".input_w1").val()==email){
+                        isConstaint=true;
+                    }
+                });
+                if(isConstaint==false){
+                    $("#request_email").append('<li>姓名:<input type="text" value="'+username+'" name="username" class="input_w">邮箱地址：<input type="text" name="email" value="'+email+'" class="input_w1"><i class="iconfont icon-jianhao" ></i><i class="iconfont icon-jiahao" ></i></li>');                   
+                }
+            });
+        });
+        $("#request_email").on('click','.icon-jiahao',function(){
+            var length = $("#request_email").children('li').length;
+            if(length == 1){
+                $("#request_email .icon-jiahao").removeClass('icon-jiahao').addClass("icon-jianhao");
+            }else{
+                $("#request_email .icon-jiahao").remove();
+            }
+            $("#request_email").append('<li>姓名:<input type="text" name="username" class="input_w">邮箱地址：<input type="text" name="email" class="input_w1"><i class="iconfont icon-jianhao" ></i><i class="iconfont icon-jiahao" ></i></li>');
+        })
+        $("#request_email").on('click','.icon-jianhao',function(){
+            $(this).parent().remove();
+            var length = $("#request_email").children('li').length;
+            if(length == 1){
+                $("#request_email").children('li').children('i').remove();
+                $("#request_email").children('li').append('<i class="iconfont icon-jiahao" ></i>');
+            }else if($("#request_email .icon-jiahao").length == 0){
+                $("#request_email").children('li:last').append('<i class="iconfont icon-jiahao" ></i>');
+            }
+        })
+
+
+        $("#reset_btn").click(function(){
+            $("#request_email li").each(function(index, el) {
+              if($(el).children(".hidiput").length<=0)
+              {
+                $(el).children("input[type=text]").val("");
+              }
+            });            
+        })
+
+
+        $("#dv_scroll_text a").click(function(){
+            $("#request_email li:last .input_w").val($(this).attr("data-name"));
+            $("#request_email li:last .input_w1").val($(this).attr("data-email"));
+        })
+        $(function(){
+            if($("#request_email li").length == 1){
+                $("#request_email .icon-jianhao:last").removeClass('icon-jianhao').addClass("icon-jiahao");
+            }else{
+                $("#request_email").children('li:last').append('<i class="iconfont icon-jiahao" ></i>');
+            }
+        })
+        //判断邮箱格式是否正确
+        function saveUpdate(){
+            var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+            var emailStr = '';
+            for(var m = 0;m < $('input[name="email"]').length;m++){
+                var email = $('input[name="email"]').eq(m).val();
+                if(!reg.test(email)){
+                    window.alert('邮箱格式不对，请重新输入');
+                    $('input[name="email"]').eq(m).focus();
+                    return false;
+                }
+                if(emailStr.indexOf(email) != -1){
+                    window.alert('邮箱不能重复，请重新输入');
+                    $('input[name="email"]').eq(m).focus();
+                    return false;
+                }else{
+                    emailStr += email + ',';
+                }
+            }
+            return true;
+        }
+        // $(function(){
+        //  function Oscroll(){
+        //  if($("#dv_scroll_text").height()<$("#dv_scroll").height()){
+        //      $(".Scrollbar-Handle").css('height', "290px");
+        //  }
+        //  else{
+        //      var i =($("#dv_scroll_text").height()/$("#dv_scroll").height())+1;
+        //      $(".Scrollbar-Handle").css('height', 100/i+"%");
+        //  }
+        // }
+        // Oscroll();
+        // })
+        // $("#dv_scroll").scroll(function(event) {
+            
+        //      $(".Scrollbar-Handle").css('top', $(this).scrollTop()+"px");
+        //      console.log($(this).scrollTop())
+        //  });
+    </script>
+</body>
+</html>

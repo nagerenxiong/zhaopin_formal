@@ -1,0 +1,468 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/library.css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/single/recommend.css">
+<div class="recommend_header">
+    <div class="recommend_header_t clearfix">
+        <div class="recommend_header_t_l">
+            <p><span class="a1">{{ position.position_name|default_if_none:'' }}</span><span class="a2">{{ position.payname|default_if_none:'' }}</span></p>
+            <p><em>城市：</em>{{ position.work_areaname | default:'' }}<i>丨</i><em>经验：</em>{{ position.work_yearname|default_if_none:'经验不限' }} <i>丨</i><em>学历：</em> {{ position.diplomaname|default_if_none:'学历不限' }} <i>丨</i><em>人数：</em> {{ position.recruit_count | default:1 }}人</p>
+            <p class="b"><em>职位亮点：</em>
+            {% if position.labelList %}
+                {% for label in position.labelList %}
+                    <span title="{{ label }}">{{ label }}</span>
+                {% endfor %}
+            {% endif %}
+            </p>
+            <div class="b1">
+                <div>
+                    <span>岗位职责:</span><p>{{ position.position_describe | safe }}</p>
+                </div>
+                <div>
+                    <span>工作要求:</span><p>{{ position.demand | safe }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="recommend_header_t_r" onclick="window.location.href='/account/new_qyyl?companyId={{ position.company_id }}'">
+            <img src="{{ position.pc_logo }}" onerror="notfind(this, 2)">
+            <!-- <img src="/static/images/rcf_tx.png" onerror="notfind(this, 2)"> -->
+            <!-- <img src="/static/images/rcf_tx1.png" onerror="notfind(this, 2)"> -->
+            <ul>
+                <li class="a1">{{ position.pc_name|default_if_none:'' }}</li>
+                <li class="a2"><span>行业：</span>{{ position.businessname | default_if_none:'' }}</li>
+                <li class="a2"><span>规模：</span>{{ position.scale | default_if_none:'' }}</li>
+            </ul>
+        </div>
+        {% if position.rewards_money and position.rewards_money != 0 %}
+            <div class="money">
+                赏金<br>￥{{ position.rewards_money|default:'' }}
+            </div>
+        {% endif %}
+        <span class="more"><em>显示更多</em><img src="{{STATIC_URL}}images/jt_03.png" class="i1"><img src="{{STATIC_URL}}images/jt_06.png" class="i2"></span>
+    </div>
+    <div class="recommend_header_b">
+        <span>已推荐候选人：</span>
+        <ul id="recommend_info_List">
+            {% if resume_list %}
+                {% for resume in resume_list %}
+                    <li onclick="window.open('/resume/new_jlyl?type=souSuo&resumeID={{ resume.id }}', '_blank')">
+                        <img style="cursor: pointer;" src="{{ resume.head_portrait }}" onerror="notfind(this, 1, '{{ resume.sex }}')">{{ resume.user_name | default:'' }}
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+</div>
+<div id="libaray" class="box_c clearfix">
+    <div class="box_t">
+         <span class="box_t_l">我的人才</span>
+         <div class="box_t_r">
+         <span class="title">+添加人才</span>
+           <ul>
+             <li class="active" onclick="addNewJl()"><i class="iconfont icon-shangchuan"></i>上传简历</li>
+             <li><a href="/jobs/resume/new_jlsz" target="_blank"><i class="iconfont icon-jiahao"></i>创建新简历</a></li>
+            </ul>
+         </div>
+    </div>
+    <!-- 左边栏start -->
+    <div class="box_l clearfix">
+        <div class="b">
+            <div class="resume_group">
+                <h1>简历分组</h1>
+                <p class="l all active" onclick="changeDataType('all')" style="cursor: pointer;">全部简历（<span>{{ all_count|default:0 }}</span>）</p>
+
+                <p class="l"><i class="iconfont icon-xjt"></i>按来源分组</p>
+                <ul class="default">
+                    <li><a href="javascript:void(0)" onclick="changeDataType('myResume')">我上传的简历（<span>{{ my_count|default:0 }}</span>）</a></li>
+                    <li><a href="javascript:void(0)" onclick="changeDataType('entrust')">委托给我的简历（<span>{{ entrust_count|default:0 }}</span>）</a></li>
+                </ul>
+
+                <p class="l">自定义分组</p>
+                <ul class="o_group">
+                    <li><div><input class="group_txt" type="text" data-value="" value="" maxlength="10"><button class="submit">提交</button><a class="cancel" href="javascript:void(0)" >取消</a></div><span class="group_name">未分组</span><span class="count">（{{ ungroup_count|default:0 }}）</span></li>
+                    {% if groups %}
+                        {% for group in groups %}
+                            <li>
+                                <div>
+                                    <input class="group_txt" type="text" data-value="{{ group.id }}" value="{{ group.group_name }}" maxlength="10"><button class="submit">提交</button><a class="cancel" href="javascript:void(0)">取消</a>
+                                </div>
+                                <span class="group_name">{{ group.group_name }}</span>
+                                <span class="count">（{{ group.childCount|default:0 }}）</span>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+
+            </div>
+        </div>
+
+
+        <!-- 上传弹框 start-->
+        <div id="selectJl" style="display: none;">
+            <div class="selectJl_l">
+                <input type="file" name="file_upload" id="file_upload"  />
+            </div>
+            <div class="clearfix"></div>
+            <div class="word">
+                <div>
+                    <span>提示：</span>
+                    只支持word 格式文件，文件大小不能超过5M
+                    <p class="f_r">
+                        已选择<span id="sc_select">0</span>份，
+                    成功<span id="sc_success">0</span>份，
+                    失败<span id="sc_error">0</span>份
+                    </p>
+                </div>
+            </div>
+            <div id="some_file_queue">
+                <div id="uploadCount"></div>
+            </div>
+            <a  href="javascript:$('#file_upload').uploadify('upload','*');" id="start_upload">开始上传</a>
+            <a  href="" id="finish_btn" >完成</a>
+        </div>
+        <!-- 上传弹框 end-->
+    </div>
+    <!-- 左边栏end -->
+    <!-- 主体start -->
+    <div class="box_r clearfix">
+    <!-- 搜索选项start -->
+        <div class="o_search">
+            <div class="t">
+                <input id="search_input" type="text" placeholder="请输入简历关键词，多个关键词用空格隔开"><button id="search_btn" class="search_btn1" onclick="searchResumeData()">搜索</button>
+            </div>
+        </div>
+    <!-- 搜索选项end -->
+    <!-- 简历列表start -->
+        <div class="resume_list">
+            <div class="resume_info">
+               <ul id="tableInfo">
+{% comment %}             {% endcomment %}
+               </ul>
+                <div id="noSendData_library" class="noSendData" style="display: none;">
+                    <div>
+                            <p>暂时没有符合条件的记录！</p>
+                    </div>
+                </div>
+                <div id="noSendData_upload" class="noSendData" style="display: none;">
+                    <div>
+                            <p>暂无简历！<a href="javascript:void(0)" onclick="addNewJl()" style="color:#ff8800;">【立即上传】</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="lthy_pager" id="paginInfo">
+            </div>
+        </div>
+    <!-- 简历列表end -->
+    <!-- 搜索选项start -->
+        <div class="o_search" style="display: none;">
+            <div class="t">
+                <input id="condition" onkeydown="judgeEntry()" type="text" placeholder="请输入简历关键词，多个关键词用空格隔开" style="width:639px;"><button id="search_btn" class="search_btn1" onclick="queryResume()" >搜索</button>
+            </div>
+        </div>
+    <!-- 搜索选项end -->
+    <!-- 简历列表start -->
+        <div class="resume_list" id="nochange" style="display: none;">
+            <ul class="resulist" id="tableInfo1" >
+                <li class="resltop">
+                    <div class="lb1 lbcomm">简历名称</div>
+                    <div class="lb2 lbcomm">简历解析度</div>
+                    <div class="lb3 lbcomm">上传时间</div>
+                    <div class="lb4 lbcomm">操作</div>
+                </li>
+
+            </ul>
+            <div class="tjsx" style="margin:0px 10px 0px 10px!important;width:713px!Important;">
+                    <input name="" type="checkbox" value="" id="checkAll" style="cursor: pointer;margin-left: -5px; margin-right:3px">
+                    <label for="checkAll" class="ml5 mr5 fn">全选</label>
+                    <input name="" type="button" value="批量转化" class="tjann" onclick="changeFileToResume()">
+                    <input name="" type="button" value="批量删除" class="tjann" onclick="deleteResumeFile()">
+                    <div class="resucount">最多选择20份简历   已选择<span>0</span>份</div>
+              </div>
+
+            <div class="lthy_pager" id="paginInfo1">
+
+            </div>
+        </div>
+    <!-- 简历列表end -->
+    </div>
+    <!-- 主体end -->
+</div>
+<div id="recommend_modal" style="display:none">
+    <div class="clearfix">
+        <div class="l">
+            <p><em>候选人：</em><b class="recommend_resume_name">张三 </b><span class="sex recommend_resume_sex">女</span><span>简历完整度：<span class="recommend_resume_integrity">80</span>%</span></p>
+            <p><em>推荐职位：</em><span>{{ position.position_name | default_if_none:'' }}</span></p>
+            <p><em>综合评估：</em></p>
+        </div>
+        <div class="r">
+            <p><em>推荐经纪人：</em><span class="recommend_headhunt_name">{{ pu.user_name }}</span></p>
+            <p><em>推荐日期：</em><span class="recommend_date">{{ now_date | date:"Y/m/d" }}</span></p>
+            <a  href="javascript: void(0);" class="resume_edit" target="_blank"><i class="iconfont icon-bi"style="margin-right: 3px"></i>简历编辑</a>
+        </div>
+    </div>
+    <div class="recommend_con">
+  【核心优势】 根据公司总部制定的大区市场策略,实施落地,并汇总、分析各城市业务执行差<br>
+  【薪酬福利】{{ position.payname | default_if_none:'' }}<br>
+  【面试评价】能够适应长期异地工作和出差，精力充沛，具备在压力下出色完成任务的力。能够适应长期异地
+    工作和出差，精力充沛，具备在压力下出色完成任务的力。
+    </div>
+    <p class="tip">
+        <em>注：</em>“实名推荐”将以您的名义通知TA ；“匿名推荐”将以怀才当遇平台的名义通知TA。
+    </p>
+    <div class="bottom">
+        <a href="javascript:void(0);" class="l" onclick="showRecommendReport()"><img src="{{STATIC_URL}}images/xiangzuo.png" ><span>编辑推荐报告</span></a>
+        <div class="r">
+            <a href="javascript: void(0);" onclick="sendResume()">推荐</a><a href="javascript:void(0);" onclick="sendResume()">匿名推荐</a><a href="javascript:void(0);" class="a1" onclick="layer.closeAll()">取消</a>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" class="resume_database_type" value="么么哒" />
+<input type="hidden" class="resume_id" value="" />
+<input type="hidden" class="position_id" value="{{ position.id }}" />
+<input type="hidden" id="file_count" value="{{ file_count }}" />
+<input type="hidden" id="pu_id" value="{{ pu.id }}" />
+<input type="hidden" id="pu_email" value="{{ pu.email }}" />
+<input type="hidden" id="operate_id" />
+<input type="hidden" id="operateState" />
+<input type="hidden" id="recommend_ids" value="{{ recommend_ids|default:'' }}" />
+<input type="hidden" id="resumeID" />
+<!-- 简历库公共JS -->
+<script  src="{{ STATIC_URL }}js/lib/ind/layer/layer.js" type="text/javascript"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}appJs/resume/uploaded.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/uploader/jquery.uploadify.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/library.js"></script>
+<script>
+var report_obj;
+   $(".more").click(function(){
+      if($(this).hasClass('active'))
+        $(this).removeClass('active').children('em').text('显示更多'); 
+      else
+        $(this).addClass('active').children('em').text('点击收起'); 
+        $(".recommend_header_t_l .b1").slideToggle();
+   })
+   $("#tableInfo").on('click','.recommend_btn_box a',function(){
+       var resume_id = $(this).attr('name');
+       var flag = false;
+       $.ajax({
+           async: false,
+           type: "POST",
+           url: "/ajax_is_could_deliver_resume",
+           data: {"position_id": {{ position.id }}, "resume_id": resume_id},
+           dataType: "json",
+           success: function (data) {
+                if(data > 0) {
+                    alert('你已推荐该职位，无需推荐！',4);
+                    flag = true;
+                }
+           }
+       });
+       $.ajax({
+            async: false,
+            type: "POST",
+            url: "/getResumeRecommendReport",
+            data: {"resume_id": resume_id},
+            dataType: "json",
+            success: function (data) {
+                if(data.status == '1'){
+                    report_obj = $.parseJSON(data.report_obj);
+                    var core_advantage = report_obj['core_advantage'];
+                    var salary_welfare = report_obj.salary_welfare;
+                    var consultant_evaluation = report_obj.consultant_evaluation;
+                    var content = '';
+                    if(core_advantage){
+                      content += '<p style="color:#333;">【核心优势】</p> ' + core_advantage + '<br>';
+                    }
+                    if(salary_welfare){
+                      content += '<p style="color:#333;">【薪酬福利】</p>' + salary_welfare + '<br>';
+                    }
+                    if(consultant_evaluation){
+                      content += '<p style="color:#333;">【经纪人评价】</p>' + consultant_evaluation + '<br>';
+                    }
+                    $('.recommend_con').empty();
+                    $('.recommend_con').append(content);
+                }else{
+                    report_obj = null;
+                    $('.recommend_con').text('未维护推荐报告，没有综合评估');
+                }
+            }
+       });
+       if(flag == true) return false;
+
+       var $r = $(this).parent().parent();
+       var recommend_resume_name = $r.find('.name').text();
+       var recommend_resume_sex = $r.find('.sex_value').text();
+       var resume_integrity = $r.parent().find('.resume_integrity').text();
+       $(".recommend_resume_name").text(recommend_resume_name);
+       $(".recommend_resume_sex").text(recommend_resume_sex);
+       $(".recommend_resume_integrity").text(resume_integrity);
+        $(".resume_id").val(resume_id);
+        $("#resumeID").val(resume_id);
+       $(".resume_edit").attr('href', '/jobs/resume/new_jlsz?resumeID=' + $(this).attr('name'));
+
+     var layer1=layer.open({
+        type: 1,
+        area: ['800px', '455px'],
+        title: "<span>确认推荐人才</span><em style='width:820px;height:475px;'></em>",
+        fix: true, //不固定
+        maxmin: false,
+        skin: 'recommend_skin',
+        closeBtn: "1",
+        moveOut: false,
+        content: $("#recommend_modal"),
+        success: function(layero, index) {
+            $(".success").click(function(event) {
+                layer.close(index);
+                doSubmitAuditInfo(id_card_photo, head_portrait);
+            });
+            $(".canel").click(function(event) {
+                layer.close(index);
+            });
+        }
+    });
+   })
+
+    //推荐简历
+    function sendResume(){
+        var sourceId = {{ position.source_id }};
+        var positionId = {{ position.id }};
+        var resume_id = $(".resume_id").val();
+        $(".deliver_resume_button").removeAttr('data-toggle').removeAttr('data-target')
+                                   .attr('onclick', "alert('你已推荐过此职位，无需再次推荐！',4);");
+        if(resume_id != ''){
+            $.ajax({
+                type: "POST",
+                url: "/ajax_sendResume",
+                data: {"sourceId": sourceId, "positionId": positionId, "resumeId": resume_id},
+                dataType: "json",
+                success: function (data) {
+                    if(data.msg == 'success'){
+                        // 投递成功把信息添加到推荐候选人那里
+                        var add_html = '';
+                        var a_obj = $('a[name="'+resume_id+'"]');
+                        var user_name = a_obj.parent().parent().children('h1:first').children('span:first').text();
+                        var img_url = a_obj.parent().parent().prev().children('img:first').attr('src');
+                        add_html += '<li onclick="window.open(\'/resume/new_jlyl?type=souSuo&resumeID='+resume_id+'\', \'_blank\')">';
+                        add_html += '    <img src="'+img_url+'">' + user_name;
+                        add_html += '</li>';
+                        $('#recommend_info_List').append(add_html);
+                        // 给当前按钮加已推荐样式，并把推荐的简历ID放到list里
+                        recommend_id_list.push(resume_id);
+                        a_obj.parent().addClass('active1');
+                        // end
+                        window.alert('推荐成功',1);
+                    }else if(data.msg == 'exist'){
+                        window.alert('你已推荐该职位，无需推荐！',4);
+                    }else{
+                        window.alert(data.msg,2);
+                    }
+                    layer.closeAll();
+                }
+            })
+        } else {
+            window.alert('请选择简历！',4);
+        }
+    }
+    $(".box_t_r ul li").mouseover(function(){
+       $(".box_t_r ul li").removeClass('active');
+      $(this).addClass('active');
+    })
+   //展示推荐报告弹框
+   function showRecommendReport(){
+        $('#recommreports').show();
+        $('.o_shade').show();
+        $('.kx_common').show();
+        layer.closeAll();
+
+        if(report_obj){
+            var core_advantage = report_obj.core_advantage;
+            var salary_welfare = report_obj.salary_welfare;
+            var consultant_evaluation = report_obj.consultant_evaluation;
+            $('.advanbox').find("textarea[datatype='advantage']").val(core_advantage.replace(/<br>/g, "\n"));
+            $('.advanbox1').find("textarea[datatype='salary']").val(salary_welfare.replace(/<br>/g, "\n"));
+            $('.advanbox').find("textarea[datatype='evaluate']").val(consultant_evaluation.replace(/<br>/g, "\n"));
+            hidcen();
+            if(report_obj.make_compromises){
+                var abli = report_obj.make_compromises.split(',');
+                commfun(abli,'#make_compromises');
+            }
+            if(report_obj.logic_thinking){
+                var logic = report_obj.logic_thinking.split(',');
+                commfun(logic,'#logic_thinking');
+            }
+            if(report_obj.character){
+                var chara = report_obj.character.split(',');
+                commfun(chara,'#character');
+            }
+            if(report_obj.team_management){
+                var teamgo = report_obj.team_management.split(',');
+                commfun(teamgo,'#team_management');
+            }
+            if(report_obj.expertise){
+                var profesk = report_obj.expertise.split(',');
+                commfun(profesk,'#expertise');
+            }
+
+            var num = $('#advantage').val().length;
+            $('.numTip').find('span').eq(0).text(num);
+            var num1 =$('#evaluate').val().length;
+            $('.numTip1').find('span').first().text(num1);
+            var num2=$('#salary').val().length;
+            $('.numTip2').find('span').first().text(num2);
+
+            $('#obj_id').val(report_obj.id);
+        }else{
+            $('#obj_id').val('');
+            $('.advanbox').find("textarea[datatype='advantage']").val('');
+            $('.advanbox1').find("textarea[datatype='salary']").val('');
+            $('.advanbox').find("textarea[datatype='evaluate']").val('');
+            commfun('','#make_compromises');
+            commfun('','#logic_thinking');
+            commfun('','#character');
+            commfun('','#team_management');
+            commfun('','#expertise');
+            $('.numTip').find('span').first().text(0);
+            $('.numTip1').find('span').first().text(0);
+            $('.numTip2').find('span').first().text(0);
+        }
+   }
+   $(function(){
+       $('.cancel').click(function(){
+            var layer1=layer.open({
+            type: 1,
+            area: ['800px', '455px'],
+            title: "<span>确认推荐人才</span><em style='width:820px;height:475px;'></em>",
+            fix: true, //不固定
+            maxmin: false,
+            skin: 'recommend_skin',
+            closeBtn: "1",
+            moveOut: false,
+            content: $("#recommend_modal"),
+            success: function(layero, index) {
+            $(".success").click(function(event) {
+                layer.close(index);
+                doSubmitAuditInfo(id_card_photo, head_portrait);
+            });
+            $(".canel").click(function(event) {
+                layer.close(index);
+            });
+            var kxys=$('#kxys').text();
+            var xcfl=$('#xcfl').text();
+            var jjrpj=$('#jjrpj').text();
+            $('.recommend_con').text('');
+            var content = '';
+              content += '<p style="color:#333;">【核心优势】</p> ' + kxys + '<br>';
+              content += '<p style="color:#333;">【薪酬福利】</p>' + xcfl + '<br>';
+              content += '<p style="color:#333;">【经纪人评价】</p>' + jjrpj + '<br>';
+              $('.recommend_con').append(content);
+          }
+    });
+       })
+   })
+
+</script>
+<!--推荐报告弹出框-->
+{% include 'jobs/recommreport.html' %}
+{% include 'jobs/system/new_footer.html' %}

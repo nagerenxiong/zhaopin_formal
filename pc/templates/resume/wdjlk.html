@@ -1,0 +1,1186 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<style>
+    .sajl_btn{background:url({{ STATIC_URL }}images/addjl_03.png) no-repeat;width:234px!important;height:57px!important;}
+    #file_upload{width:234px!important;height:57px!important;}
+    .selectJl_l{position: relative;width:234px;float:left;}
+    #file_upload object{left:0;}
+    .o_layer{
+        border-radius: 5px;
+    } 
+
+    #SWFUpload_0:hover{
+        background: url(/static/images/addjl_04.png) no-repeat;
+    }
+    .layui-layer-ico {
+       background: url(/static/images/alert_11.png) no-repeat!important;
+    }
+    .o_layer .layui-layer-title{padding-top:10px;font-size:18px;background-color: #FFF;height:56px;border-radius: 5px 5px 0px 0px;}
+
+    .o_layer .layui-layer-setwin{top:25px;}
+    .layui-layer-content{height:auto!important;border-radius: 0px 0px 5px 5px;}
+    #some_file_queue{width:98%;margin:auto auto 30px auto;padding: 5px;}
+    .wcljl_li i{border-radius:50%;position:absolute;top:-8px;right:-8px;background-color:#FF8702;width:22px;height:22px;color:#fff;text-align: center;line-height: 22px;font-size: 12px;}
+    .c_abs{
+        position: absolute;display: block;width:100%;height:100%;box-sizing:content-box;z-index: -1;
+        padding: 10px;background-color:#333;filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=50);opacity: 0.5;left:-10px;top:-10px;border-radius: 5px;
+    }
+</style>
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/forwardresume.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/autoMatching.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/lib/ind/layer/layer.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/uploader/jquery.uploadify.min.js"></script>
+<!-- 内容大框 -->
+<div class="lt_content_box wdjlk">
+    <!-- 猎头会员菜单开始 -->
+    {% include 'jobs/system/menu_resume.html' %}
+    <!-- 猎头会员菜单结束 -->
+
+    <div class="clear">2</div>
+    <div class="clear">2</div>
+    <div class="center mt25">
+        <!-- 猎头会员搜索结果主内容开始 -->
+        <div class="dleft">
+        <div style="width: 710px; margin: 0px;" class="center lt_jlgltb">
+        {% if request.session.account_type == "3" or request.session.account_type  == "5" %}
+{#            <a href="/jobs/resume/scjl">#}
+                <div class="fz16" onclick="addNewJl()" style="cursor: pointer;background-color:#5C91D9;float:left;color:#fff;width:150px;height:38px;border-radius: 5px;text-align: center;line-height: 38px;margin-right: 10px">
+                <img src="{{ STATIC_URL }}images/fj_06.png" width="18" height="18"/>
+                    上传附件简历
+                </div>
+           <a href="/jobs/resume/new_jlsz">
+                <div class="tjxjl fz16"  style="cursor: pointer"> <i class="iconfont icon-cloudiconfontshangchuan21" style="font-size:24px"></i>
+                    创建新简历
+                </div>
+            </a>
+            <div class="jlglss ss lt_ss" style="width:385px;" >
+
+                <input name="" class="jlssk fz14 ss_input" style="border:0px;height: 40px !important;width:235px;" placeholder="输入简历名称" id="condition" onkeydown="judgeEntry()" type="text">
+       {% else %}
+        <div class="jlglss ss "style="width:710px;margin-left: 0px;" >
+
+                <input name="" class="jlssk fz14 ss_input" style="border:0px;width:538px;" placeholder="输入简历名称" id="condition" onkeydown="judgeEntry()" type="text"> {% endif %}
+                <input name="" class="jlssan fz18 ss_anniu" style="border:0px;" value="搜索" onclick="queryResume()" type="button">
+
+
+        </div>
+
+    </div>
+            <!-- 猎头会员搜索结果开始 -->
+            <div class="ssjg p9 mt25" style="overflow:hidden">
+                <div class="bkdw"></div>
+                <div class="biaolm m10">
+                    <div class="biaot2 fz16">
+                        <ul>
+                            <li class="bthover" style="cursor: pointer"><a href="/resume/wdjlk">我的简历库</a></li>
+                            <li style="cursor: pointer"><a href="/resume/wscdjl">我收藏的简历</a></li>
+                            {% if pu.account_type != 2 and pu.account_type != 4 %}
+                                <li style="cursor: pointer"><a href="/resume/wtdjl"  onclick=" return isIdentityAudit('3,5', '1,2')">委托给我的简历</a></li>
+                                <li style="cursor: pointer"><a href="/resume/myViewResume">我查看的简历</a></li>
+                                <li style="cursor: pointer;position:relative" class="wcljl_li" onclick="loadHref('/resume/wcljl')">未处理简历
+                                {% if file_count %}
+                                    <i>{{ file_count }}</i>
+                                {% endif %}
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                    <div class="qhann">
+                        <ul>
+{#                            <li class="sige sigehs fz12">#}
+{#                                <i class="iconfont icon-liebiao fsn" style="font-size:24px;" ></i>#}
+{#                                图片列表#}
+{#                            </li>#}
+{#                            <li class="sige fz12">#}
+{#                                <i class="iconfont icon-list fsn" style="font-size:18px;"></i>#}
+{#                                文章列表#}
+{#                            </li>#}
+                        </ul>
+                    </div>
+                </div>
+                <div class="tjsx m10">
+                    <input name="" type="checkbox" value="" id="checkAll">
+                    <i class="ml5 mr5 fn">全选</i>
+                <!--     <input name="" type="button" value="批量查看" class="tjann" onclick="judgeSelected(this)"> -->
+                    <input name="" type="button" value="批量分组" class="tjann" data-toggle="modal" data-target="#update_fz_Modal" onclick="judgeSelected(this)">
+                    <input name="" type="button" value="批量转发" class="tjann" onclick="judgeSelected(this)">
+                    <input name="" type="button" value="批量刷新" class="tjann" onclick="flushSelectResume()"></div>
+                    <div id="noSendData_wdjlk" class="noSendData" style="display: none;">
+                        <div>
+                                <p>暂无简历！<a href="javascript:void(0)" onclick="addNewJl()" style="color:#ff8800;">【立即上传】</a></p>
+                        </div>
+                    </div>
+                <!-- 猎头会员搜索结果图片列表开始 -->
+                <div class="tuplb sigenr mt5" id="tableInfo" style="overflow: hidden">
+                    <div class="clear"></div>
+                </div>
+                <!-- 猎头会员搜索结果图片列表结束 -->
+                <!-- 猎头会员搜索结果文章列表开始 -->
+                <div class="wenzlb sigenr mt15" style="display:none" id="articleInfo">
+{#                    <div class="jlhx"></div>#}
+{#                    <div class="clear"></div>#}
+                </div>
+                <div class="lthy_pager" id="paginInfo"></div>
+                <!-- 猎头会员搜索结果文章列表结束 --> </div>
+            <!-- 猎头会员搜索结果结束 --> </div>
+        <!-- 猎头会员搜索结果主内容结束 -->
+        <input type="hidden" id="oldGroupInfoId" />
+        <div class="xright">
+            <!-- 侧边栏 -->
+
+            <div class="grxx_sidebar f_r">
+                <div class="lt_tjjlfl add_cal_btn" style="margin-top: 0px;">
+                    <i class="iconfont icon-tianjia"></i>
+                    添加新简历分类
+                </div>
+                <div class="grxx_sidebar_b" style="padding:20px 0;border-top:1px solid #5c91d9">
+                    <dl>
+                        <dt class="my_cal_title" style="margin-left:20px">我的简历库分组</dt>
+                        <dd class="cal_tree_dd" style="padding-top:10px">
+                            {% if groups %}
+                                {% for group in groups %}
+                                    <div class="panel-heading clearfix" style="padding:10px 20px 6px 20px;cursor: pointer;height:25px">
+                                        <input type="hidden" value="{{ group.id }}" />
+                                        <i class="iconfont icon-fangxiang2 f_l" style="font-size:16px"></i>
+                                        <span class="f_l name_span ml5 fz16" onclick="queryByGroupId({{ group.id }}, this)">{{ group.group_name }}</span>
+                                        <input type="text" id="" value="{{ group.group_name }}" class="edit_name_input" style="display: none;float:left">
+                                        <span class="f_r num_group">{{ group.childCount }}</span>
+                                        {% if group.group_name != '未分组' %}
+                                            <span class="f_r add_up_re_btn">
+                                                <i class="iconfont icon-xiugaichujia"></i>
+                                               <i class="iconfont icon-shanchu fz18"></i>
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+{#                            <div class="panel-heading clearfix" style="padding:10px 20px 6px 20px">#}
+{#                                <i class="iconfont icon-fangxiang2 f_l" style="font-size:16px"></i>#}
+{#                                <span class="f_l name_span ml5 fz16">默认分组</span>#}
+{#                                <input type="text" id="" value="默认分组" class="edit_name_input" style="display: none;float:left">#}
+{#                                <span class="f_r num_group">8</span>  #}
+{#                                <span class="f_r add_up_re_btn">#}
+{#                                    <i class="iconfont icon-xiugaichujia"></i>#}
+{#                                   <i class="iconfont icon-shanchu fz18"></i>#}
+{#                                </span>                             #}
+{#                            </div>#}
+{#                            <div class="panel-heading clearfix" style="padding:10px 20px 6px 20px">#}
+{#                                <i class="iconfont icon-fangxiang2 f_l" style="font-size:16px"></i>#}
+{#                                <span class="f_l name_span ml5 fz16">默认分组</span>#}
+{#                                <input type="text" id="" value="默认分组" class="edit_name_input" style="display: none;float:left">#}
+{#                                <span class="f_r num_group">8</span>       #}
+{#                                <span class="f_r add_up_re_btn" >#}
+{#                                    <i class="iconfont icon-xiugaichujia"></i>#}
+{#                                   <i class="iconfont icon-shanchu fz18"></i>#}
+{#                                </span>                         #}
+{#                            </div>#}
+{#                            <div class="panel-heading clearfix" style="padding:10px 20px 6px 20px">#}
+{#                                <i class="iconfont icon-fangxiang2 f_l" style="font-size:16px"></i>#}
+{#                                <span class="f_l name_span ml5 fz16">默认分组</span>#}
+{#                                <input type="text" id="" value="默认分组" class="edit_name_input" style="display: none;float:left">#}
+{#                                <span class="f_r num_group">8</span>       #}
+{#                                <span class="f_r add_up_re_btn" >#}
+{#                                    <i class="iconfont icon-xiugaichujia"></i>#}
+{#                                   <i class="iconfont icon-shanchu fz18"></i>#}
+{#                                </span>                         #}
+{#                            </div>#}
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <!-- 侧边栏 --> </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!-- 内容大框 -->
+<!-- 删除简历模态框（Modal） -->
+<div class="modal fade" id="if_del_Modal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:300px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">删除简历</h4>
+            </div>
+            <div class="modal-body t_c">是否确认删除该简历？</div>
+            <div class="modal-footer" style="border:none;">
+                <input type="hidden" id="cancelId" />
+                <input type="hidden" id="cancelGroupId" />
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteResume()">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+                
+            </div>
+        </div>
+        <!-- /.modal-content --> </div>
+</div>
+<!-- /.modal -->
+<!-- 模态框（Modal） -->
+<!-- 匹配模态框（Modal） -->
+
+<!-- /.modal -->
+
+<!-- 模态框（Modal） -->
+<!-- 私信模态框（Modal） -->
+<div class="modal fade" id="message_Modal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:610px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">发送私信</h4>
+            </div>
+            <div class="modal-body t_c">
+                <div  class="message_Modal_box">
+                    <span>
+                        某某某
+                        <label>x</label>
+                    </span>
+                    <span>
+                        某某某
+                        <label>x</label>
+                    </span>
+                    <span>
+                        某某某
+                        <label>x</label>
+                    </span>
+                    <span>
+                        某某某
+                        <label>x</label>
+                    </span>
+                    <span>
+                        某某某
+                        <label>x</label>
+                    </span>
+                    <span>
+                        某某某
+                        <label>x</label>
+                    </span>
+                </div>
+                <div  class="modal_wdgz mt10">
+                    <i class="iconfont icon-iconfontmoban2"></i>
+                    <div class="dialog" style="display:none">
+                        <ul class="list" style="  overflow: auto; height: 244px; ">
+                            {% for tmodel in tmodels %}
+                            <li>
+                                <span style="color:#666">{{ tmodel.model_name }}</span>
+                                <span style="margin-left: 30px;color:#b5b5b5">
+                                    {% if tmodel.content|length > 20 %}
+                                            {{ tmodel.content|slice:"20" }} ...
+                                        {% else %}
+                                            {{ tmodel.content }}
+                                        {% endif %}
+                                </span>
+                                <input type="hidden" value="{{ tmodel.content }}" ></li>
+                            {% endfor %}
+                        </ul>
+                        <div class="t_c">
+                            <input type="button" name="" class="re_btn" value="确认">
+                            <input type="button" name="" class="qx_btn ml15" value="取消"></div>
+                    </div>
+                </div>
+                <div class="message_Modal_box1 mt10">
+                    <textarea name=""  style="resize:none;color:#666" id="letterContent" placeholder="请输入私信内容"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" style="background:#5c91d9" id="send" onclick="sendLetter()">发送</button>
+            </div>
+        </div>
+        <!-- /.modal-content --> </div>
+</div>
+<!-- /.modal -->
+<!-- 模态框（Modal） -->
+<!-- 模态框（Modal） -->
+<!-- 分组模态框（Modal） -->
+<div class="modal fade" id="update_fz_Modal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:300px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">分组</h4>
+                <input type="hidden" id="operateIndex" />
+            </div>
+            <div class="modal-body t_c">
+                <select name="" id="groupList" style="width:270px;height: 30px;">
+                    {% if groups %}
+                        {% for secondGroup in groups %}
+                            <option value="{{ secondGroup.id }}">{{ secondGroup.group_name }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="operateState" />
+                <button type="button" class="btn btn-primary"data-dismiss="modal" style="background:#5c91d9;" onclick="updateGroup()">完成</button>
+            </div>
+        </div>
+        <!-- /.modal-content --> </div>
+</div>
+<!-- /.modal -->
+
+    <input type="hidden" id="file_count" value="{{ file_count }}" />
+<div id="selectJl" style="display:none;text-align: center">
+<div class="selectJl_l" style="margin-left: 5px">
+    <input type="file" name="file_upload" id="file_upload"  />
+</div>
+<div style="clear:both"></div>
+<div style="text-align: left;margin-left: 10px;">
+        <div style="margin-top:6px;color:#777"><span style="color:#ff6666">提示：</span>只支持doc、pdf、txt、HTML格式文件，文件大小不能超过5M
+        <p class="f_r o_count" style="color:#ff6666;">
+            已选择<span id="sc_select">0</span>份，
+            成功<span id="sc_success">0</span>份，
+            失败<span id="sc_error">0</span>份
+        </p>
+        </div>
+</div>
+<div id="some_file_queue" style="margin-top: 15px;height:240px;overflow-x:hidden;overflow-y: auto" >
+    <div id="uploadCount" style="text-align: center;margin-top: 100px;"></div>
+</div>
+   <a  href="javascript:$('#file_upload').uploadify('upload','*');" style="background:#5c91d9;color:#fff;width:120px;height:40px;line-height: 40px;display:inline-block;border-radius: 5px;" id="start_upload">开始上传</a><a  href="" style="background:#5c91d9;color:#fff;width:120px;height:40px;line-height: 40px;display:inline-block;border-radius: 5px;margin-left: 10px" id="finish_btn" >完成</a>
+</div>
+<script type="text/javascript">
+
+var o_sc={
+    success:0,//已经上传成功的简历数量
+    error:0,//已经上传失败的简历数量
+    select:0,//当前选择的简历数量
+    close:''
+}
+        var loadData;
+        var pu_id = {{ pu.id }};
+        var sql = 'source_id=' + pu_id + ' and resume_status=1';
+        var querySql = sql;
+        var file_count = $('#file_count').val();
+        $(function(){
+            loadData = new pagin("paginInfo", "V_Resume_Group", "", sql, "update_date desc", 6, "paginBind", "loadData");
+        })
+        //动态加载页面绑定数据
+        function paginBind(dataInfo){
+            //图片列表数据加载
+            $("#tableInfo").empty();
+            $("#articleInfo").empty();
+            //无数据处理
+            if(dataInfo == ""){
+                $('#noSendData_wdjlk').css('display', 'block');
+                $(".page_number").hide();
+                return;
+            }else{
+                $('#noSendData_wdjlk').css('display', 'none');
+                $(".page_number").show();
+            }
+            $(dataInfo).each(function(i){
+
+                // 处理值为 null 的字段
+                var len = $(this).length;
+                var array = $(this);
+                for(var n = 0; n < len; n ++){
+                    if(array[n] == null){
+                        array[n] = "&nbsp;"
+                    }
+                }
+                if($.trim(array[4])==""){
+                    array[4] = "null"; 
+                }
+                var info = [];
+                var o_age = parseInt(new Date().getFullYear()) - array[6];
+                if($.trim(array[16]) != "" || $.trim(array[16])!="&nbsp;"){
+                    info.push(array[16]);
+                }
+                if($.trim(array[14]) == "" | $.trim(array[14])=="&nbsp;"){
+                array[14] = "";
+                }
+               else
+                array[14] = "&nbsp;|&nbsp;"+array[14];
+                if($.trim(array[15]) == "" || $.trim(array[15])=="&nbsp;")
+                array[15] = "";
+                 else
+                array[15] = "&nbsp;|&nbsp;"+array[15];
+
+                if(isNaN(o_age)){
+                  o_age ="";
+                }else{
+                  o_age = "&nbsp;|&nbsp;"+o_age+"岁";
+                }
+
+                info = info.join("&nbsp;|&nbsp;")
+                //图片列表数据加载
+                var content = '';
+                content += '<div class="jlmp12 m10"><div class="jlmp1_k12" ><div class="mpLe2"><div class="mpxp">';
+                content += '<img src="'+array[4]+'" width="88" height="88" border="0" align="absmiddle" style="cursor: pointer;" onclick="viewResume('+array[0]+ ','+array[36] + ')" onerror="notfind(this, 1, \''+array[5]+'\')"></div>';
+
+                var positionStatus = array[37].substring(0, array[37].indexOf('，'));
+                var positontit=array[37];
+                if(positionStatus == '在职'){
+                    content += '<div class="mpqzxx2 mt6 fz14">';
+                    content += '<i class="iconfont icon-bishiyong" style="font-size:15px;"></i>在职';
+                }
+                else if(positionStatus == '已离职')
+                {
+                    content += '<div class="mpqzxx1 mt6 fz14">';
+                    content += '<i class="iconfont icon-xin fz16"></i>求职中';
+                }
+                else if(positontit == '暂时不想找工作')
+                {
+                    content += '<div class="mpqzxx2 mt6 fz14">';
+                    content += '<i class="iconfont icon-bishiyong" style="font-size:15px;"></i>在职';                 
+                }
+                else{
+                    content += '<div style="width:70px; height:22px;">';
+                }
+                content += '</div></div><div class="mpRi2"><ul>';
+                content += '<li class="c3" style="width:155px">';
+                if($(this)[38] != null && $(this)[38] != ''){
+                    content += '    <img src="{{ STATIC_URL }}images/iconfont-huanxingzhen.png" style="position:relative;vertical-align: -2px;"/> ';
+                }
+                content += '    <b class="fz16 fn fb" style="cursor: pointer;" onclick="viewResume('+array[0]+ ','+array[36] + ')">'+array[3]+'</b> ';
+                if(array[5] == "女"){
+                    content += '<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>';
+                }else{
+                    content += '<i class="iconfont icon-nan cr" style=" font-size:14px;"></i>';
+                }
+
+                content += ' '+array[5]+' ';
+                content += '</li><li class="fz14 cr pt8" title=\"'+array[18]+'\">'+array[18]+'</li><li class="fz12 pt10 c3" title=\"'+array[19]+'\">'+array[19]+'</li>';
+                content += '<li class="fz12 pt8 c3 txt_hide" title="'+array[16]+''+array[14]+''+array[15]+''+o_age+'">'+array[16]+''+array[14]+''+array[15]+''+o_age+'</li>';
+                content += '</ul></div></div><div class="jlmp1_k3"><div class="gnaj_Le"><input name="input" style="margin-top:5px" type="checkbox" value="'+array[36]+'"></div>';
+                content += '<div class="gnaj_Ri">';
+                content += '<input type="hidden" name="resumeId" value="'+array[0]+'" /><input type="hidden" value="'+array[36]+'" />';
+                content += '<input name="input" type="button" value="刷新" class="gnanys" onclick="flushDate('+array[0]+')">';
+                content += '<input name="input" type="button" value="匹配" class="gnanys" onclick="autoMatchingPosition('+array[0]+')">';
+                content += '<input name="input" type="button" value="分组" class="gnanys" data-toggle="modal"    data-target="#update_fz_Modal" onclick="getOperateData(this, '+(i + 1)+')">';
+                content += '<input name="input" type="button" value="转发" class="gnanys" onclick="getOperateData(this, '+(i + 1)+'), doForwardResume([' + array[0] + '])">';
+                content += '</div><input type="hidden" value="'+array[35]+'"/><div class="jlmp1_k4"></div><div class="sx_sc"><ul><li style="padding-top:13px!important">';
+                content += '<i class="iconfont icon-shuaxin fsn" style="font-size:16px;" onclick="flushDate('+array[0]+')"></i></li>';
+                content += '<li><i class="iconfont icon-shanchu fsn" style="font-size:20px;" data-toggle="modal" data-target="#if_del_Modal" onclick="setDeleteId('+array[0]+', '+array[36]+', '+(i + 1)+')"></i>';
+                content += '</li></ul></div></div>';
+                $("#tableInfo").append(content);
+                //文章列表数据加载
+
+            })
+        }
+        //搜索按钮按下entry键事件
+        function judgeEntry(){
+            if(event.keyCode == 13){
+                queryResume();
+            }
+        }
+        //查询简历
+        function queryResume(){
+            var keywords = $('#condition').val();
+            querySql = sql;
+            //关键字
+            if($.trim(keywords) != ''){
+                var keywordList = keywords.split('，');
+                for(var m = 0;m < keywordList.length;m++){
+                    if(m == 0){
+                        querySql += ' and (user_name like "%' + $.trim(keywordList[m]) + '%"';
+                    }else{
+                        querySql += ' or user_name like "%' + $.trim(keywordList[m]) + '%"';
+                    }
+                    querySql += ' or Currently_Pacece like "%' + $.trim(keywordList[m]) + '%"';
+                    querySql += ' or Currently_Postaion like "%' + $.trim(keywordList[m]) + '%"';
+
+                    //期望职位处理
+                    $.ajax({
+                        async: false,
+                        type: "POST",
+                        url: "/ajax_get_position_for_name",
+                        data: {"key_name": keywordList[m]},
+                        dataType: "json",
+                        success: function (data) {
+                            $(data["msg"]).each(function(){
+                               querySql += ' or Expect_Position like "%' + this[0] + '%"'
+                            });
+                        }
+                    });
+                }
+                querySql += ')';
+            }
+            loadData = new pagin("paginInfo", "V_Resume_Group", "", encodeURI(querySql), "update_date desc", 6, "paginBind", "loadData");
+            if(_counts <1){
+                alert("没有找到匹配的结果，换个关键词试试吧~",2);
+             }
+        }
+        //刷新简历
+        function flushDate(resumeId){
+            $.ajax({
+                type: "POST",
+                url: "/ajax_flushResume",
+                data: {"resumeId": resumeId},
+                dataType: "json",
+                success: function (data) {
+                    if(data.msg == 'success'){
+                        window.alert("成功刷新简历",1);
+                    }
+                }
+            })
+        }
+        //设置删除的ID(点击简历删除图标时)
+        function setDeleteId(resumeId, groupId, index){
+            $('#cancelId').val(resumeId);
+            $('#cancelGroupId').val(groupId);
+            $('#operateIndex').val(index);
+        }
+        //删除简历
+        function deleteResume(){
+            var resumeId = $('#cancelId').val();
+            var groupId = $('#cancelGroupId').val();
+            $.ajax({
+                type: "POST",
+                url: "/ajax_deleteResume",
+                data: {"resumeId": resumeId, "groupId": groupId, "deleteType": 1},
+                dataType: "json",
+                success: function (data) {
+                    if(data.msg == 'success'){
+                        //修改分组含有的数量
+                        var index = parseInt($('#operateIndex').val()) - 1;
+                        var obj = $('.gnaj_Ri').eq(index);
+                        var gid = obj.next().val();
+                        var group = $('input[value="'+gid+'"]').parent().find('.num_group:first');
+                        var childCount = group.text();
+                        group.text(parseInt(childCount) - 1);
+                        //end
+                        loadData = new pagin("paginInfo", "V_Resume_Group", "", encodeURI(querySql), "update_date desc", 6, "paginBind", "loadData");
+                    }
+                }
+            })
+        }
+        $("#zf_Modal .message_Modal_box span label").click(function(event) {
+           $(this).parent().remove();
+        });
+        $(".icon-iconfonticon").click(function(){
+            $(this).parent().parent().remove();
+        })
+        //根据分组ID获得分组下的简历
+        function queryByGroupId(groupId, obj){
+            querySql = sql + ' and gid=' + groupId;
+            loadData = new pagin("paginInfo", "V_Resume_Group", "", encodeURI(querySql), "update_date desc", 6, "paginBind", "loadData");
+        }
+
+        //获得操作的数据
+        function getOperateData(obj, index){
+            $('#operateIndex').val(index);
+            $('#cancelId').val($(obj).parent().children().eq(0).val());//简历ID
+            $('#cancelGroupId').val($(obj).parent().children().eq(1).val())//简历分组ID
+            $('#operateState').val('simple');
+            if($(obj).val() == '分组'){
+                //修改分组时，要显示该被关注人属于的分组，所有需要获得分组的ID
+                var relationGroupId = $(obj).parent().children().eq(1).val();
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax_getGidByGinfoId",
+                    data: {"relationGroupId": relationGroupId},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.msg == 'success') {
+                            $('#groupList').val(data.gid);
+                            $('#oldGroupInfoId').val(data.gid);
+                        } else {
+                            window.alert(data.msg,4);
+                        }
+                    }
+                });
+            }else if($(obj).val() == '转发'){
+{#                $('#forwardul').children().remove();#}
+{#                var em = $(obj).parent().parent().parent().children('div:eq(0)').children('div').eq(1).children('ul');#}
+{#                var html = '<li><img src="../../static/images/ls_03.png" width="66" height="63" alt="" class="f_l">' +#}
+{#                        '<div class="f_l t_l"><p>' + em.children('li:first').html() + '</p><p>' + em.children('li:eq(1)').html() + '</p>';#}
+{#                html += '<p>' + em.children('li:eq(3)').html() + '</p><div class="f_l t_l"></li>';#}
+{#                $('#forwardul').append(html);#}
+            }
+        }
+        //修改简历所属分组
+        function updateGroup(){
+            //判断是单个修改分组还是多选的修改分组
+            var newGroupId = $('#groupList').val();//修改后的分组ID
+            if($('#operateState').val() == 'simple'){
+                var oldGroupId = $('#oldGroupInfoId').val();//原分组ID
+                if(newGroupId == oldGroupId){
+                    window.alert('分组无变化，无需保存',4);
+                    return;
+                }
+                var attentionId = $('#cancelId').val();//简历的ID
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax_updateGroup",
+                    data: {"oldGroupId": oldGroupId, "newGroupId": newGroupId, "attentionId": attentionId},
+                    dataType: "json",
+                    success: function(data){
+                        if(data.msg == "修改成功"){
+                            if(oldGroupId != newGroupId){
+                                var oldObj = $('.clearfix').children('input[value="'+oldGroupId+'"]').parent().find('.num_group:first');
+                                var newObj = $('.clearfix').children('input[value="'+newGroupId+'"]').parent().find('.num_group:first');
+                                var oldCount = oldObj.text();
+                                var newCount = newObj.text();
+                                oldObj.text(parseInt(oldCount) - 1);
+                                newObj.text(parseInt(newCount) + 1);
+                            }
+                            loadData = new pagin("paginInfo", "V_Resume_Group", "", encodeURI(querySql), "update_date desc", 6, "paginBind", "loadData");
+                            window.alert('修改分组成功',1);
+                        }else{
+                            window.alert(data.msg,4)
+                        }
+                    }
+                });
+            }else{
+                updateSelectGroup(newGroupId);
+            }
+        }
+        //修改选中人的分组
+        function updateSelectGroup(newGroupId){
+           var checkboxes;
+            if($('#tableInfo').css("display") != 'none'){
+                checkboxes = $("#tableInfo input[type='checkbox']:checked");
+            }else{
+                checkboxes = $("#articleInfo input[type='checkbox']:checked");
+            }
+            if(checkboxes.length == 0){
+                window.alert("请选择要修改分组的人！",4);
+                return;
+            }
+            var groupIds = [];//分组ID
+            for(var i = 0;i < checkboxes.length;i++){
+                groupIds.push(checkboxes.eq(i).val());
+            }
+            $.ajax({
+                type: "POST",
+                url: "/ajax_updateSelectGroup",
+                data: {"groupIds": groupIds, "newGroupId": newGroupId},
+                dataType: "json",
+                success: function (data) {
+                    if (data.msg != 'success') {
+                        window.alert(data.msg,4);
+                    }else{
+                        for(var i = 0;i < checkboxes.length;i++){
+                            //修改分组含有的数量
+                            var gid = checkboxes.eq(i).parent().next().next().val();
+                            var group = $('input[value="'+gid+'"]').parent().find('.num_group:first');
+                            var childCount = group.text();
+                            group.text(parseInt(childCount) - 1);
+                            //end
+                        }
+                        var newGroup = $('input[value="'+newGroupId+'"]').parent().find('.num_group:first');
+                        var count = newGroup.text();
+                        newGroup.text(parseInt(count) + checkboxes.length);
+                        loadData = new pagin("paginInfo", "V_Resume_Group", "", encodeURI(querySql), "update_date desc", 6, "paginBind", "loadData");
+                        window.alert('批量修改分组成功',1);
+                    }
+                }
+            })
+        }
+        //批量刷新
+        function flushSelectResume(){
+            var checkboxes;
+            var container;
+            if($('#tableInfo').css("display") != 'none'){
+                checkboxes = $("#tableInfo input[type='checkbox']:checked");
+            }else{
+                checkboxes = $("#articleInfo input[type='checkbox']:checked");
+            }
+            if(checkboxes.length == 0){
+                window.alert("请选择要刷新的简历！",4);
+                return;
+            }
+            var resumeIds = [];//简历ID
+            for(var i = 0;i < checkboxes.length;i++){
+                resumeIds.push(checkboxes.eq(i).parent().parent().find('input[name="resumeId"]').eq(0).val());
+            }
+{#            alert($('#tableInfo').css("display") + "***************" + resumeIds + "**********" + $('.jlmp12').eq(0).find('input[name="resumeId"]').eq(0).val());#}
+            $.ajax({
+                type: "POST",
+                url: "../ajax_flushResume",
+                data: {"resumeIds": resumeIds},
+                dataType: "json",
+                success: function (data) {
+                    if (data.msg == 'success') {
+                        window.alert("成功刷新选中的简历！",1);
+                    }
+                }
+            })
+        }
+        //全选事件
+        $('#checkAll').click(function(){
+            var checkboxes;
+            if($('#tableInfo').css("display") != 'none'){
+                checkboxes = $("#tableInfo input[type='checkbox']");
+            }else{
+                checkboxes = $("#articleInfo input[type='checkbox']");
+            }
+            if($(this).is(":checked")){
+                 for(var i= 0;i<checkboxes.length;i++){
+                    checkboxes[i].checked=true;
+                }
+            }else{
+                for(var i= 0;i<checkboxes.length;i++){
+                    checkboxes[i].checked=false;
+                }
+            }
+        })
+
+        //判断是否有选中的人
+        function judgeSelected(obj){
+            var checkboxes;
+            if($('#tableInfo').css("display") != 'none'){
+                checkboxes = $("#tableInfo input[type='checkbox']:checked");
+            }else{
+                checkboxes = $("#articleInfo input[type='checkbox']:checked");
+            }
+            if(checkboxes.length == 0){
+                window.alert("请选择要操作的数据！",4);
+                $('.tjann').attr('data-target', '');
+                return false;
+            }else{
+                $('.tjann').eq(1).attr('data-target', '#update_fz_Modal');
+            }
+            if($(obj).val() == '批量转发'){
+                var checkboxes = $("#tableInfo input[type='checkbox']:checked");
+                var positionIds = [];
+                for(var m = 0;m < checkboxes.length;m++){
+                    positionIds.push(checkboxes.eq(m).parent().nextAll("div:first").children("input:first").val());
+                }
+                doForwardResume(positionIds)
+            }else if($(obj).val() == '批量查看'){
+                for(var m = 0;m < checkboxes.length;m++){
+                    var resumeId = checkboxes.eq(m).parent().next().children('input:first').val();
+                    viewResume(resumeId);
+                }
+            }
+            $('#operateState').val('multi');
+        }
+
+        // $(document).on('mouseover','.panel-heading',function(){
+        //     $(".panel-heading").removeClass('active');
+        //     $(".wdgz_cal_tree_ul li").removeClass('active');
+        //     $(this).addClass('active');
+        // })
+        // $(document).on('mouseout','.panel-heading',function(){
+        //     $(".panel-heading").removeClass('active');
+        //     $(".wdgz_cal_tree_ul li").removeClass('active');
+        // })
+        $(document).on('mouseover','.wdgz_cal_tree_ul li',function(){
+
+            $(".panel-heading").removeClass('active');
+            $(".wdgz_cal_tree_ul li").removeClass('active');
+            $(this).addClass('active');
+        })
+        $(document).on('mouseout','.cal_tree_dd #accordion',function(){
+
+            $(".panel-heading").removeClass('active');
+            $(".wdgz_cal_tree_ul li").removeClass('active');
+        })
+
+        //======= 信息模版
+        $(".icon-iconfontmoban2").click(function(){
+         $(".dialog").show();
+        })
+        $(".qx_btn").click(function(){
+             $(".dialog").hide();
+        })
+        $(".dialog li").click(function(){
+            $(".dialog li").removeClass('active');
+            $(this).addClass('active');
+        })
+        $(".dialog li").dblclick(function(){
+             confirms.call(this);
+        })
+        $(".modal_wdgz .re_btn").click(function(){
+            confirms.call(this);
+        })
+        function confirms(){
+            $("#letterContent").val($(".dialog li.active").children('input').val());
+            $(this).parent().parent().hide();
+        }
+        //点击添加新个人分组事件处理
+        $(".add_cal_btn").click(function(){
+            var groupName = '默认分组';
+            var groupType = '4';
+            var parentId = 0;
+            var operateType = 'add';
+            $.ajax({
+                type: "POST",
+                url: "/ajax_groupOperate",
+                data: {"parentId": parentId, "groupName": groupName, "groupType": groupType, "operateType": operateType},
+                dataType: "json",
+                success: function(data){
+                    if(data.msg == "新建分组成功！"){
+                        var str = '';
+                        str += '<div class="panel-heading clearfix" style="padding:10px 20px 6px 20px;cursor: pointer;">';
+                        str += '    <input type="hidden" value="' + data.id + '" />';
+                        str += '    <i class="iconfont icon-fangxiang2 f_l" style="font-size:16px"></i>';
+                        str += '    <span class="f_l name_span ml5 fz16" onclick="queryByGroupId(' + data.id + ', this)">默认分组</span>';
+                        str += '    <input type="text" id="" value="默认分组" class="edit_name_input" style="display: none;float:left">';
+                        str += '    <span class="f_r num_group">0</span>';
+                        str += '    <span class="f_r add_up_re_btn">';
+                        str += '        <i class="iconfont icon-xiugaichujia"></i>';
+                        str += '        <i class="iconfont icon-shanchu fz18"></i>';
+                        str += '    </span>';
+                        str += '</div>';
+                        $(".cal_tree_dd").append(str);
+                        $('#groupList').append('<option value="'+data.id+'">默认分组</option>');
+                        //最后添加的分组呈修改状态
+                        $(".cal_tree_dd").children('div:last').find('.icon-xiugaichujia').click();
+                    }else{
+                        window.alert(data.msg,4);
+                    }
+                }
+            })
+
+        })
+        //修改分组名称
+        $(document).on('click','.icon-xiugaichujia',function(){
+            var oldValue = $(this).parent().prev().prev().val();
+            var _this=this;
+            $(this).parent().prevAll('.name_span').css('display','none');
+            $(this).parent().prevAll('.edit_name_input').css('display','inline-block');
+            $(this).parent().prevAll('.edit_name_input').focus();
+            $(this).parent().prevAll('.edit_name_input').blur(function(){
+                var obj = this;
+                if($(this).val() == ''){
+                    window.alert('请输入分组名称',4);
+                    this.focus();
+                    return ;
+                }
+                if($(this).val() == '未分组'){
+                    window.alert('未分组只能有一个，请重新输入',4);
+                    $(this).val('');
+                    this.focus();
+                    return ;
+                }
+                //判断分组名称有没改变
+                var newValue = $(this).val();
+                if(oldValue != newValue){
+                    var groupId = $(this).parent().children('input:first').val();
+                    var operateType = 'update';
+                    //修改分组名称
+                    $.ajax({
+                        type: "POST",
+                        url: "/ajax_groupOperate",
+                        data: {"groupId": groupId, "groupName": newValue, "operateType": operateType},
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.msg == "修改分组成功！") {
+                                $(_this).parent().prevAll('.name_span').html($(obj).val());
+                                $(_this).parent().prevAll('.name_span').css('display','inline-block');
+                                $(_this).parent().prevAll('.edit_name_input').css('display','none');
+
+                                $('#groupList').children('option[value='+groupId+']').text($(obj).val());
+                            } else {
+                                window.alert(data.msg,4);
+                            }
+                        }
+                    })
+                }else{
+                    $(_this).parent().prevAll('.name_span').css('display','inline-block');
+                    $(_this).parent().prevAll('.edit_name_input').css('display','none');
+                }
+            })
+        })
+
+        //删除分组
+        $(document).on('click','.icon-shanchu',function(){
+            if($(this).attr('class').indexOf('fsn') > 0){return;}
+            if(confirm("你确定要删除该分组码？")){
+                var _this = this;
+                var groupId = $(this).parent().parent().children('input:first').val();
+                var operateType = 'delete';
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax_groupOperate",
+                    data: {"groupId": groupId, "operateType": operateType},
+                    dataType: "json",
+                    success: function (data) {
+                        if(data.msg == "删除分组成功！") {
+                            //把属于该分组的数据移到未分组中
+                            var childCount = $(_this).parent().prev().text();
+                            if(parseInt(childCount) > 0){
+                                var liList = $('.gnaj_Ri').next('input[value="'+groupId+'"]');
+                                //设置未分组下的数量
+                                var noGroupId = '';
+                                $(".ml5").each(function(){
+                                    if($(this).text() == "未分组"){
+                                        var noGroup = $(this);
+                                        noGroupId = noGroup.prev().prev().val();
+                                        var ownCount = noGroup.next().next().text();
+                                        noGroup.next().next().text(parseInt(ownCount) + parseInt(childCount));
+                                    }
+                                });
+                                for(var m = 0;m < liList.length;m++){
+                                    liList.eq(m).val(noGroupId)
+                                }
+                            }
+
+                            $('#groupList').children('option[value='+groupId+']').remove();
+                            $(_this).parent().parent().remove();
+                        }else{
+                            window.alert(data.msg,4);
+                        }
+                    }
+                })
+            }
+        })
+        //发送私信
+        function sendLetter(){
+            var letterContent = $('#letterContent').val();
+            if(letterContent == ''){
+                window.alert("请填写私信内容！",4);
+                $('#send').attr('data-dismiss', '');
+                return;
+            }
+            //判断是给单个对象发私信还是给选中的对象发私信
+            if($('#operateState').val() == 'simple'){
+                var attentionId = $('#cancelId').val();
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax_sendLetter",
+                    data: {"attentionId": attentionId, "letterContent": letterContent},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.msg != 'success') {
+                            window.alert(data.msg,4);
+                        }else{
+                            $('#send').attr('data-dismiss', 'modal');
+                            window.alert('发送成功！',1)
+                        }
+                    }
+                })
+            }else{
+                var checkboxes = $(".wdgz_info_list input[type='checkbox']:checked");
+                if(checkboxes.length == 0){
+                    window.alert("请选择私信接收人！",4);
+                    return;
+                }
+                var attentionIds = [];//简历ID
+                for(var i = 0;i < checkboxes.length;i++){
+                    attentionIds.push(checkboxes.eq(i).prev().prev().val());
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax_sendSelected",
+                    data: {"attentionIds": attentionIds, "letterContent": letterContent},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.msg == 'success') {
+                            $('#send').attr('data-dismiss', 'modal');
+                            window.alert('发送成功！',1)
+                        } else {
+                            window.alert(data.msg,4);
+                        }
+                    }
+                })
+            }
+        }
+        //添加转发接收人
+        function addContact(obj){
+            var em = '<span>' + $(obj).children('span').text() + '<label>x</label></span>';
+            $('.message_Modal_box').append(em);
+            $(".message_Modal_box label").click(function(){
+                $(this).parent().remove();
+            })
+        }
+        //页面跳转（我的简历库，我收藏的简历，委托给我的简历页面切换）
+        function loadHref(url){
+            window.location = url;
+        }
+        //查看简历
+        function viewResume(resumeId, groupId){
+            //window.open('/resume/yrjl?resumeID=' + resumeId, '_blank');
+            window.open('/jobs/resume/new_jlsz?resumeID=' + resumeId);
+        }
+        //时间下拉
+        $(".jlsjk").click(function(event) {
+            $(".date_ul").slideDown(150);
+        });
+        $(".jlxzrq").mouseleave(function(event) {
+            $(".date_ul").slideUp(150);
+        });
+        $(".date_ul li").click(function(event) {
+            $(".jlsjk").val($(this).text());
+            if($(this).text() == '3天内'){
+                querySql = sql + ' and DATE_SUB(CURDATE(), INTERVAL 3 DAY) < DATE(Update_Date)';
+            }else if($(this).text() == '一周内'){
+                querySql = sql + ' and DATE_SUB(CURDATE(), INTERVAL 7 DAY) < DATE(Update_Date)';
+            }else if($(this).text() == '一月内'){
+                querySql = sql + ' and DATE_SUB(CURDATE(), INTERVAL 1 MONTH) < DATE(Update_Date)';
+            }else{
+                querySql = sql;
+                $('.jlsjk').val('');
+            }
+            $(".date_ul").slideUp(150);
+            loadData = new pagin("paginInfo", "V_Resume_Group", "", encodeURI(querySql), "update_date desc", 6, "paginBind", "loadData");
+        });
+        $(function(){
+            $(".name_span").click(function(event) {
+                $(".name_span").siblings('.num_group').css('display', 'block').siblings('.add_up_re_btn').css('display', 'none').parent().css({
+                    background: 'white',
+                    color: '#333'
+                });
+                $(this).siblings('.num_group').css('display', 'none').siblings('.add_up_re_btn').css('display', 'block').parent().css({
+                    background: '#F97717',
+                    color: 'white'
+                });
+            });
+        });
+    var uploadCount=50;
+    var str='<div id="${fileID}" class="uploadify-queue-item" style="overflow:hidden;height:30px;line-height:30px;">';
+    str+='<div style="float:left"><img src="{{ STATIC_URL }}images/xtb2.png" style="margin-right:10px;vertical-align:middle;margin-left:10px"/>';
+    str+='<span class="fileName" style="vertical-align:middle;display:inline-block;width:460px;text-align:left">${fileName}</span><span\
+    style="display:inline-block;width:120px;text-align:left">${fileSize}</span><span class="data" style="color:#5c91d9"></span></div>\
+    <div style="float:left;margin-right:10px;text-align:right;width:43px;">';
+str+='<div class="cancel" style="display:inline"><a href="javascript:$(\'#${instanceID}\').uploadify(\'cancel\',';
+str+='\'${fileID}\')"><img src="{{ STATIC_URL }}images/new_images/close.png" /></a></div></div></div>';
+    $("#file_upload").uploadify({
+        'buttonText':'',
+        'buttonCursor':'pointer',
+        'width':'234px',
+        'height':'57px',
+        'auto':false,
+        'multi':true,
+        'fileSizeLimit':'5MB',
+        'successTimeout': 60000,
+        'queueSizeLimit' : uploadCount,
+        'uploadLimit' : uploadCount,
+        'buttonClass':'sajl_btn',
+        'swf':'/static/js/uploader/uploadify.swf',
+        'itemTemplate':str,
+        'removeCompleted' : false,
+        'queueID'  : 'some_file_queue',
+        'fileTypeDesc' : 'Any old file you want...',
+        'fileTypeExts' : '*.doc;*.docx;*.pdf;*.txt;*.html;',
+        'uploader': '/fileupload/',
+        'onUploadStart': function(file) {
+                $('#file_upload').uploadify('disable', true);
+                    $("#file_upload").uploadify("settings", "formData", {
+                        'fileType': 5
+                    });
+                },
+        'onUploadSuccess': function(file, data, response){
+            var file_path = JSON.parse(data).save_name;
+            var file_name = file.name;
+            o_sc.success ++;
+            $("#sc_success").text(o_sc.success);
+            $("#some_file_queue").scrollTop((o_sc.success+o_sc.error-4)*32);
+            // 保存简历附件
+            $.ajax({
+                type: "POST",
+                url: "/saveResumeFile",
+                data: {"file_path": file_path, "file_name": file_name},
+                dataType: "json",
+                success: function (data) {
+                    if(data.status == '1'){
+                        
+                    }else{
+                        
+                    }
+                }
+            });
+            // location.href='/resumeFileUpload?file_path=' + file_path;
+            // $(".uploadify-queue-item .cancel a").text("");
+
+          },
+        'onUploadError':function(file){
+            if(o_sc.close != file.id){
+                o_sc.error ++;
+                $("#sc_error").text(o_sc.error);
+            }
+        },
+        'onUploadComplete' : function(file) {
+{#            $('.layui-layer-title').text("选择您需要添加的简历类型哦~您还可以上传" + file_count + "份简历");#}
+{#            location.href = '/resume/wcljl';#}
+                
+        },
+        'onDialogOpen':function() {
+            if(uploadCount<=0)
+            {
+                $('#file_upload').uploadify('disable',true);
+            }
+            else
+            {
+        $("#finish_btn").css('background', 'rgb(204, 204, 204)').attr('href','javascript:void(0)');
+                $('#file_upload').uploadify('settings','queueSizeLimit',uploadCount);
+                $('#file_upload').uploadify('settings','uploadLimit',uploadCount);
+            }
+        },
+        'onSelect':function(file){
+            $("#uploadCount").hide();
+            $('.o_count').show();
+            var znxx_content=document.getElementById('some_file_queue');
+            znxx_content.scrollTop=znxx_content.scrollHeight;
+            $("#some_file_queue").css('border', '1px solid #CCC');
+            o_sc.select =$("#some_file_queue .uploadify-queue-item").length;
+            $("#sc_select").text(o_sc.select);
+        },
+        'onCancel' : function(file) {
+            $("#"+file.id+" .cancel img").remove();
+            o_sc.select--;
+            $("#sc_select").text(o_sc.select);
+            o_sc.close = file.id;
+        },
+        'onSelectError' : function(file,errorCode,errorMsg) {
+            console.log(errorCode);
+            if(errorCode=="-110")
+            alert('请上传不超过5Mb大小的文件',2);
+           else if(errorCode=="-130")
+             alert('请上传word文档',2);
+           else if(errorCode="-100")
+               alert('选择的文件数量超过限制!',2);
+
+        },
+        'onQueueComplete' : function(queueData) {
+            $('#file_upload').uploadify('disable',false);
+            $("#finish_btn").css('background', '#5c91d9').attr('href','javascript:layer.close(layer_index);loadwcljl();');
+        }
+    });
+        function loadwcljl(){
+            location.href='/resume/wcljl';
+        }
+        function addNewJl() {
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "/getResumeFileCount",
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == '1') {
+                        file_count = data.file_count;
+                    } else {
+                        window.alert(data.msg,4);
+                    }
+                }
+            });
+            uploadCount = 500 - file_count;
+            o_sc.success=0;
+            o_sc.error=0;
+            o_sc.select=0;
+            $("#sc_success").text(o_sc.success);
+            $("#sc_error").text(o_sc.error);
+            $("#sc_select").text(o_sc.select);
+            $("#some_file_queue").css('borderColor', 'transparent');
+            $(".o_count").hide();
+            if (uploadCount <= 0){alert('已经上传了500份',4);return;}
+            layer_index = layer.open({
+                title: "简历上传<em class='c_abs'></em>",
+                type: 1,
+                area: ['788px', 'auto'],
+                skin: 'o_layer',
+                shade: [0.7, '#393D49'],
+                content: $("#selectJl"),
+                success: function (layero, index) {
+                    // if (uploadCount >= 50)
+                    //     uploadCount = 50;
+                    $("#uploadCount").show().html('该账号还能再上传<span style="color:#ff6666;font-size:16px;">'+uploadCount+'</span>份未处理附件简历,单次上传不能超过50份');
+                    $("#finish_btn").css('background', '#ccc').attr('href','javascript:void(0)');
+                    $('#some_file_queue .uploadify-queue-item').remove();
+                }
+            });
+        }
+    </script>
+{% include 'jobs/system/new_footer.html' %}

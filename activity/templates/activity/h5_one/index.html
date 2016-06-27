@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<title></title>
+	<link rel="stylesheet" href="/static/css/css.css">
+	<link rel="stylesheet" href="/static/css/h5_one.css">
+    <script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+</head>
+<script>
+	var u = navigator.userAgent, app = navigator.appVersion;
+	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+	var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+</script>
+<body>
+
+	<div class="index1 o_slide o_active" style="top:0px;">
+		<header>
+			<div class="t">
+				<h1>
+					
+					<span class="name">这里是&nbsp;&nbsp;{{ company.pc_name | default:'' }}</span>
+				</h1>
+				<h2>
+					我们在
+					<span class="we" onclick='window.location.href="/m/personal/login"'>怀才当遇</span>
+					招人才
+				</h2>
+			</div>
+		</header>
+		<section>
+			<div class="company">
+				<img class="c_logo" onerror="notfind(this)" src="{{ company.pc_logo | default:'/static/images/qy_logo.png' }}" alt="">
+				<div class="abs"></div>
+			</div>
+			<p class="w">你，就是我们要找的那个人才！</p>
+		</section>
+		<footer>
+			<img class="we" src="/static/images/h5/one/we.png" alt="">
+			<div class="xia">
+				<ul>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+				<img class="next" src="/static/images/h5/one/next.png" alt=""></div>
+		</footer>
+	</div>
+
+	<div class="index2 o_slide">
+		<header>
+			<div class="middle">
+				<div class="logo">
+					<img class="c_logo" onerror="notfind(this)" src="{{ company.pc_logo | default:'/static/images/qy_logo.png' }}" alt="">
+					<div class="abs"></div>
+				</div>
+				<p> <span>{{ company.pc_name|default:'' }}</span></p>
+			</div>
+		</header>
+		<section>
+			<div class="c_info">
+				<span class="area">{{ company.locationname|default:'' }}</span>
+				<span class="businessul">{{ company.businessname|default:'' }}</span>
+			</div>
+			{% if company and company.highlightsArray %}
+			<div class="c_fuli">
+				<ul>
+					<!-- {% if company.highlightsArray %} -->
+                        {% for hightLight in company.highlightsArray %}
+					<li>【{{ hightLight }}】</li>
+					{% endfor %}
+                    <!-- {% endif %} -->
+				</ul>
+				<div class="abs"></div>
+			</div>
+			{% endif %}
+		</section>
+		<footer>
+			<img class="we" src="/static/images/h5/one/we.png" alt="">
+			<div class="xia">
+				<ul>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+				<img class="next" src="/static/images/h5/one/next.png" alt=""></div>
+		</footer>
+	</div>
+
+	<div class="index3 o_slide">
+		<header>
+			<h1>ABOUT US</h1>
+		</header>
+
+		<section>
+			<div class="abs1"></div>
+			<div class="abs2"></div>
+			<div class="content">
+				<h1 class="h">公司概况</h1>
+				<div class="word">
+					<p>
+						{% if company.introduce %}
+                        {{ company.introduce|safe }}
+                    {% endif %}
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<footer>
+			<img class="we" src="/static/images/h5/one/we.png" alt="">
+			<div class="xia">
+				<ul>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+				<img class="next" src="/static/images/h5/one/next.png" alt=""></div>
+		</footer>
+	</div>
+
+	<div class="index4 o_slide">
+		<header>
+			<h1>POSITION</h1>
+			<div class="no">
+				<p class="l">
+					不招
+					<span>坐班族</span>
+				</p>
+			</div>
+			<p class="yes">只招合伙人</p>
+		</header>
+		<section style="overflow: hidden">
+			<ul class="position_list" >
+				{% if position_list %}
+                    {% for position in position_list %}
+				<li class="a{% widthratio forloop.counter|add:1 4 1%}">
+					<img class="tx" src="/static/images/h5/one/tx.png" alt="">
+                        <div class="p_info">
+                            <p class="p">
+                    			<a class="zwxq" href="/mobile/personal/position_detail?position_id={{ position.id }}">
+                                <span class="p_name">{{ position.position_name | default:'' }}</span>
+                            	</a>
+                                <span class="gold">
+                                    <img src="/static/images/h5/one/gold.png" alt="">
+                                    <span>{{ position.payname | default:'' }}</span>
+                                </span>
+                            </p>
+                            <p class="yq">
+                                {% if position.work_areaname %}
+                                    {{ position.work_areaname }}
+                                    {% if position.work_yearname %}
+                                        |
+                                    {% endif %}
+                                {% endif %}
+
+                                {% if position.work_yearname %}
+                                    {{ position.work_yearname }}
+                                    {% if position.diplomaname %}
+                                        |
+                                    {% endif %}
+                                {% endif %}
+                                {{ position.diplomaname | default:'' }}
+                            </p>
+                        </div>
+				</li>
+				{% endfor %}
+                {% endif %}
+			</ul>
+		</section>
+		<footer>
+			<img class="we" src="/static/images/h5/one/we.png" alt="">
+			<div class="xia">
+				<ul>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+				<img class="next" src="/static/images/h5/one/next.png" alt=""></div>
+		</footer>
+	</div>
+
+
+     <div class="index5 o_slide">
+		<header>
+			<div class="middle">
+				<div class="logo">
+					<img class="c_logo" onerror="notfind(this)" src="{{ company.pc_logo | default:'/static/images/qy_logo.png' }}" alt="">
+					<div class="abs"></div>
+				</div>
+				<p> <span>{{ company.pc_name|default:'' }}</span></p>
+			</div>
+		</header>
+		<section>
+			<div class="t" style="margin-top: -1rem; margin-bottom: 0.1rem;">
+				<h1 class="company_name">立即报名</h1>
+			</div>
+			<div style="width:10rem; height:5rem">
+			 	<ul>
+			 		<li> 
+				 		  <div class="educ_claim">
+	                        <p class="position_p" data-value="">请选择您选择的应聘职位<img src="/static/images/h5/jt.png" alt="" class="claim_img"></p>
+	                        <ul class="xl_mes1 xl_comm">   
+	                        	{% if position_list %}                           
+                                    {% for position in position_list %}
+                                        <li value="{{ position.id }}">
+                                            {{ position.payname | default:'' }}&nbsp;&nbsp;&nbsp;&nbsp;{{ position.position_name | default:'' }}
+                                        </li>
+                                    {% endfor %}     
+                                {% endif %}                          
+	                        </ul>
+	                      </div>
+			 		</li>
+			 		<li>
+			 			<input class="in_comm" id="apply_name" name="apply_name" placeholder="请输入您的姓名" value="" type="text"></li>
+			 		<li>
+			 			<input class="in_comm phone" id="apply_phone" name="apply_phone" placeholder="请输入您的手机号码" value="" type="text">
+			 		</li>
+			 		<li style="clear:both;overflow: hidden;">
+			 			<div class="yzm">
+			 			 <input class="in_comm1 audit_code" id="phone_code" name="phone_code" placeholder="请输入验证码" value="" type="text">
+			 			 <span class="err_visa send" onclick="smsValidation(event);">获取验证码</span>
+			 			</div>
+			 		</li>
+			 		<li> 
+				 		  <div class="educ_claim">
+	                        <p class="suffer_p" data-value="">请选择您的工作经验<img src="/static/images/h5/jt.png" alt="" class="claim_img"></p>
+	                        {% if workyears %}
+	                        <ul class="xl_mes1 xl_comm" style="height: 2.7rem !important;">                                
+                                    {% for workyear in workyears %}
+                                        <li value="{{ workyear.dictionary_value }}">{{ workyear.dictionary_name }}</li>
+                                    {% endfor %}                                
+	                        </ul>
+	                        {% endif %}
+	                      </div>
+			 		</li>
+			 		<li>
+			 			 <a href="#" class="h5_register" id="h5_register" onclick="submitApply()" style="outline:none;">立即提交</a>
+			 		</li>
+			 	</ul>
+			 	<p class="reg_tit">注册怀才当遇，寻找更多高端人才简历</p>
+			 </div>
+		</section>
+		<footer>
+			<div class="xia">
+				<ul>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+				<img class="next" src="/static/images/h5/one/next.png" alt=""></div>
+		</footer>
+	</div>
+
+
+	<div class="index6 o_slide ">
+		<header>
+			<div class="middle">
+				<div class="logo">
+					<img class="c_logo" onerror="notfind(this)" src="{{ company.pc_logo | default:'/static/images/qy_logo.png' }}" alt="">
+					<div class="abs"></div>
+				</div>
+				<p> <span>{{ company.pc_name|default:'' }}</span></p>
+			</div>
+		</header>
+		<section>
+			<div class="t">
+				<h1 class="company_name">{{ company.pc_name | default:'' }}</h1>
+				<p class="votedMessage" style="display: none">您已经认为他值得加入</p>
+			</div>
+			<button id="{{ company.id }}" class="up votedForCompanyButton">赞一个</button>
+			<div class="b">
+				<p>已经有<span class="supportCount"> <i>{{ company.support_count | default:'0' }}</i> <em>+1</em></span>人觉得这家企业值得加入</p>
+				<p>企业<span>前10名</span>将获得2张价值139元亚马逊餐券</p>
+			</div>
+			<button class="look"><a  href="/activity/mobile_company" target="_blank">查看其他企业排名</a></button>
+		</section>
+		<footer>
+			<img class="we" src="/static/images/h5/one/we.png" alt="">
+			<div class="xia">
+				<ul>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+				<img class="next" src="/static/images/h5/one/next.png" alt=""></div>
+		</footer>
+	</div>
+
+
+
+	<div class="o_slide s6">
+		<header>
+			<img class="w_logo" src="/static/images/h5/one/we.png" alt=""></header>
+		<section>
+			<img class="ewm" src="/static/images/h5/one/ewm.png" alt="">
+			<p class="gz">关注怀才当遇了解更多招聘信息</p>
+			<button class="cjcj">免费为企业创建一个动态场景</button>
+		</section>
+		<footer>
+			<img class="we" src="/static/images/h5/one/we.png" alt="">
+			<div class="xia">
+				<ul>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+				<img class="next" src="/static/images/h5/one/next.png" alt=""></div>
+		</footer>
+	</div>
+	<div class="o_slide index7 index6">
+		<header>
+			<h1>只需三步，立马拥有</h1>
+		</header>
+		<section>
+			<ul>
+				<li> <i>1</i>
+					<div>
+						<p>注册怀才当遇企业帐号，</p>
+						<p>上传企业营业执照副本并通过认证；</p>
+					</div>
+				</li>
+				<li>
+					<i>2</i>
+					<div>
+						<p>完善企业详细资料并发布招聘职位；</p>
+					</div>
+				</li>
+				<li>
+					<i>3</i>
+					<div>
+						<p>进入企业主页，扫描右侧活动二维码，</p>
+						<p>即刻有用属于您自己的企业动态场景；</p>
+					</div>
+				</li>
+			</ul>
+			<button onclick="window.open('/activity/mobile_company#register','_blank')">立即注册</button>
+		</section>
+		<footer>
+			<button class="back" >返回</button>
+		</footer>
+	</div>
+
+    <input type="hidden" id="company_id" value="{{ company.id }}" />
+	<script src="/static/js/zepto.min.js"></script>
+	<script src="/static/js/h5_one.js"></script>
+
+<script>
+function notfind(obj){
+		$(obj).attr('src', '/static/images/qy_logo.png');
+	};
+
+// 微信分享
+    WXJssdk.init(function(wx) {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+            success: function (res) {
+			//alert(JSON.stringify(res));
+            }
+        });
+        // 分享data
+        var shareData = {
+            title: '{{ company.pc_name }}——最佳人气企业大PK！期待您的支持！',
+            desc: '帮助{{ company.pc_name }}赢得人气企业称号与亚马逊餐劵！快来参与吧！',
+            link: '{{ website }}/activity/h5_one?company_id={{ company.id }}',//分享链接地址 自己调整
+            imgUrl: 'http://www.hcdyhr.com{{ company.pc_logo | default:"/static/images/qy_logo.png" }}',//分享显示的图片
+            success:function(){
+               // alert('shareData success');
+            },
+            cancel:function(){
+               // alert('shareData cancel');
+            },
+            error:function(res){
+               // alert(JSON.stringify(res));
+            }
+        };
+
+        // 分享给朋友
+          wx.onMenuShareAppMessage(shareData);
+        // 分享到朋友圈
+          wx.onMenuShareTimeline(shareData);
+        // 分享到QQ
+          wx.onMenuShareQQ(shareData);
+        // 分享到微博
+          wx.onMenuShareWeibo(shareData);
+    });
+</script>
+</body>
+</html>

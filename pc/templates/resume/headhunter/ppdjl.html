@@ -1,0 +1,535 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.autocomplete.css">
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/popup.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/forwardresume.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/inviteDialog.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.autocomplete.min.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/interview.js"></script>
+<style type="text/css" media="screen">
+    .menu_list{margin:10px auto;width:185px;}
+.menu_head{width:185px;height:47px;line-height:47px;padding-left:38px;font-size:14px;color:#525252;cursor:pointer;border:1px solid #e1e1e1;position:relative;font-weight:bold;background:#f8f8f8 url(/static/images/pro_left.png) center right no-repeat;margin:0;}
+.menu_list .current{background:#f8f8f8;background-image: url(/static/images/pro_down.png); background-position: center right;background-repeat: no-repeat;}
+.menu_body{width:223px;height:auto;overflow:hidden;line-height:38px;border-left:1px solid #e1e1e1;backguound:#fff;border-right:1px solid #e1e1e1;}
+.menu_body a{display:block;width:223px;height:38px;line-height:38px;padding-left:38px;color:#777777;background:#fff;text-decoration:none;border-bottom:1px solid #e1e1e1;}
+.menu_body a:hover{text-decoration:none;}
+</style>
+<!-- 内容大框 -->
+<div class="clear">2</div>
+<div class="clear">3</div>
+<div class="lt_content_box wdjlk">
+    <!-- 猎头会员菜单开始 -->
+    {% include 'jobs/system/menu_resume.html' %}
+    <!-- 猎头会员菜单结束 -->
+    <input type="hidden" value="{{ pu.id }}" id="puid" />
+    <input type="hidden" id="forpuid" />
+    <input type="hidden" id="yqname" />
+    <div class="clear"></div>
+    <div class="center lt_jlgltb tddjl_btn_box mt25 h32">
+        <a href="/resume/h_tddjl" class="tddjl_btn ">投递的简历</a>
+        <a href="javascript:void(0);" class="ppdjl_btn active">匹配的简历</a>
+    </div>
+    <div class="center" style="height: auto;overflow:hidden">
+        <!-- 猎头会员搜索结果主内容开始 -->
+        <div class="dleft">
+            <div class="ssjg p9 mt25" style="min-height: 540px">
+                <div class="bkdw"></div>
+                <div class="biaolm m10">
+                    <div class="biaot2 fz16">
+                        <ul class="tddjl_span_box">
+                            <li class="bthover">匹配的简历</li>
+                        </ul>
+                    </div>
+                </div>
+            <!-- 无数据处理 -->
+            {% if postionList %}
+            {% else %}
+            <div id="noMatchData_ppdjl" class="noMatchData">
+                <div>
+                        <h2>亲~你还没有发布职位哦！</h2>
+                        <p>我们会根据您发布的职位为您匹配合适的人才哦~</p>
+                        <a href="/jobs/position/headhunter/fbdzw" target="_blank" onclick="return isIdentityHeadhunt('3,5', '2')">【职位发布】</a>
+                </div>
+            </div>
+            {% endif %}
+
+            <ul id="show">
+                {% for position in postionList %}
+                    <li>
+                <dl class="ppdjl_dl_list">
+                <dt class="bd_bottom1"><span style="width:95%;display:inline-block;overflow:hidden;text-overflow: ellipsis; white-space: nowrap;">{{ position.position_name }}</span><i class="f_r iconfont icon-jiahao"></i>
+                    <i class="f_r iconfont icon-jianhao" style="display:none"></i></dt>
+                    <input type="hidden" name="postionid" value="{{ position.id }}" />
+                    <dd style="display:none" name="showResume" ></dd>
+                </dl>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+<div class="xright mt25">
+            <!-- 侧边栏 -->
+            {% include 'jobs/recommendResume.html' %}
+
+            <!-- 侧边栏 --> </div>
+</div>
+
+<!-- 模态框（Modal） -->
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="if_sc_Modal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:300px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">收藏</h4>
+            </div>
+            <div class="modal-body t_c">是否确认收藏？</div>
+            <div class="modal-footer">
+                <input type="hidden" id="cancelId" />
+                <input type="hidden" id="cancelGroupId" />
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="collect()">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+                
+            </div>
+        </div>
+        <!-- /.modal-content --> </div>
+</div>
+<!-- /.modal -->
+<!-- 模态框（Modal） -->
+<!-- 转发简历模态框（Modal） -->
+   <div class="modal fade in" id="zf_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" >
+    <div class="modal-dialog"style="width:920px">
+        <div class="modal-content" >
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onClick="$('#zf_Modal').modal('hide')">×</button>
+                <h4 class="modal-title" id="myModalLabel">转发简历</h4>
+            </div>
+            <div class="modal-body t_c oh">
+                <dl class="f_l" style="width:610px;">
+                    <div class="message_Modal_box">
+                       接收的人:姓名*邮箱 <input type="text" id="zftitle" readonly="true" />
+                    </div>
+                    <div class="message_Modal_box1 mt10">
+                       <textarea name="" style="resize:none;color:#666" id="emailContent" onkeydown="countChar('emailContent','counter2',500);"
+                            onkeyup="countChar('emailContent','counter2',500);"></textarea>
+                    </div>
+                    <div class="t_r">
+                        最多输入500字，目前已经输入<span  id="counter2" style="COLOR:red;FONT-WEIGHT:bold">0</span>字
+                    </div>
+                    <ul class="jllb m10" id="emialshow" style="border: 1px;">
+
+                    </ul>
+                </dl>
+                <dl class="f_r" style="width:260px;border:1px solid #eeeeee;padding:5px">
+                    <div class="modal-header">
+                        <h4 class="modal-title" style="text-align: left">我的联系人</h4>
+                    </div>
+                    <div class="mt10 oh">
+                        <input type="text" name="" id="searchname" value="" class="search_txt ml15" style="background:url(/static/images/search_03.png);background-color: #EEEEEE">
+                        <div class="f_l search_icon">
+                            <i class="iconfont icon-sousuo " style="font-size: 30px" onclick="search()"></i>
+                        </div>
+                    </div>
+                    <div class="panel-group" id="znxx_accordion">
+                        <div id="recentContactsDiv" class="panel panel-default ">
+                            <div class="panel-heading clearfix" style="padding:10px 20px 6px 20px">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse" class="" aria-expanded="true">
+                                    <i class="iconfont icon-jinlingyingcaiwangtubiao12 f_l fz14"></i>
+                                    <span class="f_l">联系人</span>
+                                </a>
+                            </div>
+                            <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse in" aria-expanded="true">
+                                <div class="panel-body" style="padding:0 0 8px 0">
+                                    <div class="scr_con" style="overflow:auto;height:auto;">
+                                        <div id="dv_scroll5" style="width:100%;height:auto;top:0;position:relative">
+                                            <ul id="recentContact"  class="cal_tree_ul wdgz_cal_tree_ul txl_cal_tree znxx_lxr" style="padding-left:0px">
+                                                  {% for contact in contactList %}
+                                                <li >
+                                                    <img src="static/images/ls_04_03.jpg" alt="">
+                                                    <span class="ml25" onclick="setName('{{ contact.2 }}','{{ contact.4 }}')">{{ contact.2 }}</span>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" style="background:#5c91d9" id="send" onclick="sendEmail()">发送</button>
+            </div>
+        </div>
+        <!-- /.modal-content --> </div>
+</div>
+        <!-- /.modal -->
+        <!-- 模态框（Modal） -->
+    </div>
+<!-- 模态框（Modal） -->
+
+<script type="text/javascript">
+
+    $(document).on('click','.sxtj_box span',function(){
+         $(this).parent().remove();
+    })
+    $(".cal_tree_dd li").click(function(){
+        var title=$(this).attr("data-type");
+        var content=$(this).children('span').html();
+        var p=false;
+         $(this).parent().parent().parent().collapse('hide');
+        $.each( $(".sxtj_box ul li"), function(index, val) {
+              if(title==$(val).attr('data-type'))
+              {
+                $(val).html(''+title+':'+content+'<span>X</span>');
+                p=true;
+                return false;
+              }
+        });
+        if(!p)
+        {
+            $(".sxtj_box ul").append('<li data-type="'+title+'">'+title+':'+content+'<span>X</span></li>');
+        }
+    })
+         $(".wdgz_info_list li").mouseenter(function(){
+            $(this).children('.wdgz_detail').stop().slideDown(300);
+        })
+        $(".wdgz_info_list li").mouseleave(function(){
+            $(this).stop().children('.wdgz_detail').stop().slideUp(300);
+        })
+        $(".check_b").click(function(){
+            if($(this).is(":checked")){
+            $(this).next().css('backgroundImage', 'url(/static/images/ck_03.png)');}
+            else{
+            $(this).next().css('backgroundImage', 'url(/static/images/ck_05.png)');}
+        })
+        $(document).on('mouseover','.panel-heading',function(){
+            $(".panel-heading").removeClass('active');
+            $(".wdgz_cal_tree_ul li").removeClass('active');
+            $(this).addClass('active');
+        })
+        $(document).on('mouseout','.panel-heading',function(){
+            $(".panel-heading").removeClass('active');
+            $(".wdgz_cal_tree_ul li").removeClass('active');
+        })
+        $(document).on('mouseover','.wdgz_cal_tree_ul li',function(){
+
+            $(".panel-heading").removeClass('active');
+            $(".wdgz_cal_tree_ul li").removeClass('active');
+            $(this).addClass('active');
+        })
+        $(document).on('mouseout','.cal_tree_dd #accordion',function(){
+
+            $(".panel-heading").removeClass('active');
+            $(".wdgz_cal_tree_ul li").removeClass('active');
+        })
+
+        $("#add_btn").click(function(){
+            $(".cyqy_table input[type=text]").val("");
+        })
+        //======= 信息模版
+        $(".icon-iconfontmoban2").click(function(){
+         $(".dialog").show();
+        })
+        $(".qx_btn").click(function(){
+             $(".dialog").hide();
+        })
+        $("#add_btn").click(function(){
+            $(".cyqy_table input[type=text]").val("");
+        })
+        $(".dialog li").click(function(){
+            $(".dialog li").removeClass('active');
+            $(this).addClass('active');
+        })
+        $(".dialog li").dblclick(function(){
+             confirms.call(this);
+        })
+        $(".modal_wdgz .re_btn").click(function(){
+            confirms.call(this);
+        })
+        function confirms(){
+            $("#letterContent").val($(".dialog li.active").children('input').val());
+            $(this).parent().parent().hide();
+        }
+        // 左边下列特效
+        // $(".ppdjl_dl_list").eq(0).addClass("active").children("dd").css({
+        //     display: 'block',
+        //     height: '667px'
+        // });
+       $(".ppdjl_dl_list dt").click(function(){
+            var positionID = $(this).parent().find("[name=postionid]").val();
+            var coli =  $(this).parent().find("[name=showResume]");
+            var _this=this;
+            $.ajax({
+                    type: "POST",
+                    url: "/ajax_autoMatching",
+                    data: {
+                        "type": 2,
+                        "positionID":positionID
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if(data.msg == "success") {
+                            coli.html('');
+                            var content =addresume(data.dataInfo);
+                            coli.append(content);
+                            if($(_this).parent().hasClass('active')){
+                                $(_this).parent().children("dd").slideUp();
+                                $(_this).parent().removeClass('active');
+                            }
+                                else{
+                             $(_this).parent().addClass("active").children("dd").slideToggle().parent().parent().siblings('li').children(".ppdjl_dl_list").children("dd").hide();
+                             $(_this).parent().parent().siblings('li').children(".ppdjl_dl_list").removeClass("active");
+                         }
+                        }
+                    }
+                })
+            });
+    function addresume(dataInfo){
+        var content="";
+
+         $(dataInfo).each(function() {
+             var array = $(this);
+             for(var i = 0 ; i < array.length; i ++){
+                 if(array[i] == null || array[i] == ""){
+                     array[i] == "&nbsp;";
+                 }
+             }
+             if(array[5] == '女'){
+                 array[3] = $.trim(array[3]).substring(0,1)+"女士";
+             }else{
+                 array[3] = $.trim(array[3]).substring(0,1)+"先生";
+             }
+             if($.trim(array[4]) == ""){
+                    array[4] = "null";
+                }
+            var o_age = parseInt(new Date().getFullYear()) - array[6];
+            if(isNaN(o_age)){
+                o_age =16;
+            }
+
+            var o_list = new Array();
+            if (array[36] ==null)
+                array[36] = "";
+            else{
+                array[36] = array[36]+"&nbsp;|&nbsp;";
+            }
+            if(array[35] != "&nbsp;" && $.trim(array[35]) !=""){
+                o_list.push(array[35]);
+            }
+            if(array[37] != "&nbsp;" && $.trim(array[37]) !=""){
+                o_list.push(array[37]);
+            }
+            if(array[33] != "&nbsp;" && $.trim(array[33]) !=""){
+                o_list.push('<i class="iconfont icon-shijian"></i>'+array[33].substring(0,10)+"刷新");
+            }
+            o_list = o_list.join("&nbsp;|&nbsp;");
+            content += "     <div class=\"jllb m10\" >";
+             content += "     <div class=\"jllbnk1\" >";
+             content += "       <div class=\"lbzp\">";
+             content += "             <img src=\""+array[4]+"\" width=\"80\" height=\"80\" border=\"0\" align=\"absmiddle\" style='cursor: pointer' onclick=\"viewResume("+ array[0] +")\" onerror=\"notfind(this, 1, '"+array[5]+"')\">";
+             content += "        </div>";
+             content += "         <div class=\"lbnr tddjl_ul_li\">";
+             content += "             <ul id='email"+array[0]+"'>";
+             content += "                 <li><b class=\"fz16 fn fb\" style='cursor: pointer' onclick=\"viewResume("+ array[0] +")\">" + array[3] + "</b>";
+             content += "                     " + array[5];
+             content += "                     <span class=\"c_c8\">";
+             // content += "             <a href=\"yrjl?jlid=" + $(this)[0] + "\">[个人简历]";
+             // content += " </a>";
+             content += " </span>";
+             content += "               </li>";
+             content += "                 <li>" + array[36]+""+o_age+ " 岁 </li>";
+             content += "                 <li>";
+             content += "                    "+o_list; 
+ {#          content += "                     <span class=\"ml15\">" + $(this)[30] + "</span>";#}
+             content += "                 </li>";
+             content += "             </ul>";
+             content += "         </div>";
+             content += "         <div class=\"ppz_box f_l\">";
+             content += "             <div class=\"ppd_box1\">";
+             content += "                 <div class=\"t\">"+ array[array.length - 1]+"%</div>";
+             content += "                 <div class=\"b mt10\">匹配值</div>";
+             content += "             </div>";
+             content += "         </div>";
+             content += "         <div class=\"lbkoj\" style=\"zoom:1;\" >";
+          if(array[47]!=null)
+          {
+            var positionStatus = array[47].substring(0,array[47].indexOf(','));
+        }
+           var positontit=array[47];
+            if(positionStatus == '在职'){
+                content += '<div class="mpqzxx2 mt6 fz14">';
+                content += '<i class="iconfont icon-bishiyong" style="font-size:15px;"></i>在职';
+            }
+           else if(positionStatus == '已离职')
+            {
+                content += '<div class="mpqzxx1 mt6 fz14">';
+                content += '<i class="iconfont icon-xin fz16"></i>求职中';
+            }
+            else if(positontit == '暂时不想找工作')
+            {
+                content += '<div class="mpqzxx2 mt6 fz14">';
+                content += '<i class="iconfont icon-bishiyong" style="font-size:15px;"></i>在职';                 
+            }
+            else{
+                content += '<div style="width:70px; height:22px;">';
+            }
+
+
+{#             if(array[47] != '&nbsp;' && array[47] != null)#}
+{#                content += array[47].substring(0, array[47].indexOf('，'));#}
+             content += "             </div>";
+             content += "             <ul class=\"b\">";
+             // content += "                 <li onclick=\"showInviteDialog({{ pu.id }},'"+array[2]+"')\">推荐</li>";
+             content += "                 <li onclick=\"recommend('"+array[54]+"', '"+array[2]+"', '"+array[0]+"', '"+array[3]+"', "+array[1]+")\">推荐</li>";
+             content += "                 <li data-toggle=\"modal\" data-target=\"#if_sc_Modal\" onclick=\"setId(" + array[0] + ")\">收藏</li>";
+             content += "                 <li  onclick=\"doForwardResume(['" + array[0] + "'])\" >转发</li>";
+             var source_name = '';
+             if(array[1] == 1){
+                 source_name = array[3];
+             }else{
+                 source_name = array[66];
+             }
+             content += "                 <li data-toggle=\"modal\" data-target=\"#sxmessage_Modal\" onclick=\"getOperateDatass(this,'" + source_name + "', " + array[2] + ", '"+array[1]+"', "+array[0]+", '"+array[3]+"')\">私信</li>";
+             content += "             </ul>";
+             content += "         </div>";
+             content += "     </div>";
+             content += " </div>";
+         });
+        return content;
+    }
+    function collect(){
+        var resumeId = $('#forpuid').val();
+        $.ajax({
+            type: "POST",
+            url: "/ajax_collectResume",
+            data: {"resumeId": resumeId},
+            dataType: "json",
+            success: function (data) {
+                if (data.msg != 'success') {
+                    window.alert('你已收藏该简历，无需收藏！',4);
+                }else{
+                    window.alert('收藏成功！',1)
+                }
+            }
+        })
+    }
+    function setName(name,email){
+        var title=name+"*"+email;
+        $("#zftitle").val(title)
+    }
+    function sendEmail(){
+        var title=$("#zftitle").val()
+        var pathnum=title.indexOf("*")
+        pathnum=parseInt(pathnum)
+        var email=title.substring(pathnum+1,title.length);
+        var emailContent=$("#emailContent").val();
+    }
+    function setId(id){
+            $("#forpuid").val(id);
+    }
+    function setYq(id,name){
+            $("#forpuid").val(id)
+        $("#yqname").val(name);
+    }
+    function search(){
+        var name=$("#searchname").val();
+        $.ajax({
+                    type: "POST",
+                    url: "/ajax_findPerson",
+                    data: {"searchname": name},
+                    dataType: "json",
+                    success: function (data) {
+                        var newul = $("#recentContact");
+                        newul.empty();
+                        for(var i = 0;i < data.length;i++){
+                        var area = data[i];
+                        newul.append("<li><span class=\"ml25\" onclick=\"setName('"+area.fields.contact_name+"','" + area.fields.email+"')\">"+area.fields.contact_name+"</span></li>");
+                    }
+                    }
+                })
+    }
+    function countChar(textareaID,spanID,maxNum)
+                {
+                    //得到输入的字符的长度
+                var NowNum = document.getElementById(textareaID).value.length;
+                //判断输入的长度是否超过规定的长度
+                if(NowNum>maxNum)
+                {
+                   //如果超过就截取规定长度的内容
+                document.getElementById(textareaID).value = document.getElementById(textareaID).value.substring(0,maxNum);
+                }
+                else
+                {
+                    //得到当前的输入长度并且显示在页面上
+                document.getElementById(spanID).innerHTML = NowNum;
+                }
+                }
+                //得到当前的输入长度并且显示在页面上
+                function SetLength(textareaID,spanID)
+                {
+                var NowNum = document.getElementById(textareaID).value.length;
+
+                document.getElementById(spanID).innerHTML = NowNum;
+                }
+
+                function PageInit()
+                {
+                SetLength('txtF_Content','counter');
+                }
+
+            function setZf(id){
+                $("#emialshow").append($("#email"+id).html())
+            }
+
+
+
+//查看简历
+    function viewResume(resumeID){
+       window.open('/jobs/resume/new_jlyl?resumeID=' + resumeID, '_blank');
+    }
+
+
+
+
+//-----------------------------预览简历操作-------------------------------------------------------
+
+//全选事件
+function checkAll(obj){
+    var checkboxes = $("#tableInfo input[type='checkbox']");
+    if($(obj).is(":checked")){
+         for(var i = 0;i < checkboxes.length; i ++){
+            checkboxes[i].checked = true;
+        }
+    }else{
+        for(var i = 0;i < checkboxes.length; i ++){
+            checkboxes[i].checked = false;
+        }
+    }
+}
+//推荐职位时判断是否设置了允许推荐
+function recommend(isInvite, source_id, resume_id, resume_name, resume_source){
+    if(isInvite == '1'){
+        o_show('yq', source_id, '', resume_id, resume_name, resume_source);
+    }else{
+        window.alert('该简历不接受推荐职位',4);
+    }
+}
+//查看简历
+function viewResume(resumeID){
+   window.open('/jobs/resume/new_jlyl?resumeID=' + resumeID, '_blank');
+}
+</script>
+{% include 'jobs/system/new_footer.html' %}
+
+

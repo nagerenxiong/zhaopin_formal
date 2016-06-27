@@ -1,0 +1,406 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/new_mobile/css/zsh_common.css" type="text/css">
+<script src="/static/new_mobile/js/formValidate.js" type="text/javascript"></script>
+<style>.formEleBox{line-height: 60px;}</style>
+<script type="text/javascript">
+$(document).ready(function()
+{
+	$("textarea[name=achievements]").val( $("textarea[name=achievements]").val().replace(/<br>/g,'\n') );
+	$("textarea[name=achievements]").val( $("textarea[name=achievements]").val().replace(/<br\/>/g,'\n') );
+	$(".input_foucs").focus(function(event) {
+		$(this).blur();
+	});
+	var endYearVal = "";
+	if(endYearVal){
+		if(endYearVal == 0){
+			$("#endyear_menu").find("input").hide();
+      		$("#endyear_menu").find("img").hide();
+  			$("#endyear_menu").find("span").hide();
+  			$("#endmonth_menu").hide();
+  			$("#endmonth").attr("data","0");
+  			$("#endmonth").val("0")
+  			$("#endyear_menu").find(".endTimeNow").show();
+		}
+	}
+	 // 创建简历弹出框
+	  function showFloatBox() {
+	    $("body").prepend("<div class=\"menu_bg_layer\"></div>");
+	    $(".menu_bg_layer").height($(document).height());
+	    $(".menu_bg_layer").css({ width: $(document).width(), position: "absolute",left:"0", top:"0","z-index":"1","background-color":"#000000"});
+	    $(".menu_bg_layer").css("opacity",0.3);
+	  }
+	  // 开始年份点击
+	  $("#startyear_menu").click(function(){
+	    showFloatBox();
+	    $("#menuStartYear").css({ top: ($(window).height() - $('#menuStartYear').outerHeight())/2 + $(document).scrollTop() });
+	    $("#menuStartYear").show();
+	    $("#menuStartYear li").click(function(){
+	      $("#startyear").val($(this).attr("title")).trigger('blur');
+	      $("#startyear").attr("data",$(this).attr("title"));
+	      $("#menuStartYear").hide();
+	      $(".menu_bg_layer").remove();
+	    });
+	  });
+
+      $("#zwmc_input").click(function(){
+    showFloatBox();
+    $("#menuJobs").css({ top: ($(window).height() - $('#menuJobs').outerHeight())/2 + $(document).scrollTop() });
+    $("#menuJobs").show();
+  });
+  	  // 开始月份点击
+	  $("#startmonth_menu").click(function(){
+	    showFloatBox();
+	    $("#menuStartMonth").css({ top: ($(window).height() - $('#menuStartMonth').outerHeight())/2 + $(document).scrollTop() });
+	    $("#menuStartMonth").show();
+	    $("#menuStartMonth li").click(function(){
+	      $("#startmonth").val($(this).attr("title")).trigger('blur');
+	      $("#startmonth").attr("data",$(this).attr("title"));
+	      $("#menuStartMonth").hide();
+	      $(".menu_bg_layer").remove();
+	    });
+	  });
+
+	  // 结束年份点击
+	  $("#endyear_menu").click(function(){
+	    showFloatBox();
+	    $("#menuEndtYear").css({ top: ($(window).height() - $('#menuEndtYear').outerHeight())/2 + $(document).scrollTop() });
+	    $("#menuEndtYear").show();
+	    $("#menuEndtYear li").click(function(){
+	      $("#endyear").val($(this).attr("title")).trigger('blur');
+	      
+	      if($(this).attr("title") == 0){
+	      	$("#endyear_menu").find("input").hide();
+      		$("#endyear_menu").find("img").hide();
+  			$("#endyear_menu").find("span").hide();
+  			$("#endmonth_menu").hide();
+  			$("#endmonth").attr("data","0");
+  			$("#endmonth").val("0");
+  			$("#endyear").trigger('blur');
+  			$("#endyear_menu").find(".endTimeNow").show();
+	      }else{
+	      	$("#endyear_menu").find("input").show();
+      		$("#endyear_menu").find("img").show();
+  			$("#endyear_menu").find("span").show();
+  			$("#endmonth_menu").show();
+			$("#endmonth").attr("data","");
+			$("#endmonth").val("")
+  			$("#endyear_menu").find(".endTimeNow").hide();
+	      }
+	      
+	      $("#endyear").attr("data",$(this).attr("title"));
+	      $("#menuEndtYear").hide();
+	      $(".menu_bg_layer").remove();
+	      
+	    });
+	  });
+  
+	  // 结束月份点击
+	  $("#endmonth_menu").click(function(){
+	    showFloatBox();
+	    $("#menuEndMonth").css({ top: ($(window).height() - $('#menuEndMonth').outerHeight())/2 + $(document).scrollTop() });
+	    $("#menuEndMonth").show();
+	    $("#menuEndMonth li").click(function(){
+	      $("#endmonth").val($(this).attr("title")).trigger('blur');
+	      $("#endmonth").attr("data",$(this).attr("title"));
+	      $("#menuEndMonth").hide();
+	      $(".menu_bg_layer").remove();
+	    });
+	  });
+	  // 关闭弹出框
+	  $(".choose_close").click(function(event) {
+	    $(this).parent().hide();
+	    $(".menu_bg_layer").remove();
+	  });
+	// 提交 表单
+	$("#work_submit").click(function(){
+		var resume_work="";
+		if(resume_work){
+		var id = "";
+		}
+		var pid = 198816;
+		var companyname =$("input[name='companyname']").val();
+		var jobs =$("input[name='jobs']").val();
+		var startyear =$("#startyear").attr("data");
+		var startmonth =$("#startmonth").attr("data");
+		var endyear =$("#endyear").attr("data");
+		var endmonth =$("#endmonth").attr("data");
+		var achievements =$("textarea[name='achievements']").val().replace(/\n/g,'<br>');
+	    if(achievements !=''){
+        	achievements =achievements.replace(/\n/g, '<br>');
+        }
+        var experience_id = '{{ experience_id }}';
+        var resume_id = '{{ resume_id }}';
+        $.ajax({
+            async: false,
+            type: 'post',
+            data: {'companyname': companyname, 'position_name': jobs, 'startyear': startyear, 'resume_id': resume_id,
+                    'startmonth': startmonth, 'endyear': endyear, 'endmonth': endmonth, 'experience_id': experience_id,
+                    'work_duty': achievements},
+            url: '/mobile/ajax_save_work_experience',
+            dataType: 'json',
+            success: function (data) {
+                if(data=="ok"){
+                    //alert("添加成功");
+                    {% if request.session.account_type == '1' %}
+                        window.location.href="/mobile/personal/resume_edit?resume_id=" + resume_id;
+                    {% else %}
+                        {% if position_id and position_id != '' %}
+                            window.location.href="/mobile/headhunter/edit_uploaded_resume?resume_id=" + resume_id + '&position_id={{ position_id }}';
+                        {% else %}
+                            window.location.href="/mobile/headhunter/edit_uploaded_resume?resume_id=" + resume_id;
+                        {% endif %}
+                    {% endif %}
+                }else if(data=="err"){
+                    alert(["添加失败"]);
+                }else{
+                    alert([data]);
+                }
+            }
+        });
+		$.post("?act=resume_work_save",{id:id,pid:pid,companyname:companyname,jobs:jobs,startyear:startyear,startmonth:startmonth,endyear:endyear,endmonth:endmonth,achievements:achievements},function(data){
+			if(data=="ok"){
+				//alert("添加成功");
+				window.location.href="?act=resume_one&pid="+pid+"";
+			}else if(data=="err"){
+				alert(["添加失败"]);
+			}else{
+				alert([data]);
+			}
+		})
+		$('#work_submit').unbind("click");
+	});
+	//阻止input在手机上弹出键盘
+	$(".edit_work_exp_samll_input").focus(function() {
+		e.stopPropagation(); 
+	});
+});
+</script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+</script>
+<!--zsp_header -->
+
+<div class="zsp_edu_main_box">
+
+<div class="zsp_edu_tit">
+	<h1>编辑工作经历</h1>
+	<p>完善您的简历，更快获得面试邀请</p>
+</div>
+
+<form id="Form1" method="post">
+	<div class="zsp_input_main_box swiper-slide">
+		<div class="formEleBox errorBox">
+			<label>公司名称</label>
+			<div class="rightBox">
+				<input style="height:60px;" class="formcheck required " type="text" name="companyname" placeholder="请输入公司名称" value="{{ work_experience.company_name | default:'' }}"></div>
+		</div>
+		<div class="formEleBox errorBox">
+			<label>职位名称</label>
+			<div class="rightBox">
+				<input style="height:60px;" name="jobs" class="formcheck required "  id="jobs_text"  type="text" placeholder="请输入职位名称" value="{{ work_experience.position | default:'' }}"></div>
+{#                <input type="hidden"  class="postaion_type"  value="{{ work_experience.position | default:'' }}" >#}
+		</div>
+		<div class="errorBox">
+			<div class="formEleBox">
+				<label>入职时间</label>
+				<div class="rightBox textRight">
+					{% if work_experience.start_time %}
+					<div class="shortSelect" id="startyear_menu">
+						<input readonly type="text" class="create_input formcheck timeCheck checkYearMin input_disabled" data="{{ work_experience.start_time | date:'Y' }}" name="startyear" id="startyear" value="{{ work_experience.start_time | date:'Y' }}">
+						<span>年</span>
+						<img src="/static/new_mobile/images/sortDown.png" alt=""></div>
+					<div class="shortSelect" id="startmonth_menu">
+						<input readonly type="text" class="create_input formcheck timeCheck checkMoonMin input_disabled" data="{{ work_experience.start_time | date:'m' }}" name="startmonth" id="startmonth" value="{{ work_experience.start_time | date:'m' }}">
+						<span>月</span>
+						<img src="/static/new_mobile/images/sortDown.png" alt=""></div>
+					{% else %}
+					<div class="shortSelect" id="startyear_menu">
+						<input readonly type="text" class="create_input formcheck timeCheck checkYearMin input_disabled" data="" name="startyear" id="startyear" value="">
+						<span>年</span>
+						<img src="/static/new_mobile/images/sortDown.png" alt=""></div>
+					<div class="shortSelect" id="startmonth_menu">
+						<input readonly type="text" class="create_input formcheck timeCheck checkMoonMin input_disabled" data="" name="startmonth" id="startmonth" value="">
+						<span>月</span>
+						<img src="/static/new_mobile/images/sortDown.png" alt=""></div>
+					{% endif %}
+				</div>
+				<div class="menu choose_menu" id="menuStartYear" style="display:none;position:absolute;z-index:1;">
+					<div class="menu_title">入职时间</div>
+					<div class="choose_close"></div>
+					<ul>
+						{% for year in year_array %}
+						<li title="{{ year }}">{{ year }}</li>
+						{% endfor %}
+					</ul>
+				</div>
+				<div class="menu choose_menu" id="menuStartMonth" style="display:none;position:absolute;z-index:1;">
+					<div class="menu_title">开始月份</div>
+					<div class="choose_close"></div>
+					<ul>
+						<li title="1">1</li>
+						<li title="2">2</li>
+						<li title="3">3</li>
+						<li title="4">4</li>
+						<li title="5">5</li>
+						<li title="6">6</li>
+						<li title="7">7</li>
+						<li title="8">8</li>
+						<li title="9">9</li>
+						<li title="10">10</li>
+						<li title="11">11</li>
+						<li title="12">12</li>
+					</ul>
+				</div>
+			</div>
+			<div class="formEleBox">
+				<label>离职时间</label>
+				{% if work_experience.end_time %}
+                    <div class="rightBox textRight">
+                        <div class="shortSelect" id="endyear_menu">
+                            <span class="endTimeNow" style="display: none;position: static;">至今</span>
+                            <input readonly="" type="text" class="create_input formcheck timeCheck checkYearMax input_disabled" data="{{ work_experience.end_time | date:"Y" }}" name="endyear" id="endyear" value="{{ work_experience.end_time | date:"Y" }}">
+                            <span>年</span>
+                            <img src="/static/new_mobile/images/sortDown.png" alt=""></div>
+                        <div class="shortSelect" id="endmonth_menu">
+                            <input readonly="" type="text" class="create_input formcheck timeCheck checkMoonMax input_disabled" data="{{ work_experience.end_time | date:"m" }}" name="endmonth" id="endmonth" value="{{ work_experience.end_time | date:"m" }}">
+                            <span>月</span>
+                            <img src="/static/new_mobile/images/sortDown.png" alt=""></div>
+                    </div>
+				{% else %}
+                    {% if work_experience.start_time %}
+                        <div class="rightBox textRight">
+                            <div class="shortSelect" id="endyear_menu">
+                                <span class="endTimeNow" style="position: static; display: inline;">至今</span>
+                                <input readonly type="text" class="create_input formcheck timeCheck checkYearMax input_disabled" data="0" style="display: none;" name="endyear" id="endyear" value="{{ work_experience.end_time | date:'Y' }}">
+                                <span style="display: none;">年</span>
+                                <img src="/static/new_mobile/images/sortDown.png" alt="" style="display: none;"></div>
+                            <div class="shortSelect" id="endmonth_menu" style="display: none;">
+                                <input readonly type="text" class="create_input formcheck timeCheck checkMoonMax input_disabled" data="0" name="endmonth" id="endmonth" value="{{ work_experience.end_time | date:'m' }}">
+                                <span>月</span>
+                                <img src="/static/new_mobile/images/sortDown.png" alt=" "></div>
+                        </div>
+                    {% else %}
+                        <div class="rightBox textRight">
+                            <div class="shortSelect" id="endyear_menu">
+                                <span class="endTimeNow" style="display: none;position: static;">至今</span>
+                                <input readonly type="text" class="create_input formcheck timeCheck checkYearMax input_disabled" data="0" name="endyear" id="endyear" >
+                                <span>年</span>
+                                <img src="/static/new_mobile/images/sortDown.png" alt=""></div>
+                            <div class="shortSelect" id="endmonth_menu">
+                                <input readonly type="text" class="create_input formcheck timeCheck checkMoonMax input_disabled" data="0" name="endmonth" id="endmonth">
+                                <span>月</span>
+                                <img src="/static/new_mobile/images/sortDown.png" alt=""></div>
+                        </div>
+                    {% endif %}
+            {% endif %}
+				<div class="menu choose_menu" id="menuEndtYear" style="display:none;position:absolute;z-index:1;">
+					<div class="menu_title">离职时间</div>
+					<div class="choose_close"></div>
+					<ul>
+						{% for year in year_array %}
+						<li title="{{ year }}">{{ year }}</li>
+						{% endfor %}
+					</ul>
+				</div>
+				<div class="menu choose_menu" id="menuEndMonth" style="display:none;position:absolute;z-index:1;">
+					<div class="menu_title">结束月份</div>
+					<div class="choose_close"></div>
+					<ul>
+						<li title="1">1</li>
+						<li title="2">2</li>
+						<li title="3">3</li>
+						<li title="4">4</li>
+						<li title="5">5</li>
+						<li title="6">6</li>
+						<li title="7">7</li>
+						<li title="8">8</li>
+						<li title="9">9</li>
+						<li title="10">10</li>
+						<li title="11">11</li>
+						<li title="12">12</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="textareaBox errorBox">
+			<label>工作描述</label>
+			<div class="infoBox">
+				<textarea class="formcheck required numberCount" placeholder="描述工作经历，例如：工作内容，项目经验等" name="achievements">{{ work_experience.work_duty | safe }}</textarea>
+			</div>
+			<div class="numTip">
+				<span>0</span>
+				<span>/</span>
+				<span>1000</span>
+			</div>
+		</div>
+		<input type="hidden" name="pid" value="198816">
+		<!--<input class="bottom btnUnable" value="下一步" />
+		-->
+		<div class="edit_work_exp_but_group">
+			<div class="edit_exp_save_but halfCheckBtnNo">
+				<a class="unable">保存</a>
+			</div>
+			<div class="edit_exp_save_but halfCheckBtnOk" style="display: none;">
+				<a class="able" id="work_submit">保存</a>
+			</div>
+            {% if request.session.account_type == '1' %}
+                <div class="edit_exp_cancel_but" onClick="window.location.href='/mobile/personal/resume_edit?resume_id={{ resume_id }}'" style="cursor: pointer;">
+                    <a>取消</a>
+                </div>
+            {% else %}
+                <div class="edit_exp_cancel_but" onClick="cancelBack()" style="cursor: pointer;">
+                    <a>取消</a>
+                </div>
+            {% endif %}
+			<div class="clear"></div>
+		</div>
+	</div>
+</form>
+</div>
+<!--zsp_input_main_box -->
+<script src="/static/new_mobile/js/position.js"></script>
+<script type="text/javascript">
+	  // 开始和结束年份填充
+	  var myDate = new Date();
+	  var y = myDate.getFullYear();
+	  var ymin = y-35;
+	  var yearHtm = "";
+	  var yearHtmEnd = "";
+	  for (i=y; i>=ymin; i--) {
+	    yearHtm+="<li title=\""+i+"\">"+i+"</li>";
+	  }
+	  yearHtmEnd = "<li title=\""+0+"\">至今</li>"+yearHtm;
+  $.each(QS_jobs_parent, function(pindex, pval) {
+    if(pval) {
+      var jobs = pval.split(",");
+  var sjobsArray = QS_jobs[jobs[0]].split("|");
+    }
+  });
+	  $("#menuStartYear ul").html(yearHtm);
+	  $("#menuEndtYear ul").html(yearHtmEnd);
+    // 取消
+    function cancelBack(){
+        {% if position_id != '' %}
+            window.location.href="/mobile/headhunter/edit_uploaded_resume?resume_id={{ resume_id }}&position_id={{ position_id|default:'' }}";
+        {% else %}
+            window.location.href="/mobile/headhunter/edit_uploaded_resume?resume_id={{ resume_id }}";
+        {% endif %}
+    }
+</script>
+
+<div class="errorTip"></div>
+</body>
+</html>

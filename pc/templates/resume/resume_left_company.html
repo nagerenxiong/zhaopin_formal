@@ -1,0 +1,35 @@
+		<div class="b">
+			<div class="resume_group">
+				<h1 style="background:none;height: 52px;line-height: 52px;">简历分组</h1>
+				<p class="l all active" onclick="changeDataType('all')" style="cursor: pointer;">全部简历（<span>{{ all_count|default:0 }}</span>）</p>
+
+				<p class="l"><i class="iconfont icon-xjt"></i>按来源分组</p>
+				<ul class="default">
+					<li  onclick="changeDataType('myView')"><a href="javascript:void(0)">我购买的简历（<span>{{ view_count|default:0 }}</span>）</a></li>
+					<li onclick="changeDataType('forward')"><a href="javascript:void(0)" >转发给我的简历（<span>{{ forward_count|default:0 }}</span>）</a></li>
+					<li onclick="changeDataType('myFavourite')"><a href="javascript:void(0)">我收藏的简历（<span>{{ favourite_count|default:0 }}</span>）</a></li>
+				</ul>
+
+				<p class="l">自定义分组<span class="add_group"><em>分组</em></span></p>
+				<ul class="o_group">
+					<li><div><input class="group_txt" type="text" data-value="" value="" maxlength="6"><button class="submit">提交</button><a class="cancel" href="javascript:void(0)">取消</a></div><span class="group_name">未分组</span><span class="count">（{{ ungroup_count|default:0 }}）</span></li>
+                    {% if groups %}
+                        {% for group in groups %}
+                            <li>
+                            	<div>
+                            		<input class="group_txt" type="text" data-value="{{ group.id }}" value="{{ group.group_name }}" maxlength="6"><button class="submit">OK</button><a class="cancel" href="javascript:void(0)">取消</a>
+                            	</div>
+                            	<span class="group_name">{{ group.group_name }}</span>
+                            	<span class="count">（{{ group.childCount|default:0 }}）</span>
+                            	<div class="ope">
+                            		<span class="editor"></span>
+                            		<i class="delete"></i>
+                            	</div>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+				</ul>
+
+			</div>
+		</div>
+<div id="delGroup" data-toggle="modal" data-target="#if_del_group" style="display:none;"></div>

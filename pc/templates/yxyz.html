@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<html>
+	<!-- Added by HTTrack -->
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<!-- /Added by HTTrack -->
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<title>邮箱验证</title>
+	<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+	<script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js" ></script>
+	<script src="{{ STATIC_URL }}js/radio.js"></script>
+	<script src="{{ STATIC_URL }}js/Validform_v5.3.2.js"></script>
+	<script src="{{ STATIC_URL }}bootstrap.min.js" ></script>
+   <!--  <script  src="{{ STATIC_URL }}js/lib/base/common.js"></script> -->
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+	<script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+{% if not account %}
+<script type="text/javascript">
+    window.location.href = "system/error";
+</script>
+{% endif %}
+</head>
+<style>
+	html,body{width: 100%;height: 100%;}
+</style>
+<script type="text/javascript">
+
+var hash={
+    'qq.com': 'http://mail.qq.com',
+    'gmail.com': 'http://mail.google.com',
+    'sina.com': 'http://mail.sina.com.cn',
+    '163.com': 'http://mail.163.com',
+    '126.com': 'http://mail.126.com',
+    'yeah.net': 'http://www.yeah.net/',
+    'sohu.com': 'http://mail.sohu.com/',
+    'tom.com': 'http://mail.tom.com/',
+    'sogou.com': 'http://mail.sogou.com/',
+    '139.com': 'http://mail.10086.cn/',
+    'hotmail.com': 'http://www.hotmail.com',
+    'live.com': 'http://login.live.com/',
+    'live.cn': 'http://login.live.cn/',
+    'live.com.cn': 'http://login.live.com.cn',
+    '189.com': 'http://webmail16.189.cn/webmail/',
+    'yahoo.com.cn': 'http://mail.cn.yahoo.com/',
+    'yahoo.cn': 'http://mail.cn.yahoo.com/',
+    'eyou.com': 'http://www.eyou.com/',
+    '21cn.com': 'http://mail.21cn.com/',
+    '188.com': 'http://www.188.com/',
+    'foxmail.coom': 'http://www.foxmail.com'
+};
+
+$(function(){
+    var account = "{{ account }}";
+
+    var url = account.split('@')[1];
+
+    for (var j in hash){
+        $("#account").attr("href", hash[url]);
+    }
+
+    if($("#account").attr("href")== ""){
+        $("#account").attr("href", "http://mail." + url);
+    }
+})
+
+
+  var _hmt = _hmt || [];
+  var timer = null;
+  var alertFram;
+  window.alert = function(txt, type, fun1) {
+    var icon = "";
+    var qrStr = ""
+    clearInterval(timer);
+    timer = setInterval(function() {
+      if ($("#alertFram")[0]) {
+        $("#alertFram").remove();
+        clearInterval(timer);
+      }
+    }, 3900)
+    alertFram = $('<div id="alertFram" style="color:#ed4f30;font-size:14px;padding:0px 0px 0px 30px;height:40px;background-color:#fff3de;border:1px solid #ffddc1;position:fixed;left:50%;z-index:999999999;text-align:center;line-height:40px;top:0">' + txt + '<img onclick="$(this).parent().remove()" src="/static/images/x_03.png" style="float:right;cursor:pointer;margin-left:10px;margin-top:14px;margin-right:10px" width="12" height="12"></div>')
+    if (arguments[1] != null) {
+      if (arguments[1] == 1) {
+        icon = "alert_03";
+      } else if (arguments[1] == 2) {
+        icon = "alert_07";
+      } else if (arguments[1] == 3) {
+        clearInterval(timer);
+        icon = "alert_15";
+        qrStr = '<div style="margin-top:20px"><input type="button" id="qr_btn" value="确认" style="width:70px;height:30px;\
+               line-height:30px;color:#fff;background-color:#5C91D9;border:0px;border-radius: 5px;font-size:14px"/><input type="button"\
+               value="取消" onclick="$(this).parent().parent().remove()" style="width:70px;height:30px;line-\
+               height:30px;color:#232323;background-color:#fff;border:0px;border-radius: 5px;font-size:14px"/></div>';
+      } else if (arguments[1] == 4) {
+        icon = "alert_18";
+      }
+      alertFram = $('<div id="alertFram" style="color:#232323;font-size:18px;box-shadow: 5px 5px 5px rgba(0,0,0,.4);background-color:#fff;border:1px solid #7E9CC6;border-radius: 5px;position:fixed;left:50%;z-index:999999999;text-align:center;top:50%;padding:10px 20px"><div style="width:200px;float:left"></div><div style="clear:both"></div><img onclick="$(this).parent().remove()" src="/static/images/alert_11.png" style="float:right;cursor:pointer;margin-right:-9px;" ><img src="/static/images/' + icon + '.png" style="vertical-align:middle;margin-right:10px"/>' + txt + '' + qrStr + '</div>')
+    }
+    if ($("#alertFram")[0]) {
+      return;
+    }
+    $("body").append(alertFram);
+    $("#qr_btn").click(function() {
+      fun1();
+    })
+    var width = parseInt(alertFram.css('width'))+40;
+    if(arguments[1] != null)
+    {
+         var height = parseInt(alertFram.height())+20;
+         alertFram.css('margin-top', '-' + height/2 + 'px');
+    }
+    alertFram.css('margin-left', '-' + width/2 + 'px');
+  }
+</script>
+<body>
+	<!-- banner图 -->
+	<div style="height:100%;width:100%;" class="re_banner lo_banner">
+    <!-- <h1>本周已有<span>1</span><span>5</span><span>0</span><span>0</span><span>0</span>人在许愿树许愿</h1> -->
+		<div class="re_form_box lo_form_box">
+			<dl class="re_form_container lo_form_container" id="yzyx">
+				<dt class="clearfix">
+					<!-- <div class="f_r re_form_title_r">
+{#						<a href="#" target="_blank" class="c_a6 fz14"></a>#}
+<a style="color:#D21D30;" href="/system/register" class="c_50 fz14"><span class="c_a6 fz14">没有账号？</span>立即注册</a> <i class="icon-fangxiang2 iconfont"></i>
+					</div> -->
+					<div class="f_l">
+					<a href="/lindex">
+						<img src="{{ STATIC_URL }}images/login_logo.gif" alt="" class="va_bottom"></a>
+						<span class="c_3a fz20">注册邮箱验证</span>
+					</div>
+				</dt>
+				<dd class="h1">邮箱验证，完成注册</dd>
+				<dd>我们已将验证邮件发送到您的邮箱：<span class="red" >{{ account }}</span></dd>
+				<dd>点击邮件内的链接即可完成注册，并可使用怀才当遇网所有功能</dd>
+				<dd><a id="account" class="dlyx" target="_blank" href="">登录邮箱查看</a></dd>
+                <span class="dashed"></span>
+				<dd class="h1">没有收到验证邮件，怎么办?</dd>
+				<dd>邮箱填写错误？<a class="red" href="/jobs/system/generalRegister">换个邮箱</a></dd>
+				<dd>看看是否在邮箱的垃圾邮件，广告邮件目录里</dd>
+				<dd>稍等几分钟,若还未收到验证邮件，<span class="red" style="cursor: pointer;" onclick="send_email('{{ account }}')">重新发送验证邮件</span></dd>
+			</dl>
+		</div>
+	</div>
+
+</body>
+	<!-- Added by HTTrack -->
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<!-- /Added by HTTrack -->
+
+<script type="text/javascript">
+var sendEmail={
+    timer : 0,
+    timer_go :'' 
+}
+    function send_email(account){
+        if(sendEmail.timer <= 0){
+            sendEmail.timer=120;
+        }else{
+            alert('您的操作过于频繁，请稍等片刻',4);
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/jobs/ajax_email_send",
+            data: {
+                "account": account
+            },
+            dataType: "text",
+            success: function (msg) {
+                if (msg == "1") {
+                    alert("激活邮件已发送，请您登陆邮箱激活！",1);
+                    sendEmail.timer_go = setInterval(function(){
+                        sendEmail.timer--;
+                        if(sendEmail.timer <= 0)
+                            clearInterval(sendEmail.timer_go);
+                    },1000)
+                }else{
+                    alert("激活邮件发送失败，请重试！",4);
+                }
+            }
+        });
+    }
+   
+</script>
+</html>

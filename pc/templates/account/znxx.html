@@ -1,0 +1,793 @@
+<!-- 顶部 -->
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<style type="text/css">
+    #recentContact li img,#myAttention li img,#msg dt img,#search dt img{
+        width: 50px;
+    }
+    .list{padding-top: 7px;}
+    .list li:hover{background-color:rgb(244, 247, 252);}
+    .list li{border-top:1px solid transparent;border-bottom:1px solid transparent;}
+</style>
+<div class="clear">99</div>
+<!-- 顶部 -->
+<!-- 内容大框 -->
+<div style="min-height: 700px;">
+    <div style="width:1000px;margin:0 auto;" class="clearfix mt25">
+        <div class="f_l znxx_l " style="background:white">
+            <div style="height:20px;width:94px;border-left:2px solid #5c91d9;text-indent: 10px;font-size: 18px">站内信息</div>
+            <div class="mt10 oh">
+                <input id="txtSearch" type="text" name="" value="" class="search_txt" style="border:1px solid #EFEFEF;border-right:0">
+                <div class="f_l search_icon"  style="background-color: white;border:1px solid #efefef;border-left:0"> <i class="iconfont icon-sousuo " style="font-size: 24px" onclick="search()"></i>
+                </div>
+            </div>
+            <div class="panel-group" id="znxx_accordion">
+                <div id="searchDiv" id="collapseOne" class="panel-collapse collapse in"  aria-expanded="false">
+                        <div class="panel-body" style="padding:0 0 8px 0;margin-left:-16px!important;">
+                            <div class="scr_con" style="overflow:auto;height:auto;">
+                                <div id="dv_scroll5" style="width:100%;height:auto;top:0;position:relative">
+                                    <ul id="search"  class="cal_tree_ul wdgz_cal_tree_ul txl_cal_tree znxx_lxr" style="padding-left:0px">
+                                    </ul>
+                                </div>
+                                <ul class="recent_contacts_info3" id="recent_contacts_info3" style="display: none;"></ul>
+                                <ul style="display: none;" class="find_contacts_info" id="find_contacts_info"></ul>
+                            </div>
+                        </div>
+                    </div>
+                <div id="recentContactsDiv" class="panel panel-default ">
+                    <div class="panel-heading clearfix" style="padding:10px 20px 6px 20px">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed" aria-expanded="false"> <i class="iconfont icon-fangxiang4 f_l fz18  "></i>
+                            <span class="f_l" id="zjlxr">最近联系人</span>
+                        </a>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in"  aria-expanded="false">
+                        <div class="panel-body" style="padding:0 0 8px 0;margin-left:-16px!important;">
+                            <div class="scr_con" style="overflow:auto;height:auto;">
+                                <div id="dv_scroll5" style="width:100%;height:auto;top:0;position:relative">
+                                    <ul id="recentContact"  class="cal_tree_ul wdgz_cal_tree_ul txl_cal_tree znxx_lxr" style="padding-left:0px;overflow-y:auto;max-height:430px;"></ul>
+                                </div>
+                                <ul class="recent_contacts_info" id="recent_contacts_info" style="display: none;"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="myAttentionDiv" class="panel panel-default">
+                    <div class="panel-heading clearfix" style="padding:10px 20px 6px 20px">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3" class="collapsed" aria-expanded="false">
+                            <i class="iconfont iconfont icon-fangxiang2 fz18 f_l"></i>
+                            <span class="f_l" id="wgzdr">我关注的人</span>
+                        </a>
+                    </div>
+                    <div id="collapse3" class="panel-collapse collapse" aria-expanded="false" >
+                        <div class="panel-body" style="padding:0 0 8px 0;margin-left:-16px!important;">
+                            <div class="scr_con" style="overflow:hidden;">
+                                <div id="dv_scroll1" style="width:100%;min-height:100px;max-height: 430px;overflow-x: hidden;overflow-y: auto;position: static;">
+                                    <ul id="myAttention" class="cal_tree_ul wdgz_cal_tree_ul txl_cal_tree znxx_lxr" style="padding-left:0px">
+                                        <ul class="recent_contacts_info2" id="recent_contacts_info2" style="display: none;"></ul>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="f_r znxx_r t_c  znxx_box" >
+            <div class="look_more" onclick="getHistory()" style="display: none;" >
+                <i class="iconfont icon-shizhong" style="color:#bebdc2"></i>
+                <span style="cursor: pointer">查看更多消息</span>
+            </div>
+            <div  class="scr_con sjhe" style="overflow:hidden;">
+                <div id="dv_scroll" style="width:100%;height:600px;top:0;overflow-x: hidden;overflow-y: auto">
+                    <div id="msg" style="margin-top: 60px;padding-left:20px;padding-right: 20px" class=""></div>
+                </div>
+            </div>
+            <dl class="message_box" style="margin-top: 30px">
+                <dt  style="cursor: pointer;position:relative">
+               <!--  <i  class="iconfont icon-iconfontmoban2"></i><p style="display: inline;color: #666;padding-left: 5px;font-size: 14px;">信息模板</p> -->
+                    <div class="dialog" style="display:none; top:38px!important;">                      
+                        <ul class="list" style="  overflow: auto; height: 227px;">
+                            {% for tmodel in tmodels %}
+                                <li>
+                                    <span style="color:#666">{{ tmodel.model_name }}</span>
+                                    <span style="margin-left: 30px;color:#b5b5b5">
+                                        {% if tmodel.content|length > 20 %}
+                                            {{ tmodel.content|slice:"20" }} ...
+                                        {% else %}
+                                            {{ tmodel.content }}
+                                        {% endif %}
+                                    </span>
+                                    <input type="hidden" value="{{ tmodel.content }}">
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="t_c" style="padding-top: 12px;">
+                            <input type="button" name="" class="re_btn" value="确认">
+                            <input type="button" name="" class="qx_btn ml15" value="取消"></div>
+                    </div>
+                </dt>
+                <dd></dd>
+                <dd>
+                    <textarea id="content" name="" placeholder="请输入要发送的内容"  rows="10" ></textarea>
+                </dd>
+            </dl>
+            <div class="t_r" style="width:667px;margin:0 auto;padding-top: 10px">
+                <input type="hidden" id="sendUser" value="{{ pu.id }}" >
+                <input type="hidden" id="receiveUser" value="" >
+
+
+
+
+    <div class="btn-group">
+       <input type="button" name="" value="发送信息" class="btn btn-danger fs_xlmes" onclick="sendInfo()" >
+       <button type="button" class="btn btn-danger dropdown-toggle fs_xlmes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="caret"></span>
+     </button>
+
+    <ul class="dropdown-menu btn_mes">
+        <li><a href="#"><i id="btn_enter" class="iconfont icon-32gougou f_l"></i>
+        <span class="fs_mes">按Enter键发送信息</span></a></li>
+        <li><a href="#"><i id="btn_ce" style="display: none;" class="iconfont icon-32gougou f_l">            
+        </i><span class="fs_mes">按Ctrl+Enter键发送信息</span></a></li>
+      </ul>
+</div>
+
+
+
+
+    <input type="button" name="" value="清空" class="btn-qx m-l5" style="margin-right:10px" onclick="removeInfo()">
+            </div>
+
+            
+
+        </div>
+
+    </div>
+</div>
+<!-- 内容大框 -->
+<!-- 底部 -->
+{% include 'jobs/system/new_footer.html' %}
+<!-- 底部 -->
+<script src="{{ STATIC_URL }}js/common.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript">
+var file_website = $('#file_website').val();
+$("#wgzdr").click(function(event) {
+    var ul =$(this).parent().parent().next();
+    if(ul.hasClass('collapsing')){
+        return false;
+    }
+    if(ul.hasClass('in')){
+        $(this).prev().removeClass('icon-fangxiang4').addClass('icon-fangxiang2');
+    }else{
+        $(this).prev().removeClass('icon-fangxiang2').addClass('icon-fangxiang4');
+    }
+});
+$("#zjlxr").click(function(event) {
+    var ul =$(this).parent().parent().next();
+    if(ul.hasClass('collapsing')){
+        return false;
+    }
+    if(ul.hasClass('in')){
+        $(this).prev().removeClass('icon-fangxiang4').addClass('icon-fangxiang2');
+    }else{
+        $(this).prev().removeClass('icon-fangxiang2').addClass('icon-fangxiang4');
+    }
+});
+
+    var beforeTime = ""; //设置最后消息时间
+    var historyID = ""; //历史ID标记点
+    var historyDate = ""; //历史时间标记点
+    var receive_notread_puid_list = ',' + '{{ receive_notread_puid_list | default:'' }}' + ',';
+
+    $(function(){
+        $('#content').keydown(function(event) { 
+           if(event.keyCode==13&&!event.ctrlKey&&$('#btn_enter').css('display')=='block'){
+               sendInfo();
+           }
+           else if(event.ctrlKey&&event.keyCode==13&&$('#btn_ce').css('display')=='block')
+           {
+               sendInfo();
+           }
+        });
+
+        $('.dropdown-menu li a').each(function(index, el) {
+            $(el).click(function(event) {
+                $('#btn_enter').css({
+                    display: 'none'
+                });
+                $('#btn_ce').css({
+                    display: 'none'
+                });
+                $(el).children('i').css({
+                    display: 'inline-block'
+                });
+            });
+        });
+
+
+        $("#searchDiv").hide();
+
+{#        initializeAttention();#}
+        //updateAttention();
+{#        recentContacts();#}
+        //setInterval("myUpdate()",10000);//1000为1秒钟
+    })
+
+    function myUpdate(){
+        updateInfo(); //加载对话信息
+        updateAttention(); //加载关注人
+{#        recentContacts();#}
+    }
+
+    //更新关注的人数据
+    function updateAttention(){
+        $.ajax({
+            type: "POST",
+            url: "/ajax_attention/",
+            data: {
+                "type": 1
+            },
+            dataType: "json",
+            success: function (data) {
+                $(data).each(function(){
+                    if( this.noseeinfo != 0){
+                        var obj = $("#myAttention").find("input:hidden[value="+ this.attention_pu_id +"]").parent();
+                        $(obj).find("span[class='span12']").remove();
+                        $(obj).append('<span class="span12" style="margin-left: 45px">'+ this.noseeinfo+'</span>');
+                    }
+                });
+            }
+        });
+    }
+    /*信息模板相关*/
+    $(".icon-iconfontmoban2").click(function(){
+        $(".dialog").show();
+    })
+    $(".qx_btn").click(function(){
+         $(".dialog").hide();
+    })
+    $("#add_btn").click(function(){
+        $(".cyqy_table input[type=text]").val("");
+    })
+    $(".dialog li").click(function(){
+        $(".dialog li").removeClass('active');
+        $(this).addClass('active');
+    })
+    $(".dialog li").dblclick(function(){
+         confirm.call(this);
+    })
+    $(".message_box .re_btn").click(function(){
+        confirm.call(this);
+    })
+    function confirm(){
+        $("#content").html($(".dialog li.active").children('input').val());
+        $(this).parent().parent().hide();
+    }
+
+    //发送信息
+    function sendInfo(){
+        if($("#content").val() == "" || $.trim($("#content").val()) ==""){
+            alert("请输入要发送的内容！",4);
+            return;
+        }
+        if($("#receiveUser").val() == ""){
+            alert("请选择要发送信息的人！",4);
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/ajax_message/",
+            data: {
+                "type": 1,
+                "send": $("#sendUser").val(),
+                "receive": $("#receiveUser").val(),
+                "content":$.trim($('#content').val())
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.msg == "error") {
+                    alert("发送信息失败，请重试！",2)
+                } else {
+                    
+                    var data = $.parseJSON(data.dataInfo);
+                    var dateNow = data.sendtime;
+
+                    if(calculateDate(beforeTime,dateNow)){
+                        $("#msg").append('<div style="margin-top: 40px">'+
+                        '<div class="znxx_r_title" style="color:#666">'+ dateNow +'</div>'+
+                        '</div>');
+                    }
+
+                    beforeTime = dateNow; //设置时间
+
+                    var content = "";
+                    content += '<dl class="clearfix mt10">';
+                    content += '    <dt class="f_r t_c" style="width:48px;">';
+                    content += '<img src="{{ pu.head_portrait }}" alt="" onerror="notfind(this, \'{{ pu.account_type }}\', \'{{ request.session.sex }}\')">';
+                    content += '        <p></p></dt>';
+                    content += '    <dd class="f_r znxx_dd znxx_dd_bg1"  >';
+                    content += '       <p id="addtext" style="text-align: left;margin:0 auto;width:330px;margin-top: 10px"></p>';
+                    content += '    </dd>';
+                    content += '</dl>';
+                    
+                    $("#msg").append(content);
+                    $("#msg .znxx_dd:last #addtext").text($('#content').val());
+
+                    $("#msg").parent().scrollTop( $("#msg").parent()[0].scrollHeight );
+                    removeInfo();
+                }
+            }
+        })
+    }
+    //过滤字符串
+function stripscript(s)
+{
+var pattern = new RegExp("[%--`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+var rs = "";
+for (var i = 0; i < s.length; i++) {
+   rs = rs+s.substr(i, 1).replace(pattern, "");
+}
+return rs;
+}
+
+
+    //清空发送信息
+    function removeInfo(){
+        $("#content").val("");
+        $("#content").focus();
+    }
+
+    //更新信息
+    function updateInfo(){
+
+        if($("#receiveUser").val() == ""){
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/ajax_message/",
+            data: {
+                "type": 3,
+                "send": $("#receiveUser").val()
+            },
+            dataType: "json",
+            success: function (data) {
+                $(data).each(function(i){
+                    if(i == 0){
+                        historyID = $(this).get(0).id;
+                    }
+                    if(calculateDate($(this).get(0).sendtime,beforeTime)){
+                        $("#msg").append('<div style="margin-top: 40px">'+
+                        '<div class="znxx_r_title" style="color:#666">'+ $(this).get(0).sendtime +'</div>'+
+                        '</div>');
+                    }
+
+                    beforeTime = $(this).get(0).sendtime; //设置时间
+                    if($.trim($(this).get(0).send_head_portrait)=="")
+                        $(this).get(0).send_head_portrait = "null";
+                    var content = "";
+
+                    content += '<dl class="clearfix mt10">';
+                    content += '    <dt class="f_l t_c" style="width:68px;">';
+                    content += '<img src="'+ file_website+ $(this).get(0).send_head_portrait + '" alt="" onerror="notfind(this, '+this.sendPu_accountType+',\''+this.sex+'\')">';
+                    content += '<p class="nowrap">'+  $(this).get(0).send_username +'</p></dt>';
+                    content += '    <dd class="f_l znxx_dd znxx_dd_bg"  >';
+                    content += '        <p style="text-align: left;margin:0 auto;width:330px;margin-top: 10px;word-break: break-all; word-wrap:break-word;">'+ $(this).get(0).content +'</p>';
+                    content += '    </dd>';
+                    content += '</dl>';
+
+                    $("#msg").append(content);
+                });
+            }
+        });
+    }
+    //设置对话人
+    function setChat(obj){
+
+        $(obj).parent().find("li").each(function(){
+            $(this).removeClass();
+        });
+
+        $(obj).addClass("active");//设置选中样式
+
+        $("#receiveUser").val($(obj).find("input[type='hidden']").val());
+        $(obj).find("span[class='span12']").remove();
+
+        $("#msg").empty(); //清空信息内容
+
+        $.ajax({
+            type: "POST",
+            url: "/ajax_message/",
+            data: {
+                "type": 2,
+                "send": $(obj).find("input[type='hidden']").val()
+            },
+            dataType: "json",
+            success: function (data) {               
+                 if(data.length==undefined||data.length==0)
+                 {
+                     $(".look_more").hide();
+                    $(".sjhe").css({
+                    height:'0px'
+                    });
+                 }
+                 else if(data.length>0)
+                 {
+                     $(".look_more").show();
+
+                    $(".sjhe").css({
+                    height:'600px'    
+                    });
+                 }
+                $("#msg").empty(); //清空信息内容
+                for(var i = data.length - 1;i >= 0;i--){
+                    if(i == data.length - 1){
+                        historyID = data[i].id;
+                    }
+
+                    bindInfo(data[i],i,data.length - 1,1);
+                }
+                var znxx_content=document.getElementById('dv_scroll');
+                znxx_content.scrollTop=znxx_content.scrollHeight;
+            }
+        });
+    }
+    //获取历史信息
+    function getHistory(){
+        if($("#receiveUser").val() == ""){
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/ajax_message/",
+            data: {
+                "type": 4,
+                "historyID" : historyID,
+                "send": $("#receiveUser").val()
+            },
+            dataType: "json",
+            success: function (data) {
+                if( data.length == 0 ) {
+                    $(".look_more").hide();
+                } else {
+                    for(var i = data.length - 1;i >= 0;i--){
+                        if(i == data.length - 1){
+                            historyID = data[i].id;
+                        }
+
+                        bindInfo(data[i],i,data.length - 1,2);
+                    }
+                }
+            }
+        });
+    }
+//消息内容绑定
+function bindInfo(obj,i,max,type){
+    if($.trim(obj.send_head_portrait)=="")
+                    obj.send_head_portrait = "null";
+    var content = "";
+
+    //如果是历史记录的第一条则显示时间
+    if (i == max || calculateDate(historyDate,obj.sendtime)) {
+        content += '<div style="margin-top: 40px">' +
+                '<div class="znxx_r_title" style="color:#666">' + obj.sendtime + '</div>' +
+                '</div>';
+    }
+
+    var sendContext = obj.content;
+    if(sendContext != '' && sendContext.indexOf('script') > -1) {
+        sendContext = sendContext.replace(/</g, "&lt;");
+        sendContext = sendContext.replace(/>/g, "&gt;");
+        sendContext = sendContext.replace(/ /g, "&nbsp;");
+    }
+    if(obj.send_puid.toString() == $("#sendUser").val()){
+        //自己发送的信息样式
+        content += '<dl class="clearfix mt10">';
+        content += '    <dt class="f_r t_c" style="width:48px;">';
+        content +='<img src="'+ file_website+ obj.send_head_portrait + '" alt="" onerror="notfind(this, \'{{ request.session.account_type }}\', \'{{ request.session.sex }}\')">';
+        content +=       '<p></p></dt>';
+        content += '    <dd class="f_r znxx_dd znxx_dd_bg1"  >';
+        content += '       <p style="text-align: left;margin:0 auto;width:330px;margin-top: 10px">'+  sendContext +'</p>';
+        content += '    </dd>';
+        content += '</dl>';
+    }
+    else{
+        //别人发送的信息样式
+        content += '<dl class="clearfix mt10">';
+        content += '    <dt class="f_l t_c" style="width:68px;cursor: pointer;" onclick="viewAccountInfo(\''+obj.obj_id+'\', '+obj.sendPu_accountType+')">';
+        content += '<img src="'+ file_website+ obj.send_head_portrait + '" alt="" onerror="notfind(this, \''+obj.sendPu_accountType+'\', \''+obj.sex+'\')">';
+        content += '<p class="nowrap">'+  obj.send_username +'</p></dt>';
+        content += '    <dd class="f_l znxx_dd znxx_dd_bg"  >';
+        content += '        <p style="text-align: left;margin:0 auto;width:330px;margin-top: 10px;word-break: break-all; word-wrap:break-word;">'+ sendContext +'</p>';
+        content += '    </dd>';
+        content += '</dl>';
+    }
+
+    if(type == 1){
+        $("#msg").append(content);
+    }
+    else if(type == 2){
+        $("#msg").prepend(content);
+    }
+
+    historyDate = obj.sendtime; //设置时间
+    beforeTime = obj.sendtime;
+}
+//查看发送消息人信息
+function viewAccountInfo(obj_id, account_type){
+    if(obj_id == 'None'){
+        return false;
+    }
+    if(account_type == '1'){
+        window.open('/resume/new_jlyl?resumeID=' + obj_id, '_blank');
+    }else if(account_type == '3' || account_type == '5'){
+        window.open('/system/ckjjrsy?puid=' + obj_id, '_blank');
+    }else{
+        window.open('/account/new_qyyl?companyId=' + obj_id, '_blank');
+    }
+}
+// 最近联系人分页
+var sql = "id in ({{ puid_list | default:'' }})";
+var order = ' find_in_set(id, "{{ puid_list | default:'' }}")';
+var loadData;
+loadData = new pagin("recent_contacts_info", "T_PU", "", encodeURI(sql), encodeURI(order), 5, "recent_contacts", "loadData");
+// 最近联系人： 分页
+function recent_contacts(data) {
+    $(".show_more_contacts").remove();
+    var contents = '';
+    data.forEach(function(data_info) {
+        var array = data_info;
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] == null || array[i] == 'None') {
+                array[i] = '';
+            }
+        }
+        contents += '<li onclick="setChat(this)">';
+        var sex = '男';
+        var account_type = array[7];
+
+        if (true) {
+            // 作为 接受者
+            $.ajax({
+                async: false,
+                type: "POST",
+                data: {'account_id': array[0]},
+                url: "/ajax_get_account_sex/",
+                dataType: "json",
+                success: function (data) {
+                    sex = data.sex;
+                }
+            });
+            contents += '<img src="'+ file_website + array[4] + '" alt="" ';
+            contents += 'style="border-radius:3px; width:70px!important;" onerror="notfind(this, ' + account_type + ', \'' + sex + '\')">';
+            contents += '<span class="ml25 nowrap" style="max-width:92px;display: inline-block;" title="' + array[3] + '">' + array[3] + '</span>';
+            contents += '<input type="hidden" value="' + array[0] + '" >';
+            // 作为 接受者
+            if(receive_notread_puid_list.indexOf( ',' + array[0] + ',') > -1) {
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    data: {'send_puid': array[0]},
+                    url: "/ajax_get_notview_message_count/",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data > 0) {
+                            contents += '<span class="span12" style="position:absolute;right:10px;top:33px;">' + data + '</span>';
+                        }
+                    }
+                });
+            }
+        } else {
+            // 作为 发送者
+            $.ajax({
+                async: false,
+                type: "POST",
+                data: {'account_id': array[4]},
+                url: "/ajax_get_account_sex/",
+                dataType: "json",
+                success: function (data) {
+                    sex = data.sex;
+                    account_type = data.account_type;
+                }
+            });
+            contents += '<img src="'+ file_website + array[6] + '" alt="" ';
+            contents += 'style="border-radius:3px; width:70px!important;" onerror="notfind(this, ' + account_type + ', \'' + sex + '\')">';
+            contents += '<span class="ml25 nowrap" style="max-width:92px;display: inline-block;" title="' + array[5] + '">' + array[5] + '</span>';
+            contents += '<input type="hidden" value="' + array[4] + '" >';
+        }
+        contents +=	'</li>';
+    });
+    $("#recentContact").append(contents);
+    if(contents != '') {
+        if($("#recent_contacts_info li.active").attr('onclick') != $("#recent_contacts_info li:last").attr('onclick')) {
+            contents = '<div style="cursor: pointer" class="show_more_contacts show_more_contact1" onclick="recent_contacts_next_page(1)">查看更多</div>';
+            $("#recentContact").append(contents);
+        }
+
+    }
+}
+
+// 我关注的人分页
+var sql2 = 'id in ({{ attention_puid_str | default:'' }})';
+var order = ' find_in_set(id, "{{ attention_puid_str | default:'' }}")';
+
+loadData = new pagin("recent_contacts_info2", "T_PU", "", encodeURI(sql2), encodeURI(order), 5, "my_attention", "loadData");
+function my_attention(data) {
+    var html = '';
+    $('#show_more_contact2').remove();
+    data.forEach(function(data_info) {
+        var array = data_info;
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] == null || array[i] == 'None') {
+                array[i] = '';
+            }
+        }
+     // 作为 接受者
+        var sex = '男';
+        $.ajax({
+            async: false,
+            type: "POST",
+            data: {'account_id': array[0]},
+            url: "/ajax_get_account_sex/",
+            dataType: "json",
+            success: function (data) {
+                sex = data.sex;
+            }
+        });
+        html += '<li onclick="setChat(this)">';
+        html += '   <img src="'+ file_website + array[4] + '" alt="" style="border-radius:3px;width:70px!important;" onerror="notfind(this, ' + array[7] + ', \'' + sex + '\')">';
+        html += '   <span class="ml25 nowrap" style="max-width: 92px;display: inline-block;" title="' + array[3] + '">' + array[3] + '</span>';
+        html += '   <input type="hidden" value="' + array[0] + '">';
+        html += '</li>';
+    });
+    if(html != '') {
+        $("#myAttention").append(html);
+        if($("#recent_contacts_info2 li.active").attr('onclick') != $("#recent_contacts_info2 li:last").attr('onclick')) {
+            html = '<div style="cursor: pointer" class="show_more_contacts show_more_contact2" onclick="recent_contacts_next_page(2)">查看更多</div>';
+            $("#myAttention").append(html);
+        }
+
+    }
+}
+
+
+// 下一页
+function recent_contacts_next_page(type) {
+    if(type == 1) {
+        var $this_page = $("#recent_contacts_info li.active");
+        var $last_page = $("#recent_contacts_info li:last");
+        if($this_page.attr('onclick') == $last_page.attr('onclick')) {
+            $(".show_more_contacts1").remove();
+        } else {
+            $this_page.next().click();
+        }
+    } else if(type == 2) {
+        var $this_page = $("#recent_contacts_info2 li.active");
+        var $last_page = $("#recent_contacts_info2 li:last");
+        if($this_page.attr('onclick') == $last_page.attr('onclick')) {
+            $(".show_more_contacts2").remove();
+        } else {
+            $this_page.next().click();
+        }
+    } else {
+        var $this_page = $("#recent_contacts_info3 li.active");
+        var $last_page = $("#recent_contacts_info3 li:last");
+        if($this_page.attr('onclick') == $last_page.attr('onclick')) {
+            $(".show_more_contacts3").remove();
+        } else {
+            $this_page.next().click();
+        }
+    }
+}
+
+    //搜索
+    function search(){
+        if($("#txtSearch").val() == ""){
+            $("#recentContactsDiv").show();
+            $("#myAttentionDiv").show();
+            $("#searchDiv").hide();
+        } else {
+            $("#recentContactsDiv").hide();
+            $("#myAttentionDiv").hide();
+            $("#searchDiv").show();
+
+            $("#search").empty();
+            var condition = $("#txtSearch").val();
+
+            var sql = 'id in ({{ find_puid_str  }}) and user_name like "%' + condition + '%"';
+            sql += ' order by find_in_set(id, "{{ find_puid_str | default:'' }}")';
+            var loadData = new pagin("recent_contacts_info3", "T_PU", "", encodeURI(sql), "", 10, "find_contacts", "loadData");
+        }
+    }
+
+    // 查找人
+    function find_contacts(data) {
+        $(".show_more_contacts3").remove();
+        var contents = '';
+        data.forEach(function (data_info) {
+            var array = data_info;
+            for (var i = 0; i < array.length; i++) {
+                if (array[i] == null || array[i] == 'None') {
+                    array[i] = '';
+                }
+            }
+            contents += '<li onclick="setChat(this)">';
+            var sex = '男';
+            var account_type = array[7];
+
+            $.ajax({
+                async: false,
+                type: "POST",
+                data: {'account_id': array[0]},
+                url: "/ajax_get_account_sex/",
+                dataType: "json",
+                success: function (data) {
+                    sex = data.sex;
+                }
+            });
+            contents += '<img src="'+ file_website + array[4] + '" alt="" ';
+            contents += 'style="border-radius:3px; width:70px!important;" onerror="notfind(this, ' + account_type + ', \'' + sex + '\')">';
+            contents += '<span class="ml25 nowrap" style="max-width:92px;display: inline-block;" title="' + array[3] + '">' + array[3] + '</span>';
+            contents += '<input type="hidden" value="' + array[0] + '" >';
+             // 作为 接受者
+            if(receive_notread_puid_list.indexOf( ',' + array[0] + ',') > -1) {
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    data: {'send_puid': array[0]},
+                    url: "/ajax_get_notview_message_count/",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data > 0) {
+                            contents += '<span class="span12" style="position:absolute;right:10px;top:33px;">' + data + '</span>';
+                        }
+                    }
+                });
+            }
+            contents +=	'</li>';
+        });
+        $("#search").append(contents);
+        if(contents != '') {
+            if($("#recent_contacts_info3 li.active").attr('onclick') != $("#recent_contacts_info3 li:last").attr('onclick')) {
+                contents = '<div style="cursor: pointer" class="show_more_contacts show_more_contacts3" onclick="recent_contacts_next_page(3)">查看更多</div>';
+                $("#search").append(contents);
+            }
+        }
+    }
+
+    //计算时间差
+    function calculateDate(date1,date2){
+        var datetime1 = new Date(date1.replace(/-/g,"/"));
+        var datetime2 = new Date(date2.replace(/-/g,"/"));
+
+        var date3= datetime2.getTime() -  datetime1.getTime()//时间差的毫秒数
+
+        //计算出相差天数
+        var days=Math.floor(date3/(24*3600*1000))
+
+        //计算出小时数
+        var leave1=date3%(24*3600*1000)    //计算天数后剩余的毫秒数
+        var hours=Math.floor(leave1/(3600*1000))
+        //计算相差分钟数
+        var leave2=leave1%(3600*1000)        //计算小时数后剩余的毫秒数
+        var minutes=Math.floor(leave2/(60*1000))
+        //计算相差秒数
+{#            var leave3=leave2%(60*1000)      //计算分钟数后剩余的毫秒数#}
+{#            var seconds=Math.round(leave3/1000)#}
+
+        if(days > 0 || hours > 0|| minutes > 5){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+</script>
+</body>
+</html>

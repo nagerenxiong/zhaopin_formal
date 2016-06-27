@@ -1,0 +1,19 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/joinagcom.css">
+	<div class="clear"></div>
+	<div class="main">
+		<div class="audit_top">
+			加入经纪人公司
+		</div>
+		<div class="audit_mid">
+			<div class="sub_ti"><i></i>&nbsp;&nbsp;<p>您已提交加入{{ pcName }}申请<br/>目前处于<span>待审核中状态！</span></p></div>
+			<a href="/jobs/system/new_headhunter_index" class="get_back">返回首页</a>
+			<div class="coumes">
+			<p>认证审核咨询热线： {{ PHONE_NUMBER }}</p>
+			<p>QQ咨询交流群：1448208742</p>
+			<p>咨询时间：周一至周五  9：00-12:00、 14:00-18:00</p>
+		   </div>
+		</div>
+	</div>
+	
+{% include 'jobs/system/new_footer.html' %}

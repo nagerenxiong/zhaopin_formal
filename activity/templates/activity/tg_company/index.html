@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<title>有种你就来！</title>
+	<link rel="stylesheet" href="/static/css/css.css">
+	<link rel="stylesheet" href="/static/css/tg.css">
+</head>
+<!-- 有种你就来 企业推广页 -->
+<body>
+<div id="best_company">
+
+	<div class="best_header">
+		<div class="center">
+			<div class="t">
+				<span>企业评选活动</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="best_banner">
+		<div class="t">
+			<img src="/static/images/h5/huodongliucheng.png" alt="">
+			<p>本次活动最终解释权归怀才当遇网所有</p>
+		</div>
+		<ul class="m">
+			<li>
+				<p>
+					登录怀才当遇网
+					<span>进入企业主页</span>
+				</p>
+				<span class="circle">1</span>
+			</li>
+			<li>
+				<p>
+					扫描页面右侧二维码
+					<span>生成H5招聘页面</span>
+				</p>
+				<span class="circle">2</span>
+			</li>
+			<li>
+				<p>
+					通过H5招聘末页
+					<span>“点赞”按钮集赞</span>
+				</p>
+				<span class="circle">3</span>
+			</li>
+			<li>
+				<p>
+					集赞量前10名可获得
+					<span>亚马逊自助餐券2张</span>
+				</p>
+				<span class="circle">4</span>
+			</li>
+			<em class="abs"></em>
+		</ul>
+		
+		<div class="b">
+			<a class="look" href="#top20">查看企业风云排行榜</a>
+			<a class="join" href="#best_register">我是名企我要参加</a>
+		</div>
+	</div>
+
+	<div class="top20" id="top20">
+		<h1>名企风云榜谁称雄</h1>
+		<h2>人气企业值得加入</h2>
+		<div class="abs"><span>TOP20企业</span><em></em></div>
+		<ul class="company clearfix">
+            {% if companyArray %}
+                {% for company in companyArray %}
+                    <li>
+                        <div class="img">
+                            <img onerror="notfind(this)" src="{{ company.pc_logo | default:'null' }}" alt="">
+                        </div>
+                        <div class="b">
+                            <span class="name">{{ company.pc_name | default:'' }}</span>
+                            <span class="count"><span>{{ company.supportCount | default:0 }}票</span></span>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% endif %}
+		</ul>
+	</div>
+
+	<div class="best_register" id="best_register">
+		<div class="t">
+			<img src="/static/images/h5/you_can_you_up.png" alt="">
+			<h1>名企怎么能少我！</h1>
+			<h2>我也要参加</h2>
+		</div>
+		<div class="abs"><span>快速注册</span><em></em></div>
+		<div class="b clearfix">
+			<div class="f_l">
+				<img class="ewm" src="/static/images/h5/ewm.png" alt="">
+				<span>关注怀才当遇了解更多招聘信息</span>
+			</div>
+			
+			<div class="register f_r">
+				<p>企业方快速注册通道</p>
+				<form class="registed">
+					{% csrf_token %}
+					<input name="account_type" value="4" type="hidden">
+					<input type="hidden" name="remark" value="{{ remark | default:'' }}" />
+					<ul class="form">
+						<li>
+							<input id="account" class="zh account" name="account" type="text" placeholder="请输入帐号" data-type="account" datatype="e-m">
+						</li>
+						<div class="hint index1"></div>
+						<li>
+							<input class="mima1 mima" type="password" name="password" placeholder="请输入密码" maxlength="16" oncopy="return false;" onpaste="return false;" oncut="return false;" name="password" datatype="*6-16" >
+						</li>
+						<div class="hint index2"></div>
+						<!-- <li>
+							<input class="mima2 mima" type="password" placeholder="密码" maxlength="16" oncopy="return false;" onpaste="return false;" oncut="return false;" recheck="password" name="userpassword2" datatype="*6-16">
+						</li>
+						<div class="hint index3"></div> -->
+						<li id="yzm">
+							<input class="yzm" maxlength="8" type="text" name="code" placeholder="请输入验证码">
+							<button class="send" onclick="smsValidation(event);">发送验证码</button>
+						</li>
+					</ul>
+				
+				<div class="v">
+					<input id="agree" type="checkbox">
+					<label for="agree">我已阅读并同意<a href="/system/about#2" target="_blank">《用户协议》</a></label>
+				</div>
+				<button class="register_btn" onclick="register(event)">注册</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="best_footer">
+		<ul>
+			<li>
+				<a href="/system/about#0" target="_blank">关于我们</a>
+			</li>
+			<li>
+				|
+			</li>
+			<li>
+				<a href="/system/about#1" target="_blank">使用帮助</a>
+			</li>
+			<li>
+				|
+			</li>
+			<li>
+				<a href="/system/about#2" target="_blank">用户协议</a>
+			</li>
+			<li>
+				|
+			</li>
+			<li>
+				<a href="/system/about#3" target="_blank">友情链接</a>
+			</li>
+		</ul>
+		<p>Copyright © 2016 hcdyhr.com赣ICP备12347441号-1 hcdyhr.com 保留所有版权 使用这些服务遵守用户协议</p>
+	</div>
+</div>
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/Validform_v5.3.2.js"></script>
+<script>
+	$(function(){
+		$(".registed").Validform({tiptype:2});
+	})
+	function notfind(obj){
+		$(obj).attr('src', '/static/images/qy_logo.png');
+	};
+	// 微信分享
+    WXJssdk.init(function(wx) {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+            success: function (res) {
+			//alert(JSON.stringify(res));
+            }
+        });
+        // 分享data
+        var shareData = {
+            title: '谁是最佳人气企业',
+            desc: '名企怎么能少我！我要参加',
+            link: 'http://www.hcdyhr.com/activity/top',//分享链接地址 自己调整
+            imgUrl: 'http://www.hcdyhr.com/static/images/h5/you_can_you_up.png',//分享显示的图片
+            success:function(){
+               // alert('shareData success');
+            },
+            cancel:function(){
+               // alert('shareData cancel');
+            },
+            error:function(res){
+               // alert(JSON.stringify(res));
+            }
+        };
+
+        // 分享给朋友
+          wx.onMenuShareAppMessage(shareData);
+        // 分享到朋友圈
+          wx.onMenuShareTimeline(shareData);
+        // 分享到QQ
+          wx.onMenuShareQQ(shareData);
+        // 分享到微博
+          wx.onMenuShareWeibo(shareData);
+    });
+</script>
+<script src="/static/js/tg.js"></script>
+</body>
+</html>

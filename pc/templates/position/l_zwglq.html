@@ -1,0 +1,601 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style2.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/basic.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+{#<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/My97DatePicker/WdatePicker.js"></script>#}
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul_old.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position_old.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<div class="lt_content_box wdjlk">
+	<!-- 猎头会员菜单开始 -->
+	<div class="nav2">
+    {% include 'jobs/system/menu_position.html' %}
+</div>
+<div class="clear">3</div><div class="clear">3</div>
+<script>
+        if({{request.session.account_type}}==2 || {{request.session.account_type}}==4){
+            $(".clear").eq(1).text("2")
+        }
+</script>
+	<!-- 猎头会员菜单结束 -->
+	<div class="clear"></div>
+	<div class="center lt_jlgltb mt30">
+		<div class="zw_glxss">
+{#			<form action="" method="get">#}
+				<input name="" type="text" class="zw_glxss_k fz14" id="queryCondition" onkeydown="judgeEntry()" style="border:0px;" placeholder="输入过滤器名称">
+				<input name="" type="button" class="zw_glxss_n fz18" style="border:0px;" value="搜索" onclick="queryFilter()">
+{#            </form>#}
+		</div>
+		<div class="zw_glxtj" style="cursor: pointer;" data-toggle="modal" data-target="#update_zw_Modal" onclick="filterOperate(this, 'add')">
+            <i class="iconfont icon-tianjia pr5" style="font-size:19px;"></i>
+			添加职位过滤器
+		</div>
+	</div>
+	<div class="center">
+
+		<!-- 猎头会员职位过滤器主内容开始 -->
+		<div class="dleft">
+
+			<!-- 猎头会员职位过滤器开始 -->
+			<div class="ssjg p9 mt30">
+				<div class="bkdw"></div>
+				<div class="biaolm m10">
+					<div class="biaot2 fz16">
+						<ul>
+							<li class="bthover">职位过滤器</li>
+						</ul>
+					</div>
+
+				</div>
+
+				<div class="tjsx m10">
+					<input name="" type="checkbox" value="" id="checkAll"> <i class="ml5 mr5 fn">全选</i>
+
+					<input name="" type="button" value="批量删除" class="tjann" data-toggle="modal" data-target="#if_del_Modal" onclick="judgeSelected(this)" style="padding:0 10px"></div>
+				<!-- 猎头会员职位过滤器列表开始 -->
+				<div class="tuplb sigenr mt5" id="tableInfo">
+
+
+					<div class="clear"></div>
+
+				</div>
+                <div id="paginInfo"></div>
+				<!-- 猎头会员职位过滤器列表结束 -->
+
+			</div>
+			<!-- 猎头会员职位过滤器结束 -->
+		</div>
+		<!-- 猎头会员职位过滤器主内容结束 -->
+
+		<div class="xright">
+			<!-- 侧边栏 -->
+            {% include 'jobs/recommendResume.html' %}
+{#			<div class="zw_wdglx mt30">#}
+{#				<div class="zw_wdbt">我的职位过滤器</div>#}
+{#				<div class="zw_bgld">#}
+{#					被过滤的简历#}
+{#					<div class="zw_bgld_g">20</div>#}
+{#				</div>#}
+{#			</div>#}
+
+			<!-- 侧边栏 -->
+		</div>
+
+		<div class="clear"></div>
+	</div>
+</div>
+    <input type="hidden" id="operateState" />
+<!-- 模态框（Modal） -->
+	<div class="modal fade zwglq" id="update_zw_Modal" tabindex="-1" role="dialog"   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog"style="width:610px">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">修改过滤器</h4>
+				</div>
+				<div class="modal-body t_c">
+					<div class="zw_glx_bdk">
+                 	<ul>
+                    	<li>
+                        	<div class="bd_Le">职位过滤器名称</div>
+                            <div class="bd_Ri">
+                                <input name="" type="text" id="filterName" class="zw_btk">
+                                <input type="hidden" id="filter_id" />
+                            </div>
+                        </li>
+                    </ul>
+                    <ul>
+                    	<li>
+                        	<div class="bd_Le">当前所在地</div>
+                            <div class="bd_Ri">
+{#                                <select name=""  class="zw_btk1"></select>#}
+                                <input name="" id="current_area" type="text" onclick="showArea(this, 1)" class="zw_btk2">
+                                <input type="hidden" value="" name="areaValue" id="areaValue">
+                            </div>
+                        </li>
+                    </ul>
+                    <ul>
+                    	<li>
+                        	<div class="bd_Le">所属行业</div>
+                            <div class="bd_Ri">
+                                <input name="" id="industry" type="text" onclick="showBusinessul(this,1)" class="zw_btk2">
+                                <input type="hidden" value="" name="industryValue" id="industryValue">
+                            </div>
+                        </li>
+                    </ul>
+                    <ul>
+                    	<li>
+                        	<div class="bd_Le">所属职位</div>
+                            <div class="bd_Ri">
+                                <input name="" id="positionName" type="text" onclick="positionShow(this)" class="zw_btk2">
+                                <input type="hidden" value="" name="positionValue" id="positionValue">
+                            </div>
+                        </li>
+                    </ul>
+                    <ul>
+                    	<li>
+                        	<div class="bd_Le">年薪范围</div>
+                            <div class="bd_Ri">
+                                <select name="filter_pay1" id="pay" class="zw_btk1" style="width: 120px;">
+                                    <option value="">请选择</option>
+                                    {% if expectPays %}
+                                        {% for expectPay in expectPays %}
+                                            <option value="{{ expectPay.dictionary_value }}">{{ expectPay.dictionary_name }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                                <span class="f_l" style="margin:7px 20px 0 20px">——</span>
+                                <select name="filter_pay2" id="pay2" class="zw_btk1" style="width: 120px;">
+                                    <option value="">请选择</option>
+                                    {% if expectPays %}
+                                        {% for expectPay in expectPays %}
+                                            <option value="{{ expectPay.dictionary_value }}">{{ expectPay.dictionary_name }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+{#                                <input name="" type="text" class="zw_btk3">#}
+{#                                <b class="fn fz14 pl10 pr10">月薪 ——</b>#}
+{#                                <input name="" type="text" class="zw_btk3">#}
+{#                                <b class="fn fz14 pl10 pr10">月薪</b>#}
+                            </div>
+                        </li>
+                    </ul>
+                    <ul>
+                    	<li>
+                        	<div class="bd_Le">工作经验</div>
+                            <div class="bd_Ri">
+{#                                <input name="" type="text" class="zw_btk4">#}
+                                <select name="filter_work_year1" id="work_year" class="zw_btk1" style="width: 120px;">
+                                    <option value="">请选择</option>
+                                    {% if forWorkYs %}
+                                        {% for forWorkY in forWorkYs %}
+                                            <option value="{{ forWorkY.dictionary_value }}">{{ forWorkY.dictionary_name }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                                <span class="f_l" style="margin:7px 20px 0 20px">——</span>
+                                <select name="filter_work_year2" id="work_year2" class="zw_btk1" style="width: 120px;height: 29px;">
+                                    <option value="" selected="selected">请选择</option>
+                                    {% for year2 in forWorkYs %}
+                                        <option value="{{ year2.dictionary_value }}" {% if filter_work_year2 == year2.dictionary_value %}  selected="selected" {% endif %}>{{ year2.dictionary_name }}</option>
+                                    {% endfor %}
+                                </select>
+{#                                <b class="fn fz14 pl10 pr10">及以上</b>#}
+                            </div>
+                        </li>
+                    </ul>
+                    <ul>
+                    	<li>
+                        	<div class="bd_Le">最低学历</div>
+                            <div class="bd_Ri">
+                                <select name="filter_diploma1" id="diploma" class="zw_btk1" style="width: 120px;height: 29px;">
+                                    <option value="">请选择</option>
+                                    {% if diplomas %}
+                                        {% for diploma in diplomas %}
+                                            <option value="{{ diploma.dictionary_value }}">{{ diploma.dictionary_name }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                                <span class="f_l" style="margin:7px 20px 0 20px">——</span>
+                                <select name="filter_diploma2" id="diploma2" class="zw_btk1"  style="width: 120px;height: 29px;">
+                                    <option value="" >请选择</option>
+                                    {% for diploma2 in diplomas %}
+                                    <option value="{{ diploma2.dictionary_value }}" {% if filter_diploma2 == diploma2.dictionary_value %}  selected="selected" {% endif %}>{{ diploma2.dictionary_name }}</option>
+                                    {% endfor %}
+                                </select>
+{#                                <b class="fn fz14 pl10 pr10">及以上</b>#}
+                            </div>
+                        </li>
+                    </ul>
+                    <ul>
+                    	<li>
+                        	<div class="bd_Le">年龄</div>
+                            <div class="bd_Ri">
+                                <input name="" type="text" id="startAge" class="zw_btk3"> <b class="fn fz14 pl10 pr10"> ——</b>
+                                <input name="" type="text" id="endAge" class="zw_btk3">  </div>
+                        </li>
+                    </ul>
+                    <ul>
+                    	<li>
+                        	<div class="bd_Le">性别</div>
+                            <div class="bd_Ri" id="sex">
+                            	<div class="zw_btk5 mr5" style="cursor: pointer"><i class="iconfont icon-nan" style="font-size:16px;"></i> 男</div>
+                                <div class="zw_btk5 mr5" style="cursor: pointer"><i class="iconfont icon-nv" style="font-size:16px;"></i> 女</div>
+                                <div class="zw_btk6 mr5" style="cursor: pointer"> 不限</div>
+                            </div>
+                        </li>
+                    </ul>
+                 </div>
+				</div>
+				<div class="modal-footer">
+					<div class="zw_glx_n" style="cursor: pointer" data-dismiss="modal" onclick="saveFilter()">保存</div>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+	</div>
+		<!-- /.modal -->
+		<!-- 模态框（Modal） -->
+<!-- 删除简历模态框（Modal） -->
+    <div class="modal fade" id="if_del_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:300px">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">删除过滤器</h4>
+                </div>
+                <div class="modal-body t_c">是否确认删除过滤器吗？</div>
+                <div class="modal-footer" style="border-top:0">
+                    <input type="hidden" id="positionFilterId" />
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteFilter()" style="width:150px;height:40px;background-color:#D21D30">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="width:150px;height:40px;background-color:#3AB4A7">取消</button>                   
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+        <!-- /.modal -->
+        <!-- 模态框（Modal） -->
+<script type="text/javascript">
+    var loadData;
+    var pu_id = {{ pu.id }};
+    var sql = ' position_id =' + pu_id;
+    var querySql = sql;
+    $(function(){
+        loadData = new pagin("paginInfo", "T_Position_Filter", "", querySql, "", 10, "paginBind", "loadData");
+    })
+    function paginBind(dataInfo){
+        $("#tableInfo").empty();
+        $(dataInfo).each(function(i) {
+
+             // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this)
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            var html = '';
+            html += '<div class="zw_glx_wk">';
+            html += '    <div class="zw_glx_gx">';
+            html += '        <input name="" type="checkbox" value="'+array[0]+'" class="zw_glx_gxn"></div>';
+            html += '    <div class="zw_glx_gxnr">';
+            html += '        <b>'+array[2]+'</b>';
+            if($(this)[11] != null && $(this)[11] != ''){
+                html += '        '+array[11].substring(0, 10)+'';
+            }
+            html += '    </div>';
+            html += '    <div class="zw_glx_gxan">';
+            html += '        <input name="" type="button" value="修改" class="gnanys" data-toggle="modal" data-target="#update_zw_Modal" onclick="filterOperate(this, \'update\')" >';
+            html += '        <input name="" type="button" value="删除" class="gnanys" data-toggle="modal" data-target="#if_del_Modal" onclick="sureDelete('+array[0]+')"></div>';
+            html += '</div>';
+            $("#tableInfo").append(html);
+        })
+    }
+    $(".bd_Ri div").click(function(){
+        $(".bd_Ri div").attr('class', 'zw_btk5 mr5');
+        $(this).attr('class', 'zw_btk6 mr5');
+    })
+    //过滤器查询框entry事件判断
+    function judgeEntry(){
+        if(event.keyCode == 13){
+            queryFilter();
+        }
+    }
+    //查询过滤器
+    function queryFilter(){
+        var queryCondition = $('#queryCondition').val();
+        querySql = sql + ' and filter_name like "%' + queryCondition + '%"';
+        loadData = new pagin("paginInfo", "T_Position_Filter", "", encodeURI(querySql), "", 10, "paginBind", "loadData");
+    }
+    //过滤器操作（新增或修改）
+    function filterOperate(obj, type){
+        if(type == 'add'){
+            $('.modal-content:first').find('input').val('');
+            $('.modal-content:first').find('select').val('');
+            $('#myModalLabel').text('新增过滤器');
+        }else{
+            $('#myModalLabel').text('修改过滤器');
+            var filterId = $(obj).parent().parent().find('input[type="checkbox"]').val();
+            $.ajax({
+                type: "POST",
+                url: "/ajax_getFilterById",
+                data: {"filterId": filterId},
+                dataType: "json",
+                success: function (data) {
+                    if (!data.msg) {
+                        $('#filterName').val(data.filter_name);
+                        $('#filter_id').val(data.id);
+                        if(data.filter_area != null && data.filter_area != ''){
+                            $('#areaValue').val(data.filter_area);
+                            $('#current_area').val(data.areaName);
+                        }else{
+                            $('#areaValue').val('');
+                            $('#current_area').val('');
+                        }
+                        if(data.filter_industry != null && data.filter_industry != ''){
+                            $('#industry').val(data.filter_industry.split('**')[1]);
+                            $('#industryValue').val(data.filter_industry.split('**')[0]);
+                        }else{
+                            $('#industry').val('');
+                            $('#industryValue').val('');
+                        }
+                        var positionStr = data.filter_position;
+                        if(positionStr != null && positionStr != ''){
+                            $('#positionName').val(positionStr.split('**')[1]);
+                            $('#positionValue').val(positionStr.split('**')[0]);
+                        }else{
+                            $('#positionName').val('');
+                            $('#positionValue').val('');
+                        }
+                        //年薪
+                        var year_pays = data.filter_pay.split(',');
+                        $('#pay').val(year_pays[0]);
+                        $('#pay2').val(year_pays[year_pays.length - 1]);
+                        //工作年限
+                        var work_years = data.filter_work_year.split(',');
+                        $('#work_year').val(work_years[0]);
+                        $('#work_year2').val(work_years[work_years.length - 1]);
+                        //学历
+                        var diplomas = data.filter_diploma.split(',');
+                        $('#diploma').val(diplomas[0]);
+                        $('#diploma2').val(diplomas[diplomas.length - 1]);
+                        //年龄
+                        if(data.filter_year != null && data.filter_year != ''){
+                            var ageList = data.filter_year.split(',');
+                            if(ageList[0] != 18){
+                                $('#startAge').val(ageList[0]);
+                            }else{
+                                $('#startAge').val('');
+                            }
+                            if(ageList[ageList.length - 1] != 60){
+                                $('#endAge').val(ageList[ageList.length - 1]);
+                            }else{
+                                $('#endAge').val('');
+                            }
+                        }else{
+                            $('#startAge').val('');
+                            $('#endAge').val('');
+                        }
+                        if(data.filter_sex == '男'){
+                            $(".bd_Ri div").attr('class', 'zw_btk5 mr5');
+                            $(".bd_Ri div").eq(0).attr('class', 'zw_btk6 mr5');
+                        }else if(data.filter_sex == '女'){
+                            $(".bd_Ri div").attr('class', 'zw_btk5 mr5');
+                            $(".bd_Ri div").eq(1).attr('class', 'zw_btk6 mr5');
+                        }else{
+                            $(".bd_Ri div").attr('class', 'zw_btk5 mr5');
+                            $(".bd_Ri div").eq(2).attr('class', 'zw_btk6 mr5');
+                        }
+
+                    } else {
+                        window.alert(data.msg);
+                    }
+                }
+            });
+        }
+    }
+    //保存过滤器
+    function saveFilter(){
+        var filterId = $('#filter_id').val();
+        var filterName = $('#filterName').val();
+        var area = $('#areaValue').val();
+        var filter_position = $('#positionValue').val();
+        var filter_industry = $('#industryValue').val();
+{#        var pay = $('#pay').val();#}
+{#        var work_year = $('#work_year').val();#}
+{#        var diploma = $('#diploma').val();#}
+        var startAge = $('#startAge').val();
+        var endAge = $('#endAge').val();
+        var rangeAge = '';
+        if(startAge != '' || endAge != ''){
+            if(startAge == ''){
+                for(var m = 18;m < endAge;m++){
+                    if(rangeAge == ''){
+                        rangeAge += m;
+                    }else{
+                        rangeAge += ',' + m;
+                    }
+                }
+                rangeAge += ',' + endAge;
+            }else if(endAge == ''){
+                rangeAge = startAge;
+                for(var m = startAge;m <= 60;m++){
+                     rangeAge += ',' + m;
+                }
+            }else{
+                rangeAge = '';
+                for(var m = startAge;m <= endAge;m++){
+                     if(rangeAge == ''){
+                        rangeAge += m;
+                    }else{
+                        rangeAge += ',' + m;
+                    }
+                }
+            }
+        }
+        var sex = 0;
+        if($('.zw_btk6').text() == ' 男'){
+            sex = '男';
+        }else if($('.zw_btk6').text() == ' 女'){
+            sex = '女';
+        }else{
+            sex = null;
+        }
+        //工作年限
+        var filter_work_year = "";
+        if($("select[name='filter_work_year1']").val() != "" || $("select[name='filter_work_year2']").val() != ""){
+            $("select[name='filter_work_year1'] option").each(function(){
+                if($(this).val() == $("select[name='filter_work_year1']").val()){
+                    filter_work_year = $(this).val();
+                }
+                else{
+                    if(filter_work_year != ""){
+                        filter_work_year += "," + $(this).val();
+
+                        if($(this).val() == $("select[name='filter_work_year2']").val()){
+                            return false;
+                        }
+                    }
+                }
+
+            });
+        }
+        //薪资
+        var filter_pay = "";
+        if($("select[name='filter_pay1']").val() != "" || $("select[name='filter_pay2']").val() != ""){
+            $("select[name='filter_pay1'] option").each(function(){
+                if($(this).val() == $("select[name='filter_pay1']").val()){
+                    filter_pay = $(this).val();
+                }
+                else{
+                    if(filter_pay != ""){
+                        filter_pay += "," + $(this).val();
+
+                        if($(this).val() == $("select[name='filter_pay2']").val()){
+                            return false;
+                        }
+                    }
+                }
+
+            });
+        }
+        //学历
+        var filter_diploma = "";
+        if($("select[name='filter_diploma1']").val() != "" || $("select[name='filter_diploma2']").val() != ""){
+            $("select[name='filter_diploma1'] option").each(function(){
+                if($(this).val() == $("select[name='filter_diploma1']").val()){
+                    filter_diploma = $(this).val();
+                }
+                else{
+                    if(filter_diploma != ""){
+                        filter_diploma += "," + $(this).val();
+
+                        if($(this).val() == $("select[name='filter_diploma2']").val()){
+                            return false;
+                        }
+                    }
+                }
+
+            });
+        }
+        $.ajax({
+            type: "POST",
+            url: "/ajax_filterOperate",
+            data: {"filterId": filterId, "filterName": filterName, "area": area, "filter_position": filter_position, 'filter_industry':filter_industry,
+                "pay": filter_pay, "work_year": filter_work_year, "diploma": filter_diploma, "rangeAge": rangeAge, "sex": sex},
+            dataType: "json",
+            success: function (data) {
+                if(data.msg == 'success'){
+                    loadData = new pagin("paginInfo", "T_Position_Filter", "", querySql, "", 10, "paginBind", "loadData");
+                    window.alert('保存成功！');
+                }else{
+                    window.alert(data.msg);
+                }
+            }
+        })
+    }
+    //点击删除弹出确认框
+    function sureDelete(positionFilterId){
+        $('#positionFilterId').val(positionFilterId);
+        $('#operateState').val('simple');
+    }
+    //批量删除时，判断是否有选中的项
+    function judgeSelected(obj){
+        var checkboxes = $("#tableInfo input[type='checkbox']:checked");
+        if(checkboxes.length == 0){
+            window.alert('请选择要删除的过滤器');
+            $(obj).attr('data-target', '');
+            return;
+        }else{
+            $(obj).attr('data-target', '#if_del_Modal');
+            $('#operateState').val('multi');
+        }
+    }
+    //删除过滤器
+    function deleteFilter(){
+        if($('#operateState').val() == 'simple'){
+            var filterId = $('#positionFilterId').val();
+            $.ajax({
+                type: "POST",
+                url: "/ajax_deleteFilter",
+                data: {"filterId": filterId},
+                dataType: "json",
+                success: function (data) {
+                    if(data.msg == 'success'){
+                        loadData = new pagin("paginInfo", "T_Position_Filter", "", querySql, "", 10, "paginBind", "loadData");
+                        window.alert('删除成功！');
+                    }else{
+                        window.alert(data.msg);
+                    }
+                }
+            })
+        }else{
+            var checkboxes = $("#tableInfo input[type='checkbox']:checked");
+            var filterIds = [];
+            for(var m = 0;m < checkboxes.length;m++){
+                filterIds.push(checkboxes.eq(m).val());
+            }
+            $.ajax({
+                type: "POST",
+                url: "/ajax_deleteFilter",
+                data: {"filterIds": filterIds},
+                dataType: "json",
+                success: function (data) {
+                    if(data.msg == 'success'){
+                        loadData = new pagin("paginInfo", "T_Position_Filter", "", querySql, "", 10, "paginBind", "loadData");
+                        window.alert('删除成功！');
+                    }else{
+                        window.alert(data.msg);
+                    }
+                }
+            })
+        }
+    }
+    //全选事件
+    $('#checkAll').click(function(){
+        var checkboxes = $("#tableInfo input[type='checkbox']");
+        if($(this).is(":checked")){
+             for(var i= 0;i<checkboxes.length;i++){
+                checkboxes[i].checked=true;
+            }
+        }else{
+            for(var i= 0;i<checkboxes.length;i++){
+                checkboxes[i].checked=false;
+            }
+        }
+    })
+    function positionShow(obj){
+        showPosition(obj,$("#industry").val(),$("#industryValue").val(),3)
+    }
+</script>
+{% include 'jobs/system/new_footer.html' %}

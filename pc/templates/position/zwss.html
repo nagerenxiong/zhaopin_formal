@@ -1,0 +1,758 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/reset.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/basic.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style2.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/pages.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/base.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/forwardposition.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/deliverResumes.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/PositionSearch.js"></script>
+<style type="text/css" media="screen">.nav2 *,.gsss *{box-sizing:content-box;}</style>
+  <script>
+        $(function () {
+            $('.page_tc').height(window.innerHeight);
+            $('.page_tc').width(window.innerWidth);
+
+            $('.btn_sx').click(function () {
+                $('.page_tc_sx').css("display", "block");
+            })
+
+            $('.btn_tc_cloce').click(function () {
+                $('.page_tc').css("display", "none");
+            })
+
+            $('.qygm_main ul .hysx_li').hover(function () {
+                $(this).children('.hysx2').css("display", "block");
+            }, function () {
+                $('.hysx2').css("display", "none");
+            })
+
+                $(".ssxl").click(function() {
+            if ($(this).find('ul').css("display") == "none") {
+                $(this).find('ul').slideDown(300);
+            } else {
+            $(this).find('ul').slideUp(300);
+            }
+    });
+         $(".ssxl ul").children('li').click(function(){
+            $(".ssxl ul").slideUp(150);
+            var zw=$(".ssxl").children("span").text();
+            $(".ssxl").children("span").text($(this).text());
+            $(this).text("");
+            if(zw == '职位'){
+                $('.gsss_r_t2').css('display', '');
+            }else{
+                
+                $('.gsss_r_t2').css('display', 'none');
+            }
+            $(this).text(zw);
+         })       
+        $(".ssxl").mouseleave(function(event) {
+            $(this).find('ul').delay(200).slideUp(300);
+        });
+
+
+
+        });
+        function nDivs(thisObj, Num) {
+            var tabObj = thisObj.parentNode.id;
+            var tabList = document.getElementById(tabObj).getElementsByTagName("a");
+            if ($(thisObj).hasClass('lbqh1hover'))
+                return;
+            else {
+                $('#' + tabObj + ' a').removeClass('lbqh1hover');
+                $(thisObj).addClass('lbqh1hover');
+            }
+            for (i = 0; i < tabList.length; i++) {
+                if (i == Num) {
+                    document.getElementById(tabObj + i).style.display = "block";
+                }
+                else {
+                    document.getElementById(tabObj + i).style.display = "none";
+                }
+            }
+        }
+
+    </script>
+<div class="nav2">
+    {% include 'jobs/system/menu_position.html' %}
+</div>
+<div class="clear">3</div>
+<div class="clear">1</div>
+<div class="gsss">
+<input type="hidden" id="userValidateStatus" value="{{ pu.userValidateStatus }}" />
+
+        <div class="page_main_l">
+            <div class="hysx">
+                <div class="gsss_btn1">
+                    <p onclick="PositionSearchControlsShow(1,'tag_list')" class="active hy_btn">职能选择</p>
+                   <!--  <a></a> -->
+                </div>
+                <!-- <div class="qygm_main" style="display: block;">
+                    <ul>
+                        {% if businesses %}
+                            {% for business in businesses %}
+                                <li class="hysx_li" style="position:relative">
+                                <i style="position: absolute; height: 100%; width: 10px; z-index: 888; background: white none repeat scroll 0% 0%; right: 10px;"></i>
+                                    <h2>{{ business.dictionary_name }} &gt;</h2>
+                                    {% if business.hotPositions %}
+                                        {% for position in business.hotPositions %}
+                                            <a href="#">{{ position.dictionary_name }}</a>
+                                        {% endfor %}
+                                    {% endif %}
+{#                                    <a href="#">计算机硬件</a><a href="#">计算机软件</a><a href="#">IT-管理</a><br>#}
+{#                                    <a href="#">互联网/电子商务/网游</a><a href="#">通信技术开发</a>#}
+                                    <div class="hysx2 none" style="display: none;">
+                                        <ul>
+                                            {% if business.childs %}
+                                                {% for child in business.childs %}
+                                                    <li>
+                                                        <p class="hysx2p1"><span>{{ child.dictionary_name }}</span></p>
+                                                        {% if child.positions %}
+                                                        <div class="clear"></div>
+                                                        <div class="f_l">
+                                                            {% for position in child.positions %}
+                                                                <p class="hysx2p2">
+                                                                    <a href="javascript:void(0);" onclick="selectData(this, {{ position.dictionary_value }})">{{ position.dictionary_name }}</a>
+                                                                </p>
+                                                            {% endfor %}
+                                                            </div>
+                                                        {% endif %}
+                                                        <div class="clear"></div>
+                                                    </li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div> -->
+            </div>
+
+            <div class="qygm">
+                <div class="gsss_btn1 gsss_btn2">
+                    <p>职位条件</p>
+                  <!--   <a></a> -->
+                </div>
+                <div class="qygm_main" style="display: block;">
+                    <ul>
+                        <li class="gygm_li in">
+                            <h2><span>年薪范围</span></h2>
+                            <ul>
+                                {% if salarys %}
+                                    {% for salary in salarys %}
+                                        <li style="cursor: pointer" onclick="selectData(this, {{ salary.dictionary_value }})">{{ salary.dictionary_name }}</li>
+                                    {% endfor %}
+                                {% endif %}
+{#                               <li><a href="#">10万以下</a></li>#}
+{#                               <li><a href="#">10万——20万</a></li>#}
+{#                               <li><a href="#">20万——30万</a></li>#}
+{#                               <li><a href="#">30万——50万</a></li>#}
+{#                               <li><a href="#">50万——80万</a></li>#}
+{#                               <li><a href="#">80万——100万</a></li>#}
+{#                               <li><a href="#">100万以上</a></li>#}
+                            </ul>
+                        </li>
+                        <li class="gygm_li">
+                            <h2><span>工作经验要求</span></h2>
+                            <ul>
+                                {% if workyears %}
+                                    {% for workyear in workyears %}
+                                        <li style="cursor: pointer" onclick="selectData(this, {{ workyear.dictionary_value }})">{{ workyear.dictionary_name }}</li>
+                                    {% endfor %}
+                                {% endif %}
+{#                               <li><a href="#">不限</a></li>#}
+{#                               <li><a href="#">应届毕业生</a></li>#}
+{#                               <li><a href="#">1~3年</a></li>#}
+{#                               <li><a href="#">3~5年</a></li>#}
+{#                               <li><a href="#">5~10年</a></li>#}
+{#                               <li><a href="#">10年以上</a></li>#}
+                            </ul>
+                        </li>
+                        <li class="gygm_li">
+                            <h2><span>学历要求</span></h2>
+                            <ul>
+                                {% if diplomas %}
+                                    {% for diploma in diplomas %}
+                                        <li style="cursor: pointer" onclick="selectData(this, {{ diploma.dictionary_value }})">{{ diploma.dictionary_name }}</li>
+                                    {% endfor %}
+                                {% endif %}
+{#                               <li><a href="#">不限</a></li>#}
+{#                               <li><a href="#">大专</a></li>#}
+{#                               <li><a href="#">本科</a></li>#}
+{#                               <li><a href="#">硕士</a></li>#}
+{#                               <li><a href="#">博士</a></li>#}
+                            </ul>
+                        </li>
+                        <li class="gygm_li">
+                            <h2><span>工作性质</span></h2>
+                            <ul>
+                                {% if worktypes %}
+                                    {% for worktype in worktypes %}
+                                        <li style="cursor: pointer" onclick="selectData(this, {{ worktype.dictionary_value }})">{{ worktype.dictionary_name }}</li>
+                                    {% endfor %}
+                                {% endif %}
+{#                               <li><a href="#">全职</a></li>#}
+{#                               <li><a href="#">兼职</a></li>#}
+{#                               <li><a href="#">实习</a></li>#}
+                            </ul>
+                        </li>
+                        <li class="gygm_li">
+                            <h2><span>发布时间</span></h2>
+                            <ul>
+                                {% if publishDates %}
+                                    {% for publishDate in publishDates %}
+                                        <li style="cursor: pointer" onclick="selectData(this, {{ publishDate.dictionary_value }})">{{ publishDate.dictionary_name }}</li>
+                                    {% endfor %}
+                                {% endif %}
+{#                               <li><a href="#">不限</a></li>#}
+{#                               <li><a href="#">今天</a></li>#}
+{#                               <li><a href="#">3天内</a></li>#}
+{#                               <li><a href="#">一周内</a></li>#}
+{#                               <li><a href="#">一月内</a></li>#}
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="ht30"></div>
+                </div>
+                
+            </div>
+
+        </div>
+
+
+        <div class="gsss_r ">
+            <div class="gsss_r_t1 ">
+{#                <select><option>公司</option></select>#}
+                <div class="ssxl ss_div"><span>职位</span> <img style="margin-left:5px;" src="{{ STATIC_URL }}images/h_xjt.gif">
+                    <ul style="display:none;">
+                        <li>公司</li>
+{#                        <li>1</li>#}
+{#                        <li>1</li>#}
+{#                        <li>1</li>#}
+{#                        <li>1</li>#}
+                    </ul>
+                </div>
+                <input class="ss_input"type="text" placeholder="请输入职位关键词:如前端开发等" id="condition" style="float:left;vertical-align: top;" onkeydown="judgeEntry(event)" maxlength="50"><a class="ss_anniu" href="javascript:void(0);" onclick="queryData()" >搜索</a>
+            </div>
+            <div class="gsss_r_t2">
+
+
+                <p>热搜关键词：</p>
+                <ul>
+                    <li><a href="javascript:void(0);" onclick="hotJobQuery(this)">JAVA</a></li>
+                    <li><a href="javascript:void(0);" onclick="hotJobQuery(this)">前端开发</a></li>
+                    <li><a href="javascript:void(0);" onclick="hotJobQuery(this)">后端开发</a></li>
+                    <li><a href="javascript:void(0);" onclick="hotJobQuery(this)">测试工程师</a></li>
+                    <li><a href="javascript:void(0);" onclick="hotJobQuery(this)">UI设计师</a></li>
+                    <li><a href="javascript:void(0);" onclick="hotJobQuery(this)">网页设计师</a></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+
+            <div class="gsss_r_t3">
+                <p class="t3p1">已选择：</p>
+                <div id="tag_list" style="float:left;width:625px;overflow:hidden">
+                </div>
+{#                <p class="t3p2"><span>行业：互联网/电子商务/网游</span><a href="javascript:void(0);" onclick="deleteThis(this)"></a></p>#}
+{#                <p class="t3p2"><span>月薪范围：5000-8000</span><a href="javascript:void(0);" onclick="deleteThis(this)"></a></p>#}
+{#                <p class="t3p2"><span>工作经验：应届毕业生</span><a href="javascript:void(0);" onclick="deleteThis(this)"></a></p>#}
+{#                <p class="t3p2"><span>学历要求：研究生</span><a href="javascript:void(0);" onclick="deleteThis(this)"></a></p>#}
+{#                <p class="t3p2"><span>工作性质：全职</span><a href="javascript:void(0);" onclick="deleteThis(this)"></a></p>#}
+                <div class="clear"></div>
+            </div>
+
+
+
+            <div class="gsss_r_b">
+                <div class="gsss_clt_float"></div>
+                <div class="gsss_r_b1">
+                    <div class="gsss_r_b1l"><p>工作地点：</p>
+                        <select id="province" onchange="getCitys()"><option>选择省</option>
+                            {% if areaes %}
+                                {% for area in areaes %}
+                                    <option value="{{ area.dictionary_value }}">{{ area.dictionary_name }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                        <select id="city" onchange="positionSearch()"><option value="">选择市</option>
+                        </select>
+                    </div>
+
+                    <div class="content_l_t2" id="item_lb">
+
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <!-- 文章列表 -->
+                <div class="zwss_r_b2 none" id="item_lb0">
+
+                </div>
+                <!-- 图片列表 -->
+                <div class="content_l_b" id="item_lb1">
+                    <ul id="tableInfo">
+                    </ul>
+
+                    <div class="ht25"></div>
+
+                    <div id="paginInfo">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="ht25"></div>
+
+
+            <div class="clear"></div>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+
+    <!-- <div class="page_xf_r">
+        <ul>
+            <li>
+                <a href="javascript:scroll(0,0);"><img src="{{ STATIC_URL }}images/xf_top.png"></a>
+                <div class="xf_r_dw">
+                    返回顶部
+                </div>
+            </li>
+            <li>
+                <a href="#"><img src="{{ STATIC_URL }}images/xf_bj.png"></a>
+            </li>
+            <li>
+                <a href="#"><img src="{{ STATIC_URL }}images/xf_zxkf.png"></a>
+            </li>
+            <li>
+                <a href="#"><img src="{{ STATIC_URL }}images/xf_phone.png"></a>
+            </li>
+        </ul>
+    </div> -->
+    
+    <!-------------------------------------- 私信弹窗 -------------------------------------->
+    <div class="modal fade" id="message_Modal" tabindex="-1" role="dialog"
+       aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">发送私信</h4>
+                </div>
+                <div class="modal-body t_c">
+                    <div  class="message_Modal_box">
+                        <span>某某某<label>x</label></span><span>某某某<label>x</label></span><span>某某某<label>x</label></span><span>某某某<label>x</label></span><span>某某某<label>x</label></span><span>某某某<label>x</label></span>
+                    </div>
+                    <div  class="modal_wdgz mt10">
+                    <i class="iconfont icon-iconfontmoban2"></i><p style="display: inline;color: #666;padding-left: 5px; font-size:14px;">信息模板</p>
+                    <div class="dialog" style="display:none">
+                        <ul class="list" style="  overflow: auto; height: 244px; ">
+                            {% for tmodel in tmodels %}
+                                <li>
+                                    <span style="color:#666">{{ tmodel.model_name }}</span>
+                                    <span style="margin-left: 30px;color:#b5b5b5">
+                                        {% if tmodel.content|length > 20 %}
+                                            {{ tmodel.content|slice:"20" }} ...
+                                        {% else %}
+                                            {{ tmodel.content }}
+                                        {% endif %}
+                                    </span>
+                                    <input type="hidden" value="{{ tmodel.content }}" >
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="t_c">
+                            <input type="button" name="" class="re_btn" value="确认">
+                            <input type="button" name="" class="qx_btn ml15" value="取消"></div>
+                    </div>
+                </div>
+                    <div class="message_Modal_box1 mt10">
+                        <textarea name="" maxlength="1000" style="resize:none;color:#666" id="letterContent" placeholder="请输入私信内容"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" style="background:#5c91d9" id="send" onclick="sendLetter()">发送</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+
+    <input type="hidden" id="operateIndex" />
+    <input type="hidden" id="positionId" />
+    <input type="hidden" id="sourceId" />
+    <input type="hidden" id="initData" value="{{ condition }}" />
+    <input type="hidden" id="viewSql" value="{{ viewSql }}" />
+    <input type="hidden" id="queryPosition" value="{{ headhunter.positionValue }}" /><!-- 人才经纪人的第一个擅长职位 -->
+    <input type="hidden" id="queryPositionName" value="{{ headhunter.positionName }}" /><!-- 人才经纪人的第一个擅长职位名称 -->
+<script type="text/javascript">
+    var loadData;
+    var pu_id = {{ pu.id }};
+    var sql = ' position_status=1';
+    //保密职位职能查自己的，别人的保密职位不能查询
+    sql += ' and (source_id=' + pu_id + ' or (source_id !=' + pu_id + ' and (isconfidentiality=0 OR isconfidentiality IS NULL)))';
+{#            +' and source_id !=' + pu_id;#}
+    var querySql = sql;
+    var condition = '';
+    $(function(){
+        //初始化职位控件
+        PositionSearchControls();
+
+        if($('#initData').val() != ''){
+            $('#condition').val($('#initData').val());
+            condition = $.trim($('#initData').val());
+            querySql += ' and nkeywords like "%' + condition + '%"';
+        }else if($('#viewSql').val() != ''){
+            querySql += $('#viewSql').val();
+        }else if($('#queryPosition').val() != ''){
+            var queryPosition = $('#queryPosition').val();
+            var queryPositionName = $('#queryPositionName').val();
+            $('#condition').val(queryPositionName);
+            condition = $.trim(queryPositionName);
+            querySql += ' and nkeywords like "%' + queryPositionName + '%"';
+            //添加到选择条件中
+{#            $(".gsss_r_t3").css("display","block");#}
+{#            $('#tag_list').append('<p class="t3p2"><span style="color:#777">'+"职位"+'：</span><span>'+queryPositionName+'</span><input type="hidden" value= "'+queryPosition+'" /><a href="javascript:void(0);" onclick="deleteThis(this)"></a></p>');#}
+{#            querySql += ' and postaion_type= "' + $('#queryPosition').val() + '"';#}
+        }else{
+
+        }
+        querySql += ' order by last_update_date desc';
+        loadData = new pagin("paginInfo", "V_Position_Search", "", encodeURI(querySql), "", 6, "paginBind", "loadData");
+        $('.btn_tdjl').click(function () {
+            $('.page_tc_tdjl').css("display", "block");
+        })
+    })
+    //动态加载页面绑定数据
+    function paginBind(dataInfo){
+         //图片列表数据加载
+        $("#tableInfo").empty();
+        var userValidateStatus = $("#userValidateStatus").val();
+        $(dataInfo).each(function(i) {
+
+            // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this);
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            if($.trim(array[56]) == ""){
+                    array[56] = "null";
+                }
+            if($.trim(array[23])=="" || $.trim(array[23])=="&nbsp;")
+                array[23] ="经验不限";
+            if($.trim(array[26])=="" || $.trim(array[26])=="&nbsp;")
+                array[26] ="学历不限";
+            //图片列表数据加载
+            var content = '';
+            content += '<li  >';
+            content += '    <img style="position:absolute;right:0px;" src="'+array[56]+'" style="cursor: pointer;" onclick="viewPosition('+array[0]+')" onerror="notfind(this, 2)" >';
+            content += '    <h2 style="cursor: pointer;" onclick="viewPosition('+array[0]+')" >'+array[3]+'<input type="hidden" value="'+array[0]+'" /><input type="hidden" value="'+array[2]+'" /><input type="hidden" value="'+array[72]+'" /></h2>';
+            content += '    <p class="mt10" title="'+array[55]+'">'+array[55]+'</p>';
+            content += '    <p style="width:230px" title='+array[6]+'&nbsp;'+array[19]+' ><span style=\"max-width:140px\" class=\"nowrap1\">'+array[6]+'</span><span class=\"gold \">'+array[19]+'</span></p>';
+            content += '    <span style="color:#5c91d9;float: right; position: absolute; top: 85px; right: 6px;">';
+            var recruitType = '';
+            if(array[1] == 1){
+                recruitType = '【企业直招】';
+            //}else{
+                //recruitType = '【猎头职位】';
+            }
+            content += recruitType;
+{#            【企业直招】#}
+            content += '    </span>';
+            content += '    <p class="mt10" title="'+array[14]+'  |  '+array[23]+'  |  '+array[26]+'  |  '+array[48].substring(0, 10)+' 发布">'+array[14]+'  |  '+array[23]+'  |  '+array[26]+'  |  '+array[48].substring(0, 10)+' 发布</p>';
+{#            content += '    <p>您当前有<span class="dsf">20份</span>简历待处理</p>';#}
+            var labels = array[67];
+            var labelStr = '';
+            if(labels && labels != ''){
+                var labellist = new Array();
+                labellist = labels.split('**', 4);
+                for(var l = 0;l < labellist.length;l++){
+                    labelStr += '<span>'+labellist[l]+'</span>';
+                }
+            }
+            content += '    <p class="l_b_jx" style="margin-top:15px;">'+labelStr+'</p>';
+            content += '    <p class="l_b_jx_s" style="z-index:99999">';
+            content +=        '<span class="btn_tdjl" onclick="deliverResumes('+array[0]+', '+pu_id+')">投递简历</span>';
+            content +=        '<span onclick="collectPosition('+array[0]+')">收藏</span>';
+            if(userValidateStatus == 3) {
+                content +=        '<span onclick="doForwardPosition([' + array[0] + '])">转发</span>';
+                content +=        '<span style="margin-right: 0px" data-toggle="modal" data-target="#message_Modal" onclick="getOperateData(this, '+i+')">私信</span>';
+            } else {
+                content +=        '<span onclick="doAlertToAudit(' + userValidateStatus + ')">转发</span>';
+                content +=        '<span style="margin-right: 0px" onclick="doAlertToAudit(' + userValidateStatus + ')">私信</span>';
+            }
+            content += '    </p>';
+            content +='  <span class="spanabs"></span>   ';
+            content += '</li>';
+            $("#tableInfo").append(content);
+        })
+    }
+    //判断搜索框回车事件
+    function judgeEntry(event){
+        if(event.keyCode == 13){
+            queryData();
+        }
+    }
+    //热搜关键字查询
+    function hotJobQuery(obj){
+        $('#condition').val($(obj).text());
+        condition = $(obj).text();
+        positionSearch();
+    }
+    //点击搜索事件
+    function queryData(){
+        condition = $('#condition').val();
+        if($(".ssxl").children("span").text() == '职位'){
+            positionSearch();
+            if(_counts <1){
+                console.log(1)
+             }
+        }else{
+            window.location = '/position/gsss?condition=' + condition;
+        }
+{#        querySql = sql + ' and nkeywords like "%' + condition + '%"';#}
+{#        loadData = new pagin("paginInfo", "V_Position_Search", "", encodeURI(querySql), "", 6, "paginBind", "loadData");#}
+    }
+    //添加查询条件
+    function selectData(obj, value){
+        $(".gsss_r_t3").css("display","block");
+        var type = $(obj).parent().parent().children().eq(0).children().text();
+        var condition = $(obj).text();
+        $('#tag_list').append('<p class="t3p2"><span style="color:#777">'+type+'：</span><span>'+condition+'</span><input type="hidden" value= "'+value+'" /><a href="javascript:void(0);" onclick="deleteThis(this)"></a></p>');
+        //判断是选择的行业还是职业相关的条件
+        if($(obj).parent().parent().hasClass('gygm_li')){
+            $(obj).parent().parent().hide();
+        }else{
+            $('.qygm_main').eq(0).children('ul').hide();
+        }
+        positionSearch();
+    }
+    //删除选择条件
+    function deleteThis(obj){
+        if($(".t3p2").length<2)
+        {
+            $(".gsss_r_t3").css("display","none");
+        }
+        $(obj).parent().remove();
+        var type = $(obj).parent().children('span').text().split('：')[0];
+        var bool = true;//判断是否是行业条件
+        for(var m = 0;m < $('.gygm_li').length;m++){
+            if($('.gygm_li').eq(m).children('h2').children('span').text() == type){
+                $('.gygm_li').attr('class', 'gygm_li');
+                $('.gygm_li').eq(m).attr('class', 'gygm_li in');
+                $('.gygm_li').eq(m).show();
+                $('.gygm_li').children('ul').css('display', 'none');
+                $('.gygm_li').eq(m).children('ul').css('display', 'block');
+                bool = false;
+                break;
+            }
+        }
+        if(bool){
+            $('.qygm_main').eq(0).children('ul').show();
+            $('.qygm_main').eq(0).css('display', 'block');
+        }
+        positionSearch();
+    }
+    //选择省后加载相应的市
+    function getCitys(){
+        var value = $('#province').val();
+        if(value == ''){
+            $('#city option:gt(0)').remove();
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "ajax_dictionary",
+            data: {"p_value": value},
+            dataType: "json",
+            success: function (data) {
+                $('#city option:gt(0)').remove();
+                for(var m = 0;m < data.length;m++){
+                    var city = data[m];
+                    $('#city').append('<option value="'+city.dictionary_value+'">'+city.dictionary_name+'</option>')
+                }
+            }
+        })
+    }
+    //进行职位搜索
+    function positionSearch(){
+        querySql = sql;
+        var objs = $('.gsss_r_t3').children('div:first').children('p');
+{#        if($('#tag_list').children('p').length > 0 || condition != ''){#}
+            for(var index = 0;index < objs.length;index++){
+                var type = objs.eq(index).children('span').text().split('：')[0];
+                var value = objs.eq(index).children().eq(2).val();
+                if(type == '年薪范围'){
+                    querySql += ' and pay=' + value;
+                }else if(type == '工作经验要求'){
+                    querySql += ' and work_year=' + value;
+                }else if(type == '学历要求'){
+                    querySql += ' and diploma=' + value;
+                }else if(type == '工作性质'){
+                    querySql += ' and work_nature=' + value;
+                }else if(type == '发布时间'){
+                    var publishDate = objs.eq(index).children('span').text().split('：')[1];
+                    if(publishDate == '3天内'){
+                        querySql += ' and update_day <= 3';
+                    }else if(publishDate == '一周内'){
+                        querySql += ' and update_day <= 7';
+                    }else if(publishDate == '一月内'){
+                        querySql += ' and update_day <= 30';
+                    }
+                }else{
+                    querySql += ' and postaion_type="' + value + '"';
+                }
+            }
+            var cityValue = $('#city').val();
+            if(cityValue != ''){
+                querySql += ' and work_area=' + cityValue;
+            }
+            var queryKey = $.trim($('#condition').val());
+            querySql += ' and nkeywords like "%' + queryKey + '%"';
+            querySql += ' order by last_update_date desc';
+            loadData = new pagin("paginInfo", "V_Position_Search", "", encodeURI(querySql), "", 6, "paginBind", "loadData");
+            if(_counts<1){
+                alert("没有找到匹配的结果，换个关键词试试吧~");
+                $("#tableInfo").append('<p style="color:#999;line-height:200px;text-align:center">暂无记录，请重新选择</p>');
+                $("#paginInfo").hide();
+            }else{
+                $("#paginInfo").show()
+            }
+{#        }else{#}
+{#            window.alert('至少要有一个过滤条件，请选择过滤条件或输入查询条件');#}
+{#        }#}
+    }
+    //======= 信息模版
+    $(".icon-iconfontmoban2").click(function(){
+     $(".dialog").show();
+    })
+    $(".qx_btn").click(function(){
+         $(".dialog").hide();
+    })
+    $("#add_btn").click(function(){
+        $(".cyqy_table input[type=text]").val("");
+    })
+    $(".dialog li").click(function(){
+        $(".dialog li").removeClass('active');
+        $(this).addClass('active');
+    })
+    $(".dialog li").dblclick(function(){
+         confirms.call(this);
+    })
+    $(".modal_wdgz .re_btn").click(function(){
+        confirms.call(this);
+    })
+    function confirms(){
+        $("#letterContent").val($(".dialog li.active").children('input').val());
+        $(this).parent().parent().hide();
+    }
+    //获得操作的数据
+    function getOperateData(obj, index){
+        var sourceId = $(obj).parent().parent().children('h2').children('input').eq(1).val();
+        $('#operateIndex').val(index);
+        $('#positionId').val($(obj).parent().parent().children('h2').children('input').eq(0).val());//职位ID
+        $('#sourceId').val(sourceId);
+        if($(obj).text() == '私信'){
+            $('.message_Modal_box').children().remove();
+            var username = $(obj).parent().parent().children('h2').children('input').eq(2).val();
+            var em = '<span>' + username + '<input type="hidden" value="' + sourceId + '" /><label>x</label></span>';
+            $('.message_Modal_box').append(em);
+            $(".message_Modal_box label").click(function(){
+                $(this).parent().remove()
+            })
+        }else if($(obj).val() == '转发'){
+            $('.message_Modal_box').children().remove();
+            $('#forwardul').children().remove();
+            var em = $(obj).parent().parent().parent().children('div:eq(1)').children('div').eq(1).children('ul');
+            var html = '<li><img src="{{ STATIC_URL }}images/ls_03.png" width="66" height="63" alt="" class="f_l">' +
+                    '<div class="f_l t_l"><p>' + em.children('li:first').html() + '</p><p>' + em.children('li:eq(2)').html() + '</p>';
+            html += '<p>' + em.children('li:eq(3)').html() + '</p><div class="f_l t_l"></li>';
+            $('#forwardul').append(html);
+        }else if($(obj).text() == '投递简历'){
+            $('.tdjl_l_l').children('div:last').remove();
+            var html = '';
+            html += '<div class="jlxz_tc_l">';
+            html += '<img width="90" height="90" src="' + $(obj).parent().parent().children('img').attr('src') + '" onerror="notfind(this, 2)">';
+            html += '    <div class="jl_wb_sm">';
+            html += '        <h3>'+$(obj).parent().parent().children('h2').text()+'</h3>';
+            html += '        <div class="ht10"></div>';
+            html += '        <p>'+$(obj).parent().parent().children('p:eq(0)').text()+'</p>';
+            html += '        <div class="ht10"></div>';
+            html += '        <p>'+$(obj).parent().parent().children('p:eq(1)').children('span:eq(0)').text()+'</p>';
+            html += '    </div>';
+            html += '    <div class="clear"></div>';
+            html += '    <div class="jldz_gzjs">';
+            html += '        <p>【企业直招】 ：<font>'+$(obj).parent().parent().children('p:eq(1)').children('span:eq(0)').text()+'</font></p>';
+            html += '        <p> '+$(obj).parent().parent().children('p:eq(2)').text()+'</p>';
+            html += '<p><span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span></p>';
+            html += '    </div>';
+            html += '</div>';
+            $('.tdjl_l_l').append(html);
+        }
+    }
+
+    //收藏职位
+    function collectPosition(positionId){
+        $.ajax({
+            type: "POST",
+            url: "/ajax_collectPosition",
+            data: {"positionId": positionId},
+            dataType: "json",
+            success: function (data) {
+                if(data.msg == 'success'){
+                    window.alert('收藏成功',1);
+                }else if(data.msg == 'exist'){
+                    window.alert('你已收藏该职位，无需收藏！');
+                }else{
+                    window.alert(data.msg);
+                }
+            }
+        })
+    }
+    //发送私信
+    function sendLetter(){
+        if($('.message_Modal_box').children().length == 0){
+            window.alert("私信接收人不能为空！");
+            return;
+        }
+        var letterContent = $('#letterContent').val();
+        if($.trim(letterContent) == ''){
+            window.alert("请填写私信内容！");
+            $('#send').attr('data-dismiss', '');
+            return;
+        }
+        //职位发布人ID
+        var attentionId = $('#sourceId').val();
+        $.ajax({
+            type: "POST",
+            url: "/ajax_sendLetter",
+            data: {"attentionId": attentionId, "letterContent": letterContent},
+            dataType: "json",
+            success: function (data) {
+                if (data.msg != 'success') {
+                    window.alert(data.msg);
+                }else{
+                    $('#send').attr('data-dismiss', 'modal');
+                    window.alert('发送成功！')
+                }
+            }
+        })
+    }
+    //职位查看
+    function viewPosition(positionId){
+        window.open('/jobs/resume/zwxq?positionId=' + positionId, '_blank');
+    }
+</script>
+{% include 'jobs/system/new_footer.html' %}

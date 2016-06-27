@@ -1,0 +1,90 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_company.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsh_common.css" rel="stylesheet" type="text/css">
+<script src="/static/new_mobile/js/formValidate.js" type="text/javascript"></script>
+<script src="/static/new_mobile/js/zsc_commone.js" type="text/javascript"></script>
+<script type="text/javascript">
+        $(document).ready(function()
+        {
+            //  // ajax 发布红包
+            $(".publishXuan").click(function(){
+                var val =$("input[name=val]").val();
+                var jobid =$("input[name=jobid]").val();
+                var days =$("input[name=days]").val();
+                var promotionid =$("input[name=promotionid]").val();
+            });
+        });
+    </script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+    $('.zsp_header').remove();
+}
+</script>
+
+<form method="post" onSubmit="return checkSubmit();">
+    <div class="zsp_pay_box" style="padding-top:0;">
+        <div class="zsp_pay_tit" style="background:none; color:#1470b3">发布红包职位：web</div>
+
+        <div class="zsp_pay_rmb_box">
+            <div class="zsp_pay_rmb_text">红包金额：</div>
+            <div class="zsp_pay_rmb_text" style="float:right; margin-right:16px;">元</div>
+            <div class="zsp_pay_rmb_input">
+                <input type="number" name="val" placeholder="请输入红包金额"></div>
+        </div>
+        <div class="zsp_pay_tit" style="background:none; border-bottom:0; font-size:12px; padding:10px 16px; line-height:24px; height:auto;">
+            本次红包需托管 <strong style="color:#002a3f">0.00</strong>
+            元
+            <br>
+            您账户可用余额 <strong style="color:#002a3f">0.00</strong>
+            元&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="javascript:void(0)" style="color:#04be5b; font-size:14px;">充值</a>
+        </div>
+    </div>
+    <div class="zsp_reward_sub_box">
+        <input type="hidden" name="jobid" value="325624">
+        <input type="hidden" name="days" value="100">
+        <input type="hidden" name="promotionid" value="6">
+        <input type="button" class="publishXuan" value="发布红包职位">
+        <span>发布红包职位</span>
+    </div>
+
+</form>
+
+<script type="text/javascript">
+    $(function(){
+        $('.zsp_pay_rmb_input input:eq(0)').keyup(cfys).blur(cfys).focus(cfys);
+        
+        
+    })
+
+    function cfys(){
+        var cs=$('.zsp_pay_rmb_input input:eq(0)').val();
+        var oThis=$(this);
+        var nVal=oThis.val().replace(/\D/g,'');
+        if(nVal>=0&&nVal!=''){
+            cs=parseFloat(cs);
+            oThis.val(nVal);
+            $('.zsp_pay_tit strong:eq(0)').text(cs.toFixed(2));
+        }else{
+            oThis.val(nVal);
+            $('.zsp_pay_tit strong:eq(0)').text(0.00);
+        }
+    }
+    
+    
+</script>
+<div class="errorTip"></div>
+</body>
+</html>

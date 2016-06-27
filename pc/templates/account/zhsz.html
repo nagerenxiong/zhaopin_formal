@@ -1,0 +1,900 @@
+{% include 'jobs/system/header.html' %}
+	 	<link rel="stylesheet" href="{{ STATIC_URL }}css/base.css">
+	 	<link rel="stylesheet" href="{{ STATIC_URL }}css/module.css">
+        <link rel="stylesheet" href="http://at.alicdn.com/t/font_1441527225_5024056.css">
+	 	<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+	    <link href="{{ STATIC_URL }}css/zhsz.css" media="screen" rel="stylesheet" type="text/css"> 
+        <script src="{{ STATIC_URL }}js/jquery.js"></script>
+<script>
+    $(function(){
+        //导航active
+        $(".nav_box #nav li").removeClass('active');
+        $(".nav_box #nav li").eq($(".clear").eq(0).text()-1).addClass('active');
+        //设置当前页样式
+        $("#menu li a").removeClass('active');
+        $("#menu li a").eq($(".clear").eq(1).text()-1).addClass('active');
+
+        $("#maopao").click(function(e) {
+            e=e||event;
+            if(e && e.stopPropagation)
+            {e.stopPropagation();}
+            else{window.event.cancelBubble=true;}
+        });
+        //导航下拉
+            $("#navslide").mouseover(function () {
+                    $(this).find('ul').css("display","block")
+                    $(this).css('border-color','#e3e3e3')
+            });
+            $("#navslide").mouseout(function (event) {
+                $(this).find('ul').css("display","none")
+                $(this).css('border-color','transparent');
+            });
+
+        });
+
+</script>
+<style>
+.nav2{width:1020px!important;}
+.clear{visibility: hidden;height: 0px;display: block;clear: both;}
+.mt{margin-top: 25px;}
+#menu .active {
+    background-color: #5C91D9;
+    color: #FFF;
+}
+#menu .active i {
+    display: block;
+}
+.nav2 ul li a i {
+    position: absolute;
+    bottom: -11px;
+    left: 50%;
+    line-height: normal;
+    margin-left: -8px;
+    color: #5C91D9;
+    display: none;
+}
+</style>
+{% if request.session.account_type != '1' %}
+    {% include 'jobs/system/menu_account.html' %}
+{% endif %}
+ <div class="clear">99</div>
+ {% if request.session.account_type == "3" or request.session.account_type  == "5" %}
+            <div class="clear">2</div>
+        {% else %}
+            <div class="clear">1</div>
+        {% endif %}
+<div class="main center mt25" style="height:685px!important;">
+
+	<div class="content">
+		<h2 class="mainh">帐号设置</h2>
+		<div class="f_l mainnav">
+			<ul class="fz16" style="height:580px!important">
+				<li class="active">帐号绑定</li>
+				<li>修改密码</li>
+				<li >信息模板设置</li>
+			</ul>
+		</div>
+		
+		<div class="f_l mcontent" >
+		<!-- 帐号绑定开始-->
+			<div class="zhbd ">
+			   <h2>帐号绑定</h2>
+
+                    {% if request.session.account_type == "2" or request.session.account_type == "4" %}
+                        <!-- 企业修改用户名 -->
+                        <p class="fcj  fz14">
+                            <label>用户名：</label>
+                            <input class="inputc w30 user_name" placeholder="用户名" value="{{ pu.user_name }}" onblur="changeTpcUserName()" disabled="disabled">
+                            <a class="fcb ml15 changeUserName" href="javascript: void(0);" style="color:#FF8800">更换用户名</a>
+                        </p>
+                    {% endif %}
+
+					<p class="zh fcj fz18"><label>当前登录账号：</label><span class="fcs currentAccount">{{ pu.email | default:pu.phone }}</span></p>
+
+ <!-- 帐号绑定12 -->
+					<div id="yz" class="oldInfoDiv"  >
+						<p class="fcj  fz14">
+                            <label>手机号码：</label>
+                            <input class="inputc w30" placeholder="手机号码" name="oldPhone" value="{{ pu.phone | default_if_none:'' }}" disabled="disabled" />
+                            {% if pu.phone %}
+                                <span class="fcb isPhoneValidate" style="color:#777;margin-right: 10px;">已验证</span>
+                            {% else %}
+                                <span class="fcb isPhoneValidate" style="color:#777">待验证</span>
+                            {% endif %}
+                            <a class="ghsjh fcb ml15" href="javascript: void(0);"  style="color:#FF8800">更换手机号</a>
+                        </p>
+						<p class="fcj  fz14">
+                            <label >当前邮箱：</label>
+                            <input class="inputc w30" name="oldEmail" value="{{ pu.email | default_if_none:'' }}" disabled="disabled"/>
+                            {% if pu.email %}
+                                <span class="fcb isEmailValidate" style="color:#777;margin-right: 10px;">已验证</span>
+                            {% else %}
+                                <span class="fcb isEmailValidate" style="color:#777">验证</span>
+                            {% endif %}
+                            <a class="ghyx fcb ml15" href="javascript: void(0);" style="color:#FF8800">更换邮箱</a>
+                        </p>
+					</div>
+				<!-- 更改手机号 -->
+					<div id="ghsjh" class="dis updateInfoDiv" >
+						<p class="fcj  fz14">
+                            <label>手机号码：</label>
+                            <input class="w14" name="newPhone" />
+                            <span class="ml15 fcb getMsgPostButton">获取验证码</span>
+                            <span class="showMsgSendTime" style="display: none">验证码发送中..</span>
+                        </p>
+						<p class="yzm" style="margin-left: 129px;">
+                            <input class="w14" placeholder="输入验证码" id="check_code"/>
+                        </p>
+						<p class="nv">
+                            <button type="button" class="confirmMsgUpdateButton">确认</button>
+                            <span class="qx" onclick="cancelUpdateSpan()">取消</span>
+                        </p>
+						<p class="fcj  fz14">
+                            <label>当前邮箱：</label>
+                            <input class="inp w23 showNewEmailInput" value="{{ pu.email | default_if_none:'' }}" disabled="disabled" />
+                            <a href="javascript: void(0);"class="ghyx ml15 fcb">更换邮箱</a>
+                        </p>
+					</div>
+					<!-- 更改邮箱-->
+					<div id="ghyx" class=" dis updateInfoDiv" >
+						
+						<p class="fcj  fz14">
+                            <label>手机号码：</label>
+                            <input class="inp showNewPhoneInput" style="width:200px" value="{{ pu.phone | default_if_none:'' }}" disabled="disabled" />
+                            <a href="javascript: void(0);" class="ghsjh ml15 fcb">更换手机号</a>
+                        </p>
+                        <p class="fcj fz14">
+                            <label>新邮箱：</label>
+                            <input class="w23" name="newEmail" placeholder="{{ pu.email | default_if_none:'请输入新邮箱' }}"/>
+                            <span class="ml15 fcb getEmailPost">获取验证码</span>
+                            <span class="showEmailValidTime" style="display: none">验证码发送中..</span>
+                        </p>
+						<p class="yzm" style="margin-left: 129px;">
+                            <input style="width:230px;" placeholder="输入验证码" id="email_check_code"/>
+                        </p>
+						<p class="nv">
+                            <button type="button" class="confirmEmailUpdateButton">确认</button>
+                            <span class="qx" onclick="cancelUpdateSpan()">取消</span>
+                        </p>
+					</div>
+				
+				<!-- 账号绑定尾部 -->
+				{% comment %}<div class="dsf" >
+					<p>绑定后，你可以同时使用以下方式登录怀才当遇</p>
+					<ul>
+						<li class="qq"><span >绑定QQ号</span><span class="dis jc"><i>已绑定QQ号 左边的翅膀</i>解除绑定</span></li>
+						<li class="wb"><span class="">绑定新浪微博账号</span><span class="dis jc"><i>已绑定新浪微博账号 左边的翅膀</i>解除绑定</span></li>
+						<li class="wx"><span class="">绑定微信账号</span><span class="dis jc"><i>已绑定微信账号 左边的翅膀</i> 解除绑定</span></li>
+					</ul>
+                    
+				</div>{% endcomment %}
+			</div>
+			<!-- 账号绑定结束-->
+			<!-- 修改密码开始 -->
+	     <div class="mmxg dis updatePasswordDiv" >
+			<h2>修改密码</h2>
+			<p class="fcj ">
+                <label>请输入当前的密码：</label>
+                <input type="password" name="oldPassword1" maxlength="16" autocomplete="off" placeholder="请输入登录密码" value="">
+                <input type="text"  name="oldPassword2" autocomplete="off" maxlength="16" placeholder="请输入登录密码" style="display:none;">
+                <i class="szico"></i><i class="pwico"></i>
+            </p>
+			<p class="fcj ">
+                <label>请输入新密码：</label>
+                <input class="pw" type="password" maxlength="16" name="newPasswordOne1" placeholder="6-16位字母、数字、不支持空格"/>
+                <input class="pw"type="text" maxlength="16" name="newPasswordOne2" placeholder="6-16位字母、数字、不支持空格" style="display:none"/>
+            </p>
+			<p class="fcj ">
+                <label>再次输入新密码：</label>
+                <input type="password" maxlength="16"  placeholder=" 再输入一遍" name="newPasswordTwo1" />
+                <input type="text" maxlength="16" placeholder=" 再输入一遍" style="display:none" name="newPasswordTwo2"/>
+            </p>
+			<p >
+                <button type="button" class="sureChangePasswordButton">确认</button>
+                <span class="qx cancelChangePasswordButton">取消</span>
+            </p>
+		 </div>
+		<!-- 修改密码结束-->
+		<!-- 信息模板设置开始 -->
+		<div class="xxmbsz dis">
+			<h2>信息模板设置</h2>
+				<div class="mb">
+                    <div class="f_l l_select">
+    					<ul class="f_l allUserModels">
+    						<h3 class="fz16">全部模板</h3>
+    {#						<li >应聘不合适<span>删除</span></li>#}
+                            {% if tpuModels %}
+                                {% for tpumodel in tpuModels %}
+                                    <li onclick="getUpdateData({{ tpumodel.id }})" name="{{ tpumodel.id }}">
+                                        {{ tpumodel.model_name }}
+                                        <span onclick="infoModelDelete(this, {{ tpumodel.id }})">删除</span>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+    					</ul>
+    					<div class="tjmb">新建模板</div>
+                    </div>
+					<div class="mt10 mbxx f_l">
+						<p class="mt10 ml15 ml13">模板名称</p>
+                        <input type="hidden" name="modelId"/>
+						<input type="text" name="modelName" value="" />
+						<p class="mt10 ml15">模板内容</p>
+						<textarea class="mbnr fz14" name="modelContent" maxlength="200"></textarea>
+						<p><button class="saveModelButton">保存模板</button><span class="qx" onclick="cancelSaveModel()">取消</span></p>
+					</div>
+				</div>
+			<!-- 	<div class="mbsl ">
+					<p><p class="tit">示例一：</p></p>
+					<p ><span class="tit">模板名称：</span>筛选不合适模板：</p>
+					<p class="tit f_l">模板内容：</p><p class="slmbnr f_l">您好！很高心收到您的简历，遗憾的是，经评估您的条件跟我们的职位暂时不太匹配，所以不能进入面试环节。
+                    相信会有更适合你的职位在等待着你，祝您求职顺利，前程似锦！</p>
+					<p><p class="tit">示例二：</p></p>
+					<p ><span class="tit">模板名称：</span>面试不合适模板：</p>
+					<p class="tit f_l">模板内容：</p><p class="slmbnr f_l">您好!感谢您关注我司并申请我们的职位！
+    通过面试接触可以看出您是位优秀的人才。但经过综合评估后，我们认为您目前暂时不适合我们的职位。不过，我们已经将您的资料录入我们的数据储备库，如有合适职位会再向您推荐。也欢迎您继续关注我们的招聘信息。
+    祝您求职顺利，前程似锦！</p>
+				
+				</div>  -->
+			</div>
+		<!-- 信息模板设置结束 -->
+		 </div>				
+	</div>
+</div>
+
+
+  
+{% include 'jobs/system/new_footer.html' %}
+<script>
+$(function(){
+	//导航切换
+	$(".mainnav ul li").click(function(){
+		$(this).siblings().removeClass("active");
+		$(this).addClass("active");
+		var index=$(this).index()
+		$(".mcontent").children().addClass("dis")
+		$(".mcontent").children().eq(index).removeClass('dis')
+	})
+
+    if("{{ index_type }}" == "third") {
+        var $templateButton = $(".mainnav ul li:eq(2)");
+        $templateButton.siblings().removeClass("active");
+        $templateButton.addClass("active");
+		$(".mcontent").children().addClass("dis");
+		$(".mcontent").children().eq(2).removeClass('dis')
+    }
+//更换邮箱 更换手机号
+$(".ghsjh").click(function(){
+	$("#yz").css("display","none");
+	$("#ghsjh").css("display","block");
+	$("#ghyx").css("display","none");
+})
+$(".ghyx").click(function(){
+	$("#yz").css("display","none");
+	$("#ghyx").css("display","block");
+	$("#ghsjh").css("display","none");
+})
+
+	//图片切换
+	$(".szico").click(function(){
+		$(this).css("background-position","0px 3px");
+		$(".pwico").css("background-position","-51px 3px");
+		$(".mcontent input[type='password']").css("display","none");
+		$(".mcontent input[type='text']").css("display","inline-block");
+        $(":input[name=oldPassword2]").val($(":input[name=oldPassword1]").val());
+        $(":input[name=newPasswordOne2]").val($(":input[name=newPasswordOne1]").val());
+        $(":input[name=newPasswordTwo2]").val($(":input[name=newPasswordTwo1]").val());
+	});
+	$(".pwico").click(function(){
+		$(".szico").css("background-position","0px -40px");
+		$(this).css("background-position","-51px -40px");
+		$(".mcontent input[type='password']").css("display","inline-block");
+		$(".mcontent input[type='text']:not(:last)").css("display","none");
+
+        $(":input[name=oldPassword1]").val($(":input[name=oldPassword2]").val());
+        $(":input[name=newPasswordOne1]").val($(":input[name=newPasswordOne2]").val());
+        $(":input[name=newPasswordTwo1]").val($(":input[name=newPasswordTwo2]").val());
+	});
+	//密码格式
+    $(".pw").blur(function(){
+    	var reg=/[a-zA-Z0-9]{6,16}/;
+    	if(!reg.test($(this).val())){
+    		$(this).val("");
+    	}
+    })
+});
+
+$(function(){
+	$(".mb ul").on("mouseover","li",function(){
+		$(this).css("background-color","#f4f7fc")
+		$(this).siblings().find('span').css("display","none");
+		$(this).siblings().css("background-color","")
+		$(this).siblings(".clic").find("span").css({"display":"inline","color":"#333"})
+		$(this).find("span").css("display","inline")
+	})
+	$(".mb ul").on("mouseout","li",function(){
+		$(".mb ul li:not('.clic')").find("span").css("display","none");
+			$(this).css("background-color","");
+	})
+	$(".mb ul").on("click","li",function(){
+		$(this).siblings("li").removeClass('clic');
+		$(this).siblings("li").find("span").css("display","none")
+		$(this).addClass("clic");
+		$(this).find("span").css("display","inline");
+	})
+	//鼠标移动到新建模板上的样式
+		$(".tjmb").on("mouseover",function(){
+			$(this).css("color","#5c91d9");
+		})
+		$(".tjmb").on("mouseout",function(){
+			$(this).css("color","#999");
+		})
+	//点击添加新模板
+	$(".tjmb").on("click",function(){
+        var flag = false;
+		$(".allUserModels li").each(function(){
+            if(typeof($(this).attr('name')) == "undefined"){
+                flag = true;
+                return false;
+            }
+        });
+        if(flag == true) {
+            alert("还尚有未保存的模板",4);
+            return false;
+        }
+        var $lis = $(".mb ul li");
+        if($lis.length > 10) {
+            alert("最多保存10个模板!",4);
+            return false;
+        }
+        $(".mb ul li").removeClass("clic");
+		$(".mb ul").append('<li onclick="cancelSaveModel()">模板(未保存)<span>删除</span></li>').find("li:last").addClass("clic").find("span").css({"display":"inline","color":"#333"});
+		bindListener();	
+	})
+	
+{#	//点击删除#}
+{#	$(".mb ul li span").unbind().click(function(){#}
+{#		$(this).parent().remove();#}
+{#	})#}
+{#	$("document").on("click",".mb ul li span",function(){#}
+{#		$(this).parent().remove();#}
+{#	})#}
+	
+	//右浮动
+	$(function(){
+            $(window).resize(function(){
+                $("#yxf").css("top",($(window).height()/2-100)+"px");
+            });
+            $(window).resize();
+            $("#yxf li").eq(0).click(function(event) {
+            	$('body,html').stop(true,false).animate({scrollTop: 0},300);
+            });
+            $("#yxf li").mouseover(function(event) {
+            	$(this).find("span").stop(true,false).animate({right:"0px"}, 150)
+            });
+            $("#yxf li").mouseout(function(event) {
+            	$("#yxf li").find("span").stop(true,false).animate({right:"-150px"}, 150)
+            });
+});
+    	//阻止默认行为
+    	function maopao(){
+    		if( e && e.stopPropagation ) e.stopPropagation();
+            else  window.event.cancelBubble = true;
+            return false;
+    	}
+
+})
+//点击删除
+function bindListener(){
+        $(".mb ul li span").unbind().click(function(){
+          $(this).parent().remove();
+        });
+    }
+
+    //--------------------- add by king -------------------
+    // 获取验证码取消按钮
+    function cancelUpdateSpan(){
+        $(".updateInfoDiv").hide();
+        $(".oldInfoDiv").show();
+    }
+
+    // 邮箱输入框改变时 ajax 方法验证邮箱是否有效
+    $(":input[name=newEmail]").change(function(){
+        var $this = $(this);
+        var email = $(this).val();
+        if(email == ''){
+            window.alert('请输入邮箱！',4);
+            return;
+        }
+        var oldEmail = $(":input[name=oldEmail]").val();
+        if(email == oldEmail){
+            window.alert('邮箱无变更，无需修改',4);
+            $this.val("");
+            return;
+        }
+        if(!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(email)){
+            window.alert('你输入的邮箱格式不对，请重新输入',2);
+            $this.val("");
+            return;
+        }
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/ajax_isEmailUseful",
+            data: {"email": email},
+            dataType: "json",
+            success: function (data) {
+                $this.attr('placeholder', oldEmail);
+                if (data.status == '1') {
+                    // 邮箱可用
+                } else if(data.status == '0') {
+                    $this.val("");
+                    alert('该邮箱已被使用，请重新输入',2);
+                } else {
+                    alert("发生内部错误!",2)
+                }
+            }
+        });
+    });
+
+    // 获取邮箱验证码
+    $(".getEmailPost").click(function(){
+        var $email = $(":input[name=newEmail]");
+        var email = $email.val();
+        var oldEmail = $(":input[name=oldEmail]").val();
+        if(email == ''){
+            window.alert('请输入邮箱！',4);
+            return;
+        }
+        if(email == oldEmail){
+            window.alert('邮箱无变更，无需修改',4);
+            $email.val("");
+            return;
+        }
+        if(!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(email)){
+            window.alert('你输入的邮箱格式不对，请重新输入',2);
+            $email.val("");
+            return;
+        }
+        $.ajax({
+            type: "post",
+            data: {"email": email},
+            url: "/jobs/account/ajax_sendValidateEmail",
+            dataType: "json",
+            success: function(data){
+                if(data.status == "1"){
+                    messageSeconds = setInterval(CountSeconds, 1000);
+                    alert("验证码已发送至您的新邮箱!",1);
+                    $(".getEmailPost").hide();
+                    $(".showEmailValidTime").show();
+                    $(":input[name=newEmail]").attr("readonly", true);
+                } else {
+                    alert("邮件发送时发生内部错误!",2)
+                }
+            }
+        });
+    });
+
+    // 设置邮箱验证邮件发送延时
+    var seconds = 300;
+    var messageSeconds;
+    function CountSeconds() {
+        $(".showEmailValidTime").text(seconds + " 秒后可再次发送");
+        if (seconds == 0) {
+            $(":input[name=newEmail]").attr("readonly", false);
+            $(".showEmailValidTime").hide();
+            $(".showEmailValidTime").text("验证码发送中..");
+            $(".getEmailPost").show();
+            clearInterval(messageSeconds);
+            seconds = 300;
+        }
+        seconds--;
+    }
+
+    // 更新邮箱确定 按钮
+    $(".confirmEmailUpdateButton").click(function(){
+        var email = $(":input[name=newEmail]").val();
+        var $code = $("#email_check_code");
+        var code = $code.val();
+        var reg = /^[0-9a-zA-Z]{6}$/;
+        if(email == "") {
+            alert("邮箱不能为空!",4);
+            return false;
+        }
+        if(!reg.test(code)){
+            $code.val("");
+            alert("验证码格式不正确!",2);
+            return false;
+        }
+        if($(".getEmailPost").is(":visible")) {
+            $code.val("");
+            alert("请获取验证码",4);
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/ajax_updateEmail",
+            data: {"email": email, "code": code},
+            dataType: "json",
+            success: function (data) {
+                // status: 0 内部错误 1 正常 2 验证码不正确 3 邮箱已存在 4 验证码已过时
+                $("#email_check_code").val("");
+                if (data.status == '1') {
+                    seconds = 0;
+                    $(".currentAccount").text(email);
+                    $(":input[name=oldEmail]").val(email);
+                    $(":input[name=newEmail]").attr("placeholder", email);
+                    $(":input[name=newEmail]").val("");
+                    cancelUpdateSpan();
+                    var $isEmailValidate = $(".isEmailValidate");
+                    if($isEmailValidate.val() == "待验证 "){
+                        $isEmailValidate.val("已验证 ");
+                    }
+                    alert("邮箱修改成功!",1);
+                    $(".showNewEmailInput").val(email);
+                } else if(data.status == '2') {
+                    alert('验证码不正确!',2);
+                } else if(data.status == '3') {
+                    alert('此邮箱已存在!',4);
+                } else if(data.status == '4') {
+                    alert('验证码已过时!',4);
+                }else if(data.status == '0') {
+                    alert('发生内部错误!',2);
+                }
+            }
+        });
+    });
+
+    // 短信输入框改变时 ajax 判断手机号是否可用
+    $(":input[name=newPhone]").change(function(){
+
+        var $newPhone = $(':input[name=newPhone]');
+        var phone = $newPhone.val();
+        var oldPhone = $(":input[name=oldPhone]").val();
+        if(phone == ''){
+            alert('手机号不能为空!',4);
+            return false;
+        }
+        if (oldPhone == phone) {
+            alert('手机号无变更，无需修改',4);
+            $newPhone.val("");
+            return false;
+        }
+        if (!(/^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(phone))) {
+            alert('你输入的手机号码格式不对，请重新输入！',4);
+            $newPhone.val("");
+            return false;
+        }
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/ajax_isPhoneUseful",
+            data: {"phone": phone},
+            dataType: "json",
+            success: function (data) {
+                $newPhone.attr('placeholder', oldPhone);
+                if (data.status == '1') {
+                    // 手机可用
+                } else if(data.status == '0') {
+                    $newPhone.val("");
+                    alert('该号码已被使用，请重新输入',4);
+                } else {
+                    //alert("发生内部错误!")
+                }
+            }
+        });
+    });
+
+    // 点击获取验证啊按钮
+    $(".getMsgPostButton").click(function(){
+        var $newPhone = $(':input[name=newPhone]');
+        var phone = $newPhone.val();
+        var oldPhone = $(":input[name=oldPhone]").val();
+        if(phone == '') {
+            alert('手机号不能为空!',4);
+            return false;
+        }
+        if (oldPhone == phone) {
+            alert('手机号无变更，无需修改',4);
+            $newPhone.val('');
+            return false;
+        }
+        // if (!(/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(phone))) {
+        if(!(/^1[0-9]{10}$/).test(phone)){
+            alert('你输入的手机号码格式不对，请重新输入！',4);
+            $newPhone.val('');
+            return false;
+        }
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/jobs/ajax_update_sms_send",
+            data: {"code": "abc", "mobile": phone},
+            dataType: "json",
+            success: function (msg) {
+                if (msg == "1") {
+                    $(".getMsgPostButton").hide();
+                    $(".showMsgSendTime").show();
+                    $newPhone.attr("readonly", true);
+                    alert("校验码已发送至您的手机，请注意查收！",1);
+                    countdown = setInterval(CountDown, 1000);
+                } else if (msg == "2") {
+                    alert("验证码发送失败，请重试！",2);
+                } else {
+                    alert("验证码输入错误！",2);
+                }
+            }
+        });
+    });
+
+    // 设置短信发送延时
+    var count = 120;
+    var countdown;
+    function CountDown() {
+        $(".showMsgSendTime").text(count + " 秒后可再次发送");
+        if (count == 0) {
+            $(':input[name=newPhone]').attr("readonly", false);
+            $(".showMsgSendTime").hide();
+            $(".showMsgSendTime").text("验证码发送中..");
+            $(".getMsgPostButton").show();
+            clearInterval(countdown);
+            count=120;
+        }
+        count--;
+    }
+
+    // 确认更改电话按钮点击
+    $(".confirmMsgUpdateButton").click(function(){
+        var $newPhone = $(':input[name=newPhone]');
+        var $check_code = $("#check_code");
+        var phone = $newPhone.val();
+        var code = $("#check_code").val();
+        var reg = /^[0-9]{6}$/;
+        if(phone == "") {
+            alert("号码不能为空!",4);
+            return false;
+        }
+        if(!reg.test(code)){
+            $check_code.val('');
+            alert("验证码格式不正确!",4);
+            return false;
+        }
+        if($(".getMsgPostButton").is(":visible")) {
+            $check_code.val('');
+            alert("请获取验证码!",4);
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/ajax_updatePhone",
+            data: {"phone": phone, "code": code},
+            dataType: "json",
+            success: function(data){
+                $("#check_code").val("");
+                if(data.status == '1'){
+                    count = 0;
+                    $(":input[name=oldPhone]").val(phone);
+                    $newPhone.attr("placeholder", phone);
+                    $newPhone.val("");
+                    cancelUpdateSpan();
+                    var $isPhoneValidate = $(".isPhoneValidate");
+                    if($isPhoneValidate.val() == "待验证 "){
+                        $isPhoneValidate.val("已验证 ");
+                    }
+                    alert(data.msg,1);
+                    $(".showNewPhoneInput").val(phone);
+                }else if(data.status == '0'){
+                    alert(data.msg,4);
+                }
+            }
+        });
+    });
+
+    // made by King : 修改密码
+    var $newPasswordOne1 = $(":input[name=newPasswordOne1]");
+    var $newPasswordTwo1 = $(":input[name=newPasswordTwo1]");
+    $newPasswordTwo1.change(function(){
+       if($(this).val() != $newPasswordOne1.val()) {
+           alert("您两次输入的密码不一致",4);
+           $(this).val('');
+           return false;
+       }
+    });
+    var $newPasswordOne2 = $(":input[name=newPasswordOne2]");
+    var $newPasswordTwo2 = $(":input[name=newPasswordTwo2]");
+    $newPasswordTwo2.change(function(){
+       if($(this).val() != $newPasswordOne2.val()) {
+           alert("您两次输入的密码不一致",4);
+           $(this).val('');
+           return false;
+       }
+    });
+    $(".sureChangePasswordButton").click(function(){
+        var $oldPassword = $(":input[name=oldPassword1]");
+        var flag = $oldPassword.is(":visible");
+        if(flag == true) {
+            var oldPassword = $oldPassword.val();
+            if(oldPassword == '') {
+                alert("请输入原始密码!",4);
+                return false;
+            }
+            var newPasswordOne = $newPasswordOne1.val();
+            var newPasswordTwo = $newPasswordTwo1.val();
+        } else {
+            var oldPassword = $(":input[name=oldPassword2]").val();
+            if(oldPassword == '') {
+                alert("请输入原始密码!",4);
+                return false;
+            }
+            var newPasswordOne = $newPasswordOne2.val();
+            var newPasswordTwo = $newPasswordTwo2.val();
+        }
+        if(newPasswordOne != newPasswordTwo) {
+            alert("两次密码输入不一致!",4);
+            return false;
+        }
+        if(oldPassword == newPasswordOne) {
+            alert("新密码与原始密码不能一致!",4);
+            return false;
+        }
+        $.ajax({
+            async: false,
+            type: "POST",
+            data: {"oldpassword": oldPassword, "newpassword": newPasswordOne },
+            url: "/ajax_updatePassword",
+            dataType: "json",
+            success: function(data){
+                if(data.status == '1') {
+                    alert("密码修改成功!", 1)
+                } else if( data.status == '0') {
+                    alert("当前密码输入错误，请重新输入!",2);
+                    $(":input[name=oldPassword1]").val('');
+                    $(":input[name=oldPassword2]").val('');
+                } else {
+                    alert("发生内部错误!",2);
+                }
+            }
+        })
+    });
+    // 点击修改密码的取消按钮
+    $(".cancelChangePasswordButton").click(function(){
+        $(".updatePasswordDiv").find(":input").each(function(){
+            $(this).val("");
+        })
+    })
+
+//-----------------------add by king： 信息模板设置:
+
+    // 点击保存模板按钮
+    $(".saveModelButton").click(function(){
+        var id = $(":input[name=modelId]").val();
+        var modelname = $(':input[name=modelName]').val();
+        var content = $('textarea[name=modelContent]').val();
+        if(modelname == ""){
+            window.alert("请输入模板名称！",4);
+            return false;
+        }
+        if(content == ""){
+            window.alert("请输入模板内容！",4);
+            return false;
+        }
+        $.ajax({
+            async: false,
+            type: "POST",
+            data:{"id": id, "modelName": modelname, "content": content},
+            url: "/jobs/account/ajax_setInfoModel",
+            dataType: "json",
+            success: function(data){
+                if(data.status == '2') {
+                    $(".allUserModels li:last").remove();
+                    var li = '<li onclick="getUpdateData(' + data.id + ')" name="' + data.id + '">';
+                    li += modelname;
+                    li += '<span onclick="infoModelDelete(this, ' + data.id + ')">删除</span>';
+                    li += '</li>';
+                    $(".allUserModels").append(li);
+                    alert("模板添加成功!",1);
+                } else if(data.status == '1') {
+                    var $li = $("li[name=" + id + "]");
+                    $li.empty();
+                    $li.append(modelname + '<span style="display: none; color: rgb(51, 51, 51);" onclick="infoModelDelete(this, ' + data.id + ')">删除</span>');
+                    alert("模板修改成功!",1)
+                } else {
+                    alert("发生内部错误",2)
+                }
+            }
+        })
+    });
+
+    // 获取保存的模板的详细信息
+    function getUpdateData(id){
+        var modelType = 'query';
+        $.ajax({
+            type: "POST",
+            url: "/ajax_model",
+            data: {"modelType": modelType, "id": id},
+            dataType: "json",
+            success: function(data){
+                $(":input[name=modelId]").val(data.id);
+                $(':input[name=modelName]').val(data.model_name);
+                $('textarea[name=modelContent]').val(data.content);
+            }
+        });
+    }
+
+    // 删除模板按钮
+    function infoModelDelete(obj, id) {
+        var updateId = $(":input[name=modelId]").val();
+        var flag = confirm("你确定要删除此模板吗?");
+        if(!flag) {
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/jobs/account/ajax_infoModelDelete",
+            data: {"id": id},
+            dataType: "json",
+            success: function(data){
+                if(data.status == '1'){
+                    if(id == updateId){
+                        cancelSaveModel();
+                    }
+                    $(obj).parent().remove();
+                    alert("模板删除成功!")
+                } else {
+                    alert("发送内部错误!");
+                }
+            }
+        });
+    }
+    // 信息模板设置 取消 按钮
+    function cancelSaveModel(){
+        $(":input[name=modelId]").val("");
+        $(':input[name=modelName]').val("");
+        $('textarea[name=modelContent]').val("");
+    }
+    // 修改企业用户名
+    $(".changeUserName").click(function() {
+        if($('.user_name').attr('disabled') == 'disabled') {
+            $('.user_name').removeAttr('disabled');
+            $(".user_name").attr('class', 'user_name');
+            $(this).text('确 定');
+        } else {
+            changeTpcUserName();
+        }
+
+
+    });
+
+    // 更改用户名
+    function changeTpcUserName() {
+        var user_name = $.trim($('.user_name').val());
+        var $this = $('.user_name');
+        if(user_name == $this[0].defaultValue) {
+            $this.attr('disabled', 'disabled');
+            $this.attr('class', 'inputc w30 user_name');
+            $(".changeUserName").text('更换用户名');
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/ajax_updateTpcUserName",
+                data: {"user_name": user_name},
+                dataType: "json",
+                success: function(data) {
+                    $this.attr('disabled', 'disabled');
+                    $this.attr('class', 'inputc w30 user_name');
+                    $(".changeUserName").text('更换用户名');
+                    if(data == 1) {
+                        alert('更新成功!',1);
+                    } else {
+                        alert('更新失败!',2);
+                    }
+                }
+            })
+        }
+    };
+
+// 确定更新
+function sureToUpdateUserName() {
+
+}
+
+</script>

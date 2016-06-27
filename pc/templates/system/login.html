@@ -1,0 +1,358 @@
+<!DOCTYPE HTML>
+<html>
+	<!-- Added by HTTrack -->
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<!-- /Added by HTTrack -->
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<title>登录</title>
+	<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+	<script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js" ></script>
+	<script src="{{ STATIC_URL }}js/radio.js"></script>
+	<script src="{{ STATIC_URL }}js/Validform_v5.3.2.js"></script>
+	<script src="{{ STATIC_URL }}bootstrap.min.js" ></script>
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+	<script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+    <script type="text/javascript">
+  var timer = null;
+    var alertFram;
+    window.alert = function(txt) {  
+        clearInterval(timer);
+        timer =setInterval(function() {
+            if ($("#alertFram")[0]) {               
+                $("#alertFram").remove();
+                clearInterval(timer);
+            }       
+        }, 3000)
+        alertFram = $('<div id="alertFram" style="color:#ed4f30;font-size:14px;padding:0px 0px 0px 30px;height:40px;background-color:#fff3de;border:1px solid #ffddc1;position:fixed;left:50%;z-index:10001;text-align:center;line-height:40px;top:0">' + txt + '<img onclick="$(this).parent().remove()" src="../../static/images/x_03.png" style="float:right;cursor:pointer;margin-left:10px;margin-top:14px;margin-right:10px" width="12" height="12"></div>')        
+        if ($("#alertFram")[0]) {
+            return;
+        }           
+        $("body").append(alertFram);  
+        var width=parseInt(alertFram.css('width'));       
+        alertFram.css('margin-left', '-'+width/2+'px');              
+    }    
+</script>
+    <script>
+    $(document).ready(function() {
+{#    $(".registed").Validform({tiptype:2})#}
+	});
+	</script>
+<script type="text/javascript">
+function omsg(){
+                alert("攻城狮紧张建设中，感谢关注怀才当遇！");
+            }
+    window.onload=function onLoginLoaded() {
+        GetLastUser();
+    }
+
+    function GetLastUser() {
+        var id = "49BAC005-7D5B-4231-8CEA-16939BEACD67";//GUID标识符
+        var usr = GetCookie(id);
+        if (usr != null) {
+            document.getElementById('account').value = usr;
+            GetPwdAndChk();
+        } else {
+            document.getElementById('account').value = "";
+        }
+    }
+    //点击登录时触发客户端事件
+
+    function SetPwdAndChk() {
+        //取用户名
+        var usr = document.getElementById('account').value;
+        //将最后一个用户信息写入到Cookie
+        SetLastUser(usr);
+
+        //如果记住密码选项被选中
+        if (document.getElementById('rmbUser').checked == true) {
+            //取密码值并加密
+            var pwd = document.getElementById('pwd').value;
+            $.ajax({
+                dataType: "json",
+                url: "/ajax_encodePassword",
+                data: {"password": pwd},
+                type: "post",
+                async: false,
+                success: function(data){
+                    pwd = data.msg;
+                }
+            });
+            var expdate = new Date();
+            expdate.setTime(expdate.getTime() + 14 * (24 * 60 * 60 * 1000));
+            //将用户名和密码写入到Cookie
+            SetCookie(usr, pwd, expdate);
+        } else {
+            //如果没有选中记住密码,则立即过期
+            ResetCookie();
+        }
+    }
+
+    function SetLastUser(usr) {
+        var id = "49BAC005-7D5B-4231-8CEA-16939BEACD67";
+        var expdate = new Date();
+        //当前时间加上两周的时间
+        expdate.setTime(expdate.getTime() + 14 * (24 * 60 * 60 * 1000));
+        SetCookie(id, usr, expdate);
+    }
+    //用户名失去焦点时调用该方法
+
+    function GetPwdAndChk() {
+        var usr = document.getElementById('account').value;
+        var pwd = GetCookie(usr);
+        if (pwd != null) {
+            //取密码值并解密
+            $.ajax({
+                dataType: "json",
+                type: "post",
+                data: {"password": pwd},
+                url: "/ajax_decodePassword",
+                async: false,
+                success: function(data){
+                    pwd = data.msg;
+                }
+            });
+            document.getElementById('rmbUser').checked = true;
+            document.getElementById('pwd').value = pwd;
+        } else {
+            document.getElementById('rmbUser').checked = false;
+            document.getElementById('pwd').value = "";
+        }
+    }
+    //取Cookie的值
+
+    function GetCookie(name) {
+        var arg = name + "=";
+        var alen = arg.length;
+        var clen = document.cookie.length;
+        var i = 0;
+        while (i < clen) {
+            var j = i + alen;
+            //alert(j);
+            if (document.cookie.substring(i, j) == arg) return getCookieVal(j);
+            i = document.cookie.indexOf(" ", i) + 1;
+            if (i == 0) break;
+        }
+        return null;
+    }
+
+    function getCookieVal(offset) {
+        var endstr = document.cookie.indexOf(";", offset);
+        if (endstr == -1) endstr = document.cookie.length;
+        return unescape(document.cookie.substring(offset, endstr));
+    }
+    //写入到Cookie
+
+    function SetCookie(name, value, expires) {
+        var argv = SetCookie.arguments;
+        //本例中length = 3
+        var argc = SetCookie.arguments.length;
+        var expires = (argc > 2) ? argv[2] : null;
+        var path = (argc > 3) ? argv[3] : null;
+        var domain = (argc > 4) ? argv[4] : null;
+        var secure = (argc > 5) ? argv[5] : false;
+        document.cookie = name + "=" + escape(value) + ((expires == null) ? "" : ("; expires=" + expires.toGMTString())) + ((path == null) ? "" : ("; path=" + path)) + ((domain == null) ? "" : ("; domain=" + domain)) + ((secure == true) ? "; secure" : "");
+    }
+
+    function ResetCookie() {
+        var usr = document.getElementById('account').value;
+        var expdate = new Date();
+        SetCookie(usr, null, expdate);
+    }
+</script>
+
+
+    <script type="text/javascript">
+        function validData(){
+            if($('#account').val() == ''){
+                alert('账号不能为空，请输入账号！');
+                $('#account').focus();
+                return false;
+            }
+            if($('#pwd').val() == ''){
+                alert('密码不能为空，请输入密码!');
+                $('#pwd').focus();
+                return false;
+            }
+            SetPwdAndChk();
+            return true;
+        }
+    </script>
+
+</head>
+<style>
+	html,body{width: 100%;height: 100%;}
+</style>
+<body>
+	<div style="height:100%;width:100%;overflow:hidden;" class="re_banner lo_banner">
+	<h1>本周已有<div id="num_box" style="display:inline-block"></div>人在许愿树许愿</h1>
+		<div class="re_form_box lo_form_box" style="height:450px;">
+			<dl class="re_form_container lo_form_container">
+				<dt class="clearfix">
+					<div class="f_r re_form_title_r" style="margin-top: 30px">
+{#						<a href="#" target="_blank" class="c_a6 fz14"></a>#}
+
+						<a style="color:#5c91d9;line-height:16px; " href="/system/generalRegister" class="c_50 fz14"><span class="c_a6 fz14" style="vertical-align: middle;">没有账号？</span><span style="vertical-align: middle;">立即注册</span>
+                        <i class="icon-fangxiang2 iconfont" style="vertical-align: middle;"></i>
+                        </a> 
+					</div>
+					<div class="f_l" style="padding-top: 10px;">
+					<a href="/lindex">
+						<img src="{{ STATIC_URL }}images/login_logo.gif" alt="" class="va_bottom"></a>
+						<a href="#" target="_blank" class="c_3a fz20" style="line-height: 30px;">会员登录</a>
+					</div>
+				</dt>
+				<dd class="clx">
+					<ul id="tab_ul">
+						<li class="qzz"><a  href="javascript:void(0)"class="clx_li_active">我是人才方</a></li>
+						<li class="rcjl"><a href="javascript:void(0)">我是人才经纪人</a></li>
+						<li class="zpf"><a href="javascript:void(0)">我是企业方</a></li>
+					</ul>
+				</dd>
+				<dd>
+					<div  class="tab-content">
+						<div class="tab-pane  in active" id="qzz">
+							<form class="registed" method="post" action="/system/general_logins">
+                                {% csrf_token %}
+                                <input type="hidden" name="loginType" id="loginType" value="1" />
+								<dl>
+									<div class="account_info_m">帐号</div>
+									<div>
+										<input class="inputxt"  placeholder="请填写账号/邮箱/手机号码" style="padding-left: 8px;" data-type="account" type="text" id="account" name="account"  datatype="e-m"  />
+									</div>
+								</dl>
+								<dl>
+									<div class="account_info_m">密码</div>
+									<div>
+										<input type="password" maxlength="16" oncopy="return false;" onpaste="return false;" oncut="return false;"  placeholder="请填写密码" style="padding-left: 8px;" name="password" id="pwd" datatype="*6-16" ></div>
+								</dl>
+								<dl class="bd_bottom pd_bottom clearfix lo_login">
+									<button type="submit" class="btn btn-default f_l" onclick="return validData();">登录</button>
+									<ul class="f_l mt10">
+										<li>
+											<input type="checkbox" name="" id="rmbUser" value="" class="reg_cbox">
+                                            <span >记住我</span>
+                                            <span style="padding-left: 10px;"><a href="/zhmm/">忘记密码?</a></span>
+										</li>
+									</ul>
+								</dl>
+								<dl class=" c_3a mb_clear lfloat" style="margin-top: 0">使用以下帐号直接登录</dl>
+								<dl class="btn-group rfloat"style="margin-top: 10px">
+
+                                    <button type="button" class="btn btn-primary mr25 btn3" onclick="omsg()">
+                                        <a href="http://test.hcdyhr.com/passport/oauth_qq/?rec_url=http://test.hcdyhr.com/jobs/bindAccount/" target="_blank">
+                                        <i class="iconfont icon-qq"></i>
+										QQ 登录
+                                        </a>
+									</button>
+
+									<button onclick="omsg()" type="button" class="btn btn-primary mr25 btn2">
+										<i class="iconfont icon-weixin"></i>
+										微信登录
+									</button>
+									<button onclick="omsg()" type="button" class="btn btn-primary btn1">
+										<i class="iconfont icon-jinlingyingcaiwangtubiao60"></i>
+										微博登录
+									</button>
+								</dl>
+							</form>
+						</div>
+					</div>
+				</dd>
+			</dl>
+		</div>
+	</div>
+    {#    显示登录返回信息#}
+    {% if msg %}
+        <script type="text/javascript">
+            $('#account').focus();
+            $('#account').val('{{ account }}');
+            $('#pwd').val('{{ pwd }}');
+          //   var loginType = {{ loginType }};
+          //   $("#tab_ul li a").removeClass('clx_li_active');
+          //   if(loginType == '1'){
+		        // $("#tab_ul li a").eq(0).addClass('clx_li_active');
+          //   }else if(loginType == '2'){
+          //       $("#tab_ul li a").eq(2).addClass('clx_li_active');
+          //   }else{
+          //       $("#tab_ul li a").eq(1).addClass('clx_li_active');
+          //   }
+            alert( '{{ msg }}');
+        </script>
+    {% endif %}
+</body>
+	<!-- Added by HTTrack -->
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<!-- /Added by HTTrack -->
+	<script type="text/javascript">
+	$("#tab_ul li a").click(function(){
+        var index = $('#tab_ul').find('a').index($(this));
+        if(index == 0){
+            $('#loginType').val('1');
+        }else if(index == 1){
+            $('#loginType').val('3');
+        }else{
+            $('#loginType').val('2');
+        }
+		$("#tab_ul li a").removeClass('clx_li_active');
+		$(this).addClass('clx_li_active');
+	})
+    var num="54789";
+    var numList=num.split("");
+    var i=numList.length;
+    $.each(numList,function(i,e){
+        $("#num_box").append('<span class="active">0</span>');             
+    })
+    function each_list()
+    {        
+        i--;
+        if(i<0)
+        {
+            return;
+        }
+        addNum(i);
+
+    }
+    function addNum(i){
+         var j=0;
+         var numTimer=setInterval(function(){     
+         j++;
+         if(j>numList[i])
+         {            
+            each_list();              
+            clearInterval(numTimer);                 
+         } 
+         else
+         {
+         $("#num_box span:eq("+i+")").html(j);
+         }
+        },80)
+    }
+   each_list();  
+
+// var $span = $("#num_box span.active");
+// var $i = 0; 
+// var $m = 1;
+// var random_go setInterval(function(){
+//     if(i == 20*$m){
+//         $span.eq($span.length-$m).removeClass('active').text(num.substr(num.length-$m,1));
+//         $m++;
+//         if($m==num.length){
+//             clearInterval(random_go);
+//         }
+//     }
+//     $span.each(function(index, el) {
+//         $(this).text(parseInt(Math.random()*10));
+//     });
+//     i++;
+// },100)
+	</script>
+</html>

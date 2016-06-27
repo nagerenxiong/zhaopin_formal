@@ -1,0 +1,85 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/new_mobile/css/zsh_common.css" type="text/css">
+<script src="/static/new_mobile/js/formValidate.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function()
+{
+	$("textarea[name=achievements]").val( $("textarea[name=achievements]").val().replace(/<br>/g,'\n') );
+	$("textarea[name=achievements]").val( $("textarea[name=achievements]").val().replace(/<br\/>/g,'\n') );
+	// 提交 表单
+	$("#educat_submit").click(function(){
+        var evaluation = $.trim($("textarea[name=achievements]").val().replace(/\n/g,'<br>'));
+		$.ajax({
+            async: false,
+            type: 'post',
+            data: {'evaluation': evaluation, 'resume_id': '{{ resume_id }}', 'type': 4},
+            url: '/mobile/ajax_save_user_info',
+            dataType: 'json',
+            success: function(data) {
+                if(data == 'ok') {
+                    alert(['更新成功', 1]);
+                    window.location.href = '/mobile/headhunter/edit_uploaded_resume?resume_id={{ resume_id }}'
+                } else {
+                    alert(['修改失败',2]);
+                }
+            }
+        })
+
+	});
+});
+</script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+</script>
+<!--zsp_header -->
+
+<div class="zsp_edu_main_box">
+<div class="zsp_edu_tit">
+	<h1>顾问评价编辑</h1>
+	<p>完善您的简历，更快获得面试邀请</p>
+</div>
+
+<form id="Form1" method="post">
+	<div class="zsp_input_main_box swiper-slide">
+		<div class="textareaBox errorBox">
+			<!-- <label>个人评价</label> -->
+			<div class="infoBox">
+				<textarea class="formcheck required numberCount" placeholder="请输入评价的内容" name="achievements">{% if evaluation %}{{ evaluation | safe }}{% endif %}</textarea>
+			</div>
+			<div class="numTip">
+				<span>0</span>
+				<span>/</span>
+				<span>1000</span>
+			</div>
+		</div>
+		<div class="edit_work_exp_but_group">
+			<div class="edit_exp_save_but halfCheckBtnNo">
+				<a class="unable">保存</a>
+			</div>
+			<div class="edit_exp_save_but halfCheckBtnOk" style="display: none;">
+				<a class="able" id="educat_submit">保存</a>
+			</div>
+			<div class="edit_exp_cancel_but" onClick="window.location.href='/mobile/headhunter/edit_uploaded_resume?resume_id={{ resume_id }}'" style="cursor: pointer;">
+				<a>取消</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</form>
+</div>
+<div class="errorTip"></div>
+</body>
+</html>

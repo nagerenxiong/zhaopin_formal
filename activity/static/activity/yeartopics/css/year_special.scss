@@ -1,0 +1,540 @@
+@charset "utf-8";
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+button,
+textarea,
+p,
+blockquote,
+th,
+td {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #fff;
+    color: #333;
+    font-size: 14px;
+    font-family: "微软雅黑", Verdana, Arial, Helvetica, sans-serif;
+}
+
+td,
+th,
+caption {
+    font-size: 14px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+    font-size: 100%;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var {
+    font-style: normal;
+    font-weight: normal;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+img {
+    border: none;
+    padding:0px;
+    margin:0px;
+}
+
+ol,
+ul,
+li {
+    list-style: none;
+}
+
+input,
+textarea,
+select,
+button {
+    font: 14px Verdana, Helvetica, Arial, sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+html {
+    overflow-y: scroll;
+}
+
+.clearfix:after {
+    *zoom: 1;
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+body {
+    background:url(/static/activity/yeartopics/images/new_02.jpg);
+}
+
+.main{
+    width:100%;
+}
+
+.commimg{
+     max-width:100%;
+     min-width:1280px;
+     display:block;
+}
+.commimg1{
+      width:1096px;
+      margin:0px auto;
+      display:block;
+}
+.pr{
+    position:relative;
+}
+.wh{
+    width:45px;
+    height:44px;
+    display:inline-block;
+    vertical-align: middle;
+
+}
+.winning{
+    width:1096px;
+    margin:0px auto;
+    background:url(/static/activity/yeartopics/images/new_05.png) no-repeat;
+    height:442px;
+    .qw{
+            width:35%;
+            display: block;
+            padding-top: 20px;
+            margin-left: 160px;
+            float:left;            
+        li{
+            margin-right:9%;
+            font-size:16px;
+            color:#73150d;
+            float:right!important;
+            line-height:35px;
+            text-align:right;
+            padding:0px 10px;
+            width:320px;
+            span{
+                margin-right:50px;
+                float:left!important;
+            }
+        }
+        li:nth-child(even){
+            background-color:#fdec9e;
+        }
+    }
+    .qw1{
+            width:35%;
+            display: block;
+            padding-top: 20px;
+            margin-left: 40px;
+            float:left;
+        li{
+            margin-right:9%;
+            font-size:16px;
+            color:#73150d;
+            float:left;
+            line-height:35px;
+            text-align:right;
+            padding:0px 10px;
+            width:320px;
+            span{
+                margin-right:50px;
+                float:left!important;
+            }
+        }
+        li:nth-child(even){
+            background-color:#fdec9e;
+        }
+    }
+}
+.activity_rules{
+    width:1096px;
+    margin:0px auto;
+    background:url(/static/activity/yeartopics/images/new_07.png) no-repeat;
+    clear:both;
+    height:406px;
+    .activ_mes{
+        color:#73150d;
+        font-size:20px;
+        line-height:42px;
+    .rule_left{
+         width: 60%;
+         float: left;
+         margin-left: 95px;
+         margin-top: 10px;
+    }
+    .rule_right{
+         width:20%;
+         float:right;
+         margin-right: 7%;
+        margin-top: 30px;
+        position: relative;
+         img{
+             display:block;
+             width:225px;
+             height:443px;
+             margin-top: -115px;
+         }
+    }
+    }
+}
+
+
+.contac_nc{
+    background:url(/static/activity/yeartopics/images/new_09.png) no-repeat;
+    width:1096px;
+    margin:0px auto;
+    height:156px;
+    padding-bottom:50px;
+    .contact_way{
+        padding-top:20px;
+        padding-left:75px;
+        margin:0px auto;
+        font-size:16px;
+        color:#73150d;
+    }
+    .phone{
+       background:url(/static/activity/yeartopics/images/sj.png) no-repeat;
+       margin-right:10px;
+    }
+    .qqzx{
+       background:url(/static/activity/yeartopics/images/qq.png) no-repeat;
+       margin-right:15px;
+    }
+    .weibo{
+      background:url(/static/activity/yeartopics/images/xl.png) no-repeat;
+      margin-right:15px;
+    }
+}
+
+
+.sepc_foot{
+    height:170px;
+    width:100%;
+    background-color:#fff0ab;
+        p{
+            width:520px;
+            margin:0px auto;
+            color:#73150d;
+            font-size:14px;
+            margin-top:5px;
+        }
+        .re_btomme {
+           width: 410px;
+            margin: 0px auto;
+            clear: both;
+            overflow: hidden;
+            padding-top:58px;
+            a,span{
+                margin: 0 0 0 12px;
+                color: #73150d;
+                display: inline-block;
+            }
+            h3 {
+                float: left;
+                display: inline-block!important;
+                font-size: 14px!important;
+            }
+         }
+}
+
+
+
+/**************************手机专题***********************************/
+.commimgss{
+    width:100%;
+    display:block;
+}
+.regler_inak{
+    background:url(/static/activity/yeartopics/images/phonenew3.jpg);
+    overflow:hidden;
+    background-size:100%;
+        .regl_btn{
+            width:30%;
+            display:block;
+            margin:0px auto;
+            margin-top:10px;
+        }        
+        ul{
+         width:82%;
+         margin:0px 8%;
+         display:block;
+         font-size:12px;
+         line-height:20px;
+         color:#73150d;
+         li{
+              i{
+                 background:url(/static/activity/yeartopics/images/jt.png) no-repeat;
+                 background-size:90%;
+                 width:11px;
+                 height:13px;
+                 display:inline-block;
+                 vertical-align: middle;
+                 margin-right:10px;
+              }
+         }
+    }
+}
+.contact{
+    background:url(/static/activity/yeartopics/images/phonenew5.jpg);
+    overflow:hidden;
+    background-size:100%;
+} 
+.contact_way{
+  font-size:12px;
+  color:#73150d;
+  padding:0px 9%;
+   .phonecall{
+       background:url(/static/activity/yeartopics/images/sj.png) no-repeat;
+       background-size:90%;
+       width:33px;
+       height:34px;
+       display:inline-block;
+       vertical-align: middle;
+   }
+   .qqmes{
+       background:url(/static/activity/yeartopics/images/qq.png) no-repeat;
+       background-size:90%;
+       width:33px;
+       height:34px;
+       display:inline-block;
+       vertical-align: middle; 
+       }
+}
+.code{
+    font-size:12px;
+    ul{
+        width:100%;
+        display:block;
+        li{
+            width:50%;
+            display:block;
+            float:left;
+            color:#73150d;
+            
+            img{
+                width:60%;
+                height:60%;
+                margin-left:21%;
+                display:inline-block;
+            }
+            span{
+                width:2%;
+                display:inline-block;
+                line-height:130%;
+                vertical-align: top;
+                margin-left:5px;
+            }
+            p{
+                text-align:center;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.con_address{
+    background-color:#f95050;
+    color:#fff;
+    padding:6px 6px;
+    border-radius:4px;
+}
+.con_address:hover{
+    background-color:#c6000a;
+}
+
+.float_bou{
+    background-color:#f1e3a3;
+    border-radius:10%;
+    position:absolute;
+    top:20%;
+    width:94%;
+    margin-left:3%;
+    display:none;
+    z-index:99999;
+    .flat_titl{
+        margin-top:10%;
+        border-bottom:1px solid #633c1b;
+        width:85%;
+        margin:35px auto 20px auto;
+        position:relative;
+        span{
+            width:30%;
+            color:#633c1b;
+            position:absolute;
+            top:-10px;
+            display:block;
+            overflow:hidden;
+            left:35%;
+            background-color:#f1e3a3;
+            text-align:center;
+        }
+    }
+    p{
+        display:block;
+        width:99%;
+        margin-bottom:10px;
+        input{
+            margin-left:4.4%;
+            background-color:#fdf4ca;
+            border-radius:4px;
+            border:none;
+            width:88%;
+            height:45px;
+            line-height:48px;
+            padding-left:5%;
+            color:#633c1b;
+        }
+    }
+    .hint{
+        font-size:12px;
+        color:#df4745;
+        text-align: center;
+    }
+    .save_btn{
+        width:30%;
+        margin:0px auto;
+        height:40px;
+        text-align:center;
+        background-color:#cd1b1a;
+        color:#fff;
+        line-height:40px;
+        display:block;
+        font-size:14px;
+        border-radius:6px;
+        margin-bottom:20px;
+    }
+}
+.close{
+    background:url(/static/activity/yeartopics/images/colse.png) no-repeat;
+    background-size:80%;
+    width:15px;
+    height:15px;
+    position: absolute;    
+    right: 10%;
+    top: 3%;
+}
+
+.modal_wrap {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    background-color: #000;
+    transition: opacity .15s linear;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    display: none;
+}
+
+.ydbtn{
+    position:absolute;
+    top: 20px;
+    right: 18%;
+    .enindex{
+       background:url(/static/activity/yeartopics/images/index.png) no-repeat;
+       width:105px;
+       height:32px;
+       display:inline-block;
+       margin-right:20px;
+    }
+    .enlogin{
+       background:url(/static/activity/yeartopics/images/login.png) no-repeat;
+       display:inline-block;
+       width:102px;
+       height:32px;
+    }
+}
+
+.registers{
+    width:290px;
+    height:54px;
+    display: block;
+    margin-left: 38%;
+    margin-top: 20px;
+    background:url(/static/activity/yeartopics/images/reight.png) no-repeat;
+}
+.invitebtn{
+    width:290px;
+    height:54px;
+    display: block;
+    margin-left: 38%;
+    margin-top: 20px;
+    background: url(/static/activity/yeartopics/images/inverit.png) no-repeat;
+}
+.loginsuccess{
+    position:absolute;
+    top:15px;
+    width:100%;
+    font-size:18px;
+    color:#fff;
+    .mess_mid{
+        width:1000px;
+        margin:0px auto;
+        display:none;
+        p{
+            text-align: center;
+            background:url(/static/activity/yeartopics/images/backys.png) no-repeat;
+            height:45px;
+            line-height:45px;
+            span{
+                color:#fff100;
+            }
+        }
+    }
+    .mess_mid1{
+        width:1000px;
+        margin:0px auto;
+    }
+}

@@ -1,0 +1,1972 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/kongjian.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/module.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/reset.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/basic.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style2.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/pages.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.autocomplete.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<style type="text/css">
+    .BusinessulControls_box .f_r.r input,.BusinessulControls_box .f_r.r label{vertical-align: middle;margin-top:0px !important;}
+    #companylabel li{border:1px solid #EEEEEE;background:#fff;border-radius: 5px;color:#333;}
+     #companylabel li:hover{border-color:#5C91D9;color:#5C91D9;}
+     body, button, input, select, textarea{
+         font-size:14px;
+     }
+    .addr_box{
+    line-height: 40px;
+    margin-top: 0px !important;
+    border-radius: 5px;
+    margin-right: 1px;
+    float: left;
+    width: 354px;
+    border: 1px solid #e0e0e0;
+{#    padding: 0 5px;#}
+    color: #666;
+    background-position: left 50%;
+    overflow: hidden;
+}
+.addr_box .addr_li {
+    float: left;
+    text-align: center;
+    white-space: nowrap;
+    margin-left:5px;
+    height: 30px;
+    line-height: 30px;
+    padding:0 10px;
+    margin-top: 5px;
+    position: relative;
+}
+.addr_box .addr_li1 {
+    float: left;
+    text-align: center;
+    white-space: nowrap;
+    margin-left:5px;
+    height: 30px;
+    line-height: 30px;
+    padding:0 10px;
+    margin-top: 5px;
+    position: relative;
+}
+.addr_box .addr_li i{
+    font-size: 12px;
+    position: absolute;
+    right: 0px;
+    top: -6px;
+    color: #828282;display: none;
+    width: 12px;height:12px;
+    cursor: pointer;
+}
+.addr_li.error{
+    color:red;
+}
+.addr_li:hover{
+    cursor:default;
+    background-color:#e9e9e9;
+    color:#333;
+}
+.addr_li:hover i{
+    display: block;
+}
+.addr_box .addr_li.active{
+    background-color:#e9e9e9;
+    color:#333333;
+}
+.qyxx_biaodan div .addr_box input{border: none;
+    outline: none;
+    -webkit-appearance: none;
+    width: 100%;
+    float: left;
+    height: 100%;
+    font-size: 14px;}
+    .addr_text {
+    float: left;
+    border: none;
+    overflow: hidden;
+    /*width: 13px;*/min-width: 16px;
+    height: 40px;
+    margin-left: 10px;
+    background: transparent;}
+.ac{width:auto!important;}
+.qyxx_bd1,.qyxx_bd4{overflow: hidden;}
+</style>
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/base.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul_old.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.autocomplete.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position_old.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/major.js"></script>
+<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script>
+<script type="text/javascript" src="http://www.luqidong.com/demo/qrcode/js/qrcode.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/isIdentityAudit.js"></script>
+{# 编辑器引用start #}
+<!-- <script type="text/javascript" charset="utf-8" src="{{ STATIC_URL }}ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="{{ STATIC_URL }}ueditor/ueditor.all.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}ueditor/themes/default/css/ueditor.css"/> -->
+{# 编辑器引用end #}
+<style type="text/css" media="screen">.nav2 *,.content *{box-sizing:content-box;}</style>
+<div class="nav2">{% include 'jobs/system/menu_position.html' %}</div>
+<div class="clear">3</div>
+<div class="clear">2</div>
+<div class="content mt25">
+    <div class="content_l o_fbdzw">
+       <!--  <div class="jsyx_alert mt10" style="margin-bottom: 10px;"> <i class="iconfont icon-gantanhao1"></i>
+            如果个人信息没有全部完成，那么在发布职位前提示完善个人信息，并点击跳转到个人设置页面
+        </div> -->
+            <p class="position_hint">
+                您已发布<span>{{ publishCount }}</span>个职位，还可发布<span>{{ leaveCount }}</span>个职位
+            </p> 
+        <div class="content_l_t ">
+            <div class="clt_float"></div>
+            <div class="content_l_t1">
+                <a href="#" name="1F" class="o_step">
+                    <span>1</span>
+                    完善企业基本信息
+                </a>
+            </div>
+        </div>
+        
+        <div class="mt20 oh select_info">
+            <label for="">请选择已保存过的企业信息</label>
+            <input type="hidden" name="company_id" value="{{ pc_id|default:'' }}" />
+            <select class="select12 f_l" id="companyList" onchange="checkCompany()">
+                <option value="">请选择</option>
+                {% if companyList %}
+                    {% for company in companyList %}
+                        {% if company.pc_name %}
+                            <option value="{{ company.id }}">{{ company.pc_name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </select>
+            <input type="button" name="" value="新增企业" class="btn66 f_l" onclick="addCompany()"></div>
+        <div class="ht20"></div>
+
+{#            <p>常用企业：</p>#}
+{#            <ul>#}
+{#                {% for com in oftenUsePCs %}#}
+{#                <li onclick="checkCompany({{ com.id }})">#}
+{#                    <a  href="javascript:void(0)">{{ com.pc_name }}</a>#}
+{#                    <input type="hidden" name="comid" value="{{ com.id }}" />#}
+{#                </li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+            <div class="clear"></div>
+  
+        <div class="qyxx_biaodan">
+            <div class="qyxx_bd1">
+                <p>招聘企业显示名称</p>
+{#                <label id="company_name">{{ tpc.pc_name }}</label>#}
+                <input class="bitian" type="text" name="zpqymc" id="company_name"  value="{{ tpc.pc_name }}" placeholder="请输入企业显示名称，如：某网络技术有限公司">
+                <!-- <span class="ml25"style="color:#ff6a6a" >
+                    {% if tpc.pc_name %} <i class="iconfont icon-gou"></i>
+                    {% else %}
+                    <i class="iconfont icon-gantanhao"></i>
+                    必填 {% endif %}
+                </span> -->
+            </div>
+            <div class="qyxx_bd1">
+                <p>招聘企业备注名称</p>
+{#                <label id="remark_name">{{ tpc.pc_remark_name }}</label>#}
+                <input type="text" name="remarkname" id="remark_name" value="{{ tpc.pc_remark_name|default:'' }}" placeholder="请输入企业备注名称，如：怀才当遇">
+            </div>
+            <div class="qyxx_bd1">
+                <p>企业所在地</p>
+                <div class="bitian" style="float:left;text-indent: 0px;">
+{#                    <label id="location">{{ tpc.location }}</label>#}                    
+                    <input  class="area_select" type="text" onclick="showArea(this,1, false)" id="location"  name="qyworkarea" value="{{ tpc.locationName|default:'' }}"  placeholder="工作地点" >
+                    <input type="hidden" name="qyWork_Area"  value="{{ tpc.location|default:'' }}"  />
+                    <!-- <span class="ml25"style="color:#ff6a6a" >
+                    {% if tpc.pc_name %} <i class="iconfont icon-gou"></i>
+                    {% else %}
+                    <i class="iconfont icon-gantanhao"></i>
+                    必填 {% endif %}
+                </span> -->
+                </div>
+            </div>
+            <div class="qyxx_bd1 pr">
+                <p style="line-height: 40px;">企业所属行业</p>
+                <!-- <i class="matters"></i> -->
+                <div class="bitian" style="text-indent: 0px;float:left;">
+{#                    <label id="industry">{{ tpc.business }}</label>#}
+{#                    <input  class="bitian" type="text" id="industry"   name="experienc"   placeholder="当前行业"#}
+{#                        value="{{ tpc.businessName|default:'' }}"    onclick="showBusinessul(this,1)" width="" >#}
+                    <div id="businessulDiv" class="bitian"  onclick="BusinessulControlsShow(1,this)"></div>
+                    <input type="hidden" name="qyIndustry_Type"   value="{{ tpc.business|default:'' }}" />
+                    <!-- <span style="color:#ff6a6a;margin-left: 21px" >
+                        {% if tpc.business %}
+                        <i class="iconfont icon-gou"></i>
+                        {% else %}
+                        <i class="iconfont icon-gantanhao"></i>
+                        必填 {% endif %}
+                    </span> -->
+                </div>
+            </div>
+            <div class="qyxx_bd3 pr">
+                <p>企业性质</p>
+               <!--  <i class="matters"></i> -->
+{#                <label id="nature">{{ tpc.nature }}</label>#}
+                <select style="background-position-y: center;"  class="bitian" name="qyxz" id="nature" value="{{ tpc.nature }}"  >
+                    <option value="">请选择</option>
+                    {% for expect in companyNatures %}
+                    <option value="{{ expect.dictionary_value }}" {% if tpc.nature == expect.dictionary_value %} selected="selected" {% endif %} >{{ expect.dictionary_name }}</option>
+                    {% endfor %}
+                </select>
+                <!-- <span class="ml25"style="color:#ff6a6a" >
+                    {% if tpc.nature %}
+                    <i class="iconfont icon-gou"></i>
+                    {% else %}
+                    <i class="iconfont icon-gantanhao"></i>
+                    必填 {% endif %}
+                </span> -->
+            </div>
+
+            <div class="qyxx_bd3 pr">
+                <p>企业规模</p>
+              <!--   <i class="matters"></i> -->
+{#                <label id="scale">{{ tpc.scale }}</label>#}
+                <select style="background-position-y: center;"  class="bitian" name="qyqygm" id="scale" value="{{ tpc.scale }}"  >
+                    <!-- <option value="12110000">所有</option> -->
+                    <option value="">请选择</option>
+                    {% for expect in companyScales %}
+                        {% if expect.dictionary_value != 12110000 %}
+                            <option value="{{ expect.dictionary_value }}" {% if tpc.scale == expect.dictionary_value %} selected="selected" {% endif %}>{{ expect.dictionary_name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <!-- <span class="ml25"style="color:#ff6a6a" >
+                    {% if tpc.scale %}
+                    <i class="iconfont icon-gou"></i>
+                    {% else %}
+                    <i class="iconfont icon-gantanhao"></i>
+                    必填 {% endif %}
+                </span> -->
+            </div>
+
+            <div class="qyxx_bd4">
+                <p>企业简介</p>
+{#                <label for="introduce">{{ tpc.introduce }}</label>#}
+                <textarea name="qyjj" id="introduce" cols="" rows="" id="qyjj" onkeydown="countChar(this,500);" style="padding: 5px"    onkeyup="countChar(this,500);">{{ tpc.introduce|default:''  }}</textarea>
+                <br/>
+                <div class="clear" style="min-height: 0px;"></div>
+                <div style="text-align: right;padding-right: 115px;">
+                    最多输入500字，目前已经输入
+                    <span  id="counter1" style="color:#ff8800;font-weight:bold">0</span>
+                    字
+                </div>
+            </div>
+        </div>
+
+        <div class="grxx_tag_box clearfix mt20 oh grxx_tag_box1"  style="border-top: 0; width:500px; margin:0px auto;">
+           <div style="font-size: 14px;padding-left: 10px;margin-top: 50px;">
+               企业亮点
+           </div>
+            <ul id="labels" style="margin-top:15px;">
+                {% for label in highlights %}
+                    {% if label != '' %}
+                        <li>{{ label }}
+                            <span style="display:none">X</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+
+            <div style="clear:both"></div>
+            <div class="mt20 bd_bottom1 oh">
+                <div class="qyld1">
+                    <p>                       
+{#                        <label>{{ tpc.highlights }}</label>#}
+                        <span class="ml15" onclick="changeLabel()">
+                            <input type="hidden" id="pageIndex" value="2" />
+                            <input type="hidden" id="labelSize" value="{{ labelSize }}" />
+                            <i class="iconfont icon-shuaxin" style="font-size: 16px;color:#ddd"></i>
+                            <a href="javascript:void(0);" style="color:#5C91D9;padding-left: 0" >换一换</a>
+                        </span>
+                    </p>
+                </div>
+                <div class="qyld2">
+                    <input type="text" id="plabel" class="qyld2_text" maxlength="4" placeholder="添加自定义亮点，最多4个字">
+                    <input type="button"  onclick="addTab()" class="qyld2_button" value="贴上"></div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        {#         class="lixz"#}
+        <div class="scqyml">
+            <ul id="companylabel">
+                {% if companyLabels %}
+                    {% for label in companyLabels %}
+                        <li>{{ label.dictionary_name }}</li>
+                    {% endfor %}
+                {% endif %}
+                <div class="clear"></div>
+            </ul>
+            <div class="scqyml2" style="text-align: center;padding-top: 30px;">
+                <input type="button" {% if flag == 1 %} value="修改企业名录" {% else %} value="收藏到企业名录"  {% endif %} onclick="addRecruitment()" style="float:none;"></div>
+        </div>
+        <div class="ht20"></div>
+        <div class="content_l_t">
+            <div class="clt_float"></div>
+            <div class="content_l_t1">
+                <a href="#" name="2F" class="o_step">
+                    <span>
+                        2
+                    </span>
+                    填写职位基本信息
+                </a>
+                <input type="hidden" name="pc_id" value="{{ pc_id }}" ></div>
+        </div>
+        <input name="posid" class="positionIdInput" type="hidden" value="{{ pos.id }}" />
+        <div class="qyxx_biaodan">
+            <div class="qyxx_bd1">
+                <p>职位名称</p>
+                <input class="bitian" maxlength="20" type="text" name="position_name"  value="{{ pos.position_name }}"  >
+            </div>
+            {% if not pu.id in id_list %}
+                <div class="qyxx_bd1">
+                    <p>招聘人数</p>
+                    <input type="text" placeholder='请输入招聘人数，最多不超过20人' maxlength="2" class="bitian" name="position_count"  value="{{ pos.recruit_count|default:'' }}" onkeydown="key_number(this)" onkeyup="key_number(this)" style="padding-left:10px;width:339px;" >
+                </div>
+            {% endif %}
+            <div class="qyxx_bd1">
+                <p>年薪范围</p>
+                <select {% if pos.rewards_money %}disabled="disabled" class="bitian active1" {% else %} class="bitian"{% endif %} name="pay">
+                    <option value="" >{{ pos.default_pay|default:'请选择' }}</option>
+                    {% for pay in paylist %}
+                    <option value="{{ pay.dictionary_value }}" {% if pos.payname == pay.dictionary_name %}  selected="selected" {% endif %}>{{ pay.dictionary_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="qyxx_bd3" >
+                <p style="line-height:40px;">所属行业</p>
+                <div class="bitian" style="text-indent: 0px;float:left;">
+{#                    <input type="text" name="industry_typeName" id="industry_typeName"  placeholder="请选择行业"#}
+{#                             onclick="showBusinessul(this,1)" width="" value="{{ pos.industry_typename|default:'' }}" >#}
+                    <div id="businessDiv" class="bitian" onclick="BusinessulControlsShow(1,this)"></div>
+                    <input type="hidden" name="industry_type" id="industry_type" value="{{ pos.industry_type|default:'' }}"   />
+                </div>
+            </div>
+            <div class="qyxx_bd3">
+                <p style="line-height:40px;">职位类别</p>
+                <div class="bitian" style="text-indent: 0px;float:left;">
+{#                    <input type="text"  placeholder="请选择职位" onclick="positionShow(this)"#}
+{#                        value="{{ pos.postaion_typename|default:'' }}" >#}
+                    <div id="positionDiv" class="bitian" onclick="PositionControlsShow(1,this)"></div>
+                    <input type="hidden" name="postaion_type"  value="{{ pos.postaion_type|default:'' }}"  />
+                </div>
+            </div>
+            <div class="qyxx_bd3">
+                <p>工作性质</p>
+                <select name="work_nature"   >
+                    {% for work_nature in work_naturelist %}
+                    <option value="{{ work_nature.dictionary_value }}" {% if pos.work_nature == work_nature.dictionary_value %}  selected="selected" {% endif %}>{{ work_nature.dictionary_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="qyxx_bd3">
+                <p>工作地点</p>
+                <input class="bitian" type="text" onclick="showArea(this,1, false)"  name="work_areaName"
+                       value="{{ pos.work_areaname|default:'' }}"  placeholder="工作地点" >
+                <input type="hidden" name="work_area" value="{{ pos.work_area|default:'' }}"   />
+            </div>
+            <div class="qyxx_bd1">
+                <p>汇报对象</p>
+                <input class="bitian" type="text" name="report" value="{{ pos.report|default:'' }}" ></div>
+            <div class="qyxx_bd1">
+                <p>下属人数</p>
+                <select name="subordinate"  >
+                    {% for subordinate in subordinatelist %}
+                    <option value="{{ subordinate.dictionary_value }}" {% if pos.subordinate == subordinate.dictionary_value %}  selected="selected" {% endif %}>{{ subordinate.dictionary_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="content_c_t5" style="border-bottom: none">
+            <a href="#" name="3F" class="o_step">
+                <span>
+                    3
+                </span>
+                设定职位要求
+            </a>
+        </div>
+        <div class="qyxx_biaodan">
+            <div class="qyxx_bd1">
+                <p>年龄要求</p>
+                <input class="bitian" type="text" name="age_year1" value="{{ age_year1 | default:'20' }}" style="width:110px;margin:0;float:left">
+                <span class="f_l" style="margin:7px 20px 0 20px">——</span>
+                <input type="text" class="bitian" name="age_year2" value="{{ age_year2 | default:'' }}" style="width:110px;margin:0;float:left"></div>
+            <div class="qyxx_bd1">
+                <p>专业要求</p>
+                <div class="addr_box">
+                    <div class='addr_li1'>不限</div>
+                    <div class="addr_text">
+                        <input type="input" class="addr_input" maxlength="15" value=""  autocomplete="off"/>
+                    </div>
+                </div>
+                 <!-- <input  value="{{ pos.majorname|default:'' }}" type="text" name="majorName" placeholder="选择专业"style=" padding-left:18px; width:330px!important;"  id="majorName" autocomplete="off">
+                <input type="hidden" value="{{ pos.major|default:'' }}" name="major"> --></div>
+            <div class="qyxx_bd1" >
+                <p>工作年限</p>
+                <select class="bitian" name="work_year" id="work"   >
+                    <option value="" selected="selected">不限</option>
+                    {% for year in workyearslist %}
+                    <option value="{{ year.dictionary_value }}" {% if work_year == year.dictionary_value %}  selected="selected" {% endif %}>{{ year.dictionary_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="qyxx_bd1">
+                <p>
+                    <span>学历要求</span>
+                </p>
+                <select class="bitian" name="diploma"  >
+                    <option value="">不限</option>
+                    {% for diplomas in diplomaslist %}
+                    <option value="{{ diplomas.dictionary_value }}" {% if diploma == diplomas.dictionary_value %}  selected="selected" {% endif %}>{{ diplomas.dictionary_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="qyxx_bd4">
+                <p >职位要求</p>
+                <textarea id="zwyq" class="bitian" name="demand" cols="" rows="" onkeydown="countChar(this,1000);"
+                           style="padding:5px 0px 0px 10px; line-height: 20px; height: 200px;width:344px;"   onkeyup="countChar(this,1000);" >{{ pos.demand|default:'' }}</textarea>
+                <br/>
+                <div class="clear" style="min-height: 0px;"></div>
+                <div style="text-align: right;padding-right: 115px;">
+                    最多输入1000字，目前已经输入
+                    <span  id="counter2" style="COLOR:#ff8800;FONT-WEIGHT:bold">0</span>
+                    字
+                </div>
+            </div>
+            <div class="qyxx_bd4">
+                <p>岗位职责</p>
+                <textarea name="Position_Describe" class="bitian" cols="" rows="" id="zwms" onkeydown="countChar(this, 1000);"
+                       style="padding:5px 0px 0px 10px; line-height: 20px; height: 200px;width:344px;"  onkeyup="countChar(this, 1000);" >{{ pos.position_describe|default:'' }}</textarea><br/>
+                <div class="clear" style="min-height: 0px;"></div>
+                <div style="text-align: right;padding-right: 115px;">最多输入1000字，目前已经输入<span  style="COLOR:#ff8800;FONT-WEIGHT:bold">0</span>字</div>
+{#                <div style="margin-left: 450px;"></div>#}
+            </div>
+            <div class="gjss_box" {% if pos.position_server %}style="display:block;margin-left: 73px; "{% else %}style="display:none;margin-left: 73px;"{% endif %}>
+                <div class="fz14 c_66" style="margin-bottom: 0;">  
+                     选择你需要的服务
+                </div>
+                <div class="f_r ltfw" >
+                    <ul id="headhunterServerList" class="tag">
+                        {% if pos.position_server %}
+                            {% for position_server in  position_serverList%}
+                                <li>{{ position_server }}<span onclick="delteServer(this)">X</span></li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+             
+                        <div class="mt20 oh"  style="border: 1px dashed #DDD;min-height: auto;height: 0px;">
+                            <span class="ml15" onclick="changeLabel()">
+                                <input type="hidden" id="pageIndex" value="2">
+                                <input type="hidden" id="labelSize" value="29"></span>
+                        </div>
+                        <ul class="grxx_tag_box grbq_list oh" style="border:none;padding-top:10px;">
+                            {% for server in serverlist %}
+                            <li name="headhunterServer">
+                                <a href="javascript:void(0);">{{ server.dictionary_name }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                   
+                </div>
+                <div style="clear:both"></div>
+               <!--  <div class="jlje_box">
+                    <span class="fz14" style="margin-left: 50px">奖励金额</span>
+                    {% if pos.position_server %}
+                        <span>{{ pos.rewards_money }}</span> <span>元</span>
+                        <input name="rewards_money" type="hidden" value="{{ pos.rewards_money }}" >
+                    {% else %}
+                        <input name="rewards_money" style="width: 50px;" type="text" value="" > <span>元</span>
+                    {% endif %}
+
+                </div> -->
+            </div>
+        </div>
+       <input type="hidden" class="publish_type" value="1">
+        <div class="ht30"></div>
+        <p class="btn_yl_fbzw">
+            {% if pos %}
+                {% if pos.position_status == 1 %}
+                    <input type="button" name="editPosition" class="button3 ml15" onclick="editPosition(1)" value="发布"   />
+                {% else %}
+                    <input type="button" name="editPosition" class="button3 ml15" onclick="editPosition(1)" value="发布"   />
+                    <input type="button" name="savePosition" class="button3 ml15" style="" value="保存草稿箱" onclick="editPosition(2)"/>
+                {% endif %}
+            {% else %}
+                <input type="button" name="editPosition" class="button3 ml15" onclick="editPosition(1)" value="发布"   />
+                <input type="button" name="savePosition" class="button3 ml15" style="" value="保存草稿箱" onclick="editPosition(2)"/>
+            {% endif %}
+
+        </p>
+        <div class="ht10"></div>
+    </div>
+    <div class="page_main_r">
+        <div class="main_r_item">
+            <div class="ht15"></div>
+            <h2 class="r_item_t">
+     
+                职位发布
+            </h2>
+            <div class="ht10"></div>
+            <div class="zwfb_main" style="position: relative;">
+             <img src="{{ STATIC_URL }}images/dh.png" alt="" class="slide">
+                <ul style="padding-left: 35px;margin-left: 20px;border-left:1px solid #CCC">
+                    <li>
+                        <a class="active" href="#1F">
+                      
+                            企业基本信息
+
+                        </a>
+                    </li>
+                    <li>
+              
+                        <a  href="#2F">
+                           
+                            职位基本信息
+                        </a>
+                    </li>
+                    <li>
+                       
+                        <a  href="#3F" id="zwgl" >
+                           
+                            职位要求
+                        </a>
+                    </li>
+                    <!-- <li>
+                   
+                        <a   href="#4F">
+                           
+                            职位设置
+                        </a>
+                    </li> -->
+                </ul>
+                <div class="bor_top">
+                    <div class="ht15"></div>
+                    <p class="btn_ylzw_r">
+                        {% if pos.id %}
+                            <a href="JavaScript:void(0);" onclick="viewPosition()">预览职位</a>
+                        {% endif %}
+                    </p>
+                    <div class="ht20"></div>
+                </div>
+            </div>
+        </div>
+        <div class="ht20"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<input type="hidden" value="{{ allname }}" id="allname" />
+<!-- 模态框（Modal） -->
+<div class="modal fade in" id="add_yy_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:400px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">添加职位过滤器</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" placeholder="过滤器名称" id="filterName" style="width:365px;height:35px;line-height: 35px;border:1px solid #d9d9d9;background-color: #fafafa;text-indent: 10px"></div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" style="width:150px;height:40px;text-align: center;line-height: 40px;color:white;background-color: #5c91d9;border-radius: 5px;font-size: 16px;border:0;" onclick="savePositionFilter()">完成</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade in" id="yy_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:400px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">引用职位过滤器</h4>
+            </div>
+            <div class="modal-body">              
+                <select id="companyFilter" style="width:365px;height:35px;line-height: 35px;border:1px solid #d9d9d9;background-color: #fafafa;">
+                    <option value="">请选择职位过滤器</option>
+                    {% if companyFilters %}
+                        {% for companyFilter in companyFilters %}
+                            <option value="{{ companyFilter.id }}">{{ companyFilter.filter_name }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" style="width:150px;height:40px;text-align: center;line-height: 40px;color:white;background-color: #5c91d9;border-radius: 5px;font-size: 16px;border:0;" data-dismiss="modal" onclick="usefilter()">完成</button>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="modal_backdrop" id="jobissue" style="display:none">
+       <div class="modal_box" style="width:580px;position:absolute;height:300px;left:50%;top:50%;margin-top:-150px;margin-left:-290px;">
+           <em class="b_abs"></em>
+           <img src="/static/images/19_x.png" onclick="window.location='/jobs/position/headhunter/zwgl'" style="display:inline-block;cursor:pointer;width:19px; height:19px; float:right;margin-top:11px;">
+           <div class="issuess">
+             <span class="posttit">职位发布成功</span>
+             <p><i></i><span>扫描二维码随时跟踪该职位投递状况！</span></p>
+             <p><i style="margin-bottom: 48px;"></i><span>转发该职位，让更多人看到并投递，增加招聘成功率！</span></p>
+           </div>
+           <div class="jobpostew">
+              <div class="poscode">
+                  <input type="hidden" id="zwurl"  value="" >
+                  <div id="qrcode"></div>                    
+{#                  <span>微信扫一扫</span>#}
+              </div>
+           </div>
+       </div>
+    </div>  
+    <div class="modal_wrap" style="display:none"></div>
+{% include 'jobs/system/new_footer.html' %}
+<script>
+// 专业多选
+//输入框自动索引联系人
+    function loadsAddr(_this) {
+        var val =$(_this).val();
+        $.ajax({
+            type: "POST",
+            url: "/ajax_getAjaxAllMajorDictionary",
+            dataType: "json",
+            success: function(data) {
+                $(".addr_input").AutoComplete({
+                    'data': data,
+                    'itemHeight': 20,
+                    'width': 'auto',
+                    'afterSelectedHandler': function(data) {
+                        $(".addr_input").val('');
+                        if($('.addr_box :hidden[value=' + data.label + ']').length > 0) {
+                            alert('此专业已添加过！',4);
+                            return false;
+                        }
+                        $('.addr_box .addr_li1').remove();
+                         if($('.addr_box .addr_li').length > 2) {
+                            alert('最多不能超过3个',4);
+                            return false;
+                        }
+                         $(".addr_text").before('<div class="addr_li">' + data.value + ';<i class="iconfont icon-cha"></i><input type="hidden" value="' + data.label + '"/></div>');
+                    },
+                    'listStyle': 'custom',
+                    'emphasis': false,
+                    'createItemHandler': function(index, data) {
+                        return data.value; // 文本显示为绿色，并在前后使用'--'包裹
+                    }
+                }).AutoComplete('show');
+                    //判断是否是转化简历
+            }
+        });
+    }
+
+
+//查询是否存在　返回hidden值
+    function exist(_this) {
+        var val = $.trim($(_this).val());
+        if(val == '') {
+            return '';
+        }
+        val = val.substr(0, val.length - 1);
+        $.ajax({
+            url: '/ajax_get_exit_majorvalue',
+            type: 'POST',
+            dataType: 'json',
+            data: {'dictionary_name': val},
+            success: function(data) {
+                return data;
+            }
+        })
+    }
+//去重复
+    function duplicate(id)
+    {
+        var fag=true;
+        $(".addr_li input").each(function(index, el) {
+            if(id==$(el).val())
+            {
+                alert('已存在！');
+                fag=false;
+            }
+            if(index>=2)
+            {
+                alert('最多不能超过3个');
+                fag=false;
+            }
+        });
+        return fag;
+    }
+
+//光标定位
+    $(".addr_box").on('click', function() {
+        $('.addr_input').focus();
+    })
+    //输入框事件
+    $(".addr_input").on('keyup input', function(event) {
+        var l = $(this).val().length;
+        $(this).parent().width(13 + l * 20);
+        var lastcode = $(this).val().substring(l - 1);
+        $(".addr_li.active").removeClass('active');
+        if( event.keyCode == 38 || event.keyCode==40 ){
+            return false;
+        }
+        loadsAddr(this);
+        //输入了分号即使选中
+        if (lastcode == ";"||lastcode == "；") {
+            if ($.trim($(this).val())!= "") {
+                if(duplicate(exist(this))==false)return;
+                if (exist(this) != "" && typeof(exist(this)) != "undefined")
+                    $(this).parent().before('<div class="addr_li">' + $(this).val() + '<i class="iconfont icon-cha"></i><input type="hidden" value="' + exist(this) + '"/></div>');
+                else
+                    $(this).parent().before('<div class="addr_li error">' + $(this).val() + '<i class="iconfont icon-cha"></i></div>');
+
+                $(this).val('');
+
+            }
+        }
+        //  $(document).on('keydown',function(){
+        //     deleteItemByInput();
+        // })
+    })
+//输入框离开事件
+    $(".addr_input").on('blur', function() {
+        if ($.trim($(this).val())!= "" && $(".ac").css('display') == "none") {
+            if(duplicate(exist(this))==false)return;
+            //数据库查询到数据即添加联系人
+            if (exist(this) != "" && typeof(exist(this)) != "undefined")
+                $(this).parent().before('<div class="35y6-">' + $(this).val() + ';<input type=hidden" value="' + exist(this) + '"/></div>');
+            else
+                $(this).parent().before('<div class="addr_li error">' + $(this).val() + ';<i class="iconfont icon-cha"></i></div>');
+            $(this).val('');
+        }
+    })
+     $(".addr_box").on('click', '.addr_li i', function() {
+        var _this = $(this).parent();
+        _this.remove();
+        // $(".addr_li").removeClass('active');
+        // $(this).addClass('active');
+        // var _this = this;i
+        // $(document).on('keydown', function() {
+        //     deleteItemByActive();
+        // })
+        // if (event && event.preventDefault)
+        //     event.preventDefault();
+        // //IE中阻止函数器默认动作的方式
+        // else
+        //     window.event.returnValue = false;
+        // return false;
+    })
+     // $(document).on('click', function() {
+     //        $(".addr_li").removeClass('active');
+     //        $(document).unbind('keydown');
+     //    })
+     $(".addr_box").on('keydown', '.addr_input', function(event) {
+        $(this).val() == '' && deleteItemByActive(event);
+    });
+    function deleteItemByActive(event) {
+        if (event.keyCode == 8 || event.keyCode == 46) {
+            $(".addr_li:last").remove();
+            if (event && event.preventDefault)
+                event.preventDefault();
+            //IE中阻止函数器默认动作的方式
+            else
+                window.event.returnValue = false;
+            return false;
+        }
+    }
+// 专业多选 
+
+$(function(){
+    $('.addr_box').click(function(event) {
+        $('.addr_li1').css('display', 'none');
+    });
+    $('.addr_text input').blur(function(event) {
+        var addrmes=$('.addr_li').text();
+        if($.trim(addrmes) == ''){
+           $('.addr_li1').css('display', 'block');
+        }else{
+           $('.addr_li1').css('display', 'none');
+        }
+        
+    });
+
+    BusinessulControls("businessulDiv","{{ tpc.businessName | default:"" }}","{{ tpc.business | default:"" }}",
+        'width:356px;font-size:14px;');
+    BusinessulControls("businessDiv","{{ pos.industry_typename | default:"" }}","{{ pos.industry_type | default:"" }}",
+        'width:356px;font-size:14px;');
+    PositionControls("positionDiv","{{ pos.postaion_typename | default:"" }}","{{ pos.postaion_type | default:"" }}",
+                'width:356px;font-size:14px;');
+
+    isCouldPublicPosition();
+     //右侧内容滑动
+        $(".zwfb_main li").click(function(event) {
+            $(".zwfb_main .slide").stop(true,false).animate({top:10+41*$(this).index()+"px"}, 200)
+        });
+        $(window).scroll(function(event) {
+            if($(this).scrollTop()<$(".o_step").eq(1).offset().top-20){
+                $(".zwfb_main .slide").stop(true,false).animate({top:10+41*0+"px"}, 200)
+                $(".zwfb_main li a").removeClass('active').eq(0).addClass('active');
+            }
+            else if($(".o_step").eq(1).offset().top-20<=$(this).scrollTop() && $(this).scrollTop()<$(".o_step").eq(2).offset().top-20){
+                $(".zwfb_main .slide").stop(true,false).animate({top:10+41*1+"px"}, 200)
+                $(".zwfb_main li a").removeClass('active').eq(1).addClass('active')
+            }
+            else{
+                $(".zwfb_main .slide").stop(true,false).animate({top:10+41*2+"px"}, 200)
+                $(".zwfb_main li a").removeClass('active').eq(2).addClass('active')
+            }
+        });
+});
+$(document).scroll(function(){
+    var p=$(document).scrollTop();
+    var l=$(".content_l").offset().top;  
+    if(p*1>=parseInt($(".content_l").css('height'))-200)
+    {
+        return;
+    }        
+    if(p*1>=l*1){
+        $(".page_main_r").css('margin-top',p*1-l*1+"px");
+    }
+    else{
+         $(".page_main_r").css('margin-top',0+"px");
+    }
+})
+$("#position_server").click(function(){
+    if($(this)[0].checked)
+    {
+        $(".gjss_box").show();
+    }
+    else
+    {
+        $(".gjss_box").hide();
+    }
+})
+$(".sex_box span").click(function(event) {
+    $(this).parent().children('span').removeClass('active');
+    $(this).addClass('active');
+})
+$(document).on('click','.icon-jiahao',function(){
+    var index=$(this).parent().siblings().length;
+    if(index>=9)
+    {
+        return;
+    }
+    $(this).parent().after('<dl class="oh mt10"><input type="text" ><i class="iconfont icon-jiahao fz18 f_l" style="margin-top: 6px;cursor: pointer"></i></dl>');
+    $(this).removeClass('icon-jiahao').addClass('icon-jianhao');
+})
+$(document).on('click','.icon-jianhao',function() {
+    $(this).parent().remove();
+})
+
+var flag=false;
+window.onload=function(){
+    PageInit();
+
+    //标签添加处理
+    $("li[name='headhunterServer']").click(function() {
+        if ($("#headhunterServerList li:contains('" + $.trim($(this).text()) + "')").length == 0) {
+            $("#headhunterServerList").append("<li>" + $.trim($(this).text()) + "<span onclick=\"delteServer(this)\">x</span></li>");
+        }
+    });
+}
+
+//标签删除处理
+function delteServer(obj){
+    $(obj).parent().remove();
+}
+
+    $(document).on('click','.normal.selected',function(){
+        location.href="findRecruitment?name="+ $.trim($(this).text());
+    });
+
+$(document).on('keydown','.normal.selected',function(e) {
+    $("[name=zpqymc]").val($(this).text())
+});
+    function positionShow(obj){
+        showPosition(obj,$("#industry_typeName").val(),$("#industry_type").val(),1);
+    }
+
+    function filter_positionShow(obj){
+        showPosition(obj,$("#filter_industryName").val(),$("#filter_industry").val(),3);
+    }
+
+function editPosition(type){
+    // 判断是否可以发步职位
+    if(type == 1) {
+        var flag = isCouldPublicPosition();
+        if(flag == false) {
+            return false;
+        }
+    }
+
+    /*---------------------企业信息判断start---------------------*/
+    var company_name = $.trim($('#company_name').val());
+    if(company_name == ''){
+        window.alert('招聘企业名称不能为空',4);
+        $('#company_name').focus();
+        return;
+    }
+    var location = $('#location').next().val();
+    if(location == ''){
+        window.alert('企业所在地不能为空',4);
+        $('#location').focus();
+        return;
+    }
+    var business = $('#businessulDiv').next().val();
+    if(business == ''){
+        $("html,body").animate({ scrollTop: $('.content_l_t1:eq(0)').offset().top},500,function(){});
+        window.alert('企业所属行业不能为空',4);
+        $('#businessulDiv').focus();
+        return;
+    }
+    var nature = $('#nature').val();
+    if(nature == ''){
+        window.alert('请选择企业性质',4);
+        $('#nature').focus();
+        return;
+    }
+    var scale = $('#scale').val();
+    if(scale == ''){
+        window.alert('请选择企业规模',4);
+        $('#scale').focus();
+        return;
+    }
+    if($.trim($("#introduce").val().replace(/<br>/g,"\n")).length>500){
+        alert("企业简介不能超过500个字符",2);
+        return false;
+    }
+    /*---------------------基本信息start---------------------*/
+    var id= $("input[name='posid']").val(); // 主键ID
+    var pc_id = $("input[name='company_id']").val(); // 所属企业ID
+    pc_id = saveCompany(pc_id);
+    if(pc_id == null){
+        window.alert('保存企业失败',2);
+        return;
+    }
+{#    if(!pc_id || pc_id == ''){#}
+{#        window.alert('填写有效的招聘企业');#}
+{#        return;#}
+{#    }else{#}
+{#    }#}
+    var position_name = $.trim($("input[name='position_name']").val()); //职位名称
+
+     //薪资范围
+    var pay="";
+    if($("select[name='pay']").val() == ""){ //如果选择的是面议，则添加所有值
+        $("select[name='pay'] option").each(function(){
+            if(pay == ""){
+                pay = $("select[name='pay']").val();
+            }
+            else{
+                pay += ","+ $("select[name='pay']").val();
+            }
+        });
+    }else{
+        pay = $("select[name='pay']").val()
+    }
+
+    var industry_type = $("input[name='industry_type']").val(); //所属行业
+    var postaion_type = $("input[name='postaion_type']").val(); //职位类别
+    //职位发布必填项判断（职位名称、年薪、所属行业、职位类别）
+    if($.trim(position_name) == ''){
+        window.alert('职位名称不能为空',4);
+        $("input[name='position_name']").focus();
+        return;
+    }
+    if(pay == '' && $("select[name='pay']").children('option:first').text() == '请选择'){
+        $("html,body").animate({ scrollTop: $('.content_l_t1:eq(1)').offset().top},500,function(){});
+        window.alert('年薪范围不能为空',4);
+        return;
+    }
+    if(industry_type == ''){
+        $("html,body").animate({ scrollTop: $('.content_l_t1:eq(1)').offset().top},500,function(){});
+        window.alert('所属行业不能为空',4);
+        return;
+    }
+    if(postaion_type == ''){
+        $("html,body").animate({ scrollTop: $('.content_l_t1:eq(1)').offset().top},500,function(){});
+        window.alert('职位类别不能为空',4);
+        return;
+    }
+    var work_nature = $("select[name='work_nature']").val(); //工作性质
+    var work_area = $("input[name='work_area']").val(); //工作地点
+    if(work_area == ''){
+        $("html,body").animate({ scrollTop: $('.content_l_t1:eq(1)').offset().top},500,function(){});
+        window.alert('请选择工作地点',4);
+        return;
+    }
+    var report = $("input[name='report']").val(); //汇报对象
+    if($.trim(report) == ''){
+        window.alert('请填写汇报对象',4);
+        $("input[name='report']").focus();
+        return;
+    }
+    var subordinate = $("select[name='subordinate']").val(); //下属人数
+    var position_describe = $("#zwms").val().replace(/\n/g,"<br>"); //职位描述
+    if($.trim(position_describe).length == 0){
+        window.alert('请填写岗位职责');
+        return;
+    }
+    if($.trim(position_describe).length < 6){
+        window.alert('岗位职责不能小于6个字');
+        return;
+    }
+    /*---------------------基本信息end---------------------*/
+
+    /*---------------------职位要求start---------------------*/
+    //年龄要求
+    var ageReg = /[0-9]+$/;
+    var minAge = $("input[name='age_year1']").val();
+    var maxAge = $("input[name='age_year2']").val();
+    if(!ageReg.test(minAge) || !ageReg.test(maxAge)){
+        alert("年龄输入不合法!",2);
+        return false;
+    }
+    minAge = parseInt(minAge);
+    maxAge = parseInt(maxAge);
+    if(minAge < 18) {
+        alert("您发布职位的最小年龄不能小于 18 岁!",2);
+        return false;
+    }
+    if(minAge > maxAge) {
+        alert("该职位的年龄段不符合规范!",2);
+        return false;
+    }
+    var age_year = minAge + "," + maxAge;
+
+    // if($(".addr_box .error").length  > 0) {
+    //     $(".addr_box .error").each(function() {
+    //         $(this).remove();
+    //     });
+    // }
+{#    if($(".addr_box .addr_li").length  == 0) {#}
+{#        alert('请输入并选择专业要求!', 4);#}
+{#    }#}
+    var major = '';
+    $(".addr_box .addr_li").each(function() {
+        if(major == '') major += $(this).find("input:hidden").val();
+        else            major += '**' + $(this).find("input:hidden").val();
+    });
+
+    //工作年限
+    var work_year = $("select[name='work_year']").val();
+    if(work_year == ''){
+{#        $("html,body").animate({ scrollTop: $('.content_c_t5:eq(0)').offset().top},500,function(){});#}
+{#        window.alert('请选择工作年限要求');#}
+{#        return;#}
+    }
+
+    //学历要求
+    var diploma =  $("select[name='diploma']").val();
+    //if(diploma == ''){
+    //   $("html,body").animate({ scrollTop: $('.content_c_t5:eq(0)').offset().top},500,function(){});
+    //    window.alert('请选择学历要求');
+    //    return;
+    //}
+     //专业
+    if($(".addr_li.error").length>0)
+    {
+        window.alert('请填正确的专业',4);
+        return;
+    }
+    var demand = $("#zwyq").val().replace(/\n/g,"<br>"); //岗位要求
+    if($.trim(demand).length == 0){
+        window.alert('请填写职位要求',4);
+        return;
+    }
+    if($.trim(demand).length > 1000){
+        window.alert('职位要求不能超过1000个字符',2);
+        return;
+    }
+    /*---------------------职位要求end---------------------*/
+
+    /*---------------------过滤start---------------------*/
+    //年龄要求
+    var filter_year = "";
+    if($("input[name='filter_age1']").val() != "" && $("input[name='filter_age2']").val() != ""){
+        var age1 = parseInt($("input[name='filter_age1']").val());
+        var age2 = parseInt($("input[name='filter_age2']").val());
+
+        for(var i = age1;i<= age2;i++){
+            if(filter_year == ""){
+                filter_year = i;
+            }
+            else{
+                filter_year += "," + i;
+            }
+        }
+    }
+
+    //性别
+    var filter_sex = "";
+    if($.trim($("span[name='filter_sex'][class='active']").text()) != "不限"){
+        filter_sex = $.trim($("span[name='filter_sex'][class='active']").text());
+    }
+
+    //学历
+    var filter_diploma = "";
+    if($("select[name='filter_diploma1']").val() != "" || $("select[name='filter_diploma2']").val() != ""){
+        $("select[name='filter_diploma1'] option").each(function(){
+            if($(this).val() == $("select[name='filter_diploma1']").val()){
+                filter_diploma = $(this).val();
+            }
+            else{
+                if(filter_diploma != ""){
+                    filter_diploma += "," + $(this).val();
+
+                    if($(this).val() == $("select[name='filter_diploma2']").val()){
+                        return false;
+                    }
+                }
+            }
+
+        });
+    }
+
+    //目前居住地
+{#    var filter_area = $("input[name='filter_area']").val() == ""?"":$("input[name='filter_area']").val();#}
+    var filter_area = '';
+
+    //工作年限
+    var filter_work_year = "";
+    if($("select[name='filter_work_year1']").val() != "" || $("select[name='filter_work_year2']").val() != ""){
+        $("select[name='filter_work_year1'] option").each(function(){
+            if($(this).val() == $("select[name='filter_work_year1']").val()){
+                filter_work_year = $(this).val();
+            }
+            else{
+                if(filter_work_year != ""){
+                    filter_work_year += "," + $(this).val();
+
+                    if($(this).val() == $("select[name='filter_work_year2']").val()){
+                        return false;
+                    }
+                }
+            }
+
+        });
+    }
+
+    //薪资
+    var filter_pay = "";
+    if($("select[name='filter_pay1']").val() != "" || $("select[name='filter_pay2']").val() != ""){
+        $("select[name='filter_pay1'] option").each(function(){
+            if($(this).val() == $("select[name='filter_pay1']").val()){
+                filter_pay = $(this).val();
+            }
+            else{
+                if(filter_pay != ""){
+                    filter_pay += "," + $(this).val();
+
+                    if($(this).val() == $("select[name='filter_pay2']").val()){
+                        return false;
+                    }
+                }
+            }
+
+        });
+    }
+
+{#    var filter_industry = $("input[name='filter_industry']").val(); //所属行业#}
+{#    var filter_position = $("input[name='filter_position']").val(); //职位类别#}
+    var filter_industry = ''; //所属行业
+    var filter_position = ''; //职位类别
+
+    /*---------------------过滤end---------------------*/
+
+    //猎头服务
+    var position_server = "";
+    var rewards_money = "";
+
+    if($(".gjss_box").is(':visible')){
+        $("#headhunterServerList li").each(function(){
+            if(position_server == ""){
+                position_server = $.trim($(this).text());
+            }
+            else{
+                position_server += "," + $.trim($(this).text());
+            }
+        })
+        position_server = position_server.replace(/\X/g, "");
+        rewards_money = $("input[name='rewards_money']").val();
+    }
+    var position_count = $("input[name='position_count']").val();
+    if(position_count == ''){
+        position_count = 1;
+    }
+    //是否保密职位
+    var isconfidentiality = 0;
+    if(type == 1) {
+        $('input[name="editPosition"]').attr('disabled', 'true').addClass('load_btn');
+    }else{
+        $('input[name="savePosition"]').attr('disabled', 'true').addClass('load_btn');
+    }
+    $(".publish_type").val(type);
+    $.ajax({
+        type: "POST",
+        url: "/jobs/ajax_postionEdit",
+        data: {
+            "id": id,
+            "pc_id": pc_id,
+            "position_name": position_name,
+            "position_count":position_count,
+            "pay": pay,
+            "industry_type": industry_type,
+            "postaion_type": postaion_type,
+            "work_nature": work_nature,
+            "work_area": work_area,
+            "report": report,
+            "subordinate": subordinate,
+            "position_describe": position_describe,
+            // "position_describe":"",
+            "age_year": age_year,
+            "major": major,
+            "work_year": work_year,
+            "diploma": diploma,
+            "demand": demand,
+            "filter_pay": filter_pay,
+            "filter_year": filter_year,
+            "filter_sex": filter_sex,
+            "filter_diploma": filter_diploma,
+            "filter_area": filter_area,
+            "filter_work_year": filter_work_year,
+            "isconfidentiality": isconfidentiality,
+            "filter_industry":filter_industry,
+            "filter_position":filter_position,
+            "position_source":2, //简历来源 1 企业，2 猎头
+            "position_server": position_server,
+            // "rewards_money": rewards_money
+            "rewards_money":"",
+
+            'contact_user_name': '',
+            'contact_current_post': '',
+            'contact_phone': '',
+            'contact_email': '',
+            'type': type
+        },
+        dataType: "json",
+        success: function(data){
+            if(data.posid != ""){
+                var positionId = $(".positionIdInput").val();
+                if(positionId != '') {
+                    // alert('更新成功!',1)
+                } else {
+                    // alert("发布成功!",1);
+                }
+                $("input[name='posid']").val(data.posid);
+                if( type == 1) {
+                    var qrcode = new QRCode(document.getElementById("qrcode"), {
+                        width: 95,
+                        height: 95
+                    });
+                    qrcode.makeCode('http://home.hcdyhr.com/mobile/personal/position_detail?position_id=' + data.posid);
+{#                    $("#jobissue").show().next().show();#}
+                    jobissue();
+                }
+                else{
+                    alert('保存成功',1);
+                    window.location.href = "/position/headhunter/draft";
+                }
+                // if($("input[name='editPosition']").val() == "发布"){
+                //     $("input[name='editPosition']").val("保存");
+                // }
+            }
+            else{
+                alert("发布失败",4);
+                $('input[name="editPosition"]').removeAttr('disabled', 'true').removeClass('load_btn');
+                $('input[name="savePosition"]').removeAttr('disabled', 'true').removeClass('load_btn');
+            }
+        }
+    });
+}
+
+    function countChar(obj,maxNum){
+        //得到输入的字符的长度
+        var NowNum = $.trim($(obj).val().length);
+        //判断输入的长度是否超过规定的长度
+        if(NowNum>maxNum){
+           //如果超过就截取规定长度的内容
+            $(obj).val($(obj).val().substring(0,maxNum));
+            $(obj).parent().find("span").text(maxNum);
+        }
+        else{
+        //得到当前的输入长度并且显示在页面上
+            $(obj).parent().find("span").text(NowNum);
+        }
+    }
+
+    function PageInit(){
+        $("textarea").each(function(){
+           countChar($(this),500);
+        });
+    }
+
+    //职位发布删除框
+    function jobissue(){
+        {% if pu.id in id_list %}
+            window.location = '/jobs/position/success_recommend?position_id=' + $("input[name='posid']").val();
+        {% else %}
+            $("#jobissue").show().next().show();
+        {% endif %}
+        // var publish_type = $(".publish_type").val();
+        // if(publish_type == '2') {
+        //         window.location.href = "/jobs/position/headhunter/draft";
+        // } else {
+        //     var pay_value = $("select[name=pay] :selected").attr('value');
+        //     if(pay_value != '12027000' && pay_value != '22530000')
+        //         window.location = '/jobs/position/success_recommend?position_id=' + $("input[name='posid']").val();
+        //     else
+        //         window.location = '/jobs/position/headhunter/zwgl';
+        // }
+    }
+    //添加标签
+    function addTab(){
+        var plabel = $('#plabel').val();
+        if(plabel != ''){
+            var labels = $('#labels').children('li');
+            if(labels.length>8){
+                    alert("你添加的标签太多了,不能再继续添加!",2);
+                    return
+                 }
+            for(var i = 0;i < labels.length;i++){
+                if($.trim(plabel) == $.trim(labels.eq(i).text().replace('X', ''))){
+                    alert("不能添加相同的标签!",2);
+                    return
+                }
+            }
+
+            var em = '<li>' + plabel + '<span style="display:none">X</span></li>';
+            $('#labels').append(em);
+            $("#labels li").mouseover(function(){
+                $(this).children().css('display','inline');
+            })
+            $("#labels li").mouseout(function(){
+                $(this).children().css('display','none');
+            })
+            $("#labels li span").click(function(){
+                $(this).parent().remove();
+            })
+        }else{
+            window.alert("请填写要添加的标签！",4);
+        }
+    }
+
+
+    //系统自带标签点击事件处理
+    $('.scqyml li').click(function(){
+        var em = '<li>' + $(this).text() + '<span style="display:none">X</span></li>';
+        var labels = $('#labels').children('li');
+        if(labels.length>7){
+            alert("你添加的标签太多了,不能再继续添加!",2);
+            return
+        }
+        for(var i = 0;i <labels.length;i++){
+            if($.trim($(this).text()) == $.trim(labels.eq(i).text().replace('X', ''))){
+                alert("不能添加相同的标签!",2);
+                return
+            }
+        }
+        $('#labels').append(em);
+        $("#labels li").mouseover(function(){
+            $(this).children().css('display','inline');
+        })
+        $("#labels li").mouseout(function(){
+            $(this).children().css('display','none');
+        })
+        $("#labels li span").click(function(){
+            $(this).parent().remove();
+        })
+    })
+
+
+    function setfilter(id){
+        $.ajax({
+            type: "POST",
+            url: "ajax_findfilter",
+            data: {'id':id},
+            dataType: "json",
+            success: function(data){
+                $("[name=filtername]").val(data.fname);
+                $("[name=age1]").val(data.ageleft);
+                $("[name=age2]").val(data.ageright);
+                $("#hidesex").val(data.sex);
+                $("[name=filterDiploma]").val(data.diploma);
+                $("[name=filterworkarea]").val(data.area);
+                $("#filterworekareaname").val(data.areaname);
+                var num=parseInt(data.sex)+1;
+                $("input[name=bsex]").eq(num).css('color','red');
+                var s = $("[name=filterWorkYear] option");
+                for(var i=0;i<s.size(); i++){
+                    var tempValue = s[i].value;
+                    if(tempValue == data.work_year) //这里是你要选的值
+                    {
+                        s[i].selected = true;
+                    }
+                }
+                var sPay = $("[name=filter_pay] option");
+                for(var i=0;i<sPay.size(); i++){
+                    var tempValue = sPay[i].value;
+                    if(tempValue == data.pay) //这里是你要选的值
+                    {
+                        sPay[i].selected = true;
+                        break;
+                    }
+                }
+                location.href = "#3F";
+            }
+        });
+    }
+
+    function fenye(ys){
+        var ccpage=$("#currentpage").text();
+        var page;
+        if(parseInt(ys) != 0){
+            page = parseInt(ccpage) + 1;
+        }else {
+            page = parseInt(ccpage) - 1;
+        }
+        var fydiv=$("#fenye");
+          $.ajax({
+            type: "POST",
+            url: "ajax_fenyefilter",
+            data: {'page':page},
+            dataType: "json",
+            success: function(data){
+                fydiv.empty();
+                var content =getFydata(data.dataInfo);
+                fydiv.append(content);
+                $("#currentpage").text(data.spage);
+
+            }
+        });
+    }
+//使用过滤器
+function usefilter(){
+    var filterId = $('#companyFilter').val();
+    if($('#companyFilter').val() == ''){
+        $('#filterName').val('');
+    }else{
+        $('#filterName').val($('#companyFilter').children('option:selected').text());
+    }
+    if(filterId != ''){
+        $.ajax({
+            type: "POST",
+            url: "/ajax_getFilterById",
+            data: {"filterId": filterId},
+            dataType: "json",
+            success: function (data) {
+                if (!data.msg) {
+                    if(data.filter_area != null && data.filter_area != ''){
+                        $('input[name="filter_area"]').val(data.filter_area);
+                        $('input[name="filter_area"]').prev().val(data.areaName);
+                    }else{
+                        $('input[name="filter_area"]').val('');
+                        $('input[name="filter_area"]').prev().val('');
+                    }
+                    if(data.filter_industry != null && data.filter_industry != ''){
+                        $('input[name="filter_industryName"]').val(data.filter_industry.split('**')[1]);
+                        $('input[name="filter_industry"]').val(data.filter_industry.split('**')[0]);
+                    }else{
+                        $('input[name="filter_industryName"]').val('');
+                        $('input[name="filter_industry"]').val('');
+                    }
+                    var positionStr = data.filter_position;
+                    if(positionStr != null && positionStr != ''){
+                        $('input[name="filter_positionnName"]').val(positionStr.split('**')[1]);
+                        $('input[name="filter_position"]').val(positionStr.split('**')[0]);
+                    }else{
+                        $('input[name="filter_positionnName"]').val('');
+                        $('input[name="filter_positionn"]').val('');
+                    }
+                    //年薪
+                    var year_pays = data.filter_pay.split(',');
+                    $('#filter_pay1').val(year_pays[0]);
+                    $('#filter_pay2').val(year_pays[year_pays.length - 1]);
+                    //工作年限
+                    var work_years = data.filter_work_year.split(',');
+                    $('#work_year1').val(work_years[0]);
+                    $('#work_year2').val(work_years[work_years.length - 1]);
+                    //学历
+                    var diplomas = data.filter_diploma.split(',');
+                    $('#filter_diploma1').val(diplomas[0]);
+                    $('#filter_diploma2').val(diplomas[diplomas.length - 1]);
+                    //年龄
+                    if(data.filter_year != null && data.filter_year != ''){
+                        var ageList = data.filter_year.split(',');
+                        if(ageList[0] != 18){
+                            $('input[name="filter_age1"]').val(ageList[0]);
+                        }else{
+                            $('input[name="filter_age1"]').val('');
+                        }
+                        if(ageList[ageList.length - 1] != 60){
+                            $('input[name="filter_age2"]').val(ageList[ageList.length - 1]);
+                        }else{
+                            $('input[name="filter_age2"]').val('');
+                        }
+                    }
+                    if(data.filter_sex == '男'){
+                        $('span[name="filter_sex"]').attr('class', '');
+                        $('span[name="filter_sex"]').eq(1).attr('class', 'active');
+                    }else if(data.filter_sex == '女'){
+                        $('span[name="filter_sex"]').attr('class', '');
+                        $('span[name="filter_sex"]').eq(2).attr('class', 'active');
+                    }else{
+                        $('span[name="filter_sex"]').attr('class', '');
+                        $('span[name="filter_sex"]').eq(0).attr('class', 'active');
+                    }
+
+                } else {
+                    window.alert(data.msg,4);
+                }
+            }
+        });
+    }else{
+        $('.qyxx_biaodan').eq(3).find('input[type="text"]').val('');
+        $('.qyxx_biaodan').eq(3).find('input[type="hidden"]').val('');
+        $('.qyxx_biaodan').eq(3).find('select').val('');
+    }
+}
+//保存职位过滤器
+function savePositionFilter(){
+    var filterName = $('#filterName').val();
+    if(filterName == ''){
+        window.alert('请填写过滤器名称',4);
+        return;
+    }else{
+        var filterId = $('#companyFilter').val();
+        var filter_year = "";
+        if($("input[name='filter_age1']").val() != "" && $("input[name='filter_age2']").val() != ""){
+            var startAge = parseInt($("input[name='filter_age1']").val());
+            var endAge = parseInt($("input[name='filter_age2']").val());
+            if(startAge == ''){
+                for(var m = 18;m < endAge;m++){
+                    if(filter_year == ''){
+                        filter_year += m;
+                    }else{
+                        filter_year += ',' + m;
+                    }
+                }
+                filter_year += ',' + endAge;
+            }else if(endAge == ''){
+                filter_year = startAge;
+                for(var m = startAge;m <= 60;m++){
+                     filter_year += ',' + m;
+                }
+            }else{
+                filter_year = '';
+                for(var m = startAge;m <= endAge;m++){
+                     if(filter_year == ''){
+                        filter_year += m;
+                    }else{
+                        filter_year += ',' + m;
+                    }
+                }
+            }
+        }
+        //性别
+        var filter_sex = "";
+        if($.trim($("span[name='filter_sex'][class='active']").text()) != "不限"){
+            filter_sex = $.trim($("span[name='filter_sex'][class='active']").text());
+        }
+
+        //学历
+        var filter_diploma = "";
+        if($("select[name='filter_diploma1']").val() != "" || $("select[name='filter_diploma2']").val() != ""){
+            $("select[name='filter_diploma1'] option").each(function(){
+                if($(this).val() == $("select[name='filter_diploma1']").val()){
+                    filter_diploma = $(this).val();
+                }
+                else{
+                    if(filter_diploma != ""){
+                        filter_diploma += "," + $(this).val();
+
+                        if($(this).val() == $("select[name='filter_diploma2']").val()){
+                            return false;
+                        }
+                    }
+                }
+
+            });
+        }
+        //目前居住地
+        var filter_area = $("input[name='filter_area']").val() == ""?"":$("input[name='filter_area']").val();
+        //工作年限
+        var filter_work_year = "";
+        if($("select[name='filter_work_year1']").val() != "" || $("select[name='filter_work_year2']").val() != ""){
+            $("select[name='filter_work_year1'] option").each(function(){
+                if($(this).val() == $("select[name='filter_work_year1']").val()){
+                    filter_work_year = $(this).val();
+                }
+                else{
+                    if(filter_work_year != ""){
+                        filter_work_year += "," + $(this).val();
+
+                        if($(this).val() == $("select[name='filter_work_year2']").val()){
+                            return false;
+                        }
+                    }
+                }
+
+            });
+        }
+        //薪资
+        var filter_pay = "";
+        if($("select[name='filter_pay1']").val() != "" || $("select[name='filter_pay2']").val() != ""){
+            $("select[name='filter_pay1'] option").each(function(){
+                if($(this).val() == $("select[name='filter_pay1']").val()){
+                    filter_pay = $(this).val();
+                }
+                else{
+                    if(filter_pay != ""){
+                        filter_pay += "," + $(this).val();
+
+                        if($(this).val() == $("select[name='filter_pay2']").val()){
+                            return false;
+                        }
+                    }
+                }
+
+            });
+        }
+        var filter_industry = $("input[name='filter_industry']").val(); //所属行业
+        var filter_position = $("input[name='filter_position']").val(); //职位类别
+        $.ajax({
+            type: "POST",
+            url: "/ajax_filterOperate",
+            data: {"filterId": filterId, "filterName": filterName, "area": filter_area, "filter_position": filter_position, 'filter_industry':filter_industry,
+                "pay": filter_pay, "work_year": filter_work_year, "diploma": filter_diploma, "rangeAge": filter_year, "sex": filter_sex},
+            dataType: "json",
+            success: function (data) {
+                if(data.msg == 'success'){
+                    if(filterId == ''){
+                        //没有选中过滤器时，新增过滤器
+                        $('#companyFilter').append('<option value="'+data.id+'">'+filterName+'</option>');
+                    }else{
+                        //选中了过滤器时，修改过滤器名称
+                        $('#companyFilter').children('option[value='+filterId+']').text(filterName);
+                    }
+                    window.alert('保存成功！',1);
+                }else{
+                    window.alert(data.msg,4);
+                }
+            }
+        })
+    }
+}
+function getFydata(dataInfo){
+        var content="";
+        var num=0;
+         $(dataInfo).each(function() {
+             var _this=dataInfo[num];
+             if(dataInfo[0][num]==undefined){
+                 return
+             }
+             content+=' <li><a href="javascript:void (0)" onclick="setfilter('+$(_this)[0]+')">'+$(_this)[2]+'</a></li>';
+             num++;
+         });
+        return content
+}
+
+//新增企业（置空企业信息）
+function addCompany(){
+    $('#businessulDiv').children(':gt(0)').remove();
+    $('.qyxx_biaodan:first').find('input').val('');
+    $('input[name="company_id"]').val('');
+    $('.qyxx_biaodan:first').find('select').val('');
+    $('.qyxx_biaodan:first').find('textarea').val('');
+    $('#labels').children().remove();
+}
+//
+function addRecruitment(){
+    /*---------------------企业信息判断start---------------------*/
+
+    var company_name = $.trim($('#company_name').val());
+    if(company_name == ''){
+        window.alert('招聘企业名称不能为空',4);
+        $('#company_name').focus();
+        return;
+    }
+    var location = $('#location').next().val();
+    if(location == ''){
+        window.alert('企业所在地不能为空',4);
+        $('#location').focus();
+        return;
+    }
+    var business = $('#businessulDiv').next().val();
+    if(business == ''){
+        $("html,body").animate({ scrollTop: $('.content_l_t1:eq(0)').offset().top},500,function(){});
+        window.alert('企业所属行业不能为空',4);
+        $('#businessulDiv').focus();
+        return;
+    }
+    var nature = $('#nature').val();
+    if(nature == ''){
+        window.alert('请选择企业性质',4);
+        $('#nature').focus();
+        return;
+    }
+    var scale = $('#scale').val();
+    if(scale == ''){
+        window.alert('请选择企业规模',4);
+        $('#scale').focus();
+        return;
+    }
+    /*---------------------企业信息判断end---------------------*/
+    var pc_id = $("input[name='company_id']").val(); // 所属企业ID
+    var id = saveCompany(pc_id);
+    if(id && id != ''){
+        $("input[name='company_id']").val(id);
+        window.alert('收藏成功',1);
+    }else{
+        window.alert('收藏失败',2);
+    }
+}
+//保存招聘企业信息
+function saveCompany(pc_id){
+    if(!pc_id){
+        pc_id = '';
+    }
+    var company_name = $('#company_name').val();
+    var remark_name = $('#remark_name').val();
+{#    var location = $('#location').val();#}
+{#    var industry = $('#industry').val();#}
+    var location = $('#location').next().val();
+    var industry = $('input[name="qyIndustry_Type"]').val();
+    var nature = $('#nature').val();
+    var scale = $('#scale').val();
+    var introduce = $("#introduce").val().replace(/<br>/g,"\n");
+    var highlights = '';
+    var labels = $('#labels').children('li');
+    if(labels.length > 0){
+        for(var i = 0;i <labels.length;i++){
+            if(highlights == ''){
+                highlights = $.trim(labels.eq(i).text().replace('X', ''));
+            }else{
+                highlights += '**' + $.trim(labels.eq(i).text().replace('X', ''));
+            }
+        }
+
+    }
+    $.ajax({
+        async: false,
+        type: "GET",
+        url: "/jobs/position/headhunter/ajax_zpqyglSave",
+        data: {"id": pc_id, "nature": nature, "show_name": company_name, "remark_name": remark_name, "qyWork_Area": location,
+                "businessulValue": industry, "scale": scale, "introduce": introduce, "highlights": highlights},
+        dataType: "json",
+        success: function(data){
+            pc_id = data.id
+        }
+    })
+    return pc_id;
+}
+//选择发布职位的企业
+function checkCompany(companyId){
+    if(!companyId){
+        companyId = $('#companyList').val();
+    }
+    if(companyId == ''){
+        //当没有选择企业时，清空当前企业信息
+        addCompany();
+        return;
+    }
+    $('input[name="company_id"]').val(companyId);
+    $.ajax({
+        type: "POST",
+        url: "/getAjaxTPcById",
+        data: {"companyId": companyId},
+        dataType: "json",
+        success: function (data) {
+            $('#company_name').val(data.pc_name);
+            $('#remark_name').val(data.pc_remark_name);
+            $('#location').val(data.locationName);
+{#            $('#industry').val(data.businessName);#}
+            $('#BusinessulControls').remove();
+            BusinessulControls("businessulDiv", data.businessName, data.business, 'width:355.5px;margin-top:5px;font-size:14px;');
+            $('#location').next().val(data.location);
+            $('#businessulDiv').next().val(data.business);
+            $('#nature').val(data.nature);
+            $('#scale').val(data.scale);
+            $("#introduce").val(data.introduce.replace(/<br>/,'\n'));
+            $('#labels').children().remove();
+            if((data.highlights != null) && ($.trim(data.highlights) != '')) {
+                var highlights = data.highlights.split('**');
+                for(var m = 0;m < highlights.length;m++){
+                    $('#labels').append('<li>'+highlights[m]+'<span style="display:none">X</span></li>');
+                }
+            }
+            $("#labels li").mouseover(function(){
+                $(this).children().css('display','inline');
+            })
+            $("#labels li").mouseout(function(){
+                $(this).children().css('display','none');
+            })
+            $("#labels li span").click(function(){
+                $(this).parent().remove();
+            })
+{#            $('#labels').text(data.highlights);#}
+        }
+    });
+}
+//换一换标签
+function changeLabel(){
+    var pageIndex = $('#pageIndex').val();
+    var labelSize = $('#labelSize').val();
+    $.ajax({
+        type: "POST",
+        url: "/jobs/position/headhunter/ajax_changeLabel",
+        data: {"p_value": '12000000', 'page': pageIndex},
+        dataType: "json",
+        success: function(data){
+            $('#companylabel').children().remove();
+            for(var i = 0;i < data.length;i++){
+                var hlabel = data[i];
+                var em = '<li>'+hlabel.fields.dictionary_name+'</li>';
+                $('#companylabel').append(em);
+            }
+            $('#companylabel').append('<div class="clear"></div>');
+            //设置换一换的页数
+            if((parseInt(pageIndex)) * 8 > labelSize){
+                $('#pageIndex').val(1)
+            }else{
+                $('#pageIndex').val(parseInt(pageIndex) + 1);
+            }
+            //给添加的标签加事件
+            $('#companylabel li').click(function(){
+                var length = $('#labels').children('li').length;
+                if(length >= 8){
+                    window.alert("最多只能添加8个标签",2);
+                    return;
+                }
+                var labels = $('#labels').children('li');
+                for(var i = 0;i <labels.length;i++){
+                    if($.trim($(this).text()) == $.trim(labels.eq(i).text().replace('X', ''))){
+                        alert("不能添加相同的标签!",2)
+                        return
+                    }
+                }
+                var em = '<li>' + $(this).text() + '<span style="display:none">X</span></li>';
+                $('#labels').append(em);
+                $("#labels li").mouseover(function(){
+                    $(this).children().css('display','inline');
+                })
+                $("#labels li").mouseout(function(){
+                    $(this).children().css('display','none');
+                })
+                $("#labels li span").click(function(){
+                    $(this).parent().remove();
+                })
+            })
+        }
+    });
+}
+//预览职位
+function viewPosition(){
+    var positionId = $("input[name='posid']").val();
+    if(positionId != ''){
+        window.open('/resume/zwxq?positionId=' + positionId, '_blank');
+    }else{
+        window.alert('你还没保存职位',4);
+    }
+}
+
+// 判断是否还可以发布职位
+function isCouldPublicPosition(){
+    var flag = true;
+    if('{{ pos.position_status | default:'' }}' != '1'){
+        $.ajax({
+            async: false,
+            url: "/ajax_isPublicPositionOK",
+            type: "POST",
+            dataType: "json",
+            success: function(data) {
+                var $editPositionButton = $(":input[name=editPosition]");
+                if(data == 0) {
+                    alert("鉴于您当前的等级，无法再发布新职位!",4);
+                    $editPositionButton.css("background-color", "#ccc");
+                    $editPositionButton.attr("id", "maxPosition");
+                    flag = false;
+                } else if(data == -1) {
+                    alert("请身份认证后再发布职位!",4);
+                    $editPositionButton.css("background-color", "#ccc");
+                    $editPositionButton.attr("id", "maxPosition");
+                    flag = false;
+                } else if(data == -2){
+{#                    alert("未认证只能发布一个职位，请身份认证后在发布职位", 4);#}
+                    isIdentityCompany('3,5', '2');
+                    $editPositionButton.css("background-color", "#ccc");
+                    $editPositionButton.attr("id", "maxPosition");
+                    flag = false;
+                }
+            }
+        })
+    }
+    return flag;
+}
+
+//初始化 专业要求
+(function(){
+    var pos_val = '{{ pos.major|default:'' }}';
+    var pos_name = '{{ pos.majorname |default:''}}';
+    if(pos_name != ''){
+        pos_val = pos_val.split('**');
+        pos_name = pos_name.split(',');
+        var html='';
+        for (var i = 0; i < pos_val.length; i++) {
+            html+='<div class="addr_li">'+ pos_name[i] +';<i class="iconfont icon-cha"></i><input type="hidden" value="'+ pos_val[i] +'"></div>';
+        };
+        $('.addr_text').before(html);
+    }
+}())
+//自动专业
+function setAutoComplete_major() {
+        $.ajax({
+            type: "POST",
+            url: "/ajax_getAjaxAllMajorDictionary",
+            dataType: "json",
+            success: function(data) {
+                $("#majorName").keyup(function(event) {
+                        $("#major").val('');
+                        $("#majorName").AutoComplete({
+                            'data': data,
+                            'itemHeight': 20,
+                            'width': 'auto',
+                            'afterSelectedHandler': function(data) {
+                                $("#majorName").next().val(data.label);
+                                uc_select.name = data.value;
+                                uc_select.id = data.label;
+                            },
+                            'listStyle': 'custom',
+                            'emphasis': false,
+                            'createItemHandler': function(index, data) {
+                                return data.value; // 文本显示为绿色，并在前后使用'--'包裹
+                            }
+                        }).AutoComplete('show');
+                    })
+                    //判断是否是转化简历
+            }
+        });
+    }
+    function key_number(obj) {
+        if(obj.value.length == 1){
+            obj.value = obj.value.replace(/[^1-9]/g, '');
+        }else if(obj.value.length == 2){
+            if(obj.value.substr(0,1) == 1){
+                obj.value = obj.value.replace(/[^0-9]/g, '');
+            }
+           else{
+                obj.value = 20;
+            }
+        }
+    }
+    $('textarea').each(function(index, el) {
+        $(this).val( $(this).val().replace(/<br>/g,'\n') );
+    });
+    setAutoComplete_major();
+</script>

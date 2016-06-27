@@ -1,0 +1,2480 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_1446802756_8115304.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+<!-- <link rel="stylesheet" href="{{ STATIC_URL }}css/index.css"> -->
+<link rel="stylesheet" href="{{ STATIC_URL }}css/popup.css">
+<style>
+    dd.sliderDiv{
+        z-index: 998;
+        font-size: 14px;
+        zoom: 1;
+        width: 270px;
+        height:600px;
+        right:0;position:absolute;top:0;
+        display:none;
+        border:1px solid #bfbfbf!important;
+        border-top:0!important;
+    }
+    .age{
+        margin-left:10px;
+    }
+/*    input[type="text"]:focus, input[type="password"]:focus {
+    box-shadow: 0px 0px 0px transparent;
+    border: 0px solid transparent;
+}*/
+    .zwpj_img{
+        background:url(/static/images/new_images/zwpj.png) no-repeat;
+        width:23px;
+        height:20px;
+        display:inline-block;
+        vertical-align: middle;
+        margin-bottom:2px;
+    }
+    .zwpj_img1{
+        background:url(/static/images/new_images/zwpj1.png) no-repeat;
+        width:24px;
+        height:20px;
+        display:inline-block;
+        vertical-align: middle;
+        margin-bottom:2px;
+    }
+    dd.sliderDiv  .sliderCon{float: right;text-align: left;color:#333; width: 100%;height: 598px;background-color:#fff;padding: 0!important;z-index: 10;}
+    dd.sliderDiv  .sliderCon_m{width:253px;height:600px;overflow-x:hidden;overflow-y: auto;float:right;margin-top: 10px;padding-right: 6px; background:#fff;background:rgba(255, 255, 255, 0.1) none repeat scroll 0 0 !important;filter:Alpha(opacity=80); background:#fff;}
+    #sliderBtn1{position:absolute;cursor: pointer;left:-28px;width:28px;height:106px;color:#fff;background-color: #ff8800;border-top-left-radius:5px;border-bottom-left-radius:5px;text-align: center;z-index: 8;}
+
+    #sliderBtn1{top:50%;background-color:#1fbba6;margin-top: -50px;}
+    .z_aaaass{position:relative; color:#333;}
+    .slide_btn{cursor: pointer;overflow: hidden;position:relative;text-align: right;padding-right: 10px;width: 48px;border-radius: 20px;background-color: #CCC;display: inline-block;}
+    .slide_btn>i{color: white;cursor: pointer;}
+    .slide_btn span{text-align: left;position: absolute;width: 100%;height: 100%;left: -34px;text-indent: 10px;background-color:#5c91d9;border-radius: 20px;display: block;}
+    .slide_btn span i{color: white;line-height: 25px;}
+    .slide_btn span b{top: 0px;position: absolute;right: 0px;border-radius: 50%;display: block;width: 24px;height: 24px;background-color: white;cursor: pointer;}
+    .accout_info .r_b{position:absolute;width:230px;height:80px;background-color:#FE8701;color:#fff;right:0;bottom: 15px;text-align: center;padding-top: 0;}
+    .accout_info .r_b1{position:absolute;width:345px;height:57px;right:-42px;bottom: 15px;padding-top: 0;}
+    .accout_info .r_b1 li{width:50%;float:left;background-color:#fff;height:100%;color:#999;cursor: pointer;}
+    .accout_info .r_b1 li.active{background-color:#5c91d9;color:#fff;}
+    .accout_info .r_b1 li.active *{color:#fff;}
+    .accout_info .r_b1 li.r_b1_l{text-align:center;font-size: 33px;line-height:53px;}
+    .accout_info .r_b1 li.r_b1_r{text-indent:10px;position:relative;}
+    .accout_info .r_b1 li.r_b1_r span{font-size: 16px;}
+    .accout_info .r_b1 li.r_b1_r .rmb{font-size: 25px;}
+    .accout_info .r_b1 li.r_b1_r em{font-size: 38px;}
+    .accout_info .r_b1 li.r_b1_r .iconfont{font-size: 18px;vertical-align:5px;position:absolute;right:0;top:20px;}
+    .accout_info .r_b1 .qh{display:inline-block;border-bottom:1px solid #fff;height:50px;width:122px;position:relative;}
+    .accout_info .r_b em{font-size: 32px;}
+    .accout_info .r_b .rmb{font-size: 30px;}
+    .accout_info .r_b label,.accout_info .r_b .r_b_r,.accout_info .r_b .r_b_r1{vertical-align: text-bottom;}
+    .accout_info .r_b .r_b_r,.accout_info .r_b .r_b_r1{margin-left: 6px;}
+    .accout_info .r_b img{vertical-align: -8px;}
+    .accout_info .r_b .r_b_r,.accout_info .r_b .r_b_r1{padding-left: 0px;display:inline-block;vertical-align:baseline;cursor: pointer;}
+    .r_b_wrap{display:inline-block;height:50px;width:106px;}
+    .accout_info .r_b div.r_b_div{display:inline-block;height:50px;}
+    .accout_info .r_b .icon-xiugaiziliao{font-size: 30px;}
+    .accout_info .r_b .icon-32gougou{font-size: 30px;}
+    .r_b_txt{border:0;background-color:transparent;display:none;box-shadow:0px 0px;font-size: 38px;width:62px;}
+    .r_b_txt:focus{box-shadow:0px 0px;border:none;}
+    .sliderCon_m1{width:100%;height:580px;float:right;background:#fff;background:rgba(255, 255, 255, 0.1) none repeat scroll 0 0 !important;filter:Alpha(opacity=80); background:#fff;overflow-x: hidden;overflow-y: auto;}
+    .sliderCon_m1 dl{font-size: 14px;}
+    html body .content_box .r .sliderCon_m1 dl{overflow-x: hidden;overflow-y: auto;}
+  html body .content_box .r .sliderCon_m1 dl dt{line-height: 42px;height:42px;width:100%;cursor: pointer;text-align: left;text-indent: 15px;-moz-user-select: none;-webkit-user-select: none;user-select: none;}
+    html body .sliderDiv .sliderCon_m1 dl dd{background-color:#fff;display:none;padding:10px;}
+    html body .sliderDiv . .sliderCon_m1 dl dd p{margin:60px 20px 20px  20px;display:block;line-height: 26px;}
+  html body .content_box .r .sliderCon_m1  dl:hover dt,html body .content_box .r ./*sliderCon_m1 dl.active dt{border-color:#5c91d9!important;}*/
+  html body .content_box .r .sliderCon_m1 dl.active dd{display:block;}
+  #sliderBtn1 dl{line-height: 15px;}
+    #sliderBtn1{padding-top: 10px;height:83px;}
+     .clear_bold li{font-size: 12px;width: 25%;box-sizing: border-box!important;}
+    #tyZn_wrap li{width:25%!important;font-size: 14px;box-sizing: border-box!important;}
+    #tyZn_box div{width:auto!important;font-size: 12px;}
+    .edit_textarea{width:645px;height:160px;}
+    /*.brshadow{-webkit-box-shadow: 0px 1.2px 3px rgba(0,0,0,0.2);-moz-box-shadow: 0px 1.2px 3px rgba(0,0,0,0.2);box-shadow: 0px 1.2px 3px rgba(0,0,0,0.2);border-top: 1px solid #e0e0e0;}*/
+    .content_box .r .b div:hover{color: inherit!important;}
+    html body .content_box .r .sliderCon_m1 dl  dt{overflow:hidden !important;}
+    </style>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.knob.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}appJs/resume/new_jlsz.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/xiuxiu.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/major.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/forwardresume.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/interview.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/downLoad.js"></script>
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_1441872318_8012588.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/module.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/single/jlsz.css">
+<script type="text/javascript" src="http://www.luqidong.com/demo/qrcode/js/qrcode.js"></script>
+ <script type="text/javascript">
+       window.onload =function(){
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width : 105,//设置宽高
+            height : 105
+        });
+        qrcode.makeCode("http://"+window.location.host+"/jobs/resume/new_jlyl?resumeID={{ resume.id }}");
+         // qrcode.makeCode("http://sdtest.hcdyhr.com/mobile/personal/preview_resume?resume_id={{ resume.id }}");
+    }
+</script> {% if request.session.account_type == "1" %}
+ <div class="clear">4</div>
+ {% else %}
+<div class="clear">99</div>
+{% endif %}
+
+<div class="clear">99</div>
+<!-- <div class="content"> -->
+{% if resume.resume_source == 2 or request.session.account_type != "1" %}
+    <input id="resumeID" type="hidden" value="{{ resume.id|default:'' }}" >
+    <div class="center">
+        <div class="accout_info">
+            <div class="l">
+                <div class="n">
+                    <input type="hidden" id="wsResum_value" class="knob" data-width="170" data-height="170" data-skin="tron" data-displayInput="true" value="{{ resume.integrity | default:0 }}">
+                    <div class="m">
+                        <img id="head_portrait" src="{{ request.session.file_website }}{{ resume.head_portrait | default:'none'}}" width="162" height="162" onerror="notfind(this, 1, '{{ resume.sex }}')" ></div>
+                    <!-- <img src="{{ STATIC_URL }}images/cannen.png" class="camera" id="camera"> -->
+                    <i id="camera" class="iconfont icon-yfcamera camera"></i>
+                    <em class="camera"></em>
+                    <div class="b">
+                        简历完整度
+                        <span id="wsResum_name" class="fz16">{{ resume.integrity | default:0 }}%</span>
+                        <a id="yl" target="_blank" >预览</a>
+                    </div>
+                </div>
+            </div>
+            <ul class="c">
+                <li class="li_mb10">
+                    <span id="user_name" class="c1">{{ resume.user_name | default:'' }}</span>
+                    <i id="sex_ico" class="iconfont icon-{% if resume.sex == "男" %}nan{% else %}nv{% endif %}"></i>
+                    <span id="sex">{{ resume.sex  | default:'' }}</span>
+                    <span id="age" >{% if age %}{{ age | default:'' }}岁{% endif %}</span>
+                    <span id="diploma" >{{ resume.sdiploma | default:'' }}</span>
+                    <span id="currently_pacece" >{{ resume.scurrently_pacece | default:'' }}</span>
+                    <span id="marital" >{{ resume.smarital | default:'' }}</span>
+                    <span class="c_r">编辑</span>
+                </li>
+                <li id="self_assessment" class="c2 li_mb15" style="width:567px;height:20px;overflow:hidden; margin-bottom:8px!important;" title="">{{ resume.self_assessment | default:'' }}</li>
+                <li class="li_mb7">
+                    <span id="currently_company" {% if not resume.currently_company %}style="display: none;"{% endif %}>{{ resume.currently_company | default:'' }}</span>
+                    <span {% if not resume.currently_company %}style="display: none;"{% endif %}>|</span>
+                    <span id="currently_postaion">{{ resume.scurrently_postaion | default:'' }}</span>
+                    <span {% if not resume.scurrently_postaion %}style="display: none;"{% endif %}>|</span>
+                    <span id="workyear">{{ resume.sworkyear | default:'' }}经验</span>
+                </li>
+                <li style="margin-top:-4px">
+                    <span id="phone" {% if not resume.phone %}style="display: none;"{% endif %}>手机:{{ resume.phone | default:'' }}</span>
+                    <span id="email" {% if not resume.email %}style="display: none;"{% endif %}>邮箱:{{ resume.email | default:'' }}</span>
+                </li>
+            </ul>
+            <div class="r">
+                <div id="yq">
+                    允许主动对我发起职位邀请
+                    <!-- <input type="checkbox"> -->
+                    <p class="slide_btn">
+                    {% if resume.isinvite == 0%}
+                        <span style="left:-34px;">
+                    {% else %}
+                        <span style="left:0px;">
+                    {% endif %}
+                        <i class="iconfont icon-32gougou"></i><b></b></span>
+                        <i class="iconfont icon-cha"></i>
+                    </p>      
+                </div>
+            {% if resume.resume_source == 1 %}
+               <div class="dcjlb" onclick="showCheck('{{ resume.id }}', '{{ resume.user_name }}', '{{ exportType }}')">
+                         <div class="dcjl3">
+                         </div>
+                         <div class="dctit">导出简历</div>                         
+                </div> 
+            {% endif %}
+          </div>             
+{% endif %}
+
+
+          {% if resume.resume_source != 1 %}
+         <!--    <ul class="r_b1">
+                <li class="r_b1_l {% if resume.gold == 0 or resume.gold == None %} active{% endif %}" style="width:40%">免费</li>
+                <li class="r_b1_r {% if  resume.gold %} active{% endif %}"><span>售价:</span><div class="qh"><i class="rmb">￥</i><em>{{ resume.gold|default:0 }}</em><input type="text" class="r_b_txt" maxlength="4" value="{{ resume.gold|default:40 }}" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')"><i class="iconfont icon-bianji2"></i></div><img src="{{ STATIC_URL }}images/xx_03.png" style="position:absolute;right:0;bottom:-7px;"></li>
+            </ul> -->
+            <div class="selling">
+                   <img src="/static/images/new_images/selling.png" alt="" class="selimg">
+                    <ul>
+                        <li class="active">
+                             <span class="seltit">售价:</span>
+                             <div class="qh1">
+                               <i class="rmb">￥</i><em>{{ resume.gold|default:0 }}</em>
+                             <!--    <input type="text" class="r_b_txt" maxlength="4" value="{{ resume.gold | default:40 }}" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')"> -->
+                           <input type="text" class="r_b_txt" maxlength="4" value="{{ resume.gold | default:40 }}" onkeyup="key_number(this)" onkeydown="key_number(this)" onafterpaste="key_number(this)">
+                             </div>
+                            <div class="xx">/</div>
+                        </li>                        
+                        <li class="free"><span class="mf">免费</span></li>
+                        <div class="pitchon commys1"></div>
+                    </ul>                 
+                    <img src="/static/images/new_images/selling1.png" alt="" class="selimg1">
+            </div>         
+
+           <div class="selling1">
+                <div class="sj">
+                        <span class="seltit">售价:</span>
+                        <i class="rmb">￥</i><em>{{ resume.gold|default:'免费' }}</em>
+                         <i id="edit"></i>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                 $('#edit').click(function(event) {
+                    // _this = $(this);
+                     $('.selling').css('display', 'block');
+                     $('.selling1').css('display', 'none');
+                     $('.commys1').removeClass('pitchongougou').addClass('pitchon');                     
+                     if($('.sj em').text() !="免费"){
+                          $('.qh1 em').text($('.sj em').text());
+                          $('.qh1 input').val($('.sj em').text());
+                     }
+                     else{
+                        $('.selling ul li').eq(0).removeClass('active').eq(1).addClass('active');
+                     }
+                 });
+
+                $(".selling ul li").click(function(){
+                $(".selling ul li").removeClass('active');
+                $(this).addClass('active');
+                var i=$(".selling ul li").index(this);
+                var resumeId = $("#resumeID").val();
+                if (resumeId == '') {
+                    alert("请先保存基本信息再进行售价操作!",2);
+                    return false;
+                }
+                if(i==0){
+                     $(".selling ul li em").hide();
+                     $(".selling ul li input").show();
+                }
+                if(i==1){
+                     $(".selling ul li em").show();
+                     $(".selling ul li input").hide();
+                }
+            })
+            $(document).on('click', '.pitchon', function(event) {
+                 var gold = $(".r_b_txt").val();
+                 _this = $(this);
+                if(gold == '' || parseInt(gold) < 0){
+                    window.alert('请填写简历售价',2);
+                    return;
+                }
+                if(gold > 50){
+                    window.alert('售价不能超过50',2);
+                    return;
+                }
+                var resumeId = $("#resumeID").val();
+                  if (resumeId == '') {
+                    alert("请先保存基本信息再进行操作!",2);
+                    return false;
+                }
+                if($('.selling ul li').eq(0).hasClass('active')){
+                    $.ajax({
+                        type: "POST",
+                        url: "/ajax_saveSellGold",
+                        data: {"resume_id": $('#resumeID').val(), "gold": gold},
+                        dataType: "json",
+                        success: function (data) {
+                            if(data.status == '1'){
+                                window.alert('保存成功',1);
+                                $(".selling ul li em").show();
+                                $(".selling ul li input").hide();
+                                _this.removeClass('pitchon').addClass('pitchongougou');
+                                $(".selling1 em").css('font-size','37px');
+                                $('.sj').css('margin-top', '0px');
+                                $(".selling1 em").text($(".r_b_txt").val());
+                                $('.selling').css('display', 'none');
+                                $('.selling1').css('display', 'block');
+                            }else{
+                                window.alert('设置金额不符',2);
+                            }
+                        }
+                    })
+                 }
+               else
+               {
+                  $.ajax({
+                      type: "POST",
+                      url: "/ajax_saveSellGold",
+                      data: {"resume_id": $('#resumeID').val(), "gold": '0'},
+                      dataType: "json",
+                      success: function (data) {
+                          if(data.status == '1'){
+                              window.alert('简历已设置免费，其他人可直接查看联系方式',1);
+                              _this.removeClass('pitchon').addClass('pitchongougou');
+                              $(".selling1 em").css('font-size','25px');
+                              $('.sj').css('margin-top', '12px');
+                              $(".selling1 em").text('免费');
+                              $('.selling').css('display', 'none');
+                              $('.selling1').css('display', 'block');
+                          }else{
+                              window.alert('设置失败',2);
+                          }
+                      }
+                  })
+                 }
+              });
+
+            function onlyNum()
+            {
+              if(!((event.keyCode>=48&&event.keyCode<=57)||(event.keyCode>=96&&event.keyCode<=105)))
+                event.returnValue=false;
+            }
+            </script>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="center brshadow" style="width:1018px!Important;overflow:hidden">          
+    
+    {% if not resume.id or resume.resume_source == 2 %}
+    <div class="privacy" {% if not resume.id %}style="display:none;"{% endif %}>
+        <span class="lm">
+            {% if attentionCount != None %}
+            被关注次数: <strong>{{ attentionCount | default:0 }}</strong>
+            {%  endif %}
+        </span>
+        <span>
+            {% if pv %}
+            被访问次数: <strong>{{ pv | default:0 }}</strong>
+            {%  endif %}
+        </span>
+        <ul class="f_r">
+            <li class="f_l" style="width:90px!important;">
+                <!-- <i class="iconfont icon-yinsibaohu"></i> -->
+                <img style="margin:-3px 3px 0px 0px" src="/static/images/yssz.png" alt="">
+                隐私设置:
+            </li>
+            <li class="f_l cursor">
+                <span style="margin-right: 0;display:inline-block;font-size: 12px;color:#333;margin-top: 1px;" class="jl_txt_hide">
+                    {{ resume.ssearch_type | default:"隐藏简历" }}<i class="iconfont icon-xiajiantou"></i>
+                </span>
+
+                <ul>
+                    {% for open in openList %}
+                        <li>{{ open.dictionary_name }}<input type="hidden" value="{{ open.dictionary_value }}"></li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+    
+    {% if resume.resume_source == 1 %}
+    <div class="content_box" style="margin-top:20px">
+           <input id="resumeID" type="hidden" value="{{ resume.id|default:'' }}" >
+            <div class="accout_info" style="width:774px; height:125px!important;margin-top:0px!important;">
+                <div class="attetime"><span class="mr25">{% if attentionCount != None %}
+                被关注次数：{{ attentionCount | default:0 }}
+                {%  endif %}</span>
+                <span>{% if pv %}
+                被访问次数：{{ pv | default:0 }}
+                {%  endif %}</span>
+                </div>
+                <div class="accimage">
+                        <img id="head_portrait" src="{{ request.session.file_website }}{{ resume.head_portrait | default:'none'}}" width="162" height="162" onerror="notfind(this, 1, '{{ resume.sex }}')" > 
+                        <i id="camera" class="iconfont icon-yfcamera camera"></i>     
+                        <em class="camera"></em>          
+                </div>
+                <div class="r">
+                    <div id="yq">
+                        允许主动对我发起职位邀请
+                        <!-- <input type="checkbox"> -->
+                        <p class="slide_btn">
+                        {% if resume.isinvite == 0%}
+                            <span style="left:-34px;">
+                        {% else %}
+                            <span style="left:0px;">
+                        {% endif %}
+                            <i class="iconfont icon-32gougou"></i><b></b></span>
+                            <i class="iconfont icon-cha"></i>
+                        </p>      
+                    </div>
+              </div> 
+          </div>  
+     {% else %} 
+     <div class="content_box">
+{% endif %}
+
+        <div style="clear:both"></div>
+        {% if resume.resume_source == 1 %}
+        <div class="twodime">
+                 <img src="/static/images/new_images/dicode.png" class="imgtop">                 
+                 <div class="dimetier">
+                 <div class="arrow-up"></div>
+                     <div class="dimti_left" id="qrcode">
+                        <img class="hcdy_img" src="/static/images/logo.jpg" alt=""/>
+                     </div> 
+                     <div class="dimti_right">
+                        <span class="jlguide"><i></i>简历二维码</span>
+                        <span class="jlewnr">扫码分享或转发简历增加面试机会！</span>
+                     </div>        
+                </div> 
+            </div>
+        {% endif %}
+
+        <div class="l_box l"> 
+        <dl class="mt10">
+
+        {% if resume.resume_source == 1 %}
+         <dt class="h20" style="margin-top: 22px;">
+                    <div class="jl_title">
+                        <div class="c" style="background-position: 10px 3px;">
+                            <!-- <i class="iconfont icon-gongzuojingyan"></i> -->
+                            <span id="basicinfo">基本信息</span>
+                        </div>
+                    </div>
+                    <div class="edit" datatype="jibeninfo">
+                       <i class="edit_icon"></i>        
+                    </div>
+                </dt>
+                <dd class="jb_info mb30">
+                    <div style="clear: both"></div> 
+                <ul id="jb_info">
+                    <li style="width:95%!important;"><span class="c_88" style="font-size:20px; color:#333">姓    名：</span>
+                      <span id="user_name" class="c_33" style="font-size:20px; color:#333">{{ resume.user_name | default:'' }}
+                      </span>                    
+                    </li>
+                    <li><span class="c_88">出生年月：</span>
+                    <span class="c_33">{{ resume.birthday_year|date:"Y" }}{% if resume.birthday_month %}-{{ resume.birthday_month}}{% endif%}</span><span class="age"></span></li>
+                         <li><span class="c_88">性    别：</span>
+                        <span class="c_33">{{ resume.sex | default:'' }}</span></li>
+                         <li><span class="c_88">工作经验：</span>
+                        <span  class="c_33">{{ resume.sworkyear | default:'' }}</span></li>
+                         <li><span class="c_88">学    历：</span>
+                        <span class="c_33">{{ resume.sdiploma | default:'' }}</span></li>
+                         <li><span class="c_88">现居城市：</span>
+                        <span  class="c_33">{{ resume.scurrently_pacece | default:'' }}</span></li>
+                          <li><span class="c_88">婚姻状况：</span>
+                        <span  class="c_33">{{ resume.smarital | default:'' }}</span></li>
+                        <li><span class="c_88">目前公司：</span>
+                        <span  class="c_33">{{ resume.currently_company }}</span></li>
+                         <li><span class="c_88">目前职位：</span>
+                        <span id="muzw" class="c_33">{{ resume.scurrently_postaion }}</span></li>                   
+                        <li><span class="c_88">联系方式：</span>
+                        <span class="c_33">{{ resume.phone | default:'' }}</span></li>                   
+                        <li><span class="c_88">常用邮箱：</span>
+                            <span  class="c_33">{{ resume.email | default:'' }}</span></li>
+                        <li style="width:95%!important;"><span class="c_88">籍贯：</span>
+                            <span class="c_33">{{ resume.nativename | default:'' }}</span></li>
+                        <li style="width:95%!important;"><span class="c_88">一句话介绍：</span>
+                            <span class="c_33">{{ resume.self_assessment | default:'' }}</span></li>
+                </ul>
+                </dd>
+                <dd style="clear: both;"></dd>
+            <dd>
+        {% endif %}    
+            <div style="clear: both"></div>
+            <div class="jl_top">
+            <div class="clearfix mt10">
+                <div class="f_l">
+                    <div class="c_88">姓名</div>
+                    <div class="mt10">
+                        <input id="edit_user_name" type="text" value="{{ resume.user_name | default:'' }}" class="name_txt" maxlength='6'></div>
+                </div>
+                <div class="f_l">
+                    <div class="c_88">性别</div>
+                    <div class="sex_button">
+                        <div name="edit_sex_nan" class="sex_button_nan {% if resume.sex == "男" %} active {% endif %} mt10 f_l">
+                            <i class="iconfont icon-nan"></i>
+                            <span>男</span>
+                        </div>
+                        <div name="edit_sex_nv" class="sex_button_nv {% if resume.sex == "女" %} active {% endif %} mt10 f_l">
+                            <i class="iconfont icon-nv"></i>
+                            <span>女</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix mt10">
+                <div class="f_l">
+                    <div class="c_88">出生年月</div>
+                    <div class="mt10">
+                         <input id="edit_birthday_year" readonly="true" datatype="edit_birthday_year" style="border-radius:4px" type="text"
+                          value="{{ resume.birthday_year|date:"Y" }}{% if resume.birthday_month %}-{{ resume.birthday_month}}{% endif%}" class="jl_input_txt1"
+                          onClick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                    </div>
+                </div>
+                <div class="f_l">
+                    <div class="c_88">婚姻状况</div>
+                    <div class="mt10">
+                        <div id="edit_marital" class="select2" data-key="{{ resume.marital }}" data-value="{{ resume.smarital }}">
+                            <span>{{ resume.smarital | default:'请选择' }}</span>
+                            <ul class="selectControlList" >
+                                {% for marital in maritalList%}
+                                    <li data-key="{{ marital.dictionary_value }}" >{{ marital.dictionary_name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+      <!--           <div class="f_l">
+                    <div class="c_88">出生月份</div>
+                    <div class="mt10"> -->
+                        <!-- <input id="edit_birthday_month" datatype="edit_birthday_month" style="border-radius:4px" type="text"
+                          value="{{ resume.birthday_month|date:"1" }}" class="jl_input_txt1"
+                          onClick="WdatePicker({skin:'whyGreen',dateFmt:'MM'})"> -->
+                     <!--    <div id="edit_birthday_month" class="select2" style="background:#FFF;" data-key="{{ resume.birthday_month | default:'1' }}" data-value="{{ resume.birthday_month | default:'1' }}">
+                            <span >{{ resume.birthday_month | default:'1' }}</span>
+                            <ul class="selectControlList" >
+                                <li data-key="1" >1</li>
+                                <li data-key="2" >2</li>
+                                <li data-key="3" >3</li>
+                                <li data-key="4" >4</li>
+                                <li data-key="5" >5</li>
+                                <li data-key="6" >6</li>
+                                <li data-key="7" >7</li>
+                                <li data-key="8" >8</li>
+                                <li data-key="9" >9</li>
+                                <li data-key="10" >10</li>
+                                <li data-key="11" >11</li>
+                                <li data-key="12" >12</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> -->  
+            </div>
+            <div class="c_88 mt10">手机号码</div>
+            <div class="mt10">
+                <input id="edit_phone" type="text" class="jl_input_txt" value="{{ resume.phone | default:''}}" maxlength='11'></div>
+            <div class="c_88 mt10">常用邮箱</div>
+            <div class="mt10">
+                <input id="edit_email" type="text" style="background:#FFF!important;" class="jl_input_txt" value="{{ resume.email | default:'' }}" ></div>
+            <div class="clearfix mt10">
+                <div class="f_l">
+                    <div class="c_88">工作经验</div>
+                    <div class="mt10">
+                        <div id="edit_workyear" class="select2" data-key="{{ resume.workyear }}" data-value="{{ resume.sworkyear }}">
+                             <span >{{ resume.sworkyear | default:'请选择' }}</span>
+                            <ul class="selectControlList" >
+                                {% for year in startyearList%}
+                                    <li data-key="{{ year.dictionary_value }}" >{{ year.dictionary_name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="f_l">
+                    <div class="c_88">学历</div>
+                    <div class="mt10">
+                        <div id="edit_diploma" class="select2" data-key="{{ resume.diploma }}" data-value="{{ resume.sdiploma }}">
+                            <span>{{ resume.sdiploma | default:'请选择' }}</span>
+                            <ul class="selectControlList" >
+                                {% for diploma in diplomaList%}
+                                    <li data-key="{{ diploma.dictionary_value }}" >{{ diploma.dictionary_name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="c_88 mt10">目前所在公司</div>
+            <div class="mt10">
+                <input id="edit_currently_company" type="text" class="jl_input_txt no_bitian" value="{{ resume.currently_company | default:'' }}" maxlength='20'></div>
+            <div class="c_88 mt10">目前所在职位</div>
+            <div class="mt10">
+                <div id="scurrently_postaion" class="jl_input_txt" onclick="PositionControlsShow(1,this)"></div>
+                <input type="hidden" id="edit_currently_postaion" value="{{ resume.currently_postaion  }}"   />
+            </div>
+            <div class="clearfix mt10">
+                <div class="f_l">
+                    <div class="c_88">目前居住地</div>
+                    <div class="mt10">
+                        <input id="scurrently_pacece" type="text" style="cursor: pointer;border:none; border-radius: 4px" readonly="true" class="jl_input_txt1" onclick="showArea(this,1,false)" value="{{ resume.scurrently_pacece | default:'' }}">
+                        <input type="hidden"  id="edit_currently_pacece" value="{{ resume.currently_pacece  }}">
+                    </div>
+                </div>
+                <div class="f_l">
+                    <div class="c_88">籍 &nbsp;&nbsp;贯</div>
+                    <div class="mt10">
+                        <input id="native_name" type="text" style="cursor: pointer;border:none;background: #fff; border-radius: 4px" readonly="true" class="jl_input_txt1" onclick="showArea(this,1,false)" value="{{ resume.nativename | default:'' }}">
+                        <input type="hidden"  id="native_key" value="{{ resume.native }}">
+                    </div>
+                </div>
+            </div>  
+            <div class="clearfix mt10">
+                <div class="c_88 mt10">一句话介绍</div>
+                <div class="mt10">
+                    <textarea id="edit_self_assessment" maxlength="20" style="width: 272px; height: 98px;resize: none;">{{ resume.self_assessment | default:'' }}</textarea>
+                    <p class="word_hint" style="width:294px;text-align:right;color:#ff8800;"><b>0</b>&nbsp;/&nbsp;<span>20</span></p>
+                </div>
+            </div>
+            <div class="b mt20 w">
+                <span onclick="BasicInfoSave(this)" class="active">确认</span>
+                <span id="base_cancel" class="cancel">取消</span>
+            </div>
+        </div>
+         </dd>
+        </dl>
+
+
+            <dl class="" style="margin-top:35px">
+                <dt id="work_title" class="h20">
+                    <div class="jl_title">
+                        <div class="c" style="background-position: 10px -35px;">
+                            <!-- <i class="iconfont icon-qiwanggongzuo"></i> -->
+                            <span id="gzjlId">工作经历</span>
+                        </div>
+                    </div>
+                    <div class="edit" datatype="add" data-tag="gzjl" >
+                        <i class="iconfont icon-jiahao"></i>
+                        添加
+                    </div>
+                </dt>
+                <dd class="h">
+                    <input type="hidden" id="eidt_resume_work_id" datatype="eidt_resume_work_id">
+                    <input type="hidden" class="edit_type" value="WorkExperienceSave" >
+                    <input type="hidden" datatype="counter" value="{{ forloop.counter }}">
+                    <div class="c_88">公司名称</div>
+                    <div class="mt10">
+                        <input id="edit_work_company_name" datatype="edit_work_company_name" maxlength="20" type="text" class="jl_input_txt commys" style="width:640px;">
+                    </div>
+                    <div class="not_necessary">
+                        <div style="width:47%; float:left;">
+                            <div class="c_88 mt10">公司规模</div>
+                            <div class="mt10">
+                                <div id="edit_company_size" datatype="edit_company_size" class="select1" data-key="{{ trw.company_scale | default_if_none:21940000 }}"
+                                     data-value="{{ trw.scompany_scale | default_if_none:'请选择' }}">
+                                    <span>{{ trw.company_scale | default:'请选择' }}</span>
+                                    <ul class="selectControlList">
+                                        {% for scale in scales%}
+                                            {% if forloop.counter != 1 %}
+                                                <li data-key="{{ scale.dictionary_value }}" >{{ scale.dictionary_name }}</li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: 295px; float:right;">
+                            <div class="c_88 mt10">公司性质</div>
+                            <div class="mt10">
+                                <div id="edit_company_nature" datatype="edit_company_nature" class="select1" data-key="{{ trw.company_nature | default:'' }}"  data-value="{{ trw.scompany_nature | default_if_none:'请选择' }}">
+                                    <span>{{ trw.company_nature | default:'请选择' }}</span>
+                                    <ul class="selectControlList">
+                                        {% for nature in natures%}
+                                            <li data-key="{{ nature.dictionary_value }}" >{{ nature.dictionary_name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="c_88 mt10">公司简介</div>
+                        <div class="mt10">
+                            <textarea id="edit_company_profile" datatype="edit_company_profile"  class="commys minimum edit_textarea" maxlength="1000"></textarea>
+                        </div>
+                    </div>
+                    <p class="more_entry">展开更多项</p>
+                    <div class="clear"></div>
+                    <div style="width:47%; float:left;">
+                    <div class="c_88 mt10">所属行业</div>
+                    <div class="mt10">
+                        <div id="edit_work_sindustry" datatype="edit_work_sindustry" class="ControlsWrap" onclick="BusinessulControlsShow(1,this)"></div>
+                        <input type="hidden"  id="edit_work_industry" datatype="edit_work_industry" value="">
+                    </div>
+                   <div class="c_88 mt10">下属人数</div>
+                    <div class="mt10">
+                        <div id="edit_work_subordinate" datatype="edit_work_subordinate" style="background: #fff!important" class="select1" data-key="{{ trw.subordinate | default_if_none:21940000 }}"
+                             data-value="{{ trw.ssubordinate | default_if_none:'无下属' }}">
+                            <span>{{ trw.ssubordinate | default_if_none:'无下属' }}</span>
+                            <ul class="selectControlList">
+                                {% for subordinate in subordinateList%}
+                                    <li data-key="{{ subordinate.dictionary_value }}" >{{ subordinate.dictionary_name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    </div>
+                    <div style="width: 295px; float:right;"> 
+                      <div class="c_88 mt10">职位名称</div>
+                    <div class="mt10">
+                        <input id="edit_work_position" datatype="edit_work_position" maxlength="20" type="text" class="jl_input_txt commys">
+                        <script type="text/javascript">
+                            BusinessulControls("edit_work_sindustry", "", "", 'width:274px');
+                        </script>
+                    </div>
+                     <div class="clearfix mt10">
+                        <div class="f_l">
+                            <div class="c_88">入职时间</div>
+                            <div class="mt10">
+                                <input id="edit_work_start_time" datatype="edit_work_start_time" style="border-radius:4px" type="text"  class="jl_input_txt1 commys" onClick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="c_88">
+                                离职时间
+                                <span class="to_now_control" style="float:right;cursor:pointer;color:#5c91d9" data-wz="p-n-c"></span>
+                            </div>
+                            <div class="mt10">
+                                <input id="edit_work_end_time" datatype="edit_work_end_time" type="text" style="border-radius:4px"  class="jl_input_txt1 commys"  onClick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div style="width:47%; float:left;">
+                    <div class="c_88 mt10">汇报对象</div>
+                      <div class="mt10">
+                          <input id="edit_report_object" style="background:#fff!important" datatype="edit_report_object" maxlength="16" type="text" class="jl_input_txt commys" autocomplete="off"><!-- 
+                           <input id="edit_report_objectid" datatype="edit_report_objectid" type="hidden" value=""> -->
+                      </div>                  
+                    </div>
+
+
+                    <div style="clear:both;"></div>
+                    <div class="c_88 mt10">工作职责</div>
+                    <div class="mt10">
+                        <textarea id="edit_work_duty" datatype="edit_work_duty"  class="commys minimum edit_textarea" maxlength="1000"></textarea>
+                    </div>
+
+
+                    <div class="c_88 mt10">工作业绩</div>
+                    <div class="mt10">
+                        <textarea id="edit_perfor_duty" datatype="edit_perfor_duty"  class="commys minimum edit_textarea" maxlength="1000"></textarea>
+                    </div>
+
+
+                    <div class="c_88 mt10">离职原因</div>
+                    <div class="departure">
+                        <div class="o_slide why">
+                            <p data-val='4'>其他（填写）</p>
+                            <ul>
+                                <li data-val='1'>个人原因</li>
+                                <li data-val='2'>不适合公司文化</li>
+                                <li data-val='3'>与期望薪资不符</li>
+                                <li data-val='4'>其他（填写）</li>
+                            </ul>
+                        </div>
+                        <input class="o_txt describe" style="display:block" placeholder="请输入离职原因，不超过20字" maxlength="20" type="text">
+                    </div>
+                    <div class="b mt20 w1">
+                        <span onclick="WorkExperienceSave(this)"  class="ascertain active">确认</span>
+                        <span class="cancel">取消</span>
+                        <div class="f_r jl_delete">删除本条</div>
+                    </div>
+                </dd>
+                {% if is_import == 0 %}
+                    {% for trw in trwList %}
+                    <dd style="clear:both;"></dd>
+                    <dd class="jl_content_box clearfix">
+                        <div class="r r_box">
+                           <i class="iconfont icon-time"></i>
+                          <div>
+                            <div>
+                            <div class="edit comm_compile" datatype="gzjlEdit_m" onclick="gzjlEdit(this)"  >
+                                  <i class="edit_icon"></i>
+                                       
+                            </div>
+                            <ul class="work_exper" id="work_exper">
+                                <li>
+                                    <input type="hidden" value="{{ trw.id|default:'' }}" >
+                                    <span class="c_88">入职时间：</span>
+                                    <span class="c_33">{{ trw.start_time | date:"Y-m" }}</span>                                    
+                               </li>
+                               <li>
+                                    <span class="c_88">离职时间：</span>
+                                    <span class="c_33"> {% if trw.end_time %}
+                                            {{ trw.end_time | date:"Y-m" }}
+                                        {% else %}
+                                            至今
+                                        {% endif %}</span>
+                                    <input type="hidden" value="{{ trw.start_time }}|{{ trw.end_time }}">
+                               </li>
+                                <li>
+                                    <span class="c_88">公司名称：</span>
+                                    <span class="c_33">{{ trw.company_name | default:'' }}</span>
+                               </li>
+                              
+                               <li>
+                                    <span class="c_88">所属行业：</span>
+                                    <span class="c_33">{{ trw.sindustry | default:'' }}</span>
+                                    <input type="hidden" value="{{ trw.industry|default:'' }}" />
+                               </li> 
+                                <li {% if trw.scompany_scale %} style="display:block" {% else %} style="display:none" {% endif %} >
+                                    <span class="c_88">公司规模：</span>
+                                    <span class="c_33">{{ trw.scompany_scale | default:'' }} </span>
+                                    <input type="hidden" value="{{ trw.company_scale | default:'' }}" />
+                               </li>
+                               <li {% if trw.scompany_nature %} style="display:block" {% else %} style="display:none" {% endif %}>
+                                    <span class="c_88">公司性质：</span>
+                                    <span class="c_33">{{ trw.scompany_nature | default:'' }}</span>
+                                    <input type="hidden" value="{{ trw.company_nature | default:'' }}" />
+                               </li>
+                               <li {% if trw.company_introduce %} style="display:block;width:95%!important;" {% else %} style="display:none;width:95%!important;" {% endif %}>
+                                    <span class="c_88" style="vertical-align: top;">公司简介：</span>
+                                    <span class="c_33" style="display: inline-block;word-wrap: break-word; width: 85%;">{% if trw.company_introduce %}{{ trw.company_introduce | safe }}{% endif %}</span>
+                               </li>
+                               <li>
+                                    <span class="c_88">职位名称：</span>
+                                    <span class="c_33">{{ trw.position | default:'' }}</span>
+                               </li>
+                               <li>
+                                    <span class="c_88">下属人数：</span>
+                                    <span class="c_33">{{ trw.ssubordinate | default:'无下属' }}</span>
+                                     <input type="hidden" value="{{ trw.subordinate | default:21940000 }}">
+                               </li> 
+                               <li  {% if trw.report_object %} style="display:block" {% else %} style="display:none" {% endif %}>
+                                    <span class="c_88">汇报对象：</span>
+                                    <span class="c_33">{{ trw.report_object | default:'' }}</span>
+                               </li>                              
+                               <li style="width:95%!important;">
+                                    <span class="c_88" style="vertical-align: top;">工作职责：</span>
+                                    <span class="c_33" style="display: inline-block;word-wrap: break-word; width: 85%;">{% if trw.work_duty %}{{ trw.work_duty | safe }}{% endif %}</span>
+                               </li>
+
+                               <li style="width:95%!important;">
+                                    <span class="c_88" style="vertical-align: top;">工作业绩：</span>
+                                    <span class="c_33" style="display: inline-block;word-wrap: break-word; width: 85%;">{% if trw.job_performance %}{{ trw.job_performance | safe }}{% endif %}</span>
+                               </li>
+
+                               <li {% if trw.leaving_reasons %} style="display:block;width:100%!important;" {% else %} style="display:none;width:100%!important;" {% endif %}>
+                                    <span class="c_88">离职原因：</span>
+                                    <span class="c_33">{{ trw.leaving_reasons | default:'' }}</span>
+                               </li>
+
+                            </ul>
+                           </div>
+                        </div>                            
+                        </div>    
+                    </dd>
+                    {% endfor %}
+                {% else %}
+                    {% for trw in trwList %}
+                        <dd class="edit_h">
+                            <input type="hidden" datatype="eidt_resume_work_id">
+                            <input type="hidden" class="edit_type" value="WorkExperienceSave" >
+                            <input type="hidden" datatype="counter" value="{{ forloop.counter }}">
+
+
+                            <div class="c_88">公司名称</div>
+                            <div class="mt10">
+                                <input datatype="edit_work_company_name" maxlength="20" type="text" class="jl_input_txt commys" value="{{ trw.company_name }}" style="width:640px;">
+                            </div>
+
+                            
+                            <div class="not_necessary">
+                                <div style="width:47%; float:left;">
+                                    <div class="c_88 mt10">公司规模</div>
+                                    <div class="mt10">
+                                        <div  datatype="edit_company_size" class="select1" data-key="{{ trw.company_scale | default_if_none:21940000 }}"
+                                             data-value="{{ trw.scompany_scale | default_if_none:'请选择' }}">
+                                            <span>{{ trw.company_scale | default:'请选择' }}</span>
+                                            <ul class="selectControlList">
+                                                {% for scale in scales%}
+                                                    {% if forloop.counter != 1 %}
+                                                        <li data-key="{{ scale.dictionary_value }}" >{{ scale.dictionary_name }}</li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 295px; float:right;">
+                                    <div class="c_88 mt10">公司性质</div>
+                                    <div class="mt10">
+                                        <div datatype="edit_company_nature" class="select1" data-key="{{ trw.company_nature | default:'' }}"  data-value="{{ trw.scompany_nature | default_if_none:'请选择' }}">
+                                            <span>{{ trw.company_nature | default:'请选择' }}</span>
+                                            <ul class="selectControlList">
+                                                {% for nature in natures%}
+                                                    <li data-key="{{ nature.dictionary_value }}" >{{ nature.dictionary_name }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div style="clear:both;"></div>
+                            <div class="c_88 mt10">公司简介</div>
+                            <div class="mt10">
+                                <textarea  datatype="edit_company_profile"  class="commys minimum edit_textarea" maxlength="1000">
+                                    {{ trw.company_introduce }}
+                                </textarea>
+                            </div>
+                            </div>
+                            <p class="more_entry">展开更多项</p>
+
+
+                      <div class="clear"></div>
+
+                     <div style="width:47%; float:left;">
+                            <div class="c_88 mt10">所属行业</div>
+                            <div class="mt10">
+                                <div id="edit_work_sindustry{{ forloop.counter }}" datatype="edit_work_sindustry"
+                                     class="ControlsWrap" onclick="BusinessulControlsShow(1,this)"></div>
+                                <input type="hidden"  datatype="edit_work_industry" value="{{ trw.industry | default_if_none:"" }}">
+                            </div>    
+                            <div class="c_88 mt10">下属人数</div>
+                            <div class="mt10">
+                                <div datatype="edit_work_subordinate" style="background: #fff!important" class="select1" data-key="{{ trw.subordinate |default:'' }}" data-value="{{ trw.ssubordinate |default:'' }}">
+                                    <span>{{ trw.ssubordinate | default:'请选择' }}</span>
+                                    <ul class="selectControlList">
+                                        {% for subordinate in subordinateList%}
+                                            <li data-key="{{ subordinate.dictionary_value }}" >{{ subordinate.dictionary_name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                     </div>                        
+
+
+                    <div style="width: 295px; float:right;">
+                           <div class="c_88 mt10">职位名称</div>
+                            <div class="mt10">
+                                <input id="edit_work_position{{ forloop.counter }}" datatype="edit_work_position" maxlength="20" type="text" class="jl_input_txt">
+                            </div>
+                                <div class="clearfix mt10">
+                                    <div class="f_l">
+                                        <div class="c_88">入职时间</div>
+                                        <div class="mt10">
+                                            <input datatype="edit_work_start_time" style="border-radius:4px" type="text" value="{{ trw.start_time|date:"Y-m" }}"
+                                                   class="jl_input_txt1" onClick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="c_88">离职时间<span class="to_now_control" style="float:right;cursor:pointer;color:#5c91d9" data-wz="p-n-c"></span></div>
+                                        <div class="mt10">
+                                            <input datatype="edit_work_end_time" type="text" style="border-radius:4px" value="{{ trw.end_time|date:"Y-m"}}"
+                                                   class="jl_input_txt1"  onClick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                  
+
+                            <div style="width:47%; float:left;">
+                            <div class="c_88 mt10">汇报对象</div>
+                                <div class="mt10">
+                                <input  style="background:#fff!important" datatype="edit_report_object" maxlength="16" type="text" class="jl_input_txt commys" autocomplete="off" value="{{ trw.report_object }}">
+                                </div>                  
+                            </div>                          
+
+                            <div style="clear:both;"></div>
+                            <div class="c_88 mt10">工作职责</div>
+                            <div class="mt10">
+                                <textarea maxlength="1000" datatype="edit_work_duty" class="minimum edit_textarea">{{ trw.work_duty | escape }}</textarea>
+                            </div>
+                            <div class="c_88 mt10">工作业绩</div>
+                            <div class="mt10">
+                                <textarea  datatype="edit_perfor_duty"  class="commys minimum edit_textarea" maxlength="1000">
+                                    {{ trw.job_performance }}
+                                </textarea>
+                            </div>
+                            <div class="c_88 mt10">离职原因</div>
+                            <div class="departure">
+                                <div class="o_slide why">
+                                    {% if trw.leaving_reasons %}
+                                    <p>{{ trw.leaving_reasons }}</p>
+                                    {% else %}
+                                    <p data-val='4'>其他（填写）</p>
+                                    {% endif %}
+                                    <ul>
+                                        <li data-val='1'>个人原因</li>
+                                        <li data-val='2'>不适合公司文化</li>
+                                        <li data-val='3'>与期望薪资不符</li>
+                                        <li data-val='4'>其他（填写）</li>
+                                    </ul>
+                                </div>
+                                <input class="o_txt describe describezh" id="dimission" {% if trw.leaving_reasons %} style="display:none;" {% endif %} placeholder="请输入离职原因，不超过20字" maxlength="20" type="text">
+                            </div>
+
+                         
+                            <div class="b mt20 w1">
+                                <span onclick="WorkExperienceSave(this)" class="ascertain active">确认</span>
+                                <span class="cancel">取消</span>
+                            </div>
+                        </dd>
+                        <script type="text/javascript">
+                            BusinessulControls("edit_work_sindustry{{ forloop.counter }}", "{{ trw.sindustry  | default_if_none:""}}",
+                                    "{{ trw.industry  | default_if_none:""}}", 'width:274px');
+                        </script>
+                    {% endfor %}
+                {% endif %}
+            </dl>
+
+
+
+            <dl class="mt30">
+                <dt id="education_title" class="h20">
+                    <div class="jl_title">
+                        <div class="c" style="background-position: 10px -75px;">
+                            <!-- <i class="iconfont icon-jiaoyujingli"></i> -->
+                            <span id="jyjlId">教育经历</span>
+                        </div>
+                    </div>
+                    <div class="edit" datatype="add">
+                        <i class="iconfont icon-jiahao"></i>
+                        添加
+                    </div>
+                </dt>
+                <dd class="h">
+                    <input type="hidden" id="eidt_resume_education_id" datatype="eidt_resume_education_id">
+                    <input type="hidden" class="edit_type" value="EducationExperienceSave" >
+                    <input type="hidden" datatype="counter" value="{{ forloop.counter }}">
+                    <div style="width:47%; float:left;">
+                    <div class="c_88">院校名称</div>
+                    <div class="mt10">
+                        <input id="edit_education_uc_name" datatype="edit_education_uc_name" maxlength="16" type="text" class="jl_input_txt commys">
+                        <input id="edit_education_uc_id" datatype="edit_education_uc_id" type="hidden"  value="" >
+                    </div>
+                    <div class="c_88 mt10">专业名称</div>
+                    <div class="mt10">
+                        <input id="edit_education_smajor" datatype="edit_education_smajor" maxlength="16"   type="text" class="jl_input_txt commys"  autocomplete="off">
+                        <input id="edit_education_major" datatype="edit_education_major" type="hidden"  value="" >
+                    </div>
+                    </div>
+
+                   <div style="width: 295px; float:right;">
+                    <div class="c_88">学历</div>
+                    <div class="mt10">
+                        <div id="edit_education_diploma" datatype="edit_education_diploma" class="select1" data-key="" data-value="">
+                            <span></span>
+                            <ul class="selectControlList">
+                                {% for diploma in diplomaList%}
+                                    <li data-key="{{ diploma.dictionary_value }}" >{{ diploma.dictionary_name | default:'' }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="clearfix mt10">
+                        <div class="f_l">
+                            <div class="c_88">开始时间</div>
+                            <div class="mt10">
+                               <input id="edit_education_start_time" datatype="edit_education_start_time" style="border-radius:4px" readonly="true" type="text" class="jl_input_txt1 commys" onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="c_88">结束时间
+                                <span class="to_now_control" style="float:right;cursor:pointer;color:#5c91d9" data-wz="p-n-c"></span>
+                            </div>
+                            <div class="mt10">
+                                 <input id="edit_education_end_time" datatype="edit_education_end_time" style="border-radius:4px" readonly="true" type="text" class="jl_input_txt1 " onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                     <div style="clear:both;"></div>
+                    <div class="c_88">专业描述</div>
+                    <div class="mt10">
+                        <textarea id="edit_education_major_describe" datatype="edit_education_major_describe" maxlength="1000"  class="minimum edit_textarea"></textarea>
+                    </div>
+                    <div class="b mt20 w1">
+                        <span onclick="EducationExperienceSave(this)" class="active">确认</span>
+                        <span class="cancel">取消</span>
+                        <div class="f_r jl_delete">删除本条</div>
+                    </div>
+                </dd>
+                {% if is_import == 0 %}
+                    {% for tre in treList %}
+                        <dd style="clear:both;"></dd>
+                        <dd class="jl_content_box clearfix">
+                           <!--  <div class="l l_box">
+                                <div>
+                                    <i class="iconfont icon-time"></i>
+                                    <b>{{ tre.start_time | date:"Y/m" }}-
+                                        {% if tre.end_time %}
+                                            {{ tre.end_time | date:"Y/m" }}
+                                        {% else %}
+                                            至今
+                                        {% endif %}
+                                    </b>
+                                    <input type="hidden" value="{{ tre.start_time }}|{{ tre.end_time }}">
+                                </div>
+                                <div class="b"></div>
+                            </div> -->
+                            <!-- <div class="r r_box">
+                                <div class="min_height"></div>
+                                <dl>
+                                    <dt>
+                                        <div class="edit" datatype="jyjlEdit_m" onclick="jyjlEdit(this)">
+                                           <img src="{{ STATIC_URL }}images/icon_05.png">
+                                            
+                                        </div>
+                                        <input type="hidden" value="{{ tre.id|default:'' }}" >
+                                        <span>{{ tre.uc_name | default:'' }} | {{ tre.smajor | default:'' }} | {{ tre.sdiploma | default:'' }}</span>
+                                        <input type="hidden" value="{{ tre.uc_id }}|{{ tre.major }}|{{ tre.diploma }}">
+                                    </dt>
+                                    <dd>{% if tre.major_describe %}{{ tre.major_describe | safe }}{% endif %} </dd>
+                                </dl>
+                            </div> -->
+
+                          <div class="r r_box">
+                           <i class="iconfont icon-time"></i>
+                           <div>
+                           <div>
+                            <div class="edit comm_compile" datatype="jyjlEdit_m" onclick="jyjlEdit(this)">
+                                        <i class="edit_icon"></i>
+                            </div>
+                            <ul class="work_exper" id="jy_exper">
+                                <li>
+                                    <input type="hidden" value="{{ tre.id|default:'' }}" >
+                                    <span class="c_88">开始时间：</span>
+                                    <span class="c_33">{{ tre.start_time | date:"Y-m" }}</span>
+                               </li>
+                               <li>
+                                    <span class="c_88">结束时间：</span>
+                                    <span class="c_33">{% if tre.end_time %}
+                                            {{ tre.end_time | date:"Y-m" }}
+                                        {% else %}
+                                            至今
+                                        {% endif %}</span>
+                                     <input type="hidden" value="{{ tre.start_time }}|{{ tre.end_time }}">
+                               </li>
+                                <li>
+                                    <span class="c_88">学院名称：</span>
+                                    <span class="c_33">{{ tre.uc_name | default:'' }}</span>
+                                    <input type="hidden" value="{{ tre.uc_id|default:'' }}|{{ tre.major }}|{{ tre.diploma }}">
+                               </li>
+                                <li>
+                                    <span class="c_88">学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历：</span>
+                                    <span class="c_33">{{ tre.sdiploma | default:'' }}</span>
+                               </li>
+                                <li>
+                                    <span class="c_88">专业名称：</span>
+                                    <span class="c_33">{{ tre.smajor | default:'' }}</span>
+                               </li>
+                               <li style="width:95%!important;">
+                                    <span class="c_88" style="vertical-align: top;">专业描述：</span>
+                                    <span class="c_33" style="display:inline-block;word-wrap: break-word;width: 85%;">{{ tre.major_describe | safe }}</span>
+                               </li>
+                            </ul>
+                           
+                        </div>
+                    </div>
+                </div>
+                        
+                        </dd>
+                    {% endfor %}
+                {% else %}
+                    {% for tre in treList %}
+                        <dd class="edit_h">
+                            <input type="hidden" datatype="eidt_resume_education_id">
+                            <input type="hidden" class="edit_type" value="EducationExperienceSave" >
+                            <div style="width:47%; float:left;">
+                            <div class="c_88">院校名称</div>
+                            <div class="mt10">
+                                <input datatype="edit_education_uc_name" maxlength="16" type="text" class="jl_input_txt"
+                                       value="{{ tre.uc_name | default:'' }}">
+                                <input datatype="edit_education_uc_id" type="hidden"  value="" >
+                            </div>
+                            <div class="c_88 mt10">专业名称</div>
+                            <div class="mt10">
+                                <input datatype="edit_education_smajor" maxlength="16"  value="{{ tre.smajor | default:'' }}" type="text" class="jl_input_txt" autocomplete="off">
+                                <input datatype="edit_education_major" type="hidden"  value="{{ tre.major | default:'' }}" >
+                            </div>
+                            </div>
+                           <div style="width: 295px; float:right;">
+                            <div class="c_88">学历</div>
+                            <div class="mt10">
+                                <div datatype="edit_education_diploma" class="select1" data-key="{{ tre.diploma | default:'' }}" data-value="{{ tre.sdiploma | default:'' }}">
+                                    <span>{{ tre.sdiploma | default:'' }}</span>
+                                    <ul class="selectControlList">
+                                        {% for diploma in diplomaList%}
+                                            <li data-key="{{ diploma.dictionary_value }}" >{{ diploma.dictionary_name | default:'' }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="clearfix mt10">
+                                <div class="f_l">
+                                    <div class="c_88">开始时间</div>
+                                    <div class="mt10">
+                                       <input datatype="edit_education_start_time" style="border-radius:4px" readonly="true" value="{{ tre.start_time|date:"Y-m" }}"
+                                              type="text" class="jl_input_txt1" onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="c_88">结束时间
+                                        <span class="to_now_control" style="float:right;cursor:pointer;color:#5c91d9" data-wz="p-n-c"></span>
+                                    </div>
+                                    <div class="mt10">
+                                         <input datatype="edit_education_end_time" style="border-radius:4px" readonly="true" value="{{ tre.end_time|date:"Y-m"}}"
+                                                type="text" class="jl_input_txt1" onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                             <div style="clear:both;"></div>
+                            <div class="c_88">专业描述</div>
+                            <div class="mt10">
+                                <textarea datatype="edit_education_major_describe"  class="minimum edit_textarea" maxlength="1000">{{ trw.major_describe }}</textarea>
+                            </div>
+                            <div class="b mt20 w1">
+                                <span onclick="EducationExperienceSave(this)" class="active">确认</span>
+                                <span class="cancel">取消</span>
+                            </div>
+                        </dd>
+                    {% endfor %}
+                {% endif %}
+            </dl>
+            <dl class="mt30">
+                <dt id="item_title" class="h20">
+                    <div class="jl_title">
+                        <div class="c" style="background-position: 10px -118px;">
+                            <!-- <i class="iconfont icon-xiangmu"></i> -->
+                            <span id="xmjlId">项目经历</span>
+                        </div>
+                    </div>
+                    <div class="edit" datatype="add">
+                        <i class="iconfont icon-jiahao"></i>
+                        添加
+                    </div>
+                </dt>
+                <dd class="h">
+                    <input type="hidden" id="eidt_resume_item_id" datatype="eidt_resume_item_id">
+                    <input type="hidden" class="edit_type" maxlength="20" value="ItemExperienceSave" >
+                    <div style="width:47%; float:left;">
+                    <div class="c_88">公司名称</div>
+                    <div class="mt10">
+                        <input id="edit_item_company_id" style="background:#fff!important" datatype="edit_item_company_id" type="text" maxlength="20" class="jl_input_txt"></div>
+                    <div class="c_88 mt10">项目名称</div>
+                    <div class="mt10">
+                        <input id="edit_item_name" datatype="edit_item_name" type="text" maxlength="20" class="jl_input_txt"></div>
+                    </div>
+                    <div style="width: 305px; float:right;">
+                    <div class="clearfix">
+                        <div class="f_l">
+                            <div class="c_88">项目开始时间</div>
+                            <div class="mt10">
+                                  <input id="edit_item_start_time" datatype="edit_item_start_time" readonly="true" style="border-radius:4px"  type="text" class="jl_input_txt1" onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="c_88">项目结束时间
+                            <span class="to_now_control" style="float:right;cursor:pointer;color:#5c91d9" data-wz="p-n-c"></span>
+                            </div>
+                            <div class="mt10">
+                                 <input id="edit_item_end_time" datatype="edit_item_end_time" readonly="true" style="border-radius:4px"  type="text" class="jl_input_txt1" onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                            </div>
+                        </div>
+                        <div class="c_88 mt10">项目职务</div>
+                    <div class="mt10">
+                        <input id="edit_item_job" datatype="edit_item_job" type="text" maxlength="1000" style="background:#fff!important" class="jl_input_txt"></div>
+                    </div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <div class="c_88 mt10">项目职责</div>
+                    <div class="mt10">
+                        <textarea id="edit_item_duty" datatype="edit_item_duty" maxlength="1000" class="minimum edit_textarea t_bt"></textarea>
+                    </div>
+                    <div class="c_88 mt10">项目描述</div>
+                    <div class="mt10">
+                        <textarea id="edit_item_describe" datatype="edit_item_describe" maxlength="1000" class="minimum edit_textarea t_bt"></textarea>
+                    </div>
+                    <div class="b mt20 w1">
+                        <span onclick="ItemExperienceSave(this)" class="active">确认</span>
+                        <span class="cancel">取消</span>
+                        <div class="f_r jl_delete">删除本条</div>
+                    </div>
+                </dd>
+                {% if is_import == 0 %}
+                    {% for tri in triList %}
+                    <dd style="clear:both;"></dd>
+                    <dd class="jl_content_box clearfix">
+                        <!-- <div class="l l_box">
+                            <div>
+                                <i class="iconfont icon-time"></i>
+                                <span>{{ tri.item_name | default:'' }}</span>
+                            </div>
+                            <div class="b">
+                                <div>
+                                    <b>{{ tri.start_time | date:"Y/m" }}-{{ tri.end_time | date:"Y/m" }}</b>
+                                    <input type="hidden" value="{{ tri.start_time }}|{{ tri.end_time }}">
+                                </div>
+                                <div class="mt5">
+                                    <b>{{ tri.job | default:'' }}</b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="r r_box">
+                            <div class="min_height"></div>
+                            <dl>
+                                <dt>
+                                    <div class="edit" datatype="xmjlEdit_m" onclick="xmjlEdit(this)">
+                                       <img src="{{ STATIC_URL }}images/icon_05.png">
+                                        
+                                    </div>
+                                    <input type="hidden" value="{{ tri.id|default:'' }}" >
+                                    <span>{{ tri.company_id | default:'' }}</span>
+                                </dt>
+                                <dd class="c_33">
+                                    <span>{{ tri.duty | safe }}</span>
+                                </dd>
+                                <dd><span>{% if tri.item_describe %}{{ tri.item_describe | safe }}{% endif %}</span></dd>
+                            </dl>
+                        </div> -->
+                           <div class="r r_box">
+                           <i class="iconfont icon-time"></i>
+                           <div>
+                           <div>
+                            <div class="edit comm_compile" datatype="xmjlEdit_m" onclick="xmjlEdit(this)">
+                                       <i class="edit_icon"></i>
+                            </div>
+                            <ul class="work_exper" id="project_exper">
+                                <li>
+                                    <span class="c_88">开始时间：</span>
+                                    <span class="c_33">{{ tri.start_time | date:"Y-m" }}</span>
+                                    <input type="hidden" value="{{ tri.id|default:'' }}" >
+                               </li>
+                               <li>
+                                    <span class="c_88">结束时间：</span>
+                                    <span class="c_33">{% if tri.end_time %}
+                                            {{ tri.end_time | date:"Y-m" }}
+                                        {% else %}
+                                            至今
+                                        {% endif %}</span>
+                                     <input type="hidden" value="{{ tri.start_time }}|{{ tri.end_time }}">
+                               </li>
+                                <li>
+                                    <span class="c_88">公司名称：</span>
+                                    <span class="c_33">{{ tri.company_id | default:'' }}</span>
+                               </li>
+                                <li>
+                                    <span class="c_88">项目名称：</span>
+                                    <span class="c_33">{{ tri.item_name | default:'' }}</span>
+                               </li>
+                                <li>
+                                    <span class="c_88">项目职务：</span>
+                                    <span class="c_33">{{ tri.job | default:'' }}</span>
+                               </li>
+                               <li style="width:95%!important;">
+                                    <span class="c_88" style="vertical-align: top;">项目职责：</span>
+                                    <span class="c_33" style="display: inline-block;word-wrap: break-word; width: 85%;">{{ tri.duty | safe }}</span>
+                               </li>
+                               <li style="width:95%!important;">
+                                    <span class="c_88" style="vertical-align: top;">项目描述：</span>
+                                    <span class="c_33" style="display: inline-block;word-wrap: break-word; width: 85%;">{% if tri.item_describe %}{{ tri.item_describe | safe }}{% endif %}</span>
+                               </li>
+                            </ul> 
+                        </div>
+                    </div>                           
+                        </div>
+                    </dd>
+                    {% endfor %}
+                    {% else %}
+                        {% for tri in triList %}
+                            <dd class="edit_h">
+                                <input type="hidden" datatype="eidt_resume_item_id">
+                                <input type="hidden" class="edit_type" maxlength="20" value="ItemExperienceSave" >
+                                <div style="width:47%; float:left;">
+                                <div class="c_88">公司名称</div>
+                                <div class="mt10">
+                                    <input datatype="edit_item_company_id" value="{{ tri.company_id }}"
+                                           type="text" maxlength="20" class="jl_input_txt"></div>
+                                <div class="c_88 mt10">项目名称</div>
+                                <div class="mt10">
+                                    <input datatype="edit_item_name" value="{{ tri.item_name }}"
+                                            type="text" maxlength="20" class="jl_input_txt"></div>
+                                </div>
+                                <div style="width: 295px; float:right;">
+                                <div class="clearfix">
+                                    <div class="f_l">
+                                        <div class="c_88">项目开始时间</div>
+                                        <div class="mt10">
+                                              <input datatype="edit_item_start_time" value="{{ tri.start_time|date:"Y-m" }}" readonly="true"
+                                              style="border-radius:4px"  type="text" class="jl_input_txt1"
+                                              onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="c_88">项目结束时间
+                                         <span class="to_now_control" style="float:right;cursor:pointer;color:#5c91d9" data-wz="p-n-c"></span>
+                                        </div>
+                                        <div class="mt10">
+                                             <input datatype="edit_item_end_time" value="{{ tri.end_time|date:"Y-m" }}" readonly="true"
+                                             style="border-radius:4px"  type="text" class="jl_input_txt1"
+                                             onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                                        </div>
+                                    </div>
+                                    <div class="c_88 mt10">项目职务</div>
+                                <div class="mt10">
+                                    <input datatype="edit_item_job"  value="{{ tri.job }}"
+                                           type="text" maxlength="20" class="jl_input_txt"></div>
+                                </div>
+                                </div>
+                                <div style="clear:both;"></div>
+                                <div class="c_88 mt10">项目职责</div>
+                                <div class="mt10">
+                                    <textarea datatype="edit_item_duty" maxlength="1000" class="minimum edit_textarea">{{ tri.duty }}</textarea>
+                                </div>
+                                <div class="c_88 mt10">项目描述</div>
+                                <div class="mt10">
+                                    <textarea datatype="edit_item_describe" maxlength="1000" class="minimum edit_textarea">{{ tri.item_describe }}</textarea>
+                                </div>
+                                <div class="b mt20 w1">
+                                    <span onclick="ItemExperienceSave(this)" class="active">确认</span>
+                                    <span class="cancel">取消</span>
+                                </div>
+                            </dd>
+                    {% endfor %}
+                {% endif %}
+            </dl>
+            <dl class="mt30">
+                <dt id="training_title" class="h20">
+                    <div class="jl_title">
+                        <div class="c" style="background-position: 7px -156px;">
+                            <!-- <i class="iconfont icon-boshimao"></i> -->
+                            <span id="pxjlId">培训经历</span>
+                        </div>
+                    </div>
+                    <div class="edit" datatype="add">
+                        <i class="iconfont icon-jiahao"></i>
+                        添加
+                    </div>
+                </dt>
+                <dd class="h">
+                    <input type="hidden" id="eidt_training_id" datatype="eidt_training_id" >
+                    <input type="hidden" class="edit_type" maxlength="20" value="TrainingExperienceSave" >
+                    <div style="width:47%; float:left;">
+                    <div class="c_88">培训机构</div>
+                    <div class="mt10">
+                        <input id="edit_training_institution" style="background: #fff!important;" datatype="edit_training_institution" maxlength="20" type="text" class="jl_input_txt"></div>
+                    <div class="c_88 mt10">培训地点</div>
+                    <div class="mt10">
+                        <input id="edit_training_area" style="background: #fff!important;" datatype="edit_training_area" type="text" maxlength="20" class="jl_input_txt"></div>
+                    <div class="c_88 mt10">培训课程</div>
+                    <div class="mt10">
+                        <input id="edit_training_course" style="background: #fff!important;" datatype="edit_training_course" maxlength="20" type="text" class="jl_input_txt"></div>
+                    </div>
+                    <div style="width: 295px; float:right;">
+                    <div class="clearfix mt10">
+                        <div class="f_l">
+                            <div class="c_88">开始时间</div>
+                            <div class="mt10">
+                                 <input id="edit_training_start_time" style="background: #fff!important;" datatype="edit_training_start_time" readonly="true" type="text" class="jl_input_txt1" onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="c_88">结束时间
+                                <span class="to_now_control" style="float:right;cursor:pointer;color:#5c91d9;" data-wz="p-n-c"></span>
+                            </div>
+                            <div class="mt10">
+                                 <input id="edit_training_end_time" datatype="edit_training_end_time" readonly="true" style="background: #fff!important;" type="text" class="jl_input_txt1" onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="c_88 mt10">获得证书</div>
+                    <div class="mt10">
+                        <input id="edit_training_certificate" datatype="edit_training_certificate" maxlength="20" type="text" class="jl_input_txt no_bitian" style="background-image: none;"></div>
+                    </div>
+                     <div style="clear:both;"></div>
+                    <div class="c_88 mt10">培训描述</div>
+                    <div class="mt10">
+                        <textarea id="edit_training_describe" datatype="edit_training_describe"  maxlength="1000" class="minimum edit_textarea"></textarea>
+                    </div>
+                    <div class="b mt20 w1">
+                        <span onclick="TrainingExperienceSave(this)" class="active">确认</span>
+                        <span class="cancel">取消</span>
+                        <div class="f_r jl_delete">删除本条</div>
+                    </div>
+                </dd>
+                {% if is_import == 0 %}
+                    {% for trt in trtList %}
+                        <dd style="clear:both;"></dd>
+                        <dd class="jl_content_box clearfix">
+                            <!-- <div class="l l_box">
+                                <div>
+                                    <i class="iconfont icon-time"></i>
+                                    <span>{{ trt.course | default:'' }}</span>
+                                </div>
+                                <div class="b clb">
+                                    <div>
+                                        <b>{{ trt.start_time | date:"Y/m" }}-{{ trt.end_time | date:"Y/m" }}</b>
+                                        <input type="hidden" value="{{ trt.start_time }}|{{ trt.end_time }}">
+                                    </div>
+                                    <div class="mt5">
+                                        <b>{{ trt.area | default:'' }}</b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="r r_box">
+                                <div class="min_height"></div>
+                                <dl>
+                                    <dt>
+                                        <div class="edit" datatype="pxjlEdit_m" onclick="pxjlEdit(this)">
+                                           <img src="{{ STATIC_URL }}images/icon_05.png">
+                                            
+                                        </div>
+                                        <input type="hidden" value="{{ trt.id|default:'' }}" >
+                                        <span>{{ trt.institution | default:'' }}{% if trt.certificate %} | {{ trt.certificate | default:'' }}
+                                        {% endif %}
+                                        </span>
+                                    </dt>
+                                    <dd>
+                                        <span>{% if trt.training_describe %}{{ trt.training_describe | safe }}{% endif %}</span>
+                                    </dd>
+                                </dl>
+                            </div> -->
+                          <div class="r r_box">
+                           <i class="iconfont icon-time"></i>
+                           <div>
+                           <div>
+                           <div class="edit comm_compile" datatype="pxjlEdit_m" onclick="pxjlEdit(this)">
+                                       <i class="edit_icon"></i>
+                            </div>
+                            <ul class="work_exper" id="train_exper">
+                                <li>
+                                    <span class="c_88">开始时间：</span>
+                                    <span class="c_33">{{ trt.start_time | date:"Y-m" }}</span>
+                                    <input type="hidden" value="{{ trt.id|default:'' }}" >
+                               </li>
+                               <li>
+                                    <span class="c_88">结束时间：</span>
+                                    <span class="c_33">{% if trt.end_time or not trt.start_time %}
+                                            {{ trt.end_time | date:"Y-m" }}
+                                        {% else %}
+                                            至今
+                                        {% endif %}</span>
+                                    <input type="hidden" value="{{ trt.start_time }}|{{ trt.end_time }}">
+                               </li>
+                                <li>
+                                    <span class="c_88">培训机构：</span>
+                                    <span class="c_33">{{ trt.institution | default:'' }}</span>
+                               </li>
+                                <li>
+                                    <span class="c_88">培训地点：</span>
+                                    <span class="c_33">{{ trt.area | default:'' }}</span>
+                               </li>
+                                <li>
+                                    <span class="c_88">培训课程：</span>
+                                    <span class="c_33">{{ trt.course | default:'' }}</span>
+                               </li>
+                                <li>
+                                    <span class="c_88">获取证书：</span>
+                                    <span class="c_33">{{ trt.certificate | default:'' }}</span>
+                               </li>                               
+                               <li style="width:95%!important;">
+                                    <span class="c_88" style="vertical-align: top;">培训描述：</span>
+                                    <span class="c_33" style="display: inline-block;word-wrap: break-word; width: 85%;">{% if trt.training_describe %}{{ trt.training_describe | safe }}{% endif %}</span>
+                               </li>
+                            </ul>
+                        </div>
+                    </div>
+                        </div>
+                        </dd>
+                {% endfor %}
+                {% else %}
+                    {% for trt in trtList %}
+                        <dd class="edit_h">
+                            <input type="hidden" datatype="eidt_training_id">
+                            <input type="hidden" class="edit_type" maxlength="20" value="TrainingExperienceSave" >
+                            <div style="width:47%; float:left;">
+                            <div class="c_88">培训机构</div>
+                            <div class="mt10">
+                                <input datatype="edit_training_institution" value="{{ trt.institution|default_if_none:"" }}" maxlength="20" type="text" class="jl_input_txt"></div>
+                            <div class="c_88 mt10">培训地点</div>
+                            <div class="mt10">
+                                <input datatype="edit_training_area" value="{{ trt.area|default_if_none:"" }}" type="text" maxlength="20" class="jl_input_txt"></div>
+                            <div class="c_88 mt10">培训课程</div>
+                            <div class="mt10">
+                                <input datatype="edit_training_course" value="{{ trt.course|default_if_none:"" }}" maxlength="20" type="text" class="jl_input_txt"></div>
+                            </div>
+                            <div style="width: 295px; float:right;">
+                            <div class="clearfix mt10">
+                                <div class="f_l">
+                                    <div class="c_88">开始时间</div>
+                                    <div class="mt10">
+                                         <input datatype="edit_training_start_time" value="{{ trt.start_time|date:"Y-m" }}" readonly="true" type="text" class="jl_input_txt1" onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="c_88">结束时间
+                                    <span class="to_now_control" style="float:right;cursor:pointer;color:#5c91d9" data-wz="p-n-c"></span>
+                                    </div>
+                                    <div class="mt10">
+                                         <input datatype="edit_training_end_time" value="{{ trt.end_time|date:"Y-m" }}" readonly="true" type="text" class="jl_input_txt1" onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM'})">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="c_88 mt10">获得证书</div>
+                            <div class="mt10">
+                                <input datatype="edit_training_certificate" value="{{ trt.certificate|default_if_none:"" }}" maxlength="20" type="text" class="jl_input_txt no_bitian" style="background-image: none;"></div>
+                            </div>
+                             <div style="clear:both;"></div>
+                            <div class="c_88 mt10">培训描述</div>
+                            <div class="mt10">
+                                <textarea datatype="edit_training_describe" maxlength="1000" class="minimum edit_textarea">
+                                    {{ trt.training_describe|default_if_none:"" }}
+                                </textarea>
+                            </div>
+                            <div class="b mt20 w1">
+                                <span onclick="TrainingExperienceSave(this)" class="active">确认</span>
+                                <span class="cancel">取消</span>
+                            </div>
+                        </dd>
+                    {% endfor %}
+                {% endif %}
+            </dl>
+            <dl>
+                <dt class="clearfix h20">
+                    <div class="jl_title" style="margin-top:30px;">
+                        <div class="c o">
+                            <i class="zwpj_img1" style="color:#888;"></i>
+                            <span id="grnlId" style="margin-left: -7px;">自我评价</span>
+                        </div>
+                    </div>
+                    <div class="edit" style="margin-top:20px;" datatype="grphEdit" onclick="selfIntroducejEdit(this)">
+                      <i class="edit_icon"></i>
+                        
+                    </div>
+                </dt>
+                <dd class="jl_content_box clearfix jl_grjn mt20 self_introduce_value">
+                    <p id="edit_zwpj_show" class="gwpj">{% if resume.self_introduce %}{{ resume.self_introduce | safe }}{% endif %}</p>
+                </dd>
+                <dd class="h tag_h" style="margin-top:30px;clear:both; overflow: hidden;">
+                    <textarea id="edit_zwpj" class="o_txtarea edit_textarea" placeholder="请输入评价内容" maxlength="1000"></textarea>
+                    <p class="word_hint" style="text-align:right;color:#ff8800;"><b>0</b>&nbsp;/&nbsp;<span>20</span></p>
+                    <div class="b mt20 w1">
+                        <span onclick="selfIntroduceSave(this)" class="active">确认</span>
+                        <span class="cancel">取消</span>
+                    </div>
+                </dd>
+            </dl>
+            <dl class="mt30">
+                <dt  class="h20">
+                    <div class="jl_title">
+                        <div class="c" style="background-position: 10px 3px;">
+                            <!-- <i class="iconfont icon-gongzuojingyan"></i> -->
+                            <span id="qzyyId">求职意向</span>
+                        </div>
+                    </div>
+                    <div class="edit" datatype="qzyxEdit">
+                       <i class="edit_icon"></i>        
+                    </div>
+                </dt>
+                <dd class="jl_info mb50">
+                    <div style="clear: both"></div>
+                    <!-- <div>
+                        <span class="c_99">求职状态：</span>
+                        <span id="sposition_status" class="c_33">{{ resume.sposition_status | default_if_none:"" }} </span>
+                    </div>
+                    <div class="oh">
+                        <div class="f_l">
+                            <span class="c_99">目前年薪：</span>
+                            <span id="scurrently_salary" class="c_33">{{ resume.scurrently_salary | default_if_none:"" }}</span>
+                        </div>
+                        <div class="f_l">
+                            <span class="c_99 ml65">期望年薪：</span>
+                            <span id="sexpect_pay" class="c_33">{{ resume.sexpect_pay | default_if_none:"" }}</span>
+                        </div>
+                    </div>
+                    <div class="oh">
+                        <div class="f_l">
+                            <span class="c_99">期望工作性质：</span>
+                            <span id="sexpect_work_nature" class="c_33">{{ resume.sexpect_work_nature | default_if_none:"" }}</span>
+                        </div>
+                        <div class="f_l">
+                            <span class="c_99 ml65">到岗时间：</span>
+                            <span id="swork_time" class="c_33">{{ resume.swork_time | default_if_none:"" }}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="c_99">期望工作地点：</span>
+                        <span id="sArea" class="c_33">{{ sArea | default_if_none:"" }}</span>
+                    </div>
+                    <div>
+                        <span class="c_99">期望行业：</span>
+                        <span id="sIndustry" class="c_33">{{ sIndustry | default_if_none:"" }}</span>
+                    </div>
+                    <div>
+                        <span class="c_99">期望职位：</span>
+                        <span id="sPosition" class="c_33">{{ sPosition | default_if_none:"" }}</span>
+                    </div> -->                  
+                   
+                <ul>
+                   {% if resume.resume_source != 1 %}
+                    <li><span class="c_88">求职状态：</span>
+                    <span id="sposition_status" class="c_33">{{ resume.sposition_status | default_if_none:"" }} 
+                    <input type="hidden" id="sposit1" value="{{ resume.sposition_status }}">
+                    </span>                    
+                    </li>
+                    {% else %}
+                         <li style="display:none;"><span class="c_88">求职状态：</span>
+                        <span id="sposition_status" class="c_33">{{ resume.sposition_status | default_if_none:"" }} 
+                        <input type="hidden" id="sposit1" value="{{ resume.sposition_status }}">
+                        </span>                    
+                        </li>
+                    {% endif %}
+                    <li><span class="c_88">期望性质：</span>
+                        <span id="sexpect_work_nature" class="c_33">{{ resume.sexpect_work_nature | default_if_none:"" }}</span></li>
+                    <li><span class="c_88">期望行业：</span>
+                        <span id="sIndustry" class="c_33">{{ sIndustry | default_if_none:"" }}</span></li>
+                    <li><span class="c_88">期望职位：</span>
+                        <span id="sPosition" class="c_33">{{ sPosition | default_if_none:"" }}</span></li>
+                    <li><span class="c_88">目前年薪：</span>
+                        <span id="scurrently_salary" class="c_33">{{ resume.scurrently_salary | default_if_none:"" }}</span></li>
+                    <li><span class="c_88">期望年薪：</span>
+                        <span id="sexpect_pay" class="c_33">{{ resume.sexpect_pay | default_if_none:"" }}</span></li>
+                    <li><span class="c_88">到岗时间：</span>
+                        <span id="swork_time" class="c_33">{{ resume.swork_time | default_if_none:"" }}</span></li>
+                    <li><span class="c_88">期望工作地点：</span>
+                        <span id="sArea" class="c_33">{{ sArea | default_if_none:"" }}</span></li>
+                </ul>
+                  {% if request.session.account_type == '1' %}
+                        <div class="chuangye mt20 zx">
+                            <span>你有创业的打算吗？</span>
+                            <div class="btn_list">
+                                {% if resume.is_entrepreneur == '1' %}
+                                    <button class="o_btn active" onclick="changeEntrepreneurValue(this, 1)">有</button>
+                                    <button class="o_btn" onclick="changeEntrepreneurValue(this, 0)">暂时没有</button>
+                                {% else %}
+                                    <button class="o_btn" onclick="changeEntrepreneurValue(this, 1)">有</button>
+                                    <button class="o_btn active" onclick="changeEntrepreneurValue(this, 0)">暂时没有</button>
+                                {% endif %}
+                                <input type="hidden" name="isEntrepreneurValue" >
+                            </div>
+                        </div>
+                    {% endif %}
+
+
+
+                </dd>
+                <dd class="h">
+                 {% if resume.resume_source != 1 %}
+                    <div class="c_88">求职状态</div>
+                    <div class="mt10">
+                        <div id="edit_position_status" class="select1" data-key="{{ resume.position_status |default:'' }}" data-value="{{ resume.sposition_status |default:'' }}">
+                            <span>{{ resume.sposition_status | default:'请选择' }}</span>
+                            <ul class="selectControlList" >
+                             {% for position_status in position_statusList %}
+                                    <li data-key="{{ position_status.dictionary_value }}" >{{ position_status.dictionary_name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="mt10" style="display:none;">
+                        <div id="edit_position_status" class="select1" data-key="{{ resume.position_status |default:'' }}" data-value="{{ resume.sposition_status |default:'' }}">                            
+                        </div>
+                    </div>
+                {% endif %}
+                    <div class="clearfix mt10">
+                        <div class="f_l">
+                            <div class="c_88">目前年薪</div>
+                            <div class="mt10">
+                                <div id="edit_currently_salary" class="select2" data-key="" data-value="">
+                                    <span>{{ resume.scurrently_salary | default:'请选择' }}</span>
+                                    <ul class="selectControlList">
+                                        {% for salaryL in salaryList%}
+                                            <li data-key="{{ salaryL.dictionary_value }}" >{{ salaryL.dictionary_name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="f_l">
+                            <div class="c_88">期望年薪</div>
+                            <div class="mt10">
+                                <div id="edit_expect_pay" class="select2" data-key="" data-value="">
+                                    <span>{{ resume.sexpect_pay | default:'请选择' }}</span>
+                                    <ul class="selectControlList" >
+                                        {% for salaryL in salaryList%}
+                                            <li data-key="{{ salaryL.dictionary_value }}" >{{ salaryL.dictionary_name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix mt10">
+                        <div class="f_l">
+                            <div class="c_88">期望工作性质</div>
+                            <div class="mt10">
+                                <div id="edit_expect_work_nature" class="select2" style="background-image:none!important;" data-key="{{ resume.expect_work_nature }}" data-value="{{ resume.sexpect_work_nature }}">
+                                    <span>{{ resume.sexpect_work_nature | default:'请选择' }}</span>
+                                    <ul class="selectControlList">
+                                        {% for expect_work_nature in expect_work_natureList%}
+                                            <li data-key="{{ expect_work_nature.dictionary_value }}" >{{ expect_work_nature.dictionary_name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="f_l">
+                            <div class="c_88">到岗时间</div>
+                            <div class="mt10">
+                                <div id="edit_work_time" class="select2" style="background-image:none!important;" data-key="{{ resume.work_time }}" data-value="{{ resume.swork_time }}">
+                                    <span>{{ resume.swork_time | default:'请选择' }}</span>
+                                    <ul class="selectControlList">
+                                        {% for work_time in work_timeList%}
+                                            <li data-key="{{ work_time.dictionary_value }}" >{{ work_time.dictionary_name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div  class="mt10">
+                        <div class="c_88">期望工作地点</div>
+                        <div class="mt10">
+                            <input id="edit_sexpect_area" type="text" readonly="true" style="cursor: pointer;" class="jl_input_txt" onclick="showArea(this,3)" value="{{ sArea | default:''}}">
+                            <input type="hidden"  id="edit_expect_area" value="{{ resume.expect_area }}">
+                        </div>
+                    </div>
+                    <div class="mt10">
+                        <div class="c_88">期望行业</div>
+                        <div class="mt10">
+                            <div id="edit_sexpect_industry" onclick="BusinessulControlsShow(3,this)"></div>
+                            <input type="hidden"  id="edit_expect_industry" value="{{ resume.expect_industry }}">
+                        </div>
+                    </div>
+                    <div class="mt10">
+                        <div class="c_88">期望职位</div>
+                        <div class="mt10">
+                            <div id="edit_sexpect_position" onclick="PositionControlsShow(5,this)"></div>
+                            <input type="hidden"  id="edit_expect_position" value="{{ resume.expect_position }}">
+                        </div>
+                    </div>
+                    <div class="b mt20 w">
+                        <span onclick="JobIntensionSave(this)" class="active">确认</span>
+                        <span class="cancel">取消</span>
+                    </div>
+                </dd>
+            </dl>
+            <dl class="mt30">
+                <dt class="clearfix h20">
+                    <div class="jl_title">
+                        <div class="c" style="background-position: 10px -201px;">
+                            <!-- <i class="iconfont icon-jineng"></i> -->
+                            <span id="grnlId">个人技能</span>
+                        </div>
+                    </div>
+                    <div class="edit" datatype="add">
+                        <i class="iconfont icon-jiahao"></i>
+                        添加
+                    </div>
+                </dt>
+                <dd class="h">
+                    <input type="hidden" id="eidt_skill_id" datatype="eidt_skill_id">
+                    <input type="hidden" class="edit_type" value="SkillSave">
+                    <div class="c_88">技能名称</div>
+                    <div class="mt10">
+                     <input id="edit_skill_name" datatype="edit_skill_name" type="text" maxlength="20" class="jl_input_txt"></div>
+                     <div class="mt10">
+                        <div id="edit_skill_level_attained" datatype="edit_skill_level_attained" style="width: 270px; height: 41px;" class="select1 selectControl" data-name="" data-key="" data-value="">
+                            <span></span>
+                            <ul style="display: none;" class="selectControlList">
+                                {% for level_attained in level_attainedList%}
+                                    <li data-name="{{ level_attained.dictionary_remark }}" data-key="{{ level_attained.dictionary_value }}" >{{ level_attained.dictionary_name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="b mt20 w1">
+                        <span onclick="SkillSave(this)" class="active" >确认</span>
+                        <span class="cancel">取消</span>
+                        <div class="f_r jl_delete">删除本条</div>
+                    </div>
+                </dd>
+                <dd class="jl_content_box clearfix jl_grjn mt20">
+                    <div id="skill_title"></div>
+                    {% if is_import == 0 %}
+                        {% for trs in trsList %}
+                            <div class="clearfix">
+                            <div style="display:inline-block;float:left; color:#888;">技能名称:&nbsp;&nbsp;</div><div class="f_l w1">{{ trs.skill_name | default:'' }}</div>
+                                <div class="f_l w2">
+                                    <div class="jl_jdt">
+                                        <span style="width:{{ trs.level_attained_value|default:'' }}%"></span>
+                                        <input type="hidden" value="{{ trs.level_attained_value|default:'' }}">
+                                        <input type="hidden" value="{{ trs.level_attained|default:'' }}">
+                                    </div>
+                                </div>
+                                <div class="f_l w3">{{ trs.slevel_attained | default:'' }}</div>
+                                <div class="edit" datatype="grjlEdit_m" onclick="grjlEdit(this)" >
+                                   <i class="edit_icon"></i>
+                                    
+                                </div>
+                                <input type="hidden" value="{{ trs.id|default:'' }}">
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% for trs in trsList %}
+                            <dd class="edit_h">
+                                <input type="hidden" id="eidt_skill_id" datatype="eidt_skill_id">
+                                <input type="hidden" class="edit_type" value="SkillSave">
+                                <div class="c_88">技能名称</div>
+                                <div class="mt10">
+                                 <input id="edit_skill_name" datatype="edit_skill_name" value="{{ trs.skill_name }}" type="text" maxlength="20" class="jl_input_txt"></div>
+                                 <div class="mt10">
+                                    <div id="edit_skill_level_attained" datatype="edit_skill_level_attained" style="width: 270px; height: 41px;"
+                                         class="select1 selectControl" data-key="{{ trs.level_attained }}" data-value="{{ trs.slevel_attained }}"
+                                         data-name="{% if trs.level_attained == "12108000" %}0{% elif trs.level_attained == "12107000" %}50{% else %}100{% endif %}">
+                                         <span>{{ trs.slevel_attained }}</span>
+                                        <ul style="display: none;" class="selectControlList">
+                                            {% for level_attained in level_attainedList%}
+                                                <li data-name="{{ level_attained.dictionary_remark }}" data-key="{{ level_attained.dictionary_value }}" >{{ level_attained.dictionary_name }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="b mt20 w1">
+                                    <span onclick="SkillSave(this)" class="active" >确认</span>
+                                    <span class="cancel">取消</span>
+                                </div>
+                            </dd>
+                        {% endfor %}
+                    {% endif %}
+                </dd>
+            </dl>
+            <dl  style="margin-top: 63px;">
+                <dt class="clearfix h20">
+                    <div class="jl_title">
+                        <div class="c" style="background-position: 10px -243px;">
+                            <!-- <i class="iconfont icon-biaoqian"></i> -->
+                            <span id="grbqId">个人标签</span>
+                        </div>
+                    </div>
+                    <div class="edit" datatype="grbqEdit">
+                        <i class="edit_icon"></i>                        
+                    </div>
+                </dt>
+                <dd class="jl_content_box clearfix jl_grjn mt20">
+                    <ul class="jl_tag clearfix" id="jlTagListShow" style="margin-left:40px;">
+                        {% for labels in labelsList %}
+                            {% if labels %}
+                            <li>{{ labels|default:'' }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>                 
+                </dd>
+                <dd class="h tag_h">
+                    <div class="c_88">添加个人标签</div>
+                    <div class="mt10 clearfix">
+                        <ul class="jl_tag f_l" id="jlTagList">
+                            {% for labels in labelsList %}
+                                {% if labels != ""%}
+                                    <li>{{ labels }}<i class='iconfont icon-cha'></i></li>
+                                    {% endif %}
+                            {% endfor %}
+                        </ul>
+                        <span class="alert f_r" style="display: none">最多只能选择 8 个</span>
+                    </div>
+                    <dl class="tag_b">
+                        <dt class="clearfix" style="width:580px;">
+                            <div class="f_r">
+                                <input type="text" maxlength="6">
+                                <span class="jl_button1" onclick="tieshang(this)" id="jl_tag_button1">贴上</span>
+                            </div>
+                            <div class="f_l" id="changBtn" onclick="changeLabel()">
+                                <i class="iconfont icon-shuaxin"></i>
+                                <span>换一换</span>
+                            </div>
+                        </dt>
+                        <dd class="clearfix">
+                            <ul class="jl_tag f_l" id="jlTag" style="width:auto;">
+                            </ul>
+                        </dd>
+                    </dl>
+{#                    <div class="chuangye mt20 bj">#}
+{#                        <span>你有创业的打算吗？</span>#}
+{#                        <div class="btn_list">#}
+{#                            <button onclick="danxuan(this)" class="o_btn active">有</button>#}
+{#                            <button onclick="danxuan(this)" class="o_btn">暂时没有</button>#}
+{#                        </div>#}
+{#                    </div>#}
+                   <div class="b mt20 w1" style="padding-left:0px;">
+                       <span onclick="LabelsSave(this)" class="active">确认</span>
+                     <span class="cancel">取消</span>
+                  </div>
+                </dd>
+            </dl>
+      <!--       {% if resume.resume_source == 2 or request.session.account_type == "3" or request.session.account_type == "5" %}
+            <dl style="margin-top: 63px;">
+                <dt class="clearfix h20">
+                    <div class="jl_title">
+                        <div class="c o">
+                            <i class="zwpj_img1"></i>
+                            <span id="grnlId">顾问评价</span>
+                        </div>
+                    </div>
+                    <div class="edit" datatype="grphEdit" onclick="gwpjEdit(this)">
+                       <i class="edit_icon"></i>                        
+                    </div>
+                </dt>
+                <dd class="jl_content_box clearfix jl_grjn mt20" style="{% if is_import != 0 %}display: none;{% else %}display: block;{% endif %}">
+                    <div id="edit_evaluation_show" class="gwpj">{% if resume.evaluation %}{{ resume.evaluation | safe }}{% endif %}</div>
+                </dd>
+                <dd class="h tag_h" style="{% if is_import != 0 %}display: block;{% else %}display: none;{% endif %}">
+                    <textarea id="edit_evaluation" class="o_txtarea edit_textarea" placeholder="请输入评价内容" maxlength="1000">{% if resume.evaluation %}{{ resume.evaluation | safe }}{% endif %}</textarea>
+                    <div class="b mt20 w1">
+                        <span onclick="EvaluationSave(this)" class="active">确认</span>
+                        <span class="cancel">取消</span>
+                    </div>
+                </dd>
+            </dl>
+            {% endif %} -->
+            <div id="UseFoScreenScroll"></div>
+            <dl  style="margin-top: 63px;">
+                <dt class="clearfix h20">
+                    <div class="jl_title">
+                        <div class="c" style="background-position: 10px -289px;">
+                            <!-- <i class="iconfont icon-yinsibaohu"></i> -->
+                            <span id="ysszId">更多隐私设置</span>
+                        </div>
+                    </div>
+
+{#                    <div class="edit" datatype="add" data-tag="yssz">#}
+{#                        <i class="iconfont icon-jiahao"></i>#}
+{#                        添加#}
+{#                    </div>#}
+                </dt>
+             {% if resume.resume_source == 1 %}
+             <dd>              
+              <div class="privacy" style="background-color: #fff!important;color: #888;float:left;margin-left:33px; margin-bottom:-10px;">
+                    <ul class="f_r">
+                        <li class="f_l" style="width:70px!important;">
+                        <!-- <i class="iconfont icon-yinsibaohu"></i> -->
+                        隐私设置:
+                        </li>
+                        <li class="f_l cursor">
+                        <span style="margin-right: 0;display:inline-block;font-size: 12px;color:#333;margin-top: 1px;" class="jl_txt_hide">
+                        {{ resume.ssearch_type | default:"隐藏简历" }}<i class="iconfont icon-xiajiantou"></i>
+                        </span>
+
+                        <ul style="width:96px!important;">
+                        {% for open in openList %}
+                        <li style="border-right: 1px solid #e0e0e0;">{{ open.dictionary_name }}<input type="hidden" value="{{ open.dictionary_value }}"></li>
+                        {% endfor %}
+                        </ul>
+                        </li>
+                    </ul>
+                </div>
+                </dd>
+                {% endif %}
+                <div style="clear:both;"></div>
+                <dd class="jl_content_box clearfix jl_grjn mt20">
+                    <div class="ml40">
+                        <div class="edit" datatype="gdysEdit_m">
+                           <i class="edit_icon"></i>                            
+                        </div>
+                        企业屏蔽
+                    </div>
+                    <div class="dib"><span class="radio"><i></i></span><label class="n">我不希望某些企业搜索到我</label>
+                     </div>
+                    <div>
+                    <ul id="filter_tpc" class="b">
+                            {% for filter_tpc in filter_tpcList %}
+                            <li data-id="{{ filter_tpc.id|default:'' }}">{{ filter_tpc.pc_name }}</li>
+                            {% endfor %}
+                    </ul>
+                </dd>
+                <dd class="jl_content_box clearfix jl_grjn mt20">
+                     <div class="ml40">
+                        <div class="edit" datatype="gdysEdit_m">
+                           <i class="edit_icon"></i>
+                            
+                        </div>
+                        经纪人屏蔽
+                    </div>
+                    <div class="dib"><span class="radio"><i></i></span><label class="n">我不希望某些猎头搜索到我</label>
+                     </div>
+                    <div>
+                    <ul id="filter_tpu" class="b1">
+                        {% for filter_tpu in filter_tpuList %}
+                            <li data-id="{{ filter_tpu.id|default:'' }}">{{ filter_tpu.user_name }}</li>
+                        {% endfor %}
+                    </ul>
+                </dd>
+                <dd class="h tag_h" style="padding-top:0;">
+                 <div id="qypb_box" style="padding:20px 0">
+                     <div class="c_88">企业屏蔽</div>
+
+                    <div class="ysSet_box" >
+                         <ul id="edit_filter_tpc" class="b clearfix">
+                         </ul>
+                        <div class="d">
+                            <input id="search_filter_tpc" maxlength="16" type="text">
+                            <input type="hidden">
+                            <span class="jl_button1" id="qy_save_btn">保存</span>
+                        </div>
+                    </div>
+                 </div>
+                 <div id="ltpb_box" style="padding:20px 0">
+                     <div class="c_88">经纪人屏蔽</div>
+                        <div class="ysSet_box" >
+                            <ul id="edit_filter_tpu"  class="b clearfix">
+                        </ul>
+                        <div class="d">
+                            <input id="search_filter_tpu" maxlength="16" type="text">
+                            <input type="hidden">
+                            <span class="jl_button1" id="lt_save_btn">保存</span>
+                        </div>
+                        </div>
+                 </div>
+                     <div class="b mt20 w1" style="margin-top: 20px;">
+                        <input type="hidden" id="edit_filter_type" >
+                        <span onclick="filterSave(this)" class="active">确认</span>
+                        <span class="cancel">取消</span>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+
+
+    </div>
+    
+            {% if resume.resume_source == 1 %}
+              <div class="content_right" style="padding-top:20px; width:23%; float:right;">
+               <div class="r r_box" style="float:right;">
+               <ul id="gjx" class="t" style="border:1px solid #e0e0e0;">
+                <li>
+                    <!-- <div>
+                        <a href="/resume/personal/tddjl"><i class="iconfont icon-toudixiang"></i></a>
+                    </div>
+                    <div><a href="/resume/personal/tddjl">投递箱</a></div> -->
+                    <a href="/resume/personal/tddjl">
+                        <div class="img" style="background-position: 2px 0px"></div>
+                        <p>投递箱</p>
+                    </a>
+                </li>
+                <li>
+                    <!-- <div>
+                        <a href="/position/personal/zwsc"><i class="iconfont icon-shoucangjia"></i></a>
+                    </div>
+                    <div><a href="/position/personal/zwsc">收藏夹</a></div> -->
+                    <a href="/position/personal/zwsc">
+                        <div class="img" style="background-position: -89px 0px"></div>
+                        <p>收藏夹</p>
+                    </a>
+                </li>
+                <li>
+                    <!-- <div>
+                        <a href="/position/personal/zwdyq"><i class="iconfont icon-dingyue"></i></a>
+                    </div>
+                    <div><a href="/position/personal/zwdyq">订阅器</a></div> -->
+                    <a href="/position/personal/zwdyq">
+                        <div class="img" style="background-position: -180px 3px"></div>
+                        <p>订阅器</p>
+                    </a>
+                </li>
+            </ul>
+
+
+            <div class="resume_inte">
+                <p><span class="integr">简历完整度：{{ resume.integrity | default:0 }}%</span><i onclick="refresh()"></i><a class="previews" id="yl" target="_blank">预览简历</a></p>
+                <p class="preview_jl"><span style="width:{{ resume.integrity | default:0 }}%;"></span></p>
+            </div>
+         
+            <div class="job_status">
+                <p class="stat_titl">求职状态</p>
+                <div id="edit_position_status" class="jobtie" data-key="{{ resume.position_status|default:'12101000' }}" data-value="{{ resume.sposition_status|default:'已离职，可快速到岗' }}">
+                        <span>{{ resume.sposition_status | default:'已离职，可快速到岗' }}<i class="iconfont icon-xia1"></i></span>
+                        <ul class="jobstatilist" >
+                         {% for position_status in position_statusList%}
+                                <li data-key="{{ position_status.dictionary_value }}" >{{ position_status.dictionary_name }}</li>
+                            {% endfor %}
+                        </ul>
+                </div>
+            </div>
+
+
+            {% else %}
+            <div class="content_right">
+               <div class="r r_box" style="width:23%;float:right;">
+             <ul class="t yr clearfix" id="agent_export" style="padding-left: 0px;{% if not resume.id %}display: none;{% endif %}">
+                    <li onclick="recommend('{{ resume.isinvite }}', '{{ resume.source_id }}', '{{ resume.id }}', '{{ resume.user_name }}', '{{ resume.resume_source }}')">
+                        <div>
+                            <i class="iconfont icon-tuijian1"></i>
+                        </div>
+                        <div>推荐职位</div>
+                    </li>
+                    <li  onclick="doForwardResume([{{ resume.id }}])">
+                        <div class="zfjl">
+                        </div>
+                        <div>转发简历</div>
+                    </li>
+                    <li  onclick="showCheck('{{ resume.id }}', '{{ resume.user_name }}', '{{ exportType }}')">
+                        <div class="dcjl1">
+                        </div>
+                        <div>导出简历</div>
+                    </li>
+                    <div class="tjbg"><i class="tj_icon"></i>推荐报告<!-- <em class="tj_cha"></em> --></div>
+            </ul>
+            {% endif %}
+            <dl class="b jl_up" id="jl_upload">
+{#                <dt>#}
+{#                    <i class="iconfont icon-yinsibaohu"></i>#}
+{#                    简历上传#}
+{#                </dt>#}
+                <dd >
+                    <div class="active" style="background-position: 25px 5px;">
+                        基本信息                         
+                        <img class="icon-ditu" src="/static/images/o_ditu.png" alt="">
+                    </div>
+                    <div style="background-position: 25px -31px;">
+                        工作经历 
+                        <img class="icon-ditu" src="/static/images/o_ditu.png" alt="">
+                    </div>
+                    <div style="background-position: 25px -67px;">
+                        教育经历
+                        <img class="icon-ditu" src="/static/images/o_ditu.png" alt="">
+                    </div>
+                    <div style="background-position: 25px -103px;">
+
+                        项目经历
+                        <img class="icon-ditu" src="/static/images/o_ditu.png" alt="">
+                    </div>
+                    <div style="background-position: 25px -139px;">
+                        培训经历
+                        <img class="icon-ditu" src="/static/images/o_ditu.png" alt="">
+                    </div>
+                    <div style="padding-left: 25px;background-image:none">
+                        <i class="zwpj_img"></i>
+                         自我评价
+                        <img class="icon-ditu" src="/static/images/o_ditu.png" alt="">
+                    </div>
+                    <div style="background-position: 25px -175px;">
+                        求职意向
+                        <img class="icon-ditu" src="/static/images/o_ditu.png" alt="">
+                    </div>
+                    <div style="background-position: 25px -211px;">
+                        个人技能
+                        <img class="icon-ditu" src="/static/images/o_ditu.png" alt="">
+                    </div>
+                    <div style="background-position: 25px -247px;">
+                        个人标签
+                        <img class="icon-ditu" src="/static/images/o_ditu.png" alt="">
+                    </div>
+                    {% if resume.resume_source == 2 or request.session.account_type == "3" or request.session.account_type == "5" %}                    
+                    <div style="padding-left: 25px;background-image: none">
+                        <i class="zwpj_img"></i>
+                        顾问评价
+                        <img class="icon-ditu" src="/static/images/o_ditu.png" alt="">
+                    </div>
+                    <input type="hidden" value="{{ request.session.account_type }}" id="gwpj_mes">
+                    {% endif %}
+                    <div style="background-position: 27px -284px;">
+                        更多隐私设置
+                        <img class="icon-ditu" src="/static/images/o_ditu.png" alt="">
+                    </div>
+                </dd>
+                {% if jsonResume and jsonResume != 'None' %}
+                <dd class="sliderDiv" style="height: 667px; display: block;">
+                    {% if resume_files %}
+                    <div style="background:none;height:36px;background-color: #1fbba6;color:#fff!important;margin-bottom: 0px;line-height: 36px;padding-left:15px;">共{{ resume_files|length }}份</div>
+                    <ul class="sliderCon" style="height: 667px;">
+                      <li class="sliderCon_m1" id="sliderCon_m1" style="height: 647px;">
+                      <span id="resize" style="display:block;width:20px;height:100%;position:absolute;left:-10px;top:0;cursor:w-resize;" title="可拉伸"></span>
+                      {% for resume_file in resume_files %}
+                          <dl onclick="loadNewResumeFile(this,{{ forloop.counter }})" >
+                              <input type="hidden" value="{{ resume_file.id }}" />
+                              <dt title="{{ resume_file.file_name }}" >
+                                  <span style="float:right;margin-right: 15px;color:#49ba84">{{ resume_file.resolution }}%</span>
+                                  <img src="{{ STATIC_URL }}images/jiaj_03.png">
+                                  <span class="nowrap" style="width:164px;display: inline-block;vertical-align: middle;margin-left: 15px;color:#333">{{ resume_file.file_name }}</span>
+                              </dt>
+                              <dd>
+                                  <p>
+                                      {{ resume_file.source_text_ex1|safe }}
+                                  </p>
+                              </dd>
+                          </dl>
+                      {% endfor %}
+                      </li>
+                    </ul>
+                    {% else %}
+                        <div style="background:none;height:36px;background-color: #1fbba6;color:#fff!important;line-height: 36px;padding-left:15px;margin-bottom: 0px;">附件内容</div>
+                        <div style="padding-left: 0;background: none;background-color: #fff;height:100%;overflow-x:hidden;overflow-y: auto">
+                         <span id="resize" style="display:block;width:5px;height:100%;position:absolute;left:0;top:0;cursor:w-resize;" title="可拉伸"></span>
+                            <p style="margin:10px;">{{ resume.source_text_ex1|safe }}</p>
+                        </div>
+                    {% endif %}
+                    <span id="sliderBtn1">
+                        <dl>
+                            附
+                        </dl>
+                        <dl>
+                            件
+                        </dl>
+                        <dl>
+                            简
+                        </dl>
+                        <dl>
+                            历
+                        </dl>
+                        <dl id="jt">
+                           >
+                        </dl>
+                    </span>
+                </dd>
+                {% endif %}
+            </dl>
+        </div>
+   </div>
+
+  
+      {% if resume.resume_source == 1 %}
+    <div class="dowdjl">
+            <span class="jlbc" style="text-align: left;" onclick="showCheck('{{ resume.id }}', '{{ resume.user_name }}', '{{ exportType }}')"><i></i>把这份简历保存到本地</span><span style="text-align:right;">简历更新于：{{ resume.update_date|date:'Y-m-d H:i' }}</span>
+     </div>
+    {% endif %}
+
+
+</div>
+<div style="display: none;" id="clx" >
+<div id="photoBox" >
+    <em class="xx_abs"></em>
+</div>
+</div>
+
+<div class="dcjl">   
+      <div class="hcbtn">
+       <div style=" background-color: #fff;overflow: hidden; height:200px;">
+       <div style="border-bottom:1px solid #e0e0e0; height:55px"><span>请选择要导出的模板类型</span>
+            <img src="/static/images/new_images/colseck.png" onclick="PositionClose()" class="dcclose">
+              </div>
+      <div class="hcdy" onclick="exportResume('{{ resume.id }}', '{{ resume.user_name }}', 'hcdy')">怀才当遇模版</div>
+      <div class="sdjl" onclick="exportResume('{{ resume.id }}', '{{ resume.user_name }}', 'sdjl')">仕道金略模版</div>
+      </div>
+       <em class="c_abs"></em>
+     </div>
+</div> 
+
+<script type="text/javascript"></script>
+<input type="hidden" id="bing_if_fj" value="{{ jsonResume }}">
+<input type="hidden" id="bind_scurrently_postaion" value="{{ resume.scurrently_postaion | default:"" }}">
+<input type="hidden" id="bind_currently_postaion" value="{{ resume.currently_postaion | default:"" }}">
+<input type="hidden" id="bind_expect_industry" value="{{ resume.expect_industry | default:"" }}">
+<input type="hidden" id="bind_sIndustry" value="{{ sIndustry | default:"" }}">
+<input type="hidden" id="bind_expect_position" value="{{ resume.expect_position | default:"" }}">
+<input type="hidden" id="bind_sPosition" value="{{ sPosition | default:"" }}">
+<input type="hidden" id="bind_head_portrait" value="{{ resume.head_portrait | default:"" }}">
+<input type="hidden" id="is_import" value="{{ is_import }}" >
+<input type="hidden" id="emsg" value="{{ emsg }}" />
+<input type="hidden" id="attachment" />
+<input type="hidden" id="exportType" value="{{ exportType }}" />
+<input type="hidden" id="account_type" value="{{ request.session.account_type }}" />
+<input type="hidden" id="pu_id" value="{{ pu.id }}" />
+<input type="hidden" id="resumesouid" value="{{ resume.resume_source }}">
+<!-- 公共方法 -->
+<!-- 弹出框插件 -->
+<script  src="{{ STATIC_URL }}js/lib/ind/layer/layer.js" type="text/javascript"></script>
+
+<!-- 美图秀秀插件 -->
+<script src="http://open.web.meitu.com/sources/xiuxiu.js" type="text/javascript"></script>
+<!-- 圆形滚动条插件 -->
+<script  src="{{ STATIC_URL }}js/excanvas.js"></script>
+<script  src="{{ STATIC_URL }}js/lib/ind/jquery.knob.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+     var winHeight=$(window).height()-70;
+     var width=parseInt($(".sliderDiv").width())+3;
+    $(".sliderDiv").height(winHeight+39);
+    $(".sliderDiv .sliderCon").height(winHeight);
+    $(".sliderDiv .sliderCon_m1").height(winHeight*1);
+    $("#sliderBtn1").click(function(event) {
+        if($(".sliderDiv").css('right')=="-"+width+"px")
+        {
+            $(".sliderDiv").animate({right:'-16'});
+            $("#jt").text(">")
+            $("#resize").show();
+        }
+        else
+        {
+            $("#jt").text("<")
+            $(".sliderDiv").animate({right:"-"+width});
+             $("#resize").hide();
+        }
+    });
+
+</script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<script>
+    $(function(){   
+        var nowdate = new Date();
+        var brithday = "{{ resume.birthday_year|default:'' }}";
+        if(brithday != ''){
+            var age =nowdate.getFullYear() - brithday.substr(0,4);
+            $('.age').text("("+age+"岁)");
+        }
+        $('input').each(function(index, el) {
+            $(el).val() =="None"?$(el).val(''):true;
+        });
+        $('textarea').each(function(index, el) {
+            $(el).val() =="None"?$(el).val('') :true;
+        });
+     
+        $('.tjbg').click(function(event) {
+               // $('html').css({
+               //      'overflow-x': 'hidden',
+               //      'overflow-y': 'hidden'
+               //  });
+            $('#recommreports').show();
+            $("body").append('<div class="o_shade" style="display:block" onclick="o_hide(#recommreports)"></div>');
+            $('.kx_common').show();            
+        });
+    })
+    var fjType = $("#bing_if_fj").val();
+     if (fjType != "None" && fjType != "") {
+        var doc = $(document);
+        var initX;
+        var sinitX=parseInt($("#resize").offset().left);
+        var sum = $("#resize").mousedown(function (e) {
+             doc[0].onselectstart=function(){
+                    return false;
+                }
+            initX=e.clientX;
+            var cj=sinitX-initX
+            var initW=parseInt($(".sliderDiv").width());
+            doc.mousemove(function (e){
+                width=parseInt($(".sliderDiv").width());
+                var lt =initX-e.clientX;
+                lt = lt < 0-cj ? 0-cj: lt;
+                lt = lt >320-cj ? 320-cj : lt;
+                $(".sliderDiv").width(initW+lt);
+            });
+        }).width();
+        doc.mouseup (function(e){
+            doc.unbind("mousemove");
+             doc[0].onselectstart=function(){
+                    return true;
+                }
+        });
+        doc[0].ondragstart=function()
+        {
+            return false;
+        };
+
+     }
+      function post(URL, PARAMS) {
+        var temp = document.createElement("form");
+        $(temp).append("{% csrf_token %}");
+        temp.action = URL;
+        temp.method = "post";
+        temp.style.display = "none";
+        var opt = document.createElement("input");
+        opt.name = 'fileIds';
+        opt.value = PARAMS;
+        temp.appendChild(opt);
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    }
+    $(function(){
+        $("textarea").each(function(index, el) {
+            $_this = $(this);
+            if($_this.next().hasClass('word_hint')){
+                $_this.next().children('span').text($_this.attr('maxlength'));
+                $_this.next().children('b').text($_this.val().length);
+                $_this.on('keyup keydown', function(event) {
+                    $_this.next().children('b').text($_this.val().length);
+                });
+            }
+        });
+    })
+    function key_number(obj){
+        var content;
+        if( $(obj).val().length ==1){
+            content = $(obj).val().replace(/[^1-9]/g,'');
+            $(obj).val(content);
+        }else{
+            content = $(obj).val().replace(/[^0-9]/g,'');
+            $(obj).val(content);
+        }
+    }
+</script>
+<!--推荐报告弹出框-->
+{% include 'jobs/recommreport.html' %}
+{% include 'jobs/system/new_footer.html' %}

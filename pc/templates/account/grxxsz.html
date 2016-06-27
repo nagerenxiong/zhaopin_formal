@@ -1,0 +1,1009 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/cropbox.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul_old.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position_old.js"></script>
+<script src="{{ STATIC_URL }}js/xiuxiu.js" type="text/javascript"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script>
+<script>
+window.onload=function(){
+    /*第1个参数是加载编辑器div容器，第2个参数是编辑器类型，第3个参数是div容器宽，第4个参数是div容器高*/
+    xiuxiu.embedSWF("altContent",5,"100%","420px");
+    //修改为您自己的图片上传接口
+    xiuxiu.setUploadURL("http://web.upload.meitu.com/image_upload.php");
+    xiuxiu.setUploadType(2);
+    xiuxiu.setUploadDataFieldName("upload_file");
+    xiuxiu.onInit = function ()
+    {
+        xiuxiu.loadPhoto("{{ tri.head_portrait }}");//修改为要处理的图片url
+    };
+    xiuxiu.onUploadResponse = function (data)
+    {
+        var imgData =  $.parseJSON(data);
+        var imgURL = $(imgData)[0].original_pic;
+
+        $("#imgURL").val(imgURL);
+
+        $("#upload_photo").modal("hide");
+
+        $("#head_portrait").attr({"src":imgURL})
+    }
+};
+
+//换一换标签
+function changeLabel(){
+    var pageIndex = $('#pageIndex').val();
+    var labelSize = $('#labelSize').val();
+    $.ajax({
+        type: "POST",
+        url: "/jobs/position/headhunter/ajax_changeLabel",
+        data: {"p_value": '11999000', 'page': pageIndex},
+        dataType: "json",
+        success: function(data){
+            $('.gr_xxsz_nk6').find("li").remove();
+            for(var i = 0;i < data.length;i++){
+                var hlabel = data[i];
+                var em = '<li><input name="" type="button" value="' + hlabel.fields.dictionary_name + '"></li>';
+                $('.gr_xxsz_nk6 ul').append(em);
+            }
+            //设置换一换的页数
+            if((parseInt(pageIndex)) * 8 >= labelSize){
+                $('#pageIndex').val(1)
+            }else{
+                $('#pageIndex').val(parseInt(pageIndex) + 1);
+            }
+
+            $(".gr_xxsz_nk6 input").click(function(){
+                var othis = $(this);
+                var chongfu = 0;
+                $(".gr_xxsz_nk4 .gr_xxbq_w").each(function() {
+                    if($(this).text()==othis.val()){
+                        chongfu=1;
+                    }
+                });
+                if(chongfu){
+                    alert("标签不能重复选择")
+                }
+                else{
+                $(this).addClass('gr_bqhover');
+                var len = $(".gr_xxsz_nk4").find("li").length;
+                if(len >= 8){
+                    alert("标签数最多为8个!");
+                    return false;
+                }
+                $(".gr_xxsz_nk4 ul").append('<li><div class="gr_xxbq_k"><div class="gr_xxbq_w">'+$(this).val()+'</div><div class="gr_xxbq_x">X</div></div></li>');
+                }
+            });
+            //给添加的标签加事件
+            $('.gr_xxsz_nk6 li').click(function(){
+                var length = $('#labels').children('li').length;
+                if(length >= 8){
+                    window.alert("最多只能添加8个标签");
+                    return;
+                }
+                var em = '<li>' + $(this).text() + '<span style="display:none">X</span></li>';
+                $('#labels').append(em);
+                $("#labels li").mouseover(function(){
+                    $(this).children().css('display','inline');
+                });
+                $("#labels li").mouseout(function(){
+                    $(this).children().css('display','none');
+                });
+                $("#labels li span").click(function(){
+                    $(this).parent().remove();
+                })
+            })
+        }
+    });
+}
+</script>
+<input type="hidden" id="imgURL" value="">
+<div class="lt_content_box grzy_box">
+	<!-- 个人会员菜单开始 -->
+	{% include 'jobs/system/menu_account.html' %}
+	<!-- 个人会员菜单结束 -->
+    <script>
+    
+</script>
+    <div class="clear"></div>
+	<div class="clear">1</div>
+
+	<div class="center mt25" style="overflow:hidden;">
+
+		<!-- 个人会员信息设置主内容开始 -->
+		<div class="gr_grxxszk">
+			<!-- 个人会员信息设置修改开始 -->
+			<div class="gr_xxsz_k" style="position:relative">
+                    <div class="update_btn" style="top:20px" id="update_btn_qy">
+                            <i class="icon-wrench iconfont"></i>
+                    </div>
+				<div class="f_l pGryz_l" style="  width: 630px;" id="gr_xxsz">
+            <div class="list1" >
+                <div class="pGryz_l_b f_r" style="width: 550px; border-left: 1px dashed #b7b7b7; border-bottom: none">
+                    <ul class="f_l info_ul">
+                        <li>
+                            <span class="f_bold fz20 name">{{ pu.user_name | default_if_none:"" }}</span>
+
+
+                                {% if "{{ vResumeInfo.sex }}" == "女" %}
+                                    <i class="iconfont icon-nv cr" style=" font-size:14px;"></i><span>女</span>
+                                {% endif %}
+                                {% if "{{ vResumeInfo.sex }}" == "男" %}
+                                    <i class="iconfont icon-nan cr" style=" font-size:14px;"></i><span>男</span>
+                                {% endif %}
+
+                            <span>{{ vResumeInfo.sex | default_if_none:"" }}</span>
+                            <span>{{ yearold }}岁</span>
+                            <span>{{ vResumeInfo.scurrently_pacece | default_if_none:"" }}</span>
+                            <span>{{ vResumeInfo.sdiploma | default_if_none:"" }}</span>
+                        </li>
+                        <li>
+                            <span>等级</span>
+                            <span class="gold">LV{{ pu.account_level | default_if_none:"" }}</span>
+                            <span class="gold">金币<img src="/static/images/111_03.png">{{ vResumeInfo.gold | default_if_none:"" }}</span>
+                        </li>
+                        <li>
+                            <span>手机</span>
+                            <span class="phoneSpan">{{ pu.phone | default_if_none:"" }}</span>
+                        </li>
+                        <li>
+                            <span>邮箱</span>
+                            <span class="emailSpan">{{ pu.email | default_if_none:"" }}</span>
+                        </li>
+                        <li>
+{#                            <span>公司</span>#}
+                            <span>
+                                {{ vResumeInfo.currently_company | default_if_none:"" }}
+                                ●
+                                {{ vResumeInfo.sexpect_position | default_if_none:"" }}
+                                ●
+                                {{ vResumeInfo.sworkyear | default_if_none:"" }}
+                                ●
+                                {{ vResumeInfo.sexpect_industry | default_if_none:"" }}
+                            </span>
+                        </li>
+                    </ul>
+                    {% if vResumeInfo.sex == "女" %}
+                        <img src="{{ vResumeInfo.head_portrait|default:'/static/images/defaultPhoto/nv.jpg' }}" class="f_l" width="145" height="145" style="border-radius: 50%" id="staticHeadPortrait">
+                    {% else %}
+                        <img src="{{ vResumeInfo.head_portrait|default:'/static/images/defaultPhoto/nan.jpg' }}" class="f_l" width="145" height="145" style="border-radius: 50%" id="staticHeadPortrait">
+                    {% endif %}
+                    <div style="clear:both"></div>
+                    <div class="remark mt20 oh" id="showIntroduction" style="float:none; width: 460px;">
+                        <div class="grjj_border_l"></div>
+                          {{ pu.introduction | default_if_none:"" }}
+                        <div class="grjj_border_r"></div>
+                    </div>
+                    <ul class="grxx_tag_box clearfix mt20 oh">
+                        {% if labels %}
+                            {% for label in labels %}
+                                {% if label != '' %}
+                                    <li style="border: 1px solid #ccc; text-align: center">{{ label }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <form method="post" action="" id="updateInfoForm">
+            <input type="hidden" name="labels">
+            <input type="hidden" name="head_portrait" value="{{ vResumeInfo.head_portrait }}">
+			<!-- 个人会员信息设置修改开始 -->
+			<div class="gr_xxsz_k" id="gr_xxsz_update" style="display:none">
+				<div class="gr_xxsz">
+					<div class="gr_xxsz_nk1">
+						<div class="gr_xxsz_nk1_1">
+							<ul>
+								<li>
+									<input name="user_name" type="text" class="gr_xxsz_bd" value="{{ pu.user_name | default_if_none:"" }}" maxlength="8" placeholder="请输入姓名"></li>
+								<li>
+									<div class="gr_btk mr5">
+                                        <select name="birthday_year" class="gr_xxsz_bd1">
+                                            <option value="">请选择出生年</option>
+                                            {% if yearList %}
+                                                {% for year in yearList %}
+                                                    <option value="{{ year }}" {% if vResumeInfo.birthday_year == year %}selected="selected" {% endif %}>{{ year }}</option>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </select>
+{#                                        <input name="birthday_year" class="gr_xxsz_bd1" type="text" value="{{ vResumeInfo.birthday_year | default_if_none:"" }}">#}
+									</div>
+									<div class="zw_btk5 mr5" name="sexDiv" data-type="sex" style="cursor: pointer"> <i class="iconfont icon-nan" style="font-size:16px;"></i>
+										男
+									</div>
+									<div class="zw_btk5 mr5 sex" name="sexDiv" data-type="sex" style="cursor: pointer"> <i class="iconfont icon-nv" style="font-size:16px;"></i>
+										女
+									</div>
+                                    <input type="hidden" name="sex" value="{{ vResumeInfo.sex }}">
+								</li>
+								<li>
+                                    <input type="text" class="gr_xxsz_bd2" onclick="showArea(this,1)"  name="qyworkarea" value="{{ vResumeInfo.scurrently_pacece | default_if_none:"" }}" placeholder="当前所在地" >
+                                    <input type="hidden" name="qyWork_Area"  value="{{ vResumeInfo.currently_pacece | default_if_none:"" }}" />
+                                </li>
+								<li>
+									<select name="diploma" class="gr_xxsz_bd3">
+										<option value="">请选择学历</option>
+                                        {% if diplomas %}
+                                            {% for diploma in diplomas %}
+                                                <option value="{{ diploma.dictionary_value }}">{{ diploma.dictionary_name }}</option>
+                                            {% endfor %}
+                                        {% endif %}
+									</select>
+								</li>
+							</ul>
+						</div>
+						<div class="gr_xxsz_nk1_2">
+							<!-- <div class="gr_xxtx"></div> -->
+                            {% if vResumeInfo.sex == "女" %}
+                                <img src="{{ vResumeInfo.head_portrait|default:'/static/images/defaultPhoto/nv.jpg' }}" width="148" height="148" style="border-radius: 50%;cursor: pointer" data-toggle="modal" data-target="#upload_photo" id="head_portrait">
+                            {% else %}
+                                <img src="{{ vResumeInfo.head_portrait|default:'/static/images/defaultPhoto/nan.jpg' }}" width="148" height="148" style="border-radius: 50%;cursor: pointer" data-toggle="modal" data-target="#upload_photo" id="head_portrait">
+                            {% endif %}
+						</div>
+					</div>
+					<div class="gr_xxsz_nk2">
+						<div>
+							<span class="fz16 f_bold">手机号码:</span>
+							<span class="td200">{{ pu.phone | default_if_none:"" }}</span>
+							<input type="button" value="更换手机号" class="grxx_btn grxx_btn_bg" id="update_phone"></div>
+						<div style="display:none;height:80px" id="update_phone_box">
+							<div>
+								<span class="fz16 f_bold">手机号码:</span>
+								<input name="phone" type="text" id="newphone" placeholder="请输入手机号" value="{{ pu.phone | default_if_none:"" }}" class="grxx_info_txt">
+								<input type="button" name="" value="获取验证码" class="grxx_btn grxx_btn_bg getValidatePostInput" onclick="smsValidation()"></div>
+							<div style="display: none" class="mobilePhoneCheckDiv">
+								<input type="text" class="yz_code_txt grxx_info_txt1" id="check_code" placeholder="请输验证码">
+								<input type="button" name="" value="确认" class="grxx_btn grxx_btn_bg1" onclick="updatePhone()">
+								<input type="button" name="" value="取消" class="btn13 ml15" onclick="cancelUpdate(this, 1)"></div>
+						</div>
+						<div>
+							<span class="fz16 f_bold">当前邮箱:</span>
+							<span class="td200" id="currentEmailSpan">{{ pu.email | default_if_none:"" }}</span>
+							<input type="button" name="email" value="验证邮箱" class="grxx_btn grxx_btn_bg2" id="validateEmail"  style="display: none" onclick="centerUpdateEmail()">
+							<input type="button" name="" value="更换邮箱" class="grxx_btn grxx_btn_bg" id="update_email">
+                            <div class="validateEmailDiv" style="display: none">
+								<input type="text" class="yz_code_txt grxx_info_txt1" id="email_check_code" placeholder="请输验证码">
+								<input type="button" name="" value="确认" class="grxx_btn grxx_btn_bg1 centernWithPost">
+								<input type="button" name="" value="取消" class="btn13 ml15" onclick="cancelUpdateEmail()"></div>
+                        </div>
+						<div style="display:none" id="update_email_box">
+							<span class="fz16 f_bold">当前邮箱:</span>
+							<input type="text" id="newemail" class="grxx_info_txt" placeholder="请输入邮箱" value="{{ pu.email | default_if_none:"" }}">
+							<input type="button" name="" value="确认新邮箱" class="grxx_btn grxx_btn_bg1" onclick="updateEmail()">
+							<input type="button" name="" value="取消" class="btn13 ml15" onclick="cancelUpdate(this, 2)"></div>
+					</div>
+					<div class="gr_xxsz_nk3">
+						<ul>
+							<li class="mr10">
+								<select name="workyear" class="gr_xxsz_bd3">
+                                    <option value="">请选择工作经验</option>
+                                    {% if workyears %}
+                                    {% for workyear in workyears %}
+                                        <option value="{{ workyear.dictionary_value }}">{{ workyear.dictionary_name }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                                </select>
+							</li>
+							
+							<li class="mr10">
+								<input name="currently_company" maxlength="16" placeholder="公司名称" type="text" class="gr_xxsz_bd" value="{{ vResumeInfo.currently_company | default_if_none:"" }}"></li>
+							
+							<li>
+								<select name="position_status" class="gr_xxsz_bd3">
+                                    <option value="0">求职状态</option>
+                                    {% if positionStatus %}
+                                        {% for status in positionStatus %}
+                                            <option value="{{ status.dictionary_value }}" {% if vResumeInfo.position_status == status.dictionary_value %}selected="selected" {% endif %}>{{ status.dictionary_name }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+							</li>
+						</ul>
+                        <ul class="grxx_position">
+                            <li>
+{#                                <input name="" onclick="showBusinessul(this,2)" class="gr_xxsz_bd2" id="expected_industry" placeholder="当前行业" value="{{ vResumeInfo.sexpect_industry | default_if_none:"" }}">#}
+                                <div id="businessulDiv" onclick="BusinessulControlsShow(3,this)"></div>
+                                <input id="businessulValue" name="businessulValue" type="hidden"  value="{{ vResumeInfo.expect_industry }}">
+                            </li>
+
+                            <li>
+{#                                <input name="currently_postaion" style="width:256px;" onclick="positionShow(this)" class="hr_btk2" id="currently_postaion"  value="{{ vResumeInfo.scurrently_postaion | default_if_none:"" }}" placeholder="当前职位">#}
+                                <div id="positionDiv" onclick="PositionControlsShow(5,this)"></div>
+                                <input type="hidden"  name="positionValue"  value="{{ vResumeInfo.expect_position | default:"" }}" >
+                            </li>
+                        </ul>
+					</div>
+					<div class="gr_xxsz_nk3">
+						<textarea name="introduction" cols="" rows="" class="gr_xxsz_bd4"  onkeyup="words_deal(this)" maxlength="500" placeholder="自我评价一番吧">{{ pu.introduction | default_if_none:"" }} </textarea>
+						<div class="gr_zifu">
+							你还可以输入
+							<i class="fn cr">100</i>
+							字
+						</div>
+					</div>
+					<div class="gr_xxsz_nk4">
+						<ul>
+                            {% if labels %}
+                                {% for label in labels %}
+                                    {% if label != '' %}
+                                        <li style="cursor: pointer">
+                                            <div class="gr_xxbq_k">
+                                                <div class="gr_xxbq_w">{{ label }}</div>
+                                                <div class="gr_xxbq_x">X</div>
+                                            </div>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+						</ul>
+					</div>
+					<div class="gr_xxsz_nk5">
+						<div class="gr_xxgrbq fz16" >
+							个人标签
+							<span onclick="changeLabel()" style="cursor: pointer"><i class="fz12 fn cr pl10">换一换</i></span>
+						</div>
+						<div class="gr_xxzxybq ml15">
+                            <input name="newPost" maxlength="8" type="text" class="gr_xxzxybq_k">
+                            <input type="hidden" id="pageIndex" value="2" />
+                            <input type="hidden" id="labelSize" value="{{ labelSize }}" />
+                            <input name="" type="button" class="gr_xxzxybq_n" value="贴上">
+						</div>
+					</div>
+					<div class="gr_xxsz_nk6">
+						<ul>
+							{% if labels2 %}
+                                {% for label in labels2 %}
+                                    <li><input name="" type="button" value="{{ label.dictionary_name }}"></li>
+                                {% endfor %}
+                            {% endif %}
+						</ul>
+						<div class="clear"></div>
+					</div>
+					<div class="gr_xxsz_nk7">
+						<input name="cancelButton" type="button" class="gr_xxqx mr10 fz16" value="取消">
+						<input name="" type="button"  id="submitPersonalInfo" class="gr_xxbc fz16" value="保存"></div>
+				</div>
+				<div class="gr_grxxbz"></div>
+				<div class="clear"></div>
+			</div>
+			<!-- 个人会员信息设置修改结束 -->
+
+                </form>
+				<div class="gr_grxxbz"></div>
+				<div class="clear"></div>
+			</div>
+			<!-- 个人会员信息设置修改结束 -->
+
+		</div>
+		<!-- 个人会员信息设置主主内容结束 -->
+
+		<div class="xright">
+			<!-- 侧边栏 -->
+
+			<div class="f_r pGryz_r" style="padding-bottom: 10px">
+				<div class="clearfix bd_bottom2" style="width: 180px;height:100px;margin:0 auto;">
+					<div class="f_l t_c " style="width:90px;padding-left: 0px">
+						<i class="iconfont icon-tianjiayuangong " style="font-size: 35px"></i>
+						<br>
+						<span>被关注人数</span>
+						<br>
+						<span class="c_c8">{{ pu.attentionCount|default:0 }}</span>
+					</div>
+					<div class="f_l t_c" style="width:90px;padding-left: 0px">
+						<i class="iconfont icon-chakan " style="font-size: 39px"></i>
+						<br>
+						<span>被访问人数</span>
+						<br>
+						<span class="c_c8">{{ pu.pv|default:0 }}</span>
+					</div>
+				</div>
+				<div style="margin:0 auto;width:90%;height:50px;line-height: 50px">
+					<span>简历完整度：</span>
+					<span style="color:#d21d30">{{ wsResume|default:0 }}%</span>
+					<span style="color:#d21d30;float:right; cursor: pointer" onclick="window.location.href='/jobs/resume/yrjl?resumeID={{ vResumeInfo.id|default:'' }}'">预览简历</span>
+				</div>
+				<div class="jdt">
+					<span style="width:{{ wsResume|default:0 }}%"></span>
+				</div>
+				<div class="wsjl">
+					<input type="button" onclick="toUploadResumePage()" value="完善简历" class="btn61">
+			</div>
+
+			<!-- 侧边栏 -->
+		</div>
+
+		<div class="clear"></div>
+	</div>
+
+</div>
+
+<!-- 模态框（Modal） -->
+</div>
+<!-- 上传头像 -->
+<div class="modal fade" id="upload_photo" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="upload_photo_c" style="width:600px" >
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">上传头像</h4>
+            </div>
+            <div class="modal-body" style="position:relative">
+                <div id="altContent">
+                    <h1>美图秀秀</h1>
+                </div>
+                <div style="position:absolute;width:300px;height: 50px;bottom: 10px;left:0;background-color:white "></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 上传头像 -->
+<script type="text/javascript">
+    $(function(){
+        // 剩余多少输入的文字
+        BusinessulControls("businessulDiv","{{ vResumeInfo.sexpect_industry | default:"" }}","{{ vResumeInfo.expect_industry | default:"" }}",
+                'width:300px;margin-top:5px;height:auto;font-size:14px;');
+        PositionControls("positionDiv","{{ vResumeInfo.sexpect_position | default:"" }}","{{ vResumeInfo.expect_position | default:"" }}",
+                'width:300px;margin-top:5px;height:auto;font-size:14px;');
+        var introduce = "{{ pu.introduction | default:''}}";
+        var introduceLength = 0;
+        if(introduce != '')     introduceLength = parseInt(introduce.length);
+        $(".gr_zifu").find("i").text(100 - introduceLength);
+        // 文凭回显
+        var diploma = "{{ vResumeInfo.diploma }}";
+        $("select[name=diploma]").find("option[value=" + diploma + "]").attr("selected", true);
+        // 工作经验回显
+        var workyear = "{{ vResumeInfo.workyear }}";
+        $("select[name=workyear]").find("option[value=" + workyear + "]").attr("selected", true);
+        // 性别回显
+        var sex = "{{  vResumeInfo.sex | default:''}}";
+        if(sex == "男"){
+            $("div[name=sexDiv]:first").click()
+        } else if (sex == "女"){
+            $("div[name=sexDiv]:eq(1)").click()
+        }
+        // 给性别赋值
+        $("div[name=sexDiv]:first").click(function(){
+            $(":input[name=sex]").val("男");
+        });
+        $("div[name=sexDiv]:eq(1)").click(function(){
+            $(":input[name=sex]").val("女");
+        });
+        // 求职状态回显
+        var state = "{{ pu.state | default:'' }}";
+        $("select[name=state]").find("option[value=" + state + "]").attr("selected", true);
+    });
+
+    // 提交整个表单按钮
+    $("#submitPersonalInfo").click(function(){
+            // 调用处理头像方法
+            editInfo();
+            var head_portrait = $(":input[name=head_portrait]").val();
+            if($("#head_portrait").attr("src") == ""){
+                alert("请上传头像");
+                return false;
+            }
+            var user_name = $(":input[name=user_name]").val();
+            if(user_name == ""){
+                alert("姓名不能为空!");
+                return false;
+            }
+            var sex = $(":input[name=sex]").val();
+            if(sex == ""){
+                alert("性别不能为空!");
+                return false;
+            }
+            var birthday_year = $('select[name="birthday_year"]').val();
+            if(birthday_year == ''){
+                window.alert('请选择出生年');
+                return;
+            }
+{#            var reg = /^[1-9][0-9]{3}$/g;#}
+            var mydate = new Date();
+            var year = mydate.getFullYear(); //获取完整的年份
+{#            if(reg.test(birthday_year) == false || parseInt(birthday_year) > year){#}
+{#                alert("出生年份不合法!");#}
+{#                return false;#}
+{#            }#}
+            if($(":input[name=qyWork_Area]").val() == ""){
+                alert("所在地不能为空!");
+                return false;
+            }
+            if($('select[name="diploma"]').val() == ""){
+                alert("学历不能为空!");
+                return false;
+            }
+            var content = "";
+            $(".gr_xxbq_k").each(function(){
+                content += $(this).find(".gr_xxbq_w").text() + "**"
+            })
+            content = content.substring(0, content.length - 2);
+            $(":input[name=labels]").val(content);
+            var ser = $("#updateInfoForm").serialize();
+            $.ajax({
+                url: "/jobs/account/ajax_updatePuInfo",
+                type: "get",
+                data: ser,
+                dataType: "json",
+                success: function(data){
+                    if(data.status == "1"){
+                        $(".info_ul").find("li:first>span:first").text(user_name);
+                        $(".info_ul").find("li:first>span:eq(1)").text(sex);
+
+                        var birthYear = parseInt($("select[name=birthday_year]").val());
+                        $(".info_ul").find("li:first>span:eq(2)").text((year - birthYear) + "岁");
+                        var city = $(":input[name=qyworkarea]").val();
+                        $(".info_ul").find("li:first>span:eq(3)").text(city);
+                        var diploma = $("select[name=diploma]").find("option:selected").text();
+                        $(".info_ul").find("li:first>span:eq(4)").text(diploma);
+
+                        $(":input[name=head_portrait]").val();
+                        var company = $(":input[name=currently_company]").val();
+                        var workyear = $("select[name=workyear]").find("option:selected").text();
+                        var position = "";
+                        $("#positionDiv").find("span").each(function(){
+                           if(position == ""){
+                               position += $(this).text();
+                           } else {
+                               position += "," + $(this).text();
+                           }
+                        });
+                        var industry = "";
+                        $("#businessulDiv").find("span").each(function(){
+                           if(industry == ""){
+                               industry += $(this).text();
+                           } else {
+                               industry += "," + $(this).text();
+                           }
+                        });
+                        $(".info_ul").find("li:eq(4)>span").text(company + " ● " + position + " ● " + workyear + " ● " + industry);
+                        var introduction = $("textarea[name=introduction]").val();
+                        $("#showIntroduction").text('');
+                        $("#showIntroduction").append('<div class="grjj_border_l"></div>' + introduction + '<div class="grjj_border_r"></div>');
+                        $("#staticHeadPortrait").attr("src", head_portrait);
+                        var context = "";
+                        $(".gr_xxsz_nk4").find(".gr_xxbq_w").each(function(){
+                            var text = $(this).text();
+                            context += '<li style="border: 1px solid #ccc; text-align: center">' + text + '</li>';
+                        });
+                        $(".grxx_tag_box ").empty().append(context);
+                        alert("个人信息更新成功");
+                        $("#update_btn_qy").show();
+                        $("#gr_xxsz_update").hide();
+                        $("#gr_xxsz").show();
+                    } else if(data.status == "0"){
+                        alert("发生内部错误")
+                    }
+                }
+            });
+            return false;
+    });
+
+        // 头像方法
+        function editInfo(){
+            if($("#imgURL").val() !=  ""){
+                editResumenInfo($("#head_portrait").attr("src"),$("#imgURL").val());
+            }
+            else{
+                if($("#resumeID").val() != "") {
+                    editResumenInfo($("#head_portrait").attr("src"),"");
+                }
+                else{
+                    alert("请选头像！");
+                }
+            }
+        }
+
+    function editResumenInfo(head_portrait,imgURL){
+        var head_portrait  = head_portrait; //头像地址
+{#        var elemt=event.target;#}
+        $.ajax({
+            type: "POST",
+            url: "/jobs/account/ajax_personalHeadPortrait",
+{#            eventT: elemt,#}
+            data: {
+                "head_portrait": head_portrait,
+                "imgURL":imgURL
+            },
+            dataType: "json",
+            async: false,
+            success: function(data){
+                if(data.status == "1"){
+                    $(":input[name=head_portrait]").val(data.head_portrait);
+                }
+            }
+        });
+    }
+
+	$(".gr_xxsz_nk1_1 div[data-type='sex']").click(function(){
+		$(".gr_xxsz_nk1_1 div[data-type='sex']").attr('class','zw_btk5 mr5');
+		$(this).attr('class','zw_btk6 mr5');
+	});
+
+    // 更新 phone 按钮
+	$("#update_phone").click(function(){
+			$(this).parent().css('display', 'none');
+			 $("#update_phone_box").css('display','block');
+    });
+    // 更新 email 按钮
+    $("#update_email").click(function(){
+        $(this).parent().css('display', 'none');
+         $("#update_email_box").css('display','block');
+    });
+
+    // 显示输入验证码 DIV
+    function cancelUpdateEmail(obj) {
+        $("#currentEmailSpan").text("{{ pu.email }}");
+        $("#validateEmail").hide();
+    }
+
+    //取消修改
+    function cancelUpdate(obj, type){
+        if(type == 1){//手机修改的取消
+            $(obj).parent().parent().css('display', 'none');
+            $(obj).parent().parent().prev().css('display', 'block');
+        }else if(type == 2){//邮箱修改的取消
+            $(obj).parent().css('display', 'none');
+            $(obj).parent().prev().css('display', 'block');
+            $("#validateEmail").hide();
+        }else{//服务过的企业取消
+            $("#grxx_qy_box").css('display','block');
+            $("#grxx_qy_box1").css('display','none');
+            $("#update_btn_qy").animate({right:"0px"}, 300);
+        }
+    }
+	$(".gr_xxsz_nk6 input").click(function(){
+        var othis = $(this);
+        var chongfu = 0;
+        $(".gr_xxsz_nk4 .gr_xxbq_w").each(function() {
+            if($(this).text()==othis.val()){
+                chongfu=1;
+            }
+        });
+        if(chongfu){
+            alert("标签不能重复选择")
+        }
+        else{
+		$(this).addClass('gr_bqhover');
+        var len = $(".gr_xxsz_nk4").find("li").length;
+        if(len >= 8){
+            alert("标签数最多为8个!")
+            return false;
+        }
+		$(".gr_xxsz_nk4 ul").append('<li><div class="gr_xxbq_k"><div class="gr_xxbq_w">'+$(this).val()+'</div><div class="gr_xxbq_x">X</div></div></li>');
+        }
+	});
+
+	$(document).on('click','.gr_xxbq_x',function(){
+		$(this).parent().parent().remove();
+	});
+
+    // 切换
+	$("#update_btn_qy").click(function(){
+        $(".gr_xxsz_nk6 input").each(function(){
+            var oinput = $(this);
+            $(".gr_xxsz_nk4 .gr_xxbq_w").each(function() {
+                if(oinput.val()==$(this).text())
+                {
+                    oinput.addClass('gr_bqhover');
+                }
+            });
+        });
+        $(this).hide();
+		$("#gr_xxsz").hide();
+		$("#gr_xxsz_update").show();
+	});
+    $(":input[name=cancelButton]").click(function(){
+        var flag = confirm("你确定要返回账号预览页面吗?");
+        if(!flag){
+            return false;
+        }
+        $("#update_btn_qy").show();
+        $("#gr_xxsz_update").hide();
+        $("#gr_xxsz").show();
+{#        var $user_name = $(":input[name=user_name]");#}
+{#        $user_name.val($user_name[0].defaultValue);#}
+{#        var $birthday_year = $(":input[name=birthday_year]");#}
+{#        $birthday_year.val($birthday_year[0].defaultValue);#}
+{#        var state = "{{ pu.state }}";#}
+{#        $("select[name=state]").find("option[value=" + state + "]").attr("selected", true);#}
+    });
+
+    // 贴上标签
+    $(".gr_xxzxybq_n").click(function(){
+        var $newPost = $(":input[name=newPost]");
+        var context = $newPost.val();
+        if(context.length > 6){
+            alert("新标签长度不能超过6个字符");
+            $newPost.val(context.substring(0, 6));
+            return false;
+        }
+        if($.trim(context) == ""){
+            alert("请输入标签内容!");
+            return false;
+        }
+        var len = $(".gr_xxsz_nk4").find("li").length;
+        if(len >= 8){
+            alert("标签数最多为8个!");
+            return false;
+        }
+        $(".gr_xxsz_nk4 ul").append('<li><div class="gr_xxbq_k"><div class="gr_xxbq_w">'+ context +'</div><div class="gr_xxbq_x">X</div></div></li>');
+    });
+    // 处理文字数量显示特效
+function words_deal(obj){
+    var context = $(obj).val();
+    var len = context.length;
+    $(obj).parent().find("i").text(100 - len);
+    if (100 - len <= 0){
+        alert("您输入的超出字数将被截断");
+        $(obj).val(context.substr(0, 99));
+    }
+}
+
+//当前职位弹框事件
+function positionShow(obj){
+    if($("#businessulValue").val() == ""){
+        alert("请选择行业!");
+        return false;
+    }
+    if($('#expected_industry').val() != ''){
+        showPosition(obj,$("#expected_industry").val(),$("#expected_industry").next().val(),1);//当前职位只允许选择一个
+    }else{
+        window.alert('请选择行业！');
+    }
+}
+
+// 完善简历按钮
+function toUploadResumePage(){
+    var rId = "{{ vResumeInfo.id | default:''}}";
+    if(rId != null && rId != "") {
+        window.location.href ='/jobs/resume/scjl?resumeID={{ vResumeInfo.id}}';
+    } else {
+        window.location.href ='/jobs/resume/scjl';
+    }
+}
+
+
+//更新手机号码
+function updatePhone(){
+    if($(".getValidatePostInput").attr("name") != "1"){
+        alert("请您先获取验证码!");
+        return false;
+    }
+    var phone = $('#newphone').val();
+    if (!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(phone))) {
+        window.alert('你输入的手机号码格式不对，请重新输入！');
+        $('#newphone').val($('#newphone')[0].defaultValue);
+        return false;
+    }
+    var oldPhone = $('#update_phone').prev().text();
+    if (oldPhone == phone) {
+        window.alert('手机号无变更，无需修改');
+        return false;
+    }
+    var code = $("#check_code").val();
+    var reg = /^[0-9]{6}$/;
+    if(!reg.test(code)){
+        alert("验证码格式不正确!");
+        return false;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/ajax_updatePhone",
+        data: {"phone": phone, "code": code},
+        dataType: "json",
+        success: function(data){
+            $("#check_code").val("");
+            if(data.status == '1'){
+                $('#update_phone').prev().text(phone);
+                $('#update_phone').parent().css('display', 'block');
+                $('#update_phone').parent().next().css('display', 'none');
+                $("#newphone").attr("readonly", false);
+                $(".phoneSpan").text(phone);
+                alert(data.msg);
+            }else if(data.status == '0'){
+                alert(data.msg);
+            }
+        }
+    });
+}
+
+// 设置短信发送延时
+var count = 120;
+var countdown;
+function CountDown() {
+    $(".getValidatePostInput").css("width", "130px");
+    $(".getValidatePostInput").attr("disabled", true);
+    $(".getValidatePostInput").val(count + " 秒后可再次发送");
+    if (count == 0) {
+        $(".getValidatePostInput").val("获取验证码").removeAttr("disabled");
+        $(".getValidatePostInput").css("width", "85px");
+        $(".mobilePhoneCheckDiv").hide();
+        $("#newphone").attr("readonly", false);
+        clearInterval(countdown);
+        $(".getValidatePostInput").css("background-color", "#EE8733");
+        count=120;
+    }
+    count--;
+}
+
+// 点击获取验证码按钮
+function smsValidation() {
+    var phone = $('#newphone').val();
+    if (!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(phone))) {
+        window.alert('你输入的手机号码格式不对，请重新输入！');
+        $('#newphone').val($('#newphone')[0].defaultValue);
+        return false;
+    }
+    var oldPhone = $('#update_phone').prev().text();
+    if (oldPhone == phone) {
+        window.alert('手机号无变更，无需修改');
+        return false;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/jobs/ajax_update_sms_send",
+        data: {"code": "abc", "mobile": phone},
+        dataType: "text",
+        success: function (msg) {
+            if (msg == "1") {
+                $('.show_code').hide();
+                $("#newphone").attr("readonly", true);
+                $(".getValidatePostInput").attr("name", 1);
+                countdown = setInterval(CountDown, 1000);
+                $(".getValidatePostInput").css("background-color", "#ccc");
+                alert("校验码已发送至您的手机，请注意查收！",1);
+                $(".mobilePhoneCheckDiv").show();
+            } else if (msg == "2") {
+                alert("验证码发送失败，请重试！");
+            } else {
+                alert("验证码输入错误！");
+            }
+        }
+    });
+}
+
+
+
+// 设置邮箱验证邮件发送延时
+var seconds = 300;
+var messageSeconds;
+function CountSeconds() {
+    $("#validateEmail").css("background-color", "#ccc");
+    $("#validateEmail").css("width", "130px");
+    $("#validateEmail").attr("disabled", true);
+    $("#validateEmail").val(seconds + " 秒后可再次发送");
+    if (seconds == 0) {
+        $("#validateEmail").val("验证邮箱").removeAttr("disabled");
+        $("#validateEmail").css("width", "85px");
+        clearInterval(messageSeconds);
+        seconds = 300;
+        $(".validateEmailDiv").hide();
+        $("#newemail").attr("readonly", false);
+        $("#validateEmail").css("background-color", "#1BC088");
+    }
+    seconds--;
+}
+
+//更新邮箱 按钮
+function updateEmail(){
+    var email = $('#newemail').val();
+    if(email == ''){
+        window.alert('请输入邮箱！');
+        return;
+    }
+    var oldEmail = "{{ pu.email }}";
+    if(email == oldEmail){
+        window.alert('邮箱无变更，无需修改');
+        return;
+    }
+    if(!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(email)){
+        window.alert('你输入的邮箱格式不对，请重新输入');
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/ajax_isEmailUseful",
+        data: {"email": email},
+        dataType: "json",
+        success: function (data) {
+            var $newemail = $("#newemail");
+            if (data.status == '1') {
+                $('#update_email').prev().prev().text(email);
+                $('#update_email').parent().css('display', 'block');
+                $('#update_email').parent().next().css('display', 'none');
+                $(".emailSpan").text(email);
+                $("#validateEmail").attr("style", "");
+                alert("我们已经收到您的新邮箱,请您立即进行验证");
+            } else if(data.status == '0') {
+                $newemail.val(oldEmail);
+                alert('该邮箱已被使用，请重新输入');
+            } else {
+                $newemail.val(oldEmail);
+                alert("发生内部错误!")
+            }
+        }
+    });
+}
+// FIXME: 需要完善获取邮箱然后点击返回一个状态信息，因无邮件进行测试， 注意一下____________________
+// 验证邮箱按钮
+$(".centernWithPost").click(function(){
+    var email = $("#currentEmailSpan").text();
+    var code = $("#email_check_code").val();
+    var oldEmail = "{{ pu.email }}";
+    if(email == oldEmail){
+        alert('邮箱无变更，无需修改');
+        return;
+    }
+    if(!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(email)){
+        alert('你输入的邮箱格式不对，请重新输入');
+        return;
+    }
+    var reg = /^[0-9a-zA-Z]{6}$/;
+    if(!reg.test(code)){
+        alert("验证码格式不正确!");
+        return false;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/ajax_updateEmail",
+        data: {"email": email, "code": code},
+        dataType: "json",
+        success: function (data) {
+            // status: 0 内部错误 1 正常 2 验证码不正确 3 邮箱已存在 4 验证码已过时
+            $("#email_check_code").val("");
+            if (data.status == '1') {
+                $('#update_email').prev().prev().text(email);
+                $('#update_email').parent().css('display', 'block');
+                $('#update_email').parent().next().css('display', 'none');
+                $("#validateEmail").css("display", "none");
+                $(".emailSpan").text(email);
+                $("#currentEmailSpan").text(email);
+                $("#newemail").val(email);
+                $("#newemail").attr("readonly", false);
+                window.alert("邮箱修改成功!");
+            } else if(data.status == '2') {
+                alert('验证码不正确!');
+            } else if(data.status == '3') {
+                alert('此邮箱已存在!');
+            } else if(data.status == '4') {
+                alert('验证码已过时!');
+            }else if(data.status == '0') {
+                alert('发生内部错误!');
+            }
+        }
+    });
+});
+
+// 隐藏验证码 DIV
+function centerUpdateEmail(){
+    var email = $("#currentEmailSpan").text();
+    $.ajax({
+        type: "post",
+        data: {"email": email},
+        url: "/jobs/account/ajax_sendValidateEmail",
+        dataType: "json",
+        success: function(data){
+            if(data.status == "1"){
+                messageSeconds = setInterval(CountSeconds, 1000);
+                alert("验证码已发送至您的新邮箱!");
+                $("#newemail").attr("readonly", true);
+                $(".validateEmailDiv").show();
+            } else {
+                alert("邮件发送时发生内部错误!")
+            }
+        }
+    });
+}
+</script>
+{% include 'jobs/system/new_footer.html' %}

@@ -1,0 +1,269 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+@import "http://at.alicdn.com/t/font_1465712390_2049143.css";
+.jindu_box{
+    width:100%;
+    border:1px solid #00baff;
+    padding:15px;
+    box-sizing:border-box;
+    color:#555;
+}
+/* gengxin */
+.jindu_box .t{
+    font-size: 14px;
+}
+.jindu_box .b{
+    font-size: 16px;
+}
+.jindu_box p{
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+.lef0{
+    left:0px!important;
+    margin-left:0px;
+}
+
+.jindu_box  .active{
+    color:#ff6b12;
+}
+.jindu_box .mt15{
+    margin-top: 15px;
+}
+.zsp_send_steps_box :last-child{
+ left:auto;
+ right:0;
+}
+.zsp_send_steps_box div:nth-child(3){
+ left:50%;
+ margin-left: -22px;
+}
+.zsp_send_steps_box :first-child{
+ left:0%;
+ }
+
+ .zsp_send_steps_box .zsp_send_steps_itme_2{
+    background-color:#b0bec5;
+ }
+  .zsp_send_steps_box .zsp_send_steps_itme{
+    background-color:#1470b3;
+  }
+  .pr{
+    position: relative;
+  }
+     .reward_icon {color: #ffffff;width: 95px; text-align: center; background-color: #ff6d6d; border-radius: 12px; height: 24px;line-height: 22px;   float: right; position: absolute; right: 20px; top: 0;}  
+     .retio{
+        top:37px;
+        right:27px;
+     }
+     p.docolor{
+        color:#555;
+     }
+    span.paynum{
+
+    }
+</style>
+<script type="text/javascript">
+        $(document).ready(function()
+        {  
+            // 职位链接跳转
+            $(".list_centent").click(function(){
+                var url =$(this).attr("url");
+                window.location.href=""+url+"";
+            });
+        });
+    </script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+    $('.zsp_header').remove();
+}
+</script>
+<!--zsp_header -->
+
+<div class="zsp_send_list">
+    <a href="/mobile/company/view_position?position_id={{ position.id }}" class="zsp_job_list_li">
+        <a href="/mobile/personal/position_detail?position_id={{ position.id }}" class="zsp_job_list_li">
+        <div class="zsp_job_li_top">
+            <!--<div class="zsp_job_li_fang">
+            <img src="images/4.jpg" />   
+        </div>
+        -->
+        <div class="zsp_job_li_tit_ml">
+            <div class="zsp_job_li_h">
+                
+                <h3 class="tuijian">{{ position.position_name | default:'' }} {% if position.payname %}
+            
+                <!-- <span class="paynum">{{ position.payname | default:'' }}</span> -->
+                {% endif %}</h3>
+                {% if position.rewards_money > 0 %}
+                <div class="reward_icon retio"><i class="iconfont icon-qianbao"></i>悬赏:￥{{ position.rewards_money }}</div>
+                {%  endif %}
+                <span class="arrow1"> <i class="fa fa-angle-right"></i></span>
+            </div>
+            
+            <div class="zsp_job_li_tit_other">{{ position.pc_name | default:'' }}</div>
+        </div>
+    </div>
+    <div class="zsp_job_li_other">
+    <p class="docolor">{{ position.work_areaname }}
+         {% if position.work_yearname %}
+         &nbsp;| {{ position.work_yearname }}
+         {% endif %}
+         {% if position.diplomaname %}
+         &nbsp;| {{ position.diplomaname }}
+         {% endif %}
+     </p>
+        <!-- <div class="zsp_job_li_other_icon">
+            <i class="fa fa-map-marker"></i>
+            
+        <div class="zsp_job_li_other_icon">
+            
+           {% if position.payname %}
+            <i class="fa fa-jpy"></i>
+            <span>{{ position.payname | default:'' }}</span>
+           {% endif %}
+        </div>
+        <div class="zsp_job_li_other_icon">
+            <i class="fa fa-graduation-cap"></i>
+            <span>{{ position.work_naturename | default:'' }}</span>
+        </div> -->
+    </div>
+    {% if request.session.account_type != '1' %}
+        <div class="zsp_job_li_other" style="color:#9daeb7;font-size: 12px; margin-top:5px;">
+           <span>使用简历：</span><span>{% if user_name %}{{ user_name }}的简历{% endif %}</span>
+        </div>
+    {% endif %}
+</a>
+<!--zsp_job_list_li -->
+</div>
+<!--zsp_job_list -->
+
+<div class="zsp_send_main_box">
+{% if pu.account_type == 3 or pu.account_type == 5 %}
+<h2>推荐记录跟踪</h2>
+{% else %}
+<h2>职位申请状态跟踪</h2>
+{% endif %}
+
+ {% if request.session.account_type == 3 or request.session.account_type == 5 %}
+    {% if deal_status == '0' %}
+        <div class="zsp_send_steps_box zsp_send_steps_1">
+        <i class="icono-caretUp"></i>
+    {% elif deal_status == '1' or deal_status == '3' or deal_status == '5' %}
+        <div class="zsp_send_steps_box zsp_send_steps_2">
+        <i class="icono-caretUp"></i>
+    {% elif deal_status == '2' %}
+        <div class="zsp_send_steps_box zsp_send_steps_4">
+        <i class="icono-caretUp"></i>
+    {% elif deal_status == '4' %}  
+        <div class="zsp_send_steps_box zsp_send_steps_3">
+        <i class="icono-caretUp"></i>
+    {% endif %}
+            <div class="zsp_send_steps_itme">
+                <i class="fa fa-check"></i> <strong>新推荐</strong>
+                <img src="/static/new_mobile/images/xtb.png" alt="" style="margin-left: 10px;margin-top:-6px;">
+            </div>
+            <u></u>
+            <div class="zsp_send_steps_itme_3">
+                <i class="fa fa-check"></i> <strong>企业HR待定</strong>
+                <img src="/static/new_mobile/images/xtb.png" alt="" style="margin-left: 10px;margin-top:-6px;">
+            </div>
+            <div class="zsp_send_steps_itme_4">
+                <i class="fa fa-check"></i>
+                <strong>邀约面试</strong>
+                <img src="/static/new_mobile/images/xtb.png" alt="" style="margin-left: 10px;margin-top:-6px;">
+            </div>
+            <div class="zsp_send_steps_itme_5">
+                <i class="fa fa-check"></i>
+                <strong>已入职</strong>
+                <img src="/static/new_mobile/images/xtb.png" alt="" style="margin-left: 10px;margin-top:-6px;">
+            </div>
+        </div>
+    </div>
+{% else %}
+    {% if deal_status == "0" or deal_status == "5" %}
+        <div class="zsp_send_steps_box zsp_send_steps_1">
+    {% elif deal_status == "1" or deal_status == "3"  %}
+        <div class="zsp_send_steps_box zsp_send_steps_2">
+    {% elif deal_status == "2"  or deal_status == "4" %}
+        <div class="zsp_send_steps_box zsp_send_steps_3">
+    {% endif %}
+            <div class="{% if deal_status == "0" %}zsp_send_steps_itme{% else %}zsp_send_steps_itme_2 lef0 {% endif %}">
+                 <i class="fa fa-check"></i>
+                {% if pu.account_type == 3 or pu.account_type == 5 %}
+                <strong>推荐成功</strong>
+                {% else %}
+                    <strong>投递成功</strong>
+                {% endif %}
+                {% if deal_status == "0" %}
+                <img src="/static/new_mobile/images/xtb.png" width="14" height="9" alt="" style="margin-left: 10px;margin-top:-6px;">
+                {% endif %}
+            </div>
+            <span class="lineto"></span>
+            <div class="{% if deal_status == "1" or deal_status == "3" or deal_status == "5" %}zsp_send_steps_itme{% else %}zsp_send_steps_itme_2{% endif %}">
+                <i class="fa fa-check"></i> <strong>简历被查看</strong>
+                {% if deal_status == "1" or deal_status == "3" or deal_status == "5" %}
+                <img src="/static/new_mobile/images/xtb.png"  width="14" height="9" alt="" style="margin-left: 10px;margin-top:-6px;">
+                {% endif %}
+            </div>
+            <span class="lineto2"></span>
+            <div class="{% if deal_status == "2"  or deal_status == "4" %}zsp_send_steps_itme{% else %}zsp_send_steps_itme_2{% endif %}">
+                <i class="fa fa-check"></i>
+                <strong>邀请面试</strong>
+                {% if deal_status == "2"  or deal_status == "4" %}
+                <img src="/static/new_mobile/images/xtb.png"  width="14" height="9" alt="" style="margin-left: 10px;margin-top:-6px;">
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="jindu_box">
+            {% for aj_info in tajinfos %}
+            <div>
+                <p class="t">{{ aj_info.dispose_time }}</p>
+                {% if aj_info.dispose_status == 0 or aj_info.dispose_status == 5 or aj_info.dispose_status == 6 %}
+                    <p class="b{% if forloop.counter == 1 %} active{% endif %}">您的简历投递成功，等待处理中。</p>
+                {% elif aj_info.dispose_status == 1 %}
+                    <p class="b{% if forloop.counter == 1 %} active{% endif %}">你的简历已经通过筛选,三个工作日内将与您进行沟通。</p>
+                {% elif aj_info.dispose_status == 2 or aj_info.dispose_status == 3 %}
+                    <p class="b{% if forloop.counter == 1 %} active{% endif %}">{{ aj_info.remark | safe }}</p>
+                {% elif aj_info.dispose_status == 4 %}
+                    <p class="b{% if forloop.counter == 1 %} active{% endif %}">入职成功。</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endif %}
+    <!--发送面试邀请后显示 look==3-->
+
+    <div class="zsp_resume_but_box">
+        <a href="/mobile/personal/follow_recruit_status" class="zsp_resume_but_3" style="margin-top: 0;">返回我的投递</a>  
+    </div>
+
+    <!--发送面试邀请后显示 look==3-->
+    <div class="zsp_footer_fixed_height">
+        <iframe></iframe>
+    </div>
+    <div class="zsp_personal_fixed_box">
+        <div class="zsp_footer_job_but_box">
+            <!--未选择-->
+            <!--选择赴约-->
+            <!--拒绝赴约-->
+         </div>
+    </div>
+
+</body>
+</html>

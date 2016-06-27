@@ -1,0 +1,183 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/popup.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/forwardresume.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/interview.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}appJs/resume/qytddjl.js"></script>
+<style type="text/css">
+    #tableInfo {
+        overflow: visible;
+        min-height: auto !important;
+    }
+    #tableInfo li {
+    position: relative;
+    border-radius: 5px;
+}
+
+#tableInfo img {
+    margin-right: 5px;
+    z-index: 99;
+    border-radius: 50%;
+        background-color: #f4f4f4;
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    display: block;
+    margin: 0 auto;
+}
+#tableInfo .r .position {
+    color: #5c91d9;
+}
+#tableInfo img,#tableInfo ul,#tableInfo dl{float: left;}
+#tableInfo ul{width:320px;margin-top: 20px;padding-left: 20px;}
+#tableInfo .t{background-color: #f9f9f9;height:35px;line-height: 35px;padding:0 15px;}
+#tableInfo .t .a1{color:#888;}
+#tableInfo .t .a2{color:#333;}
+#tableInfo .t .a3{color:#ff8900;margin-left: 12px;}
+#tableInfo .t .time{float: right;color:#888;}
+#tableInfo img{margin-top: 8px;margin-left: 15px;}
+#tableInfo .ppbtn{text-align: center;padding-top: 25px;}
+#tableInfo .zwpp{color:#ff8900;}
+#tableInfo .btnlist{ width:140px; float:right; }
+#tableInfo .btnlist span{display:inline-block;border-radius:10px;width:36px;border:1px solid #dfdfdf;margin:0 3px; width:60px; height:22px!important;float:left; font-size:12px; margin-top:10px;}
+#tableInfo .btnlist span:hover{
+    color: #fff!important;
+    background: #5c91d9;
+}
+#tableInfo .btnlist input{
+    width:60px; height:23px!important; padding:0px!important;
+    margin:0 3px;
+}
+#tableInfo ul .name{color:#ff8900;font-size: 16px;margin-right: 20px;}
+#tableInfo ul li .position{color:#5a91db; margin-bottom: 10px;}
+#tableInfo .hover{overflow:hidden;padding:0px 0 10px 0;border-bottom:1px dashed #e0e0e0;margin-bottom: 10px}
+#tableInfo .hover:hover{ box-shadow: 0px 0px 3px 3px #ccc;
+    -webkit-box-shadow: 0px 0px 3px 3px #ccc;
+    border-bottom-color: transparent;}
+</style>
+<!-- 内容大框 -->
+<div class="lt_content_box wdjlk">
+    <!-- 猎头会员菜单开始 -->
+    {% include 'jobs/system/menu_resume.html' %}
+    <!-- 猎头会员菜单结束 -->
+    <div class="clear">2</div>
+    <div class="clear">3</div>
+    <div class="center lt_jlgltb tddjl_btn_box mt25 h32">
+       <a href="javascript:void(0);" class="tddjl_btn active">投递的简历</a>
+       <a href="/resume/company/ppdjl" class="ppdjl_btn">匹配的简历</a>
+    </div>
+    <div class="center ">
+        <!-- 猎头会员搜索结果主内容开始 -->
+        <div class="dleft">
+            <!-- 猎头会员搜索结果开始 -->
+            <div class="ssjg p9 mt25">
+                <div class="bkdw"></div>
+                <div class="biaolm m10">
+                    <div class="biaot2 fz16">
+                        <ul class="tddjl_span_box">
+                            <li class="bthover" style="cursor: pointer">
+                                待处理<span{% if pu.dealCount == 0 %} style="display:none;" {% endif %}>{{ pu.dealCount }}</span>
+                            </li>
+                            <li  style="cursor: pointer">
+                                待沟通<span{% if pu.communicationCount == 0 %} style="display:none;" {% endif %}>{{ pu.communicationCount }}</span>
+                            </li>
+                            <li  style="cursor: pointer">
+                                已安排面试<span{% if pu.interviewCount == 0 %} style="display:none;" {% endif %}>{{ pu.interviewCount }}</span>
+                            </li>
+                            <li  style="cursor: pointer">
+                                已入职<span{% if pu.entrylevelCount == 0 %} style="display:none;" {% endif %}>{{ pu.entrylevelCount }}</span>
+                            </li>
+                            <li  style="cursor: pointer">
+                                已过滤<span{% if pu.filterCount == 0 %} style="display:none;" {% endif %}>{{ pu.filterCount }}</span>
+                            </li>
+                            <li  style="cursor: pointer">
+                                不合适<span{% if pu.improperCount == 0 %} style="display:none;" {% endif %}>{{ pu.improperCount }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="qhann">
+                        <ul>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 猎头会员搜索结果图片列表开始 -->
+
+                {% if pu.positionCount == 0 %}
+                    <div id="noMatchData_tddjl" class="noMatchData">
+                        <div>
+                                <h2>亲~您暂未发布职位哦，</h2>
+                                <p>先发个职位呗~ </p>
+                                <a href="/jobs/position/company/fbdzw" target="_blank">【职位发布】</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <div id="noSendData_tddjl" class="noSendData" style="display: none;">
+                        <div>
+                                <p>没有符合条件的投递记录！</p>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="tuplb sigenr mt5" id="tableInfo">
+
+
+                </div>
+                <div class="lthy_pager" id="paginInfo"></div>
+                <!-- 猎头会员搜索结果图片列表结束 -->
+                <!-- 猎头会员搜索结果文章列表开始 -->
+                <div class="wenzlb sigenr mt15" style="display:none">
+
+                </div>
+                <!-- 猎头会员搜索结果文章列表结束 --> </div>
+            <!-- 猎头会员搜索结果结束 --> </div>
+        <!-- 猎头会员搜索结果主内容结束 -->
+
+        <div class="xright mt25">
+            <!-- 侧边栏 -->
+            {% include 'jobs/recommendResume.html' %}
+
+            <!-- 侧边栏 --> </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!-- 内容大框 -->
+    <input type="hidden" id="operateIndex" />
+    <input type="hidden" id="operateId" /><!-- 操作的 简历ID-->
+    <input type="hidden" id="operateState" />
+    <input type="hidden" id="sourceId" />
+<!-- 已入职模态框（Modal） -->
+    <div class="modal fade" id="yrz_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:300px">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">已入职</h4>
+                </div>
+                <div class="modal-body t_c">是否确认已入职？</div>
+                <div class="modal-footer ta-c">                    
+                    <button type="button" class="btn btn-primary m-l49" data-dismiss="modal" onclick="dealResume(4)">确认</button>
+                    <button type="button" class="btn-qx m-l5" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+        <!-- /.modal -->
+        <!-- 模态框（Modal） -->
+
+    <input type="hidden" id="pu_id" value="{{ pu.id }}" />
+    <input type="hidden" id="my_phone" value="{{ pu.phone }}" />
+    <input type="hidden" id="my_email" value="{{ pu.email }}" />
+    <input type="hidden" id="my_name" value="{{ pu.user_name|default:'' }}" />
+    <input type="hidden" id="tpc_area" value="{{ tpc.address|default:'' }}" />
+<script type="text/javascript">
+
+</script>
+{% include 'jobs/system/new_footer.html' %}

@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{{ title }}</title>
+<meta name="description" content="怀才当遇提供专业的人才经纪人服务与互联网领域垂直招聘服务,通过创新独特的结构和模式,以及个性化的优质服务,为您提供职业规划、个性化定制职业形象,帮助用户快速提升职场价值.找工作、找人才、找人才经纪人服务就来怀才当遇网！" />
+<meta name="keywords" content="怀才当遇,怀才不遇,怀才当遇招聘,人才经纪人,互联网招聘,移动互联网招聘,微信招聘,微博招聘,高薪职位,互联网圈子,社交招聘,社会招聘" />
+<link rel="stylesheet" type="text/css" href="/static/css/style_cjydy.css">
+{#<script type="text/javascript" src="/static/js/jquery.js"></script>#}
+    <script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js" ></script>
+    <script>
+    var alertFram;var timer = null;
+    window.alert = function(txt) {  
+        clearInterval(timer);
+        timer =setInterval(function() {
+            if ($("#alertFram")[0]) {               
+                $("#alertFram").remove();
+                clearInterval(timer);
+            }       
+        }, 3000)
+        alertFram = $('<div id="alertFram" style="color:#ed4f30;font-size:14px;padding:0px 0px 0px 30px;height:40px;background-color:#fff3de;border:1px solid #ffddc1;position:fixed;left:50%;z-index:999999999;text-align:center;line-height:40px;top:0">' + txt + '<img onclick="$(this).parent().remove()" src="{{ STATIC_URL }}images/x_03.png" style="float:right;cursor:pointer;margin-left:10px;margin-top:14px;margin-right:10px" width="12" height="12"></div>')        
+        if ($("#alertFram")[0]) {
+            return;
+        }           
+        $("body").append(alertFram);  
+        var width=parseInt(alertFram.css('width'));       
+        alertFram.css('margin-left', '-'+width/2+'px');              
+    } 
+</script>
+</head>
+<body>
+
+<div class="re_banner" style="width: 100%;height: 100%;">
+
+	<div class="tmbj" style="min-height: 385px">
+    	<div class="bsbj" style="min-height: 380px">
+        	<div class="grws2" style="height: auto;">
+            	<div class="grnkys2">
+                <form action="">
+                	<textarea name="introduce" id="yjhjs" maxlength="20" placeholder="不超过20个字" onkeyup="checkCount(this)">{{ pu.introduction }}</textarea>
+                    <div class="addjl">
+{#                        <span>查看实例</span> #}
+                        <b>还可以输入<i>20</i>字</b></div>
+                    <div class="xiayibu">
+                        <input type="button" value="创建完成" onclick="saveInfo(this)" />
+                        <a href="/system/hcdygrydThird">返回</a><a href="/resume/new_jlsz">进入主页</a>
+                    </div>
+                    </form>
+                </div>
+            
+            
+                
+            </div>
+            <div class="grwzbq" style="top:29px; right:-15px;">一句话介绍</div>
+        </div>
+    </div>
+<!--     <ul class="yjh_circle">
+        <li class="active"></li>
+        <li></li>
+        <li></li>
+    </ul> -->
+</div>
+
+
+
+</body>
+<script type="text/javascript">
+    //初始化剩余字数
+    $(function(){
+        var introduce = "{{ pu.introduction|default:'' }}";
+        var count = introduce.length;
+        $('.addjl').children('b').children('i').text(20 - parseInt(count));
+    });
+    //检验输入框文字数量
+    function checkCount(obj){
+        var count = $(obj).val().length;
+        var leftCount = 20 - parseInt(count);
+        $('.addjl').children('b').children('i').text(leftCount);
+    }
+    //验证个人介绍是否为空
+    function saveInfo(obj){
+        var introduce = $('#yjhjs').val();
+        if($.trim(introduce) == ''){
+            window.alert('请填写个人介绍');
+            return;
+        }
+        $(obj).addClass('load_btn').attr('disabled', 'true');
+        $.ajax({
+            type: "POST",
+            url: "/system/ajax_savePersonIntroduce",
+            data: {"introduce": introduce},
+            dataType: "json",
+            success: function (data) {
+                if(data.msg == 'success'){
+                    window.alert('保存成功');
+                    window.location = '/jobs/resume/new_jlsz';
+                }else{
+                    window.alert(data.msg);
+                    $(obj).removeClass('load_btn').removeAttr('disabled');
+                }
+            }
+        })
+    }
+</script>
+</html>

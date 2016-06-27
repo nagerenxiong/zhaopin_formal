@@ -1,0 +1,190 @@
+{% include 'header.html' %}
+<link rel="stylesheet" href="/static/new_mobile/css/recomm_talents.css">
+<link rel="stylesheet" href="/static/new_mobile/css/initial.scss">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="view" class="view flex flex-v">
+        <div id="wrapper" class="content flex-1">
+            <div id="scroller" class="content-wrap">
+                {% if request.session.pu_id %} {% include 'menu_personal.html' %} {% else %} {% include 'login_Modal.html' %} {% endif %}
+                <div class="recomm_talents_top">
+                    <div class="zsp_rewar_img">
+{#                        <img src="image/111_03.jpg" alt="">#}
+                        <img src="{{ request.session.file_website }}{{ position_source_company.pc_logo | default:'/static/mobile/images/qy_logo.png' }}" onerror="notfindimg(this)">
+
+                    </div>
+                    <div class="zsp_rewar_deti">
+                        <h3>{{ position.position_name }}
+                                <span>{{ position.payname }}</span>
+                                </h3>
+                        <p>{{ position.pc_name }}</p>
+                        <p>{{ position.work_areaname }}
+                            {% if position.work_yearname %}
+                                &nbsp;| {{ position.work_yearname }}
+                            {% endif %}
+                            {% if position.diplomaname %}
+                                &nbsp;| {{ position.diplomaname }}
+                            {% endif %}
+                            </p>
+                    </div>
+                    {% if position.rewards_money > 0 %}
+                        <div class="reward_icon"><i class="iconfont icon-qianbao"></i>悬赏:￥{{ position.rewards_money }}</div>
+                    {% endif %}
+                </div>
+                <div class="recomm_talents_middle">
+                    <p class="recom_talen_titl">我的人才</p>
+                    <ul id="myTalent">
+                    </ul>
+                </div>
+                <div class="confirm_dh1" style="display:none;">
+                    <div class="ztcont1">
+                        <div class="con_tit">温馨提示</div>
+                        <p>简历必须完成推荐报告后才能被推荐</p>
+                        <div class="btn_save1">
+                            <a href="javascript:void(0);" class="cancel_btn" style="width:49.5%" onClick="mmedclose()">取消</a>
+                            <a href="javascript:void(0);" class="confirm_btn" style="width:50%" onclick="loadRecommendReport()">填写推荐报告</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal_wrap" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+    <div style="display: none;" id="positionPaginInfo"></div>
+</body>
+<input type="hidden" id="position_id" value="{{ position.id }}" />
+<input type="hidden" id="search_sql" value="{{ search_sql }}" />
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript">
+    var sql = '';
+    var loadData = '';
+    var position_id;
+    var operate_id;
+    $(function(){
+        position_id = $('#position_id').val();
+        sql = $('#search_sql').val();
+        loadData = new pagin("positionPaginInfo", "V_Resume_Info", "", encodeURI(sql), '', 10, "myResumeBind", "myResumeObj", 1, position_id);
+    });
+    //加载我上传的简历
+    function myResumeBind(dataInfo) {
+        $(dataInfo).each(function (i) {
+            var content = '';
+            var array = $(this);
+            var len = array.length;
+            for (var n = 0; n < len; n++) {
+                if (array[n] == null) {
+                    array[n] = "&nbsp;";
+                }
+            }
+            content += '<li>';
+            content += '    <div class="recomm_top">';
+            content += '        <div class="rect_lf">';
+            content += '        <span class="recom_name">'+array[3]+'</span>';
+            content += '        <span class="matching1">匹配度：</span>';
+            content += '        <span class="matching_rate">'+array[array.length - 1]+'%</span>';
+            content += '        </div>';
+            content += '        <div class="rect_rg">';
+            content += '        <span class="recom_rp" onclick="editRecommendReport('+array[0]+', '+position_id+')"><i class="iconfont icon-biji rd"></i>推荐报告</span>';
+            content += '        <span class="recom_compile" onclick="editResume('+array[0]+', '+position_id+', this)">编辑</span>';
+            content += '        </div>';
+            content += '    </div>';
+            content += '    <div class="recomm_bottom">';
+            content += '        <div class="recom_left">';
+            content += '            <p>产品经理</p>';
+            content += '            <p>'+ array[10] + '&nbsp; ' + array[12] + '</p>';
+            content += '        </div>';
+            content += '        <div class="recom_rigt">';
+            content += '            <span class="if_recom" onclick="recommendTalent('+array[0]+', '+position_id+', this)"><i class="iconfont icon-elite"></i>推荐</span>';
+            content += '            <!-- <span class="yet_recom">已推荐</span> -->';
+            content += '        </div>';
+            content += '    </div>';
+            content += '</li>';
+            $('#myTalent').append(content);
+            var recommendObj = $('#myTalent').find('.recom_rigt:last');
+            var reportObj = $('#myTalent').find('.recom_rp:last');
+            getRecommendInfo(array[0], recommendObj, reportObj);
+        });
+    }
+    // 加载更多简历
+    function next_page_position2() {
+        var $this_page_data = $("#positionPaginInfo ul .active");
+        var $end_page_data = $("#positionPaginInfo ul li:last");
+        if($this_page_data.attr('onclick') != $end_page_data.attr('onclick')) {
+            $this_page_data.next("li").click();
+        }else {
+            $(".zsp_resume_but_box").remove();
+        }
+    }
+    // 获得推荐信息，是否有推荐报告和是否已推荐
+    function getRecommendInfo(resume_id, recommendObj, reportObj){
+        $.ajax({
+            type: 'post',
+            data: {'resume_id': resume_id, 'position_id': position_id},
+            url: '/mobile/ajax_getRecommendInfo',
+            dataType: 'json',
+            success: function(data) {
+                if(data.status == '1'){
+                    if(data.had_recommend){
+                        //iconfont icon-biji rd
+                        reportObj.children('i').attr('class', 'iconfont icon-zhucechenggong01 fd');
+                    }
+                    if(data.had_send_resume){
+                        recommendObj.empty();
+                        recommendObj.append('<span class="yet_recom">已推荐</span>');
+                    }
+                }
+            }
+        });
+    }
+
+    // 编辑推荐报告
+    function editRecommendReport(resume_id, position_id){
+        window.location = '/mobile/headhunter/recommenreports?resume_id=' + resume_id + '&position_id=' + position_id;
+    }
+    // 进入推荐报告
+    function loadRecommendReport(){
+        window.location = '/mobile/headhunter/recommenreports?resume_id=' + operate_id + '&position_id=' + position_id + '&type="next"';
+    }
+    // 编辑简历
+    function editResume(resume_id, position_id, obj){
+        var recommend_text = $(obj).parent().parent().next().children('div:last').text();
+        var type = '1';
+        if($.trim(recommend_text) == '已推荐'){
+            type = '2'
+        }
+        window.location = '/mobile/headhunter/edit_uploaded_resume?resume_id=' + resume_id + '&position_id=' + position_id + '&type=' + type;
+    }
+    // 推荐人才
+    function recommendTalent(resume_id, position_id, obj){
+        if("{{ request.session.headHuntValidStatus }}" != "3" ){
+            alert(["您的注册还未通过审核",2]);
+            return;
+        }
+        // 获得该简历是否有推荐报告，没有则弹出弹框提示，有则进入简历预览页
+        var reportObj = $(obj).parent().parent().prev().children('div:last').children('span:first').children('i');
+        if(reportObj.attr('class') == 'iconfont icon-biji rd'){
+            $('.confirm_dh1').css('display', 'block');
+            $('.modal_wrap').css('display', 'block');
+            operate_id = resume_id;
+        }else{
+            window.location = '/mobile/headhunter/recommenreports?resume_id=' + resume_id + '&position_id=' + position_id + '&type="next"';
+{#            window.location = '/mobile/headhunter/detail_uploaded_resume?resume_id=' + resume_id + '&position_id=' + position_id;#}
+        }
+    }
+</script>
+<script>
+{#    $(function() {#}
+{#        $('.if_recom').click(function(event) {#}
+{#            $('.confirm_dh1').css('display', 'block');#}
+{#            $('.modal_wrap').css('display', 'block');#}
+{#        });#}
+{#    })#}
+
+function mmedclose() {
+    $('.confirm_dh1').css('display', 'none');
+    $('.modal_wrap').css('display', 'none');
+}
+</script>
+</html>

@@ -1,0 +1,240 @@
+html {
+  font-size: 64px; }
+
+html, body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; }
+
+body {
+  background-color: #fccb0f; }
+
+header {
+  height: 57.21831%; }
+  header .b {
+    position: relative;
+    top: 18.15385%;
+    background-color: #3e3a39;
+    border-radius: 50%;
+    height: 81.84615%;
+    margin: 0 auto; }
+    header .b * {
+      transition: all 0.5s; }
+    header .b .phone {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      z-index: 2;
+      background: url(../images/phone.png) no-repeat center 70%/80% 71.80451%;
+      animation: phone 0.4s ease  3;
+      -webkit-animation: phone 0.4s ease  3; }
+    header .b li {
+      border-radius: 50%;
+      position: absolute;
+      opacity: 0; }
+    header .b .i1 {
+      width: 0.59375rem;
+      height: 0.59375rem;
+      background: #ffdd00;
+      left: 1.71875rem;
+      top: 1.17188rem;
+      animation: circle 1.3s ease 1.2s infinite;
+      -webkit-animation: circle 1.3s ease 1.2s infinite; }
+    header .b .i2 {
+      width: 0.4375rem;
+      height: 0.4375rem;
+      background: #ffdd00;
+      right: 0.375rem;
+      top: 2.65625rem;
+      animation: circle 1.6s ease 1.2s infinite;
+      -webkit--webkit-animation: circle 1.6s ease 1.2s infinite; }
+    header .b .i3 {
+      width: 0.64063rem;
+      height: 0.64063rem;
+      background: #ffb700;
+      right: 1.51563rem;
+      top: -0.32813rem;
+      animation: circle 1.8s ease 1.2s infinite;
+      -webkit-animation: circle 1.8s ease 1.2s infinite; }
+    header .b .i4 {
+      width: 1.82813rem;
+      height: 1.82813rem;
+      background: #ffb700 url(../images/i1.png) no-repeat center center/1.3125rem 1.375rem;
+      left: 0.54688rem;
+      top: -0.375rem;
+      z-index: -1;
+      animation: float 1.5s ease 1.2s infinite;
+      -webkit-animation: float 1.5s ease 1.2s infinite; }
+    header .b .i5 {
+      width: 1.28125rem;
+      height: 1.28125rem;
+      background: #ffdd00 url(../images/i2.png) no-repeat center center/1.10938rem 0.98438rem;
+      right: 1.82813rem;
+      top: -0.23438rem;
+      animation: float 1.5s ease 1.4s infinite;
+      -webkit-animation: float 1.5s ease 1.4s infinite; }
+    header .b .i6 {
+      width: 1.26563rem;
+      height: 1.26563rem;
+      background: #7bca9f url(../images/i3.png) no-repeat center center/0.90625rem 0.9375rem;
+      right: -0.51563rem;
+      top: 2.8125rem;
+      animation: float 1.7s ease 1.7s infinite;
+      -webkit-animation: float 1.7s ease 1.7s infinite; }
+    header .b .i7 {
+      width: 2.1875rem;
+      height: 2.1875rem;
+      background: #ff6e4a url(../images/i4.png) no-repeat center center/1.73438rem 1.73438rem;
+      z-index: 1;
+      left: 0.54688rem;
+      top: 5.25rem;
+      animation: float 1.3s ease 1.9s infinite;
+      -webkit-animation: float 1.3s ease 1.9s infinite; }
+
+section {
+  height: 15.66901%; }
+  section .b {
+    margin: 0 auto;
+    opacity: 0;
+    animation: opa 2s ease 0.6s;
+    animation-fill-mode: forwards;
+    -webkit-animation: opa 2s ease 0.6s;
+    -webkit-animation-fill-mode: forwards;
+    position: relative;
+    top: 16.29213%;
+    width: 75%;
+    height: 83.70787%;
+    background: url(../images/hczs_zpwy.png) no-repeat center center/100% 100%; }
+
+div {
+  height: 7.92254%; }
+
+p {
+  animation: opa1 1.5s ease 1.5s;
+  animation-fill-mode: forwards;
+  -webkit-animation: opa1 1.5s ease 1.5s;
+  -webkit-animation-fill-mode: forwards;
+  letter-spacing: 0.46875rem;
+  font-size: 0.47984rem;
+  color: #422502;
+  opacity: 0;
+  text-align: center;
+  position: relative;
+  top: 50%; }
+
+footer {
+  height: 5.72183%;
+  top: 4.0493%;
+  position: relative; }
+  footer button {
+    font-size: 0.47734rem;
+    color: #422502;
+    border: 1px solid #422502;
+    border-radius: 999px;
+    display: block;
+    margin: 0 auto;
+    height: 100%;
+    width: 41.40625%;
+    text-align: center;
+    background-color: transparent; }
+
+@keyframes phone {
+  0% {
+    transform: rotate(0deg); }
+  50% {
+    transform: rotate(20deg); }
+  100% {
+    transform: rotate(0deg); } }
+@-webkit-keyframes phone {
+  0% {
+    -webkit-transform: rotate(0deg); }
+  50% {
+    -webkit-transform: rotate(20deg); }
+  100% {
+    -webkit-transform: rotate(0deg); } }
+@keyframes circle {
+  0% {
+    transform: scale(0.9, 0.9);
+    opacity: 1; }
+  50% {
+    transform: scale(1.1, 1.1);
+    opacity: 1; }
+  100% {
+    transform: scale(0.9, 0.9);
+    opacity: 1; } }
+@-webkit-keyframes circle {
+  0% {
+    -webkit-transform: scale(0.9, 0.9);
+    opacity: 1; }
+  50% {
+    -webkit-transform: scale(1.1, 1.1);
+    opacity: 1; }
+  100% {
+    -webkit-transform: scale(0.9, 0.9);
+    opacity: 1; } }
+@keyframes float {
+  0% {
+    transform: translateY(-0.07813rem);
+    opacity: 1; }
+  50% {
+    transform: translateY(0rem);
+    opacity: 1; }
+  100% {
+    transform: translateY(-0.07813rem);
+    opacity: 1; } }
+@-webkit-keyframes float {
+  0% {
+    -webkit-transform: translateY(-0.07813rem);
+    opacity: 1; }
+  50% {
+    -webkit-transform: translateY(0rem);
+    opacity: 1; }
+  100% {
+    -webkit-transform: translateY(-0.07813rem);
+    opacity: 1; } }
+@keyframes opa {
+  0% {
+    opacity: 1;
+    transform: translateX(-10rem) rotate(0deg); }
+  60% {
+    opacity: 1;
+    transform: translateX(-0.5rem) rotate(-20deg); }
+  100% {
+    opacity: 1;
+    transform: translateY(0rem) rotate(0deg); } }
+@-webkit-keyframes opa {
+  0% {
+    opacity: 1;
+    transform: translateY(-0.07813rem); }
+  20% {
+    opacity: 1;
+    transform: translateY(0.0625rem); }
+  40% {
+    opacity: 1;
+    transform: translateY(-0.04688rem); }
+  60% {
+    opacity: 1;
+    transform: translateY(0.03125rem); }
+  80% {
+    opacity: 1;
+    transform: translateY(-0.01563rem); }
+  100% {
+    opacity: 1;
+    transform: translateY(0rem); } }
+@keyframes opa1 {
+  0% {
+    opacity: 0;
+    transform: translateY(0.23438rem); }
+  100% {
+    opacity: 1;
+    transform: translateY(0px); } }
+@-webkit-keyframes opa1 {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(0.23438rem); }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0px); } }
+
+/*# sourceMappingURL=h5_ydy.css.map */

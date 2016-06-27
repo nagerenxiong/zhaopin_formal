@@ -1,0 +1,516 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/reset.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/basic.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style2.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/pages.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.autocomplete.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/base.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/main.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul_old.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.autocomplete.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position_old.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/major.js"></script>
+<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/My97DatePicker/WdatePicker.js"></script>
+<style type="text/css" media="screen">
+.nav2 *,.content *{box-sizing:content-box;} #fenye li:hover{border-right: 2px solid #c8161d;} </style>
+<div class="nav2">
+    <ul>
+        <li>
+            <a href="#" >职位搜索</a>
+        </li>
+        <li>
+            <a href="#">职位发布</a>
+        </li>
+        <li>
+            <a href="#">职位过滤器</a>
+        </li>
+        <li>
+            <a href="#">职位管理</a>
+        </li>
+        <li>
+            <a href="#">企业信息管理</a>
+        </li>
+        <li>
+            <a href="#" class="nav2hover">收藏职位</a>
+        </li>
+    </ul>
+</div>
+<div class="content">
+    <div class="content_l">
+        <div class="content_l_t">
+            <div class="clt_float"></div>
+            <div class="content_l_t1">
+                <a href="#" name="1F" class="ahover">企业基本信息</a>
+            </div>
+        </div>
+        <div class="ht30"></div>
+        <form action="xxgladdQyml" method="post" >
+        <div class="cyqy">
+            <p>常用企业：</p>
+            <ul>
+                {% for com in companylabel %}
+                <li>
+                    <a  href="findQymlByid?id={{ com.0 }}&page={{ page }} ">{{ com.2 }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="clear"></div>
+        </div>
+
+        <div class="qyxx_biaodan">
+            <div class="qyxx_bd1">
+                <p>招聘企业显示名称</p>
+            <input type="hidden" id="xgid" value="{{ com.id }}" />
+                <input type="text" name="zpqymc" onblur="yzName(this)" value="{{ com.show_name }}">
+                <span class="ml25"style="color:#ff6a6a" >{% if com.show_name %}<i class="iconfont icon-gou"></i>{% else %}<i class="iconfont icon-gantanhao"></i>必填 {% endif %}</span></div>
+            <div class="qyxx_bd1">
+                <p>招聘企业备注名称</p>
+                <input type="text" name="remarkname"  value="{{ com.remark_name }}"></div>
+            <div class="qyxx_bd1">
+                <p>企业所在地</p>
+                <div>
+                    <input type="text" onclick="showArea(this,1)"  onblur="yzModal(this)" name="qyworkarea" value="{{ areaname }}"  placeholder="工作地点" >
+                        <input type="hidden" name="qyWork_Area"  value="{{ com.location }}"  />
+                     <span class="ml25"style="color:#ff6a6a" >{% if areaname %}<i class="iconfont icon-gou"></i>{% else %}<i class="iconfont icon-gantanhao"></i>必填 {% endif %}</span></div>
+            </div>
+        <div class="qyxx_bd1">
+                <p>企业所属行业</p>
+                <div>
+                    <input type="text"   onblur="yzModal(this)" name="experienc" id="experience"  placeholder="当前行业"
+                        value="{{ business }}"    onclick="showBusinessul(this,1)" width="" >
+                    <input type="hidden" name="qyIndustry_Type" id="expid"  value="{{ com.business }}" />
+                     <span class="ml25" style="color:#ff6a6a" >{% if business %}<i class="iconfont icon-gou"></i>{% else %}<i class="iconfont icon-gantanhao"></i>必填 {% endif %}</span></div>
+            </div>
+            <div class="qyxx_bd3">
+                <p>企业性质</p>
+                <select name="qyxz"  onchange="yzPerson(this)" style="width: 305px;height: 29px;">
+                        <option value="">所有</option>
+                        {% for expect in worktypes %}
+                        <option value="{{ expect.dictionary_value }}" {% if com.nature == expect.dictionary_value %} selected="selected" {% endif %} >{{ expect.dictionary_name }}</option>
+                        {% endfor %}
+                    </select><span class="ml25"style="color:#ff6a6a" >{% if com.nature %}<i class="iconfont icon-gou"></i>{% else %}<i class="iconfont icon-gantanhao"></i>必填 {% endif %}</span>
+            </div>
+
+            <div class="qyxx_bd3">
+                <p>企业规模</p>
+                <select name="qyqygm"  onchange="yzPerson(this)" style="width: 305px;height: 29px;">
+                        <option value="">所有</option>
+                        {% for expect in qygm %}
+                        <option value="{{ expect.dictionary_value }}" {% if com.scale == expect.dictionary_value %} selected="selected" {% endif %}>{{ expect.dictionary_name }}</option>
+                        {% endfor %}
+                    </select><span class="ml25"style="color:#ff6a6a" >{% if com.scale %}<i class="iconfont icon-gou"></i>{% else %}<i class="iconfont icon-gantanhao"></i>必填 {% endif %}</span>
+            </div>
+
+            <div class="qyxx_bd4">
+                <p>企业简介</p>
+                <textarea name="qyjj" cols="" rows="" id="qyjj" onkeydown="countChar('qyjj','counter1',500);"
+                        style="padding: 5px 0 0 0"    onkeyup="countChar('qyjj','counter1',500);"> {{ com.introduce  }}</textarea><br/>
+                <div class="clear"></div>
+        <div style="margin-left: 150px;">最多输入500字，目前已经输入<span  id="counter1" style="COLOR:red;FONT-WEIGHT:bold">0</span>字</div>
+            </div>
+        </div>
+
+        <div class="grxx_tag_box clearfix mt20 oh grxx_tag_box1" >
+            <ul id="labels">
+                                    {% for label in labelList %}
+                                        {% if label != '' %}
+                                            <li>{{ label }}<span style="display:none">X</span></li>
+                                        {% endif %}
+                                    {% endfor %}
+            </ul>
+
+        <div style="clear:both"></div>
+                <div class="mt20 bd_bottom1 oh">
+                    <div class="qyld1">
+                        <p>
+                            企业亮点
+                            <span class="ml15" onclick="changeLabel()">
+                                        <input type="hidden" id="pageIndex" value="2" />
+                                        <input type="hidden" id="labelSize" value="{{ labelSize }}" />
+                                        <a href="javascript:void(0);" style="color:#cb252b" >换一换</a>
+                                    </span>
+                        </p>
+                    </div>
+                    <div class="qyld2">
+                        <input type="text" id="plabel" class="qyld2_text" placeholder="添加自定义亮点">
+                        <input type="button"  onclick="addTab()" class="qyld2_button" value="贴上"></div>
+                    <div class="clear"></div>
+                </div>
+            <div class="clear"></div>
+        </div>
+{#         class="lixz"#}
+        <div class="scqyml">
+            <ul>
+                                {% if labels %}
+                                    {% for label in labels %}
+                                        <li>{{ label.dictionary_name }}</li>
+                                    {% endfor %}
+                                {% endif %}
+                <div class="clear"></div>
+            </ul>
+            <div class="scqyml2">
+                <input type="button" {% if flag == 1 %} value="修改企业名录" {% else %} value="收藏到企业名录"  {% endif %} onclick="addRecruitment()"></div>
+        </div>
+        </form>
+    </div>
+
+    <div class="page_main_r">
+        <div class="main_r_item item_zwgl">
+            <div class="ht15"></div>
+            <h2 class="r_item_t">
+                企业信息名录
+            </h2>
+            <div class="ht10"></div>
+            <div class="zwgl_main">
+                <ul id="fenye">
+                    {% for f in qymllist %}
+                    <li style="overflow: hidden;">
+                        <a href="findQymlByid?id={{ f.0 }}&page={{ page }}" style="float: left">{{ f.2 }}</a>
+                            <span class="f_r del_btn"  style="float: right" onclick="setid({{ f.0 }})" data-toggle="modal" data-target="#delete_Modal">X</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="bor_top">
+                    <div class="qyxx_r_fy">
+                        <p class="fya1" onclick="fenye(0)"></p>
+                        <p><span id="currentpage">{{ page }}</span>/<span id="maxpage">{{ maxpage }}</span></p>
+                        <p class="fya2" onclick="fenye(1)"></p>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div>
+                    <div  style="width:150px;height: 40px;background-color: #D11D30;color:white;text-align: center;line-height: 40px;font-size: 14px;margin:0 auto;" onclick="location.href='xxgl'" onmouseover="this.style.cursor='pointer'">
+                        <i class="iconfont icon-tianjia" style="margin-right: 5px"></i>添加新企业
+                    </div>
+                </div>
+               <div class="ht10"></div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<!-- 模态框（Modal） -->
+	<div class="modal fade" id="delete_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog"style="width: 433px;">
+			<div class="modal-content" >
+				<div class="modal-header">
+					<button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true" id="close">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">确认删除</h4>
+				</div>
+				<div class="modal-body t_c">
+					是否确认删除
+				</div>
+				<div class="modal-footer">
+					 <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">否</button>
+		             <button type="button" class="btn btn-primary"  onclick="delqyml()">是</button>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+ <!-- 模态框（Modal） -->
+<input type="hidden"  id="qyid" />
+{% include 'jobs/system/new_footer.html' %}
+<script>
+    window.onload=function(){
+        PageInit();
+    }
+    function setid(id){
+        $("#qyid").val(id);
+    }
+    var flag=false;
+    function delqyml(){
+        var id= $("#qyid").val();
+        $.ajax({
+                type: "POST",
+                url: "ajax_delQyml",
+                data: {'id':id},
+                dataType: "json",
+                success: function(data){
+                    $("#close").click();
+                    alert(data.msg)
+                    location.reload()
+                }
+            });
+    }
+    function positionShow(obj){
+        showPosition(obj,$("#experience").val(),$("#expid").val(),5);
+    }
+    function yzPerson(obj){
+        if($(obj).val()!="0"&&$(obj).val()!=""){
+            $(obj).next().empty();
+            $(obj).next().append("<i class=\"iconfont icon-gou\">");
+        }else{
+            $(obj).next().empty();
+            $(obj).next().append("<i class=\"iconfont icon-gantanhao\"></i>必填");
+        }
+    }
+    function yzModal(obj){
+        if($(obj).next().val()!=""&&$(obj).next().val()!=0){
+            $(obj).next().next().empty();
+            $(obj).next().next().append("<i class=\"iconfont icon-gou\">");
+        }else{
+            $(obj).next().next().empty();
+            $(obj).next().next().append("<i class=\"iconfont icon-gantanhao\"></i>必填");
+        }
+    }
+     //收藏企业名录
+        function addRecruitment(){
+            var zpqymc=$('[name=zpqymc]').val();
+            var remarkname=$('[name=remarkname]').val();
+            var qyworkarea=$('[name=qyWork_Area]').val();
+            var qyIndustry_Type=$('[name=qyIndustry_Type]').val();
+            var qyqygm=$('[name=qyqygm]').val();
+            var qyjj=$('[name=qyjj]').val();
+            var qyxz=$('[name=qyxz]').val();
+            var labels = $('#labels').children('li');
+            var newlabels = '';
+            var length = labels.length;
+            var id=$("#xgid").val()
+            for(var i = 0;i < length;i++){
+                newlabels += labels.eq(i).text().replace('X', '') + '**';
+            }
+            if ($("#xgid").val() == ""){
+                if(flag==false){
+                alert("请填写可用的企业名!")
+                return
+            }
+            }
+            if(zpqymc==""||zpqymc==0){
+                alert("请补全信息!");
+                return
+                }
+            if(remarkname==""||remarkname==0){
+                alert("请补全信息!");
+                return
+                }
+            if(qyworkarea==""||qyworkarea==0){
+                alert("请补全信息!");
+                return
+                }
+            if(qyIndustry_Type==""||qyIndustry_Type==0){
+                alert("请补全信息!");
+                return
+                }
+            if(qyqygm==""||qyqygm==0){
+                alert("请补全信息!");
+                return
+                }
+            if(qyjj==""||qyjj==0){
+                alert("请补全信息!");
+                return
+                }
+            if(qyxz==""||qyxz==0){
+                alert("请补全信息!");
+                return
+                }
+            if(newlabels == ''){
+                window.alert('请添加标签！');
+                return ;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "ajax_saveQyml",
+                data: {"id":id,"zpqymc": zpqymc, 'remarkname': remarkname, 'qyworkarea': qyworkarea,'qyIndustry_Type':qyIndustry_Type,'qyqygm':qyqygm,'qyjj':qyjj,'qyxz':qyxz,'labels':newlabels},
+                dataType: "json",
+                success: function(data){
+                        $('#labels').children('li').remove();
+                        for(var i = 0;i < length;i++){
+                            $('#labels').append('<li>' + labels.eq(i).text().replace('X', '') + '<span style="display:none">X</span></li>');
+                        }
+                        location.reload()
+                        window.alert(data.msg);
+                }
+            });
+        }
+function yzName(obj){
+     var name=$(obj).val();
+        $.ajax({
+                type: "POST",
+                url: "ajax_findQymlByname",
+                data: {'name':name},
+                dataType: "json",
+                success: function(data){
+                    if(data.msg=="true"){
+                        $(obj).next().empty();
+                        $(obj).next().append("<i class=\"iconfont icon-gantanhao\"></i>该用户名已被注册");
+                         window.alert("该企业名已被注册!");
+                        flag=false
+                        return
+                    }else{
+                        flag=true;
+                    }
+
+                }
+            });
+        if($(obj).val()!="0"&&$(obj).val()!=""){
+            $(obj).next().empty();
+            $(obj).next().append("<i class=\"iconfont icon-gou\">");
+        }else{
+
+
+            $(obj).next().empty();
+            $(obj).next().append("<i class=\"iconfont icon-gantanhao\"></i>必填");
+        }
+    }
+    function countChar(textareaID,spanID,maxNum)
+                {
+                    //得到输入的字符的长度
+                var NowNum = document.getElementById(textareaID).value.length;
+                //判断输入的长度是否超过规定的长度
+                if(NowNum>maxNum)
+                {
+                   //如果超过就截取规定长度的内容
+                document.getElementById(textareaID).value = document.getElementById(textareaID).value.substring(0,maxNum);
+                }
+                else
+                {
+                    //得到当前的输入长度并且显示在页面上
+                document.getElementById(spanID).innerHTML = NowNum;
+                }
+                }
+                //得到当前的输入长度并且显示在页面上
+                function SetLength(textareaID,spanID)
+                {
+                var NowNum = document.getElementById(textareaID).value.length;
+
+                document.getElementById(spanID).innerHTML = NowNum;
+                }
+
+                function PageInit()
+                {
+                SetLength('qyjj','counter1');
+                    SetLength('zwms','counter2');
+                }
+    //添加标签
+        function addTab(){
+            var plabel = $('#plabel').val();
+            if(plabel != ''){
+                var labels = $('#labels').children('li');
+                if(labels.length>9){
+                        alert("你添加的标签太多了,不能再继续添加!")
+                        return
+                     }
+                for(var i = 0;i < labels.length;i++){
+                    if(plabel.trim() == labels.eq(i).text().replace('X', '').trim()){
+                        alert("不能添加相同的标签!")
+                        return
+                    }
+                }
+                var em = '<li>' + plabel + '<span style="display:none">X</span></li>';
+                $('#labels').append(em);
+                $("#labels li").mouseover(function(){
+                    $(this).children().css('display','inline');
+                });
+                $("#labels li").mouseout(function(){
+                    $(this).children().css('display','none');
+                });
+                $("#labels li span").click(function(){
+                    $(this).parent().remove();
+                })
+            }else{
+                window.alert("请填写要添加的标签！");
+            }
+        }
+    //系统自带标签点击事件处理
+        $(document).on('click','.scqyml li',function(){
+            var labels = $('#labels').children('li');
+            if(labels.length>9){
+                        alert("你添加的标签太多了,不能再继续添加!")
+                        return
+                     }
+                for(var i = 0;i <labels.length;i++){
+                    if($(this).text().trim() ==labels.eq(i).text().replace('X', '').trim()){
+                        alert("不能添加相同的标签!")
+                        return
+                    }
+                }
+            var em = '<li>' + $(this).text() + '<span style="display:none">X</span></li>';
+            $('#labels').append(em);
+            $("#labels li").mouseover(function(){
+                $(this).children().css('display','inline');
+            })
+            $("#labels li").mouseout(function(){
+                $(this).children().css('display','none');
+            })
+            $("#labels li span").click(function(){
+                $(this).parent().remove();
+            })
+});
+    //换一换标签
+        function changeLabel(){
+            var pageIndex = $('#pageIndex').val();
+            var labelSize = $('#labelSize').val();
+            $.ajax({
+                type: "POST",
+                url: "../ajax_changeLabel",
+                data: {"p_value": '12000000', 'page': pageIndex},
+                dataType: "json",
+                success: function(data){
+                    $('.scqyml ul').children().remove();
+                    for(var i = 0;i < data.length;i++){
+                        var hlabel = data[i];
+                        var em = '<li>'+hlabel.fields.dictionary_name+'</li>';
+                        $('.scqyml ul').append(em);
+                    }
+                    //设置换一换的页数
+                    if((parseInt(pageIndex)) * 8 > labelSize){
+                        $('#pageIndex').val(1);
+                    }else{
+                        $('#pageIndex').val(parseInt(pageIndex) + 1);
+                    }
+
+                }
+            });
+        }
+
+        function fenye(ys){
+            var ccpage=$("#currentpage").text();
+            var page;
+
+            if(parseInt(ys) != 0){
+                page = parseInt(ccpage) + 1;
+            }else {
+                page = parseInt(ccpage) - 1;
+            }
+
+            var fydiv=$("#fenye");
+              $.ajax({
+                type: "POST",
+                url: "ajax_fyQyml",
+                data: {'page':page},
+                dataType: "json",
+                success: function(data){
+                    fydiv.empty();
+                    var content =getFydata(data.dataInfo,page);
+                    fydiv.append(content);
+                    $("#currentpage").text(data.spage);
+                     $("#maxpage").text(data.maxpage);
+                }
+            });
+        }
+        function getFydata(dataInfo,page){
+        var content="";
+        var num=0;
+         $(dataInfo).each(function() {
+             var _this=dataInfo[num];
+             if(dataInfo[0][num]==undefined){
+                 return
+             }
+             content+=' <li style="overflow: hidden;"><a style="float: left" href="findQymlByid?id='+$(_this)[0]+'&page='+page+'" onclick="setfilter('+$(_this)[0]+')">'+$(_this)[2]+'</a><span class="f_r del_btn" style="float: right" onclick="setid('+$(_this)[0]+')"' +
+                     ' data-toggle="modal" data-target="#delete_Modal">X</span></li>';
+             num++;
+         });
+        return content
+                        }
+
+</script>

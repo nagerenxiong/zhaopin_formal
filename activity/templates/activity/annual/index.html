@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<meta content="telephone=no" name="format-detection" />
+	<title>2015赣商论坛暨“绿地杯”江西经济影响年度人物评选</title>
+	<link rel="stylesheet" href="/static/css/css.css">
+	<link rel="stylesheet" href="/static/css/annual.css">
+	<style>
+	  .timer111{width:6.2rem; height:1.1rem;background-color:#030710;margin:0 auto;text-align: center;padding-top: 0.2rem;border-radius:5px;}
+	  .timer111 span{display:inline-block;width:0.7rem;height:0.7rem;text-align: center;line-height: 0.7rem;background-color:#fff;color:#eb3146;font-size: 0.5rem;border-radius:5px;}
+	  .timer111 label{color:#fff;font-size: 0.3rem;margin:0 0.2rem;}
+	  .awards {
+    margin-top: -0.6rem;
+}
+		canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      position: fixed;
+      pointer-events: none;}
+    }
+    </style>
+	<script src="/static/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+   <script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+   <script src="/static/js/snow.js"></script>
+</head>
+<body>
+	<header style="padding-top: 5.9rem;background-image: url(/static/images/h5/annual/header2.jpg)">
+		  <!-- <div class="timer111">
+		  	<span id="t_d"></span>
+		  	<label>天</label>
+		  	<span id="t_h"></span>
+		  	<label>时</label>
+		  	<span id="t_m"></span>
+		  	<label>分</label>
+		  	<span id="t_s"></span><label style="margin-right: 0">秒</label>
+		  </div>	 -->    
+	</header>
+	<section class="o_modal">
+		<div class="xf_div"></div>
+		<div class="xf_cont">
+		<p class="close_fc" onclick="closefc()"><img src="/static/images/h5/annual/close3.png"></p>
+		<p class="ewm_fc"><img src="/static/images/h5/annual/ew2.jpg"></p>
+		<p class="gz_wx">长按二维码立即关注<br/>
+			或者进入微信查找微信公众号："怀才当遇"&nbsp;关注</p>
+		<p class="vote_prompt"><img src="/static/images/h5/annual/ts2.png"></p>
+	   </div>
+	</section>
+
+
+	<section class="awards">
+		<div class="blue_line"></div>
+		
+		<div class="t1">
+			<div class="gzhc"></div>
+			<p><div style="font-weight: bolder;display:inline-block;font-size:0.4rem!important;color:#fff;margin-right:0.5rem; margin-left:1.8rem">关注怀才当遇</div><div style="font-size:0.4rem!important;display:inline-block;color:#fff;margin-right:0.5rem;">了解更多活动信息</div></p>
+		</div>
+	
+
+		<div class="m">
+			<ul>
+				<li>
+					<p>投票人次</p>
+					<p class="count" id="tpcount">{{ selectCount|default:0 }}</p>
+				</li>
+				<li>
+					<p>访问量</p>
+					<p class="count">{{ pv|default:0 }}</p>
+				</li>
+			</ul>
+		</div>
+
+		<div class="b">
+			<div class="search">
+				<input type="text" id="search_condition" placeholder="候选人名字或编号"><button
+				class="search_btn" onclick="searchPersonal()">搜索</button>
+			</div>
+			<div class="maodian clearfix">
+				<a class="f_l" href="/activity/tpresult"><span>投票排名</span><i><img src="/static/images/h5/annual/yjt.png" alt=""></i></a>
+				<a class="f_r" href="#rule"><span>投票攻略</span><i><img src="/static/images/h5/annual/yjt.png" alt=""></i></a>
+			</div>
+		</div>
+	</section>
+
+	<section class="top" id="top">
+		<ul class="man">
+		</ul>
+        <ul id="positionPagination" style="display: none;"></ul>
+	</section>
+
+
+	<section class="bb">
+		<dl>
+			<dt>活动简介</dt>
+			<dd>本次活动由江西省工商业联合会、江西省社会科学院、江西日报社、中国新闻社江西分社指导，绿地企业家俱乐部江西站、江西省民营企业家协会携手主办，将以“权威性、公正性、广泛性、专业性”作为评选宗旨，旨在打造一档属于江西企业与企业家的“奥斯卡”。</dd>
+		</dl>
+		<dl id="rule">
+			<dt>投票规则</dt>
+			<dd>每天7：00-24：00，在活动页面搜索参赛者姓名或编号给参赛者投票，每ID可投10票（给不同的参赛者）。</dd>
+			<dd>
+				备注：活动结束后，将会对票数进行验票，凡利用软件刷票、寻找团队代理刷票及恶意互刷互助的用户我们将会直接取消参赛资格。
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>评选流程</dt>
+			<dd>
+				1. 报名与提名申报者自主报名，评委会和主办方、相关经济主管部门提名。
+			</dd>
+			<dd>
+				2. 在媒体与网站公布候选人名单，经评委会第一次初评后，将在网站开辟专题，以图文并茂的形式刊登江西经济影响力年度人物的候选人名单、个人事迹、投票方式等。微信投票同步开通。
+			</dd>
+			<dd>
+				3.网络、微信投票：公众投票统一开始，统一时间结束，投票时间为两周左右。
+			</dd>
+			<dd>
+				4. 评委会专家第二次评审。
+			</dd>
+			<dd>
+				5. 结合网络投票与专家投票结果，产生最终入围名单。
+			</dd>
+		</dl>
+
+		<dl style="overflow: hidden;">
+			<dt>招商方案</dt>
+			<dd style="display:inline-block;width:2.8rem!important;float:left; margin-left:1.5rem">
+				活动招商热线：
+			</dd>
+			<dd style="width:5rem!important;float:left;">
+				    18679036991（杨女士）<br/>
+                    18907918845（黄先生）<br/>
+                    15955503896（王先生）<br/>
+			</dd>			
+		</dl>
+		<div class="b">
+			<div class="maodian clearfix">
+			<a href="http://mp.weixin.qq.com/s?__biz=MzIwMDM4NDUzMA==&mid=400913212&idx=1&sn=b5bbaba284f7f27a93cebfa7febb3fe6&scene=1&srcid=1224nLdgc1XOvex2wi7Gm7p8#wechat_redirect" style="margin-left: 10%;background-color:#028ae5!important;width: 4.39444rem!important;">
+			<span style="text-indent: 0.5rem!important;">活动招商方案</span><i><img src="/static/images/h5/annual/yjt.png" alt=""></i>
+			</a>
+			</div>
+			</div>
+	</section>
+
+	<footer>
+		<h1>免责声明</h1>
+		<div class="word">
+			<p>1.用户知悉互联网存在诸多不确定因素，因此请理解并同意，如因不可抗力、网络、通讯线路故障、计算机大规模瘫痪及活动中存在大面积作弊行为等非绿地企业家俱乐部江西站原因致使本活动出现异常情况或难以继续开展的，绿地企业家俱乐部江西站有权采取包括但不限于通过各种方式消除异常情况的调整、暂停、取消本活动等措施，因此造成用户损失的，绿地企业家俱乐部江西站不会承担任何责任。</p>
+			<p>2.在法律范围内本活动最终解释权归绿地企业家俱乐部江西站所有。
+			</p>
+		</div>
+	</footer>     
+    <input type="hidden" id="nickname" value="{{ nickname|default:'' }}" />
+    <canvas width="100%" height="100%" class="snow"></canvas>
+    <!-- 悬浮效果 -->
+    <div id="xfshow">
+		<div class="xfbac"><img src="/static/images/h5/annual/bac.png"></div>
+		<div class="footxf">
+		<a href="tel:400-666-4846"><img src="/static/images/h5/annual/dh.png"> 仕道帮您找中高端人才 400-666-4846</a><i onclick="closefd()">×</i>
+		</div>
+    </div>
+    <div class="xfhide">
+    	<div class="xfbac1"><img src="/static/images/h5/annual/ycbq.png"></div>
+    	<div class="footxf1"><img src="/static/images/h5/annual/dh.png"></div>
+    </div>
+<script>
+    function closefd()
+    {
+         $(".xfbac").animate({ width: 'hide', opacity: 'hide' }, 'hide');
+         $(".footxf").animate({ width: 'hide', opacity: 'hide' }, 'hide');
+         // $(".xfhide").animate({ width: 'show', opacity: 'show' }, 'show');
+         $(".xfhide").show();
+    }
+
+    $(".xfhide").click(function(event) {
+    	 $(".xfbac").animate({ width: 'show', opacity: 'show' }, 'show');
+         $(".footxf").animate({ width: 'show', opacity: 'show' }, 'show');
+         $(".xfhide").animate({ width: 'hide', opacity: 'hide' }, 'hide');
+    });
+    // 微信分享
+    WXJssdk.init(function(wx) {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+            success: function (res) {
+			//alert(JSON.stringify(res));
+            }
+        });
+        // 分享data
+        var shareData = {
+            title: '2015赣商论坛暨“绿地杯”江西经济影响力年度人物评选',
+            desc: '谁是影响2015江西经济的年度人物？点击参与投票吧！',
+            link: 'http://www.hcdyhr.com/activity/annual',//分享链接地址 自己调整
+            imgUrl: 'http://www.hcdyhr.com/static/images/h5/annual/fenm.jpg',//分享显示的图片
+            success:function(){
+               // alert('shareData success');
+            },
+            cancel:function(){
+               // alert('shareData cancel');
+            },
+            error:function(res){
+               // alert(JSON.stringify(res));
+            }
+        };
+
+        // 分享给朋友
+          wx.onMenuShareAppMessage(shareData);
+        // 分享到朋友圈
+          wx.onMenuShareTimeline(shareData);
+        // 分享到QQ
+          wx.onMenuShareQQ(shareData);
+        // 分享到微博
+          wx.onMenuShareWeibo(shareData);
+    });
+ $(document).ready( function() {
+  	    $("canvas.snow").let_it_snow({
+    	      windPower: 3,
+    	      speed: 1,
+    	      count: 250,
+    	      size: 0,
+    	  });
+    	  $("canvas.flake").let_it_snow({
+    	      windPower: -3,
+    	      speed: 1,
+    	      count: 20,
+    	      size: 10,
+    	      image: "/static/images/white-snowflake.png"
+    	  });
+	  });
+</script>
+<script src="/static/js/annual.js"></script>
+</body>
+  <canvas width="100%" height="100%" class="snow"></canvas>
+  <canvas width="100%" height="100%" class="flake"></canvas>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>申请公司验证</title>
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/module.css">
+	<link rel="stylesheet" href="http://at.alicdn.com/t/font_1442833288_2016494.css">
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css">
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/write_info.css">
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+</head>
+<body>
+	<!-- 头部start -->
+<!-- 	<div class="header">
+         <div class="content">
+             <a href="/"><img style="margin-top:10px;" src="{{ STATIC_URL }}images/new_logo.png" alt=""></a>
+             <ul>
+                 <li><a href="/">首页</a></li>
+                 <li><a href="/position/company_search" target="_blank">公司</a></li>
+                 <li><a href="/position/personal/g_zwss" target="_blank">职位</a></li>
+                 <li><a href="/system/agent_search" target="_blank">人才经纪人</a></li>
+                 <span class="abs"></span>
+             </ul>
+         </div>
+    </div> -->
+<!-- 头部end -->
+{% include 'jobs/system/header.html' %}
+<div class="clear">99</div>
+<div class="main">
+	<h1>申请公司验证</h1>
+	<div class="form">
+		<p class="notice" style="margin-bottom: 10px">验证须知<i class="iconfont icon-gantanhao"></i>
+			<!-- <span>取消</span> -->
+		</p>
+		<dl style="margin-bottom: 20px;display: block">
+			<dt>公司全称</dt>
+			<dd>1、<img src="{{STATIC_URL}}images/bitian.png" alt="">全称应和营业执照保持一致，否则无法通过审核</dd>
+			<dd>2、如需要修改请发邮件至hihi@hcdyhr.com</dd>
+			<dt style="margin-top:5px;">公司的营业执照</dt>
+			<dd>1、<img src="{{STATIC_URL}}images/bitian.png" alt="">请提供有效年检期间内的《企业法人营业执照》副本</dd>
+			<dd>2、该营业执照怀才当遇只用作公司认证使用，请放心上传</dd>
+		</dl>
+		<div class="scyyzz" id="scyyzz">
+			
+		</div>
+		<div id="uploader_jdt_box"></div>
+		<input type="hidden" id="business_license" />
+        <input type="hidden" id="pc_id" value="{{ pc_id }}" />
+		<button class="o_btn" onclick="saveCompanyLicense()">提交审核</button>
+
+	</div>
+</div>
+<!-- 主体start -->
+	
+<!-- 主体end -->
+
+<!-- 尾部start -->
+<!-- <div class="footer">
+	<ul>
+		<li><a href="#">关于我们</a></li>|
+		<li><a href="#">法律声明</a></li>|
+		<li><a href="#">使用帮助</a></li>|
+		<li><a href="#">用户协议</a></li>|
+		<li><a href="#">网站索引</a></li>|
+		<li><a href="#">移动版</a></li>
+	</ul>
+	<p>Copyright © 2015 hcdyhr.com赣ICP备12347441号-1 , hcdyhr.com.保留所有版权. 使用这些服务遵守用户协议</p>
+</div> -->
+<!-- 尾部end -->
+<div style="display: none;" id="clx" >
+<div id="photoBox" >
+    
+</div>
+</div>
+
+
+<script  src="{{ STATIC_URL }}js/core/jq.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/lib/ind/layer/layer.js"></script>
+<script src="{{ STATIC_URL }}js/uploader/jquery.uploadify.min.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}appJs/account/scyyzz.js"></script>
+</body>
+</html>

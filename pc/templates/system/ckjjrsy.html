@@ -1,0 +1,653 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/single/jjrsy.css">
+<script src="{{ STATIC_URL }}js/jquery.knob.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/report.js"></script>
+ <script  src="{{ STATIC_URL }}js/lib/base/common.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/loginDialog/loginDialog.js"></script>
+<style type="text/css">
+	.page_number li{padding: 0px 10px!important;height:auto!important;border-bottom-style:solid!important;margin-top: 30px;}
+	.mid{padding-bottom:30px;}
+	.grbq li{height:auto;}
+	.content .main .mid .zb .fwpj .pjxq li .pjzp{overflow: hidden;}
+	.content .main .mid .zb .fwpj .pjxq li .pjzp img{width:55px;height:55px;}
+	 .fenxiang {
+    display: none;
+    margin-left: -40px;
+    margin-top: 38px;
+    border: 1px solid #e0e0e0;
+    width: 105px;
+    font-size: 12px;
+    background-color: white;
+    text-align: left;
+    position:absolute;
+    z-index: 999;
+}
+.fenxiang .word {
+    background-color: #f4f4f4;
+    color: #333;
+    cursor: default;
+    padding: 0px 8px;
+    height: 30px;
+    line-height: 30px;
+}
+.fenxiang a {
+    display: block!important;
+    height: 45px;
+    line-height: 45px;
+    margin-left: 10px;
+    text-indent: 20px;
+    background-repeat: no-repeat;
+    background-position: left center!important;
+}
+#fenxiang_box:hover .fenxiang{display:block!important;color:red;}
+
+</style>
+{% if request.session.account_type == "1" %}
+<div class="clear">3</div>
+{% else %}
+<div class="clear">99</div>
+{% endif %}
+<div class="content mt20">
+	<div class="main">
+	<!-- 基本信息 -->
+		<div class="jbxx">
+			<div class="clearfix" style="height:170px;" >
+				<div class="l">
+				    <div class="n">
+				      <!--   <input class="knob" data-width="170" data-height="170" data-skin="tron" data-displayInput="true" value="0"> -->
+				        <div class="m">
+				            <img class="" src="{{ request.session.file_website }}{{ headHunt.head_portrait }}"  alt="" onerror="notfind(this,3,'{{ headHunt.sex }}')">
+				        </div>
+				        <img src="{{ STATIC_URL}}images/cannen.png" class="camera" id="camera">
+				        <div class="yz">
+                            {% if headHunt.audit_result == 3 %}
+                                <span><img class="v" src="{{STATIC_URL }}images/v.png" alt="">已认证人才经纪人</span>
+                            {% elif headHunt.audit_result == 2 %}
+                                <img class="v" src="{{ STATIC_URL }}images/v1.png" alt=""><span>认证审核中……</span>
+                            {% else %}
+                                <img class="v" src="{{ STATIC_URL }}images/v1.png" alt=""><span>未认证人才经纪人</span>
+                            {% endif %}
+			        	</div>
+			    	</div>   
+				</div>
+				<div class="c c_33">
+					<p class="fz16 xx headhuntStars"><span class="fz25">{{ headHuntPu.user_name | default_if_none:'' }}</span><span class="c_f80">LV{{ headHuntPu.account_level | default_if_none:'' }}</span></p>
+					<p>
+                        {% if headHunt.pc_name %}
+                        {{ headHunt.pc_name | default_if_none:"" }}
+                        {% else %}
+                            
+                        {% endif %}
+                    </p>
+                    <p class="fz16">{{ headHuntPu.introduction | default_if_none:'' }}</p>
+					<p><span class="c_99">擅长行业：</span><span class="hy">{{ headHunt.businessname  | default_if_none:'' }}</span> </p>
+                    <p><span class="c_99">擅长职能 : </span><span>{{ headHunt.postname | default_if_none:'' }}</span></p>
+				</div>
+
+                <div class="r ">
+                   {% if pu.id != headHuntPu.id %}
+                        <ul class="cz1 c_99 cur clearfix operate_info">
+                            {% if not request.session.pu_id %}
+                                <li class="sixin noLogined" title="私信"></li>
+                                <li class="shoucang isAttentionedHeadhunt noLogined" data-original-title="关注" title="关注"></li>
+                            {% elif validStatus == 3 or pu.account_type == 1%}
+                                <li onclick="showreport(4, {{ headHunt.id }})" class="reportBlock jubao" data-original-title="举报" title="举报"></li>
+                                <li class="sixin" data-toggle="modal" data-target="#sxmessage_Modal"  data-original-title="私信" title="私信" onclick="getOperateDatass(this, '{{ headHunt.real_name | default:'' }}', '{{ headHunt.pu_id }}')"></li>
+                                <li class="shoucang isAttentionedHeadhunt" data-toggle="modal" data-target="#gz_Modal" data-original-title="关注" title="关注"></li>
+                            {% else %}
+                                <li class="jubao" onclick="doAlertToAudit({{ validStatus }})" title="举报"></li>
+                                <li class="sixin" onclick="doAlertToAudit({{ validStatus }})" title="私信"></li>
+                                <li class="shoucang isAttentionedHeadhunt" data-toggle="modal" data-target="#gz_Modal" data-original-title="关注" title="关注"></li>
+                            {% endif %}
+                            <li id="fenxiang_box" class="fenx" data-original-title="分享" title="分享">
+                                <div class="fenxiang bshare-custom">
+                                    <div class="word">分享到</div>
+                                    <a title="分享到QQ空间" class="bshare-qzone" href="javascript:void(0);" style="background-image:url({{ STATIC_URL }}images/qqkj.png)">QQ空间</a>
+                                    <a title="分享到新浪微博" class="bshare-sinaminiblog" href="javascript:void(0);" style="background-image:url({{ STATIC_URL }}images/xinlang.png)">新浪微博</a>
+                                    <a title="分享到微信" id="weixinBtn" href="javascript:void(0);" style="background-image:url({{ STATIC_URL }}images/weixin.png)">微信</a>
+                                    <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script>
+                                    <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+                                     <script type="text/javascript" charset="utf-8">
+                                        bShare.addEntry({
+                                            title:"",
+                                            summary:window.location.href
+                                        });
+                                        </script>
+                                </div>
+                            </li>
+                        </ul>
+                   {% endif %}
+                    <div class="lxxx fz14 c_33">
+                        <p class="phone"><span>{{ headHuntPu.phone | default_if_none:'' }}</span></p>
+                        <p class='email'><span>{{ headHuntPu.email | default_if_none:'' }}</span></p>
+                    </div>
+                </div>
+			</div>
+			<div class="db clearfix">
+				<ul class=" f_l">
+					<li> <p>{{ headHuntPu.attentionCount | default_if_none:'0' }}</p> 被关注</li>
+					<li><p>{{ headHuntPu.pv | default_if_none:'0' }}</p>近期访问</li>
+					<li><p>{{ interviewCount }}</p>面试</li>
+					<!-- <li><p>{{ offeredCount }}</p>offer</li> -->
+				</ul>
+				<div class="b f_r ">
+                {% if request.session.account_type == "1" %}
+                    {% if pu.entrustCount == 0 %}
+                        <span class="wtjl active entrustResume">委托简历</span>
+                    {% else %}
+                        <span class="wtjl active" onclick="alert('委托失败，您简历之前已委托给此经纪人!')">委托简历</span>
+                    {% endif %}
+                {% endif %}
+
+            </div>
+			</div>
+		</div>
+		<!-- 个人信息编辑 -->
+		
+		<!-- 中间导航部分开始 -->
+		<div class="mid clearfix">
+			<!-- 左边 -->	
+			<div class="zb">
+				<ul class=" qh clearfix">
+					<li class="active publicPositionLi">正在发布的职位 </li>
+					<li class="headhuntEvaluation">服务评价 <span>( {{ totalEvaluationCount | safe }} )</span></li>
+				</ul>
+				<!-- 正在发布的职位内容 -->
+				<div class="fbdzw">
+				
+					<ul class="sstj clearfix positionType">
+					 	<h2>职位：</h2>                                 
+						<li class="active">全部</li>
+{#                        {% if positionTypes %}#}
+{#                            {% for positionType in positionTypes %}#}
+{#                                <li>{{ positionType }}</li>#}
+{#                            {% endfor %}#}
+{#                        {% endif %}#}
+					</ul>
+					<div class="fbzwjg">
+						<ul id="positionsPaginBody"></ul>
+                        <div class="lthy_pager" id="positionPaginInfo"></div>
+					</div>
+				</div>
+				<!-- 服务评价内容 -->
+				<div class="fwpj dis">
+					<div class="pjxx clearfix">
+						<div class="f_l">
+						<p class="pjz"><span >{{ headHunt.praise_rate | default_if_none:0 }}</span>%</p>
+						<p>好评率</p>
+						</div>
+						<ul class="f_l">
+							<li>
+								<span class="z">({{ evaluationCount5 }})</span>
+								<span class="star evaluationStar">
+									<i class="starb1"></i>
+                                    <i class="starb1"></i>
+									<i class="starb1"></i>
+									<i class="starb1"></i>
+									<i class="starb1"></i>
+								</span>
+								<span class="jdt">
+									<span class="goodEvaluationRate5" style="width: {{ evaluationPercent5 }}"></span>
+								</span>
+							</li>
+							<li>
+								<span class="z">({{ evaluationCount4 }})</span>
+								<span class="star evaluationStar">
+									<i class="starb1"></i>
+                                    <i class="starb1"></i>
+									<i class="starb1"></i>
+									<i class="starb1"></i>
+									<i class="starb"></i>
+								</span>
+								<span class="jdt">
+									<span class="goodEvaluationRate4" style="width: {{ evaluationPercent4 }}"></span>
+								</span>
+							</li>
+							<li>
+								<span class="z">({{ evaluationCount3 }})</span>
+								<span class="star evaluationStar">
+									<i class="starb1"></i>
+                                    <i class="starb1"></i>
+									<i class="starb1"></i>
+									<i class="starb"></i>
+									<i class="starb"></i>
+								</span>
+								<span class="jdt">
+									<span class="goodEvaluationRate3" style="width: {{ evaluationPercent3 }}"></span>
+								</span>
+							</li>
+							<li>
+								<span class="z">({{ evaluationCount2 }})</span>
+								<span class="star evaluationStar">
+									<i class="starb1"></i>
+                                    <i class="starb1"></i>
+									<i class="starb"></i>
+									<i class="starb"></i>
+									<i class="starb"></i>
+								</span>
+								<span class="jdt">
+									<span class="goodEvaluationRate2" style="width: {{ evaluationPercent2 }}"></span>
+								</span>
+							</li>
+							<li>
+								<span class="z">({{ evaluationCount1 }})</span>
+								<span class="star evaluationStar">
+									<i class="starb1"></i>
+									<i class="starb"></i>
+									<i class="starb"></i>
+									<i class="starb"></i>
+									<i class="starb"></i>
+								</span>
+								<span class="jdt">
+									<span class="goodEvaluationRate1" style="width: {{ evaluationPercent1 }}"></span>
+								</span>
+							</li>
+						</ul>
+					</div>
+					<ul class="pjxq evaluationDiv">
+						<h2>全部评价</h2>
+                        <ul class="evaluationBody" id="evaluationUl"></ul>
+                        <div id="evaluationPaginInfo"></div>
+                    </ul>
+
+				</div>
+				<!-- 页码 page -->
+			</div>
+			<!-- 右边 -->
+			<div class="yb">
+				<ul>
+					<li class="ybjbxx">
+						<h2>基本信息</h2>
+						<ul class="xxlb"  >
+							<li class="ditu">{{ headHunt.locationname | default_if_none:'' }}</li>
+							<li class="tx tp"><i class=""></i>{{ headHunt.headhunt_levelname | default_if_none:'' }}</li>
+							<li class="jytp"><i class=""></i>{{ headHunt.work_timename | default_if_none:'' }}</li>
+						</ul>
+					</li>
+							{% if labelList %}
+					<li class="grbq">
+						<h2 class="mt30">个人标签</h2>
+						<ul class="bq clearfix" >
+                                {% for label in labelList %}
+                                    {% if label != '' %}
+                                        <li>{{ label }}</li>
+                                    {% endif %}
+                                {% endfor %}
+						</ul>
+					</li>
+                            {% endif %}
+					<!-- 服务过的企业开始 -->
+					<li>
+					{% if serveCompanyList and serveCompanyList.length > 0 %}
+						<h2 class="mt30">服务过的企业
+						</h2>
+						<ul>
+                            {% for serve_company in serveCompanyList %}
+                                <li class="fwqy">
+                                    <div class="clearfix fwqyxx">
+                                        <div class="f_l fwqymc" >
+                                            <span>{{ serve_company.0 }}</span>
+                                            <input type="hidden" value="{{ serve_company.1 }}" >
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+						</ul>
+						{% comment %}<div class="page1">
+                            {% if serveCompanyList %}
+                                <a href="javascript:void(0)" class="goToPrePage">&lt;</a><span class="pageSpan">1/{{ totalPage }}</span><a href="javascript:void(0)" class="goToNextPage">&gt;</a>
+                            {% endif %}
+						</div>{% endcomment %}
+					{% endif %}
+					</li>
+				</ul>
+			</div>
+		</div>	
+	</div>
+</div>
+
+<!-------------------------------------- 关注弹窗 -------------------------------------->
+<div class="modal fade" id="gz_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog"style="width:300px">
+		<div class="modal-content" >
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel">关注</h4>
+			</div>
+			<div class="modal-body t_c" id="attentionHeadhunt">是否确认关注该名片？</div>
+			<div class="modal-footer">
+				<input type="hidden" id="cancelId" value="19">
+				<input type="hidden" id="cancelGroupId" value="136">				
+				<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="attentionHeadHunt()">确认</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">关闭</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+</div>
+<input type="hidden" id="account_type" value="{{ request.session.account_type }}" />
+<script  src="{{ STATIC_URL }}js/lib/ind/layer/layer.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$("#weixinBtn").click(function(event) {
+        layer_index=layer.open({
+          type: 1,
+          area: ['280px', '260px'],
+          title:'怀才当遇二维码<em class="c_abs"></em>',
+          skin:'o_layer o_ewm',
+          shadeClose: true, //点击遮罩关闭
+          content:"<img src='/static/images/index_.jpg' width='175px' height='175px'/>"             
+      });
+    });
+    //  猎头服务评价
+    $(".headhuntEvaluation").click(function(){
+        $(".fbdzw").hide();
+        $(".publicPositionLi").removeClass("active");
+        $(this).addClass("active");
+        $(".fwpj").show();
+        // 评论分页
+        var sql2 = "Object_Type=2 and evaluation_object_id={{ headHuntPu.id }}  order by add_date desc";
+        loadData = new pagin("evaluationPaginInfo", "V_AJ_Evaluation", "", encodeURI(sql2), "", 5, "evaluationBind", "loadData");
+    });
+    var loadData;
+    var file_website = '';
+	$(function(){
+        file_website = $('#file_website').val();
+        //查看经纪人评价进入页面时，焦点移到服务评价
+        if(window.location.href.indexOf('evaluation') != -1){
+            $('.headhuntEvaluation').addClass('active');
+            $('.publicPositionLi').removeClass('active');
+            $('.headhuntEvaluation').click();
+            $("html,body").animate({ scrollTop: $('.zb').offset().top},500,function(){});
+        }
+        var stars = "{{ headHuntPu.account_level | default_if_none:'' }}";
+        if(stars != '') {
+            var stars = parseInt(stars);
+            for(var i = 0; i < stars; i++) {
+                $(".headhuntStars").append('<i class="starb1"></i>');
+            }
+        }
+		$(".knob").knob({
+            thickness: .06,
+            fgColor: '#ff8800',
+            bgColor: '#e4e4e4',
+            displayInput:false,
+            readOnly:true
+        });
+        // 发布的职位分页
+        var sql = "source_id={{ headHuntPu.id }} and  position_status=1 order by add_date desc";
+        if($('#account_type').val() == '1'){
+            sql = "rewards_money=0 and source_id={{ headHuntPu.id }} and  position_status=1 order by add_date desc";
+        }
+        loadData = new pagin("positionPaginInfo", "V_Position_Search", "", encodeURI(sql), "", 5, "positionPagin", "loadData");
+
+
+        //正在发布的职位
+        $(".publicPositionLi").click(function(){
+            $(".fwpj").hide();
+            $(".headhuntEvaluation").removeClass("active");
+            $(this).addClass("active");
+            $(".fbdzw").show();
+
+        });
+
+        $(".entrustResume").click(function(){
+            var flag = confirm("您确定要委托简历给此人才经纪人吗?",4);
+            if(!flag) {
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: "/ajax_entrustResume",
+                data: {"for_pu_id": '{{ headHuntPu.id }}'},
+                dataType: "json",
+                success: function (data) {
+                    if (data.msg == 'success') {
+                        alert("简历委托成功!",1);
+                        $(".entrustResume").attr('onclick', "alert('委托失败，您简历之前已委托给此经纪人!',4)");
+                    } else if(data.msg == 'exist') {
+                        alert("您不能重复将简历委托给该人才经纪人!",4);
+                    } else {
+                        alert("发生内部错误!");
+                    }
+                }
+            })
+        });
+        // 如果登陆后判断关注状态:
+        if("{{ pu.id | default:'' }}" != '') {
+            // 自动判断是否已经关注过改猎头
+            $.ajax({
+                type: "post",
+                url: "/ajax_showAttentionState",
+                data: {"tpu_id":  '{{ headHuntPu.id }}'},
+                dataType: "json",
+                async: false,
+                success: function(data) {
+                    if (data.msg == "success") {
+                        $(".isAttentionedHeadhunt").addClass('active');
+                        $(".isAttentionedHeadhunt").attr("data-toggle", "");
+                        $(".isAttentionedHeadhunt").attr("data-target", "");
+                    } else {
+                        $(".isAttentionedHeadhunt").attr("data-toggle", "modal");
+                        $(".isAttentionedHeadhunt").attr("data-target", "#gz_Modal");
+                    }
+                }
+            });
+        }
+        $(".isAttentionedHeadhunt").click(function(){
+           if( $(this).hasClass('active') ) {
+                alert("您已关注过该人才经纪人!",4);
+           }
+        });
+
+
+        $(".positionType li").click(function(){
+            var positionType = $(this).text();
+            if(positionType == "全部") {
+                positionType = "";
+            }
+            // 发布的职位分页
+            var sql3 = "source_id={{ headHuntPu.id }} and  position_status=1 and Postaion_TypeName like\"%" + positionType + "%\" order by add_date desc";
+            if($('#account_type').val() == '1'){
+                sql3 = "rewards_money=0 and source_id={{ headHuntPu.id }} and  position_status=1 and Postaion_TypeName like\"%" + positionType + "%\" order by add_date desc";
+            }
+            loadData = new pagin("positionPaginInfo", "V_Position_Search", "", encodeURI(sql3), "", 5, "positionPagin", "loadData");
+        });
+
+
+        $(".evaluationStar").click(function(){
+            var stars = $(this).find(".starb1").length;
+            // 评论分页
+            var sql2 = "Object_Type=2 and evaluation_object_id={{ headHuntPu.id }} and Evaluation_Value=" + stars + " order by add_date desc";
+            loadData = new pagin("evaluationPaginInfo", "V_AJ_Evaluation", "", encodeURI(sql2), "", 5, "evaluationBind", "loadData");
+        })
+
+	});
+
+    // 服务过的企业： 分页/---上一页
+    // 服务过的企业： 分页/---下一页
+    function servedCompanyPagePagin(methodName) {
+        var pageArray = $(".pageSpan").text().split("/");
+        if (pageArray[0] == pageArray[1] || pageArray[1] == 1) {
+            return false;
+        }
+        $.ajax({
+            async: false,
+            url: "/system/serveredCompanyPagePagin",
+            data: {"methodName": methodName, "currentPage": pageArray[0], "totalPage": pageArray[1], "serveCompanyStr": "{{ headHunt.serve_company }}"},
+            dataType: "json",
+            success: function (data) {
+
+            }
+        })
+    }
+
+    ///  职位分页
+    function positionPagin(dataInfo) {
+        $("#positionsPaginBody").empty();
+        var content = '';
+        $(dataInfo).each(function(i) {
+            // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this);
+            for (var n = 0; n < len; n++) {
+                if (array[n] == null) {
+                    array[n] = "&nbsp;"
+                }
+            }
+            content += '<li onclick="viewPosition('+array[0]+')">';
+            content += '    <div class="f_l">';
+            content += '        <h2>';
+{#            content += '            {{ position.position_name | default_if_none:'' }}<span>{{ position.pay_name | default_if_none:'' }}</span>';#}
+            content += '           <span class="nowrap" style="max-width:85%;"> ' + array[3] + '</span><span class="gold">' + array[19] + '</span>';
+            if(array[30] != '&nbsp;' && array[30] != '0' && array[30] != 0){
+                content += '<span class="gold">【赏金：' + array[30] + '】</span>';
+            }
+            content += '        </h2>';
+{#            content += '        <p class="c_33 gs">{{ position.pc_name | default_if_none:'' }}</p>';#}
+            content += '        <p class="c_33 gs">' + array[55] +'</p>';
+{#            content += '        <p class="c_99 clearfix">{{ position.work_areaname | default_if_none:'' }}|{{ position.work_yearName | default_if_none:'' }}|{{ position.diplomaname | default_if_none:'' }}|{{ position.work_naturename | default_if_none:'' }}|{{ position.postaion_typename | default_if_none:'' }}';#}
+            if($.trim(array[23])=="" || $.trim(array[23])=="&nbsp;")
+            {
+            	array[23]='经验不限';
+            }
+            if($.trim(array[26])=="" || $.trim(array[26])=="&nbsp;")
+            {
+            	array[26]='学历不限';
+            }
+            content += '        <p class="c_99 clearfix">' + array[14] + '&nbsp;|&nbsp;' + array[23] + '&nbsp;|&nbsp;' + array[26] + '&nbsp;|&nbsp;' + array[10] + '&nbsp;|&nbsp;' + array[8];
+            // 格式化时间
+            var suitTime = array[52];
+            if(suitTime != '' && suitTime.length >= 10) {
+                suitTime = suitTime.substr(0, 10);
+            }
+            content += '           <span class="f_r"><i class="iconfont icon-shijian"></i>' + suitTime + '  发布</span>';
+            content += '        </p>';
+            content += '    </div>';
+            content += '</li>';
+        });
+        $("#positionsPaginBody").append(content);
+    }
+
+    ////  猎头服务评价
+    function evaluationBind(dataInfo) {
+        $("#evaluationUl").empty();
+        var content = '';
+        if(dataInfo != ""){
+	        $(dataInfo).each(function(i) {
+	            // 处理值为 null 的字段
+	            var len = $(this).length;
+	            var array = $(this);
+	            for (var n = 0; n < len; n++) {
+	                if (array[n] == null) {
+	                    array[n] = "&nbsp;";
+	                }
+	            }
+	            content += '<li >';
+	            content += '    <div class="clearfix">';
+	            content += '        <div class="f_l pjzp">';
+                if(array[4] == 1) {
+                    content += '            <img src="" alt="" onerror="notfind(this, 1, \'' + array[11] + '\')" />';
+                } else {
+                    content += '            <img src="'+ file_website + array[10] + '" alt="" onerror="notfind(this, 1, \'' + array[11] + '\')" />';
+                }
+	            content += '         </div>';
+	            content += '         <div class="f_l">';
+				content += '            <p>';
+	            if(array[4] == 1) {
+	                content += '                <span class="w6">匿名用户</span>';
+	            } else {
+	                content += '                <span class="w6">' + array[9] + '</span>';
+	            }
+	            content += '                    <span class="star">';
+	            if(array[5] != '') {
+	                for(var i = 0; i < 5; i++) {
+	                    if(i < array[5]) content += '<i class="starb1"></i>';
+	                    else content += '<i class="starb"></i>';
+	                }
+	            }
+	            content += '                     </span>';
+	            content += '              </p>';
+	            content += '              <p>' + array[6] + '</p>';
+	            content += '           </div>';
+	            content += '           <div class="f_r">';
+	            var suitTime = array[8];
+	            if(suitTime != '' && suitTime.length >= 10) {
+	                suitTime = suitTime.substr(0, 10);
+	            }
+	            content += '               <p class="c_99">' + suitTime + '</p>';
+	            content += '            </div>';
+	            content += '        </div>';
+	            content += ' </li>'
+	        })
+	    }
+	    else{
+	    	content +='<p class="mt30" style="text-align:center;color:#666;">暂无评价</p>'
+	    }
+        $("#evaluationUl").append(content);
+    }
+
+    //举报猎头用户
+    function reportUser(source_id, headhuntId){
+        var reportContent = $('#reportContent').val();
+        if(reportContent == ""){
+            alert("请输入举报理由",4);
+            return false;
+        }
+        var report = $('#report').val();
+        $.ajax({
+            type: "POST",
+            url: "/ajax_ltjb",
+            data: {"report_type": '4', "forpuid": source_id,"report":report,"reportContent":reportContent, 'beReported_objectId': headhuntId},
+            dataType: "json",
+            success: function (data) {
+                if(data.status == '1') {
+                    window.alert('举报成功',1);
+                    $("#reportContent").val("");
+                } else if(data.status == '2') {
+                    alert('您今天已经举报过该人才经纪人了!',4);
+                } else {
+                    alert('发生内部错误')
+                }
+            }
+        });
+    }
+
+function attentionHeadHunt() {
+
+    var tpuIds = "{{ headHuntPu.id }}";
+    var tpuIdsArray = tpuIds.split(",");
+    $.ajax({
+        type: "post",
+        url: "/ajax_attentionedSwap",
+        data: {"tpuIds": tpuIdsArray},
+        dataType: "json",
+        success: function(data){
+            if(data.status == '0') {
+                alert("您已达到关注人数的上限!",2);
+            } else if(data.msg == "error"){
+                alert("发生内部错误",2);
+            }else if(data.status == 'one'){
+                alert("关注成功!",1);
+                $(".isAttentionedHeadhunt").addClass('active');
+                $(".isAttentionedHeadhunt").attr("data-toggle", "");
+                $(".isAttentionedHeadhunt").attr("data-target", "");
+            }
+        }
+    })
+}
+
+//职位查看
+function viewPosition(positionId){
+    window.open('/resume/zwxq?positionId=' + positionId, '_blank');
+}
+    // 未登录情况
+    $(".noLogined").click(function(){
+        var loginDialog=new LoginDialog();
+        loginDialog.open();
+    })
+</script>
+{% include 'jobs/system/new_footer.html' %}

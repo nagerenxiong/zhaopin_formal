@@ -1,0 +1,818 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj3.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/reset.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/basic.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style2.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/pages.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<style type="text/css">
+    #tab_select li{
+        cursor:pointer;
+    }
+</style>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<!-- 内容大框 -->
+    <div class="clear">1</div>
+<div class="lt_content_box jlt">
+    <div class="center mt30">
+        <!-- 企业会员找猎头主内容开始 -->
+        <div class="dleft">
+            <div class="gr_banner">
+                <img src="/static/images/banner.jpg" width="710" height="199" border="0" align="absmiddle" />
+            </div>
+            <div class="gr_glxss mt30">
+{#                <form action="" method="get">#}
+                    <div class="gr_xlxzk">
+                        <span style="margin-left: 2px;">职位</span>
+                        <img style="margin-left:5px;" src="/static/images/h_xjt.gif">
+                        <ul style="display: none;">
+                            <li value="job">职位</li>
+                            <li value="company">公司</li>
+                            <li value="headhunter">人才经纪人</li>
+                        </ul>
+                    </div>
+                    <input name="" type="text" class="gr_glxss_k fz14" placeholder="输入查询条件" />
+                    <input name="" type="button" class="gr_glxss_n fz18" value="搜索" onclick="queryData()" />
+{#                </form>#}
+            </div>
+            <div class="gr_rsch">热搜关键词：
+            <span onclick="hotJobQuery(this)" href="javascript:void(0)">JAVA</span>    <span onclick="hotJobQuery(this)">前端开发</span>
+            <span onclick="hotJobQuery(this)" href="javascript:void(0) ">后端开发</span>      <span onclick="hotJobQuery(this)">测试工程师</span>
+            <span onclick="hotJobQuery(this)" href="javascript:void(0) ">UI设计师</span>   <span onclick="hotJobQuery(this)">网页设计师</span> </div>
+            <div class="ssjg p9 mt10">
+                <div class="bkdw"></div>
+                <div class="biaolm m10">
+                    <div class="biaot2 fz16" id="tab_select">
+                        <ul>
+                            <li class="bthover">智能匹配</li>
+                            <li >投递的职位</li>
+                        </ul>
+                    </div>
+                    <div class="qhann">
+                        <ul>
+{#                            <li class="sige sigehs fz12"> <i class="iconfont icon-liebiao fsn" style="font-size:24px;"></i>#}
+{#                                图片列表#}
+{#                            </li>#}
+{#                            <li class="sige fz12"> <i class="iconfont icon-list fsn" style="font-size:18px;"></i>#}
+{#                                文章列表#}
+{#                            </li>#}
+                        </ul>
+                    </div>
+                </div>
+                <div id="znpp_box" >
+                    <!-- 猎头会员已下线的职位图片列表开始 -->
+                    <div class="tuplb sigenr mt5" id="ppzwInfo" style="overflow: hidden">
+
+                        <div class="clear"></div>
+
+                    </div>
+                    <div id="matchPage" style="display: none"></div>
+                    <div class="none_wrap" id="noMatchData" style="display: none;">
+                        <div>暂无数据</div>
+                        <div><a href="#">完善简历</a>您将获得更精准的职位匹配</div>
+                    </div>
+                    <!-- 猎头会员已下线的职位图片列表结束 -->
+                    <!-- 猎头会员已下线的职位文章列表开始 -->
+                    <div class="wenzlb sigenr mt15" style="display:none">
+                        <div class="clear"></div>
+                    </div>
+                    <!-- 猎头会员已下线的职位文章列表结束 --> </div>
+                <div id="tddzw_box" style="display:none">
+
+                    <!-- 猎头会员已下线的职位图片列表开始 -->
+                    <div class="tuplb sigenr mt5" id="tableInfo"  style="overflow: hidden">
+
+
+                    </div>
+                    <div id="paginInfo" style="display: none;"></div>
+                    <div class="none_wrap" id="noSendData" style="display: none;">
+                        <div>暂无数据</div>
+                        <div><a href="#">完善简历</a>去<a href="#">投递职位</a></div>
+                    </div>
+                    <!-- 猎头会员已下线的职位图片列表结束 -->
+                    <!-- 猎头会员已下线的职位文章列表开始 -->
+                    <!-- 猎头会员已下线的职位文章列表结束 -->
+                </div>
+            </div>
+
+        </div>
+
+    
+    <!-- 企业会员找猎头主内容结束 -->
+
+    <div class="xright">
+        <!-- 侧边栏 -->
+
+        <div class="wbdss">
+
+            <div class="gr_hygrmp">
+                <div class="gr_hygrmp1">
+                    <div class="gr_hygrmp1_1">
+                        <img src="{{ pu.head_portrait|default:'/static/images/defaultPhoto/nan.jpg' }}" width="84" height="84" border="0" align="absmiddle" />
+                    </div>
+                    <div class="gr_hygrmp1_2">
+                        <ul>
+                            <li class="fz18 c3 nowrap">{{ pu.user_name }}</li>
+                            <li class="c6">
+                                <i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+                                {{ resume.sex }}&nbsp;{{ resume.area }}
+                            </li>
+                            <li class="c6">{{ resume.experience|default:'无' }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="gr_hygrmp2">
+                    <ul>
+                        <li class="cr">{{ resume.positionName|default:'' }}</li>
+                        <li class="c6">{{ resume.currently_company|default:'所属企业:无' }}</li>
+                    </ul>
+                </div>
+                <div class="gr_hygrmp3">
+                    <ul>
+                        <li>
+                            <div class="fl">我的等级：</div>
+                            <div class="fl">
+                                {% if pu.account_level >= 1 %}
+                                    <img src="/static/images/zs.png" width="16" height="12" border="0" align="absmiddle" />
+                                {% else %}
+                                    <img src="/static/images/zs2.png" width="16" height="12" border="0" align="absmiddle" />
+                                {% endif %}
+                                {% if pu.account_level >= 2 %}
+                                    <img src="/static/images/zs.png" width="16" height="12" border="0" align="absmiddle" />
+                                {% else %}
+                                    <img src="/static/images/zs2.png" width="16" height="12" border="0" align="absmiddle" />
+                                {% endif %}
+                                {% if pu.account_level >= 3 %}
+                                    <img src="/static/images/zs.png" width="16" height="12" border="0" align="absmiddle" />
+                                {% else %}
+                                    <img src="/static/images/zs2.png" width="16" height="12" border="0" align="absmiddle" />
+                                {% endif %}
+                                {% if pu.account_level >= 4 %}
+                                    <img src="/static/images/zs.png" width="16" height="12" border="0" align="absmiddle" />
+                                {% else %}
+                                    <img src="/static/images/zs2.png" width="16" height="12" border="0" align="absmiddle" />
+                                {% endif %}
+                                {% if pu.account_level >= 5 %}
+                                    <img src="/static/images/zs.png" width="16" height="12" border="0" align="absmiddle" />
+                                {% else %}
+                                    <img src="/static/images/zs2.png" width="16" height="12" border="0" align="absmiddle" />
+                                {% endif %}
+                            </div>
+                            <div class="fr fz12">等级特权</div>
+                        </li>
+                        <li>
+                            <div class="fl">我的金币：</div>
+                            <div class="fl">
+                                <img src="/static/images/111_03.png" width="27" height="20" border="0" align="absmiddle" />
+                            </div>
+                            <div class="fl cr pl5">{{ pu.gold|default:0 }}</div>
+                            <div class="fr fz12">金币明细</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="gr_hygrmp4 fz18">我的简历</div>
+                <div class="gr_hygrmp5">
+                    <div class="fl pl10" style="cursor: pointer;" onclick="reflushResume()">
+                        <i class="iconfont icon-shuaxin fz28 fn pt4 c9"></i>
+                        <p class="fn mt10 c6">刷新简历</p>
+                    </div>
+                    <div class="fl pl10" style="cursor: pointer;" onclick="editResume()">
+                        <i class="iconfont icon-bianji fz28 fn pt4 c9"></i>
+                        <p class="fn mt10 c6">编辑简历</p>
+                    </div>
+                    <div class="fl pl10" style="cursor: pointer;" onclick="privacySettings()">
+                        <i class="iconfont icon-yinsibaohu fz28 fn pt4 c9"></i>
+                        <p class="fn mt10 c6">隐私设置</p>
+                    </div>
+                </div>
+                <div class="gr_hygrmp6 mt6">
+                    <div style="width:{{ resume.wsResume|default:0 }}%;"></div>
+                </div>
+                <div class="gr_hygrmp7">
+                    简历完整度：
+                    <i class="cr fn">{{ resume.wsResume|default:0 }}%</i>
+                </div>
+                <div class="gr_hygrmp4 fz18">我的浏览量</div>
+                <div class="gr_hygrmp8">
+                    <ul>
+                        <li>
+                            被访问次数：
+                            <i class="fn fz14 cr">{{ pu.pv|default:0 }}</i>
+                        </li>
+                        <li>
+                            被关注数量：
+                            <i class="fn fz14 cr">{{ pu.attentionCount|default:0 }}</i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="wbdss_foot"></div>
+        </div>
+        {% include 'jobs/recommendResume.html' %}
+        <!-- 侧边栏 --> </div>
+    <div class="clear"></div>
+</div>
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="tdjl_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:680px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">投递简历</h4>
+            </div>
+            <div class="modal-body">
+                <div class="f_l content_l_b">
+                    <ul id="selectPosition">
+                        <li>
+                            <img src="{{ STATIC_URL }}images/meituan.jpg" style="float:left" class="ml15 mt10">
+                            <div class="f_l mt10">
+                                <h2 class="f_bold">淘宝详情页设计师</h2>
+                                <p>北京和君设计传媒创意有限公司</p>
+                                <p>互联网/电子商务/网游</p>
+                            </div>
+                            <div class="ppd_box2 f_r mt10">
+                                <div class="t">41%</div>
+                                <div>匹配值</div>
+                            </div>
+                            <div style="clear:both"></div>
+                            <p style="margin-top: 5px">
+                                [企业直招]
+                                <label class="ml15">月薪:</label>
+                                <span style="padding-left: 0">8K-20K</span>
+                            </p>
+                            <p class="mt10">
+                                南昌  |  3年-5年  |  本科  |  2015-15-15
+                                <a href="#">发布</a>
+                            </p>
+                            <p class="l_b_jx mt10">
+                                <span>绩效奖金</span>
+                                <span>绩效奖金</span>
+                                <span>绩效奖金</span>
+                                <span>绩效奖金</span>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="f_r">
+                    <div class="fz20 f_bold" style="color:#000">选择投递的简历类型</div>
+                    <div class="fz12 mt20">提示：选择系统简历将提高您在企业方的简历匹配度</div>
+                    <div class="mt20 oh">
+                        <div class="btn68 active f_l">
+                            <i class="iconfont icon-iconfont02"></i>
+                            平台简历
+                        </div>
+{#                        <span class="f_l ml15 is_select" style="margin-top: 12px;">已选择</span>#}
+                    </div>
+{#                    <div class="mt10">#}
+{#                        <div class="btn68 f_l">#}
+{#                            <i class="iconfont icon-shangchuan"></i>#}
+{#                            上传简历#}
+{#                        </div>#}
+{#                        <span class="f_l ml15 is_select" style="margin-top: 12px;display:none">已选择</span>#}
+{#                    </div>#}
+                </div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" name="" value="确认投递" data-dismiss="modal" style="width:120px;height:30px;background-color: #5c91d9;color:white;border:none;border-radius: 5px" onclick="sendResumes()"></div>
+        </div>
+        <!-- /.modal-content --> </div>
+</div>
+<!-- /.modal -->
+<div class="modal fade" id="message_Modal" tabindex="-1" role="dialog"
+       aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:610px">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">发送私信</h4>
+                </div>
+                <div class="modal-body t_c">
+                    <div  class="message_Modal_box">
+                    </div>
+                    <div  class="modal_wdgz mt10">
+                    <i class="iconfont icon-iconfontmoban2"></i>
+                    <div class="dialog" style="display:none">
+                        <ul class="list" style="  overflow: auto; height: 244px; ">
+                            {% for tmodel in tmodels %}
+                                <li>
+                                    <span style="color:#666">{{ tmodel.model_name }}</span>
+                                    <span style="margin-left: 30px;color:#b5b5b5">
+                                        {% if tmodel.content|length > 20 %}
+                                            {{ tmodel.content|slice:"20" }} ...
+                                        {% else %}
+                                            {{ tmodel.content }}
+                                        {% endif %}
+                                    </span>
+                                    <input type="hidden" value="{{ tmodel.content }}" >
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="t_c">
+                            <input type="button" name="" class="re_btn" value="确认">
+                            <input type="button" name="" class="qx_btn ml15" value="取消"></div>
+                    </div>
+                </div>
+                    <div class="message_Modal_box1 mt10">
+                        <textarea name="" maxlength="1000" style="resize:none;color:#666" id="letterContent" placeholder="请输入私信内容"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" style="background:#5c91d9" id="send" onclick="sendLetter()">发送</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+    <input type="hidden" id="operateIndex" />
+    <input type="hidden" id="positionId" value="{{ resume.expect_position }}" />
+    <input type="hidden" id="sourceId" />
+    <input type="hidden" id="resumeId" value="{{ resume.id }}" />
+<!-- 内容大框 -->
+<script type="text/javascript">
+    var loadData;
+    var matchSql = '';
+    var positionId = $('#positionId').val();
+    var resumeId = $('#resumeId').val();
+    var allData;//接收页面匹配数据
+    var querySql = ' id IN (SELECT Position_ID FROM V_AJ_Position WHERE resume_pu_id = '+ {{ pu.id }}+')';
+    if(resumeId == ''){
+        window.alert('你还没有简历，请先完善简历');
+        window.location = '/jobs/account/grxxsz.html';
+    }
+    var matchJob;
+    if(positionId && positionId != ''){
+        matchSql += "  position_status = 1 and find_in_set(postaion_type,'{{ resume.expect_position }}') or find_in_set(postaion_type,'{{ resume.currently_postaion }}')"
+    }
+
+    $(function(){
+        if(resumeId != ''){
+            loadData = new pagin("paginInfo", "V_Position_Search", "", encodeURI(querySql), "", 6, "paginBind", "loadData", 1, resumeId);
+        }else{
+            $('#noSendData').css('display', 'block');
+        }
+        if(matchSql != ''){
+            matchJob = new pagin("matchPage", "V_Position_Search", "", encodeURI(matchSql), "", 6, "matchData", "matchJob" ,1, resumeId)
+        }else{
+            $('#noMatchData').css('display', 'block');
+        }
+    })
+    //动态加载页面绑定数据
+    function paginBind(dataInfo){
+         //图片列表数据加载
+        $("#tableInfo").empty();
+        if(dataInfo.length == 0){
+            $('#noSendData').css('display', 'block');
+            return;
+        }else{
+            $('#noSendData').css('display', 'none');
+        }
+        $(dataInfo).each(function(i) {
+
+            // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this);
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            var content = '';
+            content += '<div class="gr_zwmp p10">';
+            content += '    <div class="zwmp1_k" style="cursor: pointer;" onclick="viewPosition('+array[0]+')">';
+            content += '        <div class="gr_zwsbb">';
+            content += '            <div class="mpLe">';
+            content += '                <div class="gr_mpxp">';
+            content += '                    <img src="'+array[56]+'" width="65" height="65" border="0" align="absmiddle"></div>';
+            var recruitType = '';
+            if(array[1] == 1){
+                recruitType = '【企业直招】'
+            }else{
+                recruitType = '【猎头职位】'
+            }
+            content += '                <div class="gr_mpjlly mt6 fz12">'+recruitType+'</div>';
+            content += '            </div>';
+            content += '            <div class="mpRi">';
+            content += '                <ul>';
+            content += '                    <li class="c3">';
+            content += '                        <b class="fz16 fn fb">'+array[3]+'</b>';
+            content += '                    </li>';
+            content += '                    <li class="fz12 c3">'+array[55]+'</li>';
+            content += '                    <li class="fz12 c3">'+array[6]+'</li>';
+            content += '                    <li class="fz12">';
+{#            content += '                        年薪：';#}
+            content += '                        <b class="fn fz16 cr">'+array[19]+'</b>';
+            content += '                    </li>';
+            content += '                </ul>';
+            content += '            </div>';
+            content += '        </div>';
+            var positionState = '';
+            if(array[50] == 1){
+                positionState = '招聘中';
+            }else{
+                positionState = '已结束';
+            }
+            content += '        <div class="gr_zwsbb2 fz12">'+array[14]+
+                    '  |  '+ (array[23] == null? "工作经验不限":array[23])+
+                    '  |  '+ (array[26] == null? "学历不限":array[26])+
+                    '  |  '+array[48].substring(0, 10)+' '+positionState+'</div>';
+{#            content += '        <div class="gr_zwsbb2 fz12">南昌  |  3年-5年  |  本科  |  2015-15-15 发布</div>';#}
+            content += '        <div class="gr_zwsbb3 mt6">';
+            content += '            <div class="gr_q">';
+            var labels = array[67];
+            var labelStr = '';
+            if(labels && labels != ''){
+                var labellist = new Array();
+                labellist = labels.split('**', 4);
+                for(var l = 0;l < labellist.length;l++){
+                    labelStr += '<div>'+labellist[l]+'</div>';
+                }
+            }
+            content += labelStr;
+            content += '            </div>';
+            content += '        </div>';
+            content += '    </div>';
+            content += '    <div class="gr_zwmp_k1"></div>';
+            content += '    <div class="gr_zwmp_k2">';
+            content += '        <div class="gr_ppd_box2">';
+            content += '            <div class="t fz24 cr">'+array[array.length - 1]+'%</div>';
+            content += '            <div>匹配值</div>';
+            content += '        </div>';
+            content += '    </div>';
+            content += '</div>';
+            $('#tableInfo').append(content);
+        })
+    }
+    //动态加载智能匹配的职位
+    function matchData(dataInfo){
+        allData = dataInfo;
+        $("#ppzwInfo").empty();
+        if(!dataInfo || dataInfo.length == 0){
+            $('#noMatchData').css('display', 'block');
+            return;
+        }else{
+            $('#noMatchData').css('display', 'none');
+        }
+        $(dataInfo).each(function(i) {
+
+            // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this);
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            var content = '';
+            content += '<div class="gr_zwmp p10">';
+            content += '    <div class="zwmp1_k" style="cursor: pointer;" onclick="viewPosition('+array[0]+')">';
+            content += '        <div class="gr_zwsbb">';
+            content += '            <div class="mpLe">';
+            content += '                <div class="gr_mpxp">';
+            content += '                    <img src="'+array[56]+'" width="65" height="65" border="0" align="absmiddle"></div>';
+            var recruitType = '';
+            if(array[1] == 1){
+                recruitType = '【企业直招】'
+            }else{
+                recruitType = '【猎头职位】'
+            }
+            content += '                <div class="gr_mpjlly mt6 fz12">'+recruitType+'</div>';
+            content += '            </div>';
+            content += '            <div class="mpRi">';
+            content += '                <ul>';
+            content += '                    <li class="c3">';
+            content += '                        <b class="fz16 fn fb">'+array[3]+'</b>';
+            content += '                    </li>';
+            content += '                    <li class="fz12 c3">'+array[55]+'</li>';
+            content += '                    <li class="fz12 c3">'+array[6]+'</li>';
+            content += '                    <li class="fz12">';
+{#            content += '                        年薪：';#}
+            content += '                        <b class="fn fz16 cr">'+array[19]+'</b>';
+            content += '                    </li>';
+            content += '                </ul>';
+            content += '            </div>';
+            content += '        </div>';
+{#            var positionState = '';#}
+{#            if(array[33] == 1){#}
+{#                positionState = '发布';#}
+{#            }else{#}
+{#                positionState = '下线';#}
+{#            }#}
+            content += '        <div class="gr_zwsbb2 fz12">'+array[14]+
+                    '  |  '+ (array[23] == null? "工作经验不限":array[23])+
+                    '  |  '+ (array[26] == null? "学历不限":array[26])+
+                    '  |  '+array[48].substring(0, 10)+' '+'发布'+'</div>';
+{#            content += '        <div class="gr_zwsbb2 fz12">南昌  |  3年-5年  |  本科  |  2015-15-15 发布</div>';#}
+            content += '        <div class="gr_zwsbb3 mt6">';
+            content += '            <div class="gr_q">';
+            var labels = array[67];
+            var labelStr = '';
+            if(labels && labels != ''){
+                var labellist = new Array();
+                labellist = labels.split('**', 4);
+                for(var l = 0;l < labellist.length;l++){
+                    labelStr += '<div>'+labellist[l]+'</div>';
+                }
+            }
+            content += labelStr;
+            content += '            </div>';
+            content += '        </div>';
+            content += '    </div>';
+            content += '    <div class="gr_zwmp_k1"></div>';
+            content += '    <div class="gr_zwmp_k2">';
+            content += '        <div class="gr_ppd_box2">';
+            content += '            <div class="t fz24 cr">'+array[array.length - 1]+'%</div>';
+            content += '            <div>匹配值</div>';
+            content += '        </div>';
+            content += '    </div>';
+            content += '    <div class="gr_zwmp_k3">';
+            content += '        <div style="float:right">';
+            content += '            <input type="hidden" value="'+array[2]+'" /><input type="hidden" value="'+array[72]+'" />';
+            content += '            <input type="hidden" value="'+array[0]+'" />';
+            content += '            <input name="" type="button" value="投递简历" data-toggle="modal" data-target="#tdjl_Modal" onclick="getOperateData(this, '+i+')" class="gnanys" />';
+            content += '            <input name="" type="button" value="私信" data-toggle="modal" data-target="#message_Modal" onclick="getOperateData(this, '+i+')" class="gnanys" />';
+            content += '        </div>';
+            content += '    </div>';
+            content += '</div>';
+
+            $('#ppzwInfo').append(content);
+        })
+    }
+    $("#tab_select li").click(function(){
+        var index=$(this).index();
+        $("#tab_select li").removeClass('bthover');
+        $(this).addClass('bthover');
+        if(index==1)
+        {
+            $("#znpp_box").hide();
+            $("#tddzw_box").show();
+        }
+        else{
+            $("#znpp_box").show();
+            $("#tddzw_box").hide();
+        }
+    })
+    $(".qhann li").click(function(){
+        var q_index=$(this).index();
+        $(".qhann li").removeClass('sigehs');
+        $(this).addClass('sigehs');
+        $.each($(this).parent().parent().parent().nextAll(), function(index, val) {
+            if($(val).css('display')=='block')
+            {
+               if(q_index==1)
+                {
+                    $(".tuplb").hide();
+                    $(".wenzlb").show();
+                }
+                else{
+                     $(".tuplb").show();
+                    $(".wenzlb").hide();
+                }
+            }
+        });
+    })
+    //刷新简历
+    function reflushResume(){
+        var resumeId = $('#resumeId').val();
+        if(resumeId != ''){
+            $.ajax({
+                type: "POST",
+                url: "/ajax_flushResume",
+                data: {"resumeId": resumeId},
+                dataType: "json",
+                success: function (data) {
+                    if(data.msg == 'success'){
+                        window.alert("成功刷新简历");
+                    }
+                }
+            })
+        }else{
+            window.alert('你还没有简历，请先填写简历');
+        }
+    }
+    //编辑简历
+    function editResume(){
+        window.open('/jobs/resume/scjl', '_blank');
+    }
+    //隐私设置
+    function privacySettings(){
+        var resumeId = $('#resumeId').val();
+        window.open('/resume/jlsz?resumeID=' + resumeId, '_blank');
+    }
+    //搜索数据（页面跳转）
+    function queryData(){
+        var type = $('.gr_xlxzk').children('span:first').text();
+        var condition = $('.gr_glxss_k').val();
+        if(type == '职位'){
+            window.open('/jobs/position/personal/zwss?condition=' + condition, '_blank');
+        }else if(type == '公司'){
+            window.open('/position/gsss?condition=' + condition, '_blank');
+        }else{
+            window.open('/position/personal/findHeadhunter?condition=' + condition, '_blank');
+        }
+    }
+    //获得操作的数据
+    function getOperateData(obj, index){
+        var sourceId = $(obj).parent().children('input').eq(0).val();
+        $('#operateIndex').val(index);
+        $('#positionId').val($(obj).parent().children('input').eq(2).val());//职位ID
+        $('#sourceId').val(sourceId);
+        if($(obj).val() == '私信'){
+            $('.message_Modal_box').children().remove();
+            var username = $(obj).parent().children('input').eq(1).val();
+            var em = '<span>' + username + '<input type="hidden" value="' + sourceId + '" /></span>';
+            $('.message_Modal_box').append(em);
+{#            $(".message_Modal_box label").click(function(){#}
+{#                $(this).parent().remove()#}
+{#            })#}
+        }else if($(obj).val() == '投递简历'){
+            var position = allData[index];
+            var parentLi = $(obj).parent().parent().parent();
+            $('#selectPosition').children().remove();
+            var pc_logo = parentLi.find('img:first').attr('src');
+            var content = '';
+            content += '<li>';
+            content += '    <img src="'+pc_logo+'" style="float:left" class="ml15 mt10">';
+            content += '    <div class="f_l mt10">';
+            content += '        <h2 class="f_bold">'+position[3]+'</h2>';
+            content += '        <p>'+position[55]+'</p>';
+            content += '        <p>'+position[6]+'</p>';
+            content += '    </div>';
+            content += '    <div class="ppd_box2 f_r mt10">';
+            content += '        <div class="t">'+position[position.length - 1]+'%</div>';
+            content += '        <div>匹配值</div>';
+            content += '    </div>';
+            content += '    <div style="clear:both"></div>';
+            content += '    <p style="margin-top: 5px">';
+            var recruitType = '';
+            if(position[1] == 1){
+                recruitType = '【企业直招】'
+            }else{
+                recruitType = '【猎头职位】'
+            }
+            content += recruitType;
+            content += '        <span style="padding-left: 0">'+position[19]+'</span>';
+            content += '    </p>';
+            content += '    <p class="mt10">';
+            var positionState;
+            if(position[33] == 1){
+                positionState = '发布';
+            }else{
+                positionState = '下线';
+            }
+            content += '        <div class="gr_zwsbb2 fz12">'+position[14]+
+                    '  |  '+ (position[23] == null? "工作经验不限":position[23])+
+                    '  |  '+ (position[26] == null? "学历不限":position[26])+
+                    '  |  '+position[48].substring(0, 10)+' '+positionState+'</div>';
+            content += '    </p>';
+            content += '    <p class="l_b_jx mt10">';
+            var labels = position[67];
+            var labelStr = '';
+            if(labels && labels != ''){
+                var labellist = new Array();
+                labellist = labels.split('**', 4);
+                for(var l = 0;l < labellist.length;l++){
+                    labelStr += '<span>'+labellist[l]+'</span>';
+                }
+            }
+            content += labelStr;
+            content += '    </p>';
+            content += '</li>';
+
+            $('#selectPosition').append(content);
+        }
+    }
+    //======= 信息模版
+    $(".icon-iconfontmoban2").click(function(){
+        $(".dialog").show();
+    })
+    $(".qx_btn").click(function(){
+        $(".dialog").hide();
+    })
+    $(".dialog li").click(function(){
+        $(".dialog li").removeClass('active');
+        $(this).addClass('active');
+    })
+    $(".dialog li").dblclick(function(){
+         confirms.call(this);
+    })
+    $(".modal_wdgz .re_btn").click(function(){
+        confirms.call(this);
+    })
+    function confirms(){
+        $("#letterContent").val($(".dialog li.active").children('input').val());
+        $(this).parent().parent().hide();
+    }
+    //投递简历
+    function sendResumes(){
+        var sourceId = $('#sourceId').val();
+        var positionId = $('#positionId').val();
+        var resumeId = $('#resumeId').val();
+{#        alert(sourceId + '**********' + positionId);#}
+        if(resumeId != ''){
+            $.ajax({
+                type: "POST",
+                url: "/ajax_sendResume",
+                data: {"sourceId": sourceId, "positionId": positionId, "resumeId": resumeId},
+                dataType: "json",
+                success: function (data) {
+                    if(data.msg == 'success'){
+                        window.alert('投递成功',1);
+{#                        loadData = new pagin("paginInfo", "V_Position_Search", "", querySql, "", 6, "paginBind", "loadData");#}
+                    }else if(data.msg == 'exist'){
+                        window.alert('你已投递该职位，无需投递！');
+                    }else{
+                        window.alert(data.msg);
+                    }
+                    $('.page_tc').css("display", "none");
+                }
+            })
+        }else{
+            window.alert('你还没有简历，请先填写简历');
+        }
+    }
+    //发送私信
+    function sendLetter(){
+        if($('.message_Modal_box').children().length == 0){
+            window.alert("私信接收人不能为空！");
+            return;
+        }
+        var letterContent = $('#letterContent').val();
+        if(letterContent.trim() == ''){
+            window.alert("请填写私信内容！");
+            $('#send').attr('data-dismiss', '');
+            return;
+        }
+        //职位发布人ID
+        var attentionId = $('#sourceId').val();
+        $.ajax({
+            type: "POST",
+            url: "/ajax_sendLetter",
+            data: {"attentionId": attentionId, "letterContent": letterContent},
+            dataType: "json",
+            success: function (data) {
+                if (data.msg != 'success') {
+                    window.alert(data.msg);
+                }else{
+                    $('#send').attr('data-dismiss', 'modal');
+                    window.alert('发送成功！')
+                }
+            }
+        })
+    }
+    //查看职位
+    function viewPosition(positionId){
+        // var e=event || window.event;
+
+        // if (e && e.stopPropagation){
+        //     e.stopPropagation();
+        // }
+        // else{
+        //     e.cancelBubble=true;
+        // }
+
+        window.open('/position/zwyl?positionId=' + positionId, '_blank');
+    }
+    //热门关键字搜索
+    function hotJobQuery(obj){
+        $('.gr_glxss_k').val($(obj).text());
+        queryData();
+    }
+
+
+    $(".gr_xlxzk").click(function(event) {
+        if($(this).find('ul').css("display")=="none"){
+            $(this).find('ul').stop(true,false).slideDown(100);
+        }
+
+        else{
+            $(this).find('ul').stop(true,false).slideUp(100);
+        }
+    });
+    $(".gr_xlxzk").mouseleave(function(event) {
+        $(this).find('ul').stop(true,false).slideUp(100);
+    });
+    
+    $(".gr_xlxzk li").click(function(event) {
+        $(this).parent().siblings('span').text($(this).text());
+        $(this).parent().siblings('span').parent().next().attr('placeholder', '输入'+ $(this).text() + '名称或关键字');
+        var index = $(".gr_xlxzk li").index($(this));
+        if(index == 0){
+            $('.gr_rsch').css('display', 'block');
+        }else{
+            $('.gr_rsch').css('display', 'none');
+        }
+    });
+     $(".btn68").click(function(event) {
+       $(".btn68").removeClass('active').siblings('.is_select').css("display","none");
+       $(this).addClass('active').siblings('.is_select').css("display","block")
+   });
+</script>
+{% include 'jobs/system/new_footer.html' %}

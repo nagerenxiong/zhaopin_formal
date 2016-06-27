@@ -1,0 +1,353 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.autocomplete.css" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style1.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/uploadify.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script src="{{ STATIC_URL }}js/jquery.uploadify.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/major.js"></script>
+<script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.autocomplete.min.js" ></script>
+<!-- 内容大框 -->
+<div class="lt_content_box scjl">
+    <input type="hidden" id="resumeID" value="{{ resumeID }}" >
+    <input type="hidden" id="attachment" value="{{ tri.attachment }}" >
+    <input type="hidden" id="user_name" value="{{ tri.user_name }}" >
+    <div class="center clearfix">
+        <div class="left">
+        <div class="left_box">
+             <div class="bd_bottom1">
+                <span class="t">教育经历</span>
+                <div class="slider wdgz_silder"></div>
+            </div>
+            {% for tre in treList %}
+            <ul class="info"  style="position:relative">
+                <input type="hidden" name="treID" value="{{ tre.id | default:'' }}" >
+                <li>
+                    <input type="text" name="uc_name" maxlength="20" value="{{ tre.uc_name | default:'' }}" placeholder="院校名称" class="w300">
+                    <input type="hidden" name="uc_id" value="{{ tre.uc_id }}" >
+                    <span class="ml25" style="color:#ff6a6a" ></span>
+                </li>
+                 <li>
+
+ 					<input type="text"  value="{{ tre.smajor | default:'' }}"  placeholder="选择专业" class="w300" onclick="showMajor(this,1)"  onblur="yzModal(this)" >
+                     <input type="hidden" name="major"  value="{{ tre.major }}"  />
+                     <span class="ml25"style="color:#ff6a6a" id="yzhiwe"></span>
+                 </li>
+                 <li>
+                    <select name="diploma" class="w300" onchange="yzDiploma(this)">
+                        <option value="0" >学历</option>
+                        {% for diploma in diplomaList %}
+                            {% if diploma.dictionary_value == tre.diploma %}
+                                <option value="{{ diploma.dictionary_value }}"  selected="selected" >{{ diploma.dictionary_name }}</option>
+                            {% else %}
+                                <option value="{{ diploma.dictionary_value }}"  >{{ diploma.dictionary_name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <span class="ml25"style="color:#ff6a6a" id="yzdiploma"></span>
+                 </li>
+                <li>
+                    <input name="start_time" class="jlsjk fz14" type="text" onClick="WdatePicker({maxDate: new Date()})"  placeholder="请选择开始时间" style="border:1px solid #E2E2E2;width: 140px"
+                           value="{{ tre.start_time | date:"Y-m-d" }}">—
+                    <input name="end_time" class="jlsjk fz14" type="text" onClick="WdatePicker()"   placeholder="请选择结束时间" style="border:1px solid #E2E2E2;width: 140px"
+                           value="{{ tre.end_time | date:"Y-m-d"  }}">
+                    <span class="ml25" style="color:#ff6a6a" ></span>
+                </li>
+                <li>
+                    <textarea name="major_describe" class="ta" placeholder="专业描述" maxlength="500"
+                             onkeydown="countChar(this,500);"
+                            onkeyup="countChar(this,500);">{{ tre.major_describe }}</textarea><br/>
+                     最多输入500字，目前已经输入<span  id="counter2" style="color:red;font-weight:bold">0</span>字
+                </li>
+                <input type="button" id="obcan" class="button f_r ml15" name="" value="保存" onclick="editEducation(this)" >
+                <div class="oosc">
+                    <i  style="" class="iconfont icon-shanchu" data-target="#if_del_Modal" data-toggle="modal" onclick="del_Modal=this"></i>
+                    <input class="button f_r ml15" id="oscan" name="{{ tre.id }}" value="删除该教育经历" data-target="#if_del_Modal" data-toggle="modal" onclick="del_Modal=this" type="button">
+                </div>
+            </ul>
+            <hr>
+            {% endfor %}
+
+            <div class="add_btn" onclick="add_jyjl()">
+                <i class="iconfont icon-tianjia2"></i><span>添加新的教育经历</span>
+            </div>
+        </div>
+            <div class="b">
+                
+                <input style="margin-right:15px;" type="button" class="button f_r " name="next"  onclick="window.location.href= '/jobs/resume/pxjl?resumeID={{ tri.id }}'"  value="下一步" >
+                <a onclick="resumeJump('xmjl')" class="f_l return_a fz18 mt10">返回：项目经历</a>
+            </div>
+        </div >
+        {% include 'jobs/resume/resumeRight.html' %}
+    </div>
+</div>
+<!-- 内容大框 -->
+<script type="text/javascript">
+$(function(){
+    if($("ul[class=info]").length == 0 ){
+        add_jyjl();
+    }
+
+    $("textarea[name='major_describe']").each(function(){
+       countChar($(this),500);
+    });
+
+    // $("input[name='uc_name']").click(function(){
+    //     $(".ac").show();
+    // });
+
+    setAutoComplete();
+
+    $(".ac").hide();
+
+})
+
+function setAutoComplete(){
+    $.ajax({
+        type: "POST",
+        url: "/getAjaxTUcInfo",
+        async: false,
+        dataType: "json",
+        success: function(data){
+            $("input[name='uc_name']").AutoComplete({
+                'data': data ,
+                'itemHeight': 20,
+                'width': 'auto',
+                'afterSelectedHandler': function(data) {
+                    $("input[name='uc_name']").next().val(data.label)
+                }
+                ,'listStyle': 'custom',
+                'emphasis': false,
+                'createItemHandler': function(index, data) {
+                    return data.value; // 文本显示为绿色，并在前后使用'--'包裹
+                }
+            }).AutoComplete('show');
+        }
+    });
+}
+
+function add_jyjl(){
+    var str="";
+    str += "<ul class=\"info\" style=\"position:relative\">";
+    str += "                <input type=\"hidden\" name=\"treID\" value=\"\" >";
+    // str += "                <i onclick=\"delEducation(this)\"  class=\"iconfont icon-shanchu fz24 gzjl_shanchu_btn\" style=\"position:absolute;right: 0;top:0;color:#999;cursor: pointer\"></i>";
+    str += "                <li>";
+    str += "                    <input id='test' type=\"text\" name=\"uc_name\" value=\"\" maxlength=\"20\" placeholder=\"院校名称\" class=\"w300\">";
+    str += "                    <input type=\"hidden\" name=\"uc_id\" value=\"\" >";
+    str += "                </li>";
+    str += "                 <li>";
+    str += "                    <input type=\"text\"   placeholder=\"选择专业\" class=\"w300\" onclick=\"showMajor(this,1)\"  onblur=\"yzModal(this)\" >";
+    str += "                    <input type=\"hidden\" name=\"major\"   />";
+    str += "                 <span class=\"ml25\" style=\"color:#ff6a6a\" id=\"yzhiwe\"></span>";
+    str += "                </li>";
+    str += "                <li>";
+    str += "                 <select name=\"diploma\" class=\"w300\" onchange=\"yzDiploma(this)\">";
+    str += "                     <option value=\"0\" selected=\"selected\">学历</option>";
+                        {% for diploma in diplomaList %}
+                            {% if tre.diploma == diploma.dictionary_value %}
+    str += "                            <option value=\"{{ diploma.dictionary_value }}\" selected=\"selected\" >{{ diploma.dictionary_name }}</option>";
+                            {% else %}
+    str += "                            <option value=\"{{ diploma.dictionary_value }}\">{{ diploma.dictionary_name }}</option>";
+                            {% endif %}
+                        {% endfor %}
+    str += "                 </select><span class=\"ml25\"style=\"color:#ff6a6a\" id=\"yzdiploma\"></span>";
+    str += "              </li>";
+    str += "                <li>";
+    str += "                    <input name=\"start_time\" class=\"jlsjk fz14\" type=\"text\" onClick=\"WdatePicker({maxDate: new Date()})\"    style=\"border:1px solid #E2E2E2;width: 140px\" placeholder=\"请选择开始时间\">—";
+    str += "                    <input name=\"end_time\" class=\"jlsjk fz14\" type=\"text\" onClick=\"WdatePicker()\"  style=\"border:1px solid #E2E2E2;width: 140px\" placeholder=\"请选择结束时间\">";
+    str += "                </li>";
+    str += "                <li>";
+    str += "                    <textarea  maxlength=\"500\"   name=\"major_describe\" class=\"ta\" placeholder=\"专业描述\"";
+    str += "                             onkeydown=\"countChar(this,500);\"";
+    str += "                            onkeyup=\"countChar(this,500);\"></textarea><br/>";
+    str += "                     最多输入500字，目前已经输入<span  id=\"counter2\" style=\"COLOR:red;FONT-WEIGHT:bold\">0</span>字";
+    str += "                </li>";
+    str += "                <input type=\"button\" class=\"button f_r ml15\" id=\"obcan\" name=\"\" value=\"保存\" onclick=\"editEducation(this)\" >";
+    str += "                <ul style=\"height:43px;position:relative;width:220px;\">"
+    str += "                    <i style=\"position:relative;left:50px;top:20px;color:white;font-size:20px;\" class=\"iconfont icon-shanchu\"></i>";
+    str += "                    <input type=\"button\" class=\"button f_r ml15\" id=\"oscan\" name=\"\" value=\"删除该教育经历\" onclick=delWorkInfo(this) >";
+    str += "                </ul>";
+    str += "            </ul>";
+    str += "            <hr>";
+
+    $(".add_btn").before(str);
+
+    setAutoComplete();
+}
+
+function editEducation(obj){
+    var pro = $(obj).parent();
+
+    var uc_name=$(pro).find("input[name='uc_name']").val();//院校名称
+    var uc_id=$(pro).find("input[name='uc_id']").val();//院校ID
+    var diploma=$(pro).find("select[name='diploma']").val();//学历
+    var major=$(pro).find("input[name='major']").val();//专业
+    var major_describe=$(pro).find("textarea[name='major_describe']").val();//专业描述
+    var start_time=$(pro).find("input[name='start_time']").val();//开始时间
+    if(start_time.length > 12){
+        start_time = start_time.substring(0,start_time.indexOf(" ")).replace("年","-").replace("月","-").replace("日","");
+    }
+    var end_time=$(pro).find("input[name='end_time']").val();//结束时间
+    if(end_time.length > 12){
+        end_time = end_time.substring(0,end_time.indexOf(" ")).replace("年","-").replace("月","-").replace("日","");
+    }
+
+    var treID = $(pro).find("input[name='treID']").val();//主键ID
+
+    // || diploma == 0 || major == "" || start_time == "" || end_time == ""
+    if(uc_name == "" ){
+        alert("院校名称不能为空")
+        return false;
+    }
+    if(major == "" ){
+        alert("专业不能为空")
+        return false;
+    }
+    if(diploma == "" || diploma == "0"){
+        alert("学历不能为空")
+        return false;
+    }
+    if(start_time == "" ){
+        alert("开始时间不能为空")
+        return false;
+    }
+    if(end_time == "" ){
+        alert("结束时间不能为空")
+        return false;
+    }
+
+    if(start_time > end_time){
+        alert("您输入的起始日期大于结束日期!");
+        return false;
+    }
+    //验证
+{#    var elemt=event.target;  #}
+    $.ajax({
+        type: "POST",
+        url: "/ajax_editEducation",
+{#        eventT:elemt,#}
+        data: {
+            "uc_name": uc_name,
+            "uc_id": uc_id,
+            "diploma":diploma,
+            "major":major,
+            "major_describe":major_describe,
+            "start_time":start_time,
+            "end_time":end_time,
+            "treID":treID,
+            "resumeID": $("#resumeID").val(),
+            "type" : "edit"
+        },
+        dataType: "json",
+        success: function(data){
+            if(data.treID != ""){
+                $(pro).find("input[name='treID']").val(data.treID)
+                $("#jyjl").text("[完成]");
+                $("#wsRes").text(data.wsres+"%");
+                $("span#jdt").animate({width: data.wsres+"%"}, 100);
+                var $del = $(obj).nextAll("ul").find(":input");
+                $del.attr("name", data.treID);
+                $del.attr("name", data.triID);
+                $del.attr("data-target", "#if_del_Modal");
+                $del.attr("data-toggle", "modal");
+                $del.attr("onclick", "del_Modal=this");
+                alert("保存成功");
+                alert("保存成功");
+            }
+            else{
+                alert("保存失败");
+            }
+        }
+    });
+}
+
+function countChar(obj,maxNum){
+    //得到输入的字符的长度
+    var NowNum =  $(obj).val().length;
+    //判断输入的长度是否超过规定的长度
+    // if(NowNum>maxNum)
+    // {
+    //    //如果超过就截取规定长度的内容
+    //     $(obj).val($(obj).val().substring(0,maxNum));
+    // }
+    //得到当前的输入长度并且显示在页面上
+    $(obj).parent().find("span").text(NowNum);
+}
+
+function delWorkInfo(obj){
+     var id = $(obj).attr("name");
+    if(id == ""){
+        //删除元素
+        $(obj).parent().parent().next("hr").remove();
+        $(obj).parent().parent().remove();
+    }
+    else {
+        // var flag = confirm("你确定要删除此项吗?");
+        // if(flag==false)
+        //     return false;
+        $.ajax({
+            type: "POST",
+            url: "/ajax_editEducation",
+            data: {
+                "type": "del",
+                "resumeID": "{{ tri.id }}",
+                "treID": id
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.count != null) {
+                    //删除元素
+                    $(obj).parent().parent().next("hr").remove();
+                    $(obj).parent().parent().remove();
+
+                    if($("ul[class=info]").length == 0 ) {
+                        add_jyjl();
+                        $("#jyjl").text("");
+                    }
+
+                    $("#wsRes").text(data.wsres + "%");
+                    $("#jdt span").width = data.wsres + "%";
+                    alert("删除成功");
+                }
+                else {
+                    alert("删除失败");
+                }
+            }
+        });
+    }
+
+}
+function yzModal(obj){
+    if($(obj).val()==""){
+        $(this).siblings('span').append('<i class="iconfont icon-gantanhao"></i>必填')
+    }else{
+        $(this).siblings('span').append('<i class="iconfont icon-gou"></i>')
+    }
+}
+var del_Modal = 0;
+</script>
+{% include 'jobs/system/new_footer.html' %}
+//删除弹出框
+<div class="modal fade" id="if_del_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:300px">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">删除教育经历</h4>
+                </div>
+                <div class="modal-body t_c">是否确认删除该教育经历？</div>
+                <div class="modal-footer">
+                    <input type="hidden" id="cancelId" />
+                    <input type="hidden" id="cancelGroupId" />
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="delWorkInfo(del_Modal)">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="">取消</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>

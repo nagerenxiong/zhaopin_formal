@@ -1,0 +1,28 @@
+ <link href="{{ STATIC_URL }}css/style2.css" media="screen" rel="stylesheet" type="text/css">
+<div class="nav2"> 
+<ul id="menu"  >
+        <li>
+ 			<a href="/jobs/account/search_list">搜索List<i class="iconfont icon-xia1"></i></a>
+ 		</li>
+        <li>
+			<a href="/jobs/account/wdsc">我的List<i class="iconfont icon-xia1"></i></a>
+		</li>
+        <li>
+ 			<a href="/jobs/account/list">List上传<i class="iconfont icon-xia1"></i></a>
+{# 		</li>#}
+{#        <li>#}
+{# 			<a href="/jobs/account/wdxz">我的下载<i class="iconfont icon-xia1"></i></a>#}
+{# 		</li>#}
+        <li>
+ 			<a href="/jobs/account/shouchang">我的收藏<i class="iconfont icon-xia1"></i></a>
+ 		</li>
+ </ul>
+ </div> 
+ <script>
+ $(function(){
+ 	$(".top .nav_box #nav li").removeClass('active');
+ 	$(".top .nav_box #nav li").eq($(".clear").eq(0).text()-1).addClass('active');//一级导航处理
+ 	$(".lt_content_box #menu li a").removeClass('active')
+ 	$(".lt_content_box #menu li a").eq($(".clear").eq(1).text()-1).addClass('active');//二级导航处理
+ })
+ </script>

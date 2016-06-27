@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="author" content="怀才当遇">
+	<link href="/static/new_mobile/css/common.css" rel="stylesheet" type="text/css">
+	<link href="/static/new_mobile/css/rguide.css" rel="stylesheet" type="text/css">
+	<link href="/static/new_mobile/css/iconfont.css" rel="stylesheet" type="text/css">
+	<title>人才经营</title>
+</head>
+<body>
+	<div class="reguideMain">
+		<div class="re_tit">
+			<h1>我身边的人才</h1>
+			<h2>--人才专属经营</h2>
+			<h3>你就是我的人才，我与你一路同行</h3>
+		</div>
+		<div class="regcont">
+			<div class="rguide_bg">
+				<img src="/static/new_mobile/images/rguide_bg.png" alt="">
+			</div>
+			<div class="rguide_people">
+				<img src="/static/new_mobile/images/rguide_peoples.png" alt="">
+			</div>
+		</div>
+		<div class="rguide_login">
+
+				<ul class="re_log">
+					<li><a  class="myrem" id="myrem">我的简历库</a></li>
+					<li><a  class="pushrem" id="pushrem">上传新简历</a></li>
+				</ul>
+			<p>人才经营功能目前只对经纪人开放</p>
+		</div>
+	</div>
+	<div class="layer_out" id="layer_out" style="display: none;">
+		<div class="alarm">
+			<h4 id="">温馨提示</h4>
+			<p>人才经营功能目前只对经纪人开放哦</p>
+			<p>玩一下其他功能吧！</p>
+			<a>我知道了</a>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+	//字体大小设置w
+	window.onload = function(){
+		window.onresize = setFontSize;
+		setFontSize();
+		function setFontSize(){
+			var windowWidth = document.documentElement.clientWidth;
+			document.documentElement.style.fontSize = 30 * (windowWidth / 750) + "px";
+		};
+		var myrem= document.getElementById("myrem");
+		var pushrem= document.getElementById("pushrem");
+		var layerOut = document.getElementById("layer_out");
+		var layerOutA = layerOut.getElementsByTagName("a")[0];
+		myrem.addEventListener("touchstart",_touch,false);
+		pushrem.addEventListener("touchstart",_pushrem,false);
+		function _touch(){
+				if( "{{ request.session.pu_id|default:'' }}" != ""){//判断是否登录
+					if( "{{ request.session.account_type }}" == '1' ){//个人
+						layerOut.style.cssText = "display:block;"
+					}else if( "{{ request.session.account_type }}" == '2' || "{{ request.session.account_type }}" == '4'){//企业
+						layerOut.style.cssText = "display:block;"
+					}else if( "{{ request.session.account_type }}" == '3' || "{{ request.session.account_type }}" == '5' ){//经纪人
+						window.location = "headhunter/resume_database";
+					}
+				}else{
+					window.location = "/mobile/login_register";
+				}
+		}
+		function _pushrem(){
+				if( "{{ request.session.pu_id|default:'' }}" != ""){//判断是否登录
+					if( "{{ request.session.account_type }}" == '1' ){//个人
+						layerOut.style.cssText = "display:block;"
+					}else if( "{{ request.session.account_type }}" == '2' || "{{ request.session.account_type }}" == '4'){//企业
+						layerOut.style.cssText = "display:block;"
+					}else if( "{{ request.session.account_type }}" == '3' || "{{ request.session.account_type }}" == '5' ){//经纪人
+						window.location = "/mobile/personal/info_edit";
+					}
+				}else{
+					window.location = "/mobile/login_register";
+				}
+		}
+		layerOutA.addEventListener("touchstart",_touchA,false);
+		function _touchA(){
+			// alert("1");
+			layerOut.style.cssText = "display:none;"
+		}
+	}
+		
+	</script>
+	<script type="text/javascript">
+
+		
+			
+		
+	</script>
+</body>
+</html>

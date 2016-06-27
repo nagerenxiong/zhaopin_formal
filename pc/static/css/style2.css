@@ -1,0 +1,172 @@
+﻿body {background: #f1f1f1; 
+}
+#tableInfo{min-height: 500px !important}
+.wrap { width: 100%; margin: 0 auto; position: relative; }
+.float_right { height: 196px; width: 49px; background: #2f2f2f; position: fixed; top: 37%; right: 0; z-index: 999; border-radius: 5px 0 0 5px; padding: 8px 0 0 0; }
+.float_right a { width: 50px; height: 48px; display: block; }
+.fra1 { background: url(../img/fra1.png) no-repeat 15px center; }
+.fra2 { background: url(../img/fra2.png) no-repeat 15px center; }
+.fra3 { background: url(../img/fra3.png) no-repeat 15px center; }
+.fra4 { background: url(../img/fra4.png) no-repeat 15px center; }
+
+/*----------header----------*/
+.header_wrap { width: 100%; background: #FFF; height: 80px; box-shadow: 0px 1px 10px #bcbbbb; position: relative; z-index: 20px; }
+.header1 { height: 5px; width: 100%; background: #5c91d9; }
+.header2 { height: 75px; width: 1000px; margin: 0 auto; }
+.logo { float: left; }
+.logo img { margin: 11px 0 0 0; }
+.nav { float: left; margin: 0 0 0 105px; }
+.nav ul li { float: left; line-height: 75px; text-align: center; font-size: 16px; padding: 0 19px; }
+.nav ul li a { width: inherit; height: inherit; display: block; color: #333; text-decoration: none; }
+.nav ul li a:hover { background: url(../img/nav_bg.jpg) bottom center no-repeat; color: #5c91d9; }
+.nav ul li .navahover { background: url(../img/nav_bg.jpg) bottom center no-repeat; color: #5c91d9; }
+.zhanghu { float: right; height: 36px; width: 162px; background: #5c91d9; margin: 19px; }
+.zhanghu p { float: left; line-height: 36px; font-size: 14px; color: #fff; padding: 0 0 0 24px; }
+.zhanghu a { float: right; font-size: 12px; color: #fff; text-decoration: none; margin: 11px 0 0 0; }
+.zhanghu a img { vertical-align: middle; margin: 0 6px; }
+.nav2 { height: 54px; width: 1000px; -webkit-box-shadow: 0px 1.2px 3px rgba(0,0,0,0.2);
+-moz-box-shadow: 0px 1.2px 3px rgba(0,0,0,0.2);
+box-shadow: 0px 1.2px 3px rgba(0,0,0,0.2);
+background-color: white;
+border-top: 1px solid #e0e0e0;
+margin: 25px auto auto auto;}
+.nav2 ul { height: 100%; }
+.nav2 ul li { float: left; height: 100%; line-height: 55px; }
+.nav2 ul li a i{position:absolute;bottom:-9px;left:50%;line-height:normal;margin-left:-8px;color:#5c91d9;display:none;}
+.nav2 ul li a { color: #333333; font-size: 16px; text-decoration: none; height: inherit; width: inherit; padding: 0 35px; display: block; position:relative;}
+.nav2 ul li .nav2hover { background: #5c91d9; color: #fff; }
+.nav2 ul li .nav2hover i{display:block;}
+#menu .active {
+    background-color: #5C91D9;
+    color: #FFF;
+    }
+#menu .active i {
+    display: block;
+}
+
+
+/*----------mainer----------*/
+.mainer { }
+
+/*----------footer----------*/
+.footer_wrap { height: 255px; width: 100%; background: #505050; margin: 70px 0 0 0; overflow: hidden; }
+.footer { height: 2555px; width: 1000px; margin: 0 auto; }
+.footer_t { width: 996px; margin: 0 auto; height: 139px; border-bottom: 1px solid #737373; }
+.footer_t_l { float: left; }
+.footer_t_l h2 { font-size: 16px; color: #fff; font-weight: normal; line-height: 40px; margin-top: 24px; }
+.footer_t_l img { margin: 0 6px -6px 0; }
+.footer_t_l ul li { float: left; margin: 5px 17px 0 0; }
+.footer_t_r { padding: 36px 0 0 0; float: right; }
+.footer_t_r ul li { float: left; padding: 0 9px; }
+.footer_t_r ul li a { height: inherit; width: inherit; display: block; color: #dcdcdc; text-align: center; }
+.footer_t_r ul li a img { }
+.footer_t_r ul li a p { line-height: 20px; }
+.footer_b { }
+.footer_b ul { padding: 0 0 0 234px; }
+.footer_b ul li { float: left; padding: 0 18px; text-align: center; font-size: 14px; border-right: 1px solid #fff; margin: 20px 0; }
+.footer_b ul li a { color: #e3e3e3; }
+.footer_b p { color: #b5b5b5; text-align: center; }
+
+/*----------custom----------*/
+.select12 { width: 508px; height: 38px; border: 1px solid #e0e0e0; line-height:38px; color:#888;}
+.btn66 { width: 150px; height: 40px; background-color: #5c91d9; color: white; border: none; }
+
+/*
+//职位搜索*/
+#item_lb1 #tableInfo { overflow: hidden; }
+#item_lb1 #tableInfo li { overflow: hidden;float: left; font-size: 12px; border: 1px solid #e0e0e0; width: 320px; height: 172px; margin-top: 20px; padding-top: 10px; margin-right: 12px; position: relative; }
+#item_lb1 #tableInfo li:hover { border: 1px solid #5c91d9; }
+/* #item_lb1 #tableInfo li .spanabs { position: absolute; left: -1px; top: 10px; height: 40px; width: 5px; background: #5c91d9; } */
+.mr20 { margin-right: 20px; }
+#item_lb1 #tableInfo li:hover .spanabs { display: none; }
+.ltml_grid_box .nav{float:none;margin:0;overflow: visible;min-width: 0px;}/* 去除nav的样式 */
+.create_position{
+	color: #FFF;text-align: center;line-height: 30px;height: 41px;border: none;border-radius: 5px;
+                   background-color:#5c91d9;width: 120px;
+}
+#tableInfo .download,#tableInfo .deleteA{
+	padding: 5px 14px;
+    color: #fff;
+    border-radius: 5px;
+    margin:0 2px;
+}
+#tableInfo .download{
+	background-color: #5c91d9;border-color:#5c91d9;
+}
+#tableInfo .download:hover{
+	background-color: #4c83ce;border-color:#4c83ce;
+}
+
+
+
+
+
+/*职位发布成功弹框*/
+.issuess{
+  width:70%;
+  float:left;
+  margin-top:50px;
+}
+.issuess .posttit{
+font-size:22px;
+color:#333333;
+text-align: center;
+display:block;
+width:95%;
+margin-bottom:35px;
+}
+.issuess p{
+font-size:18px;
+color:#666;
+line-height:26px;
+margin-bottom:30px;
+}
+.issuess p i{
+background-image:url(/static/images/new_images/fjicon.png);
+width:28px;
+height:18px;
+display:inline-block;
+clear:both;
+vertical-align: middle;
+margin-right:11px;
+}
+.issuess p span{
+word-wrap: break-word;
+width: 85%;
+display:inline-block;
+}
+.jobpostew{
+width:30%;
+float:left;
+}
+.poscode{
+background: url(/static/images/new_images/sjbj.png) no-repeat;
+width:132px;
+height:240px;
+display:inline-block;
+}
+.poscode img{
+width:70%;
+margin-top:70px;
+margin-left:20px;
+margin-bottom:5px;
+}
+.poscode span{
+font-size:16px;
+color:#888;
+margin-left: 26px;
+}
+.xinxin{
+  padding-left:50px;
+}
+.xinxin i.active {
+    background-image: url(/static/images/star.png);
+    cursor: default;
+}
+.xinxin i {
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin-top: 6px;
+    background: url(/static/images/star1.png) no-repeat center center;
+}

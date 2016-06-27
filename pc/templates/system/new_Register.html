@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description|default:'' }}" />
+  <meta name="keywords" content="{{ keywords|default:'' }}" />
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1443147556_4920416.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/new_Register.css"></head>
+<body>
+  <script type="text/javascript">
+function BrowserRedirect(e,t,n,r){var i=navigator.userAgent.toLowerCase(),s=i.match(/ipad/i)=="ipad",o=i.match(/iphone os/i)=="iphone os",u=i.match(/midp/i)=="midp",a=i.match(/rv:1.2.3.4/i)=="rv:1.2.3.4",f=i.match(/ucweb/i)=="ucweb",l=i.match(/android/i)=="android",c=i.match(/windows ce/i)=="windows ce",h=i.match(/windows mobile/i)=="windows mobile",p=i.match(/gt-p/i)=="gt-p",d;n==""&&(n=e),o||u||a||f||l||c||h?p?(d=n,r!=0&&(window.location.href=d)):(d=t,r!=1&&(window.location.href=d)):(s?d=n:d=e,r!=0&&(window.location.href=d))}
+BrowserRedirect('http://www.hcdyhr.com/system/new_Register','http://www.hcdyhr.com/mobile/login_register','',0);
+ var _hmt = _hmt || [];
+  var timer = null;
+  var alertFram;
+  window.alert = function(txt, type, fun1) {
+    var icon = "";
+    var qrStr = ""
+    clearInterval(timer);
+    timer = setInterval(function() {
+      if ($("#alertFram")[0]) {
+        $("#alertFram").remove();
+        clearInterval(timer);
+      }
+    }, 3900)
+    alertFram = $('<div id="alertFram" style="color:#ed4f30;font-size:14px;padding:0px 0px 0px 30px;height:40px;background-color:#fff3de;border:1px solid #ffddc1;position:fixed;left:50%;z-index:999999999;text-align:center;line-height:40px;top:0">' + txt + '<img onclick="$(this).parent().remove()" src="/static/images/x_03.png" style="float:right;cursor:pointer;margin-left:10px;margin-top:14px;margin-right:10px" width="12" height="12"></div>')
+    if (arguments[1] != null) {
+      if (arguments[1] == 1) {
+        icon = "alert_03";
+      } else if (arguments[1] == 2) {
+        icon = "alert_07";
+      } else if (arguments[1] == 3) {
+        clearInterval(timer);
+        icon = "alert_15";
+        qrStr = '<div style="margin-top:20px"><input type="button" id="qr_btn" value="确认" style="width:70px;height:30px;\
+               line-height:30px;color:#fff;background-color:#5C91D9;border:0px;border-radius: 5px;font-size:14px"/><input type="button"\
+               value="取消" onclick="$(this).parent().parent().remove()" style="width:70px;height:30px;line-\
+               height:30px;color:#232323;background-color:#fff;border:0px;border-radius: 5px;font-size:14px"/></div>';
+      } else if (arguments[1] == 4) {
+        icon = "alert_18";
+      }
+      alertFram = $('<div id="alertFram" style="color:#232323;font-size:18px;box-shadow: 5px 5px 5px rgba(0,0,0,.4);background-color:#fff;border:1px solid #7E9CC6;border-radius: 5px;position:fixed;left:50%;z-index:999999999;text-align:center;top:50%;padding:10px 20px"><div style="width:200px;float:left"></div><div style="clear:both"></div><img onclick="$(this).parent().remove()" src="/static/images/alert_11.png" style="float:right;cursor:pointer;margin-right:-9px;" ><img src="/static/images/' + icon + '.png" style="vertical-align:middle;margin-right:10px"/>' + txt + '' + qrStr + '</div>')
+    }
+    if ($("#alertFram")[0]) {
+      return;
+    }
+    $("body").append(alertFram);
+    $("#qr_btn").click(function() {
+      fun1();
+    })
+    var width = parseInt(alertFram.css('width'))+40;
+    if(arguments[1] != null)
+    {
+         var height = parseInt(alertFram.height())+20;
+         alertFram.css('margin-top', '-' + height/2 + 'px');
+    }
+    alertFram.css('margin-left', '-' + width/2 + 'px');
+  } 
+</script>
+  <style>
+    .yzm_abs{
+        display: none;
+        width:280px;position: absolute;right:10px;top: -80px;
+        height: 130px;background-color: #FFF;padding: 15px;z-index: 2;
+        border:5px solid #333;
+    }
+    .yzm_abs input{
+        font-size: 12px;color:#333;padding-left: 5px !important;width:120px !important;
+        display: inline-block;
+    }
+     .yzm_abs input label{
+        font-size: 12px;display: inline-block;
+     }
+    .yzm_abs button{
+        display: inline-block;border:none;background-color: #5C91D9;color:#FFF;
+        border-radius: 5px;text-align: center;font-size: 12px;
+        width:45%;margin:0 auto;cursor: pointer;height: 40px;margin-right: 4%;
+    }
+ .header li{position:relative;}
+        .header .ejcd{
+            position:absolute;
+            z-index: 99;
+            width:750px;
+            left: -300px;
+            display:none;
+            background:#fff;
+            -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            -ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            -o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            height:53px;
+            padding-top: 15px;
+            border-radius:3px;
+            top:82%;
+        }
+        .header .ejcd a{
+            display:inline-block;
+            width:auto;
+            color: #333;
+            border-left: 1px solid #bababa;
+            padding: 0 20px;
+            font-size: 14px;
+            line-height: 24px;
+        }
+        .header .icon-shang{position: absolute;top: 36px;left: 42px;color:#5c91d9;display:none;}
+        .search_position_box:hover .icon-shang,.search_position_box:hover .ejcd{
+            display:block;
+        }
+</style>
+  <!-- 头部start -->
+  <div class="header">
+    <div class="content">
+      <a href="http://www.hcdyhr.com">
+        <img style="margin-top:10px;" src="{{ STATIC_URL }}images/new_logo.png" alt=""></a>
+      <ul>
+        <li>
+          <a href="http://www.hcdyhr.com">首页</a>
+        </li>
+         <li class="search_position_box">
+          <a href="/new_search_position" target="_blank">搜索职位</a>
+           <i class="iconfont icon-shang"></i>
+          <div class="ejcd">
+            <a href="http://www.hcdyhr.com/industrySpecial?categoryID=H0001" target="_blank" style="border-left:0">互联网/游戏/软件</a>
+            <a href="http://www.hcdyhr.com/industrySpecial?categoryID=H0005" target="_blank">房地产/建筑/物业</a>
+            <a href="http://www.hcdyhr.com/industrySpecial?categoryID=H0012" target="_blank">金融</a>
+            <a href="http://www.hcdyhr.com/industrySpecial?categoryID=H0008" target="_blank">制造/采购/物流</a>
+            <a href="http://www.hcdyhr.com/industrySpecial?categoryID=H0009" target="_blank">消费品</a>
+            <a href="http://www.hcdyhr.com/industrySpecial?categoryID=H0006" target="_blank">政府/农林/牧渔</a>
+          </div>
+        </li>
+        <li>
+          <a href="/new_search_company" target="_blank">找人才</a>
+        </li>
+        <li>
+          <a href="/system/new_agent_search" target="_blank">免费咨询</a>
+        </li>
+        <span class="abs"></span>
+      </ul>
+    </div>
+  </div>
+  <!-- 头部end -->
+
+  <!-- 主体start -->
+  <div class="bg">
+    <div class="main">
+
+      <!-- <h1 class="wishing_tree">
+      本周已有
+      <div id="num_box" style="display:inline-block"></div>
+      人在许愿树许愿
+    </h1>
+    -->
+    <div class="c">
+      <h1>欢迎注册</h1>
+      <div class="zjdl1">
+        <a href="/system/new_login">直接登录</a> <i class="iconfont icon-xiao75"></i>
+      </div>
+      <ul class="role">
+        <li onclick="changeRegistType('1')">我是人才方</li>
+        <li onclick="changeRegistType('3')">我是人才经纪人</li>
+        <li onclick="changeRegistType('4')">我是企业方</li>
+      </ul>
+      <form class="registed" method="post" action="/system/generalRegister">
+        {% csrf_token %}
+        <input type="hidden" name="account_type" value="{{ accounttype }}" />
+        <input type="hidden" name="remark" value="{{ remark | default:'' }}" />
+        <ul class="form">
+          <li>
+            <label for="">账号</label>
+            <input type="text" maxlength="24" data-type="account" id="account" name="account" datatype="e-m" class="account" placeholder="请用邮箱或手机号码注册">
+            <span name="validateAccountSpan"></span> <i class="iconfont icon-yonghu"></i>
+          </li>
+          <span class="hint index1"></span>
+          <li>
+            <label for="">密码</label>
+            <input type="password" maxlength="16" oncopy="return false;" onpaste="return false;" oncut="return false;" name="password" datatype="*6-16" class="mima1" placeholder="请输入登录密码,6-16位字符">
+            <i class="iconfont icon-mima"></i>
+          </li>
+          <span class="hint index2"></span>
+          <li>
+            <input type="password" maxlength="16" class="mima2" oncopy="return false;" onpaste="return false;"  oncut="return false;" name="userpassword2"  recheck="password" datatype="*6-16"  style="margin-left: 51px;" placeholder="请再次输入登录密码,6-16位字符">
+            <i class="iconfont icon-mima"></i>
+          </li>
+          <span class="hint index3"></span>
+          <li class="security">
+            <input type="text" name="code" style="margin-left: 51px;width:226px;padding-left: 15px;margin-right: 0px;" placeholder="请输入收到的验证码">
+            <button class="send_security" >发送验证码</button>
+            <div class="yzm_abs">
+              <div>
+                <input type="text" class="o_yzm">
+                <label>123456</label>
+              </div>
+
+              <button onclick="return smsValidation(event,this);">确认发送验证码</button>
+              <button class="canel">取消</button>
+            </div>
+          </li>
+          <li>
+            <button class="register" onclick="return register()">注册</button>
+          </li>
+          <li class="protocol">
+            <input id="protocol" type="checkbox">
+            <label for="protocol">我已阅读并同意</label>
+            <a href="/privacy" target="_blank">《用户协议》</a>
+          </li>
+        </ul>
+      </form>
+      <div class="l clearfix">
+        <span>使用以下账号直接登录</span>
+        <div class="f_r">
+          <a style="background-position: center -70px" href="" class="sina"></a>
+          <a style="background-position: center 0px" href="" class="qq"></a>
+          <a style="background-position: center -140px" href="" class="wenxin"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 主体end -->
+</div>
+<!-- 尾部start -->
+<div class="footer">
+  <ul>
+    <li>
+      <a href="about#0" target="_blank">关于我们</a>
+    </li>
+    |
+    <!--<li>
+    <a href="#">法律声明</a>
+  </li>
+  |-->
+  <li>
+    <a href="about#1" target="_blank">使用帮助</a>
+  </li>
+  |
+  <li>
+    <a href="about#2" target="_blank">用户协议</a>
+  </li>
+  <li>
+    <a href="about#3" target="_blank">友情链接</a>
+  </li>
+  <!--<li>
+  <a href="#">网站索引</a>
+</li>
+|-->
+<!--<li>
+<a href="#">移动版</a>
+</li>
+-->
+</ul>
+<p>京ICP备16011247 Powered by  2015-2025 北京怀才当遇网络技术有限公司版权所有</p>
+</div>
+<!-- 尾部end -->
+</body>
+</html>
+<script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js"></script>
+<script src="{{ STATIC_URL }}js/new_Register.js"></script>
+<script src="{{ STATIC_URL }}js/Validform_v5.3.2.js"></script>
+<script>
+document.getElementById('protocol').checked = true;
+    $(".send_security").click(function(event) {
+        event.preventDefault();
+        GetRandomNum();
+        $(".yzm_abs").show();
+    });
+    $(".yzm_abs .canel").click(function(event) {
+        event.preventDefault();
+        $(".yzm_abs").hide();
+    });
+</script>
+{% if msg %}
+<script type="text/javascript">
+        $('#account').focus();
+        $(function(){
+            var reg = /^1[0-9]{10}$/;
+            if (reg.test($("#account").val())) {
+                $(".security").slideDown(200);
+            }
+        });
+        var mes='{{ msg }}';
+        var str =mes.substring(0,4);
+        if($.trim(str) =="注册成功"){
+          alert( '{{ msg }}',1);
+        }
+        else{
+          alert( '{{ msg }}',4);
+        }        
+    </script>
+{% endif %}

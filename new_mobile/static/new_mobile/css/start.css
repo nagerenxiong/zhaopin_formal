@@ -1,0 +1,123 @@
+html {
+  font-size: 64px; }
+
+html, body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; }
+
+body {
+  background: #5c91d9; }
+
+.abs {
+  height: 17.84108%; }
+
+header {
+  text-align: center; }
+  header img {
+    width: 6.90667rem;
+    height: 2.93333rem;
+    animation: header 2s; }
+
+.abs1 {
+  height: 8.9955%; }
+
+section {
+  width: 7.73333rem;
+  margin: 0 auto; }
+  section .phone {
+    display: block;
+    font-size: 0.34667rem;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #fff;
+    background-color: #5c91d9;
+    color: #fff;
+    padding-bottom: 0.16rem; }
+  section .btn {
+    display: block;
+    margin-top: 0.6rem;
+    width: 100%;
+    height: 1.2rem;
+    border-radius: 0.04rem;
+    border: 1px solid #fff;
+    font-size: 0.34667rem;
+    background-color: #5c91d9;
+    color: #fff; }
+
+.hint {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  text-align: center;
+  font-size: 0.26667rem;
+  color: #FFF;
+  line-height: 0.8rem;
+  height: 0.8rem;
+  width: 100%;
+  background-color: #df3d3e;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  transform: translateY(-0.8rem);
+  -webkit-transform: translateY(-0.8rem); }
+  .hint.active {
+    transform: translateY(0rem);
+    -webkit-transform: translateY(0rem); }
+
+#pc_name {
+  font-weight: bold;
+  margin: 0px 0.13333rem;
+  font-size: 0.5rem; }
+
+.c_modal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  border-radius: 5px;
+  padding: 0.33333rem 0.46667rem 0.8rem 0.46667rem;
+  width: 80%;
+  box-sizing: border-box;
+  color: #fff;
+  line-height: 0.66667rem;
+  display: none; }
+
+.c_modal h1 {
+  font-size: 0.42667rem;
+  letter-spacing: 1px; }
+
+.c_modal p {
+  font-size: 0.37333rem; }
+
+.c_modal .c_abs {
+  background-color: #5b9bca;
+  opacity: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+  border-radius: 5px;
+  z-index: -1; }
+
+.c_modal .btn_list {
+  display: block;
+  margin: 20px auto 0;
+  text-align: center; }
+
+.f_l {
+  float: left; }
+
+.f_r {
+  float: right; }
+
+.c_modal button {
+  background-color: #fff;
+  color: #5b9bca;
+  border-radius: 5px;
+  border: none;
+  font-size: 0.37333rem;
+  width: 2.93333rem;
+  height: 0.66667rem; }
+
+/*# sourceMappingURL=start.css.map */

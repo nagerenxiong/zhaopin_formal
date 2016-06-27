@@ -1,0 +1,166 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" href="{{STATIC_URL}}css/css.css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/style2.css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/tabel.css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/privilege.css">
+<div class="clear">99</div><div class="clear">3</div>
+	<div class="nav2" style="width:1020px;">
+	<ul id="menu">
+        <li>
+            <a href="/system/exp_rule">等级规则<i class="iconfont icon-xia1"></i></a>
+        </li>
+        <li>
+            <a href="/system/gold_rule">才币规则<i class="iconfont icon-xia1"></i></a>
+        </li>
+        <li>
+            <a href="/system/privilege">我的特权<i class="iconfont icon-xia1"></i></a>
+        </li>
+ 	</ul>
+	</div>
+	<div class="cont" style="margin-top: 30px;">
+		<h1 class="o_title"><span class="line"></span>我的等级</h1>
+		<div class="my_level">
+			<div class="t">
+				<img src="{{ request.session.head_portrait }}" onerror="notfind(this, '{{ request.session.account_type }}', '{{ request.session.sex }}')"
+				><div class="d_r">
+					<p class="mb8">
+						<i>Hi,</i>
+						<span class="name">{{ pu.user_name | default:'' }}</span>
+					</p>
+					<div class="dibiao">
+						
+					</div>
+					<p class="o_progress">
+						<span></span>
+					</p>
+					<div id="level_li" class="b">
+						<ul>
+							<li>
+								<p>Lv.0</p>
+								<span>(0-399)</span>
+							</li><li>
+								<p>Lv.1</p>
+								<span>(400-999)</span>
+							</li><li>
+								<p>Lv.2</p>
+								<span>(1000-2999)</span>
+							</li><li>
+								<p>Lv.3</p>
+								<span>(3000-7999)</span>
+							</li><li>
+								<p>Lv.4</p>
+								<span>(8000-19999)</span>
+							</li><li style="margin-right: 0px;">
+								<p>Lv.5</p>
+								<span>(20000+)</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="abs">
+				<p>你当前的经验值为<span id="exp" class="f80">{{ pu.experience_value | default:0 }}</span>，您的等级为<span class="o_level"></span><span class="next"></span></p>
+			</div>
+		</div>
+		<h1 class="o_title"><span class="line"></span>我的特权</h1>
+	<table class="o_tb">
+		<tr class="eef6ff h82">
+			<td class="pl3" style="width: 21%;">等级</td>
+			<td><span class="level">LV.0</span><span class="o_value">（当前特权）</span></td>
+			<td><span class="level">LV.1</span><span class="o_value">（当前特权）</span></td>
+			<td><span class="level">LV.2</span><span class="o_value">（当前特权）</span></td>
+			<td><span class="level">LV.3</span><span class="o_value">（当前特权）</span></td>
+			<td><span class="level">LV.4</span><span class="o_value">（当前特权）</span></td>
+			<td><span class="level">LV.5</span><span class="o_value">（当前特权）</span></td>
+		</tr>
+		<tr>
+			<td class="pl3">关注人数上限</td>
+			<td>100</td>
+			<td>1500</td>
+			<td>2000</td>
+			<td>3000</td>
+			<td>4000</td>
+			<td>5000</td>
+		</tr>
+		<tr class="eef6ff">
+			<td class="pl3">同时运作的职位数量</td>
+			<td>5个</td>
+			<td>25个</td>
+			<td>35个</td>
+			<td>45个</td>
+			<td>60个</td>
+			<td>80个</td>
+		</tr>
+		<tr>
+			<td class="pl3">每日查看简历数</td>
+			<td>3份</td>
+			<td>10份</td>
+			<td>20份</td>
+			<td>30份</td>
+			<td>30份</td>
+			<td>40份</td>
+		</tr>
+		<tr class="eef6ff">
+			<td class="pl3">每日导出简历数量</td>
+			<td>1份</td>
+			<td>3份</td>
+			<td>5份</td>
+			<td>7份</td>
+			<td>9份</td>
+			<td>12份</td>
+		</tr>
+		<tr>
+			<td class="pl3">职位订阅数量</td>
+			<td>1个</td>
+			<td>2个</td>
+			<td>3个</td>
+			<td>4个</td>
+			<td>5个</td>
+			<td>6个</td>
+		</tr>
+	</table>
+	</div>
+<script>
+	// 进度条
+	var jindu={
+		jindu_dom:$('.o_progress span'),
+		dibiao:$(".dibiao"),
+		level_dom:$("#level_li li"),
+		now_value:$("#exp").text(),//只需要获取这个动态值
+		level:0,
+		chazhi:'',
+		yichu:'',
+		lv0:0,
+		lv1:400,
+		lv2:1000,
+		lv3:3000,
+		lv4:8000,
+		lv5:20000
+	};
+	//获取当前等级
+	(0<=jindu.now_value && jindu.now_value<jindu.lv1) && (jindu.level = 0);
+	(jindu.lv1<=jindu.now_value && jindu.now_value<jindu.lv2) && (jindu.level = 1);
+	(jindu.lv2<=jindu.now_value && jindu.now_value<jindu.lv3) && (jindu.level = 2);
+	(jindu.lv3<=jindu.now_value && jindu.now_value<jindu.lv4) && (jindu.level = 3);
+	(jindu.lv4<=jindu.now_value && jindu.now_value<jindu.lv5) && (jindu.level = 4);
+	(jindu.lv5<=jindu.now_value) && (jindu.level = 5);
+	//距离下个等级的差距
+	jindu.chazhi =jindu["lv"+(jindu.level+1)] - jindu["lv"+jindu.level];
+	//当前等级溢出的值
+	jindu.yichu = jindu.now_value-jindu["lv"+jindu.level];
+	//
+	jindu.jindu_dom.animate({width:20*jindu.level+(jindu.yichu/jindu.chazhi*20)+"%"}, 1000);
+	jindu.dibiao.animate({left:20*jindu.level+(jindu.yichu/jindu.chazhi*20)+"%"}, 1000,function(){
+		jindu.level_dom.each(function(index, el) {
+			index <= jindu.level && $(el).addClass('active');
+			$(".my_level .abs .o_level").text('Lv.'+jindu.level);
+			$(".my_level .abs .next").text('（距离lv.'+(jindu.level+1)+'差'+(jindu.chazhi-jindu.yichu)+'点经验值）');
+			$(".my_level .abs").fadeIn(800);
+			$(".o_tb tr").each(function(index, el) {
+				$(el).children('td').eq(jindu.level+1).addClass('o_value');
+			});
+		});
+	});
+	
+</script>
+{% include 'jobs/system/new_footer.html' %}

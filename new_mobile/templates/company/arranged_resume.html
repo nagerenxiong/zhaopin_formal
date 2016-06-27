@@ -1,0 +1,70 @@
+{% include 'header.html' %}
+   <style type="text/css">
+        .zsp_job_list_top{width:100%;}
+        .zsp_job_list_top span{display:inline-block;width:15.8%;text-align:center;height:38px;line-height: 38px;border-radius: 5px;border:1px solid #1470B3;margin:0 2%;font-size: 16px;margin-bottom:10px;margin-top:10px;}
+        @media (max-width: 768px) {
+            .zsp_job_list_top span{width:28%;}
+        }
+    </style>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+</script>
+<div class="zsp_job_list">
+<div class="zsp_job_list_top">
+    <span>待处理</span><span>待沟通</span><span>已安排面试</span><span>不合适</span><span>已过滤</span>
+</div>
+            <a href="#" class="zsp_job_list_li">
+                <div class="zsp_job_li_top">
+                                        <div class="zsp_job_li_img"><img src="/static/new_mobile/images/morenimg_gr.jpg"><p style="text-align: center">匹配度:80%</p></div>
+                                        <div class="zsp_job_li_main">
+                        <div class="zsp_job_li_h" style="margin-bottom:0">
+                            <span><i class="fa fa-angle-right"></i></span>
+                            <h3>熊勇勇<i style="margin-left: 10px;">男</i></h3>
+                        </div>
+                        <div class="zsp_job_li_tit_other">副总裁（采销方向）</div>
+                          <div class="zsp_job_li_rstate">
+                            <strong>深圳|1年|本科|45岁</strong>
+                        </div>
+                        <div class="zsp_job_li_rstate">
+                            <strong style="color:#FFA137">金陵科技学院|财经学院|硕士</strong>
+                        </div>
+                        <div class="zsp_job_li_rstate">
+                            <strong>投递时间:  2015-12-12</strong>
+                        </div>
+                    </div>
+                </div>
+            </a>
+           <a href="#" class="zsp_job_list_li">
+                <div class="zsp_job_li_top">
+                                        <div class="zsp_job_li_img"><img src="/static/new_mobile/images/morenimg_gr.jpg"><p style="text-align: center">匹配度:80%</p></div>
+                                        <div class="zsp_job_li_main">
+                        <div class="zsp_job_li_h" style="margin-bottom:0">
+                            <span><i class="fa fa-angle-right"></i></span>
+                            <h3>熊勇勇<i style="margin-left: 10px;">男</i></h3>
+                        </div>
+                        <div class="zsp_job_li_tit_other">副总裁（采销方向）</div>
+                          <div class="zsp_job_li_rstate">
+                            <strong>深圳|1年|本科|45岁</strong>
+                        </div>
+                        <div class="zsp_job_li_rstate">
+                            <strong style="color:#FFA137">金陵科技学院|财经学院|硕士</strong>
+                        </div>
+                        <div class="zsp_job_li_rstate">
+                            <strong>投递时间:  2015-12-12</strong>
+                        </div>
+                    </div>
+                </div>
+            </a>
+</div>
+</body></html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>首页</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<link href="{{ STATIC_URL }}new_mobile/css/home.css" rel="stylesheet" type="text/css">
+	<link href="{{ STATIC_URL }}new_mobile/css/iconfont.css" rel="stylesheet" type="text/css">
+	<link href="http://at.alicdn.com/t/font_1466663728_6955974.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{{ STATIC_URL }}js/zepto.min.js"></script>
+    <script type="text/javascript" src="/static/new_mobile/js/jquery.common.js"></script>
+</head>
+<body>
+ <div id="wrap1">
+ 	<header id="header">
+		<div class="photo" onclick="loadPage()">
+
+            {% if request.session.pu_id %}
+
+               {% if request.session.head_portrait  %}
+                 <div style="background: url({{ request.session.file_website }}{{ request.session.head_portrait }}) no-repeat center center;background-size:cover">
+                </div>
+               {% else %}
+                    <div>
+                        <img src="" />
+                    </div>
+               {% endif %}
+
+            {% else %}
+			    <i class="iconfont icon-touxiang"></i>
+            {% endif %}
+            <i class="iconfont icon-sandian"></i>
+		</div>
+		<div>
+			<img src="{{ STATIC_URL }}new_mobile/images/home1.png" alt=""></div>
+		<div> <i class="icon-sousuo iconfont"></i>
+		<span id="search_input">请输入职位名称</span>
+		</div>
+	</header>
+	<nav class="index_nav">
+	   <div class="row">
+	   		<div onclick="location.href='/mobile/company/find_resume' ">
+			<div> <i class="iconfont icon-rencaizhaopin"></i>
+			</div>
+			<div>找人才</div>
+		</div>
+		<div  onclick="location.href='/mobile/reward_position' ">
+			<div>
+				<i class="iconfont icon-zhiwei"></i>
+			</div>
+			<div>找职位</div>
+		</div>
+		<div  onclick="location.href='/mobile/headhunter_list' ">
+			<div>
+				<i class="iconfont icon-icon"></i>
+			</div>
+			<div>找经纪人</div>
+		</div>
+		<div onclick="location.href='/mobile/registration_guide' ">
+			<div>
+				<i class="iconfont icon-yunrencai"></i>
+			</div>
+			<div>人才经营</div>
+		</div>
+	   </div>
+	   <div class="row">
+	   	<div onclick="location.href='{{ company_url }}' ">
+			<div>
+				<i class="iconfont icon-gongsi"></i>
+			</div>
+			<div>查公司</div>
+		</div>
+		<div>
+			<div onclick="location.href='{{ oper_url }}'">
+				<i class="iconfont icon-laoshi"></i>
+			</div>
+			<div>查高管</div>
+		</div>
+		<div>
+			<div onclick="location.href='{{ legal_url }}'">
+				<i class="iconfont icon-zhimaxinyong2"></i>
+			</div>
+			<div>查失信</div>
+		</div>
+		<div onclick="location.href='/mobile/background_check' ">
+			<div>
+				<i class="iconfont icon-weidiaocha"></i>
+			</div>
+			<div>背景调查</div>
+		</div>
+	   </div>
+	</nav>
+	<div class="swiper-container">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide"><img src="{{ STATIC_URL }}new_mobile/images/homeban1.jpg" alt=""></div>
+			<div class="swiper-slide"><img src="{{ STATIC_URL }}new_mobile/images/sjbanner.png" alt=""></div>
+		</div>
+		<!-- 如果需要分页器 -->
+		<div class="swiper-pagination" style="bottom: 10px; left: 0; width: 100%;"></div>
+	</div>
+	<dl class="reward_position">
+		<dt><span>悬赏职位</span><span onclick="loadMore()">点击更多</span></dt>
+        {% if rewards_positions %}
+            {% for position in rewards_positions %}
+                <dd>
+                    <a href="/mobile/personal/newposition_detail?position_id={{ position.id }}">
+                    <div>
+{#                        <img src="{{ STATIC_URL }}new_mobile/images/home4.png" alt="">#}
+                        <img src="{{ request.session.file_website }}{{ position.pc_logo }}" alt="" onerror="notfind(this,'', 2)">
+                    </div>
+                    <ul>
+                        <li>{{ position.position_name }}<em>{{ position.payname }}</em></li>
+                        <li>{{ position.pc_name }}</li>
+                        <li>{% if position.locationname %}{{ position.locationname }} |&nbsp;{% endif %}
+                            {% if position.work_yearname %}{{ position.work_yearname }} |&nbsp;{% endif %}
+                            {{ position.diplomaname|default:'' }}</li>
+                    </ul>
+                    <div>
+                        <div>
+                            <i class="iconfont icon-qianbao1"></i><span>悬赏:￥{{ position.rewards_money }}</span>
+                        </div>
+                        <i class="iconfont icon-fanhui-copy-copy"></i>
+                    </div>
+                    </a>
+                </dd>
+            {% endfor %}
+        {% endif %}
+	</dl>
+	<dl class="comment" hidden="hidden">
+		<dt><span>企业评论</span><a href="#">点击更多</a></dt>
+		<dd>
+			<a href="#">
+			<div>
+				<img src="{{ STATIC_URL }}new_mobile/images/home5.png" alt="">
+			</div>
+			<ul>
+				<li>这个公司很不错，环境好，靠谱的很…</li>
+				<li>北京怀才当遇网络技术有限公司<em>6月18日 15:00</em></li>
+			</ul>
+			</a>
+		</dd>
+		<dd>
+			<a href="#">
+			<div>
+				<img src="{{ STATIC_URL }}new_mobile/images/home5.png" alt="">
+			</div>
+			<ul>
+				<li>这个公司很不错，环境好，靠谱的很…</li>
+				<li>北京怀才当遇网络技术有限公司<em>6月18日 15:00</em></li>
+			</ul>
+			</a>
+		</dd>
+		<dd>
+			<a href="#">
+			<div>
+				<img src="{{ STATIC_URL }}new_mobile/images/home5.png" alt="">
+			</div>
+			<ul>
+				<li>这个公司很不错，环境好，靠谱的很…</li>
+				<li>北京怀才当遇网络技术有限公司<em>6月18日 15:00</em></li>
+			</ul>
+			</a>
+		</dd>
+	</dl>
+ </div>
+<div id="wrap2">
+            <div class="t_box">
+                <div id="zuo" class="">
+                    <i class="iconfont icon-jiantou"></i>
+                </div>
+                <div>
+                    <input type="text" name="cengsoso" value="" placeholder="请输入职位名称" id="search_txt"><i class="cont"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAABL0lEQVQoU4VTwVHDMBDcswuADkgHOB3QQcJHGv9IB6QCQgXQAfDyWB9MB3SA6QA6sAuQjzmNlLlo7KAZPSTt7mlXJ0I2nHN3zLwhohsAlwAGZv4E0Flr3zSc0qJpmlVZlu8AqlxQrXvv/W1d1z+yF8iR+BUrneGGo8F7vxaBQG7btiei6/9Y+gbGmDWJRwAv6YCI9sx8AHChwCMRHZj5Se3thNwB2KjNAcAewHMUGAHcAxCiBJjGh5AFrKsEX1FAbiAzJwaMkHnB668xZuWck2Sv5jBLlcNVmfmBiB6VBa0xznnOPeYZnHjWaS+FMyewy99ZQDJ0qqnS8YyZv621le6wfib1uZxG73117LDUokVRdOc6TSpO07Q96W0tHztuC0B+lby/5BB+lTHmVWP/AD4DhgCtvsyMAAAAAElFTkSuQmCC" alt=""></i>
+                </div>
+                <div>
+                    <i class="iconfont icon-sousuo" id="search_btn"></i>
+                </div>
+            </div>
+            <div class="b_box">
+                <div class="record_list"><a href="personal/position_search?position_name=UI设计"><i class="icon-lishi iconfont"></i><span>UI设计</span><i class="iconfont icon-youjiantou"></i></a></div>
+                 <div class="clear_record">
+                    清空搜索记录
+                </div>
+            </div>
+            <div class="b_box1" style="display:none">
+                <div class="search_list">
+                </div>
+            </div>
+            <dl class="hot_search">
+                <dt>热搜职位</dt>
+                <dd>
+                    <a href="personal/position_search?position_name=销售总监">销售总监</a>
+                    <a href="personal/position_search?position_name=产品经理">产品经理</a>
+                    <a href="personal/position_search?position_name=项目经理">项目经理</a>
+                    <a href="personal/position_search?position_name=人力总监">人力总监</a>
+                    <a href="personal/position_search?position_name=财务经理">财务经理</a>
+                    <a href="personal/position_search?position_name=设计总监">设计总监</a>
+                    <a href="personal/position_search?position_name=投资经理">投资经理</a>
+                    <a href="personal/position_search?position_name=运营总监">运营总监</a>
+                </dd>
+            </dl>
+     
+</div>
+
+ <script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+ <script>
+     // 微信分享
+     WXJssdk.init(function(wx) {
+         // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+         wx.checkJsApi({
+             jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+             success: function (res) {
+                 //alert(JSON.stringify(res));
+             }
+         });
+         // 分享data
+         var shareData = {
+             title: '找高端职位、到怀才当遇，大量优质职位虚位以待！',
+             desc: '怀才当遇是国内首家专注人力资源服务的平台，为人才、企业、人力资源从业者提供从求职、招聘、职业规划成长、人力资源激活等一站式的新型在线人力资源服务。',
+             link: '{{ web_site }}/mobile/',//分享链接地址 自己调整
+             imgUrl: '{{ web_site }}/static/images4/qrlogo.png',//分享显示的图片
+             success:function(){
+                 // alert('shareData success');
+             },
+             cancel:function(){
+                 // alert('shareData cancel');
+             },
+             error:function(res){
+                 // alert(JSON.stringify(res));
+             }
+         };
+
+         // 分享给朋友
+         wx.onMenuShareAppMessage(shareData);
+         // 分享到朋友圈
+         wx.onMenuShareTimeline(shareData);
+         // 分享到QQ
+         wx.onMenuShareQQ(shareData);
+         // 分享到微博
+         wx.onMenuShareWeibo(shareData);
+     });
+ </script>
+
+    
+	<script src="/static/new_mobile/js/jquery.common.js" type="text/javascript"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}images/images8/swiper.min.js"></script>
+	<script type="text/javascript">
+    	 var mySwiper = new Swiper ('.swiper-container', {
+            loop : true,
+		    pagination : '.swiper-pagination',
+            autoplayDisableOnInteraction:false,
+		    autoplay : 4000
+		  });
+    	 $("#header>div:last-child").click(function(){
+    	 	$("#wrap1").hide();
+    	 	$("#wrap2").show();
+    	 	$("#search_txt").focus();
+    	 })
+    	 $("#zuo").click(function(){
+    	 	$("#wrap2").hide();
+    	 	$("#wrap1").show();
+    	 })
+    	 $("#search_txt").keyup(function(){
+    var search_value=$(this).val();
+
+    if(search_value==""){
+        $(".b_box").show();
+        $(".b_box1").hide();
+
+        $(".record_list").empty();
+        var position_search =  window.localStorage.getItem("position_search");
+        if(position_search!= null) {
+            var position_search_list = window.localStorage.getItem("position_search").split(",");
+            for (var i = 0; i < position_search_list.length; i++) {
+                $(".record_list").append('<a href="personal/position_search?position_name='+ position_search_list[i] +'"><i class="icon-lishi iconfont"></i><span>' + position_search_list[i] + '</span><i class="iconfont icon-youjiantou"></i></a>');
+            }
+        }
+    }
+    else{
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/mobile/ajax_search_poition",
+            data: {
+                "position_name":search_value,
+                "count": 6
+            },
+            dataType: "json",
+            success: function(data) {
+                $(".search_list").empty();
+                $(data).each(function(){
+                    $(".search_list").append('<a href="personal/position_search?position_name='+ this.position_name +'"><i class="icon-sousuo iconfont"></i><span class="sowids">'+ this.position_name +'</span><i class="iconfont icon-youjiantou"></i></a>');
+                })
+            }
+        });
+
+        $(".b_box1").show();
+        $(".b_box").hide();
+         $(".sowids").css({"max-width":"99%","overflow":"hidden","text-overflow":"ellipsis","white-space":"nowrap"});
+    }
+});
+    	  $("#search_txt").on('input propertychange',function() {
+		       if( $("#search_txt").val() != "" ){
+		            $(".cont").show();
+		       }else{
+		            $(".cont").hide();
+		       };
+		       var search_value=$(this).val();
+
+    if(search_value==""){
+        $(".b_box").show();
+        $(".b_box1").hide();
+
+        $(".record_list").empty();
+        var position_search =  window.localStorage.getItem("position_search");
+        if(position_search!= null) {
+            var position_search_list = window.localStorage.getItem("position_search").split(",");
+            for (var i = 0; i < position_search_list.length; i++) {
+                $(".record_list").append('<a href="personal/position_search?position_name='+ position_search_list[i] +'"><i class="icon-lishi iconfont"></i><span>' + position_search_list[i] + '</span><i class="iconfont icon-youjiantou"></i></a>');
+            }
+        }
+    }
+    else{
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/mobile/ajax_search_poition",
+            data: {
+                "position_name":search_value,
+                "count": 6
+            },
+            dataType: "json",
+            success: function(data) {
+                $(".search_list").empty();
+                $(data).each(function(){
+                    $(".search_list").append('<a href="personal/position_search?position_name='+ this.position_name +'"><i class="icon-sousuo iconfont"></i><span class="sowids">'+ this.position_name +'</span><i class="iconfont icon-youjiantou"></i></a>');
+                })
+            }
+        });
+
+        $(".b_box1").show();
+        $(".b_box").hide();
+         $(".sowids").css({"max-width":"99%","overflow":"hidden","text-overflow":"ellipsis","white-space":"nowrap"});
+    }
+		    });
+    
+      $('.cont').click(function(){
+        $("#search_txt").val("");
+        $(".cont").hide();
+    });
+$("#search_btn").click(function(){
+    var search_value=$("#search_txt").val();
+    if(search_value!=""){
+    location.href="personal/position_search?position_name="+search_value;
+    }
+})
+        function loadPage(){
+            {% if request.session.pu_id %}
+                {% if request.session.account_type == '1' %}
+                    window.location = '/mobile/personal/search_position_center';
+                {% elif request.session.account_type == '2' or request.session.account_type == '4' %}
+                    window.location = '/mobile/company/recruit_user_center';
+                {% elif request.session.account_type == '3' or request.session.account_type == '5' %}
+                    window.location = '/mobile/headhunter/headhunter_center';
+                {% endif %}
+            {% else %}
+                window.location = '/mobile/login_register';
+            {% endif %}
+        }
+        // 加载更多悬赏职位
+        function loadMore(){
+            {% if request.session.account_type == '1' %}
+                window.location = '/mobile/reward_position';
+            {% else %}
+                window.location = '/mobile/reward_position?rewards=1';
+            {% endif %}
+        }
+    {% if not request.session.head_portrait %}
+        var obj = $('.photo').children('div').children('img');
+        notfind(obj[0],'{{ request.session.sex }}', '{{ request.session.account_type }}');
+    {% endif %}
+    </script>
+</body>
+</html>

@@ -1,0 +1,962 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/new_mobile/css/zsh_common.css" type="text/css">
+<link rel="stylesheet" href="/static/new_mobile/js/upload_photo/upload_photo.css" type="text/css">
+<style type="text/css">
+    input[type='text']{
+        height: 60px;
+    }
+</style>
+<script src="/static/new_mobile/js/jquery.validate.min.js" type="text/javascript" language="javascript"></script>
+<script src="/static/new_mobile/js/formValidate.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+    clearInterval(show_logo);
+    // 创建简历弹出框
+    $(".input_foucs").focus(function(event) {
+        $(this).blur();
+    });
+    $("body ").on('click', '.menu_bg_layer', function(event) {
+        event.preventDefault();
+        $(".choose_menu").hide();
+        $(this).remove();
+    });
+    function showFloatBox() {
+        $("body").prepend("<div class=\"menu_bg_layer\"></div>");
+        $(".menu_bg_layer").height($(document).height());
+        $(".menu_bg_layer").css({ width: $(document).width(), position: "absolute",left:"0", top:"0","z-index":"2","background-color":"#000000"});
+        $(".menu_bg_layer").css("opacity",0.3);
+    }
+
+    //性别单选
+      $("#sex_radio .input_radio").click(function(){
+          $("#sex").val($(this).val());
+      });
+
+    // 出生年份填充
+    var myDate = new Date();
+    var y = myDate.getFullYear();
+    y = y - 18;
+    var ymin = y - 35;
+    var yearHtm = "";
+    for (i = y; i >= ymin; i--) {
+        yearHtm += "<li title=\"" + i + "\">" + i + "年</li>";
+    }
+    $("#menuYear ul").html(yearHtm);
+
+    // 出生年份点击
+    $("#year_menu").click(function () {
+        showFloatBox();
+        $("#menuYear").css({top: ($(window).height() - $('#menuYear').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuYear").show();
+        $("#menuYear li").click(function () {
+            $("#birthdate").val($(this).attr("title"));
+            $("#year_text").val($(this).attr("title") + "年").trigger('blur');
+            $("#menuYear").hide();
+     $(".menu_bg_layer").remove();
+        });
+    });
+
+    // 最高学历点击
+    $("#education_menu").click(function () {
+        showFloatBox();
+        $("#menuEducation").css({top: ($(window).height() - $('#menuEducation').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuEducation").show();
+        $("#menuEducation li").click(function () {
+            $("#education").val($(this).attr("id"));
+            $("#education_cn").val($(this).attr("title"));
+            $("#education_text").val($(this).attr("title")).trigger('blur');
+            $("#menuEducation").hide();
+     $(".menu_bg_layer").remove();
+        });
+    });
+
+    // 工作经验点击
+    $("#experience_menu").click(function () {
+       showFloatBox();
+        $("#menuExperience").css({top: ($(window).height() - $('#menuExperience').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuExperience").show();
+        $("#menuExperience li").click(function () {
+            $("#experience").val($(this).attr("id"));
+            $("#experience_cn").val($(this).attr("title"));
+            $("#experience_text").val($(this).attr("title")).trigger('blur');
+            $("#menuExperience").hide();
+     $(".menu_bg_layer").remove();
+        });
+    });
+
+    // 期望薪资点击
+    $("#wage_menu").click(function () {
+       showFloatBox();
+        $("#menuWage").css({top: ($(window).height() - $('#menuWage').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuWage").show();
+        $("#menuWage li").click(function () {
+            $("#wage").val($(this).attr("id"));
+            $("#wage_cn").val($(this).attr("title"));
+            $("#wage_text").val($(this).attr("title")).trigger('blur');
+            $("#menuWage").hide();
+     $(".menu_bg_layer").remove();
+        });
+    });
+
+    // 工作状态点击
+    $("#state_menu").click(function () {
+       showFloatBox();
+        $("#menuState").css({top: ($(window).height() - $('#menuState').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuState").show();
+        $("#menuState li").click(function () {
+            $("#job_state_id").val($(this).attr("id"));
+            $("#job_state").val($(this).attr("title"));
+            $("#state_text").val($(this).attr("title")).trigger('blur');
+            $("#menuState").hide();
+     $(".menu_bg_layer").remove();
+        });
+    });
+
+    // 工作性质点击
+    $("#nature_menu").click(function () {
+       showFloatBox();
+        $("#menuNature").css({top: ($(window).height() - $('#menuNature').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuNature").show();
+        $("#menuNature li").click(function () {
+            $("#nature").val($(this).attr("id"));
+            $("#nature_cn").val($(this).attr("title"));
+            $("#nature_text").val($(this).attr("title")).trigger('blur');
+            $("#menuNature").hide();
+     $(".menu_bg_layer").remove();
+        });
+    });
+
+    // 期望职位点击
+    $("#jobs_menu").click(function () {
+       showFloatBox();
+        $("#menuJobs").css({top: ($(window).height() - $('#menuJobs').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuJobs").show();
+    });
+
+    // 现居住地点击
+    $("#residence_menu").click(function () {
+       showFloatBox();
+        $("#menuResidence").css({top: ($(window).height() - $('#menuResidence').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuResidence").show();
+    });
+
+    // 期望地区点击
+    $("#district_menu").click(function () {
+       showFloatBox();
+        $("#menuDistrict").css({top: ($(window).height() - $('#menuDistrict').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuDistrict").show();
+    });
+
+    // 期望行业点击
+    $("#trad_menu").click(function () {
+       showFloatBox();
+        $("#menuTrad").css({top: ($(window).height() - $('#menuTrad').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuTrad").show();
+    });
+
+    // 关闭弹出框
+    $(".choose_close").click(function (event) {
+        $(this).parent().hide();
+     $(".menu_bg_layer").remove();
+    });
+
+    // ajax提交保存简历
+    $("#resume_save").click(function(event) {
+        $(this).attr('disabled', 'true').css('background-color', '#b0bec5');
+        var flag;
+        is_upload_user_logo();
+        var user_headprotrait = $(":input[name=logo]").val();
+        // 用户名
+        var user_name = $("input[name=fullname]").val();
+        if(user_name.length > 5) {
+            flag = confirm('您的姓名有点长哦~我们将会进行截取前5个字符哦');
+            if(flag) {
+                user_name = user_name.substr(0, 5);
+            } else {
+                return false;
+            }
+        }
+        // 性别
+        var sex = $("input[name='sex_cn']:checked").attr("title");
+        // 出生年
+        var birthdate = $("input[name='birthdate']").val();
+        // 文凭
+        var education = $("input[name='education']").val();
+        // 工作经验
+        var experience = $("input[name='experience']").val();
+        // 地区
+        var residence = $("input[name='residence']").val();
+        // 手机
+        var telephone = $("input[name='telephone']").val();
+        // 邮箱
+        var email = $("input[name='email']").val();
+        // 职位类别
+        var postaion_type = $("input[name='postaion_type']").val();
+        // 当前公司
+        var company = $("input[name='company']").val();
+        if(company.length > 20) {
+            flag = confirm('您的公司名称有点长哦~我们将会进行截取前20个字符哦');
+            if(flag) {
+                company = company.substr(0, 20);
+            } else {
+                return false;
+            }
+        }
+
+        var resume_id = '{{ resume.id | default:'' }}';
+    
+
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/mobile/ajax_save_personal_resume",
+            data: {
+                "user_name":user_name, "sex":sex, "birth_year":birthdate, "diploma":education, "work_experience":experience,
+                "area":residence, "telephone":telephone, "email":email, "company":company,
+                "resume_id": resume_id, 'postaion_type': postaion_type, 'user_headprotrait': user_headprotrait
+            },
+            dataType: "json",
+            success: function(data) {
+                if (data == "err") {
+                    alert(["修改基本信息失败"]);
+                    $(this).removeAttr('disabled').css('background-color', '#1470b3');
+                } else {
+                    {% if request.session.account_type == '1' %}
+                        window.location.href="/mobile/personal/search_position_center";
+                    {% else %}
+                        {% if position_id and position_id != '' %}
+                            window.location.href="/mobile/headhunter/edit_uploaded_resume?resume_id=" + data + '&position_id={{ position_id }}';
+                        {% else %}
+                            window.location.href="/mobile/headhunter/edit_uploaded_resume?resume_id=" + data;
+                        {% endif %}
+                    {% endif %}
+                }
+            }
+        });
+    });
+
+    // 是否上传 user_logo
+    function is_upload_user_logo() {
+        var fileContent = $("#o_logo").attr("src");
+        var contentStart = 'data:image';
+        var fileContentArray = fileContent.split(contentStart);
+        if(fileContentArray.length != 2) {
+            return false;
+        }
+        $.ajax({
+            async: false,
+            type: 'post',
+            data: {'fileContent': fileContentArray[1]},
+            url: '/mobile/ajax_uploadUserHeadPortrait',
+            dataType: 'json',
+            success: function(data) {
+                if(data == 0) {
+                    console.log('error')
+                } else {
+                    $(":input[name=logo]").val(data)
+                }
+            }
+        })
+    }
+
+    // 开始年份点击
+    $("#startyear_menu").click(function () {
+       showFloatBox();
+        $("#menuStartYear").css({top: ($(window).height() - $('#menuStartYear').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuStartYear").show();
+        $("#menuStartYear li").click(function () {
+            $("#startyear").val($(this).attr("title")).trigger('blur');
+            $("#startyear").attr("data", $(this).attr("title"));
+            $("#menuStartYear").hide();
+     $(".menu_bg_layer").remove();
+        });
+    });
+
+    // 开始月份点击
+    $("#startmonth_menu").click(function () {
+       showFloatBox();
+        $("#menuStartMonth").css({top: ($(window).height() - $('#menuStartMonth').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuStartMonth").show();
+        $("#menuStartMonth li").click(function () {
+            $("#startmonth").val($(this).attr("title")).trigger('blur');
+            $("#startmonth").attr("data", $(this).attr("title"));
+            $("#menuStartMonth").hide();
+     $(".menu_bg_layer").remove();
+        });
+    });
+
+    // 结束年份点击
+    $("#endyear_menu").click(function () {
+       showFloatBox();
+        $("#menuEndtYear").css({top: ($(window).height() - $('#menuEndtYear').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuEndtYear").show();
+        $("#menuEndtYear li").click(function () {
+            $("#endyear").val($(this).attr("title")).trigger('blur');
+            $("#endyear").attr("data", $(this).attr("title"));
+            $("#menuEndtYear").hide();
+     $(".menu_bg_layer").remove();
+        });
+    });
+
+    // 结束月份点击
+    $("#endmonth_menu").click(function () {
+       showFloatBox();
+        $("#menuEndMonth").css({top: ($(window).height() - $('#menuEndMonth').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuEndMonth").show();
+        $("#menuEndMonth li").click(function () {
+            $("#endmonth").val($(this).attr("title")).trigger('blur');
+            $("#endmonth").attr("data", $(this).attr("title"));
+            $("#menuEndMonth").hide();
+     $(".menu_bg_layer").remove();
+        });
+    });
+
+    // 开始年份点击_e
+    $("#startyear_menu_e").click(function () {
+       showFloatBox();
+        $("#menuStartYear_e").css({top: ($(window).height() - $('#menuStartYear_e').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuStartYear_e").show();
+        $("#menuStartYear_e li").click(function () {
+            $("#startyear_e").val($(this).attr("title")).trigger('blur');
+            $("#startyear_e").attr("data", $(this).attr("title"));
+            $("#menuStartYear_e").hide();
+     $(".menu_bg_layer").remove();
+        });
+    });
+
+    // 开始月份点击_e
+    $("#startmonth_menu_e").click(function () {
+       showFloatBox();
+        $("#menuStartMonth_e").css({top: ($(window).height() - $('#menuStartMonth_e').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuStartMonth_e").show();
+        $("#menuStartMonth_e li").click(function () {
+            $("#startmonth_e").val($(this).attr("title")).trigger('blur');
+            $("#startmonth_e").attr("data", $(this).attr("title"));
+            $("#menuStartMonth_e").hide();
+     $(".menu_bg_layer").remove();
+        });
+    });
+
+    // 结束年份点击_e
+    $("#endyear_menu_e").click(function () {
+       showFloatBox();
+        $("#menuEndtYear_e").css({top: ($(window).height() - $('#menuEndtYear_e').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuEndtYear_e").show();
+        $("#menuEndtYear_e li").click(function () {
+            $("#endyear_e").val($(this).attr("title")).trigger('blur');
+            $("#endyear_e").attr("data", $(this).attr("title"));
+            $("#menuEndtYear_e").hide();
+     $(".menu_bg_layer").remove();
+        });
+    });
+
+    // 结束月份点击
+    $("#endmonth_menu_e").click(function () {
+       showFloatBox();
+        $("#menuEndMonth_e").css({top: ($(window).height() - $('#menuEndMonth_e').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuEndMonth_e").show();
+        $("#menuEndMonth_e li").click(function () {
+            $("#endmonth_e").val($(this).attr("title")).trigger('blur');
+            $("#endmonth_e").attr("data", $(this).attr("title"));
+            $("#menuEndMonth_e").hide();
+     $(".menu_bg_layer").remove();
+        });
+    });
+
+    //保存工作经历
+
+    $("#addWorkBtn").click(function () {
+        //注释了已有的id pid，原有流程先填写简历一部分，后填写经历，获取已有的用户pid和简历id
+//      var resume_work="";
+//      if(resume_work){
+//      var id = "";
+//      }
+//      var pid = 0;
+
+        //设置了假的id和pid
+        var id = 1;
+        var pid = 1;
+        var companyname = $("input[name='companyname']").val();
+        var jobs = $("input[name='jobs']").val();
+        var startyear = $("#startyear").attr("data");
+        var startmonth = $("#startmonth").attr("data");
+        var endyear = $("#endyear").attr("data");
+        var endmonth = $("#endmonth").attr("data");
+        var achievements = $("textarea[name='achievements']").val();
+        var workExpArr = {
+            "id": id, "pid": pid,
+            "companyname": companyname,
+            "jobs": jobs,
+            "startyear": startyear,
+            "startmonth": startmonth,
+            "endyear": endyear,
+            "endmonth": endmonth,
+            "achievements": achievements
+        }
+
+        //向工作经历列表中添加一条
+        workExpList.push(workExpArr);
+
+        //隐藏表单填写区域
+        $("#addWorkForm").hide();
+        //清空当前填写表单内容，便于继续添加
+        $("input[name='companyname']").val("");
+        $("input[name='jobs']").val("");
+        $("#startyear").text("");
+        $("#startmonth").text("");
+        $("#endyear").text("");
+        $("#endmonth").text("");
+
+        //显示已填写的工作经历列表
+        $("#workExpListHolder").html("");
+        for (var i = 0; i < workExpList.length; i++) {
+            var content = '<div class="oneExpList"><div class="expLeft"><h2>' + workExpList[i].companyname + '</h2><p><span>' + workExpList[i].startyear + '.' + workExpList[i].startmonth + '</span><span>-</span><span>' + workExpList[i].endyear + '.' + workExpList[i].endmonth + '</span></p><p><span>' + workExpList[i].jobs + '</span></p></div><div class="expRight" onclick="deleteWorkExp(this)"><i class="fa fa-trash"></i></div><div class="clear"></div></div></div>'
+            $("#workExpListHolder").append(content)
+        }
+        $("#workExpList").show();
+
+    });
+
+    $("#moreAddWorkBtn").click(function () {
+        $("#workExpList").hide();
+        $("#addWorkForm").show();
+    })
+
+    //保存教育经历
+
+    $("#addEduBtn").click(function () {
+        var id = 1;
+        var pid = 1;
+        var school = $("input[name='school']").val();
+        var speciality = $("input[name='speciality']").val();
+        var startyear = $("#startyear_e").attr("data");
+        var startmonth = $("#startmonth_e").attr("data");
+        var endyear = $("#endyear_e").attr("data");
+        var endmonth = $("#endmonth_e").attr("data");
+        var eduExpArr = {
+            "id": id, "pid": pid,
+            "school": school,
+            "speciality": speciality,
+            "startyear": startyear,
+            "startmonth": startmonth,
+            "endyear": endyear,
+            "endmonth": endmonth
+        }
+
+        //向工作经历列表中添加一条
+        eduExpList.push(eduExpArr);
+
+        //隐藏表单填写区域
+        $("#addEduForm").hide();
+        //清空当前填写表单内容，便于继续添加
+        $("input[name='school']").val("");
+        $("input[name='speciality']").val("");
+        $("#startyear_e").text("");
+        $("#startmonth_e").text("");
+        $("#endyear_e").text("");
+        $("#endmonth_e").text("");
+
+        //显示已填写的工作经历列表
+        $("#eduExpListHolder").html("");
+        for (var i = 0; i < eduExpList.length; i++) {
+            var content = '<div class="oneExpList"><div class="expLeft"><h2>' + eduExpList[i].school + '</h2><p><span>' + eduExpList[i].startyear + '.' + eduExpList[i].startmonth + '</span><span>-</span><span>' + eduExpList[i].endyear + '.' + eduExpList[i].endmonth + '</span></p><p><span>' + eduExpList[i].speciality + '</span></p></div><div class="expRight" onclick="deleteEduExp(this)"><i class="fa fa-trash"></i></div><div class="clear"></div></div></div>'
+            $("#eduExpListHolder").append(content)
+        }
+        $("#eduExpList").show();
+    });
+    $("#moreAddEduBtn").click(function () {
+        $("#eduExpList").hide();
+        $("#addEduForm").show();
+    })
+    //阻止input在手机上弹出键盘
+    $(".edit_work_exp_samll_input").focus(function () {
+        e.stopPropagation();
+    });
+});
+</script>
+</head>
+<body >
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+    $('.zsp_header').remove();
+}
+</script>
+<!--zsp_header -->
+<div class="zsp_edu_main_box">
+    <!-- <div class="zsp_edu_tit">
+        <h1>个人资料编辑</h1>
+        <p>完善个人资料，可以让大家更多地了解你</p>
+    </div> -->
+    <form id="Form1" method="post" >
+        <div class="comMid swiper-slide">
+            <div class="formEleBox" style="height:90px;">
+                <label style="line-height: 90px;">头像</label>
+                <div class="rightBox">
+                     {% if request.session.sex == '女' %}
+                        <img id="o_logo" src="{{ request.session.file_website }}{{ resume.head_portrait | default:'/static/new_mobile/images/girl_default_logo.png' }}" alt="上传头像" onerror="notfind(this,'{{ resume.sex | default:'女' }}',1)" style="width:80px;height:80px;top:5px;border-radius:50%;" onClick="uploadPhoto()">
+                     {% else %}
+                        <img id="o_logo" src="{{ request.session.file_website }}{{ resume.head_portrait | default:'/static/new_mobile/images/boy_default_logo.png' }}" alt="上传头像"  onerror="notfind(this,'{{ resume.sex | default:'男' }}',1)" style="width:80px;top:5px;border-radius:50%;" onClick="uploadPhoto()">
+                     {% endif %}
+                 <input type="hidden" name="logo" value="{{ resume.head_portrait | default:'' }}">
+                </div>
+            </div>
+            <div class="formEleBox errorBox">
+                <label>姓名</label>
+                <div class="rightBox">
+                    <input class="required formcheck" placeholder="请输入您的姓名" type="text" name="fullname" value="{{ resume.user_name | default:'' }}" maxlength="5"></div>
+            </div>
+            <div class="formEleBox">
+                <label>性别</label>
+
+                <div class="rightBox overBox textRight" id="sex_radio">
+                    {% if resume %}
+                    {% if resume.sex == '男' %}
+                    <input class="input_radio" type="radio" name="sex_cn" value="1" title="男" checked="checked">
+                    男&nbsp;&nbsp;&nbsp;
+                    <input class="input_radio" type="radio" name="sex_cn" value="2" title="女">
+                    女
+                    {% else %}
+                    <input class="input_radio" type="radio" name="sex_cn" value="1" title="男" checked="">
+                    男&nbsp;&nbsp;&nbsp;
+                    <input class="input_radio" type="radio" name="sex_cn" value="2" title="女" checked="checked">
+                    女
+                    {% endif %}
+                {% else %}
+                    <input class="input_radio" type="radio" name="sex_cn" value="1" title="男" checked="">
+                    男&nbsp;&nbsp;&nbsp;
+                    <input class="input_radio" type="radio" name="sex_cn" value="2" title="女">
+                    女
+                {% endif %}
+                    <input type="hidden" name="sex" id="sex" value="1"></div>
+            </div>
+            <div class="formEleBox errorBox">
+                <label>出生年份</label>
+
+                <div class="rightBox" id="year_menu">
+                    {% if resume.birthday_year %}
+                    <input readonly type="text" class="create_input required formcheck input_disabled" id="year_text" value="{{ resume.birthday_year }}年">
+                    <img src="/static/new_mobile/images/sortDown.png" alt="">
+                    <input name="birthdate" id="birthdate" type="hidden" value="{{ resume.birthday_year }}">
+                    {% else %}
+                    <input readonly type="text" class="create_input required formcheck input_disabled" id="year_text" value="">
+                    <img src="/static/new_mobile/images/sortDown.png" alt="">
+                    <input name="birthdate" id="birthdate" type="hidden" value="">{% endif %}</div>
+                <div class="menu choose_menu" id="menuYear" style="display:none;position:absolute;z-index:1;">
+                    <div class="menu_title">出生年份</div>
+                    <div class="choose_close"></div>
+                    <ul>
+                        {% for year in year_array %}
+                        <li title="{{ year }}">{{ year }}年</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="formEleBox errorBox">
+                <label>所在城市</label>
+                <div class="rightBox" id="residence_menu">
+                    {% if resume.scurrently_pacece %}
+                    <input readonly type="text" class="create_input required formcheck input_disabled" id="residence_text" value="{{ resume.scurrently_pacece }}">
+                    <img src="/static/new_mobile/images/sortDown.png" alt="">
+                    <input name="residence" type="hidden" id="residence" value="{{ resume.currently_pacece }}">
+                    <input name="residence_cn" type="hidden" id="residence_cn" value="{{ resume.scurrently_pacece }}">
+                    {% else %}
+                    <input readonly type="text" class="create_input required formcheck input_disabled" id="residence_text" value="">
+                    <img src="/static/new_mobile/images/sortDown.png" alt="">
+                    <input name="residence" type="hidden" id="residence" value="">
+                    <input name="residence_cn" type="hidden" id="residence_cn" value="">{% endif %}</div>
+                <div class="menu choose_menu" id="menuResidence" style="display:none;position:absolute;z-index:1;">
+                    <div class="menu_title">所在城市</div>
+                    <div class="choose_close"></div>
+                    <div class="area_choose">
+                        <ul class="area_left" id="area_left">
+                        </ul>
+                        <ul class="area_right" id="area_right">
+                            <li class="area_small"></li>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="formEleBox">
+                <label>手机号</label>
+
+                <div class="rightBox">
+                    <input class="telCheck formcheck" name="telephone" placeholder="请输入您的手机号码" id="telephone" type="text" value="{{ resume.phone | default:pu.phone }}"></div>
+            </div>
+            <div class="formEleBox errorBox">
+                <label>邮箱</label>
+
+                <div class="rightBox">
+                    <input class="emailCheck formcheck" name="email" id="email" type="text" placeholder="请输入您的邮箱" value="{{ resume.email | default:pu.email }}"></div>
+            </div>
+            <div class="formEleBox errorBox">
+                <label>工作年限</label>
+
+                <div class="rightBox overBox" id="experience_menu">
+                    {% if resume.sworkyear %}
+                    <input readonly type="text" class="create_input required formcheck input_disabled" id="experience_text" value="{{ resume.sworkyear }}">
+                    <img src="/static/new_mobile/images/sortDown.png" alt="">
+                    <input name="experience" type="hidden" id="experience" value="{{ resume.workyear }}">
+                    <input name="experience_cn" type="hidden" id="experience_cn" value="{{ resume.sworkyear }}">
+                    {% else %}
+                    <input readonly type="text" class="create_input required formcheck input_disabled" id="experience_text" value="">
+                    <img src="/static/new_mobile/images/sortDown.png" alt="">
+                    <input name="experience" type="hidden" id="experience" value="">
+                    <input name="experience_cn" type="hidden" id="experience_cn" value="">{% endif %}</div>
+                <div class="menu choose_menu" id="menuExperience" style="display:none;position:absolute;z-index:1;">
+                    <div class="menu_title">工作年限</div>
+                    <div class="choose_close"></div>
+                    {% if workyears %}
+                    <ul>
+                        {% for work_year in workyears %}
+                        <li id="{{ work_year.dictionary_value }}" title="{{ work_year.dictionary_name }}">{{ work_year.dictionary_name }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="formEleBox errorBox">
+                <label>最高学历</label>
+
+                <div class="rightBox" id="education_menu">
+                    {% if resume.diploma %}
+                    <input readonly type="text" class="create_input required formcheck input_disabled" id="education_text" value="{{ resume.sdiploma }}">
+                    <img src="/static/new_mobile/images/sortDown.png" alt="">
+                    <input name="education" type="hidden" id="education" value="{{ resume.diploma }}">
+                    <input name="education_cn" type="hidden" id="education_cn" value="{{ resume.sdiploma }}">
+                    {% else %}
+                    <input readonly type="text" class="create_input required formcheck input_disabled" id="education_text" value="">
+                    <img src="/static/new_mobile/images/sortDown.png" alt="">
+                    <input name="education" type="hidden" id="education" value="">
+                    <input name="education_cn" type="hidden" id="education_cn" value="">{% endif %}</div>
+                <div class="menu choose_menu" id="menuEducation" style="display:none;position:absolute;z-index:1;">
+                    <div class="menu_title">最高学历</div>
+                    <div class="choose_close"></div>
+                    {% if diplomas %}
+                    <ul>
+                        {% for diploma in diplomas %}
+                        <li id="{{ diploma.dictionary_value }}" title="{{ diploma.dictionary_name }}">{{ diploma.dictionary_name }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+            <!--新增字段-当前公司-->
+            <div class="formEleBox">
+                <label>当前公司</label>
+
+                <div class="rightBox">
+                    <input placeholder="请输入当前所在公司名称" type="text" name="company" maxlength="20" value="{{ resume.currently_company }}"></div>
+            </div>
+            <!--新增字段-当前职位-->
+            <div class="formEleBox errorBox">
+                <label>当前职位</label>
+
+                <div class="rightBox">
+                    <input class="required formcheck create_input input_foucs" placeholder="请选择当前所任职位名称" onClick="positionShow()" id="jobs_text" type="text" name="position" value="{{ resume.scurrently_postaion | default:'' }}" style="padding-right: 0px"></div>
+                    <input type="hidden" name="postaion_type" class="postaion_type" value="{{ resume.currently_postaion | default:'' }}">
+            </div>
+            <input readonly value="保存" class="formCheckBtn bottom btnUnable">
+            <input type="button" id="resume_save" value="保存" class="formCheckBtn bottom btnAble" style="display: none;"></div>
+    </form>
+</div>
+<!-- 上传头像 -->
+<div class="lazy_tip" id="lazy_tip">
+    <span>1%</span>
+    <br>加载是很重要的......</div>
+<div class="lazy_cover"></div>
+<div class="resource_lazy hide"></div>
+<div class="pic_edit" style="display:none"id="pic_edit">
+    <div id="clipArea"></div>
+    <button id="upload2">选择</button>
+    <button id="clipBtn">确认</button>
+    <input type="file" id="file" name="file" style="opacity: 0;position:fixed;bottom: -100px"></div>
+<script src="/static/new_mobile/js/upload_photo/jquery-2.1.0.min.js"></script>
+<script src="/static/new_mobile/js/upload_photo/sonic.js"></script>
+<script src="/static/new_mobile/js/upload_photo/comm.js"></script>
+<script src="/static/new_mobile/js/upload_photo/hammer.js"></script>
+<script src="/static/new_mobile/js/upload_photo/iscroll-zoom.js"></script>
+<script src="/static/new_mobile/js/upload_photo/jquery.photoClip.js?v=1"></script>
+<script>
+    var hammer = '';
+    var currentIndex = 0;
+    var body_width = $('body').width();
+    var body_height = $('body').height();
+    $("#clipArea").photoClip({
+    width: body_width * 0.8125,
+    height: body_width * 0.8125,
+    file: "#file",
+    view: "#o_logo",
+    ok: "#clipBtn",
+    loadStart: function () {
+        $('.lazy_tip span').text('');
+        $('.lazy_cover,.lazy_tip').show();
+    },
+    loadComplete: function () {
+        $('.lazy_cover,.lazy_tip').hide();
+    },
+    clipFinish: function (dataURL) {
+        $("#o_logo").attr('src',dataURL);
+        $("#pic_edit").hide();
+    }
+    });
+    /*获取文件拓展名*/
+    function getFileExt(str) {
+        var d = /\.[^\.]+$/.exec(str);
+        return d;
+    }
+    //图片上传结束
+    $(function () {
+        $('#upload2').on('click', function () {
+        //图片上传按钮
+         $('#file').click();
+        })
+    })
+     function uploadPhoto()
+    {
+        $("#pic_edit").show();
+    }
+</script>
+<!-- 上传头像 -->
+<script type="text/javascript">
+    var citystr = '';
+    $.ajax({
+        async: false,
+        type: 'post',
+        url: '/mobile/ajax_getAjaxProvinces',
+        dataType: 'json',
+        success: function (data) {
+            if (data.length > 0) {
+                data.forEach(function(province) {
+                    citystr += '<li class="area_big" rcoid="' + province.area_value + '" pid="' + province.area_value + '" title="' + province.area_name + '" href="javascript:;">' + province.area_name + '</li>';
+                })
+            }
+        }
+    });
+{#    $.each(QS_city_parent, function (pindex, pval) {#}
+{#        if (pval) {#}
+{#            var citys = pval.split(",");#}
+{#            citystr += '<li class="area_big" rcoid="' + citys[0] + '" pid="' + citys[0] + '" title="' + citys[1] + '" href="javascript:;">' + citys[1] + '</li>';#}
+{#        }#}
+{#    });#}
+    $("#area_left").html(citystr);
+    $("#area_left li").unbind().click(function () {
+        var cid = $(this).attr("rcoid");
+        var cid = $(this).attr("pid");
+        var ctitle = $(this).attr("title");
+        var scitystr = "";
+        if (cid) {
+{#            var ccitysArray = QS_city[cid].split("|");#}
+{#            scitystr += '<li class="area_small" rcoid="0" title="' + ctitle + '/不限" pid="' + cid + '.0" href="javascript:;">不限</li>';#}
+{#            $.each(ccitysArray, function (cindex, cval) {#}
+{#                if (cval) {#}
+{#                    var ccitys = cval.split(",");#}
+{#                    scitystr += '<li class="area_small" rcoid="' + ccitys[0] + '" title="' + ccitys[1] + '" pid="' + cid + '.' + ccitys[0] + '">' + ccitys[1] + '</li>';#}
+{#                }#}
+{#            });#}
+            $.ajax({
+                async: false,
+                type: 'post',
+                data: {'father_dictionary_value': cid},
+                url: '/mobile/ajax_getAjaxSecondDictionary',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.length > 0) {
+                        data.forEach(function(dictionary) {
+                            scitystr += '<li class="area_small" rcoid="' + dictionary.dictionary_value + '" title="' + ctitle + '\/' + dictionary.dictionary_name + '" pid="' + cid + '.' + dictionary.dictionary_value + '">' + dictionary.dictionary_name + '</li>';
+                        })
+                    }
+                }
+            });
+            $("#area_right").html(scitystr).show();
+            $("#area_right li").click(function () {
+                $("#residence").val($(this).attr("rcoid"));
+                $("#residence_cn").val($(this).attr("title"));
+                var str=$(this).attr("title");
+                var titis=(str.substring(str.indexOf('/')+1));
+                $("#residence_text").val(titis).trigger('blur');
+                $("#menuResidence").hide();
+                $(".menu_bg_layer").remove();
+            });
+        } else {
+            $("#residence_text").val(rtitle).trigger('blur');
+            var cchid = new Array();
+            cchid = $(this).attr('pid').split(".");
+            if (cchid.length < 2) {
+                cchid.push(0);
+            }
+            var ccheckID = cchid.join(".");
+            $("#residence").val(ccheckID);
+            $("#residence_cn").val(rtitle);
+            $("#menuResidence").hide();
+            $(".menu_bg_layer").remove();
+        }
+    });
+</script>
+<script type="text/javascript">
+    var jobstr = '';
+    $.each(QS_jobs_parent, function (pindex, pval) {
+        if (pval) {
+            var jobs = pval.split(",");
+            var sjobsArray = QS_jobs[jobs[0]].split("|");
+            $.each(sjobsArray, function (sindex, sval) {
+                if (sval) {
+                    var sjobs = sval.split(",");
+                    jobstr += '<li class="area_big" rcoid="' + sjobs[0] + '" pid="' + jobs[0] + '.' + sjobs[0] + '" title="' + sjobs[1] + '">' + sjobs[1] + '</li>';
+                }
+            });
+        }
+    });
+    $("#jobs_left_list").html(jobstr);
+    $("#jobs_left_list li").unbind().click(function () {
+        var rid = $(this).attr("rcoid");
+        var rpid = $(this).attr("pid");
+        var rtitle = $(this).attr("title");
+        var sjobstr = "";
+        if (QS_jobs[rid]) {
+            var cjobsArray = QS_jobs[rid].split("|");
+            sjobstr += '<li class="area_small" rcoid="0" title="' + rtitle + '/不限" pid="' + rpid + '.0">不限</li>';
+            $.each(cjobsArray, function (cindex, cval) {
+                if (cval) {
+                    var cjobs = cval.split(",");
+                    sjobstr += '<li class="area_small" rcoid="' + cjobs[0] + '" title="' + rtitle + '\/' + cjobs[1] + '" pid="' + rpid + '.' + cjobs[0] + '">' + cjobs[1] + '</li>';
+                }
+            });
+            $("#jobs_right_list").html(sjobstr).show();
+            $("#jobs_right_list li").click(function () {
+                $("#intention_jobs_id").val($(this).attr("pid"));
+                $("#intention_jobs").val($(this).attr("title"));
+                $("#jobs_text").val($(this).attr("title")).trigger('blur');
+                $("#menuJobs").hide();
+     $(".menu_bg_layer").remove();
+            });
+        } else {
+            $("#jobs_text").val(rtitle).trigger('blur');
+            var chid = new Array();
+            chid = $(this).attr('pid').split(".");
+            if (chid.length < 3) {
+                chid.push(0);
+            }
+            var checkID = chid.join(".");
+            $("#intention_jobs_id").val(checkID);
+            $("#intention_jobs").val(rtitle);
+            $("#menuJobs").hide();
+     $(".menu_bg_layer").remove();
+        }
+    });
+</script>
+<script type="text/javascript">
+    var citystr = '';
+    $.each(QS_city_parent, function (pindex, pval) {
+        if (pval) {
+            var citys = pval.split(",");
+            citystr += '<li class="area_big" rcoid="' + citys[0] + '" pid="' + citys[0] + '" title="' + citys[1] + '" href="javascript:;">' + citys[1] + '</li>';
+        }
+    });
+    $("#int_area_left").html(citystr);
+    $("#int_area_left li").unbind().click(function () {
+        var cid = $(this).attr("rcoid");
+        var cid = $(this).attr("pid");
+        var ctitle = $(this).attr("title");
+        var scitystr = "";
+        if (QS_city[cid]) {
+            var ccitysArray = QS_city[cid].split("|");
+            scitystr += '<li class="area_small" rcoid="0" title="' + ctitle + '/不限" pid="' + cid + '.0" href="javascript:;">不限</li>';
+            $.each(ccitysArray, function (cindex, cval) {
+                if (cval) {
+                    var ccitys = cval.split(",");
+                    scitystr += '<li class="area_small" rcoid="' + ccitys[0] + '" title="' + ctitle + '\/' + ccitys[1] + '" pid="' + cid + '.' + ccitys[0] + '">' + ccitys[1] + '</li>';
+                }
+            });
+            $("#int_area_right").html(scitystr).show();
+            $("#int_area_right li").click(function () {
+                var districtIds = $(this).attr("pid");
+                var districtIdArray = districtIds.split(".");
+                $("#district").val(districtIdArray[0]);
+                $("#sdistrict").val(districtIdArray[1]);
+                $("#district_cn").val($(this).attr("title"));
+                $("#district_text").val($(this).attr("title")).trigger('blur');
+                $("#menuDistrict").hide();
+     $(".menu_bg_layer").remove();
+            });
+        } else {
+            $("#district").val($(this).attr('pid'));
+            $("#sdistrict").val("0");
+            $("#district_cn").val(ctitle);
+            $("#district_text").val(ctitle).trigger('blur');
+            $("#menuDistrict").hide();
+     $(".menu_bg_layer").remove();
+        }
+    });
+</script>
+<script type="text/javascript">
+    var tradli = '';
+    $.each(QS_trade, function (index, val) {
+        if (val) {
+            var trads = val.split(",");
+            tradli += '<li id="' + trads[0] + '" title="' + trads[1] + '">' + trads[1] + '</li>';
+        }
+    });
+    $("#trad_list").html(tradli);
+    $("#trad_list li").unbind().click(function (event) {
+        var tradId = $(this).attr("id");
+        var tradTitle = $(this).attr("title");
+        $("#trade").val(tradId);
+        $("#trade_cn").val(tradTitle);
+        $("#trad_text").val(tradTitle).trigger('blur');
+        $("#menuTrad").hide();
+     $(".menu_bg_layer").remove();
+    });
+</script>
+<script type="text/javascript">
+    // 开始和结束年份填充
+    var myDate = new Date();
+    var y = myDate.getFullYear();
+    var ymin = y - 35;
+    var yearHtm = "";
+    for (i = y; i >= ymin; i--) {
+        yearHtm += "<li title=\"" + i + "\">" + i + "</li>";
+    }
+    $("#menuStartYear ul").html(yearHtm);
+    $("#menuEndtYear ul").html(yearHtm);
+    $("#menuStartYear_e ul").html(yearHtm);
+    $("#menuEndtYear_e ul").html(yearHtm);
+</script>
+<script type="text/javascript">
+    function deleteWorkExp(a) {
+        var arrIndex = $($(a).parent()).index();
+        $(a).parent().remove();
+        var nodeL = $("#workExpListHolder").find(".oneExpList").length;
+        workExpList.splice(arrIndex, 1);
+        if (nodeL == 0) {
+            $("#workExpList").hide();
+            $("#addWorkForm").show();
+        }
+    }
+
+    function deleteEduExp(b) {
+        var arrIndex = $($(b).parent()).index();
+        $(b).parent().remove();
+        var nodeL = $("#eduExpListHolder").find(".oneExpList").length;
+        eduExpList.splice(arrIndex, 1);
+        if (nodeL == 0) {
+            $("#eduExpList").hide();
+            $("#addEduForm").show();
+        }
+    }
+
+</script>
+<script src="/static/new_mobile/js/position.js" type="text/javascript"></script>
+<div class="errorTip"></div>
+</body>
+</html>

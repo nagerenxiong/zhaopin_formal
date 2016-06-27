@@ -1,0 +1,77 @@
+<div class="zsp_header">
+    <a href="/mobile/home" class="zsp_header_logo">
+        <img src="/static/new_mobile/images/logo.png">
+    </a>
+{#    {% if request.session.account_type == '1' %}#}
+{#        <a href="/mobile/personal/search_position_center" class="zsp_header_logo">#}
+{#            <img src="/static/new_mobile/images/logo.png">#}
+{#        </a>#}
+{#    {% elif request.session.account_type == '2' or request.session.account_type == '4' %}#}
+{#        <a href="/mobile/company/recruit_user_center" class="zsp_header_logo"><img src="/static/new_mobile/images/logo.png"></a>#}
+{#    {% else %}#}
+{#        <a href="/mobile/headhunter/headhunter_center" class="zsp_header_logo"><img src="/static/new_mobile/images/logo.png"></a>#}
+{#    {% endif %}#}
+{#    <a href="/mobile/login_register" class="zsp_header_more">登陆</a>#}
+    <a href="javascript:;" class="zsp_header_more"><i class="fa fa-bars"></i></a>
+    <div class="zsp_header_more_ul" style="margin-top: 35px">
+        {% if request.session.account_type == '1' %}
+            
+           <a href="/mobile/reward_position" class="zsp_header_more_li">
+               <div class="zsp_header_nav_2" style="background-image: url(/static/new_mobile/images/42.png)"></div>
+               <span>找职位</span>
+           </a>
+           <a href="/mobile/headhunter_list" class="zsp_header_more_li">
+               <div class="zsp_header_nav_3" style="background-image: url(/static/new_mobile/images/jjr.png)"></div>
+               <span>找经纪人</span>
+           </a>
+            <a href="/mobile/personal/search_position_center" class="zsp_header_more_li">
+                <div class="zsp_header_nav_3" style="background-image: url(/static/new_mobile/images/index.png)"></div>
+                <span>主页</span>
+            </a>
+        {% elif request.session.account_type == '2' or request.session.account_type == '4' %}
+            
+            <a href="/mobile/company/find_resume" class="zsp_header_more_li">
+                <div class="zsp_header_nav_1" style="background-image: url(/static/new_mobile/images/44.png)"></div>
+                <span>找人才</span>
+            </a>
+            <a href="/mobile/headhunter_list" class="zsp_header_more_li">
+                <div class="zsp_header_nav_2" style="background-image: url(/static/new_mobile/images/jjr.png)"></div>
+                <span>找经纪人</span>
+            </a>
+            <a href="/mobile/company/recruit_user_center" class="zsp_header_more_li">
+                <div class="zsp_header_nav_3" style="background-image: url(/static/new_mobile/images/index.png)"></div>
+                <span>主页</span>
+            </a>
+
+        {% else %}
+
+            <a href="/mobile/headhunter/headhunter_center" class="zsp_header_more_li">
+                <div class="zsp_header_nav_1" style="background-image: url(/static/new_mobile/images/index.png)"></div>
+                <span>主页</span>
+            </a>
+            <a href="/mobile/company/find_resume" class="zsp_header_more_li">
+                <div class="zsp_header_nav_2" style="background-image: url(/static/new_mobile/images/44.png)"></div>
+                <span>找人才</span>
+            </a>
+            <a href="/mobile/reward_position" class="zsp_header_more_li">
+                <div class="zsp_header_nav_3" style="background-image:url(/static/new_mobile/images/44.png)">
+                   
+                </div>
+                <span>找职位</span>
+            </a>
+
+        {% endif %}
+
+        <a href="/mobile/account_setting" class="zsp_header_more_li">
+           <div class="zsp_header_nav_4"></div>
+           <span>账号设置</span>
+       </a>
+    </div> 
+</div>
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+</script><!--zsp_header -->
+

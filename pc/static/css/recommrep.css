@@ -1,0 +1,536 @@
+@charset "utf-8";
+textarea {
+    border: 1px solid #EEE;
+    resize: none;
+}
+.edit_icon {
+    background: url(/static/images/icon_05.png) no-repeat;
+    width: 13px;
+    height: 13px;
+    display: inline-block;
+}
+.bold{
+    font-weight:bold;
+}
+.commoncs{
+                    padding:0px 0px 0px 38px;
+                    overflow: hidden;
+                  }
+                  .commoncs span{
+                    color:#666666;
+                    font-size:14px;
+                    float:left;
+                    line-height: 25px;
+                    width: 88px;
+                    text-align: right;
+                  }
+                  .commoncs ul{
+                    
+                  }
+                  .commoncs ul li{
+                    padding:0px 10px;
+                    height:25px;
+                    line-height:25px;
+                    border-radius: 5px;
+                    float:left;
+                    border:1px solid #e0e0e0;
+                    text-align: center;
+                    color:#c1c1c1;
+                    margin-right:10px;
+                    position: relative;
+                    margin-bottom:15px;
+                    cursor: pointer;
+                  }
+                  .commoncs ul .addfield{
+                     border:1px solid #5c91d9;
+                     color:#333;
+                  }
+                  .commoncs li i{
+                    position: absolute;
+                    background: url(/static/images/new_images/tjgou.png) no-repeat;
+                    width:22px;
+                    height:21px;
+                    top:-1px;
+                    right:-1px;
+                    display:block;
+                  }
+                  .commoncs li .active{
+                    background: url(/static/images/new_images/tidel.png) no-repeat;        
+                    right:-2px!important;          
+                  }
+                  .commadd{
+                    width:35px;
+                    height:25px;
+                    border-radius:5px;
+                    display:inline-block;
+                    border:1px solid #cccccc;
+                    float:left;
+                    margin-bottom:10px;
+                  }
+                  .commadd i{
+                     background: url(/static/images/new_images/jia.png) no-repeat;   
+                     display:inline-block;
+                     width:12px;
+                     height:12px;  
+                     margin: 6.5px 0px 0px 11.5px;
+                  }
+                  .commadd:hover{
+                     border:1px solid #5c91d9;
+                  }
+                  .commadd:hover i{
+                    background: url(/static/images/new_images/jia1.png) no-repeat;   
+                  }
+                  .repitchon{
+
+                  }
+                 .commoncs .comm_rig{
+                    width:82%;
+                    float:left;
+                    padding-left:10px;
+                 }
+                 .commoncs .addll{
+                    width:175px;
+                    height:25px;
+                    float:left;
+                    border:1px solid #cccccc;
+                    border-radius:5px;
+                    overflow:hidden;
+                    margin-bottom:10px;
+                 }
+                 .commoncs .addll input{
+                    border:none;
+                    width:135px;
+                    height:24px;
+                 }
+                 .commoncs .addll span{
+                    background:#5c91d9 url("/static/images/new_images/gou.png") no-repeat 50% 8px;
+                    width:40px;
+                    height:25px;
+                    display:inline-block;
+                    float:right;
+                    cursor: pointer;
+                 }
+                /*  .commoncs .addll span:hover{
+                    background: #5c91d9 url("/static/images/new_images/gou.png") no-repeat 50% 8px;
+                 }*/
+          .okno{
+          width:33%;
+          margin:10px auto 0px auto;  
+          display:none;   
+        }
+        .cancel{
+            font-size:16px;
+            color:#333;
+            margin-left:30px;
+            height:40px;
+            line-height:40px;
+        }
+        .saveok{
+            width:120px;
+            height:40px;
+            display:inline-block;
+            float:left;
+            background-color:#5c91d9;
+            font-size:16px;
+            line-height:40px;
+            text-align: center;
+            color:#fff;
+            border-radius:4px;
+        }
+        .sh_submit{
+                font-size:14px;
+                color:#5c91d9;
+                position:absolute;
+                right:15px;
+                bottom:0px;
+                cursor: pointer;
+         }
+        .sh_submit i{
+            background:url(/static/images/new_images/top1.png) no-repeat;
+            width:14px;
+            height:10px;
+            display:inline-block;
+            margin-left:4px;
+        }
+        .sh_submit .active{
+           background:url(/static/images/new_images/bottom1.png) no-repeat;
+           width:14px;
+           height:10px;
+           display:inline-block;
+           margin-left:4px;
+        }
+        .capacitymod{
+            position: relative;
+            padding-bottom: 15px;
+            margin-top:18px;
+            display:none;
+        }       
+        .moreability{
+            display:none;
+        }
+        .coreadva{
+            overflow-y:auto;
+            height:430px;
+        }
+        .unifytit{
+        font-size:16px;
+        color:#333;
+        font-weight: bold;
+        width: 30%;
+        float: left;
+    }
+    .unifytit i{
+        background: url(/static/images/bitian.png) no-repeat;
+        display:inline-block;
+        width:15px;
+        height:13px;
+        margin-right:4px;
+    }
+    .advanbox{
+        width:94.9%;
+        height:110px;
+        border:1px solid #e0e0e0;
+        border-radius:4px;
+        margin:10px 0px 0px 18px;
+        display:none;
+    }
+    .advanbox textarea{
+        width:96%;
+        height:85px;
+        border:none;
+        outline:none;
+        border-radius:4px;
+       /* overflow:auto!important;*/
+        padding:5px 10px 0px 10px!important;
+    }
+    .advanbox textarea:focus{
+        border:none!important; 
+        box-shadow:none!important; 
+    }
+    .advanbox span{
+    }
+    .advanbox1{
+        width:94.9%;
+        max-height:120px;
+        min-height:60px;
+        border:1px solid #e0e0e0;
+        border-radius:4px;
+        margin:10px 0px 0px 18px;
+        display:none;
+    }
+    .advanbox1 textarea{
+        width:96%;
+        max-height:85px;
+        min-height:20px;
+        border:none;
+        outline:none;
+        border-radius:4px;
+        /*overflow:auto!important;*/
+        padding:5px 10px 0px 10px!important;
+    }
+    .advanbox1 textarea:focus{
+        border:none!important; 
+        box-shadow:none!important; 
+    }
+    .o_modal {
+    overflow-y: auto;
+    box-sizing: content-box !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 10000;
+    display: none;
+    pointer-events: none;
+    overflow-x: hidden;
+     overflow-y: auto; 
+}
+
+.o_modal * {
+    box-sizing: content-box !important
+}
+
+.o_shade {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    opacity: 0.3;
+    filter: progid: DXImageTransform.Microsoft.Alpha(opacity=70);
+    background-color: black;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display:none;
+    z-index: 9999
+}
+
+.kx_common {
+    z-index: 101;
+    pointer-events: all;
+    width: 600px;
+    padding: 30px;
+    border: 10px solid #2E2E2E;
+    border-radius: 5px;
+    background-color: white;
+    position: relative;
+    margin: 30px auto 0;
+    padding-bottom:20px;
+    padding-top:20px;
+}
+
+.kx_common h1 {
+    font-size: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #CCC;
+    margin-bottom: 20px
+}
+
+.kx_common h1 i {
+    float: right;
+    font-size: 30px;
+    margin-top: -10px;
+    color: #888;
+    cursor: pointer
+}
+
+.kx_common ul.o_select {
+    overflow: hidden;
+    margin-bottom: 20px
+}
+
+.kx_common ul.o_select li {
+    text-align: center;
+    line-height: 50px;
+    float: left;
+    font-size: 16px;
+    width: 242px;
+    height: 50px;
+    border: 1px solid #EEE;
+    cursor: pointer
+}
+
+.kx_common ul.o_select li:hover,
+.kx_common ul.o_select li.active {
+    border: 1px solid #5c91d9;
+    background-color: #F4F8FD;
+    color: #5c91d9
+}
+
+.kx_common dl {
+    margin-bottom: 15px;
+    position: relative
+}
+
+.kx_common dl dt {
+    font-size: 16px;
+    display: inline-block;
+    line-height: 40px;
+    position: absolute
+}
+
+.kx_common dl dd {
+    display: inline-block;
+    width: 390px;
+    margin-left: 80px;
+    position: relative
+}
+
+.kx_common dl dd input[type="text"] {
+    font-size: 14px;
+    width: 383px;
+    padding: 0px 10px;
+    border-radius: 5px;
+    height: 38px;
+    border: 1px solid #EEE;
+    line-height: 40px
+}
+
+.kx_common dl dd textarea {
+    border-radius: 5px;
+    resize: none;
+    width: 383px;
+    height: 140px;
+    border: 1px solid #EEE;
+    font-size: 14px
+}
+
+.kx_common dl .tjzw_name {
+    cursor: pointer
+}
+
+.kx_common dl .position_name {
+    display: none;
+    right: 5px;
+    width: 403px;
+    position: absolute;
+    top: 40px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 2;
+    border: 1px solid #EEE;
+    background-color: white
+}
+
+.kx_common dl .position_name li {
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    line-height: 40px;
+    padding: 0px 10px
+}
+
+.kx_common dl .position_name li:hover {
+    background-color: #f4f8fd
+}
+
+.kx_common dl dd.o_rule {
+    text-indent: 10px;
+    color: #ff6666;
+    font-size: 12px;
+    margin-top: 5px
+}
+
+.kx_common dl ul.star li {
+    margin-top: 10px;
+    background: url(/static/images/new_images/star1.png) no-repeat;
+    height: 20px;
+    width: 20px;
+    float: left;
+    margin-right: 5px
+}
+
+.kx_common dl ul.star li.active {
+    background: url(/static/images/new_images/star.png) no-repeat
+}
+
+.kx_common .btn_list {
+    margin-left: 85px
+}
+
+.kx_common .btn_list .o_tishi {
+    margin-left: 5px;
+    font-size: 14px;
+    color: #888
+}
+
+.kx_common .btn_list span {
+    float: right;
+    font-size: 14px;
+    color: #ff6666
+}
+
+.kx_common button.o_btn {
+    margin-top: 25px;
+    cursor: pointer;
+    background-color: #5c91d9;
+    color: white;
+    font-size: 16px;
+    padding: 8px 25px;
+    margin-left: 85px;
+    border: none;
+    border-radius: 5px
+}
+
+.kx_common button.o_btn:hover {
+    background-color: #4c83ce
+}
+
+.temp {
+    position: relative;
+    width: 105px;
+    float: right;
+    margin-right: 15px;
+    display:none;
+}
+
+.temp p {
+    height: 24px;
+    border: 1px solid #e0e0e0;
+    line-height: 24px;
+    cursor: pointer;
+    text-indent: 10px;
+    border-radius: 1px;
+    font-size: 12px;
+    background: #fff url(/static/images/new_images/tjxl.jpg) no-repeat 100%;
+    color: #888888
+}
+
+.temp em {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 50
+}
+
+.temp ul {
+    position: absolute;
+    left: 0px;
+    top: 100%;
+    display: none;
+    width: 98%;
+    z-index: 51;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+    box-shadow: 0px 0px 2px 1px #e0e0e0;
+    background-color: #fff;
+    border-radius: 1px
+}
+
+.temp ul li {
+    color: #333;
+    text-indent: 10px;
+    font-size: 12px;
+    line-height: 30px;
+    height: 30px;
+    cursor: pointer
+}
+
+.temp ul li:hover {
+    background-color: #e9edf3
+}
+.addll{
+    display:none;
+}
+
+
+.kxsl_mes{
+    width: 80%;
+    padding: 10px 0px 10px 40px;
+    font-size: 14px;
+    color: #333;
+    line-height: 25px;
+}
+
+.edittjbg{
+   float:right;
+   padding:2px 8px;
+   border:1px solid #e0e0e0;
+   border-radius:2px;
+   cursor: pointer;
+   color:#c1c1c1;
+   margin-right:10px;
+}
+.edittjbg:hover{
+    border:1px solid #5c91d9;
+    color:#5c91d9;
+}
+.edittjbg:hover i{
+    background: url(/static/images/new_images/edit1.png) no-repeat!important;
+}
+.edittjbg i{
+    vertical-align: middle;
+    margin-bottom:3px;
+    margin-right:6px;
+}
+ .capacyl{
+           font-size:14px; 
+           color:#333;
+           line-height:25px;
+           padding-left:40px;
+           margin-top:-10px;
+           margin-bottom:15px;
+        }

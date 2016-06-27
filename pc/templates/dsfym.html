@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style_cjdlk.css"> 
+<script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+</head>
+<body>
+
+<div class="re_banner lo_banner">
+
+	<h1>本周已有<div id="num_box" style="display:inline-block"></div>人在许愿树许愿</h1>
+	
+  <div class="dsf_bj">
+    	
+<div class="dsf_tbk">
+        	<div class="dsf_tb"><img src="{{ STATIC_URL }}images/qq.png" width="54" height="54" border="0" align="absmiddle" /></div>
+            <div class="dsf_xx">
+            	<div class="fz20 cr pt4">创建一个帐号，并绑定你现在登录的QQ</div>
+                <div class="fz14 c6 pt4">绑定后，使用QQ或者账户均可以登录到你现有的帐号。</div>
+            </div>
+        </div>
+        
+        <div class="dsf_qh">
+        	<ul>
+            	<li class="sige sigehs">没有账号</li>
+                <li class="sige">已有账号</li>
+                <li class="dsf_syx"></li>
+            </ul>
+            <input type="hidden" name="account_type" id="account_type" value="1" />
+            <input type="hidden" name="oauthType" id="oauthType" value="{{ oauthType }}" />
+            <input type="hidden" name="oauthId" id="oauthId" value="{{ oauthId }}" />
+            <input type="hidden" name="oauthName" id="oauthName" value="{{ oauthName }}" />
+        </div>
+        
+        <div class="dsf_myzh sigenr" bindtype="0">
+
+        	<ul>
+            	<li>
+                	<div class="dsf_bk1">
+                    	<input name="" type="text" class="dsf_bk3"  placeholder="请输入常用邮箱地址/手机号" id="bind_account"/>
+                  </div>
+                    <div class="dsf_bk2 validatemsg" id="alertmsg_account">
+                    	<div><img src="{{ STATIC_URL }}images/zq.png" width="30" height="40" border="0" align="absmiddle" /></div>
+                        <div class="c6 pl5">请填写常用邮箱地址/手机号</div>
+                    </div>
+                </li>
+          <li class="pt10">
+                	<div class="dsf_bk1">
+                    	<input name="" type="text" class="dsf_bk3"  placeholder="请输入密码" id="bind_psw"/>
+                  </div>
+                    <div class="dsf_bk2 validatemsg" id="alertmsg_psw">
+                    	<div><img src="{{ STATIC_URL }}images/jg.png" width="30" height="40" border="0" align="absmiddle" /></div>
+                        <div class="c6 pl5">请输入登录密码，6-30位字符</div>
+                    </div>
+                </li>
+            <li class="pt10">
+           	      <div class="dsf_bk1">
+                    	<input name="" type="text" class="dsf_bk4 fl" value="验证码" />
+                      <input name="" type="button" class="dsf_bk5 fr" value="39秒 重新发送" />
+                    </div>
+                    <div class="dsf_bk2 validatemsg" id="alertmsg_vercode">
+                    	<div><img src="{{ STATIC_URL }}images/jg.png" width="30" height="40" border="0" align="absmiddle" /></div>
+                        <div class="c6 pl5">请输入登录密码，6-30位字符</div>
+                    </div>
+                </li>
+          <li class="mt15">
+           	      	<div class="dsf_sfli">
+                        <ul id="tab_ul">
+                            <li class="qzz"><a  href="javascript:void(0)"class="clx_li_active">我是求职者</a></li>
+                            <li class="rcjl ml10"><a href="javascript:void(0)">我是人才经纪人</a></li>
+                            <li class="zpf ml10"><a href="javascript:void(0)">我是企业HR</a></li>
+                        </ul>               
+                    </div>
+                </li>
+                <li>
+           	  <div class=" validatemsg" style="height: 40px;  line-height: 40px;" id='alertmsg_all'>
+                    	<div><img src="{{ STATIC_URL }}images/zq.png" width="30" height="40" border="0" align="absmiddle" /></div>
+                        <div class="c6 pl5">请填写常用邮箱地址/手机号</div>
+                </div>
+                </li>
+                <div class="pt10"><input id="btnBindNew" type="button" class="dsf_bk6" value="创建并绑定" /></div>
+            </ul>
+        </div>
+        
+        <div class="dsf_myzh sigenr" style="display:none;" bindtype="1">
+        	<ul>
+            	<li class="pt20">
+                	<div class="dsf_bk1">
+                    	<input name="" type="text" class="dsf_bk3" placeholder="请输入常用邮箱地址/手机号" id="bind_account_has"/>
+                  </div>
+                    <div class="dsf_bk2 validatemsg" id="alertmsg_account_has">
+                    	<div><img src="{{ STATIC_URL }}images/zq.png" width="30" height="40" border="0" align="absmiddle" /></div>
+                        <div class="c6 pl5">请填写常用邮箱地址/手机号</div>
+                    </div>
+                </li>
+                <li class="mt15">
+                	<div class="dsf_bk1">
+                    	<input name="" type="text" class="dsf_bk3" placeholder="请输入密码" id="bind_psw_has"/>
+                  </div>
+                    <div class="dsf_bk2 validatemsg" id="alertmsg_psw_has">
+                    	<div><img src="{{ STATIC_URL }}images/zq.png" width="30" height="40" border="0" align="absmiddle" /></div>
+                        <div class="c6 pl5">请填写常用邮箱地址/手机号</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="validatemsg" style="height: 40px;  line-height: 40px;" id='alertmsg_all_has'>
+                        <div><img src="{{ STATIC_URL }}images/zq.png" width="30" height="40" border="0" align="absmiddle" /></div>
+                        <div class="c6 pl5">请填写常用邮箱地址/手机号</div>
+                    </div>
+                </li>
+                <div class="mt30"><input id="btnBind" type="button" class="dsf_bk6" value="绑定" /></div>
+            </ul>
+        </div>
+        
+  </div>
+
+
+</div>
+
+
+</body>
+<script type="text/javascript">
+	$("#tab_ul li a").click(function(){
+        var index = $('#tab_ul').find('a').index($(this));
+        if(index == 0){
+            $('#account_type').val('1');
+        }else if(index == 1){
+            $('#account_type').val('3');
+        }else{
+            $('#account_type').val('2');
+        }
+		$("#tab_ul li a").removeClass('clx_li_active');
+		$(this).addClass('clx_li_active');
+	})
+    var num="54789";
+    var numList=num.split("");
+    var i=numList.length;
+    $.each(numList,function(i,e){
+        $("#num_box").append('<span>0</span>');             
+    })
+    function each_list()
+    {
+        i--;
+        if(i<0)
+        {
+            return;
+        }
+        addNum(i);
+
+    }
+    function addNum(i){
+         var j=0;
+         var numTimer=setInterval(function(){     
+         j++;
+         if(j>numList[i])
+         {            
+            each_list();              
+            clearInterval(numTimer);                 
+         } 
+         else
+         {
+             console.log(1)  
+         $("#num_box span:eq("+i+")").html(j);
+         }
+        },80)
+    }
+   each_list();
+    // alert(numList[numList.length-1])   
+
+
+	</script>
+<script  type="text/javascript">
+
+    function clearValidateMsg(){
+        $(".validatemsg").each(function(){
+            $(this).html('');
+        });
+    }
+    clearValidateMsg();
+    function showValidateMsg(postagId,msg,isError){
+        tag = '#'+postagId;
+        innerHtml = "";
+        if(isError){
+            //警告
+            innerHtml = '<div><img src="/static/images/jg.png" width="30" height="40" border="0" align="absmiddle"></div>';
+        }
+        else {
+            //成功
+            innerHtml = '<div><img src="/static/images/zq.png" width="30" height="40" border="0" align="absmiddle"></div>';
+        }
+        if(msg && msg!= ''){
+            if(isError && postagId.indexOf('_all') <0){
+                innerHtml += '<div class="c6 pl5 haserror">'+msg+'</div>';
+            }
+            else {
+                innerHtml += '<div class="c6 pl5 ">'+msg+'</div>';
+            }
+        }
+        $(tag).html(innerHtml);
+    }
+    function validate(){
+        var bindType = $(".dsf_myzh.sigenr:visible").attr('bindtype');//0 新建账号 1:已存在账号
+        if (bindType == '0'){
+           $('#bind_account').focus().blur();
+           $('#bind_psw').focus().blur();
+
+        }
+        else {
+            $('#bind_account_has').focus().blur();
+            $('#bind_psw_has').focus().blur();
+        }
+        if ($('.haserror') && $('.haserror').length > 0){
+            return false;
+        }
+        return true;
+    }
+
+    $('#bind_account').focus(function() {
+        var input = $(this);
+    }).blur(function() {
+                $('#alertmsg_account_all').html('');
+                var account = $('#bind_account').val();
+                //邮箱地址、手机号不允许为空
+                if(!account){
+                    showValidateMsg('alertmsg_account','请填写常用邮箱地址/手机号',true);
+                    return;
+                }
+                var filterEmail  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                var filterPhone  = /^1\d{10}$/;
+                if (!filterEmail.test(account) && !filterPhone.test(account)){
+                    showValidateMsg('alertmsg_account','邮箱地址/手机号格式不正确',true);
+                    return;
+                }
+                showValidateMsg('alertmsg_account','',false);
+                return;
+          });
+    $('#bind_account_has').focus(function() {
+        var input = $(this);
+        }).blur(function() {
+                    $('#alertmsg_account_all_has').html('');
+                    var account = $('#bind_account_has').val();
+                    //邮箱地址、手机号不允许为空
+                    if(!account){
+                        showValidateMsg('alertmsg_account_has','请填写常用邮箱地址/手机号',true);
+                        return;
+                    }
+                    var filterEmail  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                    var filterPhone  = /^1\d{10}$/;
+                    if (!filterEmail.test(account) && !filterPhone.test(account)){
+                        showValidateMsg('alertmsg_account_has','邮箱地址/手机号格式不正确',true);
+                        return;
+                    }
+                    showValidateMsg('alertmsg_account_has','',false);
+                    return;
+                });
+    $('#bind_psw').focus(function() {
+        var input = $(this);
+        }).blur(function() {
+                    $('#alertmsg_account_all').html('');
+                    var psw = $('#bind_psw').val();
+                    //邮箱地址、手机号不允许为空
+                    if(!psw){
+                        showValidateMsg('alertmsg_psw','请填写密码',true);
+                        return;
+                    }
+                    showValidateMsg('alertmsg_psw','',false);
+                    return;
+                });
+    $('#bind_psw_has').focus(function() {
+        var input = $(this);
+        }).blur(function() {
+                    $('#alertmsg_account_all_has').html('');
+                    var psw = $('#bind_psw_has').val();
+                    //邮箱地址、手机号不允许为空
+                    if(!psw){
+                        showValidateMsg('alertmsg_psw_has','请填写密码',true);
+                        return;
+                    }
+                    showValidateMsg('alertmsg_psw_has','',false);
+                    return;
+                });
+    //绑定并新建
+    $("#btnBindNew").click(function(){
+        //校验
+        if(!validate()){
+            return;
+        }
+        var account = $('#bind_account').val();
+        var password = $('#bind_psw').val();
+        var account_type = $('#account_type').val();
+        var oauthType = $('#oauthType').val();
+        var oauthId = $('#oauthId').val();
+        var oauthName = $('#oauthName').val();
+        var bindType = $(".dsf_myzh.sigenr:visible").attr('bindtype');//0 新建账号 1:已存在账号
+        clearValidateMsg();
+        $.ajax({
+            type:'post',
+            data:{account:account,
+                password:password,
+                account_type:account_type,
+                oauthType:oauthType,
+                oauthId:oauthId,
+                oauthName:oauthName,
+                bindType:bindType},
+            url:'/jobs/bindAccount/',
+            dataType:'json',
+            success:function(result){
+                if(result.code >0)
+                {
+                    showValidateMsg('alertmsg_all',result.message,true);
+
+                }
+                else{
+                    showValidateMsg('alertmsg_all',result.message,false);
+                    window.location.reload(true);
+                }
+            },
+            error:function(err){
+                showValidateMsg('alertmsg_all','绑定异常，请重试',true);
+            }
+        });
+    });
+
+    //绑定
+    $("#btnBind").click(function(){
+        //校验
+        if(!validate()){
+            return;
+        }
+        var account = $('#bind_account_has').val();
+        var password = $('#bind_psw_has').val();
+        var oauthType = $('#oauthType').val();
+        var oauthId = $('#oauthId').val();
+        var oauthName = $('#oauthName').val();
+        var bindType = $(".dsf_myzh.sigenr:visible").attr('bindtype');//0 新建账号 1:已存在账号
+        clearValidateMsg();
+        $.ajax({
+            type:'post',
+            data:{account:account,
+                password:password,
+
+                oauthType:oauthType,
+                oauthId:oauthId,
+                oauthName:oauthName,
+                bindType:bindType},
+            url:'/jobs/bindAccount/',
+            dataType:'json',
+            success:function(result){
+                if(result.code >0)
+                {
+                    showValidateMsg('alertmsg_all_has',result.message,true);
+
+                }
+                else{
+                    showValidateMsg('alertmsg_all_has',result.message,false);
+                    window.location.reload(true);
+                }
+            },
+            error:function(err){
+                showValidateMsg('alertmsg_all_has','绑定异常，请重试',true);
+            }
+        });
+    });
+    //绑定按钮点击事件
+    function btnBindAccountClick(){
+
+    }
+</script>
+</html>

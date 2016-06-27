@@ -1,0 +1,768 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+<div class="lt_content_box wdjlk">
+	<!-- 猎头会员菜单开始 -->
+	<ul class="nav nav-tabs center lthy_nav">
+		<li class="active">
+			<a href="#">找简历</a>
+		</li>
+		<li>
+			<a href="#">简历管理</a>
+		</li>
+		<li>
+			<a href="#">工作平台</a>
+		</li>
+		<li>
+			<a href="#">职位订阅器</a>
+		</li>
+	</ul>
+	<div class="clear"></div>
+	<div class="center">
+
+		<!-- 猎头会员搜索结果主内容开始 -->
+		<div class="dleft">
+
+			<!-- 猎头会员搜索结果开始 -->
+			<div class="ssjg p9 mt30">
+				<div class="bkdw"></div>
+				<div class="biaolm m10">
+					<div class="biaot2 fz16">
+						<ul>
+							<li class="bthover">已投递的简历</li>
+						</ul>
+					</div>
+					<div class="qhann">
+						<ul>
+							<li class="sige fz12 sigehs"> <i class="iconfont icon-liebiao fsn" style="font-size:24px;"></i>
+								图片列表
+							</li>
+							<li class="sige fz12"> <i class="iconfont icon-list fsn" style="font-size:18px;"></i>
+								文章列表
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- 猎头会员职位通我投递的职位图片列表开始 -->
+				<div class="tuplb sigenr mt5" style="display: block;">
+					<div class="jlmp12 m10">
+						<div class="jlmp1_k12">
+							<div class="mpLe2">
+								<div class="mpxp">
+									<img src="images/mpxp.jpg" width="88" height="88" border="0" align="absmiddle"></div>
+								<div class="mpqzxx mt6 fz14">
+									<i class="iconfont icon-xin fz16"></i>
+									求职中
+								</div>
+							</div>
+							<div class="mpRi2">
+								<ul>
+									<li class="c3"> <b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+									</li>
+									<li class="fz14 cr pt10">产品市场运营部总监</li>
+									<li class="fz12 pt10 c3 txt_hide" >北京和君设计创意传媒股份有限公司</li>
+									<li class="fz12 pt8 c3">南昌  |  10年以上  |  本科  |  24岁</li>
+								</ul>
+							</div>
+						</div>
+						<div class="jlmp1_k2"></div>
+						<div class="jlmp1_k3">
+							<div class="gnaj_Le">
+								已投递 <b class="fz16">20</b>
+								份职位
+							</div>
+							<div class="gnaj_Ri">
+								<input name="input" type="button" value="查看投递的职位" class="gnanys" data-toggle="modal" data-target="#pp_Modal"></div>
+						</div>
+						<div class="jlmp1_k4"></div>
+
+					</div>
+
+					<div class="jlmp12 m10">
+						<div class="jlmp1_k12">
+							<div class="mpLe2">
+								<div class="mpxp">
+									<img src="images/mpxp.jpg" width="88" height="88" border="0" align="absmiddle"></div>
+								<div class="mpqzxx2 mt6 fz14">
+									<i class="iconfont icon-xiugaichujia" style="font-size:15px;"></i>
+									在职中
+								</div>
+							</div>
+							<div class="mpRi2">
+								<ul>
+									<li class="c3">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+									</li>
+									<li class="fz14 cr pt10">产品市场运营部总监</li>
+									<li class="fz12 pt10 c3 txt_hide">北京和君设计创意传媒股份有限公司</li>
+									<li class="fz12 pt8 c3">南昌  |  10年以上  |  本科  |  24岁</li>
+								</ul>
+							</div>
+						</div>
+						<div class="jlmp1_k2"></div>
+						<div class="jlmp1_k3">
+							<div class="gnaj_Le">
+								已投递
+								<b class="fz16">20</b>
+								份职位
+							</div>
+							<div class="gnaj_Ri">
+								<input name="input" type="button" value="查看投递的职位" class="gnanys" data-toggle="modal" data-target="#pp_Modal"></div>
+						</div>
+						<div class="jlmp1_k4"></div>
+
+					</div>
+
+					<div class="jlmp12 m10">
+						<div class="jlmp1_k12">
+							<div class="mpLe2">
+								<div class="mpxp">
+									<img src="images/mpxp.jpg" width="88" height="88" border="0" align="absmiddle"></div>
+								<div class="mpqzxx mt6 fz14">
+									<i class="iconfont icon-xin fz16"></i>
+									求职中
+								</div>
+							</div>
+							<div class="mpRi2">
+								<ul>
+									<li class="c3">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+									</li>
+									<li class="fz14 cr pt10">产品市场运营部总监</li>
+									<li class="fz12 pt10 c3 txt_hide">北京和君设计创意传媒股份有限公司</li>
+									<li class="fz12 pt8 c3">南昌  |  10年以上  |  本科  |  24岁</li>
+								</ul>
+							</div>
+						</div>
+						<div class="jlmp1_k2"></div>
+						<div class="jlmp1_k3">
+							<div class="gnaj_Le">
+								已投递
+								<b class="fz16">20</b>
+								份职位
+							</div>
+							<div class="gnaj_Ri">
+								<input name="input" type="button" value="查看投递的职位" class="gnanys" data-toggle="modal" data-target="#pp_Modal"></div>
+						</div>
+						<div class="jlmp1_k4"></div>
+
+					</div>
+
+					<div class="jlmp12 m10">
+						<div class="jlmp1_k12">
+							<div class="mpLe2">
+								<div class="mpxp">
+									<img src="images/mpxp.jpg" width="88" height="88" border="0" align="absmiddle"></div>
+								<div class="mpqzxx mt6 fz14">
+									<i class="iconfont icon-xin fz16"></i>
+									求职中
+								</div>
+							</div>
+							<div class="mpRi2">
+								<ul>
+									<li class="c3">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+									</li>
+									<li class="fz14 cr pt10">产品市场运营部总监</li>
+									<li class="fz12 pt10 c3 txt_hide">北京和君设计创意传媒股份有限公司</li>
+									<li class="fz12 pt8 c3">南昌  |  10年以上  |  本科  |  24岁</li>
+								</ul>
+							</div>
+						</div>
+						<div class="jlmp1_k2"></div>
+						<div class="jlmp1_k3">
+							<div class="gnaj_Le">
+								已投递
+								<b class="fz16">20</b>
+								份职位
+							</div>
+							<div class="gnaj_Ri">
+								<input name="input" type="button" value="查看投递的职位" class="gnanys" data-toggle="modal" data-target="#pp_Modal"></div>
+						</div>
+						<div class="jlmp1_k4"></div>
+
+					</div>
+
+					<div class="jlmp12 m10">
+						<div class="jlmp1_k12">
+							<div class="mpLe2">
+								<div class="mpxp">
+									<img src="images/mpxp.jpg" width="88" height="88" border="0" align="absmiddle"></div>
+								<div class="mpqzxx mt6 fz14">
+									<i class="iconfont icon-xin fz16"></i>
+									求职中
+								</div>
+							</div>
+							<div class="mpRi2">
+								<ul>
+									<li class="c3">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+									</li>
+									<li class="fz14 cr pt10">产品市场运营部总监</li>
+									<li class="fz12 pt10 c3 txt_hide">北京和君设计创意传媒股份有限公司</li>
+									<li class="fz12 pt8 c3">南昌  |  10年以上  |  本科  |  24岁</li>
+								</ul>
+							</div>
+						</div>
+						<div class="jlmp1_k2"></div>
+						<div class="jlmp1_k3">
+							<div class="gnaj_Le">
+								已投递
+								<b class="fz16">20</b>
+								份职位
+							</div>
+							<div class="gnaj_Ri">
+								<input name="input" type="button" value="查看投递的职位" class="gnanys" data-toggle="modal" data-target="#pp_Modal"></div>
+						</div>
+						<div class="jlmp1_k4"></div>
+
+					</div>
+
+					<div class="jlmp12 m10">
+						<div class="jlmp1_k12">
+							<div class="mpLe2">
+								<div class="mpxp">
+									<img src="images/mpxp.jpg" width="88" height="88" border="0" align="absmiddle"></div>
+								<div class="mpqzxx mt6 fz14">
+									<i class="iconfont icon-xin fz16"></i>
+									求职中
+								</div>
+							</div>
+							<div class="mpRi2">
+								<ul>
+									<li class="c3">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女
+									</li>
+									<li class="fz14 cr pt10">产品市场运营部总监</li>
+									<li class="fz12 pt10 c3 txt_hide">北京和君设计创意传媒股份有限公司</li>
+									<li class="fz12 pt8 c3">南昌  |  10年以上  |  本科  |  24岁</li>
+								</ul>
+							</div>
+						</div>
+						<div class="jlmp1_k2"></div>
+						<div class="jlmp1_k3">
+							<div class="gnaj_Le">
+								已投递
+								<b class="fz16">20</b>
+								份职位
+							</div>
+							<div class="gnaj_Ri">
+								<input name="input" type="button" value="查看投递的职位" class="gnanys" data-toggle="modal" data-target="#pp_Modal"></div>
+						</div>
+						<div class="jlmp1_k4"></div>
+
+					</div>
+
+					<div class="lthy_pager">
+						<ul class="pagination pagination-sm">
+							<li>
+								<a href="#">上一页</a>
+							</li>
+							<li>
+								<a href="#">1</a>
+							</li>
+							<li>
+								<a href="#">2</a>
+							</li>
+							<li>
+								<a href="#">3</a>
+							</li>
+							<li>
+								<a href="#">4</a>
+							</li>
+							<li>
+								<a href="#">5</a>
+							</li>
+							<li>
+								<a href="#">下一页</a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="clear"></div>
+
+				</div>
+				<!-- 猎头会员职位通我投递的职位图片列表结束 -->
+
+				<!-- 猎头会员职位通我投递的职位文章列表开始 -->
+				<div class="wenzlb sigenr mt15" style="display: none;">
+					<div class="jllb m10">
+						<div class="jllbnk1">
+							<div class="lbzp">
+								<img src="images/mpxp.jpg" width="66" height="66" border="0" align="absmiddle"></div>
+							<div class="lbnr">
+								<ul>
+									<li class="pt8">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女&nbsp;&nbsp;&nbsp;南昌  |  10年以上  |  本科  |  24岁
+									</li>
+									<li> <strong class="fz16 cr fn">产品市场运营部总监</strong>
+										<i class="fn pl10 fz12 txt_hide">北京和君设计创意传媒股份有限公司</i>
+									</li>
+								</ul>
+							</div>
+							<div class="lbkoj">
+								<div class="mpjlly mt6 fz12">【个人简历】</div>
+								<div class="mpqzxx mt6 fz14">
+									<i class="iconfont icon-xin fz16"></i>
+									求职中
+								</div>
+
+							</div>
+						</div>
+						<div class="jllbnk2">
+							<div class="gnajlb_Le2">
+								已投递
+								<b class="fz16">20</b>
+								份职位
+							</div>
+
+							<div class="gnajlb_Ri">
+								<input name="input" type="button" value="查看投递的职位" class="gnanys" data-toggle="modal" data-target="#pp_Modal"></div>
+						</div>
+						<div class="jlhx"></div>
+					</div>
+					<div class="jllb m10">
+						<div class="jllbnk1">
+							<div class="lbzp">
+								<img src="images/mpxp.jpg" width="66" height="66" border="0" align="absmiddle"></div>
+							<div class="lbnr">
+								<ul>
+									<li class="pt8">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女&nbsp;&nbsp;&nbsp;南昌  |  10年以上  |  本科  |  24岁
+									</li>
+									<li> <strong class="fz16 cr fn">产品市场运营部总监</strong>
+										<i class="fn pl10 fz12 txt_hide">北京和君设计创意传媒股份有限公司</i>
+									</li>
+								</ul>
+							</div>
+							<div class="lbkoj">
+								<div class="mpjlly mt6 fz12">【个人简历】</div>
+								<div class="mpqzxx2 mt6 fz14">
+									<i class="iconfont icon-xiugaichujia" style="font-size:15px;"></i>
+									在职中
+								</div>
+
+							</div>
+						</div>
+						<div class="jllbnk2">
+							<div class="gnajlb_Le2">
+								已投递
+								<b class="fz16">20</b>
+								份职位
+							</div>
+
+							<div class="gnajlb_Ri">
+								<input name="input" type="button" value="查看投递的职位" class="gnanys" data-toggle="modal" data-target="#pp_Modal"></div>
+						</div>
+						<div class="jlhx"></div>
+					</div>
+					<div class="jllb m10">
+						<div class="jllbnk1">
+							<div class="lbzp">
+								<img src="images/mpxp.jpg" width="66" height="66" border="0" align="absmiddle"></div>
+							<div class="lbnr">
+								<ul>
+									<li class="pt8">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女&nbsp;&nbsp;&nbsp;南昌  |  10年以上  |  本科  |  24岁
+									</li>
+									<li>
+										<strong class="fz16 cr fn">产品市场运营部总监</strong>
+										<i class="fn pl10 fz12 txt_hide">北京和君设计创意传媒股份有限公司</i>
+									</li>
+								</ul>
+							</div>
+							<div class="lbkoj">
+								<div class="mpjlly mt6 fz12">【个人简历】</div>
+								<div class="mpqzxx mt6 fz14">
+									<i class="iconfont icon-xin fz16"></i>
+									求职中
+								</div>
+
+							</div>
+						</div>
+						<div class="jllbnk2">
+							<div class="gnajlb_Le2">
+								已投递
+								<b class="fz16">20</b>
+								份职位
+							</div>
+
+							<div class="gnajlb_Ri">
+								<input name="input" type="button" value="查看投递的职位" class="gnanys" data-toggle="modal" data-target="#pp_Modal"></div>
+						</div>
+						<div class="jlhx"></div>
+					</div>
+					<div class="jllb m10">
+						<div class="jllbnk1">
+							<div class="lbzp">
+								<img src="images/mpxp.jpg" width="66" height="66" border="0" align="absmiddle"></div>
+							<div class="lbnr">
+								<ul>
+									<li class="pt8">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女&nbsp;&nbsp;&nbsp;南昌  |  10年以上  |  本科  |  24岁
+									</li>
+									<li>
+										<strong class="fz16 cr fn">产品市场运营部总监</strong>
+										<i class="fn pl10 fz12 txt_hide">北京和君设计创意传媒股份有限公司</i>
+									</li>
+								</ul>
+							</div>
+							<div class="lbkoj">
+								<div class="mpjlly mt6 fz12">【个人简历】</div>
+								<div class="mpqzxx mt6 fz14">
+									<i class="iconfont icon-xin fz16"></i>
+									求职中
+								</div>
+
+							</div>
+						</div>
+						<div class="jllbnk2">
+							<div class="gnajlb_Le2">
+								已投递
+								<b class="fz16">20</b>
+								份职位
+							</div>
+
+							<div class="gnajlb_Ri">
+								<input name="input" type="button" value="查看投递的职位" class="gnanys" data-toggle="modal" data-target="#pp_Modal"></div>
+						</div>
+						<div class="jlhx"></div>
+					</div>
+					<div class="jllb m10">
+						<div class="jllbnk1">
+							<div class="lbzp">
+								<img src="images/mpxp.jpg" width="66" height="66" border="0" align="absmiddle"></div>
+							<div class="lbnr">
+								<ul>
+									<li class="pt8">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女&nbsp;&nbsp;&nbsp;南昌  |  10年以上  |  本科  |  24岁
+									</li>
+									<li>
+										<strong class="fz16 cr fn">产品市场运营部总监</strong>
+										<i class="fn pl10 fz12 txt_hide">北京和君设计创意传媒股份有限公司</i>
+									</li>
+								</ul>
+							</div>
+							<div class="lbkoj">
+								<div class="mpjlly mt6 fz12">【个人简历】</div>
+								<div class="mpqzxx mt6 fz14">
+									<i class="iconfont icon-xin fz16"></i>
+									求职中
+								</div>
+
+							</div>
+						</div>
+						<div class="jllbnk2">
+							<div class="gnajlb_Le2">
+								已投递
+								<b class="fz16">20</b>
+								份职位
+							</div>
+
+							<div class="gnajlb_Ri">
+								<input name="input" type="button" value="查看投递的职位" class="gnanys" data-toggle="modal" data-target="#pp_Modal"></div>
+						</div>
+						<div class="jlhx"></div>
+					</div>
+					<div class="jllb m10">
+						<div class="jllbnk1">
+							<div class="lbzp">
+								<img src="images/mpxp.jpg" width="66" height="66" border="0" align="absmiddle"></div>
+							<div class="lbnr">
+								<ul>
+									<li class="pt8">
+										<b class="fz16 fn fb">欧阳星星</b>
+										<i class="iconfont icon-nv cr" style=" font-size:14px;"></i>
+										女&nbsp;&nbsp;&nbsp;南昌  |  10年以上  |  本科  |  24岁
+									</li>
+									<li>
+										<strong class="fz16 cr fn">产品市场运营部总监</strong>
+										<i class="fn pl10 fz12 txt_hide">北京和君设计创意传媒股份有限公司</i>
+									</li>
+								</ul>
+							</div>
+							<div class="lbkoj">
+								<div class="mpjlly mt6 fz12">【个人简历】</div>
+								<div class="mpqzxx mt6 fz14">
+									<i class="iconfont icon-xin fz16"></i>
+									求职中
+								</div>
+
+							</div>
+						</div>
+						<div class="jllbnk2">
+							<div class="gnajlb_Le2">
+								已投递
+								<b class="fz16">20</b>
+								份职位
+							</div>
+
+							<div class="gnajlb_Ri">
+								<input name="input" type="button" value="查看投递的职位" class="gnanys" data-toggle="modal" data-target="#pp_Modal"></div>
+						</div>
+						<div class="jlhx"></div>
+					</div>
+
+					<div class="lthy_pager">
+						<ul class="pagination pagination-sm">
+							<li>
+								<a href="#">上一页</a>
+							</li>
+							<li>
+								<a href="#">1</a>
+							</li>
+							<li>
+								<a href="#">2</a>
+							</li>
+							<li>
+								<a href="#">3</a>
+							</li>
+							<li>
+								<a href="#">4</a>
+							</li>
+							<li>
+								<a href="#">5</a>
+							</li>
+							<li>
+								<a href="#">下一页</a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="clear"></div>
+
+				</div>
+				<!-- 猎头会员职位通我投递的职位文章列表结束 -->
+			</div>
+			<!-- 猎头会员搜索结果结束 -->
+		</div>
+		<!-- 猎头会员搜索结果主内容结束 -->
+
+		<div class="xright">
+			<!-- 侧边栏 -->
+
+			<!-- 猎头会员英才举荐开始 -->
+            {% include 'jobs/recommendResume.html' %}
+{#			<div class="yctj mt30">#}
+{#				<div class="bkdw"></div>#}
+{#				<div class="yctj_tou">#}
+{#					<div class="yctj_tou_z fz18 cr">#}
+{#						#}
+{#						<b class="fn c3 pl5 fz16">英才举荐</b>#}
+{#					</div>#}
+{#					<div class="yctj_tou_y"></div>#}
+{#				</div>#}
+{#				<div class="yctj_nei">#}
+{#					<div class="yctj_nrlb">#}
+{#						<div class="yctj_nrzp">#}
+{#							<img src="images/mpxp.jpg" width="84" height="84" border="0" align="absmiddle"></div>#}
+{#						<div class="yctj_nrwen">#}
+{#							<b class="fz16">某某求职者</b>#}
+{#							<br>#}
+{#							相关行业#}
+{#							<br>工作年限</div>#}
+{#					</div>#}
+{#					<div class="yctj_nrlb">#}
+{#						<div class="yctj_nrzp">#}
+{#							<img src="images/mpxp.jpg" width="84" height="84" border="0" align="absmiddle"></div>#}
+{#						<div class="yctj_nrwen">#}
+{#							<b class="fz16">某某求职者</b>#}
+{#							<br>#}
+{#							相关行业#}
+{#							<br>工作年限</div>#}
+{#					</div>#}
+{#					<div class="yctj_nrlb">#}
+{#						<div class="yctj_nrzp">#}
+{#							<img src="images/mpxp.jpg" width="84" height="84" border="0" align="absmiddle"></div>#}
+{#						<div class="yctj_nrwen">#}
+{#							<b class="fz16">某某求职者</b>#}
+{#							<br>#}
+{#							相关行业#}
+{#							<br>工作年限</div>#}
+{#					</div>#}
+{#				</div>#}
+{#			</div>#}
+			<!-- 猎头会员英才举荐结束 -->
+			<!-- 侧边栏 -->
+		</div>
+
+		<div class="clear"></div>
+	</div>
+</div>
+<!-- 匹配模态框（Modal） -->
+<div class="modal fade" id="pp_Modal" tabindex="-1" role="dialog"   aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width:695px">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">我投递的职位</h4>
+			</div>
+			<div class="modal-body t_c">
+				<div class="t">
+					<img src="../../static/images/ls_03.png" alt="" width="55" height="55" class="f_l">
+					<dl class="f_l" style="text-align: left;margin-left: 10px">
+						<dt>
+							<span class="f_bold">欧阳星星</span>
+							<i class="icon-nv iconfont c_c8"></i>
+							<span>女</span>
+							<span class="ml15">南昌</span>
+							<span>|</span>
+							<span>10年以上</span>
+							<span>|</span>
+							<span>本科</span>
+							<span>|</span>
+							<span>24岁</span>
+						</dt>
+						<dd>
+							<span class="c_c8">产品市场运营部总监</span>
+							<span class="ml15">北京和君设计创意传媒股份有限公司</span>
+						</dd>
+					</dl>
+				</div>
+				<div>
+					<img src="../../static/images/tddjl_03.png" alt="" class="mt20"></div>
+				<ul class="list">
+					<li>
+						<div>
+							<div class="f_l">
+								<div class="q">
+									<p>41%</p>
+									<p>匹配值</p>
+								</div>
+								<div>
+									<a href="#">[企业直招]</a>
+								</div>
+							</div>
+							<div class="f_l ml15">
+								<p>
+									<span class="f_bold">详情页设计师</span>
+									<span class="c_c8 ml15">8K-20K</span>
+								</p>
+								<p>北京市和君设计有限公司</p>
+								<p>互联网/电子商务/网游</p>
+								<p>南昌 | 3年-5年 | 本科</p>
+							</div>
+						</div>
+						<div style="clear:both"></div>
+						<div class="s">
+							<span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span>
+						</div>
+					</li>
+					<li>
+						<div>
+							<div class="f_l">
+								<div class="q">
+									<p>41%</p>
+									<p>匹配值</p>
+								</div>
+								<div>
+									<a href="#">[企业直招]</a>
+								</div>
+							</div>
+							<div class="f_l ml15">
+								<p>
+									<span class="f_bold">详情页设计师</span>
+									<span class="c_c8 ml15">8K-20K</span>
+								</p>
+								<p>北京市和君设计有限公司</p>
+								<p>互联网/电子商务/网游</p>
+								<p>南昌 | 3年-5年 | 本科</p>
+							</div>
+						</div>
+						<div style="clear:both"></div>
+						<div class="s">
+							<span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span>
+						</div>
+					</li>
+					<li>
+						<div>
+							<div class="f_l">
+								<div class="q">
+									<p>41%</p>
+									<p>匹配值</p>
+								</div>
+								<div>
+									<a href="#">[企业直招]</a>
+								</div>
+							</div>
+							<div class="f_l ml15">
+								<p>
+									<span class="f_bold">详情页设计师</span>
+									<span class="c_c8 ml15">8K-20K</span>
+								</p>
+								<p>北京市和君设计有限公司</p>
+								<p>互联网/电子商务/网游</p>
+								<p>南昌 | 3年-5年 | 本科</p>
+							</div>
+						</div>
+						<div style="clear:both"></div>
+						<div class="s">
+							<span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span>
+						</div>
+					</li>
+					<li>
+						<div>
+							<div class="f_l">
+								<div class="q">
+									<p>41%</p>
+									<p>匹配值</p>
+								</div>
+								<div>
+									<a href="#">[企业直招]</a>
+								</div>
+							</div>
+							<div class="f_l ml15">
+								<p>
+									<span class="f_bold">详情页设计师</span>
+									<span class="c_c8 ml15">8K-20K</span>
+								</p>
+								<p>北京市和君设计有限公司</p>
+								<p>互联网/电子商务/网游</p>
+								<p>南昌 | 3年-5年 | 本科</p>
+							</div>
+						</div>
+						<div style="clear:both"></div>
+						<div class="s">
+							<span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span><span>绩效奖金</span>
+						</div>
+					</li>
+				</ul>
+				<div class="mt20">
+					<div class="g">查看更多</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+</div>
+<!-- /.modal -->
+<!-- 模态框（Modal） -->
+{% include 'jobs/system/new_footer.html' %}

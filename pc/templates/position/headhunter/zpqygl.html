@@ -1,0 +1,692 @@
+
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul_old.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style2.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/basic.css">
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+<script>
+     //换一换标签
+function changeLabel(){
+    var pageIndex = $('#pageIndex').val();
+    var labelSize = $('#labelSize').val();
+    $.ajax({
+        type: "POST",
+        url: "/jobs/position/headhunter/ajax_changeLabel",
+        data: {"p_value": '12001000', 'page': pageIndex},
+        dataType: "json",
+        success: function(data){
+            $('.grbq_list').children().remove();
+            for(var i = 0;i < data.length;i++){
+                var hlabel = data[i];
+                var em = '<li><a href="javascript:void(0);">'+hlabel.fields.dictionary_name+'</a></li>';
+                $('.grbq_list').append(em);
+            }
+            //设置换一换的页数
+            if((parseInt(pageIndex)) * 8 > labelSize){
+                $('#pageIndex').val(1)
+            }else{
+                $('#pageIndex').val(parseInt(pageIndex) + 1);
+            }
+            //给添加的标签加事件
+            $('.xuanze li').click(function(){
+                var length = $('#ld').children('li').length;
+                if(length >= 8){
+                    window.alert("最多只能添加8个标签");
+                    return;
+                }
+                var len = $("#ld").find("li").length;
+                var context = $(this).text();
+                for (var i = 0; i < len; i++) {
+                    var label = $("#ld").find("li:eq(" + i + ")").text();
+                    if( context == label.substring(0, label.length - 1) ){
+                        alert("此标签已存在!");
+                        return false;
+                    }
+                }
+                var em = '<li>' + $(this).text() + '<span style="display:none">X</span></li>';
+                $('#ld').append(em);
+                $("#ld li").mouseover(function(){
+                    $(this).children().css('display','inline');
+                })
+                $("#ld li").mouseout(function(){
+                    $(this).children().css('display','none');
+                })
+                $("#ld li span").click(function(){
+                    $(this).parent().remove();
+                })
+            })
+        }
+    });
+}
+</script>
+	<!-- 顶部 -->
+	<!-- 内容大框 -->
+	<div class="lt_content_box">
+		<!-- 猎头会员菜单 -->
+		<div class="nav2">
+    {% include 'jobs/system/menu_position.html' %}
+</div>
+<div class="clear">3</div><div class="clear">6</div>
+		<!-- 猎头会员菜单 -->
+		<div class="center clearfix">
+			<!-- 修改个人信息 -->
+			<dl class="grxx_info f_l ">
+				<dd class="">
+                    <form action="" method="post">
+                        <input type="hidden" name = "id">
+                        <table class="cyqy_table">
+                            <tbody>
+                                <tr>
+                                    <td align="right" width="158">
+                                        招聘企业名称：
+                                    </td>
+                                    <td width="220">
+                                        <input type="text" name="show_name"  class="input_txt" style="border-radius:initial!important">
+                                    </td>
+                                    <td align="left">
+                                        <input type="button"  value="新增企业" class="cyqy_info_btn grxx_info_btn_bg" id="add_btn">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right">
+                                        招聘企业备注名称：
+                                    </td>
+                                    <td>
+                                        <input type="text" name="remark_name"  class="input_txt">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td align="right">企业性质：</td>
+                                    <td>
+                                        <select class="input_txt" name="nature" >
+                                            {% if natures %}
+                                                {% for nature in natures %}
+                                                    <option value="{{ nature.dictionary_value }}">{{ nature.dictionary_name }}</option>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td align="right">所在地：</td>
+                                    <td>
+    {#									<input type="text" name="location" class="input_txt">#}
+                                        <input class="input_txt" type="text" onclick="showArea(this,1)"  onblur="yzModal(this)" name="qyworkarea" placeholder="请选择所在地" style="background: url({{ STATIC_URL }}images/tancan.png) no-repeat right;" >
+                                        <input type="hidden" name="qyWork_Area"  />
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td align="right">所属行业：</td>
+                                    <td>
+    {#									<input type="text" name="business" class="input_txt"></td>#}
+{#                                        <input style="background: url({{ STATIC_URL }}images/tancan.jpg) no-repeat right;" class="input_txt" type="text"   onblur="yzModal(this)" name="experienc"   placeholder="请选择所属行业" value="{{ qyhangye.dictionary_name }}"    onclick="showBusinessul(this,1)" width="" >#}
+{#                                        <input type="hidden" name="qyIndustry_Type" />#}
+                                        <div id="businessulDiv1" onclick="BusinessulControlsShow(3,this)"></div>
+                                        <input id="businessulValue" name="businessulValue" type="hidden" value="">
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td align="right">企业规模：</td>
+                                    <td>
+                                        <select class="input_txt" name="scale" >
+                                                <option value="">请选择</option>
+                                            {% if scales %}
+                                                {% for scale in scales %}
+                                                    {% if forloop.counter != 1 %}
+                                                        <option value="{{ scale.dictionary_value }}">{{ scale.dictionary_name }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td align="right" style="vertical-align: top; padding-top:10px;">企业简介：</td>
+                                    <td colspan="2">
+                                        <textarea style="resize:none" name="introduce"></textarea>
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                        <div class="center" >
+                            <div style="font-size: 14px;padding-left: 10px;margin-bottom:10px;">
+                             企业亮点
+                             </div>
+                        <ul class="liangdian" id="ld">
+                        </ul>
+                        {% comment %}<h1>企业亮点{% endcomment %}
+                        <input type="hidden" name="highlights" class="input_txt">
+                        <span class="f_l" style="line-height:30px;font-size: 14px;" onclick="changeLabel()">
+                            <input type="hidden" id="pageIndex" value="2" />
+                            <input type="hidden" id="labelSize" value="{{ labelSize }}" />
+                            <i class="iconfont icon-shuaxin" style="font-size: 16px;color:#ddd;margin-left: 15px;"></i>
+                            <a href="javascript:void(0);" style="color:#5c91d9;font-size: 12px;margin-left: 5px;" >换一换</a>
+                        </span>
+                        <input class="ties gr_xxzxybq_n" type="button" value="贴上">
+                        <input id="tievalue" maxlength="6" style="padding:5px 0 5px 10px;height:30px;border: 1px solid #CCC;" type="text"  name="newPost" placeholder="添加自定义亮点"></h1>
+                        <div class="clear"></div>
+                            <ul class="liangdian xuanze grxx_tag_box grbq_list oh " style="margin-top: 5px;">
+                                {% if labels %}
+                                    {% for label in labels %}
+                                        <li><a href="javascript:void(0);">{{ label.dictionary_name }}</a></li>
+                                    {% endfor %}
+                                {% endif %}
+							</ul>
+                        </div>
+                    </form>
+				</dd>
+				<dd class="t_c">
+					<input type="submit" name="save" value="保存" placeholder="" class="grxx_info_btn grxx_info_btn_bg gr_ra">
+					<input type="button" name="add" value="添加到企业分类" placeholder="" class="grxx_info_btn grxx_info_btn_bg1 gr_lv"  data-toggle="modal"    data-target="#update_fz_Modal" ></dd>
+				<div class="left_top_border"></div>
+			</dl>
+			<!-- 修改个人信息 -->
+			<!-- 侧边栏 -->
+			<div class="grxx_sidebar f_r">
+				<div class="add_cal_btn"  data-toggle="modal" data-target="#ms_Modal" >
+					<i class="iconfont icon-tianjia"></i>
+					添加新企业分类
+				</div>
+				<div class="grxx_sidebar_b">
+					<dl>
+						<dt class="my_cal_title">我的企业分类</dt>
+						<dd class="cal_tree_dd">
+							<div class="panel-group" id="accordion">
+                                {% if groups %}
+                                    {% for group in groups %}
+                                        {% if group.group_name == "默认分组" %}
+                                        <div class="panel panel-default" style="padding-top: 10px">
+    {#                                             公司名分组#}
+                                                <div class="panel-heading clearfix">
+                                                    <a data-toggle="collapse"   data-parent="#accordion" href="#collapse{{ group.id }}" class="collapsed">
+                                                        <i class="iconfont icon-jinlingyingcaiwangtubiao12 f_r fz14" name="{{ group.id }}" onclick="showSecondGroup(this)"></i>
+                                                        <span class="f_l showSecondGroup" name="{{ group.id }}" onclick="showSecondGroup(this)">{{ group.group_name }}[{{ group.count }}]</span>
+                                                        <span class="f_r add_up_re_btn" style="display: none;">
+                                                        </span>
+                                                    </a>
+                                                </div>
+    {#                                                分组的子公司#}
+                                                <div id="collapse{{ group.id }}" aria-expanded="false" class="panel-collapse collapse" style="height:auto">
+
+                                                </div>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for group in groups %}
+                                        {% if group.group_name != "默认分组" %}
+                                        <div class="panel panel-default">
+    {#                                             公司名分组#}
+                                                <div class="panel-heading clearfix">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ group.id }}" class="collapsed">
+                                                        <i class="iconfont icon-jinlingyingcaiwangtubiao12 f_r fz14" name="{{ group.id }}" onclick="showSecondGroup(this)"></i>
+                                                        <span class="f_l showSecondGroup" name="{{ group.id }}" onclick="showSecondGroup(this)">{{ group.group_name }}[{{ group.count }}]</span>
+                                                            <span class="f_r add_up_re_btn" style="display: none;">
+                                                                <i class="iconfont icon-xiugaichujia"  onclick="alterGroupName(this)" ></i>
+                                                                <i class="iconfont icon-shanchu fz18" onclick="delGroup(this)"></i>
+                                                            </span>
+                                                    </a>
+                                                </div>
+    {#                                                分组的子公司#}
+                                                <div id="collapse{{ group.id }}" class="panel-collapse in" style="height:auto">
+
+                                                </div>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+						</dd>
+					</dl>
+				</div>
+			</div>
+			<!-- 侧边栏 -->
+		</div>
+	</div>
+	<!-- 内容大框 -->
+	<!-- 底部 -->
+{% include 'jobs/system/new_footer.html' %}
+
+ <div class="modal fade" id="update_fz_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:300px">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">分组</h4>
+                    <input type="hidden" id="operateIndex" />
+                </div>
+                <div class="modal-body t_c">
+                    <select name="groups" id="groupList" style="width:270px;height: 30px;">
+                    {% if groups %}
+                        {% for group in groups %}
+                            <option value="{{ group.id }}">{{ group.group_name }}</option>
+                        {% endfor %}
+                    {% endif %}
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="operateState" />
+                    <button type="button" class="btn btn-primary"data-dismiss="modal" style="background:#5c91d9" id="finishGroup">完成</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+
+<!-- 面试模态框（Modal） -->
+<div class="modal fade" id="ms_Modal" tabindex="-1" role="dialog"
+aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width:300px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">企业分组</h4>
+            </div>
+            <div class="modal-body t_c" style="text-align: left;">设置企业分组名称:<div><textarea name="search_name" id="interViewReason" cols="30" rows="4"></textarea></div></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="sureInterview">确认</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+</body>
+</html>
+	<!-- 底部 -->
+	<script type="text/javascript">
+
+     $(function() {
+
+         //  Business 新控件
+        BusinessulControls("businessulDiv1","{{ tri.sexpect_industry | default:"" }}","{{ tri.expect_industry | default:"" }}",
+                'width:320px;margin-top:5px;height:auto;font-size:14px; min-height:38px; line-height:38px;');
+
+         // 增加新的分组
+         $("#sureInterview").click(function () {
+             $(".cal_tree_dd").css('height', 'auto');
+             var group_name = $("#interViewReason").val();
+             if (group_name == "默认分组") {
+                 alert("请设置有效的分组名");
+                 return false;
+             }
+             if (group_name == "") {
+                 group_name = "未命名分组"
+             }
+             $.ajax({
+                 type: "POST",
+                 data: {"group_name": group_name},
+                 url: "jobs/position/headhunter/ajax_addNewGroup",
+                 dataType: "json",
+                 success: function (data) {
+                     if (data.msg == "success") {
+                         $("#groupList").append("<option value=" + data.id + ">" + data.group_name + "</option>");
+                         $(":input[name=id]").val(data.id);
+                         var cal_dom = '<div class="panel panel-default newGrop">';
+                         cal_dom += '    <div class="panel-heading clearfix">';
+                         cal_dom += '          <a data-toggle="collapse" data-parent="#accordion" href="#collapse' + data.id + '" class="collapsed">';
+                         cal_dom += '               <i class="iconfont icon-jinlingyingcaiwangtubiao12 f_r fz14" name="' + data.id + '" onclick="showSecondGroup(this)"></i>';
+                         cal_dom += '                <span class="f_l showSecondGroup" name=' + data.id + ' onclick="showSecondGroup(this)">' + data.group_name + '[0]</span>';
+                         cal_dom += '                <span class="f_r add_up_re_btn" style="display: none; color: white;">';
+                         cal_dom += '                    <i class="iconfont icon-xiugaichujia"  onclick="alterGroupName(this)"></i><i class="iconfont icon-shanchu fz18" onclick="delGroup(this)"></i>';
+                         cal_dom += '                </span>';
+                         cal_dom += '</a></div>';
+                         cal_dom += '<div id="collapse' + data.id + '" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">';
+                         cal_dom += '</div></div>';
+                         $(".cal_tree_dd #accordion").append(cal_dom);
+                     } else {
+                         alert("发生内部错误")
+                     }
+
+                     // 显示鼠标经过样式
+                    $(".panel-default").mouseover(function(){
+                        var $css = $(this).find(".add_up_re_btn");
+                        var $head = $(this).find(".panel-heading");
+                        $css.show();
+                        $head.css("background-color", "#f4f8fd");
+                       // $head.css("color", "white");
+                    });
+                    $(".panel-default").mouseout(function(){
+                            var $css = $(this).find(".add_up_re_btn");
+                            var $head = $(this).find(".panel-heading");
+                            $css.hide();
+                            $head.css("background-color", "");
+                            $head.css("color", "");
+                    })
+                 }
+             })
+         });
+
+         // 增加企业 按钮
+         $("#add_btn").click(function () {
+             $(".cyqy_table input[type=text]").val("");
+             $(":input[name=id]").val("");
+             $(":input[name=show_name]").val("");
+             $(":input[name=remark_name]").val("");
+             $("select[name=nature]").find("option:first").attr("selected", true);
+             $(":input[name=qyworkarea]").attr("placeholder", "请选择所在地");
+             $(":input[name=qyWork_Area]").val("");
+
+             $(":input[name=experienc]").attr("placeholder", "请选择所属行业");
+             $(":input[name=businessulValue]").val("");
+             $("select[name=scale]").find("option:first").attr("selected", true);
+             $(":input[name=highlights]").val("");
+             $("textarea[name=introduce]").val("");
+             $("#ld").empty();
+         });
+
+         // 保存更改
+         $(":submit[name=save]").click(function () {
+             var $showName = $(":input[name=show_name]");
+             var show_name = $.trim($showName.val());
+             if (show_name == "") {
+                 alert("招聘企业名称不能为空!");
+                 $showName.val("");
+                 return false;
+             }
+             var area = $(":input[name=qyWork_Area]").val();
+             if (area == "") {
+                 alert("所在地不能为空!");
+                 return false;
+             }
+             var business = $(":input[name=businessulValue]").val();
+             if (business == "") {
+                 alert("所属行业不能为空!");
+                 return false;
+             }
+             var scale = $(":input[name=scale]").val();
+             if (scale == "") {
+                 alert("请选择企业规模!");
+                 return false;
+             }
+             var len = $("#ld").find("li").length;
+             var labels = "";
+             for (var i = 0; i < len; i++) {
+                 var label = $("#ld").find("li:eq(" + i + ")").text();
+                 labels += label.substring(0, label.length - 1) + "**"
+             }
+             labels = labels.substring(0, labels.length - 2);
+             $(":input[name=highlights]").val(labels);
+             var ser = $("form").serialize();
+             var companyId = $(":input[name=id]").val();
+             var url = "/jobs/position/headhunter/ajax_zpqyglSave?" + ser;
+             $.get(url, function (data) {
+                 var dat = eval("(" + data + ")");
+                 if (dat.msg == "success") {
+                     $(":input[name=id]").val(dat.id);
+                     // 更新操作
+                     if (companyId != "") {
+                         $("li[name=" + dat.id + "]").text(dat.remark_name);
+                         alert("更新成功!");
+                     // 插入操作
+                     }else{
+                         $("#ul" + dat.gid).append('<li name=' + dat.id + ' onclick="showDetail(this)">' + dat.show_name +
+                                        '<span class="f_r add_up_re_btn" style="display: none;" name=' + dat.id + '>' +
+                                        '<i class="iconfont icon-shanchu fz18" onClick="delCompany(this)" name=' + dat.gid + '></i></span></li>');
+                         $('.showSecondGroup[name="' + dat.gid + '"]').text(dat.group_name + '[' + dat.count + ']');
+                         alert("保存成功，已添加至默认分组!")
+                     }
+                 } else {
+                     alert("发生内部错误");
+                 }
+             })
+         });
+     });
+
+
+     // 交换分组
+    $("#finishGroup").click(function(){
+        var id = $(":input[name=id]").val()
+        if(id == ""){
+            alert("请先保存企业信息再进行分组")
+            return false;
+        }
+        var newGid = $("#groupList").val();
+        var $oldLi = $("li[name=" + id + "]");
+        var oldUlId = $oldLi.parent().attr("id");
+        var oldGid = oldUlId.substring(2, oldUlId.length);
+        $.ajax({
+            type: "POST",
+            data: {"id": id, "oldGid": oldGid, "newGid": newGid},
+            url: "/jobs/position/headhunter/ajax_swapNewGroup",
+            dataType: "json",
+            success: function(data){
+                if(data.msg == "success"){
+                    var $newUl = $("#ul" + newGid);
+                    if($newUl.length <= 0){
+                        $("#collapse" + newGid).append('<div class="panel-body"> <ul class="cal_tree_ul" id="ul' + newGid + '[1]" ></ul></div>')
+                    }
+                    // 重新显示个数
+                    $(".showSecondGroup[name=" + oldGid + "]").text(data.oldGroupName + "[" + data.oldCount + "]");
+                    $(".showSecondGroup[name=" + newGid + "]").text(data.newGroupName + "[" + data.newCount + "]");
+                    $("li[name=" + id + "]").remove();
+                    // 添加到新的分组中
+                    $("#ul" + newGid).append($oldLi);
+                    alert("已添加至新的分组");
+                }
+            }
+        })
+    });
+
+        // 显示鼠标经过样式
+        $(".panel-default").mouseover(function(){
+            var $css = $(this).find(".add_up_re_btn");
+            var $head = $(this).find(".panel-heading");
+            $css.show();
+            $head.css("background-color", "#f4f8fd");
+           // $head.css("color", "white");
+        });
+        $(".panel-default").mouseout(function(){
+                var $css = $(this).find(".add_up_re_btn");
+                var $head = $(this).find(".panel-heading");
+                $css.hide();
+                $head.css("background-color", "");
+                $head.css("color", "");
+        })
+
+             // 修改分组名
+            function alterGroupName(obj){
+                var $group = $(obj).parent().parent().find(".showSecondGroup");
+                var gid = $group.attr("name");
+                var oldName = $group.text();
+                var arrays = oldName.split('[');
+                var groupName = arrays[0];
+                var arrays1 = '[' + arrays[1];
+                $group.text("");
+                $group.append("<input type='text' name='groupName' value=" + groupName + ">");
+                $(":input[name=groupName]").blur(function(){
+                    var newName = $(this).val();
+                    $group.find(":input").remove();
+                    if(newName == groupName){
+                         $group.text(oldName);
+                        return false;
+                    }
+                    var flag =  confirm("你确定要修改此分组名吗?");
+                    if(!flag){
+                        $group.text(oldName);
+                    }else{
+                        $.ajax({
+                            type: "POST",
+                            data:{"gid": gid, "newName": newName},
+                            url: "/jobs/position/headhunter/ajax_changeGroupName",
+                            dataType: "json",
+                            success: function(data){
+                                $group.text(newName + arrays1);
+                                $("#groupList").find("option[value=" + gid + "]").text(newName);
+                            }
+                        })
+                    }
+                })
+            }
+
+            // 删除分组
+            function delGroup(obj){
+                var $parent = $(obj).parent().parent().parent().parent();
+                var $group = $(obj).parent().parent().find(".showSecondGroup");
+                var gid = $group.attr("name");
+                var groundName = $group.text().split('[')[0];
+                var flag = confirm("你确定要删除分组" + groundName + "及其所有的企业信息吗?");
+                if(!flag)
+                    return false;
+                $.ajax({
+                    type: "POST",
+                    data: {"gid": gid},
+                    url: "/jobs/position/headhunter/ajax_delGroup",
+                    dataType: "json",
+                    success: function(data){
+                        if(data.status == 0){
+                            alert("发生内部错误")
+                        }else if(data.status == 1){
+                            $parent.remove();
+                            $("#groupList").find("option[value=" + gid + "]").remove();
+                        } else if(data.status == 2) {
+                            alert("分组内的企业含有相应职位故不可删除!");
+                        }
+                    }
+                })
+            };
+
+      // 点击查看企业分组二级目录
+        function showSecondGroup(obj){
+            var $this = $(obj);
+            var gid = $this.attr("name");
+             $.ajax({
+                type: "POST",
+                url: "/jobs/position/headhunter/ajax_showSecondGroup",
+                data: {"gid": gid},
+                dataType: "json",
+                success: function (data) {
+                    if(data.length > 0){
+                        if(data.length > 0){
+                            var $ul = $("#ul" + gid);
+                            $ul.empty();
+                            if($ul.length <= 0){
+                                $("#collapse" + gid).append('<div class="panel-body"> <ul class="cal_tree_ul" id="ul' + gid + '" ></ul></div>')
+                            }
+                            $(data).each(function(i){
+                                $("#ul" + gid).append('<li name=' + this.id + ' onclick="showDetail(this)">' + this.pc_name +
+                                        '<span class="f_r add_up_re_btn" style="display: none;" name=' + this.id + '><i class="iconfont icon-shanchu fz18" onClick="delCompany(this)" name=' + gid+ '></i></span></li>');
+                            })
+                        }
+                    }
+                }
+             })
+        }
+
+            // 贴上标签
+        $(".gr_xxzxybq_n").click(function(){
+            var $input = $("#tievalue");
+            if($.trim($input.val()) == ""){
+                alert("请输入标签信息!");
+                return false;
+            }
+            if($("#ld").find("li").length >= 8){
+                alert("最多可以添加8个标签!");
+                return false;
+            }
+            $("#ld").append('<li>'+$input.val()+'<span onclick="removeLabel(this)">X</span></li>')
+        });
+        $(".xuanze").find("li").click(function(){
+            var context = $(this).text();
+            if($("#ld").find("li").length >= 8){
+                alert("最多可以添加8个标签!");
+                return false;
+            }
+            var len = $("#ld").find("li").length;
+            for (var i = 0; i < len; i++) {
+                var label = $("#ld").find("li:eq(" + i + ")").text();
+                if( context == label.substring(0, label.length - 1) ){
+                    alert("此标签已存在!");
+                    return false;
+                }
+            }
+            $("#ld").append('<li>'+context+'<span onclick="removeLabel(this)">X</span></li>')
+        })
+        function removeLabel(obj){
+            $(obj).parent().remove();
+        }
+
+     // 显示企业详情
+    function showDetail(obj){
+        var id = $(obj).attr("name");
+         $.ajax({
+             type: "POST",
+             url: "/jobs/position/headhunter/ajax_getCompanyDetail",
+             data: {"id": id},
+             dataType: "json",
+             success: function(data){
+                 if(data.msg == "success"){
+                     $(":input[name=id]").val(data.id);
+                     $(":input[name=show_name]").val(data.show_name);
+                     $(":input[name=remark_name]").val(data.remark_name);
+                     $("select[name=nature]").find("option[value=" + data.nature + "]").attr("selected", true);
+                     $(":input[name=qyworkarea]").val(data.locationName);
+                     $(":input[name=qyWork_Area]").val(data.location);
+
+                     $('#BusinessulControls').remove();
+                     BusinessulControls("businessulDiv1", data.businessName, data.business,'width:300px;margin-top:5px;height:auto;font-size:14px;');
+{#                     $(":input[name=experienc]").val(data.businessName);#}
+                     $(":input[name=businessulValue]").val(data.business);
+                     $("select[name=scale]").find("option[value=" + data.scale + "]").attr("selected", true);
+                     var hightlights =  data.highlights;
+                     var $mylabels = $("#ld");
+                     $mylabels.empty();
+                     if(hightlights != ""){
+                         var labels = hightlights.split("**");
+                         var len = labels.length;
+                         var content = '';
+                         for(var i = 0; i < len; i ++){
+                             content += '<li>' + labels[i] + '<span onclick="removeLabel(this)">X</span></li>';
+                         }
+                         $mylabels.append(content);
+                     }
+                      $("textarea[name=introduce]").val(data.introduce);
+                 }
+             }
+         })
+    }
+
+    // 删除企业信息
+        function delCompany(obj){
+        var flag = confirm("你确定要删除这条企业信息吗?");
+        if(flag){
+            var gid = $(obj).attr("name");
+            var id = $(obj).parent().attr("name");
+            $.ajax({
+                type: "POST",
+                data: {"id": id, "gid": gid},
+                url: "/jobs/position/headhunter/ajax_delCompany",
+                dataType: "json",
+                success: function(data){
+                    if(data.msg == 0){
+                        alert("发生内部错误!")
+                    } else if(data.msg == 1){
+                        $(obj).parent().remove();
+                        $("li[name=" + id + "]").remove();
+                        $("button[name=" + id + "]").remove();
+                        $(".showSecondGroup[name=" + gid + "]").text(data.group_name + "[" + data.count + "]");
+                        if($(":input[name=id]").val() == id){
+                            $(":input[name=id]").val("");
+                        }
+                        alert("删除成功!")
+                    } else if(data.msg == 2){
+                        alert("该企业下有相应职位，故不能删除！")
+                    }
+                }
+            })
+        }
+    }
+
+	</script>
+<script src="{{ STATIC_URL }}js/common.js" ></script>

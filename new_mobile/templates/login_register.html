@@ -1,0 +1,644 @@
+{% include 'header.html' %}
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_1453450768_9080622.css">
+
+<style type="text/css">
+body {
+    background: #F5F5F5;
+    font-family: "Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "Î¢ÈíÑÅºÚ", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
+}
+    *{box-sizing:border-box;}
+    .top{height:50px;line-height: 50px;text-align: center;background-color:#1470B3;}
+    .top strong{font-size: 20px;color:#fff;}
+    .top span{font-size:14px;position:absolute;right:10px;color:#fff;font-weight:bold;}
+    .login_change_type span,.reg_change_type span {
+    display: inline-block;
+    width: 50%;
+    color: #000;
+    height: 50px;
+    line-height: 50px;background-color: #e6e6e6;
+    text-align: center;
+    font-size: 16px;
+}
+.reg_change_type span{width:33%;}
+.login_change_type span.active,.reg_change_type span.active {
+    background-color: #F7F7F7;
+    color:#6C6C6C;
+}
+.right_line{border-right:1px solid #D5D5D5;}
+.login_content,.register_content{padding:0 10px 10px 10px;}
+input{border:0;background-color:transparent;outline:none;}
+input:-webkit-autofill {
+-webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+}
+.account_box,.password_box,.phone_box,.code_box{border:1px solid #CACACA;padding-left: 10px;height:50px;line-height: 50px;background-color:#fff;margin:0 0 10px 0;font-size:16px;position: relative;}
+.account_box input,.password_box input,.phone_box input{margin-left: 10px;height:30px;line-height: 30px;width:200px;font-size: 16px;}
+.password_box .iconfont{float: right;margin-right: 10px;color:#DBDBDB;font-size: 14px;}
+#login_btn,#quick_login_btn,#register_btn{width:100%;height:50px;color:#fff;background-color:#1980CE;text-align: center;font-size: 18px;border-radius: 6px;}
+#get_code_btn,#get_reg_code_btn,#reg_code_timer,#code_timer{font-size: 14px;float: right;margin-right: 10px;}
+.code{width:42%;}
+.login_logo{text-align:center;width:100%;top:380px;position:absolute;}
+.login_logo img{width:100%;}
+#login_btn:hover,#quick_login_btn:hover,#register_btn:hover,#login_btn:focus,#quick_login_btn:focus,#register_btn:focus{background-color:#1470B3;}
+.code_box input{height:30px;line-height: 30px;font-size: 16px;}
+
+.chachacha{
+    position: absolute;
+    right:1%;
+    margin-right: 10px;
+    top:50%;
+    margin-top: -7.5px;
+    display: none;
+}
+.pascha,.regPasCha{
+    margin-right: 45px;
+}
+</style>
+<script>
+    // $(function(){
+    //      var pmheight=$(window).height()-($('.login_logo').height()+20);      
+    //      $('.login_logo').css({
+    //          position: 'absolute',
+    //          top: pmheight
+    //      });
+    // });                
+</script>
+
+<div class="top"> <strong>登录</strong>
+    <span id="change_btn">注册</span>   
+</div>
+
+<div class="login_change_type">
+    <span class="right_line" >短信快捷登录</span><span class="active" id="comlogin">普通登录</span>
+</div>
+<div class="reg_change_type" style="display:none">
+    <span class="right_line" >我是人才</span><span class="right_line" >我是经纪人</span><span >我是企业HR</span>
+</div>
+<form id="login_form" action="/mobile/login_user" method="post">
+    <input type="hidden" name="open_id" value="{{ open_id|default:'' }}" />
+    <div class="login_content">
+        <div class="account_box ">
+            <span>账号</span>
+            <input type="text" placeholder="请输入注册邮箱/手机号" name="account" id="account" value="{{ account|default:'' }}" onchange="validAccount()" maxlength="">
+            <i class="chachacha acccha"><img width="15"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABTUlEQVRIS9XXwXECIRQG4PdXkHTgZYezJSQlWEFMB0klsQNNB+kgdmDO7B5MB6aCP4Oz6yACC7jEibcdGb55j8cD0HXdiuQTyVel1EYq/rTWSwBvAN7Rtu1eRGbGI/lcC+/RdR/XN7TWcwBbEbmrhTvoD8kHGKwm7kOVUl9H2MJ3w/cUaQ+hxjjBPW4Wf1iHq9Y8hl7AU+EOKgAWTdN82BvmLGIr7cWRu2hoybxwaeSpqDfVdjpyJsoZOwqnRp6LJsFjeAmaDIfw4wSF2y9YXL6zwo3OHpPbcLJgX+Sl/f1/wDdJta96qxdXbMtU204pE6eMcXdJtLhyJswZG20guRONdbikiEvQ3CP1ItXXoCF89CIwBRrADyQfzSVv+P8vL3tnuH29/RSR+9Le6ztUPAV3wocLfRU0lvabPGFI7tE/2pYkX2q9m5zIVwA2vw0gsdD/jbtOAAAAAElFTkSuQmCC"/></i>
+        </div>
+        <div class="password_box">
+            <span>密码</span>
+            <input type="password"placeholder="请输入密码" name="password" id="hide_pass" class="hhpas" value="{{ pwd|default:'' }}" onkeydown="$('#show_pass').val(this.value)"  onkeyup="$('#show_pass').val(this.value)" maxlength="20" >
+            <input type="text"placeholder="请输入密码" name="password" onkeydown="$('#hide_pass').val(this.value)" onkeyup="$('#hide_pass').val(this.value)" id="show_pass" style="display:none" maxlength="20">
+            <i class="chachacha pascha"><img width="15" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABTUlEQVRIS9XXwXECIRQG4PdXkHTgZYezJSQlWEFMB0klsQNNB+kgdmDO7B5MB6aCP4Oz6yACC7jEibcdGb55j8cD0HXdiuQTyVel1EYq/rTWSwBvAN7Rtu1eRGbGI/lcC+/RdR/XN7TWcwBbEbmrhTvoD8kHGKwm7kOVUl9H2MJ3w/cUaQ+hxjjBPW4Wf1iHq9Y8hl7AU+EOKgAWTdN82BvmLGIr7cWRu2hoybxwaeSpqDfVdjpyJsoZOwqnRp6LJsFjeAmaDIfw4wSF2y9YXL6zwo3OHpPbcLJgX+Sl/f1/wDdJta96qxdXbMtU204pE6eMcXdJtLhyJswZG20guRONdbikiEvQ3CP1ItXXoCF89CIwBRrADyQfzSVv+P8vL3tnuH29/RSR+9Le6ztUPAV3wocLfRU0lvabPGFI7tE/2pYkX2q9m5zIVwA2vw0gsdD/jbtOAAAAAElFTkSuQmCC"/></i>
+            <i class="iconfont icon-shurukuangchakanmima" id="check_pass"></i>
+        </div>
+        <div style="text-align:right;margin-bottom: 10px;">
+            <a href="/mobile/lockback_password" style="color:#1470B3;text-decoration:none">忘记密码</a>
+        </div>
+        <div>
+            <input type="submit" onclick="return validLogin()" value="登录" id="login_btn">
+                <a  href="javascript:void(0)" onclick="tiyan()" style="text-decoration: none;color: #1470B3;float: right;color: #1470B3;margin-top: 14px;font-size: 14px;"><span style="vertical-align: middle;">立即体验</span><i class="iconfont icon-icon5" style="font-size: 12px;vertical-align: middle;;margin-left:5px"></i></a>
+        </div>
+    </div>
+</form>
+<form action="/mobile/quick_login" method="post" id="quick_login_form" style="display:none">
+    <input type="hidden" name="open_id" value="{{ open_id|default:'' }}" />
+    <div class="login_content">
+        <div class="phone_box ">
+            <span>手机号</span>
+            <input type="text" placeholder="请输入绑定的手机号码" value="{{ phone|default:'' }}" name="phone" onchange="validPhone('phone')" id="phone" maxlength="20">
+            <i class="chachacha phocha"><img width="15" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABTUlEQVRIS9XXwXECIRQG4PdXkHTgZYezJSQlWEFMB0klsQNNB+kgdmDO7B5MB6aCP4Oz6yACC7jEibcdGb55j8cD0HXdiuQTyVel1EYq/rTWSwBvAN7Rtu1eRGbGI/lcC+/RdR/XN7TWcwBbEbmrhTvoD8kHGKwm7kOVUl9H2MJ3w/cUaQ+hxjjBPW4Wf1iHq9Y8hl7AU+EOKgAWTdN82BvmLGIr7cWRu2hoybxwaeSpqDfVdjpyJsoZOwqnRp6LJsFjeAmaDIfw4wSF2y9YXL6zwo3OHpPbcLJgX+Sl/f1/wDdJta96qxdXbMtU204pE6eMcXdJtLhyJswZG20guRONdbikiEvQ3CP1ItXXoCF89CIwBRrADyQfzSVv+P8vL3tnuH29/RSR+9Le6ztUPAV3wocLfRU0lvabPGFI7tE/2pYkX2q9m5zIVwA2vw0gsdD/jbtOAAAAAElFTkSuQmCC"/></i>
+            </div>
+        <div class="code_box">
+            <span>验证码</span>
+            <input type="text"placeholder="请输入验证码" name="code" id="code" onchange="validCode('code')" class="code" maxlength="6" style="margin-left: 10px;">
+            <span id="get_code_btn">获取验证码</span>
+            <span id="code_timer" style="display:none"></span>
+
+        </div>
+        <div>
+            <input type="submit" onclick="return validQuickLogin()" value="登录" id="quick_login_btn">
+            <a  href="javascript:void(0)" onclick="tiyan()" style="text-decoration: none;color: #1470B3;float: right;color: #1470B3;margin-top: 14px;font-size: 14px;"><span style="vertical-align: middle;">立即体验</span><i class="iconfont icon-icon5" style="font-size: 12px;vertical-align: middle;;margin-left:5px"></i></a>
+        </div>
+    </div>
+</form>
+<form action="/mobile/login_register" method="post" id="register_form" style="display:none">
+    <input type="hidden" name="open_id" value="{{ open_id|default:'' }}" />
+    <input type="hidden" name="account_type" class="account_type" value="1">
+    <div class="register_content">
+        <div class="phone_box">
+            <span>手机号</span>
+            <input type="text" placeholder="请输入手机号" name="reg_phone" onchange="validPhone('reg_phone')" id="reg_phone" maxlength="20">
+            <i class="chachacha regPhCha"><img width="15" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABTUlEQVRIS9XXwXECIRQG4PdXkHTgZYezJSQlWEFMB0klsQNNB+kgdmDO7B5MB6aCP4Oz6yACC7jEibcdGb55j8cD0HXdiuQTyVel1EYq/rTWSwBvAN7Rtu1eRGbGI/lcC+/RdR/XN7TWcwBbEbmrhTvoD8kHGKwm7kOVUl9H2MJ3w/cUaQ+hxjjBPW4Wf1iHq9Y8hl7AU+EOKgAWTdN82BvmLGIr7cWRu2hoybxwaeSpqDfVdjpyJsoZOwqnRp6LJsFjeAmaDIfw4wSF2y9YXL6zwo3OHpPbcLJgX+Sl/f1/wDdJta96qxdXbMtU204pE6eMcXdJtLhyJswZG20guRONdbikiEvQ3CP1ItXXoCF89CIwBRrADyQfzSVv+P8vL3tnuH29/RSR+9Le6ztUPAV3wocLfRU0lvabPGFI7tE/2pYkX2q9m5zIVwA2vw0gsdD/jbtOAAAAAElFTkSuQmCC"/></i>
+            </div>
+        <div class="code_box">
+            <span>验证码</span>
+            <input type="text"placeholder="请输入验证码" value="" name="reg_code" id="reg_code" onchange="validCode(reg_code)" class="code" maxlength="6"  AUTOCOMPLETE="off" style="margin-left:10px;">
+            <span id="get_reg_code_btn">获取验证码</span>
+            <span id="reg_code_timer" style="display:none"></span>
+        </div>
+         <div class="password_box">
+            <span>密 &nbsp &nbsp码</span>
+            <input type="password"placeholder="请设置密码"  AUTOCOMPLETE="off"  name="reg_password" id="reg_hide_pass" onkeydown="$('#reg_show_pass').val(this.value)" value=""  onkeyup="$('#reg_show_pass').val(this.value)" maxlength="20" >
+            <input type="text"placeholder="请设置密码"  AUTOCOMPLETE="off"  value="" name="reg_password" onkeydown="$('#reg_hide_pass').val(this.value)" onkeyup="$('#reg_hide_pass').val(this.value)" id="reg_show_pass" style="display:none" maxlength="20">
+            <i class="chachacha regPasCha"><img width="15" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAABTUlEQVRIS9XXwXECIRQG4PdXkHTgZYezJSQlWEFMB0klsQNNB+kgdmDO7B5MB6aCP4Oz6yACC7jEibcdGb55j8cD0HXdiuQTyVel1EYq/rTWSwBvAN7Rtu1eRGbGI/lcC+/RdR/XN7TWcwBbEbmrhTvoD8kHGKwm7kOVUl9H2MJ3w/cUaQ+hxjjBPW4Wf1iHq9Y8hl7AU+EOKgAWTdN82BvmLGIr7cWRu2hoybxwaeSpqDfVdjpyJsoZOwqnRp6LJsFjeAmaDIfw4wSF2y9YXL6zwo3OHpPbcLJgX+Sl/f1/wDdJta96qxdXbMtU204pE6eMcXdJtLhyJswZG20guRONdbikiEvQ3CP1ItXXoCF89CIwBRrADyQfzSVv+P8vL3tnuH29/RSR+9Le6ztUPAV3wocLfRU0lvabPGFI7tE/2pYkX2q9m5zIVwA2vw0gsdD/jbtOAAAAAElFTkSuQmCC"/></i>
+            <i class="iconfont icon-shurukuangchakanmima" id="reg_check_pass"></i>
+        </div>
+        <div>
+            <input type="submit" onclick="return validRegister()" value="注册" id="register_btn"><a href="javascript:void(0)" onclick="tiyan()" style="text-decoration: none;color: #1470B3;float: right;color: #1470B3;margin-top: 14px;font-size: 14px;"><span style="vertical-align: middle;">立即体验</span><i class="iconfont icon-icon5" style="font-size: 12px;vertical-align: middle;margin-left:5px"></i></a>
+        </div>
+    </div>
+</form>
+<div class="login_logo">
+<a href="/mobile/"><img src="/static/new_mobile/images/login_logo.png" ></a>
+</div>
+<script>
+//判断安卓 iphone
+    var u = navigator.userAgent, app = navigator.appVersion;
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    $("#android").attr('value', isAndroid);
+    $("#ios").attr('value', isiOS);
+    if('{{ msg | default:'' }}' != '' && '{{msg}}' != '注册成功') {
+        alert(['{{ msg }}',3]);
+    }else if('{{ msg | default:'' }}' == '注册成功'){
+        alert(['{{ msg }}',1]);
+    }
+    $("input[type='text']").attr('autocomplete','no');
+    $("input[type='password']").attr('autocomplete','no');
+//登陆--查看密码
+ $("#check_pass").click(function(){
+    if($("#show_pass").css('display')=='none')
+    {
+        $(this).css('color','#666');
+        $("#show_pass").show().val($("#hide_pass").val());
+        $("#hide_pass").hide();
+    }
+    else
+    {
+        $(this).css('color','#DBDBDB');
+        $("#show_pass").hide();
+        $("#hide_pass").show().val($("#show_pass").val());
+    }
+ })
+ //注册--查看密码
+  $("#reg_check_pass").click(function(){
+    if($("#reg_show_pass").css('display')=='none')
+    {
+        $(this).css('color','#666');
+        $("#reg_show_pass").show().val($("#reg_hide_pass").val());
+        $("#reg_hide_pass").hide();
+    }
+    else
+    {
+        $(this).css('color','#DBDBDB');
+        $("#reg_show_pass").hide();
+        $("#reg_hide_pass").show().val($("#reg_show_pass").val());
+    }
+ })
+ $(".login_change_type span").click(function(){
+    $(".login_change_type span").removeClass('active')
+         $(this).addClass('active');
+         var index=$(this).index();
+         if(index==0)
+         {
+           $("#quick_login_form").show();
+           $("#login_form").hide();
+         }
+         else
+         {
+            $("#quick_login_form").hide();
+           $("#login_form").show();
+         }
+ })
+ //注册-选择角色
+ $(".reg_change_type span").click(function(){
+        $(".reg_change_type span").removeClass('active');
+         $(this).addClass('active');
+         var index=$(this).index();
+         if(index==0) {
+            $(".account_type").val(1);
+         } else if(index == 1) {
+            $(".account_type").val(3);
+         } else {
+            $(".account_type").val(4);
+         }
+ })
+ //切换登陆注册
+ $("#change_btn").click(function(){
+    if($(this).text()=="注册"){
+        $(this).text('登录').prev().text('注册');
+        $("#quick_login_form").hide();
+        $("#login_form").hide();
+        $(".login_change_type").hide();
+        $(".reg_change_type").show();
+        $("#register_form").show();
+        $("#reg_phone").val("");
+        $("#reg_code").val("");
+        $("#reg_hide_pass").val("");
+        
+    }
+    else if($(this).text()=="登录")
+    {
+        $(this).text('注册').prev().text('登录');
+        $("#quick_login_form").hide();
+        $("#login_form").show();
+        $(".login_change_type").show();
+        $(".reg_change_type").hide();
+        $("#register_form").hide();
+        $("#account").val("");
+        $("#show_pass").val("");
+        $("#hide_pass").val("");
+    }
+ })
+{% if phone %}
+    $("#change_btn").click();
+    $('#reg_phone').val({{ phone|default:'' }});
+    $(".account_type").val({{ account_type }});
+    if('{{ account_type }}' == '1'){
+        $('.reg_change_type').children('span:first').addClass('active');
+    }else if('{{ account_type }}' == '3'){
+        $('.reg_change_type').children('span:eq(1)').addClass('active');
+    }else if('{{ account_type }}' == '4'){
+        $('.reg_change_type').children('span:last').addClass('active');
+    }
+{% endif %}
+ //快速登陆获取验证码
+ $("#get_code_btn").click(function(){
+    var flag = validPhone('phone');
+    if(!flag)   return false;
+    var mobile = $("#phone").val();
+
+    var return_data = is_phone_registered(mobile);
+    if(return_data != 'password') {
+       $("#phone").val('');
+       alert(['该账号尚未注册', 2]);
+       return false;
+    }
+    $.ajax({
+        async: false,
+        type: "POST",
+        url: "/mobile/ajax_send_register_msg",
+        data: {"mobile": mobile, 'code_type': 200},
+        dataType: "json",
+        success: function (msg) {
+            if (msg == "1") {
+                var code_count=60;
+                 $("#get_code_btn").hide();
+                 $("#code_timer").show();
+                  alert(['验证码发送成功', 1]);
+                var timer=setInterval(function(){
+                    if(code_count>0)
+                    {
+                        code_count--;
+                        $("#code_timer").text(code_count);
+                    }
+                    else
+                    {
+                        clearInterval(timer);
+                        $("#get_code_btn").show();
+                        $("#code_timer").text(60).hide();
+                    }
+                },1000)
+
+            } else {
+                alert(['验证码发送失败', 2]);
+            }
+        }
+    });
+ });
+ //注册获取验证码
+ $("#get_reg_code_btn").click(function(){
+    var flag = validPhone('reg_phone');
+    if(!flag)   return false;
+    var mobile = $("#reg_phone").val();
+
+    var return_data = is_phone_registered(mobile);
+    if(return_data != 'register') {
+       $("#reg_phone").val('');
+       alert(['该账号已注册', 2]);
+       return false;
+    }
+    $.ajax({
+        async: false,
+        type: "POST",
+        url: "/mobile/ajax_send_register_msg",
+        data: {"mobile": mobile, 'code_type': 100},
+        dataType: "json",
+        success: function (msg) {
+            if (msg == "1") {
+                var code_count=60;
+                 $("#get_reg_code_btn").hide();
+                 $("#reg_code_timer").show();
+                  alert(['验证码发送成功', 1]);
+                var timer=setInterval(function(){
+                    if(code_count>0)
+                    {
+                        code_count--;
+                        $("#reg_code_timer").text(code_count);
+                    }
+                    else
+                    {
+                        clearInterval(timer);
+                        $("#get_reg_code_btn").show();
+                        $("#reg_code_timer").text(60).hide();
+                    }
+                },1000)
+            } else {
+                alert(['验证码发送失败', 2]);
+            }
+        }
+    });
+ });
+
+var phoneReg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
+var emailReg = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/;
+function validAccount()
+{
+    var account=$.trim($("#account").val());
+    if(account == '') {
+        alert(['请输入账号',2]);
+        $("#account").val('');
+        return false;
+    }
+    if (!phoneReg.test(account)&&!emailReg.test(account)) {
+        alert(['账号输入不合法',2]);
+        // alert(1);
+        // $("#account").val('');
+        return false;
+    }
+}
+ function validPhone(phoneId)
+ {
+     var $phone = $("#" + phoneId);
+    var phone=$.trim($("#"+phoneId).val());
+    if(phone == '') {
+        alert(['请输入手机号',2]);
+        $phone.val('');
+        $("#phone").val('');
+        return false;
+    }
+    if (!phoneReg.test(phone)) {
+        alert(['手机号输入不合法',2]);
+        // alert(10);
+        // $phone.val('');
+        // $("#phone").val('');
+        return false;
+    }
+     return true;
+}
+function validPassword(passwordId) {
+    var password=$("#"+passwordId).val().trim();
+    if(password=='') {
+        $("#"+passwordId).val('');
+        alert(['请输入密码',2]);
+        return false;
+    }
+    // if(password.length<6) {
+    //     $("#"+passwordId).val('');
+    //     alert(['您的密码至少包含6个字符!',2]);
+    //     return false;
+    // }
+}
+function validCode(codeId)
+{
+    var $code = $("#" + codeId);
+    var codeId = $code.val().trim();
+    if(codeId=='') {
+        $code.val('');
+        alert(['请输入验证码',2]);
+        return false;
+    }
+    var reg = /^[0-9]{6}$/;
+    if(!reg.test(codeId)){
+        $code.val('');
+        alert(['请输入正确的验证码',2]);
+        return false;
+    }
+}
+
+
+//普通登陆
+function validLogin()
+{
+    var account=$.trim($("#account").val());
+    if(account == '') {
+        alert(['请输入账号',2]);
+        $("#account").val('');
+        return false;
+    }
+    if (!phoneReg.test(account)&&!emailReg.test(account)) {
+        alert(['账号输入不合法',2]);
+        // alert(1);
+        // $("#account").val('');
+        return false;
+    }
+    if(validPassword("hide_pass")==false)return false;
+}
+//快速登陆
+function validQuickLogin()
+{
+    if(validPhone("phone")==false)return false;
+    if(validCode("code")==false)return false;
+}
+//注册
+function validRegister(){
+    if(validPhone("reg_phone")==false)return false;
+    if(validCode("reg_code")==false)return false;
+    if(validPassword("reg_hide_pass")==false)return false;
+    var reg_phone = $("#reg_phone").val();
+    var return_data =  is_phone_registered(reg_phone);
+    if(return_data != 'register') {
+        $("#reg_phone").val('');
+        alert(['该账号已注册', 2]);
+        return false;
+    }
+    if($(".reg_change_type .active").length<=0)
+    {
+        alert(['请先选择角色', 2]);
+        return false;
+    }
+}
+
+// 判断手机号是否注册
+function is_phone_registered(phone) {
+    var valid_data = '';
+    $.ajax({
+        async: false,
+        type: "POST",
+        url: "/mobile/ajax_isAccountRegistered",
+        data: {"account": phone},
+        dataType: "json",
+        success: function (data) {
+            if (data == "register" || data == "password") {
+                valid_data = data;
+            }
+        }
+    });
+    return valid_data;
+}
+function post(URL, PARAMS) {
+            var temp = document.createElement("form");
+            temp.action = URL;
+            temp.method = "post";
+            temp.style.display = "none";
+            for (var x in PARAMS) {
+                var opt = document.createElement("input");
+                opt.name = x;
+                opt.value = PARAMS[x];
+                // alert(opt.name)
+                temp.appendChild(opt);
+            }
+            document.body.appendChild(temp);
+            temp.submit();
+            return temp;
+        }
+function tiyan()
+{
+    post("http://beta.hcdyhr.com/mobile/autoLogin", {"pu_id": "1608","type": 2});
+}
+</script>
+<script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+<script>
+    var head_protraint = '/static/images/logo.jpg';
+
+    var title = '【怀才当遇】找工作、找人才、找简历，轻轻一点，轻松实现！';
+
+    var description = '怀才当遇是国内首家专注人力资源服务的平台，为人才、企业、人力资源从业者提供从求职、招聘、职业规划成长、人力资源激活等一站式的新型在线人力资源服务。';
+
+    // 微信分享
+    WXJssdk.init(function(wx) {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+            success: function (res) {
+			//alert(JSON.stringify(res));
+            }
+        });
+        // 分享data
+        var shareData = {
+            title: title,
+            desc: description,
+            link: '{{ request.session.web_site }}/mobile/login_register',//分享链接地址 自己调整
+            imgUrl: '{{ request.session.web_site }}/' + head_protraint,//分享显示的图片
+            success:function(){
+               // alert('shareData success');
+            },
+            cancel:function(){
+               // alert('shareData cancel');
+            },
+            error:function(res){
+               // alert(JSON.stringify(res));
+            }
+        };
+
+        // 分享给朋友
+          wx.onMenuShareAppMessage(shareData);
+        // 分享到朋友圈
+          wx.onMenuShareTimeline(shareData);
+        // 分享到QQ
+          wx.onMenuShareQQ(shareData);
+        // 分享到微博
+          wx.onMenuShareWeibo(shareData);
+    });
+</script>
+<script type="text/javascript">
+(function(){
+   var Cha = window.Cha = function(obj1, obj2){
+    this.obj1 = $(obj1);
+    this.obj2 = $(obj2);
+   }
+    Cha.prototype = {
+        del:function(){
+            if( this.obj1[0].value != ""){
+                this.obj2.css("display","block");
+            }else{
+             this.obj2.css("display","none");
+            }
+        },
+        jop:function(){
+            this.obj1[0].value = "";
+            this.obj2.css("display","none"); 
+        },
+        bur:function(){
+            this.obj2.css("display","none");
+        }
+    }  
+})()
+    //普通登录输入账号
+    $("#account").bind('keyup focus', function() {//普通登录输入账号判断×是否显示
+        new Cha( "#account" , ".acccha" ).del();
+    });
+    $("#account").bind('blur', function() {//普通登录获取光标判断×是否显示
+        new Cha( "#account" , ".acccha" ).bur();
+    });
+    $('.acccha').bind('touchstart click', function() {
+        new Cha( "#account" , ".acccha" ).jop();
+    });
+    //普通登录输入密码
+    $("#hide_pass").bind('keyup focus', function() {
+        new Cha( "#hide_pass" , ".pascha" ).del();
+    });
+    $("#hide_pass").bind('blur', function() {
+        new Cha( "#hide_pass" , ".pascha" ).bur();
+    });
+    $("#show_pass").bind('keyup focus', function() {
+        new Cha( "#show_pass" , ".pascha" ).del();
+    });
+    $("#show_pass").bind('blur', function() {
+        new Cha( "#show_pass" , ".pascha" ).bur();
+    });
+    $('.pascha').bind('touchstart click', function() {
+        new Cha( "#hide_pass" , ".pascha" ).jop();
+    });
+    $('.pascha').bind('touchstart click', function() {
+        new Cha( "#show_pass" , ".pascha" ).jop();
+    });
+    //短信登录手机号
+    $("#phone").bind('keyup focus', function() {
+        new Cha( "#phone" , ".phocha" ).del();
+    });
+    $("#phone").bind('blur', function() {
+        new Cha( "#phone" , ".phocha" ).bur();
+    });
+    $('.phocha').bind('touchstart click', function() {
+        new Cha( "#phone" , ".phocha" ).jop();
+    });
+    //注册手机号输入
+    $("#reg_phone").bind('keyup focus', function() {
+        new Cha( "#reg_phone" , ".regPhCha" ).del();
+    });
+    $("#reg_phone").bind('blur', function() {
+        new Cha( "#reg_phone" , ".regPhCha" ).bur();
+    });
+    $('.regPhCha').bind('touchstart click', function() {
+        new Cha( "#reg_phone" , ".regPhCha" ).jop();
+    });
+    //注册输入密码
+    $("#reg_hide_pass").bind('keyup focus', function() {
+        new Cha( "#reg_hide_pass" , ".regPasCha" ).del();
+    });
+    $("#reg_hide_pass").bind('blur', function() {
+        new Cha( "#reg_hide_pass" , ".regPasCha" ).bur();
+    });
+    $("#reg_show_pass").bind('keyup focus', function() {
+        new Cha( "#reg_show_pass" , ".regPasCha" ).del();
+    });
+    $("#reg_show_pass").bind('blur', function() {
+        new Cha( "#reg_show_pass" , ".regPasCha" ).bur();
+    });
+    $('.regPasCha').bind('touchstart click', function() {
+        new Cha( "#reg_hide_pass" , ".regPasCha" ).jop();
+    });
+    $('.regPasCha').bind('touchstart click', function() {
+        new Cha( "#reg_show_pass" , ".regPasCha" ).jop();
+    });
+
+
+    
+    $("#comlogin").bind("touchstart",_comlogin);
+    function _comlogin(){
+        // console.log(1);
+        $("#account").val("");
+        $("#show_pass").val("");
+        $("#hide_pass").val("");
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+{% include 'header.html' %}
+	<link rel="stylesheet" href="/static/new_mobile/css/zsc_common.css">
+    <style type="text/css" media="screen">
+    .count_box{height:140px;padding:20px 15px;background-color:#1270ae;box-sizing: border-box;}
+    .count_box .c_t{font-size: 16px;color:#fff;}
+    .count_box .c_b_l{font-size: 60px;color:#fff;}
+    .count_box .c_b_btn{font-size: 16px;color:#fff;display:inline-block;width:120px;height:30px;border-radius: 6px;line-height:30px;background-color:#45b035;text-align: center;margin-left: 18px;vertical-align: text-bottom;}
+    .count_box .c_b_i{font-size: 12px;color:#fff200;vertical-align:18px;margin-left: 10px;}
+    .caicard_details{font-size: 16px;color:#36494f;padding:20px 15px;border-bottom:1px solid #e8e8e8;background-color:#fff;}
+    .caicard_details_list{background-color:#fff;padding:0 15px;}
+    .caicard_details_list li{overflow: hidden;}
+    .caicard_details_list .c_d_l_l{float: left;}
+    .caicard_details_list .c_d_l_l .t{font-size: 20px;line-height: 1;margin-top: 10px;}
+    .caicard_details_list .c_d_l_l .b{font-size: 14px;line-height: 1;color:#acacac;margin-top: 10px;}
+
+    .caicard_details_list .c_d_l_r{float: right;padding-top: 20px;font-size: 16px;}
+    </style>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<div class="count_box">
+    <p class="c_t">才币</p>
+    <div class="c_b">
+        <span class="c_b_l">20</span><a href="javascript:void(0)" class="c_b_btn">才才卡兑换</a><span class="c_b_i">news</span>
+    </div>
+</div>
+<div class="caicard_details">
+    才币明细
+</div>
+<ul class="caicard_details_list">
+    <li>
+        <div class="c_d_l_l">
+            <p class="t">浏览个人简历消费才币</p>
+            <p class="b">2016 01-18 09:27:12</p>
+        </div>
+        <div class="c_d_l_r">
+            -20
+        </div>
+    </li>
+    <li>
+        <div class="c_d_l_l">
+            <p class="t">浏览个人简历消费才币</p>
+            <p class="b">2016 01-18 09:27:12</p>
+        </div>
+        <div class="c_d_l_r">
+            -20
+        </div>
+    </li>
+    <li>
+        <div class="c_d_l_l">
+            <p class="t">浏览个人简历消费才币</p>
+            <p class="b">2016 01-18 09:27:12</p>
+        </div>
+        <div class="c_d_l_r">
+            -20
+        </div>
+    </li>
+    <li>
+        <div class="c_d_l_l">
+            <p class="t">浏览个人简历消费才币</p>
+            <p class="b">2016 01-18 09:27:12</p>
+        </div>
+        <div class="c_d_l_r">
+            -20
+        </div>
+    </li>
+    <li>
+        <div class="c_d_l_l">
+            <p class="t">浏览个人简历消费才币</p>
+            <p class="b">2016 01-18 09:27:12</p>
+        </div>
+        <div class="c_d_l_r">
+            -20
+        </div>
+    </li>
+    <li>
+        <div class="c_d_l_l">
+            <p class="t">浏览个人简历消费才币</p>
+            <p class="b">2016 01-18 09:27:12</p>
+        </div>
+        <div class="c_d_l_r">
+            -20
+        </div>
+    </li>
+    <li>
+        <div class="c_d_l_l">
+            <p class="t">浏览个人简历消费才币</p>
+            <p class="b">2016 01-18 09:27:12</p>
+        </div>
+        <div class="c_d_l_r">
+            -20
+        </div>
+    </li>
+    <li>
+        <div class="c_d_l_l">
+            <p class="t">浏览个人简历消费才币</p>
+            <p class="b">2016 01-18 09:27:12</p>
+        </div>
+        <div class="c_d_l_r">
+            -20
+        </div>
+    </li>
+</ul>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+    $('.zsp_header').remove();
+}
+</script><!--zsp_header -->
+<script src="http://www.hcdyhr.com/static/hcdy/html5game/choujiang/WXJssdk.js"></script>
+<script>
+    // 微信分享
+    WXJssdk.init(function(wx) {
+        // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+        wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'chooseImage'],
+            success: function (res) {
+			//alert(JSON.stringify(res));
+            }
+        });
+        // 分享data
+        var shareData = {
+            title: '{{ headHunt.real_name | default:'' }}',
+            desc: desc1,
+            link: '{{ request.session.web_site }}/mobile/deatil_headhunter_list?headhunt_id={{ headHunt.id }}&resume_count={{ headHunt.resume_count | default:0 }}',//分享链接地址 自己调整
+            imgUrl: '{{ request.session.web_site }}' + head_protrait,//分享显示的图片
+            success:function(){
+               // alert('shareData success');
+            },
+            cancel:function(){
+               // alert('shareData cancel');
+            },
+            error:function(res){
+               // alert(JSON.stringify(res));
+            }
+        };
+
+        // 分享给朋友
+          wx.onMenuShareAppMessage(shareData);
+        // 分享到朋友圈
+          wx.onMenuShareTimeline(shareData);
+        // 分享到QQ
+          wx.onMenuShareQQ(shareData);
+        // 分享到微博
+          wx.onMenuShareWeibo(shareData);
+    });
+</script>
+</body>
+</html>

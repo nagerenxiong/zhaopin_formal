@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>填写基本信息</title>
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+	<link rel="stylesheet" href="http://at.alicdn.com/t/font_1442833288_2016494.css">
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css">
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/write_info.css">
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+</head>
+<body>
+	<!-- 头部start -->
+<!-- 	<div class="header">
+         <div class="content">
+             <a href="/"><img style="margin-top:10px;" src="{{ STATIC_URL }}images/new_logo.png" alt=""></a>
+             <ul>
+                 <li><a href="/">首页</a></li>
+                 <li><a href="/position/company_search" target="_blank">公司</a></li>
+                 <li><a href="/position/personal/g_zwss" target="_blank">职位</a></li>
+                 <li><a href="/system/agent_search" target="_blank">人才经纪人</a></li>
+                 <span class="abs"></span>
+             </ul>
+         </div>
+    </div> -->
+    {% include 'jobs/system/header.html' %}
+<div class="clear">99</div>
+<!-- 头部end -->
+<div class="main">
+	<h1>填写基本信息</h1>
+	<div class="form">
+		<input type="text" class="o_txt" placeholder="姓名" maxlength="6">
+		<div id="businessulDiv" class="o_txt" onclick="BusinessulControlsShow(1,this)"></div>
+		<input type="hidden">
+		<div id="positionDiv" class="o_txt" onclick="PositionControlsShow(3,this)"></div>
+		<input type="hidden">
+		<input type="text" class="o_txt " readonly="true" onclick="showArea(this,1)"  placeholder="公司所在地">
+		<div class="scyyzz" id="scyyzz">
+			<img src="{{ STATIC_URL }}images/scyyzz.png" alt="">
+		</div>
+		<button class="o_btn save">保存</button>
+		<a href="javascript:void(0)" class="cancel">取消</a>
+
+	</div>
+</div>
+<!-- 主体start -->
+	
+<!-- 主体end -->
+
+<!-- 尾部start -->
+<!-- <div class="footer">
+	<ul>
+		<li><a href="#">关于我们</a></li>|
+		<li><a href="#">法律声明</a></li>|
+		<li><a href="#">使用帮助</a></li>|
+		<li><a href="#">用户协议</a></li>|
+		<li><a href="#">网站索引</a></li>|
+		<li><a href="#">移动版</a></li>
+	</ul>
+	<p>Copyright © 2015 hcdyhr.com赣ICP备12347441号-1 , hcdyhr.com.保留所有版权. 使用这些服务遵守用户协议</p>
+</div> -->
+<!-- 尾部end -->
+<div style="display: none;" id="clx" >
+<div id="photoBox" >
+    
+</div>
+</div>
+
+<input type="hidden" id="pc_id" value="{{ pc.id }}" />
+<input type="hidden" id="business" value="{{ pc.business }}" />
+<input type="hidden" id="businessname" value="{{ pc.businessname|default:'' }}" />
+<input type="hidden" id="pc_images" value="{{ pc.pc_images }}" />
+<input type="hidden" id="operateId" />
+
+<script  src="{{ STATIC_URL }}js/core/jq.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/lib/ind/layer/layer.js"></script>
+<script src="{{ STATIC_URL }}js/xiuxiu.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/uploader/jquery.uploadify.min.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/write_info.js"></script>
+<script>
+	PositionControls("positionDiv","{{ tri.sexpect_position | default:"" }}","{{ tri.expect_position | default:"" }}",
+                'width:330px;margin-top:5px;height:auto;font-size:14px;');
+</script>
+</body>
+</html>

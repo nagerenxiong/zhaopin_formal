@@ -1,0 +1,43 @@
+@function s($size){
+	@return 10rem*$size/$sjt;
+}
+$sjt : 640;//设计图宽度1136
+html{
+	font-size:64px;
+}
+body,html{height:100%;}
+body{
+	position:relative;
+	background: url(../images/mobile_hint.png) no-repeat center center/100% 100%;
+}
+header{
+	position:relative;height:percentage(430/1136);
+	.t{
+		position:relative;top:percentage(200/430);
+	}
+	
+	span{
+		width:s(140);height:s(140);display: block;margin: 0 auto;
+		border:s(7) solid #FFF;border-radius:50%;
+		background:url(../images/big_gou.png) no-repeat center center /70% 70%; 
+	}
+	h1{
+		margin-top: s(25);text-align: center;color:#FFF;font-size: s(36);
+	}
+}
+section{
+	height:s(235);
+	.t{
+		position: relative;top: percentage(135/235);
+	}
+	p{
+		text-align: center;color:#fff;font-size: s(28);letter-spacing:s(3);
+		margin-bottom: s(10);
+	}
+}
+footer{
+	position: absolute;bottom:s(50);text-align: center;width:10rem;
+	img{
+		width:s(262);height:s(36);margin:0 auto;display: block;
+	}
+}

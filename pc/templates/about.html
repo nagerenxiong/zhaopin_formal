@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>关于我们</title>
+	<link rel="shortcut icon" href="{{ STATIC_URL }}images/idel1.ico" type="image/x-icon">
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/privacy.css">
+	 <script  src="{{ STATIC_URL }}js/core/jquery-1.11.3.min.js"></script>     
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/module.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1442833288_2016494.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+</head>
+<body>
+	<div class="content" style="max-height:700px!important;min-height:400px!important;">
+	    <h1 class="title">关于我们<em></em></h1>
+		<p style="display:block; padding-top:60px; overflow:hidden;">北京怀才当遇网络技术有限公司，是国内首家专注人力资源服务的平台，为人才、企业、人力资源从业者提供从求职、招聘、职业规划成长、人力资源激活等一站式的新型在线人力资源服务。</p>
+        <p>怀才当遇利用互联网技术开创全新在线人力资源服务模式，开拓整合线下猎头服务与职业规划资源，信息化对接客户需求，构建智能化在线人力资源服务系统，不仅能有效提升HR管理效能、降低人事成本，更能让HR从繁琐的事务性工作中解放出来，真正实现标准化、人性化管理，从而在根本上解决企业招人、用人、育人、留人等问题。让人才、创业及小微企业享受成本更低、效率更高、专业更强的在线人力资源服务。</p>
+        <p>我们是一个有理想、敢创造的团队，自创建以来陆续加入了很多有梦想的创业者，我们拥有着共同的目标并饱含激情和姿态积极进取和拼搏。我们的愿景是：愿天下有识之人遇见有志之士！同时，我们衷心希望跟我们有同样激情和梦想的小伙伴能加入到我们的团队，成为我们未来的事业合伙人。</p>
+        <p style="margin-top:5px"></p>
+        <p>公司地址：北京市朝阳区建国路88号SOHO现代城5号楼1504室</p>
+        <p>联系电话：{{ PHONE_NUMBER }}</p>
+	</div>
+
+	<!-- 尾部start -->
+<!--<div class="footer">
+	<ul>
+		<li><a href="/about">关于我们</a></li>|
+		<li><a href="#">法律声明</a></li>|
+		<li><a href="#">使用帮助</a></li>|
+		<li><a href="/privacy">用户协议</a></li>
+		|<li><a href="#">网站索引</a></li>|
+		<li><a href="#">移动版</a></li>
+	</ul>
+	<p>Copyright © 2015 hcdyhr.com赣ICP备12347441号-1 , hcdyhr.com.保留所有版权. 使用这些服务遵守用户协议</p>
+</div>
+-->
+<!-- 尾部end -->
+<script type="text/javascript">
+   $(function(){
+	if($(".content").height()+$(".re_bottom").height()<$(window).height()){
+		$(".re_bottom").css({
+			"position": 'absolute',
+			"bottom": '0'
+		});
+	 }
+   })
+</script>
+{% include 'jobs/system/new_footer.html' %}
+</body>
+</html>

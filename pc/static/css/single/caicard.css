@@ -1,0 +1,224 @@
+@charset "UTF-8";
+@import "http://at.alicdn.com/t/font_1453282756_9622378.css";
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, fieldset, button, input, textarea, th, td {
+  margin: 0;
+  padding: 0; }
+
+body, button, input, select, textarea {
+  font: 12px/1.5 "Microsoft YaHei","\5FAE\8F6F\96C5\9ED1",\5b8b\4f53,sans-serif; }
+
+a, a:link, a:visited, a:hover, a:active {
+  text-decoration: none; }
+
+a, a:link, a:visited, a:hover, a:active, input, textarea, :focus {
+  outline: 0; }
+
+textarea {
+  padding: 10px; }
+
+img, iframe {
+  border: none;
+  text-decoration: none; }
+
+li {
+  list-style-type: none; }
+
+.nowrap {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap; }
+
+/*danzhi*/
+/*lan*/
+/*shenlan*/
+/*ju*/
+/*danhui*/
+/*淡灰*/
+.c_99 {
+  color: #999 !important; }
+
+.c_66 {
+  color: #666 !important; }
+
+.c_33 {
+  color: #333 !important; }
+
+.c_5c {
+  color: #5c91d9 !important; }
+
+.c_f6 {
+  color: #ff6666 !important; }
+
+.cursor {
+  cursor: pointer; }
+
+.oh {
+  overflow: hidden; }
+
+.f_l {
+  float: left; }
+
+.f_r {
+  float: right; }
+
+.fz12 {
+  font-size: 12px; }
+
+.fz14 {
+  font-size: 14px; }
+
+.fz16 {
+  font-size: 16px; }
+
+.fz18 {
+  font-size: 18px; }
+
+.fz20 {
+  font-size: 20px; }
+
+.border {
+  border: 1px solid #e0e0e0; }
+
+.mt5 {
+  margin-top: 5px; }
+
+.mt10 {
+  margin-top: 10px; }
+
+.mt20 {
+  margin-top: 20px; }
+
+.mt30 {
+  margin-top: 30px; }
+
+.jl_txt_hide {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 72px;
+  text-overflow: initial; }
+
+.clearfix:after {
+  *zoom: 1;
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden; }
+
+.clearfix {
+  *zoom: 1; }
+
+.center {
+  margin: 0 auto;
+  width: 1020px;
+  overflow: visible; }
+
+.icon-nv {
+  color: #ff8800;
+  cursor: default; }
+
+.icon-nan {
+  color: #5c91d9;
+  cursor: default; }
+
+.h20 {
+  height: 20px; }
+
+.content .l_box {
+  width: 765px;
+  float: left; }
+.content .r_box {
+  width: 235px;
+  float: right; }
+
+body {
+  background-color: #f8f8f8; }
+
+.nowrap {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap; }
+
+.center_card {
+  width: 1020px;
+  margin: 20px auto  auto;
+  padding: 20px;
+  box-size: border-box;
+  border: 1px solid #eee;
+  background-color: #fff; }
+
+.exchange_box {
+  margin: 40px auto auto;
+  width: 420px; }
+
+.center_card .title {
+  color: #5c91d9;
+  height: 35px;
+  border-bottom: 1px solid #e0e0e0; }
+  .center_card .title span {
+    border-bottom: 2px solid #5c91d9;
+    border-bottom: 2px solid #5c91d9;
+    display: inline-block;
+    padding: 0 18px;
+    font-size: 16px;
+    height: 35px; }
+
+.exchange_box {
+  font-size: 16px; }
+  .exchange_box .e_l {
+    width: 95px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: right; }
+  .exchange_box .e_r {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px; }
+  .exchange_box .e_r input {
+    width: 310px;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    height: 40px;
+    outline: none;
+    text-indent: 10px; }
+    .exchange_box .e_r input:focus {
+      box-shadow: none; }
+  .exchange_box li {
+    overflow: hidden;
+    margin-bottom: 20px; }
+  .exchange_box .confirm_btn {
+    background-color: #5c91d9;
+    border-radius: 5px;
+    color: #fff;
+    width: 150px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    display: inline-block;
+    font-size: 18px; }
+  .exchange_box .confirm_btn.ml {
+    margin-left: 36px; }
+  .exchange_box .return_btn {
+    margin-left: 36px; }
+
+.notify_box {
+  padding: 45px 25px 0 25px;
+  text-align: center; }
+  .notify_box dt {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 1px dashed #999;
+    padding-bottom: 20px; }
+  .notify_box dd {
+    text-align-last: left;
+    font-size: 16px; }
+    .notify_box dd pre {
+      color: #666;
+      white-space: pre-line;
+      text-align: left;
+      padding: 36px;
+      font-family: 'Microsoft YaHei'; }
+
+/*# sourceMappingURL=caicard.css.map */

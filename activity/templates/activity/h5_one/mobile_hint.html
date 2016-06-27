@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<meta content="telephone=no" name="format-detection" />
+	<title>注册成功</title>
+	<link rel="stylesheet" href="/static/css/css.css">
+	<link rel="stylesheet" href="/static/css/mobile_hint.css">
+	<script>
+		(function(doc, win) {
+  var docEl = doc.documentElement,
+    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+    recalc = function() {
+      var clientWidth = docEl.clientWidth;
+      if (!clientWidth) return;  
+      docEl.style.fontSize = clientWidth / 10 + 'px';
+    };
+  if (!doc.addEventListener) return;
+  win.addEventListener(resizeEvt, recalc, false);
+  doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+	</script>
+</head>
+<body>
+	<header>
+		<div class="t">
+			<span></span>
+			<h1>注册成功</h1>
+		</div>
+	</header>
+	<section>
+	<div class="t"> 
+		<p>请到电脑端www.hcdyhr.com</p>
+			<p>完善企业信息后再参加评选活动！</p>
+			</div>
+	</section>
+	<footer>
+		<img src="/static/images/white_logo1.png" alt="">
+	</footer>
+</body>
+</html>

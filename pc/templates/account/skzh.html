@@ -1,0 +1,289 @@
+{% include 'jobs/system/header.html' %}
+<!DOCTYPE HTML>
+<html>
+	<!-- Added by HTTrack -->
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<!-- /Added by HTTrack -->
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<title>收款帐号</title>
+	<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+	<script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js" ></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/scrollbar.js"></script>
+	<script src="{{ STATIC_URL }}js/Validform_v5.3.2.js"></script>
+	<script src="{{ STATIC_URL }}js/bootstrap.min.js" ></script>
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+	<script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->  
+</head>
+<body>
+
+	<!-- 顶部 -->
+   
+	<!-- 内容大框 -->
+	<div class="lt_content_box">
+		<!-- 猎头会员菜单 -->
+    {% include 'jobs/system/menu_account.html' %}
+		<!-- 猎头会员菜单 -->
+        <div class="clear"></div>
+    <div class="clear">3</div>
+    <script>
+        if("{{request.session.account_type}}" != "1"){
+            $(".clear").eq(1).text(5);
+        }
+    </script>
+		<div class="ltml_grid_box center clearfix mt25">
+			<ul  class="nav nav-tabs ltml_grid_ul">
+				<li class="active side_yx_li">
+					<a href="#home" data-toggle="tab">设置收款帐号</a>
+				</li>
+				<li class="slider slide_yx"></li>
+			</ul>
+			<div class="jsyx_alert mt20">
+				<i class="iconfont icon-jinlingyingcaiwangtubiao21"></i>
+				修改完成后，新收到的款项都将转到新的收款账号中
+			</div>
+			<div class="bd_bottom2">
+				<form action="skzh" method="post" >
+                {% csrf_token %}
+				<ul class="clearfix mt20 bd_bottom2 Coll_account_box bd_clear">
+                    {% if bankaccounts %}
+                        {% for bank in bankaccounts %}
+                            {% if bank.account_type == 1 %}
+                                <li>
+                                    <div class="f_l c_account_l">当前收款账号 :</div>
+                                    <div class="f_l c_account_r">
+                                        <input type="radio" name="id" value="{{ bank.id }}" placeholder="" checked>
+                                        <i class="iconfont icon-pufa"></i>
+                                        <span>{{ bank.bank }}</span>
+                                        <span  class="account_ml">{{ bank.account }}</span>
+                                    </div>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <div class="f_l c_account_l"></div>
+                                    <div class="f_l c_account_r">
+                                        <input type="radio" name="id" value="{{ bank.id }}" placeholder="">
+                                        <i class="iconfont icon-pufa"></i>
+                                        <span>{{ bank.bank }}</span>
+                                        <span  class="account_ml">{{ bank.account }}</span>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+{#					<li><div class="f_l c_account_l">当前收款账号 :</div><div class="f_l c_account_r"><input type="radio" name="account_radio" value="" placeholder=""><i class="iconfont icon-pufa"></i><span>浦发银行</span><span  class="account_ml">***5668</span></div></li>#}
+{#					<li><div class="f_l c_account_l">其他收款账号 :</div><div class="f_l c_account_r"><input type="radio" name="account_radio" value="" placeholder=""><i class="iconfont icon-pufa"></i><span>中国建设银行</span><span  class="account_ml">***5668</span></div></li>#}
+{#					<li><div class="f_l c_account_l"></div><div class="f_l c_account_r"><input type="radio" name="account_radio"value="" placeholder=""><i class="iconfont icon-pufa"></i><span>中国建设银行</span><span  class="account_ml">***5668</span></div></li>#}
+{#					<li><div class="f_l c_account_l"></div><div class="f_l c_account_r"><input type="radio" name="account_radio"value="" placeholder=""><i class="iconfont icon-pufa"></i><span>中国建设银行</span><span  class="account_ml">***5668</span></div></li>#}
+{#					<li><div class="f_l c_account_l"></div><div class="f_l c_account_r"><input type="radio" name="account_radio" value="" placeholder=""><i class="iconfont icon-pufa"></i><span>中国建设银行</span><span class="account_ml">***5668</span></div></li>#}
+					<li>
+                        <div class="f_l c_account_l c_account_h">新收款账号:</div>
+                        <div class="f_l c_account_k c_account_h" data-toggle="modal"   data-target="#bank_modal">
+                            <i class="iconfont icon-jiahao"></i>
+                            <span>银行卡</span>
+                        </div>
+                    </li>
+				</ul>
+				<div class="f_r jsyx_btn_box">
+					<input type="button" name="" value="删除" placeholder="" class="grxx_info_btn grxx_info_btn_bg" id="delete">
+                    <input type="button" id="update" name="" value="修改" placeholder="" class="grxx_info_btn grxx_info_btn_bg" data-toggle="modal" data-target="#bank_modal1"  data-dismiss="modal">
+                    <input type="submit" name="" value="选择" placeholder="" class="grxx_info_btn grxx_info_btn_bg" id="select">
+				</div>
+			</form>
+			</div>
+			<div class="left_top_border"></div>
+		</div>
+	</div>
+	<!-- 内容大框 -->
+	<!-- 底部 -->
+    {% include 'jobs/system/new_footer.html' %}
+	<!-- 底部 -->
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="bank_modal" tabindex="-1" role="dialog" 
+	   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" 
+	               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">添加银行卡</h4>
+				</div>
+				<div class="modal-body clearfix" id="bank_modal_body">
+                    {% if banks %}
+                        {% for bank in banks %}
+                            <span>
+                                <input type="radio" name="bank_radio" value="{{ bank.dictionary_value }}">
+                                <i class="iconfont icon-pufa"></i>
+                                {{ bank.dictionary_name }}
+                            </span>
+                        {% endfor %}
+                    {% endif %}
+{#					<span><input type="radio" name="bank_radio" value="1"><i class="iconfont icon-pufa"></i>中国建设银行</span>#}
+{#                    <span><input type="radio" name="bank_radio" value="2"><i class="iconfont icon-pufa"></i>工商银行</span>#}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" 
+	               data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bank_modal1"  data-dismiss="modal" onclick="return intoNext();">下一步</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->	
+		</div>
+		<!-- /.modal -->	
+	</div>
+	<div class="modal fade" id="bank_modal1" tabindex="-1" role="dialog" 
+	   aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" 
+	               data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">添加银行卡</h4>
+				</div>
+				<div class="modal-body clearfix" id="bank_modal_body1">
+                    <input type="hidden" id="newid" /><input type="hidden" id="newbank" />
+					<span><i class="iconfont icon-pufa"></i><span id="bankname"></span><input type="text" id="bank_account"></span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" 
+	               data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" onclick="saveBankAccount()">下一步</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->	
+		</div>
+		<!-- /.modal -->	
+	</div>
+	<script src="{{ STATIC_URL }}js/common.js" ></script>
+	<script type="text/javascript">
+        $("#delete").click(function(){
+            var firstradio = $('input[name=id]:first');
+            if(firstradio[0].checked){
+                window.alert("当前使用账号不能删除，请重新选择!");
+            }else{
+                if(confirm('你确定要删除该收款账号吗？')){
+                    var id = $(".Coll_account_box input[type=radio]:checked").val();
+                    window.location = '/del_skzh?id=' + id;
+                }
+            }
+        })
+        $("#update").click(function(){
+            if($(".Coll_account_box input[type=radio]:checked")[0]!=null){
+                var id = $(".Coll_account_box input[type=radio]:checked").val();
+                $("#newid").val(id);
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax_bank",
+                    data: {"id": id},
+                    dataType: "json",
+                    success: function(data){
+                        $("#bank_account").val(data.account);
+                        $('#newbank').val(data.bank);
+                        $('#bankname').text(data.bank);
+                    }
+                });
+
+            }
+        })
+        $("#select").click(function(){
+            if($(".Coll_account_box input[type=radio]:checked")[0]!=null){
+                $("#current_accout .c_account_r").remove();
+                $(".Coll_account_box input[type=radio]:checked").parent().clone(true).appendTo($("#current_accout"));
+            }
+        })
+        $(".c_account_r").click(function(){
+            $(".c_account_r").removeClass("c_account_r_hover");
+            $(this).addClass("c_account_r_hover");
+            $(this).children("input[type=radio]")[0].checked=true;
+        })
+        function qiehuan(stor){
+            stor.children('span').mouseover(function(){
+                stor.children().css('border', '3px solid #ebebeb');
+                $(this).css('border', '3px solid #d21d30');
+            })
+            stor.children('span').click(function(){
+              $(this).children("input[type=radio]")[0].checked=true;
+            })
+        }
+        function intoNext(){
+            var radios = $('input[name=bank_radio]');
+            var bool = false;
+            for (var index = 0;index < radios.length;index++) {
+                var radio = radios[index];
+                if(radio.checked == true){
+                    bool = true;
+                    break;
+                }
+            }
+            if(bool){
+                var checkradio = $("input[name=bank_radio]:checked");
+                var bankname = checkradio.parent().text();
+                $('#bankname').text(bankname);
+                $('#newbank').val(checkradio.val());
+                $('#bank_account').val('');
+                return true;
+            }else{
+                window.alert("请选择开户行！");
+                return false;
+            }
+        }
+        function saveBankAccount(){
+            var newid = $('#newid').val();
+            var newbank = $('#newbank').val();
+            var newaccount = $('#bank_account').val();
+            var reg = /^(\d{16}|\d{19})$/;
+            if(reg.test(newaccount)){
+                window.location = '/account/skzh?id=' + newid + '&bank=' + newbank + '&account=' + newaccount;
+            }else{
+                window.alert("银行账号格式不对，请重新输入！");
+            }
+        }
+        qiehuan($('#bank_modal_body'));
+        $(function(){
+            var secondradios = $('input[name=id]');
+            if(secondradios.length > 1){
+                $('input[name=id]:eq(1)').parent().parent().find('div:first').text('其他收款账号 :');
+            }
+        })
+{#	$("#delete").click(function(){#}
+{#		$(".Coll_account_box input[type=radio]:checked").parent().parent().remove();#}
+{#	})#}
+{#	$("#update").click(function(){#}
+{#		if($(".Coll_account_box input[type=radio]:checked")[0]!=null){#}
+{#		 $("#bank_account").val($(".Coll_account_box input[type=radio]:checked").val())#}
+{#	    }#}
+{#	})#}
+{#	$("#select").click(function(){#}
+{#		if($(".Coll_account_box input[type=radio]:checked")[0]!=null){#}
+{#			$("#current_accout .c_account_r").remove();#}
+{#			$(".Coll_account_box input[type=radio]:checked").parent().clone(true).appendTo($("#current_accout"));#}
+{#		}#}
+{#	})#}
+{#	$(".c_account_r").click(function(){#}
+{#		$(".c_account_r").removeClass("c_account_r_hover");#}
+{#		$(this).addClass("c_account_r_hover");#}
+{#		$(this).children("input[type=radio]")[0].checked=true;#}
+{#	})#}
+{#	 function qiehuan(stor){#}
+{#		stor.children('span').mouseover(function(){#}
+{#			stor.children().css('border', '3px solid #ebebeb');#}
+{#			$(this).css('border', '3px solid #d21d30');#}
+{#		})#}
+{#		stor.children('span').click(function(){#}
+{#		  $(this).children("input[type=radio]")[0].checked=true;#}
+{#		})#}
+{#	}#}
+{#	qiehuan($('#bank_modal_body'));#}
+	</script>
+</body>
+</html>

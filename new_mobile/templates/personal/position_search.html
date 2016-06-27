@@ -1,0 +1,1070 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>{{ title }}</title>
+    <meta name="author" content="怀才当遇">
+    <link href="/static/new_mobile/css/common.css" rel="stylesheet" type="text/css">
+    <link href="/static/new_mobile/css/resume.css" rel="stylesheet" type="text/css">
+    <link href="/static/new_mobile/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://at.alicdn.com/t/font_1465972437_1932166.css" rel="stylesheet" type="text/css">
+    <link href="http://at.alicdn.com/t/font_1464954226_5359032.css" rel="stylesheet" type="text/css">
+    <script src="/static/new_mobile/js/hm.js"></script>
+    <script src="/static/new_mobile/js/jquery.js" type="text/javascript"></script>
+    <script src="/static/new_mobile/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="/static/new_mobile/js/cache_classify.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/new_mobile/js/jquery.common.js" type="text/javascript"></script>
+    <link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+    <link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+    <link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript">
+    var show_logo;
+    var file_website = "{{ request.session.file_website }}";
+    var cash_website = "{{ request.session.cash_website }}";
+    $(document).ready(function()
+    {
+        //打开顶部菜单
+        $("#topmenu_sub").click( function () { 
+            $("#topmenu").slideToggle("fast");
+        });
+        // console.log(1);
+        if("{{position_name}}" != ""){
+            var position_search =  window.localStorage.getItem("position_search");
+
+            if(position_search == null){
+                window.localStorage.setItem("position_search", "{{position_name}}");
+            }
+            else if(position_search.indexOf("{{position_name}}") == -1){
+                var position_search_list = position_search.split(",");
+
+                if(position_search_list.length == 6){
+                    position_search_list.pop();
+                    window.localStorage.setItem("position_search", "{{position_name}}," + position_search_list.join(","));
+                }
+                else{
+                    window.localStorage.setItem("position_search", "{{position_name}}," + position_search);
+                }
+            }
+        }
+
+    });
+    </script>
+    <link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+    <link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+    <link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+    <link href="http://at.alicdn.com/t/font_1465712390_2049143.css" rel="stylesheet" type="text/css">
+    <link href="http://at.alicdn.com/t/font_1466243580_9216673.css" rel="stylesheet" type="text/css">
+        
+    <style type="text/css">
+    html{font-size: 62.5%;}
+    body{max-width:640px;margin:0 auto;min-width:320px;}
+    .t_box{height:64px;width:100%;background:#0098dd;position: relative;}
+    .t_box div:nth-child(1){position: absolute;left: 0;top:0;width: 64px;height:64px;text-align: center;line-height: 64px;z-index: 99;}
+    .t_box div:nth-child(1) i{font-size: 20px;}
+    .t_box div:nth-child(3){position: absolute;right: 0;top:0;width: 64px;height: 64px;text-align: center;line-height: 64px;z-index: 99;}
+    .t_box div:nth-child(3) i{font-size: 24px;}
+    .t_box div:nth-child(2){text-align: center;height:64px;padding:0 64px;position: relative;}
+    .t_box i{color:#fff;font-size: 24px;}
+    .t_box div:nth-child(2)>input{border:0;box-sizing:border-box;width:100%;height:55%;text-indent:20px;border-radius:20px;font-size:14px;margin-top: 14px;}
+    .serach_terms{height:60px;background:#fff;border-top:1px solid #d9d9d9;border-bottom:1px  solid #d9d9d9;position:relative;display: -webkit-box;}
+    .serach_terms>div ,.nianxing_box ,.more_box{width:100%;text-align: center;color:#333;border-right: 1px solid #d9d9d9;line-height:60px;font-size: 16px;}
+    .serach_terms>div{-webkit-box-flex:1;}
+    .serach_terms>div>* , .nianxing_box>* ,.more_box>*{vertical-align: middle;}
+    .serach_terms>div:last-child{height:auto;}
+    .serach_terms>div:last-child{
+        border-right:0;
+    }
+    .serach_terms>div i{
+        color:#c5c5c5;
+        font-size: 12px;
+        margin-left: 5px;
+    }
+    .serach_terms>div:nth-child(2){
+      
+    }
+    .nianxing_box,.more_box{
+        position: absolute;
+        top: 126px;
+        width: 100%;
+        left: 0;
+        background:#fff;
+        z-index: 2200;
+        display:none;
+    }
+.nianxing_box>ul{
+   overflow: hidden;
+}
+.nianxing_box>ul>li{
+    border-bottom:1px solid #d9d9d9;
+     height:38px;
+    line-height:38px;
+    text-align: left;
+    margin: 0 3%;
+    overflow: hidden;
+}
+.nianxing_box>ul>li i{float: right;color:#ff6e17;font-size: 16px;display:none;}
+.nianxing_box>div>a{
+    display:inline;
+    background:#00baff;
+    color:#fff;
+    font-size: 14px;
+    padding:2px 30px;
+    border-radius:5px;
+}
+.more_box>div:first-child{
+    height:50px;
+    line-height:50px;
+    text-align: left;
+    padding:0 5%;
+    border-bottom:1px solid #d9d9d9;
+}
+.more_box>div:first-child i{
+    float: right;
+}
+.more_box li{text-align:left;padding:0 5%;}
+.more_box li.mt10{
+    overflow: hidden;;
+}
+.more_box li>span{
+    float: left;
+    box-sizing: border-box;
+    height:30px;
+    line-height:30px;
+    text-align: center;
+    width:24%;
+    margin-left:1%;
+    border-radius:5px;
+    font-size: 12px;
+    margin-top: 8px;
+    border:1px solid #d9d9d9;
+}
+.more_box li>span:first-child,.more_box li>span:nth-child(5),.more_box li>span:nth-child(9){
+    margin-left: 0;
+}
+.more_box .mt15{margin-top: 10px;}
+.more_box .mt10{margin-top: 5px;}
+.more_box div:last-child{
+    margin-top: 13px;
+    margin-bottom: 13px;
+}
+.more_box div:last-child>span{
+    width:27%;
+    text-align: center;
+    color:#fff;
+    display:inline-block;
+    line-height:25px;
+    border-radius:3px;
+    margin:0 15px;
+}
+.more_box div:last-child>span:first-child{
+    background:#00baff;
+}
+.more_box div:last-child>span:last-child{
+    background:#ffa11a;
+}
+.more_box>ul>li>span.active{
+    border-color:#22c3ff;
+}
+ .reward_icon {
+            color: #ffffff;
+    width: 95px;
+    text-align: center;
+    background-color: #ff6d6d;
+    border-radius: 12px;
+    height: 24px;
+    line-height: 22px;
+    float: right;
+    position: absolute;
+    right: 10%;
+    top: 0px;
+    padding:0 4px;
+    }
+
+    .cont{
+        position: absolute;
+        right: 67px;
+        top:50%;
+        margin-top: -7.5px;
+        color:#aaa!important;
+        font-size: 15px!important;
+        display: none;
+    }
+    .searh3{
+        overflow: auto!important;
+        text-overflow: initial!important;
+        white-space: normal!important;
+    }
+    .searb{
+        max-width: 109px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        float: left;
+        font-size: 1.5rem;
+        line-height: 21px;
+    }
+    .seari{
+        color: rgb(255, 107, 18);
+        font-size: 14px;
+        white-space: nowrap;
+        line-height: 21px;
+        padding-left: 5px;
+    }
+    .rewtop{
+        position: absolute;
+        top:50%;
+        margin-top: -14px;
+        right:25px;
+    }
+    .companum{
+        color:#555;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 160px;
+        float: left;
+        margin-top: 5px;
+    }
+    .seracol{
+        color: #555;
+    }
+    .b_box,.b_box1{background-color:#fff;}
+.b_box a,.b_box1 a{
+    display: block;color:#333;
+    height:50px;border-bottom:1px solid #d9d9d9;
+     width: 96%;margin:0 auto;
+     position: relative;
+}
+
+.b_box>ul,.b_box1>ul{
+    width: 96%; margin: 0 auto;
+}
+
+.b_box a>span,.b_box1 a>span{
+    font-size: 16px;padding-left: 30px;height:50px;line-height: 50px;
+}
+.b_box a i:first-child,.b_box1 a i:first-child{
+    position: absolute;
+    left:0;
+    top:50%;
+    transform: translateY(-50%);
+    -webkit-transform:translateY(-50%);
+font-size: 20px;
+color:#aeaeae;
+}
+.b_box a i:last-child,.b_box1 a i:last-child{
+    position: absolute;
+    right:0;
+    top:50%;
+    transform: translateY(-50%);
+    -webkit-transform:translateY(-50%);
+font-size: 20px;
+color:#aeaeae;
+}
+.b_box>.clear_record{
+    height:60px;
+    text-align: center;
+    color:#007eb2;
+    font-size: 16px;
+    line-height:60px;
+}
+.hot_search{
+    width:100%;
+    margin:0 auto;
+}
+.hot_search>dt{
+    color:#333;
+    height:60px;
+    line-height:60px;
+    font-size: 16px;
+    margin-left: 22px;
+    /*   */
+}
+.hot_search>dd{
+   width:96%;
+   overflow: hidden;
+   margin:0 auto;
+
+}
+.hot_search>dd a,.hot_search>dd span{
+    width:24%;
+    font-size: 14px;
+    height:38px;
+    line-height:38px;
+    float: left;
+    border-radius:5px;
+    border:1px solid #d9d9d9;
+    text-align: center;
+    color:#0098dd;
+    background:#fff;
+    margin:5px 0.5%;
+    box-sizing:border-box;
+}
+
+.hot_search>dd span{
+    float: left;
+    border-radius:5px;
+    border:1px solid #e0e0e0;
+    text-align: center;
+    color:#0098dd;
+    font-size: 16px;
+    background:#fff;
+    padding:5px 10px;
+    margin:5px;
+}
+.zsp_job_search_input{
+    align-items: center;
+    display:flex;
+    justify-content: center;
+}
+.zsp_job_search_input {border:1px solid #d9d9d9;}
+.zsp_job_search_input i{margin-left:55px;}
+.zsp_job_search_input input{border:0;margin-left: 10px;}
+.s22{
+    transition: all 0.5s ease 0s;
+}
+.searchALL{
+    perspective:400px;position: relative;
+}
+.pre-3d{
+    /*transition:all 0.5s ease 0s;*/
+}
+</style>
+    <script type="text/javascript">
+$(document).ready(function()
+{
+    $('.tuijian').click(function(){
+        $('.shareCur').fadeIn();
+    });
+    $('.shareCur').click(function(){
+        $('.shareCur').fadeOut();
+    });
+    $("#clearkey").click(function () {
+        $("#key").val('');
+    });
+    $("#key").focus(function()
+    {
+        var patrn=/^(请输入关键字)/i;
+        var key=$("#key").val();
+        if (patrn.exec(key))
+        {
+            $("#key").val('');
+        }
+    });
+    $(".so_sub").click(function(){
+        var key = $.trim($("#key").val());
+        $(".zsp_job_list_li").remove();
+        if (key == '') {
+            var sql = ' position_status=1 order by add_date desc';
+        } else {
+            var sql = 'position_name like "%' + key + '%" or pc_name like "%' + key + '%" and position_status=1 order by add_date desc';
+        }
+        // 职位分页
+        var loadData = new pagin("positionPaginInfo", "V_Position_Search", "", encodeURI(sql), "", 10, "positionPagin", "loadData");
+    });
+    
+    var flag = true;
+    if($(".zsp_job_list a").length<6){
+        $(".more").hide();
+    }
+});
+</script>
+</head>
+<body style="position: relative;">
+
+<div class="s22" style="display: none;overflow: hidden; width: 100%; position: fixed;top:0;left:0;"  >
+            <div class="t_box">
+                <div id="zuo">
+                    <i class="iconfont icon-zuojiantou"></i>
+                </div>
+                <div>
+                    <input type="text" value="" placeholder="请输入职位名称" id="search_txt"><i class="cont"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAABL0lEQVQoU4VTwVHDMBDcswuADkgHOB3QQcJHGv9IB6QCQgXQAfDyWB9MB3SA6QA6sAuQjzmNlLlo7KAZPSTt7mlXJ0I2nHN3zLwhohsAlwAGZv4E0Flr3zSc0qJpmlVZlu8AqlxQrXvv/W1d1z+yF8iR+BUrneGGo8F7vxaBQG7btiei6/9Y+gbGmDWJRwAv6YCI9sx8AHChwCMRHZj5Se3thNwB2KjNAcAewHMUGAHcAxCiBJjGh5AFrKsEX1FAbiAzJwaMkHnB668xZuWck2Sv5jBLlcNVmfmBiB6VBa0xznnOPeYZnHjWaS+FMyewy99ZQDJ0qqnS8YyZv621le6wfib1uZxG73117LDUokVRdOc6TSpO07Q96W0tHztuC0B+lby/5BB+lTHmVWP/AD4DhgCtvsyMAAAAAElFTkSuQmCC" alt=""></i>
+                </div>
+                <div>
+                    <i class="iconfont icon-sousuo"  id="search_btn"></i>
+                </div>
+            </div>
+            <div class="b_box">
+                <div class="record_list"></div>
+                 <div class="clear_record">
+                    清空搜索记录
+                </div>
+            </div>
+            <div class="b_box1" style="display:none">
+                <div class="search_list">
+                </div>
+            </div>
+            <dl class="hot_search">
+                <dt>热搜职位</dt>
+                <dd>
+                    <a href="position_search?position_name=销售总监">销售总监</a>
+                    <a href="position_search?position_name=产品经理">产品经理</a>
+                    <a href="position_search?position_name=项目经理">项目经理</a>
+                    <a href="position_search?position_name=人力总监">人力总监</a>
+                    <a href="position_search?position_name=财务经理">财务经理</a>
+                    <a href="position_search?position_name=设计总监">设计总监</a>
+                    <a href="position_search?position_name=投资经理">投资经理</a>
+                    <a href="position_search?position_name=运营总监">运营总监</a>
+                </dd>
+            </dl>
+        </div>
+
+
+<script type="text/javascript">
+    $(function(){
+    var position_search = window.localStorage.getItem("position_search");
+    if(position_search != null) {
+        $(".record_list").empty();
+        var position_search_list = window.localStorage.getItem("position_search").split(",");
+        for (var i = 0; i < position_search_list.length; i++) {
+            $(".record_list").append('<a href="position_search?position_name='+ position_search_list[i] +'"><i class="icon-lishi iconfont"></i><span>' + position_search_list[i] + '</span><i class="iconfont icon-youjiantou"></i></a>');
+        }
+        $(".b_box").show();
+        $(".b_box1").hide();
+       
+    }
+    else{
+        $(".b_box").hide();
+        $(".b_box1").show();
+    }
+});
+$(".clear_record").click(function(){
+    window.localStorage.removeItem("position_search");
+    $(".record_list").empty().parent().hide();
+})
+$("#search_txt").keyup(function(){
+    var search_value=$(this).val();
+    // $(window).scrollTop(0);
+    // console.log( $(window).scrollTop());
+    if(search_value==""){
+        $(".b_box").show();
+        $(".b_box1").hide();
+
+        $(".record_list").empty();
+        var position_search =  window.localStorage.getItem("position_search");
+        if(position_search!= null) {
+            var position_search_list = window.localStorage.getItem("position_search").split(",");
+            for (var i = 0; i < position_search_list.length; i++) {
+                $(".record_list").append('<a href="position_search?position_name='+ position_search_list[i] +'"><i class="icon-lishi iconfont"></i><span>' + position_search_list[i] + '</span><i class="iconfont icon-youjiantou"></i></a>');
+            }
+        }
+    }
+    else{
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/mobile/ajax_search_poition",
+            data: {
+                "position_name":search_value,
+                "count": 6
+            },
+            dataType: "json",
+            success: function(data) {
+                $(".search_list").empty();
+                $(data).each(function(){
+                    $(".search_list").append('<a href="position_search?position_name='+ this.position_name +'"><i class="icon-sousuo iconfont"></i><span class="sowids">'+ this.position_name +'</span><i class="iconfont icon-youjiantou"></i></a>');
+                })
+            }
+        });
+
+        $(".b_box1").show();
+        $(".b_box").hide();
+         $(".sowids").css({"max-width":"99%","overflow":"hidden","text-overflow":"ellipsis","white-space":"nowrap"});
+    }
+
+    $('.cont').click(function(){
+        $(".t_box>div:eq(1) input").val("");
+        $(".cont").hide();
+    });
+
+});
+</script>
+<!--以上为搜索层      -->
+
+
+
+
+<!--以下为搜索结果页面       -->
+
+<div id="searchALL" class="searchALL" style="width: 100%;">
+    <div id="pre-3d" class="pre-3d">
+    <div class="t_box">
+        <div> <i class="iconfont icon-zuojiantou gohis"></i>
+        </div>
+        <div>
+            <input type="text" name="" id="condition" class="inpu3d" value="{{ position_name|default:'' }}" placeholder="请输入职位名称">
+            <i class="iconfont icon-xiaocha cont" ></i>
+        </div>
+        <div> <i class="iconfont icon-sousuo" onclick="searchPosition()"></i>
+        </div>
+    </div>
+
+    <div class="serach_terms">
+        <div>
+            <span id="residence_text">地点不限</span><i class="iconfont icon-xia"></i>
+            <input name="residence" type="hidden" id="residence" value="{{ resume.currently_pacece }}">
+            <input name="residence_cn" type="hidden" id="residence_cn" value="{{ resume.scurrently_pacece }}">
+        </div>
+        <div>
+            <span id="annualSalary_text" data-value="0">年薪不限</span><i class="iconfont icon-xia"></i>
+        </div>
+        <div>
+            更多<i class="iconfont icon-xia"></i>
+        </div>
+         
+    </div>
+    
+
+<div id="wrapper" style="padding-top:0;">
+
+    <div class="zsp_job_list" id="scroller" style="padding-top:0;">
+
+        <div id="list" style="padding-top:0;">{% comment %}职位分页信息{% endcomment %}</div>
+    </div>
+</div>
+
+<div class="zsp_share_fidex shareCur">
+
+    <div class="zsp_share_box">
+        <div class="zsp_share_xz_icon"></div> <strong>点击右上角菜单</strong>
+        <strong>将悬赏职位列表分享到朋友圈</strong>
+    </div>
+
+</div>
+
+  </div> 
+</div>
+
+
+<div class="zsp_resume_but_box load spe">
+    <a href="javascript:;" class="loading_more more">
+        <i class="fa fa-refresh"></i>
+        <span>正在努力为您加载...</span>
+    </a>
+    <!--<a href="/wap/company/wap_user.php" class="zsp_resume_but_3">返回招聘中心</a>
+-->
+</div>
+
+
+<ul class="positionPaginInfo" id="positionPaginInfo" style="display: none"></ul>
+ <div class="menu choose_menu" id="menuResidence" style="display:none;position:absolute;z-index:1;">
+                    <div class="menu_title">所在城市</div>
+                    <div class="choose_close"></div>
+                    <div class="area_choose">
+                        <ul class="area_left" id="area_left">
+                        </ul>
+                        <ul class="area_right" id="area_right">
+                            <li class="area_small"></li>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+    </div>
+    
+
+    <div class="nianxing_box">
+                <ul >
+                <li><span data-value="0">年薪不限</span><i class="iconfont icon-32gougou"></i></li>
+                {% if salarys %}
+                    {% for salary in salarys %}
+                        <li><span data-value="{{ salary.dictionary_value }}">{{ salary.dictionary_name }}</span><i class="iconfont icon-32gougou"></i></li>
+                    {% endfor %}
+                {% endif %}
+                </ul>
+                <div>
+                    <a href="javascript:void(0)">取消</a>
+                </div>
+            </div>
+        <div class="more_box">
+            <div class="trad_span_box">
+                <span id="trad_span">选择行业</span>
+                <i class="iconfont icon-youjiantou"></i>
+                <input type="hidden" value="" id="trade">
+            </div>
+            <ul>
+                <li class="mt15" {% if request.session.account_type == '1' %}style="display: none;"{% endif %}>是否悬赏</li>
+                <li class="mt10" id="reward_fag" {% if request.session.account_type == '1' %}style="display: none;"{% endif %}>
+                    <span class="active">不限</span><span>悬赏职位</span><span>非悬赏职位</span>
+                    <input id="reward_id" type="hidden" name="" value="">
+                </li>
+                <li class="mt15">工作经验</li>
+                <li class="mt10" id="experience_fag">
+                    <span data-value="0" class="active">不限</span>
+                    {% if workyears %}
+                        {% for work_year in workyears %}
+                            <span data-value="{{ work_year.dictionary_value }}">{{ work_year.dictionary_name }}</span>
+                        {% endfor %}
+                    {% endif %}
+                    <input id="experience_id" type="hidden" name="" value=""></li>
+                <li class="mt15">职位类型</li>
+                <li class="mt10" id="type_fag"><span class="active">不限</span><span>企业直招</span><span>经纪人发布</span><input id="type_id" type="hidden" name="" value=""></li>
+                <li class="mt15">发布时间</li>
+                <li class="mt10" id="releaseTime_fag">
+                    <span data-value="0" class="active">不限</span>
+                    {% if publish_dates %}
+                        {% for publish_date in publish_dates %}
+                            <span data-value="{{ publish_date.dictionary_value }}">{{ publish_date.dictionary_name }}</span>
+                        {% endfor %}
+                    {% endif %}
+                    <input id="releaseTime_id" type="hidden" name="" value=""></li>
+            </ul>
+            <div>
+                <span class="qieren_btn">确认</span><span class="congzhi_btn">重置</span>
+            </div>
+        </div>
+
+
+<!-- 搜索结果页面 -->
+<script type="text/javascript">
+    wx.config({
+        debug: false ,
+        appId: 'wx8a9b8a64aa7bb0e1',
+        timestamp: '1449889597',
+        nonceStr: '86MgPXiu8RSBlBtJ',
+        signature: '0d0c99231173528bf324f5cdfce5048323d59f41',
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'showMenuItems',
+            'hideMenuItems'
+        ]
+    });
+    wx.ready(function () {
+        function callback(){
+        }
+        var title = "最新悬赏招聘职位，推荐人才赚赏金";
+        var headimg="http://image.hijobs.cn/image/logo/55adaa3d9ab98.jpg";
+        var desc="【招手招聘】最新悬赏招聘职位，推荐人才赚赏金，热门悬赏职位持续更新中，快来推荐。";
+        var url=window.location.href;
+        WxShare.TimeLine(title, url, headimg, callback);
+        WxShare.AppMessage(title,desc,url,headimg,callback);
+        WxShare.SharedQQ(title,desc,url,headimg,callback);
+    });
+</script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script src="/static/new_mobile/js/trade.js"></script>
+
+<script>
+    // 职位分页
+    var sql = ' position_status=1';
+    {% if request.session.account_type == '1' %}
+        sql += ' and rewards_money=0';
+    {% endif %}
+    var querySql = '';
+    var loadData;
+    $(function(){
+        querySql = sql;
+        var condition = $('#condition').val();
+        if(condition != ''){
+            querySql += ' and (position_name like "%' + condition + '%" or pc_name like "%' + condition + '%")';
+        }
+        querySql += ' order by last_update_date desc';
+        loadData = new pagin("positionPaginInfo", "V_Position_Search", "", encodeURI(querySql), "", 10, "positionPagin", "loadData");
+    });
+
+
+//动态加载页面绑定数据
+function positionPagin(dataInfo){
+    $(".zsp_resume_but_box").remove();
+     //图片列表数据加载
+    var html = '';
+    $(dataInfo).each(function(i) {
+        // 处理值为 null 的字段
+        var len = $(this).length;
+        var array = $(this);
+        for (var n = 0; n < len; n++) {
+            if (array[n] == null) {
+                array[n] = "&nbsp;"
+            }
+        }
+        html += '<a href="/mobile/personal/position_detail?position_id=' + array[0] + '" class="zsp_job_list_li">';
+        html += '   <div class="zsp_job_li_top">';
+        html += '       <div class="zsp_job_li_fang"><img src="' + array[56] + '" onerror="notfindimg(this)"></div>';
+        html += '       <div class="zsp_job_li_tit">';
+        html += '           <div class="zsp_job_li_h">';
+        
+        html += '               <h3 class="searh3"style="float:left;width:auto"><b class="searb">' + array[3] + '</b><i class="seari" style="color:#ff6b12;font-size:14px;">'+array[19]+'</i></h3>';
+        if(array[30] != '&nbsp;' && array[30] != ''){
+            html += ' <div class="reward_icon rewtop"><i class="iconfont icon-qianbao"></i>悬赏:￥'+array[30]+'</div>';
+        }
+        html += '            </div>';
+        html += '            <div class="zsp_job_li_tit_other" style="width:100%"><b class="companum">';
+        html +=                 array[55];
+        html += '               </b><i class="fa fa-angle-right" style="float:right;font-size:18px;"></i>';
+        html += '            </div>';
+        html += '            <div class="zsp_job_li_tit_other seracol">';
+        html += '               <span>' + array[14] + '</span>';
+        html += '               <span>' + array[23] + '</span>';
+        html += '               <span>' + array[26] + '</span>';
+        html += '            </div>';
+        html += '       </div>';
+        html += '   </div>';
+        html += '</a>';
+
+    });
+    $("#list").append(html);
+    var $this_page_data = $(".positionPaginInfo .active");
+    var $end_page_data = $(".positionPaginInfo li:last");
+    if($this_page_data.attr('onclick') != $end_page_data.attr('onclick')) {
+        var moreButton = '<div class="zsp_resume_but_box" onclick="next_page_position()">';
+        moreButton += '   </div>';
+        $("#scroller").append(moreButton);
+    }
+}
+
+// 加载更多职位
+function next_page_position() {
+    var $this_page_data = $(".positionPaginInfo .active");
+    var $end_page_data = $(".positionPaginInfo li:last");
+    if($this_page_data.attr('onclick') != $end_page_data.attr('onclick')) {
+        $this_page_data.next("li").click();
+    } else {
+        $(".zsp_resume_but_box").remove();
+    }
+}
+
+    // 搜索职位
+    function searchPosition(){
+        querySql = sql;
+        // 职位名称
+        var condition = $('#condition').val();
+        if(condition != ''){
+            querySql += ' and (position_name like "%' + condition + '%" or pc_name like "%' + condition + '%")';
+        }
+        // 年薪范围
+        var salary = $('#annualSalary_text').attr('data-value');
+        if(salary != '0'){
+            var payname = $('#annualSalary_text').text();
+            if(payname.indexOf('以上') != -1){
+                querySql += ' and (start_salary is not null and end_salary is null';
+            }else if(payname.indexOf('以下') != -1){
+                querySql += ' and (start_salary is null and end_salary is not null';
+            }else{
+                var start_salary = payname.split('-')[0];
+                var end_salary = payname.split('-')[1].split('万')[0];
+                querySql += ' and ((start_salary < ' + end_salary + ' and end_salary > ' + start_salary + ')';
+            }
+            querySql += ')';
+        }
+        // 所属行业
+        var industry = $('#trade').val();
+        if(industry != ''){
+            querySql += ' and industry_type="' + industry + '"';
+        }
+        // 地点
+        var work_area = $('#residence').val();
+        if(work_area != ''){
+            querySql += ' and work_area=' + work_area;
+        }
+        // 是否悬赏职位
+        var rewards_state = $('#reward_id').val();
+        if(rewards_state == '1'){
+            querySql += ' and rewards_money > 0';
+        }else if(rewards_state == '2'){
+            querySql += ' and rewards_money=0';
+        }
+        // 工作经验
+        var work_year = $('#experience_id').val();
+        if(work_year != '' && work_year != '0'){
+            querySql += ' and work_year=' + work_year;
+        }
+        // 职位类型
+        var position_type = $('#type_id').val();
+        if(position_type == '1'){
+            querySql += ' and position_source=1';
+        }else if(position_type == '2'){
+            querySql += ' and position_source=2';
+        }
+        // 发布时间
+        var publish_date = $('#releaseTime_id').val();
+        if(publish_date != '' && publish_date != '0'){
+            var publishDate = $('#releaseTime_id').parent().children('.active').text();
+            if (publishDate == '3天内') {
+                querySql += ' and date_sub(curdate(), INTERVAL 3 DAY) <= date(last_update_date)';
+            } else if (publishDate == '一周内') {
+                querySql += ' and date_sub(curdate(), INTERVAL 7 DAY) <= date(last_update_date)';
+            } else if (publishDate == '一月内') {
+                querySql += ' and date_sub(curdate(), INTERVAL 30 DAY) <= date(last_update_date)';
+            }
+        }
+        querySql += ' order by last_update_date desc';
+        $("#list").empty();
+        loadData = new pagin("positionPaginInfo", "V_Position_Search", "", encodeURI(querySql), "", 10, "positionPagin", "loadData");
+    }
+
+   var citystr = '';
+    $.ajax({
+        async: false,
+        type: 'post',
+        url: '/mobile/ajax_getAjaxProvinces',
+        dataType: 'json',
+        success: function (data) {
+            if (data.length > 0) {
+                data.forEach(function(province) {
+                    citystr += '<li class="area_big" rcoid="' + province.area_value + '" pid="' + province.area_value + '" title="' + province.area_name + '" href="javascript:;">' + province.area_name + '</li>';
+                })
+            }
+        }
+    });
+{#    $.each(QS_city_parent, function (pindex, pval) {#}
+{#        if (pval) {#}
+{#            var citys = pval.split(",");#}
+{#            citystr += '<li class="area_big" rcoid="' + citys[0] + '" pid="' + citys[0] + '" title="' + citys[1] + '" href="javascript:;">' + citys[1] + '</li>';#}
+{#        }#}
+{#    });#}
+    $("#area_left").html(citystr);
+    $("#area_left li").unbind().click(function () {
+        var cid = $(this).attr("rcoid");
+        var cid = $(this).attr("pid");
+        var ctitle = $(this).attr("title");
+        var scitystr = "";
+        if (cid) {
+{#            var ccitysArray = QS_city[cid].split("|");#}
+{#            scitystr += '<li class="area_small" rcoid="0" title="' + ctitle + '/不限" pid="' + cid + '.0" href="javascript:;">不限</li>';#}
+{#            $.each(ccitysArray, function (cindex, cval) {#}
+{#                if (cval) {#}
+{#                    var ccitys = cval.split(",");#}
+{#                    scitystr += '<li class="area_small" rcoid="' + ccitys[0] + '" title="' + ccitys[1] + '" pid="' + cid + '.' + ccitys[0] + '">' + ccitys[1] + '</li>';#}
+{#                }#}
+{#            });#}
+            $.ajax({
+                async: false,
+                type: 'post',
+                data: {'father_dictionary_value': cid},
+                url: '/mobile/ajax_getAjaxSecondDictionary',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.length > 0) {
+                        data.forEach(function(dictionary) {
+                            scitystr += '<li class="area_small" rcoid="' + dictionary.dictionary_value + '" title="' + ctitle + '\/' + dictionary.dictionary_name + '" pid="' + cid + '.' + dictionary.dictionary_value + '">' + dictionary.dictionary_name + '</li>';
+                        })
+                    }
+                }
+            });
+            $("#area_right").html(scitystr).show();
+            $("#area_right li").click(function () {
+                $("#residence").val($(this).attr("rcoid"));
+                $("#residence_cn").val($(this).attr("title"));
+                var str=$(this).attr("title");
+                var titis=(str.substring(str.indexOf('/')+1));
+                $("#residence_text").css('color','#ff6b12').text(titis).next().css('color','#ff6b12');
+                $("#menuResidence").hide();
+                $(".menu_bg_layer").remove();
+                searchPosition();
+            });
+        } else {
+            $("#residence_text").css('color','#ff6b12').text(rtitle).next().css('color','#ff6b12');
+            var cchid = new Array();
+            cchid = $(this).attr('pid').split(".");
+            if (cchid.length < 2) {
+                cchid.push(0);
+            }
+            var ccheckID = cchid.join(".");
+            $("#residence").val(ccheckID);
+            $("#residence_cn").val(rtitle);
+            $("#menuResidence").hide();
+            $(".menu_bg_layer").remove();
+            searchPosition()
+        }
+    });
+
+    // function tiaozhuanceng(){
+    //     window.location.href='/mobile/reward_position#cengsoso';
+
+    // }
+ // 现居住地点击
+     var lockmorebo = true;
+    $(".serach_terms>div:eq(0)").click(function () {
+       showFloatBox();
+        $("#menuResidence").css({top: ($(window).height() - $('#menuResidence').outerHeight()) / 2 + $(document).scrollTop()});
+        $("#menuResidence").show();
+        $(".nianxing_box").hide();
+        $(".more_box").hide();
+    });
+    $(".serach_terms>div:eq(1)").click(function (e) {
+        showFloatBox();
+        $(".nianxing_box").show();
+        $("#menuResidence").hide();
+        $(".more_box").hide();
+         $("#wrapper").css({
+            height: 0,
+            overflow: 'hidden'
+        });
+    });
+    $(".serach_terms>div:eq(2)").click(function (e) {
+        showFloatBox();
+        $(".more_box").show();
+        $(".nianxing_box").hide();
+        $("#menuResidence").hide();
+         $("#wrapper").css({
+            height: 0,
+            overflow: 'hidden'
+        });
+        if(!lockmorebo){
+            lockmorebo = true;
+        }
+        
+
+    });
+    //弹出层的互相跳转
+    $(".inpu3d").bind("touchstart focus",function(){
+        var inputval = $(this).val();
+        $("#searchALL").fadeOut(1000);
+        $(".s22").show();
+        $("#search_txt").val(inputval).focus();
+    });
+    $("#zuo").bind("touchstart",function(){
+        $(".s22").fadeOut(500,function(){
+        $("#searchALL").fadeIn(500);
+        });
+    })
+    $('.cont').click(function(){
+        $(".t_box>div:eq(1) input").val("");
+        $(".cont").hide();
+    })
+    $(".nianxing_box li:eq(0)").css('color',"#ff6b12");
+    $(".nianxing_box li i:eq(0)").show();
+    $(".nianxing_box li").click(function(){
+        $(".nianxing_box").hide();
+        $(".menu_bg_layer").remove();
+        $(".nianxing_box li i").hide();
+         $(".nianxing_box li").removeAttr('style');
+        $(this).css('color',"#ff6b12");
+        $(this).children('i').show();
+        $("#annualSalary_text").css('color','#ff6b12').text($(this).children('span').text()).next().css('color','#ff6b12');
+        $("#annualSalary_text").attr('data-value', $(this).children('span').attr('data-value'));
+        searchPosition();
+        $("#wrapper").removeAttr('style').css('padding-top', '0');
+    })
+    $(".nianxing_box>div>a").click(function(event) {
+        $(".nianxing_box").hide();
+        $(".menu_bg_layer").remove();
+        $("#wrapper").removeAttr('style').css('padding-top', '0');
+    });
+    
+    $("#reward_fag span").click(function(){
+        $("#reward_fag span").removeClass('active');
+        $(this).addClass('active');
+        var index=$(this).index();
+         $("#reward_id").val(index);
+    })
+    $("#experience_fag span").click(function(){
+        $("#experience_fag span").removeClass('active');
+        $(this).addClass('active');
+        //var index=$(this).index();
+        $("#experience_id").val($(this).attr('data-value'));
+    })
+      $("#type_fag span").click(function(){
+        $("#type_fag span").removeClass('active');
+        $(this).addClass('active');
+        var index=$(this).index();
+        $("#type_id").val(index);
+    })
+      $("#releaseTime_fag span").click(function(){
+        $("#releaseTime_fag span").removeClass('active');
+        $(this).addClass('active');
+        //var index=$(this).index();
+        $("#releaseTime_id").val($(this).attr('data-value'));
+    })
+      $(".more_box .qieren_btn").click(function(){
+        $(".more_box").hide();
+        $(".menu_bg_layer").remove();
+        searchPosition();
+        $("#wrapper").removeAttr('style').css('padding-top', '0');
+        $(".serach_terms>div:eq(2)").css('color', 'rgb(255, 107, 18)').children('i').css('color', 'rgb(255, 107, 18)');
+    })
+      $(".congzhi_btn").click(function(){
+        $("#reward_fag>span").eq(0).addClass('active').siblings().removeClass('active');
+        $("#experience_fag>span").eq(0).addClass('active').siblings().removeClass('active');
+        $("#type_fag>span").eq(0).addClass('active').siblings().removeClass('active');
+        $("#releaseTime_fag>span").eq(0).addClass('active').siblings().removeClass('active');
+{#        $(".more_box>ul>li>span").removeClass('active');#}
+        // 置空行业的值
+        $('#trad_span').text('选择行业');
+        $('#trade').val('');
+        $("#releaseTime_id").val('');
+        $("#type_id").val('');
+        $("#experience_id").val('');
+        $("#reward_id").val('');
+{#        $(".more_box").hide();#}
+{#        $(".menu_bg_layer").remove();#}
+          searchPosition();
+      })
+      $(".gohis").click(function(){
+        history.go(-1);
+      })
+
+      
+      $(".more_box>div:eq(0)").bind("touchstart",function(){
+        if(lockmorebo){
+            tradeShow();
+            lockmorebo = false;
+        }else{
+            $("#menutrade").remove();
+             lockmorebo = true;
+        }
+      });
+      $(".more_box ul").bind('touchstart', function(event) {
+          /* Act on the event */
+          if($("#menutrade").length > 0){
+                $("#menutrade").remove();
+                lockmorebo = true;
+          }
+      });
+      $(".more_box>div:last").bind('touchstart', function(event) {
+          /* Act on the event */
+          if($("#menutrade").length > 0){
+                $("#menutrade").remove();
+                lockmorebo = true;
+          }
+      });
+      $(document).on('click','.menu_bg_layer',function(){
+        $("#wrapper").removeAttr('style').css('padding-top', '0');
+     })
+    //     $(".more_box .trad_span_box").click(function(){
+    //         // $("#menutrade").remove();
+    //     tradeShow();
+    //   })
+    // $(".more_box").click(function(){
+    //     if($("#menutrade").length!=0)
+    //     {
+    //         if($("#menutrade").css('display')!='none')
+    //     {
+    //         $("#menutrade").remove();
+    //     }
+    //     }
+        
+    // })
+    
+    // $("#condition").bind("touchstart click",function(){
+    //     console.log(1);
+    //     $("#searchALL #pre-3d").css({"transform","rotateX(-180deg)"});
+    // })
+    $("#search_btn").click(function(){
+    var search_value=$("#search_txt").val();
+    // console.log(search_value);
+    if(search_value!=""){
+    location.href="position_search?position_name="+search_value;
+    }
+})
+  
+     $("#search_txt").bind('input propertychange focus',function() {
+        /* Act on the event */
+       // console.log(1);
+       if( $(".t_box>div:eq(1) input").val() != "" ){
+            $(".cont").show();
+       }else{
+            $(".cont").hide();
+       };
+       
+    });
+    
+    
+</script>
+</body>
+</html>

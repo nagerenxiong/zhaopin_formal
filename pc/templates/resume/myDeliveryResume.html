@@ -1,0 +1,410 @@
+{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<style>
+    .jlmp133{
+        height:180px;
+    }
+</style>
+<style type="text/css">
+    #tableInfo {
+        overflow: visible;
+        min-height: auto !important;
+    }
+    #tableInfo li {
+    position: relative;   
+}
+
+#tableInfo img {
+    margin-right: 5px;
+    z-index: 99;
+    border-radius: 50%;
+        background-color: #f4f4f4;
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    display: block;
+    margin: 0 auto;
+}
+#tableInfo .r .position {
+    color: #5c91d9;
+}
+#tableInfo img,#tableInfo ul,#tableInfo dl{float: left;}
+#tableInfo ul{width:300px;margin-top: 20px;padding-left: 20px;}
+#tableInfo .t{background-color: #f9f9f9;height:35px;line-height: 35px;padding:0 15px;}
+#tableInfo .t .a1{color:#888;}
+#tableInfo .t .a2{color:#333;}
+#tableInfo .t .a3{color:#ff8900;margin-left: 12px;}
+#tableInfo .t .time{float: right;color:#888;}
+#tableInfo img{margin-top: 8px;margin-left: 15px;}
+#tableInfo .ppbtn{text-align: center;padding-top: 25px;}
+#tableInfo .zwpp{color:#ff8900;}
+#tableInfo .btnlist{ width:140px; float:right; }
+#tableInfo .btnlist span{display:inline-block;border-radius:10px;width:36px;border:1px solid #dfdfdf;margin:0 3px; width:60px; height:22px!important;float:left; font-size:12px; margin-top:10px;}
+#tableInfo .btnlist span:hover{
+    color: #fff!important;
+    background: #5c91d9;
+}
+#tableInfo .btnlist input{
+    width:60px; height:23px!important; padding:0px!important;
+    margin:0 3px;
+}
+#tableInfo ul .name{color:#ff8900;font-size: 16px;margin-right: 20px;}
+#tableInfo ul li .position{color:#5a91db; margin-bottom: 10px;}
+#tableInfo .hover{overflow:hidden;padding:0px 0 10px 0;border-bottom:1px solid #e0e0e0;margin-bottom: 10px}
+#tableInfo .hover:hover{ box-shadow: 0px 0px 3px 3px #ccc;
+    -webkit-box-shadow: 0px 0px 3px 3px #ccc; border-radius: 5px;
+    border-bottom-color: transparent;}
+.feedback1{
+      width:95%; margin:0px auto; color:#666666; font-size:14px; border-top:1px dashed #e0e0e0;margin-top: 18px;padding-top: 15px; margin-bottom: 4px;
+    }
+.feedbactit{
+      width:18px; height:18px; display:inline-block; vertical-align: bottom; margin-right:20px; margin-left:10px;position:relative;
+    }
+.feedbactit i{
+    width:18px; height:18px;
+    background:url(/static/images/new_images/telepcoun.png) no-repeat;
+    display:inline-block;
+    position: absolute;
+    left:0px;
+    top:0px;
+}
+.tag{ display:none;width: 170px;
+    padding: 5px 20px;
+    background-color: #fff;
+    height: 22px;
+    top: 30px;
+    left: -30px;
+    position: relative;
+    border: 1px solid #00baff;
+    font-size: 14px;}
+.arrow{ position:absolute; width:40px; height:40px; top:-12px; left:32px; }
+.arrow *{ display:block; border-width:6px; position:absolute; border-style:solid dashed dashed dashed; font-size:0; line-height:0; }
+.arrow em{border-color:transparent transparent #00baff;}
+.arrow span{border-color:transparent transparent #FFF; top:2px;}
+</style>
+<!-- 内容大框 -->
+<div class="lt_content_box wdjlk">
+    <!-- 猎头会员菜单开始 -->
+    {% include 'jobs/system/menu_resume.html' %}
+    <!-- 猎头会员菜单结束 -->
+    <div class="clear">2</div>
+    <div class="clear">4</div>
+{#    <div class="center lt_jlgltb mt30 tddjl_btn_box">#}
+{#       <a href="#" class="tddjl_btn active">我投递的简历</a>#}
+{#       <a href="#" class="ppdjl_btn">匹配的简历</a>#}
+{#    </div>#}
+
+    <div class="center ">
+        <!-- 猎头会员搜索结果主内容开始 -->
+        <div class="dleft">
+            <!-- 猎头会员搜索结果开始 -->
+            <div class="ssjg p9 mt25">
+                <div class="bkdw"></div>
+                <div class="biaolm m10">
+                    <div class="biaot2 fz16">
+                        <ul class="tddjl_span_box">
+                            <li class="bthover" style="cursor: pointer">新推荐<span>{{ pu.dealCount|default:0 }}</span></li>
+                            <li  style="cursor: pointer">企业HR待定<span>{{ pu.communicationCount|default:0 }}</span></li>
+                            <li  style="cursor: pointer">邀约面试<span>{{ pu.interviewCount|default:0 }}</span></li>
+                            <li  style="cursor: pointer">已入职<span>{{ pu.entrylevelCount|default:0 }}</span></li>
+                            <li  style="cursor: pointer">不合适<span>{{ pu.improperCount|default:0 }}</span></li>
+                        </ul>
+                        <script>
+{#                        $(function(){#}
+{#                           #}
+                        </script>
+                    </div>
+                    <div class="qhann">
+                        <ul>
+{#                            <li class="sige sigehs fz12">#}
+{#                                <i class="iconfont icon-liebiao fsn" style="font-size:24px;" ></i>#}
+{#                                图片列表#}
+{#                            </li>#}
+{#                            <li class="sige fz12">#}
+{#                                <i class="iconfont icon-list fsn" style="font-size:18px;"></i>#}
+{#                                文章列表#}
+{#                            </li>#}
+                        </ul>
+                    </div>
+                </div>
+<!--                 <div class="tjsx m10"> -->
+{#                    <input name="" type="checkbox" value="" id="checkAll">#}
+{#                    <i class="ml5 mr5 fn">全选</i>#}
+{#                    <input name="" type="button" value="待沟通" class="tjann" data-toggle="modal" data-target="#if_dgt_Modal" onclick="judgeSelected(this)">#}
+{#                    <input name="" type="button" value="面试" class="tjann" style="display: none;" data-toggle="modal" data-target="#ms_Modal" onclick="judgeSelected(this)">#}
+{#                    <input name="" type="button" value="不合适" class="tjann" data-toggle="modal" data-target="#if_bhs_Modal" onclick="judgeSelected(this)">#}
+{#                    <input name="" type="button" value="批量转发" class="tjann" data-toggle="modal" data-target="#zf_Modal" onclick="judgeSelected(this)">#}
+{#                    <input name="" type="button" value="批量私信" class="tjann" data-toggle="modal" data-target="#message_Modal" onclick="judgeSelected(this)">#}
+         <!--        </div> -->
+                <!-- 猎头会员搜索结果图片列表开始 -->
+                <div id="noMatchData_wdtd" class="noMatchData" style="display: none;">
+                    <div>
+                            <h2>亲~您暂未投递任何职位哦，</h2>
+                            <p>快去平台上搜索中意的职位吧！</p>
+                            <a href="/jobs/position/headhunter/naagentsearch" target="_blank">【职位搜索】</a>
+                    </div>
+                </div>
+                <div id="noSendData_wdtd" class="noSendData" style="display: none;">
+                    <div>
+                            <p>没有符合条件的投递记录！</p>
+                    </div>
+                </div>
+                <div class="tuplb sigenr mt5" id="tableInfo" >
+
+
+                </div>
+                <div class="lthy_pager" id="paginInfo"></div>
+                <!-- 猎头会员搜索结果图片列表结束 -->
+                <!-- 猎头会员搜索结果文章列表开始 -->
+                <div class="wenzlb sigenr mt15" style="display:none">
+
+                </div>
+                <!-- 猎头会员搜索结果文章列表结束 --> </div>
+            <!-- 猎头会员搜索结果结束 --> </div>
+        <!-- 猎头会员搜索结果主内容结束 -->
+
+        <div class="xright mt25">
+            <!-- 侧边栏 -->
+            {% include 'jobs/recommendResume.html' %}
+
+            <!-- 侧边栏 --> </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!-- 内容大框 -->
+
+
+<script type="text/javascript">
+    var loadData;
+    var pu_id = {{ pu.id }};
+    var sql = ' pPosition_Status=1 and id IN (SELECT MAX(a.id) AS aid FROM V_AJ_Resume_Deal a WHERE a.source_id=' + pu_id + ' GROUP BY Form_No) and resume_status=1';
+    var querySql = sql;
+    var file_website = '';
+    $(function(){
+        file_website = $('#file_website').val();
+        querySql = sql + ' and (dispose_status=0 or dispose_status=5 or dispose_status=6) order by dispose_time desc';
+        loadData = new pagin("paginInfo", "V_AJ_Resume_Deal", "", querySql, "", 6, "paginBind", "loadData", 4);
+
+    })
+    //动态加载页面绑定数据
+    function paginBind(dataInfo){
+        //无数据处理
+        if(dataInfo==""){
+            if(true)
+                $('#noSendData_wdtd').css('display', 'block');
+            else
+                $('#noMatchData_wdtd').css('display', 'block');
+            $(".page_number").hide();
+            return;
+        }else{
+            $('#noSendData_wdtd').css('display', 'none');
+            $('#noMatchData_wdtd').css('display', 'none');
+            $(".page_number").show();
+        }
+         //图片列表数据加载
+        $("#tableInfo").empty();
+        var tabIndex = $('.tddjl_span_box li').index($('.bthover'));
+        $(dataInfo).each(function(i) {
+             // 处理值为 null 的字段
+            var len = $(this).length;
+            var array = $(this);
+            for(var n = 0; n < len; n ++){
+                if(array[n] == null){
+                    array[n] = "&nbsp;"
+                }
+            }
+            if($.trim(array[4]) == ""){
+                    array[4] = "null";
+                }
+            var o_age = parseInt(new Date().getFullYear()) - array[6];
+            if(isNaN(o_age)){
+                o_age =16;
+            }
+            var content = '';
+            content += '<li class="hover">';
+            content += '    <div class="t">';
+            content += '        <span class="a1" style="float:left;">应聘职位：</span>';
+            // content += '      <span class="a2" onclick="viewPosition('+array[43]+')" style="cursor: pointer;">'+array[37]+'</span>';
+            if(array[64] != '&nbsp;' && array[64] != '' && array[64] != 0){
+                if($.trim(array[37]).length > 18){
+                   array[37]= array[37].substring(0,18)+"...";
+                }
+                content += '        <span class="a3">【赏金:'+array[64]+'】</span>';
+                content += '      <span class="a2" title='+array[37]+' onclick="viewPosition('+array[43]+')" style="cursor: pointer;display: inline-block; float:left;">'+array[37]+'</span>';
+            }else{
+                if($.trim(array[37]).length > 24){
+                    array[37]= array[37].substring(0,24)+"...";
+                }
+                content += '      <span class="a2" title='+array[37]+' onclick="viewPosition('+array[43]+')" style="cursor: pointer;display: inline-block;float:left;">'+array[37]+'</span>';
+            }
+            if(tabIndex != 4){
+                if(tabIndex == 0){
+                    content += '        <span class="time">推荐时间：'+array[40].substring(0, 16)+'</span>';
+                }else{
+                    content += '        <span class="time">处理时间：'+array[40].substring(0, 16)+'</span>';
+                }
+            }
+            content += '    </div>';
+            content += '    <div class="c">';
+            content += '        <img src="'+file_website+array[4]+'" style="cursor: pointer;" alt="" onclick="viewResume('+array[41] + ',' + array[39] + ',' + array[0] + ')" onerror="notfind(this, 1, \''+array[5]+'\')">';
+            content += '        <ul>';
+            content += '            <li><span class="name" style="cursor: pointer;" onclick="viewResume('+array[41] + ',' + array[39] + ',' + array[0] + ')">'+array[3]+'</span><span>';
+            if(array[5] == '男'){
+                content += '            <i class="iconfont icon-nan"></i>';
+            }else{
+                content += '            <i class="iconfont icon-nv"></i>';
+            }
+            content += '                <span class="sex_value">'+array[5]+'</span>';
+            content += '                '+array[16]+'  |  '+array[14]+'  |  '+array[15]+'  '+o_age+'';
+            content += '            </span></li>';
+            content += '            <li><label>目前职位：</label><span class="position">'+array[18]+'</span></li>';
+            content += '            <li><label>毕业院校：</label><span id="education_info"></span></li>';
+            content += '        </ul>';
+            if(tabIndex != 4){
+                content += '        <div class="ppbtn"><input type="hidden" value="'+array[0]+'" /><input type="hidden" value="'+array[2]+'" />';
+                content += '            <div style="width:90px; float:left;margin-top: -4px;margin-left:100px;">';
+                content += '              <p class="zwpp">'+array[array.length - 1]+'%</p>';
+                content += '              <p style="margin-top:9px;">职位匹配度</p>';
+                content += '            </div>';
+            }
+            content += '        <div class="btnlist"></div></div>';
+            content += '    </div>';
+            if(tabIndex == 4){
+                content += ' <div style="clear:both;"></div>';
+                content += ' <div class="feedback1">';
+                content += ' <div><span id="deal_person">处理人：</span>';
+                content += '<div class="feedbactit">';
+                content += '<i class=""></i>';
+                content += '<div class="tag">';
+                content += '  <div class="arrow">';
+                content += '  <em></em>';
+                content += '  <span></span>';
+                content += '  </div>咨询电话：400-666-4846';
+                content += '</div>';
+                content += '</div>';
+                content += '<span>处理时间：'+array[40].substring(0, 16)+'</span></div>';
+                content += ' <p>反馈意见：' + array[76];
+                content += ' </p></div>';
+            }
+            content += '</li>';
+            $('#tableInfo').append(content);
+            var education = $("#tableInfo").children('li:last').find('#education_info');
+            //获得教育经历
+            loadEducation(education, array[41]);
+            if(tabIndex == 4){
+                // 获得处理人
+                var dealObj = $("#tableInfo").children('li:last').find('#deal_person');
+                loadDealPerson(dealObj, array[0]);
+            }
+        })
+         $('.feedbactit').hover(
+             function() {
+                $('#tableInfo .hover').css('overflow', 'inherit');
+                $(this).children().eq(1).css("display", "block");
+                $(this).children().eq(1).css("display", "block");
+             },
+             function() {
+                 $(this).children().eq(1).css("display", "none");
+                 $(this).children().eq(2).css("display", "none");
+         });
+    }
+//加载教育经历
+function loadEducation(obj, resume_id){
+    $.ajax({
+        type: 'POST',
+        url: '/getEducationExperience',
+        data: {'resume_id': resume_id},
+        dataType: 'json',
+        success: function(data){
+            if(data.status == '1'){
+                var uc_name = data.uc_name;
+                obj.text(uc_name);
+            }
+        }
+    });
+}
+    //获得处理人
+    function loadDealPerson(dealObj, ajInfoId){
+        $.ajax({
+            type: 'POST',
+            url: '/getDealPersonName',
+            data: {'ajInfoId': ajInfoId},
+            dataType: 'json',
+            success: function(data){
+                if(data.status == '1'){
+                    dealObj.text('处理人：' + data.user_name);
+                }
+            }
+        });
+    }
+    //切换标签
+    $(".tddjl_span_box li").click(function(){
+        $("#tableInfo").empty();
+        $(".tddjl_span_box li").removeClass("bthover");
+        $(this).addClass("bthover");
+        var tabIndex = $('.tddjl_span_box li').index($(this));
+        if(tabIndex == 0){//新推荐里放待处理、已过虑和悬赏职位的待审核
+            querySql = sql + ' and (dispose_status=0 or dispose_status=5 or dispose_status=6)';
+            $('.tjann').eq(0).css('display', '');
+            $('.tjann').eq(1).css('display', 'none');
+            $('.tjann').eq(2).css('display', '');
+        }else if(tabIndex == 1){//待沟通里放正常投递的待沟通和悬赏职位的带沟通
+            querySql = sql + ' and dispose_status=1';
+            $('.tjann').eq(0).css('display', 'none');
+            $('.tjann').eq(1).css('display', '');
+            $('.tjann').eq(2).css('display', '');
+        }else if(tabIndex == 2){//已安排面试
+            querySql = sql + ' and dispose_status=2';
+            $('.tjann').eq(0).css('display', 'none');
+            $('.tjann').eq(1).css('display', 'none');
+            $('.tjann').eq(2).css('display', '');
+        }else{
+            if(tabIndex == 3){
+                querySql = sql + ' and dispose_status=4';
+            }else{
+                querySql = sql + ' and (dispose_status=3 or dispose_status=7)';
+            }
+            $('.tjann').eq(0).css('display', 'none');
+            $('.tjann').eq(1).css('display', 'none');
+            $('.tjann').eq(2).css('display', 'none');
+        }
+        querySql += ' order by dispose_time desc';
+        loadData = new pagin("paginInfo", "V_AJ_Resume_Deal", "", encodeURI(querySql), "", 6, "paginBind", "loadData", 4);
+        //无数据处理
+        if($("#tableInfo").text()==""){
+            if(true)
+                $('#noSendData_wdtd').css('display', 'block');
+            else
+                $('#noMatchData_wdtd').css('display', 'block');
+            $(".page_number").hide();
+            return;
+        }else{
+            $('#noSendData_wdtd').css('display', 'none');
+            $('#noMatchData_wdtd').css('display', 'none');
+            $(".page_number").show();
+        }
+    })
+
+    //查看简历
+    function viewResume(resumeID){
+       window.open('/resume/new_jlyl?resumeID=' + resumeID, '_blank');
+    }
+    //预览职位
+    function viewPosition(position_id){
+        window.open('/resume/zwxq?positionId=' + position_id, '_blank');
+    }
+    $(function(){
+        $(".tddjl_span_box span").each(function(index, el) {
+            if($(this).text()=="0")
+                $(this).remove();
+        });
+    })
+</script>
+{% include 'jobs/system/new_footer.html' %}

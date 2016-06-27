@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<title></title>
+	<link rel="stylesheet" href="/static/mobile/css/css.css">
+	<link rel="stylesheet" href="/static/mobile/css/bd_zh.css">
+	<link rel="stylesheet" type="text/css" href="/static/mobile/css/comm.css">
+</head>
+<script>
+	// 自适应文字大小 start
+	(function(doc, win) {
+	  var docEl = doc.documentElement,
+	    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+	    recalc = function() {
+	      var clientWidth = docEl.clientWidth;
+	      if (!clientWidth) return;
+	      // if (clientWidth > 640) {
+	      //   clientWidth = 640;
+	      // }
+	      docEl.style.fontSize = clientWidth / 10 + 'px';
+	    };
+	  if (!doc.addEventListener) return;
+	  win.addEventListener(resizeEvt, recalc, false);
+	  doc.addEventListener('DOMContentLoaded', recalc, false);
+	})(document, window);
+	// 自适应文字大小 end
+     function alert(arr){
+		var str = arr[0];
+        var type = arr[1];
+        if($(".m_hint").length <1){
+            $("body").append('<style>.m_hint{transition: transform 0.5s ease;-webkit-transition: transform 0.5s ease;transform: translateY(-100%);-webkit-transform: translateY(-100%);}.m_hint.active{transform: translateY(0px) !important;-webkit-transform: translateY(0px) !important;}.m_hint p{margin:0;color:#fff;}</style>');
+            $("body").append('<div class="m_hint" onclick="$(this).removeClass(\'active\');" style="background-color:#ff8f00;width:100%;min-height:35px;position:fixed;top:0px;left:0px;text-align:center;line-height:35px;z-index:9999;color:#fff;font-size:14px;"><p style="width:98%;margin:0 auto;">'+str+'</p></div>');
+        }
+        else{
+            if($(".m_hint").hasClass('active'))
+                return false;
+        }
+        if(type == 1){
+            $(".m_hint").css('background-color', '#04BE5B');
+        }
+        else if(type == 2){
+            $(".m_hint").css('background-color', '#df3d3e');
+        }else{
+            $(".m_hint").css('background-color', '#ff8f00');
+        }
+        $(".m_hint p").text(str);
+        setTimeout(function(){$(".m_hint").addClass('active')},1)
+        setTimeout(function(){
+            $(".m_hint").removeClass('active');
+        },3000);
+    $("#qr_btn").click(function() {
+      fun1();
+    })
+  }
+</script>
+<body>
+	<div class="header">
+		<h1>绑定怀才当遇帐号</h1>
+	</div>
+	<div class="main">
+		<img src="/static/mobile/images/mobile_logo.png" alt="">
+		<p>我们承诺提供用户的隐私保护，</p>
+		<p>保障用户隐私安全，请您放心绑定使用。</p>
+        <form action="/mobile/login_user" id="loginForm" method="post">
+            {% csrf_token %}
+            <div class="l mt">
+                <input class="o_txt zh" name="account" id="account" type="text" placeholder="请输入登录帐号">
+            </div>
+
+            <div class="l">
+                <input class="o_txt mm" name="password" id="password" type="password" maxlength="16" placeholder="请输入密码">
+            </div>
+		</form>
+		<button class="o_btn" onclick="bindWechat()" style="font-family: 'Microsoft Yahei'">立即绑定</button>
+	</div>
+	<p class="phone">服务热线:400-666-4846</p>
+	<script src="/static/js/jquery-1.11.3.min.js"></script>
+    {% if pu %}
+        <script type="text/javascript">
+            $('#account').val('{{ pu.weixin_id }}');
+            $('#password').val('{{ pu.pwd }}');
+            setTimeout($('#loginForm').submit(), 6000);
+            window.alert(['您的微信已绑定账号，3秒后自动登录']);
+        </script>
+    {% endif %}
+	<script>
+
+		$(".o_btn").tap(function(event) {
+			if($.trim($(".zh").val()) == ""){
+				$(".zh").val("").parent().children('span').addClass('show');
+			}else{
+				$(".zh").parent().children('span').removeClass('show');
+			}
+			if($.trim($(".mm").val()).length<6){
+				$(".mm").val("").parent().children('span').addClass('show');
+			}else{
+				$(".mm").parent().children('span').removeClass('show');
+			}
+		});
+		$("input").focus(function(event) {
+			$(this).parent().children('span').removeClass('show');
+		});
+        //绑定微信号
+        function bindWechat(){
+            var account = $.trim($('#account').val());
+            var password = $.trim($('#password').val());
+            if(account == ''){
+                window.alert(['请输入手机号或邮箱']);
+                return false;
+            }else{
+                var phoneReg = /^(1\d{10})$/;
+                var emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+                if(!phoneReg.test(account) && !emailReg.test(account)){
+                    window.alert(['请输入有效的登录账号']);
+                    return false;
+                }
+            }
+            if(password == ''){
+                window.alert(['请输入密码']);
+                return false;
+            }
+            if(password.length<6||password.length>16)
+            {
+                window.alert(['密码需要6-16位之间!'])
+            }
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "/mobile/loginAndBindWechat",
+                data: {"account": account, "password": password},
+                dataType: "json",
+                success: function (data) {
+                    if(data == 0){
+                        window.alert(['系统繁忙，请稍后再试']);
+                    }else if(data == 1){
+                        window.alert(['绑定成功，3秒后进入系统']);
+                        setTimeout($('#loginForm').submit(), 6000);
+                    }else if(data == 2){
+                        window.alert(['账号不存在']);
+                    }else if(data == 3){
+                        window.alert(['密码不正确']);
+                    }else if(data == 4){
+                        window.alert(['账号或密码为空']);
+                    }else if(data == 5){
+                        window.alert(['微信号不存在']);
+                    }else if(data == 6){
+                        window.alert(['微信已绑定该账号']);
+                    }else if(data == 7){
+                        window.alert(['该账号已绑定其他微信']);
+                    }else if(data == 8){
+                        window.alert(['经纪人功能暂未开放，不能绑定微信号']);
+                    }
+                }
+            })
+        }
+	</script>
+</body>
+</html>

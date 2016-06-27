@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{{ title }}</title>
+<meta name="description" content="怀才当遇提供专业的人才经纪人服务与互联网领域垂直招聘服务,通过创新独特的结构和模式,以及个性化的优质服务,为您提供职业规划、个性化定制职业形象,帮助用户快速提升职场价值.找工作、找人才、找人才经纪人服务就来怀才当遇网！" />
+<meta name="keywords" content="怀才当遇,怀才不遇,怀才当遇招聘,人才经纪人,互联网招聘,移动互联网招聘,微信招聘,微博招聘,高薪职位,互联网圈子,社交招聘,社会招聘" />
+<link rel="stylesheet" type="text/css" href="/static/css/style_cjydy.css">
+{#<script type="text/javascript" src="/static/js/jquery.js"></script>#}
+    <script src="{{ STATIC_URL }}js/jquery-1.11.3.min.js" ></script>
+    <script language="javascript" type="text/javascript" src="{{ STATIC_URL }}js/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.autocomplete.min.js" ></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/major.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.autocomplete.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style1.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+<style type="text/css">
+    *{box-sizing: content-box;}
+    .qbhy_div{margin:10px 0 0;padding:0;width:auto;}
+    .qbhy_ul li{margin-left: 0;}
+
+</style>
+<script>
+// 点击增删active
+function active(obj) {
+    var aa = new Date();
+    if ($(obj).hasClass('active')){
+        $(obj).removeClass('active');
+        $("input[name='end_time1']").val('').removeAttr('disabled')
+    }
+    else{
+        $(obj).addClass('active');
+        $("input[name='end_time1']").val("至今").attr('disabled', 'true');
+    }
+}
+    var alertFram;var timer = null;
+    var timer = null;
+  var alertFram;
+  window.alert = function(txt, type, fun1) {
+    var icon = "";
+    var qrStr = ""
+    clearInterval(timer);
+    timer = setInterval(function() {
+      if ($("#alertFram")[0]) {
+        $("#alertFram").remove();
+        clearInterval(timer);
+      }
+    }, 3900)
+    alertFram = $('<div id="alertFram" style="color:#ed4f30;font-size:14px;padding:0px 0px 0px 30px;height:40px;background-color:#fff3de;border:1px solid #ffddc1;position:fixed;left:50%;z-index:999999999;text-align:center;line-height:40px;top:0">' + txt + '<img onclick="$(this).parent().remove()" src="{{ STATIC_URL }}images/x_03.png" style="float:right;cursor:pointer;margin-left:10px;margin-top:14px;margin-right:10px" width="12" height="12"></div>')
+    if (arguments[1] != null) {
+      if (arguments[1] == 1) {
+        icon = "alert_03";
+      } else if (arguments[1] == 2) {
+        icon = "alert_07";
+      } else if (arguments[1] == 3) {
+        clearInterval(timer);
+        icon = "alert_15";
+        qrStr = '<div style="margin-top:20px"><input type="button" id="qr_btn" value="确认" style="width:70px;height:30px;\
+               line-height:30px;color:#fff;background-color:#5C91D9;border:0px;border-radius: 5px;font-size:14px;cursor:pointer;"/><input type="button"\
+               value="取消" onclick="$(this).parent().parent().remove()" style="width:70px;height:30px;line-\
+               height:30px;color:#232323;background-color:#fff;border:0px;border-radius: 5px;font-size:14px;cursor:pointer;"/></div>';
+      } else if (arguments[1] == 4) {
+        icon = "alert_18";
+      }
+      alertFram = $('<div id="alertFram" style="color:#232323;font-size:18px;box-shadow: 5px 5px 5px rgba(0,0,0,.4);background-color:#fff;border:1px solid #7E9CC6;border-radius: 5px;position:fixed;left:50%;z-index:999999999;text-align:center;top:50%;padding:10px 20px;white-space:nowrap;"><div style="width:200px;float:left"></div><div style="clear:both"></div><img onclick="$(this).parent().remove()" src="/static/images/alert_11.png" style="float:right;cursor:pointer;margin-right:-9px;" ><img src="/static/images/' + icon + '.png" style="vertical-align:middle;margin-right:10px"/><span style="margin-right:10px">' + txt + '</span>' + qrStr + '</div>')
+    }
+    if ($("#alertFram")[0]) {
+      return;
+    }
+    $("body").append(alertFram);
+    $("#qr_btn").click(function() {
+      fun1();
+    })
+    var width = parseInt(alertFram.css('width'))+40;
+    if(arguments[1] != null)
+    {
+          var height = parseInt(alertFram.height())+20;
+         alertFram.css('margin-top', '-' + height/2 + 'px');
+    }
+    alertFram.css('margin-left', '-' + width/2 + 'px');
+  }
+</script>
+</head>
+<body>
+
+<div class="re_banner" style="width: 100%;height: 100%;">
+
+	<div class="tmbj">
+    	<div class="bsbj">
+        	<div class="grws2">
+            	<div class="grnkys2" style="margin:0 auto;">
+                <form action="">
+                	<ul>
+                    	<li>
+                        	<input id="school_name" name="uc_name1" type="text" class="grxxk6" placeholder="学校名称" value="{{ tResumeEducation1.uc_name|default:'' }}">
+                            <input id="school_id" type="hidden" name="uc_id1" value="{{ tResumeEducation1.uc_id|default:'' }}" />
+                            <input type="hidden" id="educationId1" value="{{ tResumeEducation1.id }}" />
+                        </li>
+                        <li class="grxxk10 mt20">
+                        	<input id="major1" name="major1" type="text" class="grxxk6" placeholder="专业名称" value="{{ tResumeEducation1.majorname|default:'' }}">
+                            <input type="hidden" id="majorValue1" value="{{ tResumeEducation1.major|default:'' }}" />
+                        </li>
+                        <li class="mt20" style="position: relative;">
+                            <div class="grxxk4">
+                                <input readonly="readonly" name="start_time1" class="grxxk5" type="text" onClick="WdatePicker()"
+                                       style="width: 140px;" placeholder="请选择入学时间" value="{{ tResumeEducation1.start_time | date:"Y-m-d"  }}">
+{#                            <input name="start_time1" type="button" class="grxxk5" value="毕业时间" />#}
+{#                            <em></em>#}
+{#                            <ul class="slide" style="width: 182px;right: 0px">#}
+{#                                <li>11</li>#}
+{#                                <li>11</li>#}
+{#                                <li>11</li>#}
+{#                                <li>11</li>#}
+{#                            </ul>#}
+                            </div>
+                            <div class="grxxk4 pl20">
+                                <input readonly="readonly" name="end_time1" class="grxxk5" type="text" onClick="WdatePicker()"
+                                       style="width: 140px;margin-left: 8px;" placeholder="请选择毕业时间" value="{{ tResumeEducation1.end_time | date:"Y-m-d"  }}">
+{#                            <input name="end_time1" type="button" class="grxxk5" value="毕业时间" />#}
+{#                            <em></em>#}
+{#                            <ul class="slide" style="width: 182px;right: 0px">#}
+{#                                <li>11</li>#}
+{#                                <li>11</li>#}
+{#                                <li>11</li>#}
+{#                                <li>11</li>#}
+{#                            </ul>#}
+                            </div>
+                        	
+                            
+                            <div class="zj" onclick="active(this);"><span class="radio"><i></i></span><label class="n">至今</label>
+                            </div>
+              				<div class="clear"></div>
+                        </li>
+                        <li class="mt20 clearfix">
+                            <div class="grxxk4">
+                                <input name="" type="button" class="grxxk5" value="{{ tResumeEducation1.diplomaname|default:'学历' }}" />
+                                <input name="diplomaValue1" type="hidden" id="diplomaValue1" value="{{ tResumeEducation1.diploma|default:'' }}" />
+                                <em></em>
+                                <ul class="slide" style="width: 182px;right: 0px">
+                                {% if diplomas %}
+                                    {% for diploma in diplomas %}
+                                        <li value="{{ diploma.dictionary_value }}">{{ diploma.dictionary_name }}</li>
+                                    {% endfor %}
+                                {% endif %}
+                                </ul>
+{#                                <em></em>#}
+{#                                <ul class="slide" style="width: 182px;right: 0px">#}
+{#                                <li>11</li>#}
+{#                                <li>11</li>#}
+{#                                <li>11</li>#}
+{#                                <li>11</li>#}
+{#                            </ul>#}
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="addjl" style="cursor: pointer;" onclick="window.alert('你可先保存两条教育经历，进入系统再添加教育经历',4)">
+                        <span><i class="iconfont icon-jiahao"></i>添加更多教育经历</span>
+                    </div>
+                    <div class="xiayibu" style="width:102%;">
+                        <input type="button" style="cursor: pointer;" onclick="saveEducation(this)" value="下一步：一句话简介" />
+                        <a href="/system/hcdygrydSecond">返回</a><a href="/resume/new_jlsz">进入主页</a>
+                    </div>
+                    </form>
+                </div>
+            
+            
+                
+            </div>
+            <div class="grwzbq" style="top:29px; right:-15px;">教育经历</div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var uc_select={};
+
+    //学院输入处理
+    $(function(){
+        var uc_name = $("#school_name"); //院校名称dom
+        var uc_id = $("#school_id"); //院校IDdom
+        //学院名称手动改变，如果等于最近一次选中的学校名字，那么id设置为那次的学校id
+        //否则id设置为0
+        uc_name.change(function(event) {
+            if(uc_name.val() == uc_select.name){
+                uc_id.val(uc_select.id);
+            }
+            else{
+                uc_id.val(0);
+            }
+        });
+    })
+    //初始化数据       
+    setAutoComplete();    
+    $(".slide").siblings('input').click(function(event) {
+        $(".slide").slideUp(150);
+            if($(this).siblings('.slide').css("display")=="none")
+        {
+            $(this).siblings('.slide').slideDown(150);
+        }else{
+            $(this).siblings('.slide').slideUp(150);
+        }
+    });
+    $(".slide li").click(function(event) {
+        $(this).parent().siblings('input').val($(this).text());
+        $(this).parent().siblings('input').next().val($(this).val());
+        $(this).parent("").slideUp(150);
+    });
+    //自动加载学院
+    function setAutoComplete(){
+        $.ajax({
+            type: "POST",
+            url: "/getAjaxTUcInfo",
+            async: false,
+            dataType: "json",
+            success: function(data){
+                $("input[name='uc_name1']").keyup(function(){
+                     $("input[name='uc_name1']").AutoComplete({
+                        'data': data ,
+                        'itemHeight': 20,
+                        'width': 'auto',
+                        'afterSelectedHandler': function(data) {
+                            $("input[name='uc_name1']").next().val(data.label)
+                            uc_select.name = data.value;
+                            uc_select.id = data.label;
+                        },
+                        'listStyle': 'custom',
+                        'emphasis': false,
+                        'createItemHandler': function(index, data) {
+                            return data.value; // 文本显示为绿色，并在前后使用'--'包裹
+                        }
+                    }).AutoComplete('show');
+                })       
+                $("input[name='uc_name2']").keyup(function(){
+                    $("input[name='uc_name2']").AutoComplete({
+                    'data': data ,
+                    'itemHeight': 20,
+                    'width': 'auto',
+                    'afterSelectedHandler': function(data) {
+                        $("input[name='uc_name2']").next().val(data.label)
+                    }
+                        ,'listStyle': 'custom',
+                        'emphasis': false,
+                        'createItemHandler': function(index, data) {
+                            return data.value; // 文本显示为绿色，并在前后使用'--'包裹
+                        }
+                    }).AutoComplete('show');
+                })                    
+            }
+        });
+    }
+  
+    //自动查找专业
+    function setAutoComplete_major() {
+            $.ajax({
+                type: "POST",
+                url: "/ajax_getAjaxAllMajorDictionary",
+                dataType: "json",
+                success: function(data) {
+                    $("#major1").keyup(function() {
+                            $("#majorValue1").val('');
+                            $("#major1").AutoComplete({
+                                'data': data,
+                                'itemHeight': 20,
+                                'width': 'auto',
+                                'afterSelectedHandler': function(data) {
+                                    $("#majorValue1").val(data.label);
+                                },
+                                'listStyle': 'custom',
+                                'emphasis': false,
+                                'createItemHandler': function(index, data) {
+                                    return data.value; // 文本显示为绿色，并在前后使用'--'包裹
+                                }
+                            }).AutoComplete('show');
+                        })
+                 }
+        })
+    }
+    setAutoComplete_major();
+    //保存教育经历
+    function saveEducation(obj){
+        var educationId1 = $('#educationId1').val();
+        var educationId2 = $('#educationId2').val();
+        var uc_name1 = $('input[name="uc_name1"]').val();
+        var uc_name2 = $('input[name="uc_name2"]').val();
+        var uc_id1 = $('input[name="uc_id1"]').val();
+        var uc_id2 = $('input[name="uc_id2"]').val();
+        var major1 = $('#majorValue1').val();
+        var major2 = $('#majorValue2').val();
+        var diploma1 = $('#diplomaValue1').val();
+        var diploma2 = $('#diplomaValue2').val();
+        var start_time1 = $('input[name="start_time1"]').val();
+        var end_time1 = $('input[name="end_time1"]').val();
+        var end_time2 = $('input[name="end_time2"]').val();
+
+        if(uc_name1 == '' && uc_name2 == ''){
+            window.alert('至少填写一个完整的教育经历，或点击返回进入个人首页',2);
+            return;
+        }
+        if(uc_name1 != ''){
+            if(uc_id1 == ''){
+                // window.alert('请正确输入院校名称');
+                // return;
+                uc_id1 =0;
+            }
+            if(major1 == ''){
+                window.alert('请输入并选择正确的专业',2);
+                return;
+            }
+            if(diploma1 == ''){
+                window.alert('请选择学历',2);
+                return;
+            }
+            if(start_time1 == ''){
+                window.alert('请选择入学时间',2);
+                return;
+            }
+            if(end_time1 == ''){
+                window.alert('请选择毕业时间',2);
+                return;
+            }
+        }
+        if(uc_name2 != ''){
+            // if(uc_id2 == ''){
+            //     window.alert('请正确输入院校名称');
+            //     return;
+            // }
+            if(major2 == ''){
+                window.alert('请输入并选择正确的专业',2);
+                return;
+            }
+            if(diploma2 == ''){
+                window.alert('请选择学历',2);
+                return;
+            }
+            if(end_time2 == ''){
+                window.alert('请选择毕业时间',2);
+                return;
+            }
+        }
+        $(obj).addClass('load_btn').attr('disabled', 'true');
+        $.ajax({
+            type: "POST",
+            url: "/system/ajax_saveEducation",
+            data: {"educationId1": educationId1, "uc_name1": uc_name1, "uc_id1": uc_id1, "major1": major1, "diploma1": diploma1,"start_time1":start_time1, "end_time1": end_time1,
+                    "educationId2": educationId2, "uc_name2": uc_name2, "uc_id2": uc_id2, "major2": major2, "diploma2": diploma2, "end_time2": end_time2},
+            dataType: "json",
+            success: function (data) {
+                if(data.msg == 'success'){
+                    window.alert('保存成功',1);
+                    window.location = '/system/hcdygrydFourth';
+                }else{
+                    window.alert(data.msg,2);
+                    $(obj).removeClass('load_btn').removeAttr('disabled');
+                }
+            }
+        });
+    }
+</script>
+</body>
+
+</html>

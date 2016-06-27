@@ -1,0 +1,376 @@
+﻿{% include 'jobs/system/header.html' %}
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style2.css" media="screen" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="{{ STATIC_URL }}js/businessul_old.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/position_old.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+<link href="{{ STATIC_URL }}css/style1.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/reset.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/basic.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/pages.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+ <style>
+   .modal_box h3 em{
+     width:103%; height:104%;
+   }
+ </style>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/businessul.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/position.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/area.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/major.js"></script>
+    
+<div class="nav2">{% include 'jobs/system/menu_position.html' %}</div>
+
+    <div class="clear">3</div>
+{% if request.session.account_type == "1"%}
+    <div class="clear">3</div>
+{% else %}
+    <div class="clear">5</div>
+{% endif %}
+    <!-------------------------------------- 头部结束 -------------------------------------->
+    <!-------------------------------------- 内容开始 -------------------------------------->
+
+    <div class="hl_main mt30">
+        <div class="zwdy_main">
+            <div class="content_l_t">
+                <div class="clt_float"></div>
+                <div class="content_l_t1">
+                    <a href="#" class="ahover">职位订阅器</a>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="ht40"></div>
+            <div class="zwdyq_m" style="font-size:12px">
+                <img src="/static/images/dyq.png" style="vertical-align: middle; margin-bottom:5px;"/>
+                您当前有
+                <span>{{ count }}</span>
+                订阅器
+            </h2>
+            <ul>
+                {% for pos in listPostion %}
+                <li>
+                    <h3>{{ pos.subscriber_name }}</h3>
+                    <p>
+                        <a class="btn_sc" href="javascript:void (0)">
+                            <img src="/static/images/sc.png" data-toggle="modal" data-target="#delete_Modal" onclick="setDel({{ pos.id }})" />
+                        </a> <a class="btn_sc" href="/position/findzwdyq?id={{ pos.id }}"><i class="iconfont icon-xiugaichujia fz20 f_r" style="color:#a9a8af"></i></a>
+                        <a href="#">
+                            <img src="/static/images/sjjg.png" />
+                            {{ pos.send_frequency }}
+                        </a>
+                        <a href="#">
+                            <img src="/static/images/emil.png" />
+                            {{ pos.email }}
+                        </a>
+                        {% if pos.add_date  %}
+                        <a href="#">
+                            <img src="/static/images/riqi.png" />
+                            {{ pos.add_date | date:"Y年m月j日" }}
+                        </a>
+                        {% endif %}
+                    </p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="ht30"></div>
+        <div class="xzzwdyq">
+            <h3>
+                <span>新增职位订阅器</span>
+            </h3>
+            <div class="ht40"></div>
+            <h4>
+                <img src="/static/images/wxts.png" />
+                温馨提示：设置职位订阅器，我们将会按您的需求发送最新发布的职位到您的邮箱。
+            </h4>
+            <div class="xzdyq_tb">
+                <div class="ht25"></div>
+                <form action="/headhunter/addZwdyq" method="post" id="add" onsubmit="return yzsubmit()">
+                    {% csrf_token %}
+                    <div>
+                        <input type="hidden" name="subid" value="{{ subs.id }}" />
+                        <span>订阅器名称</span>
+                        <input type="text" class="bitian" name="Subscriber_Name" style="background: url(../images/bitian.png) no-repeat left 8px!important;
+    text-indent: 10px;" placeholder="请输入订阅器名称" onblur="yzPerson(this)" value="{{ subs.subscriber_name }}" />
+                       <!--  <span class="ml25" style="color:#ff6a6a"> {% if subs.subscriber_name %}<i class="iconfont icon-gou"></i>{% else %}<i class="iconfont icon-gantanhao"></i>必填 {% endif %}
+                        </span> -->
+                    </div>
+                    <div>
+                       <span style="position:relative;">当前行业  <i class="required"></i></span>
+{#                        <input type="text" onblur="yzModal(this)" name="experienc" id="experience"  placeholder="当前行业"#}
+{#                             onclick="showBusinessul(this,1)" value="{{ hangye }}" >#}
+                        <div id="businessulDiv" class="bitian" onclick="BusinessulControlsShow(3,this)"></div>
+                        <input type="hidden" name="Industry_Type" id="expid"  value="{{ subs.industry_type }}" />
+                       <!--  <span class="ml25"style="color:#ff6a6a" > {% if subs.industry_type %}<i class="iconfont icon-gou"></i>{% else %}<i class="iconfont icon-gantanhao"></i>必填 {% endif %}
+                        </span> -->
+                    </div>
+                    <div>
+                        <span style="position:relative;">当前职位  <i class="required"></i></span>
+{#                        <input type="text" name="major" id="major"  placeholder="请先选择所处行业" onclick="positionShow(this)"#}
+{#                             onblur="yzModal(this)"  value="{{ zhiwei }}" >#}
+                        <div id="positionDiv" class="bitian" onclick="PositionControlsShow(3,this)"></div>
+                        <input type="hidden" name="Postaion_Type" id="majorid"  value="{{ subs.postaion_type }}"  />
+                        <!-- <span class="ml25"style="color:#ff6a6a" > {% if subs.postaion_type %}<i class="iconfont icon-gou"></i>{% else %}<i class="iconfont icon-gantanhao"></i>必填 {% endif %}
+                        </span> -->
+                    </div>
+                    <div>
+                        <span style="position:relative;">工作地点<b class="required"></b></span>
+                        <input type="text" class="bitian cup" onclick="showArea(this,1)" onblur="yzModal(this)"  value="{{ didian }}"   placeholder="工作地点" >
+                        <input type="hidden" name="Work_Area"  value="{{ subs.work_area }}"  />
+                        <!-- <span class="ml25"style="color:#ff6a6a" >
+                           {% if subs.work_area %}<i class="iconfont icon-gou"></i>{% else %}<i class="iconfont icon-gantanhao"></i>必填 {% endif %}
+                        </span> -->
+                    </div>
+                    <div>
+                        <span>期望薪资</span>
+                        <select name="Pay" class="bitian cup"  onchange="yzPerson(this)">
+                            <option value="">{{ subs.pay_default|default:'请选择' }}</option>
+                            {% for expect in expecpayList %}
+                            <option value="{{ expect.dictionary_value }}" {% if subs.payname == expect.dictionary_name  %} selected="selected" {% endif %}>{{ expect.dictionary_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <!-- <span class="ml25 " style="color:#ff6a6a" >
+                           {% if subs.pay %}<i class="iconfont icon-gou"></i>{% else %}<i class="iconfont icon-gantanhao"></i>必填 {% endif %}
+                        </span> -->
+                    </div>
+
+                    <div>
+                        <span>工作年限</span>
+                        <select name="Work_Year" id="work"  class="bitian cup" onchange="yzPerson(this)">
+                            <option value="">请选择</option>
+                            {% for year in startyearList %}
+                            <option value="{{ year.dictionary_value }}" {% if subs.work_year == year.dictionary_value  %} selected="selected" {% endif %}>{{ year.dictionary_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <!-- <span class="ml25 " style="color:#ff6a6a" >
+                           {% if subs.work_year %}<i class="iconfont icon-gou"></i>{% else %}<i class="iconfont icon-gantanhao"></i>必填 {% endif %}
+                        </span> -->
+                    </div>
+                    <div>
+                        <span>学历</span>
+                        <select name="Diploma" class="bitian cup" id="diploma" onchange="yzPerson(this)">
+                            {% for diploma in diplomaList %}
+                            <option value="{{ diploma.dictionary_value }}" {% if subs.diploma == diploma.dictionary_value  %} selected="selected" {% endif %}>{{ diploma.dictionary_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <!-- <span class="ml25"style="color:#ff6a6a" >
+                            {% if subs.diploma %}<i class="iconfont icon-gou"></i>{% else %}<i class="iconfont icon-gantanhao"></i>必填 {% endif %}
+                        </span> -->
+                    </div>
+                    <div>
+                        <span>性质</span>
+                        <select name="Work_Nature"  class="bitian cup" onchange="yzPerson(this)">
+                             <option value="0" selected="selected">请选择</option>
+                            {% for diploma in expect_work_nature %}
+                            <option value="{{ diploma.dictionary_value }}" {% if subs.work_nature == diploma.dictionary_value  %} selected="selected" {% endif %}>{{ diploma.dictionary_name }}</option>
+                            {% endfor %}
+                        </select>
+                       <!--  <span class="ml25"style="color:#ff6a6a" >
+                           {% if subs.work_nature %}<i class="iconfont icon-gou"></i>{% else %}<i class="iconfont icon-gantanhao"></i>必填 {% endif %}
+                        </span> -->
+                    </div>
+                    <div>
+                        <span>发送频率</span>
+                        <select name="Send_Frequency" class="bitian cup" id="diploma" onchange="yzPerson(this)">
+                            <option value="0" >请选择</option>
+                            {% for nature in Sendlsit %}
+                                <option value="{{ nature.dictionary_value }}" {% if subs.send_frequency == nature.dictionary_value  %} selected="selected" {% endif %}>{{ nature.dictionary_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <!-- <span class="ml25"style="color:#ff6a6a" >
+                           {% if subs.send_frequency %}<i class="iconfont icon-gou"></i>{% else %}<i class="iconfont icon-gantanhao"></i>必填 {% endif %}
+                        </span> -->
+                    </div>
+
+                    <div>
+                        <span>接收人邮箱</span> <em>{{ pu.email }}</em>
+                    </div>
+                </form>
+                <div class="ht30"></div>
+            </div>
+            <div class="ht20"></div>
+            <p class="xzdyq_btn">
+                <a class="btn_qrdyq" href="javascript:void(0)" onclick="formsubmit()">确认订阅器</a>
+                <a href="javascript:void(0);" onclick="viewSearch()">预览搜索效果</a>
+            </p>
+        </div>
+        <div class="ht70"></div>
+    </div>
+</div>
+
+<!-------------------------------------- 内容结束 -------------------------------------->
+<!-------------------------------------- 尾部开始 -------------------------------------->
+{% include 'jobs/system/new_footer.html' %}
+<!-------------------------------------- 尾部开始 -------------------------------------->
+
+<div class="modal fade" id="delete_Modal" tabindex="-1" role="dialog"
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog"style="width: 293px;">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close"
+               data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">确认删除</h4>
+            </div>
+            <div class="modal-body t_c">是否确认删除</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="width:auto;height:auto">否</button>
+                <input type="hidden" id="del"  />
+                <button type="button" class="btn btn-primary" data-dismiss="modal" style="width:auto;height:auto" onclick="Delzw()">是</button>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal-content -->
+</div>
+    <input type="hidden" id="recieveEmail" value="{{ pu.email }}">
+</body>
+</html>
+<script type="text/javascript">
+    var recieveEmail = $('#recieveEmail').val();
+    $(function(){
+        if(recieveEmail == ''){
+            window.alert('你还没绑定邮箱，请先绑定邮箱',4);
+        }
+        BusinessulControls("businessulDiv", '{{ hangye|default:'' }}', '{{ subs.industry_type|default:'' }}', 'width:250px;margin-top:5px;font-size:14px;');
+        PositionControls("positionDiv", '{{ zhiwei|default:'' }}', '{{ subs.postaion_type|default:'' }}', 'width:250px;margin-top:5px;font-size:14px;');
+        // 查看是否可以发布职位订阅器
+        isCouldAddPositionSubscriber()
+    });
+    function positionShow(obj){
+        showPosition(obj,$("#experience").val(),$("#expid").val(),5);
+    }
+    function yzPerson(obj){
+        if($(obj).val()!="0"&&$(obj).val()!=""){
+            $(obj).next().empty();
+            
+        }else{
+            $(obj).next().empty();
+            $(obj).next().append("<i class=\"iconfont icon-gantanhao\"></i>必填");
+        }
+    }
+    function yzModal(obj){
+        if($(obj).next().val()!=""&&$(obj).next().val()!=0){
+            $(obj).next().next().empty();
+           
+        }else{
+            $(obj).next().next().empty();
+            $(obj).next().next().append("<i class=\"iconfont icon-gantanhao\"></i>必填");
+        }
+    }
+    function formsubmit(){
+        var flag = isCouldAddPositionSubscriber();
+        if(flag) {
+            $("#add").submit();
+        }
+    }
+    function yzsubmit(){
+        if(recieveEmail == ''){
+            window.alert('你还没绑定邮箱，请先绑定邮箱',4);
+            return false;
+        }
+        if($("[name=Industry_Type]").val()==""||$("[name=Industry_Type]").val()==0){
+            alert("当前行业不能为空!",4);
+            return false
+        }
+        if($("[name=Postaion_Type]").val()==""||$("[name=Postaion_Type]").val()==0){
+            alert("当前职位不能为空!",4);
+            return false
+        }
+        if($("[name=Work_Area]").val()==""||$("[name=Work_Area]").val()==0){
+            alert("请选择工作地点!",4);
+            return false
+        }
+        if($("[name=Work_Year]").val()==""||$("[name=Work_Year]").val()==0){
+            alert("请选择工作年限!",4);
+            return false
+        }
+        if($("[name=Diploma]").val()==""||$("[name=Diploma]").val()==0){
+            alert("请选择学历!",4);
+            return false
+        }
+        if($("[name=Work_Nature]").val()==""||$("[name=Work_Nature]").val()==0){
+            alert("请选择性质!",4);
+            return false
+        }
+        if($("[name=Send_Frequency]").val()==""||$("[name=Send_Frequency]").val()==0){
+            alert("请选择发送频率!",4);
+            return false
+        }
+    }
+    function setDel(id){
+        $("#del").val(id);
+    }
+    function Delzw(){
+        location.href="/headhunter/delZwdyq?id="+ $("#del").val();
+    }
+
+    function isCouldAddPositionSubscriber(){
+        var flag = true;
+        if('{{ subs.id | default:'' }}' == '') {
+            // 判断是否还可以增加职位订阅器
+            $.ajax({
+                async: false,
+                url: "/ajax_isCouldAddPositionSubscriber",
+                type: "POST",
+                dataType: "json",
+                success: function(data) {
+                    if(data.status == '0') {
+                        alert("鉴于您当前的等级，无法添加更多职位订阅器!",4);
+                        $(".btn_qrdyq").css("background-color", "#ccc");
+                        $(".btn_qrdyq").attr("onclick", "alert('鉴于您当前的等级，无法添加更多职位订阅器!')");
+                        flag = false;
+                    }
+                }
+            })
+        }
+        return flag;
+    }
+    //预览搜索效果
+    function viewSearch(){
+        var viewSql = '';
+        if($("[name=Industry_Type]").val() != "" && $("[name=Industry_Type]").val() != "0"){
+            viewSql += ' and find_in_set(cast(industry_type as char), "'+$("[name=Industry_Type]").val()+'") ';
+        }
+        if($("[name=Postaion_Type]").val() !="" && $("[name=Postaion_Type]").val() !="0"){
+            viewSql += ' and find_in_set(cast(postaion_type as char), "'+$("[name=Postaion_Type]").val()+'") ';
+        }
+        if($("[name=Work_Area]").val() !="" && $("[name=Work_Area]").val() != '0'){
+            viewSql += ' and find_in_set(cast(work_area as char), "'+$("[name=Work_Area]").val()+'") ';
+        }
+        if($("[name=Pay]").children('option:selected').text() != '请选择'){
+            //$("[name=Pay]").val() !="" && $("[name=Pay]").val() !="0" &&
+            //viewSql += ' and pay=' + $("[name=Pay]").val();
+
+            //年薪范围处理
+            var payname = $("[name=Pay]").children('option:selected').text();
+            if(payname.indexOf('以上') != -1){
+                viewSql += ' and (start_salary is not null and end_salary is null';
+            }else if(payname.indexOf('以下') != -1){
+                viewSql += ' and (start_salary is null and end_salary is not null';
+            }else{
+                var start_salary = payname.split('-')[0];
+                var end_salary = payname.split('-')[1].split('万')[0];
+                viewSql += ' and (start_salary < ' + end_salary + ' and end_salary > ' + start_salary + ')';
+            }
+        }
+        if($("[name=Work_Year]").val() !="" && $("[name=Work_Year]").val() !="0"){
+            viewSql += ' and work_year=' + $("[name=Work_Year]").val();
+        }
+        if($("[name=Diploma]").val() !="" && $("[name=Diploma]").val() !="0"){
+            viewSql += ' and diploma=' + $("[name=Diploma]").val();
+        }
+        if($("[name=Work_Nature]").val() !="" && $("[name=Work_Nature]").val() !="0"){
+            viewSql += ' and work_nature=' + $("[name=Work_Nature]").val();
+        }
+        window.open('/position/headhunter/naagentsearch?viewSql=' + encodeURI(viewSql), '_blank');
+    }
+</script>
+<!-- note
+
+-->

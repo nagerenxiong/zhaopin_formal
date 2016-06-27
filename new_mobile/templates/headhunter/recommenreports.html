@@ -1,0 +1,183 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/new_mobile/css/zsh_common.css" type="text/css">
+<script src="/static/new_mobile/js/formValidate.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    // 初始化推荐数据
+    var core_advantage = '';
+    {% if recommend_report.core_advantage %}
+        core_advantage = '{{ recommend_report.core_advantage|safe }}';
+    {% endif %}
+    var salary_welfare = '';
+    {% if recommend_report.salary_welfare %}
+        salary_welfare = '{{ recommend_report.salary_welfare|safe }}';
+    {% endif %}
+    var consultant_evaluation = '';
+    {% if recommend_report.consultant_evaluation %}
+        consultant_evaluation = '{{ recommend_report.consultant_evaluation|safe }}';
+    {% endif %}
+    $('#core_advantage').val(core_advantage.replace(/<br>/g, "\n"));
+    $('#core_count').text(core_advantage.length);
+    $('#salary_welfare').val(salary_welfare.replace(/<br>/g, "\n"));
+    $('#salary_count').text(salary_welfare.length);
+    $('#consultant_evaluation').val(consultant_evaluation.replace(/<br>/g, "\n"));
+    $('#evaluation_count').text(consultant_evaluation.length);
+    // 提交 表单
+    $("#educat_submit").click(function(){
+        var resume_id = $('#resume_id').val();
+        var recommend_id = $('#recommend_id').val();
+        if (resume_id == '') {
+            alert(["请先保存基本信息", 2]);
+            return false;
+        }
+        var core_advantage = $.trim($('#core_advantage').val());
+        if (core_advantage == "") {
+            alert(["请输入核心优势", 2]);
+            return false;
+        } else if (core_advantage.length < 50) {
+            alert(["核心优势最少输入50个字", 2]);
+            return false;
+        } else {
+            core_advantage = core_advantage.replace(/\n/g, '<br>');
+        }
+        var consultant_evaluation = $.trim($('#consultant_evaluation').val());
+        if (consultant_evaluation == "") {
+            alert(["请输入经纪人评价", 2]);
+            return false;
+        } else if (consultant_evaluation.length < 50) {
+            alert(["经纪人评价最少输入50个字", 2]);
+            return false;
+        } else {
+            consultant_evaluation = consultant_evaluation.replace(/\n/g, '<br>');
+        }
+        var salary_welfare = $.trim($('#salary_welfare').val());
+        if (salary_welfare != '') {
+            salary_welfare = salary_welfare.replace(/\n/g, '<br>');
+        }
+        $.ajax({
+            type: 'post',
+            data: {'recommend_id': recommend_id, 'resume_id': resume_id, 'core_advantage': core_advantage,
+            'salary_welfare': salary_welfare, 'consultant_evaluation': consultant_evaluation},
+            url: '/mobile/ajax_save_recommend_report',
+            dataType: 'json',
+            success: function(data) {
+                if(data.status == '1') {
+                    alert(['保存成功', 1]);
+                    if($('#position_id').val() == ''){
+                        window.location.href = '/mobile/headhunter/edit_uploaded_resume?resume_id={{ resume_id }}';
+                    }else{
+                        var url = window.location.href;
+                        var position_id = $('#position_id').val();
+                        if(url.indexOf('recommend=true') != -1){
+                            window.location = '/mobile/headhunter/edit_uploaded_resume?resume_id={{ resume_id }}' + '&position_id=' + position_id
+                        }else if(decodeURI(url).indexOf('type="next"') != -1){
+                            window.location = '/mobile/headhunter/detail_uploaded_resume?resume_id={{ resume_id }}&position_id=' + position_id;
+                        }else{
+                            window.location = '/mobile/headhunter/recomm_talents?position_id=' + position_id;
+                        }
+                    }
+                } else if (data.status == '2') {
+                    alert(['推荐报告已存在', 4]);
+                } else if (data.status == '3') {
+                    alert(['推荐报告ID不对', 4]);
+                } else if (data.status == '0') {
+                    alert(['你没有权限操作此数据或登录超时', 4]);
+                }
+            }
+        });
+    });
+});
+</script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+</script>
+<!--zsp_header -->
+<div class="zsp_edu_main_box">
+<div class="zsp_edu_tit">
+	<h1>推荐报告</h1>
+	<p>填写推荐报告，增加简历含金量</p>
+</div>
+
+{#<form id="Form1" method="post">#}
+	<div class="zsp_input_main_box swiper-slide">
+		<div class="textareaBox">
+		   <label style="margin-top:-8px; margin-bottom:8px;display:inline-block;">核心优势</label><span class="required1">必填</span>
+		   <div class="core_adva" onMouseDown="this.className='core_adva1'" onMouseOut="this.className='core_adva'">
+				<div class="infoBox">
+					<textarea class="formcheck required numberCount" placeholder="请填写该人才核心优势，不少于50字，如：
+1.相关行业工作经验、专业能力、擅长领域
+2.逻辑思维能力、为人品格、性格特点
+3.管理经验规模及能力等" name="achievements" style="height:105px!important;" id="core_advantage"></textarea>
+				</div>
+				<div class="numTip">
+					<span id="core_count">0</span>
+					<span>/</span>
+					<span>1000</span>
+				</div>
+		  </div>
+		</div>
+         
+		<div class="textareaBox" style="margin-top:10px; height: 165px;">
+			<label style="margin-top:-8px; margin-bottom:8px;display:inline-block;">薪酬福利</label>
+			<div class="core_adva" onMouseDown="this.className='core_adva1'" onMouseOut="this.className='core_adva'">
+				<div class="infoBox">
+					<textarea id="salary_welfare" class="formcheck required numberCount" placeholder="请填写人才薪酬福利分析，如目前薪资构成、期望薪资构成等" name="achievements" style="height:70px!important;"></textarea>
+				</div>
+				<div class="numTip">
+					<span id="salary_count">0</span>
+					<span>/</span>
+					<span>1000</span>
+				</div>
+		    </div>
+		</div>
+
+		<div class="textareaBox" style="margin-top:10px;height: 190px;">
+			<label style="margin-top:-8px; margin-bottom:8px; display:inline-block;">经纪人评价</label><span class="required1">必填</span>
+			<div class="core_adva" onMouseDown="this.className='core_adva1'" onMouseOut="this.className='core_adva'">
+				<div class="infoBox">
+					<textarea id="consultant_evaluation" class="formcheck required numberCount" placeholder="请填写经纪人评价内容，不少于50字" name="achievements" style="height:95px!important;"></textarea>
+				</div>
+				<div class="numTip">
+					<span id="evaluation_count">0</span>
+					<span>/</span>
+					<span>1000</span>
+				</div>
+		    </div>
+		</div>
+
+
+		<div class="edit_work_exp_but_group" style="margin-top:20px;width:100%!important;">
+{#			<div class="edit_exp_save_but halfCheckBtnNo" style="width:100%!important;">#}
+{#				<a class="unable" href="/mobile/headhunter/preview_recomrepo">保存</a>#}
+{#			</div>#}
+			<div class="edit_exp_save_but" style="width:100%!important;">
+                {% if type != '' %}
+                    <a class="able" id="educat_submit">下一步</a>
+                {% else %}
+				    <a class="able" id="educat_submit">保存</a>
+                {% endif %}
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+{#</form>#}
+</div>
+<input type="hidden" id="resume_id" value="{{ resume_id }}" />
+<input type="hidden" id="position_id" value="{{ position_id|default:'' }}" />
+<input type="hidden" id="recommend_id" value="{{ recommend_report.id }}" />
+<div class="errorTip"></div>
+</body>
+</html>

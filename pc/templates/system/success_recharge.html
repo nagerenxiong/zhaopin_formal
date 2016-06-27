@@ -1,0 +1,40 @@
+{% include 'jobs/system/header.html' %}
+<style type="text/css">
+   .cz_table{width:309px;margin: 0 auto;font-size: 18px;text-align: center;}
+ 
+tr{height:50px;}
+.c1{color:#ff8800;font-style:normal;}
+.c{font-size: 14px;margin-left: 10px;}
+.zfb1{display:none;cursor: pointer;}
+.zfb{cursor: pointer;}
+.ljcz_btn{width:150px;height:50px;background-color:#5c91d9;line-height:50px;text-align: center;color:white;font-size: 18px;display:inline-block;border-radius: 5px;}
+.return_btn{color:#5c91d9;margin-left: 38px;}
+.re_bottom{margin-top: 0;}
+.c2{color:#ff8800;font-style:normal;}
+</style>
+<div style="background-color: #f8f8f8;padding-top:20px;padding-bottom: 50px;">
+    <div class="center" style="background-color: white;border:1px solid #eeeeee;padding-bottom: 100px;padding-top:20px;">
+        <div style="font-size: 14px;;text-align: right;padding-right: 20px;">剩余财币：<span style="color:#ff8800">{{ pu.gold }}</span> 个  </div>
+        <div style="text-align: center;margin-top: 80px;"><img src="{{ STATIC_URL }}images/czcg_03.png"></div>
+         <table class="cz_table">
+            <tr><td align="right">订单号：</td><td align="left">{{ tgoldRecord.order_number }}</td></tr>
+            <tr><td align="right">充入账号：</td><td align="left">{{ pu.email }}</td></tr>            
+            <tr><td align="right">应付金额：</td><td align="left"><em class="c2">{{ tgoldRecord.operation_value }}</em>元</td></tr>
+            <tr><td colspan="2"><a href="javascript:void(0)" class="ljcz_btn">返回</a></td></tr>
+        </table>
+    </div>   
+</div>
+<script type="text/javascript">
+    $(".zfb").click(function(event) {
+       $(".zfb1").show();
+       $(this).hide();
+    });
+     $(".zfb1").click(function(event) {
+        $(".zfb").show();
+       $(this).hide();
+     });
+    $('.ljcz_btn').click(function(){
+        window.location = '/account/jbgl';
+    });
+</script>
+{% include 'jobs/system/new_footer.html' %}

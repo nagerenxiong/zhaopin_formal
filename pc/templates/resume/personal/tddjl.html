@@ -1,0 +1,89 @@
+{% include 'jobs/system/header.html' %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/css.css">
+<link href="{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}css/style_cj.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/kongjian.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/new_tddjl.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/popup.css">
+<div class="lt_content_box wdjlk">
+    <!-- 猎头会员菜单开始 -->
+    {% include 'jobs/system/menu_tdjl.html' %}
+    <!-- 猎头会员菜单结束 -->
+    <div class="clear">2</div>
+    <div class="clear">1</div>
+    <div class="center">
+
+        <!-- 猎头会职位管理内容开始 -->
+        <div class="dleft" style="width: auto;">
+
+            <!-- 猎头会员已下线的职位开始 -->
+            <div class="ssjg p9 mt25" style="width: 722px;">
+ 
+                <!-- 猎头会员已下线的职位图片列表开始 -->
+                <div class="tuplb sigenr mt10 oh hzdlt_tuplb zwsc gr_tddjl" id="tableInfo" style="margin-top: 0px !important; ">
+                    <div class="result" style="margin-top: 0px !important;">
+                    <div id="tddzw" style="display: block">
+                        <ul class="tddzw_select">
+                            <li onclick="get_tddzw('all')" class="active">全部</li>
+                            <li onclick="get_tddzw('0')" >待处理</li>
+                            <li onclick="get_tddzw('1')" >待沟通</li>
+                            <li onclick="get_tddzw('2')">面试</li>
+                            <li onclick="get_tddzw('3')">不合适</li>
+                            <li onclick="get_tddzw('4')">已入职</li>
+                            <li class="slide"></li>
+                        </ul>
+                        
+                        {% if ajCount == 0 %}
+                            <div id="noMatchData_tddzw" class="noMatchData">
+                                <div>
+                                        <h2>亲~您暂未投递任何职位哦，</h2>
+                                        <p>快去平台上搜索中意的职位吧！</p>
+                                        <a style="color:#ff8800;" href="/position/npositionsearch" target="_blank">【职位搜索】</a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div id="noSendData_tddzw" class="noSendData" style="display: none;">
+                                <div>
+                                        <p>没有符合条件的投递记录！</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="tddzw_content">
+                            <ul id="tddzwInfo" class="tddzw_all" style="min-height: 350px;">
+                            </ul>
+                            <div id="paginTddzwInfo"></div>
+                        </div>
+                    </div>
+                    </div>
+
+                </div>
+                <div id="paginInfo"></div>
+                <!-- 猎头会员已下线的职位图片列表结束 -->
+                <!-- 猎头会员已下线的职位文章列表开始 -->
+
+                <!-- 猎头会员已下线的职位文章列表结束 --> </div>
+            <!-- 猎头会员已下线的职位结束 --> </div>
+        <!-- 猎头会职位管理内容结束 -->
+
+         <div class="xright mt25">
+         {% include 'jobs/recommendResume.html' %}
+        </div> 
+        <div class="clear"></div>
+    </div>
+</div>
+<input type="hidden" id="operateIndex" />
+<input type="hidden" id="sourceId" />
+<input type="hidden" id="positionId" value="{{ resume.expect_position }}" />
+<input type="hidden" id="currently_postaion" value="{{ resume.currently_postaion }}" />
+<input type="hidden" id="resumeId" value="{{ resume.id }}" />
+<input type="hidden" id="puId" value="{{ pu.id }}" />
+<input type="hidden" id="static_url" value="{{ STATIC_URL }}" >
+<script src="{{ STATIC_URL }}js/jquery.knob.min.js"></script>
+<script src="{{ STATIC_URL }}js/scroll.js" ></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/qiehuan.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/interview.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script src="{{ STATIC_URL }}js/o.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}appJs/system/new_personal_index.js"></script>
+{% include 'jobs/system/new_footer.html' %}

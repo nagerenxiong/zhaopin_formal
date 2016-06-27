@@ -1,0 +1,583 @@
+// @import "normalize";
+@import "initial";
+@import "normalize";
+html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    width: 100%;
+    max-width: 640px;
+    height: 100%;
+    overflow: hidden;
+}
+
+.view {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    // max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pr {
+    position: relative;
+}
+
+
+/*中间内容*/
+
+.content {
+    background-color: #fff;
+    overflow-y: auto;
+}
+
+.content1 {
+    background-color: #f9f9f9;
+    overflow-y: auto;
+}
+
+.bcf {
+    background-color: #fff;
+}
+
+.money_header {
+    clear: both;
+    height: 121px;
+    width: 92%;
+    margin: 0px auto;
+    margin-top: 16px;
+    .head_left {
+        width: 52%;
+        font-size: 2.0rem;
+        color: #ff6b12;
+        float: left;
+        margin-top: 40px;
+        height: 38px;
+        p {
+            text-align: center;
+        }
+        img {
+            width: 25px;
+            height: 38px;
+            display: block;
+            margin: 10px auto;
+        }
+    }
+    .head_right {
+        width: 140px;
+        float: right;
+        img {
+            width: 140px;
+            height: 121px;
+            vertical-align: bottom;
+        }
+    }
+}
+
+.money_flow {
+    width: 92%;
+    margin: 0px auto;
+    clear: both;
+    margin-bottom:40px;
+    ul {
+        li {
+            p {
+                border-radius: 20px;
+                height: 41px;
+                background-color: #fffefa;
+                border: 1px solid #ffd87a;
+                i {
+                    font-size: 3.0rem;
+                    color: #ffe874;
+                    display: inline-block;
+                    padding-left: 1%;
+                    padding-top: 1%;
+                    vertical-align: middle;
+                }
+                span {
+                    font-size: 1.5rem;
+                    line-height: 41px;
+                }
+            }
+            em {
+                color: #ffc659;
+                font-size: 1.5rem;
+                margin: 5px auto;
+                display: block;
+                width: 15px;
+            }
+        }
+    }
+}
+
+//职位详情
+.main_content {
+    margin: 2.6% 2.6%;
+    // background-color: #fff;
+    .reward_flow {
+        margin-top: 10px;
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0px 1px 3px 0px #e0dddd;
+        overflow: hidden;
+        height: 45px;
+        line-height: 45px;
+        ul {
+            position: relative;
+            margin: 0px 10px 0px 10px;
+            li {
+                display: inline-block;
+                float: left;
+                margin-right: 12px;
+                font-size: 1.3rem;
+                 line-height: 45px;
+                i {
+                    color: #00baff;
+                    margin-right: 5px;
+                }
+            }
+            .arrows {
+                position: absolute;
+                top: 2px;
+                right: -1px;
+                font-size: 1.5rem;
+                color: #adadad;
+            }
+        }
+    }
+    @media only screen and (min-width: 320px) and (max-width: 360px) {
+        .reward_flow {
+            ul {
+                li {
+                    margin-right: 2px;
+                    font-size: 1.2rem;
+                    i {
+                        margin-right: 2px;
+                    }
+                }
+            }
+        }
+    }
+    .zsp_job_details {
+        margin-top: 10px;
+        background-color: #fff;
+        box-shadow: 0px 1px 3px 0px #e0dddd;
+        border-radius: 4px;
+        .zsp_duty_claim {
+            font-size: 1.3rem;
+            color: #555;
+            padding: 14px 10px 0px 10px;
+            line-height: 23px;
+            h3 {
+                font-weight: normal;
+                font-size: 1.3rem;
+            }
+            p{
+                word-wrap: break-word;
+            }
+        }
+        .zsp_job_detai_top {
+            margin: 15px 10px 0px 10px;
+            overflow: hidden;
+            position: relative;
+            .arrows {
+                position: absolute;
+                top: 45%;
+                right: -1px;
+                font-size: 1.5rem;
+                color: #adadad;
+            }
+            .zsp_job_img {
+                border-radius: 4px;
+                float: left;
+                margin-right: 10px;
+                // border: 1px solid #e2e2e2;
+                width: 50px;
+                height: 50px;
+                overflow: hidden;
+                img {
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+            .zsp_job_li {
+                h3 {
+                    font-size: 1.3rem;
+                    color: #222222;
+                    margin-top: 5px;
+                }
+                em {
+                    font-size: 1.3rem;
+                    color: #555555;
+                    line-height: 25px;
+                }
+            }
+        }
+        .zsp_job_detai_bottom {
+            padding: 15px 10px;
+            overflow: hidden;
+            .arrows {
+                position: absolute;
+                top: 43%;
+                right: 10px;
+                font-size: 1.5rem;
+                color: #adadad;
+            }
+            .zsp_job_img {
+                border-radius: 50%;
+                float: left;
+                margin-right: 10px;
+                img {
+                    border-radius: 50%;
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+            .zsp_job_li {
+                width: 60%;
+                float: left;
+                h3 {
+                    font-size: 1.8rem;
+                    color: #222;
+                }
+                em {
+                    font-size: 1.3rem;
+                    color: #555555;
+                }
+            }
+            .zsp_job_lixq {
+                h3 {
+                    font-size: 1.3rem;
+                    color: #333;
+                    margin-top: 5px;
+                    a{
+                        font-size:2.2rem;
+                        color:#45c168;
+                        margin-left:5px;
+                        vertical-align: bottom;
+                    }
+                }
+                em {
+                    font-size: 1.3rem;
+                    color: #777777;
+                    line-height: 25px;
+                }                
+            }
+            .zsp_job_dial {
+                display: inline-block;
+                float: right;
+                margin-top: 5px;
+                a{
+                    color: #45c168;
+                    font-size: 3.0rem;
+                }
+            }
+            .toheaderhun{
+                position: absolute;
+                top: 0;
+                right: 0;
+                width:20%;
+                height: 100%;
+            }
+        }
+    }
+    .zsp_reward_job {
+        margin-top: 10px;
+        background-color: #fff;
+        box-shadow: 0px 1px 3px 0px #e0dddd;
+        /*opera或ie9*/
+        border-radius: 4px;
+        margin-bottom:60px;
+        .zsp_reward_list {
+            ul {
+                margin: 0px 10px;
+                li {
+                    padding: 20px 0px;
+                    width: 100%;
+                    border-bottom: 1px solid #e6e6e6;
+                    overflow: hidden;
+                    position: relative;
+                    .zsp_rewar_img {
+                        // border: 1px solid #e2e2e2;
+                        border-radius: 4px;
+                        width: 50px;
+                        height: 50px;
+                        overflow: hidden;
+                        float: left;
+                        img {
+                            width: 50px;
+                            height: 50px;
+                        }
+                    }
+                    .zsp_rewar_deti {                        
+                        h3 {
+                            // width:86%;
+                            font-size: 1.5rem;
+                            // line-height: 1.6rem;
+                            color: #222222;
+                            text-indent: 10px;
+                            // width:200px;
+                            // text-overflow:ellipsis;
+                            // white-space:nowrap;
+                            // overflow: hidden;
+                            span {
+                                color: #ff6b12;
+                                font-size: 1.3rem;
+
+                            }
+                        }
+                        .zsp_h3{
+                            overflow: hidden;
+                            margin-bottom: 5px;
+                            .zsp_b{
+                                    max-width: 120px;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                    float: left;
+                                    font-weight: normal;
+                            }
+                            .zsp_span{
+                                white-space: nowrap;
+                                float: left;
+                                text-indent: 5px;
+                            }
+                        }
+                        p {
+                            color: #555555;
+                            font-size: 1.3rem;
+                            text-indent: 10px;
+                            line-height: 15px;
+                            padding-top: 5px;                            
+                        }
+                        .lszw{
+                            padding-left:50px;
+                        }
+                        .jqslh{
+                            width:43%;
+                            text-overflow:ellipsis;
+                            white-space:nowrap;
+                            overflow: hidden;
+                            // line-height: 1.5rem;
+                        }
+                       
+                    }
+                    
+                    .arrows {
+                        position: absolute;
+                        top: 45%;
+                        right: -1px;
+                        font-size: 1.5rem;
+                        color: #adadad;
+                    }
+                    .reward_icon {
+                        font-size: 1.1rem;
+                        color: #ffffff;
+                        width: 95px;
+                        text-align: center;
+                        background-color: #ff6d6d;
+                        border-radius: 12px;
+                        position: absolute;
+                        right: 16px;
+                        top: 42%;
+                        height: 24px;
+                        line-height: 22px;
+                        i {
+                            font-size: 1.5rem;
+                        }
+                    }
+                }
+                li:last-child {
+                    border-bottom: none;
+                }
+            }
+        }
+    }
+}
+
+.pulic_posit_title {
+    display: block;
+    padding: 15px 0px;
+    border-bottom: 1px solid #e6e6e6;
+    h3 {
+        width: 96%;
+        color: #222222;
+        font-size: 1.5rem;
+        border-left: 2px solid #00baff;
+        text-indent: 8px;
+        margin-left: 4%;
+    }
+}
+
+.position_basic {
+    background-color: #fff;
+    box-shadow: 0px 1px 3px 0px #e0dddd;
+    border-radius: 4px;
+    padding: 20px 10px;
+    position:relative;
+    overflow:hidden;
+    .comm_icon{
+        position:absolute;
+        top:0px;
+        right:0px;
+        width:26px;
+        height:26px;
+    }
+    .zsp_basic_top {
+        .zsp_collect {
+            color: #333333;
+            font-size: 1.3rem;
+            display: inline-block;
+            width: 25%;
+            text-align: right;
+            i {
+                color: #ffa11a;
+                vertical-align: top;
+            }
+        }
+        .zsp_post_referral {
+            width: 75%;
+            float: left;
+            .zsp_post_name {
+                font-size: 1.7rem;
+                color: #222222;
+                margin-right: 10px;
+            }
+            .zsp_post_money {
+                font-size: 1.5rem;
+                color: #ff6b12;
+            }
+        }
+        ul {
+            width: 100%;
+            float: left;
+            margin-top: 10px;
+            li {
+                display: inline-block;
+                float: left;
+                margin-right: 5%;
+                font-size: 1.3rem;
+                color: #222;
+                i {
+                    color: #26c4ff;
+                    font-size: 1.7rem;
+                    margin-right: 6px;
+                    vertical-align: bottom;
+                }
+            }
+            li:last-child {
+                margin-right: 0px!important;
+            }
+        }
+        .bid_content {
+            font-size: 1.3rem;
+            color: #888888;
+            // margin-top: 15px;
+            span {
+                margin-right: 6px;
+                padding-top: 10px;
+                display: inline-block;
+            }
+        }
+    }
+
+}
+
+.count_down {
+    margin-top: -5px;
+    position: relative;
+    color: #fff;
+    .zsp_coudown_img {
+        width: 100%;
+        height: 60px;
+        border-radius:0 0 5px 5px;
+        -webkit-border-radius:0 0 5px 5px;
+    }
+    .zsp_reward_count_left {
+        width: 70%;
+        float: left;
+        position: absolute;
+        top: 3px;
+        color: #fff;
+        padding-left: 10px;
+        p:nth-child(2){
+            line-height: 27px;
+        }
+        i {
+            font-size: 1.9rem;
+        }
+        .rew_money {
+            font-size: 3rem;
+            color: #fff;
+            margin-left: 5%;
+            vertical-align: text-bottom;
+        }
+        .rew_yuan {
+            font-size: 2.5rem;
+            color: #fff;
+            vertical-align: text-bottom;
+        }
+        .rew_howtoget {
+            font-size: 1.3rem;
+            color: #fff;
+            padding-left: 10px;
+
+        }
+        em {
+            font-size: 1.7rem;
+            vertical-align: text-bottom;
+        }
+    }
+    .zsp_reward_count_right {
+        width: 30%;
+        position: absolute;
+        top: 10px;
+        right: 1px;
+        p {
+            text-align: center;
+            color: #222222;
+            font-size: 1.3rem;
+            span {
+                width: 45px;
+                height: 18px;
+                line-height: 18px;
+                font-size: 12px;
+                color: #fff!important;
+                background-color: #4b4242;
+                display: inline-block;
+                border-radius: 4px;
+                margin-top: 5px;
+                z-index:9999;
+            }
+        }
+    }
+}
+
+
+/* Smartphones (portrait) ----------- */
+
+@media only screen and (max-width: 320px) {}
+
+@media only screen and (min-width: 320px) and (max-width: 360px) {
+    .money_flow ul li p span {
+        font-size: 1.3rem;
+    }
+    .count_down {
+        .zsp_reward_count_left {
+            .rew_money {
+                font-size: 3rem;
+                color: #fff;
+                margin-left: 8%;
+            }
+            .rew_yuan {
+                font-size: 2.3rem;
+                color: #fff;
+                vertical-align: text-bottom;
+            }
+        }
+    }
+}

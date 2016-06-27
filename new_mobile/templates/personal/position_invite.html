@@ -1,0 +1,179 @@
+{% include 'header.html' %}
+<link href="/static/new_mobile/css/user.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/user_personal.css" rel="stylesheet" type="text/css">
+<link href="/static/new_mobile/css/zsc_common.css" rel="stylesheet" type="text/css">
+<link href="http://at.alicdn.com/t/font_1466663728_6955974.css" rel="stylesheet" type="text/css">
+
+<style type="text/css">
+    .reward_icon {
+          color: #ffffff;
+    width: 95px;
+    text-align: center;
+    background-color: #ff6d6d;
+    border-radius: 12px;
+    height: 24px;
+    line-height: 22px;
+    position: absolute;
+    right: 10%;
+    top: 0px;
+    padding:0 4px;
+}
+    .rewtop {
+        position: absolute;
+        top: 50%;
+        margin-top: -14px;
+        right: 25px;
+}
+    .arrowmi{
+        position: absolute;
+        right:16px;
+        top:50%;
+        margin-top: -11px;
+}
+    .comname{    
+        color: #555;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 160px;
+        float: left;
+        margin-top: 5px;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function()
+{
+	// 职位链接跳转
+	$(".list_centent").click(function(){
+		var url =$(this).attr("url");
+		window.location.href=""+url+"";
+	});
+});
+</script>
+</head>
+<body>
+{% if request.session.pu_id %}
+    {% include 'menu_personal.html' %}
+{% else %}
+    {% include 'login_Modal.html' %}
+{% endif %}
+<div class="zsp_header_fixed"></div>
+
+<script type="text/javascript">
+if(typeof JavaScriptInterface!='undefined'||typeof sendPhoneNumber!='undefined'){
+	$('.zsp_header').remove();
+}
+</script>
+
+<div class="zsp_job_list" id="scroller" style="padding-top:0;">
+    <div id="list" style="padding-top:0;">
+        {# 加载职位           #}
+    </div>
+</div>
+<div id="positionPaginInfo" style="display: none"></div>
+
+
+{#    #}
+    <div class="zsp_send_list" style="display: none">
+        <div class="nothingTip">
+            <div class="tipImg">
+                <img src="/static/new_mobile/images/wsj.png" alt="">
+            </div>
+            <p>没有收藏职位</p>
+     		<div class="goBtn"><a href="/mobile/reward_position">查看热招职位</a></div>
+        </div>
+            
+    
+    </div>
+
+
+<script type="text/javascript" src="{{ STATIC_URL }}js/pagination.js"></script>
+<script>
+    var loadData;
+    var sql = ' Position_Status=1';
+    sql += " and id IN (SELECT Position_ID FROM V_Favorite_Position WHERE pu_id = " + {{ request.session.pu_id }} + ")";
+    var order = ' add_date desc';
+    $(function(){
+        loadData = new pagin("positionPaginInfo", "V_Position_Search", "", sql, order, 10, "positionPagin", "loadData");
+    });
+
+//动态加载页面绑定数据
+function positionPagin(dataInfo){
+    $(".zsp_resume_but_box").remove();
+     //图片列表数据加载
+    var html = '';
+    $(dataInfo).each(function(i) {
+        // 处理值为 null 的字段
+        var len = $(this).length;
+        var array = $(this);
+        for (var n = 0; n < len; n++) {
+            if (array[n] == null) {
+                array[n] = "&nbsp;"
+            }
+        }
+        html += '<a href="javascript: void(0);" class="zsp_job_list_li">';
+        html += '   <div class="zsp_job_li_top">';
+        html += '       <div class="zsp_job_li_fang"><img src="{{ request.session.file_website }}'+array[56]+'" onerror="notfindimg(this)" onclick="window.location.href=\'/mobile/personal/show_company?company_id=' + array[4] + '\'"></div>';
+        html += '       <div class="zsp_job_li_tit">';
+        html += '           <div class="zsp_job_li_h" style="overflow:hidden;">';
+        html += '               <span class="arrowmi"><i class="fa fa-angle-right"></i></span>';
+        if($.trim(array[30]) !='' && $.trim(array[30]) !='&nbsp;' && $.trim(array[30]) !='0'){
+              html += '               <h3 style="width:53%; float:left; margin-right:0px!important;" onclick="window.location.href=\'/mobile/personal/position_detail?position_id=' + array[0] + '\'">'+array[3]+'</h3>';
+              html += '       <div class="reward_icon rewtop"><i class="iconfont icon-qianbao"></i>悬赏:￥'+array[30]+'</div>';
+         }
+        else{
+            html += '               <h3  onclick="window.location.href=\'/mobile/personal/position_detail?position_id=' + array[0] + '\'">'+array[3]+'</h3>';
+         }    
+        html += '            </div>';
+        html += '            <div class="zsp_job_li_tit_other comname" >';
+        html +=                 array[55];
+        html += '            </div>';
+        html += '       </div>';
+        html += '   </div>';
+        html += '   <div class="zsp_job_li_other  redPW">';
+        html += '       <div class="zsp_job_li_other_icon">';
+        html += '           <i class="fa fa-map-marker"></i>';
+
+        html += '           <span>'+array[14]+'</span>';
+        html += '       </div>';
+        html += '       <div class="zsp_job_li_other_icon">';
+        html += '           <i class="fa fa-jpy"></i>';
+        html += '           <span>' + array[19] + '</span>';
+        html += '       </div>';
+        html += '       <div class="zsp_job_li_other_icon">';
+        html += '           <i class="fa fa-graduation-cap"></i>';
+        html += '           <span>' + array[26] + '</span>';
+        html += '       </div>';
+        html += '   </div>';
+        html += '</a>';
+
+    });
+    if(html == '') {
+        $(".zsp_send_list").show();
+    } else {
+        $("#list").append(html);
+        var $this_page_data = $("#positionPaginInfo .active");
+        var $end_page_data = $("#positionPaginInfo li:last");
+        // if($this_page_data.attr('onclick') != $end_page_data.attr('onclick')) {
+        //     var moreButton = '<div class="zsp_resume_but_box" onclick="next_page_position()">';
+        //     moreButton += '         <a href="javascript:;" id="jobMore" class="zsp_resume_but_4 more">查看更多</a>';
+        //     moreButton += '   </div>';
+        //     $("#scroller").append(moreButton);
+        // }
+    }
+
+}
+
+// 加载更多职位
+function next_page_position() {
+    var $this_page_data = $("#positionPaginInfo .active");
+    var $end_page_data = $("#positionPaginInfo li:last");
+    if($this_page_data.attr('onclick') != $end_page_data.attr('onclick')) {
+        $this_page_data.next("li").click();
+    } else {
+        $(".zsp_resume_but_box").remove();
+    }
+}
+</script>
+
+</body></html>
